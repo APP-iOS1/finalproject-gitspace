@@ -17,10 +17,11 @@ struct ChatDetailView: View {
     
     @State private var messageField : String = ""
     @State private var messages : [Message] = []
-
+    @State private var showingSheet : Bool = false
+    @State private var updateMessageField : String = "기존 메세지 내용입니다."
     
     var body: some View {
-        LazyVStack {
+        VStack {
             ScrollView {
                 Section {
                     Divider()
@@ -71,18 +72,16 @@ struct ChatDetailView: View {
                         .padding(.bottom, 20)
                     
                     
-                    MessageCell(isRead: true, time: "17:54", messages: $messages)
-                    MessageCell(isRead: false, time: "18:01", messages: $messages)
+                    MessageCell(isRead: true, time: "17:54", messages: $messages, showingSheet: $showingSheet)
+                    MessageCell(isRead: false, time: "18:01", messages: $messages, showingSheet: $showingSheet)
                     
                     ForEach(messages) { cell in
-                        MessageCell(isRead: cell.isRead, time: cell.time, messages: $messages)
+                        MessageCell(isRead: cell.isRead, time: cell.time, messages: $messages, showingSheet: $showingSheet)
                     }
                     
                 }
-                
             }
-            
-            Spacer()
+            .padding(.bottom, 1)
             
             RoundedRectangle(cornerRadius: 25)
                 .frame(width: 355, height: 50)
@@ -110,7 +109,20 @@ struct ChatDetailView: View {
                     .foregroundColor(.black)
                     .padding(.horizontal, 20)
                 }
+            
+            
         }
+        .sheet(isPresented: $showingSheet, content: {
+            TextField("수정할 메세지를 입력해주세요.", text: $updateMessageField)
+            Button {
+                showingSheet.toggle()
+            } label: {
+                Text("수정 완료")
+                    .padding()
+                    .border(.black, width: 2)
+                    
+            }
+        })
         .padding(.horizontal, 20)
     }
     private func getStringDate() -> String {
@@ -135,6 +147,7 @@ struct MessageCell : View {
     let time : String
     @State var showingAlert : Bool = false
     @Binding var messages : [Message]
+    @Binding var showingSheet : Bool
     
     var body : some View {
         HStack(alignment: .bottom, spacing: 5) {
@@ -151,7 +164,7 @@ struct MessageCell : View {
                 .frame(width: 250, height: 80)
                 .foregroundColor(.yellow)
                 .contextMenu{
-                    Button {} label: {
+                    Button {showingSheet.toggle()} label: {
                         Text("수정하기")
                     }
                     Button {showingAlert.toggle()} label: {
