@@ -28,18 +28,23 @@ struct FeedView: View {
                 .foregroundColor(.primary)
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("User \(userNumber)")
-                        .bold()
+                    HStack {
+                        Text("User \(userNumber)")
+                            .bold()
+                        Spacer()
+                        Text("\(userNumber) 시간 전")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.trailing)
                     // FIXME: - Repository Detail View와 연결하기
                     NavigationLink {
                         Text("특정 레포지토리의 디테일 뷰 입니다.")
                     } label: {
                         Text("User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
                     }
-
-                }
+                } // vstack
                 .foregroundColor(.primary)
-
             } // hstack
     } // body
 
