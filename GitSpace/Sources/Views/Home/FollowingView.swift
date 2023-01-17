@@ -10,7 +10,6 @@ import SwiftUI
 struct FollowingView: View {
     
     var body: some View {
-        
         // FIXME: - 상위 뷰로 NavigationView 옮겨주기
         NavigationView {
             VStack {
@@ -18,7 +17,7 @@ struct FollowingView: View {
                     FeedView(userNumber: number)
                     Divider()
                 }
-            }
+            } // vstack
         } // nav
     } // body
 }
