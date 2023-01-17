@@ -7,12 +7,17 @@
 
 import SwiftUI
 
+struct Message : Identifiable {
+    let id = UUID().uuidString
+    let isRead : Bool
+    let time : String
+}
+
 struct ChatDetailView: View {
     
     @State private var messageField : String = ""
-    @State private var messageCells : [MessageCell] = [
-        MessageCell()
-    ]
+    @State private var messages : [Message] = []
+
     
     var body: some View {
         LazyVStack {
@@ -66,45 +71,21 @@ struct ChatDetailView: View {
                         .padding(.bottom, 20)
                     
                     
+                    MessageCell(isRead: true, time: "17:54", messages: $messages)
+                    MessageCell(isRead: false, time: "18:01", messages: $messages)
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 250, height: 80)
-                        .foregroundColor(.yellow)
-                        .overlay(alignment : .bottomLeading) {
-                            VStack {
-                                Text("5분 전에 읽음")
-                                    .offset(x: -15)
-                                Text("17:54")
-                                
-                            }
-                            .font(.caption2)
-                            .foregroundColor(.gray)
-                            .offset(x: -50)
-                            
-                        }
-                        .offset(x: 40)
-                        .padding(.bottom, 20)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 250, height: 80)
-                        .foregroundColor(.yellow)
-                        .overlay(alignment : .bottomLeading) {
-                            Text("18:01")
-                                .font(.caption2)
-                                .foregroundColor(.gray)
-                                .offset(x: -35)
-                        }
-                        .offset(x: 40)
-                        .padding(.bottom, 20)
+                    ForEach(messages) { cell in
+                        MessageCell(isRead: cell.isRead, time: cell.time, messages: $messages)
+                    }
                     
                 }
                 
-                Spacer()
-                
-                
             }
+            
+            Spacer()
+            
             RoundedRectangle(cornerRadius: 25)
-                .frame(width: 320, height: 50)
+                .frame(width: 355, height: 50)
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .overlay {
                     HStack {
@@ -118,18 +99,76 @@ struct ChatDetailView: View {
                         
                         TextField("쪽지 작성", text: $messageField)
                         
-                        Button {} label: {
+                        Button {
+                            messages.append(Message(isRead: false, time: getStringDate()))
+                            messageField = ""
+                        } label: {
                             Image(systemName: "arrowtriangle.right.fill")
                         }
+                        .disabled(messageField.isEmpty)
                     }
                     .foregroundColor(.black)
                     .padding(.horizontal, 20)
                 }
         }
+        .padding(.horizontal, 20)
     }
+    private func getStringDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_kr")
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        dateFormatter.dateFormat = "HH:mm"
+        let dateAt = Date()
+        return dateFormatter.string(from: dateAt)
+    }
+        
 }
 
 
+
+
+
+// MARK: -View :
+struct MessageCell : View {
+    
+    let isRead : Bool
+    let time : String
+    @State var showingAlert : Bool = false
+    @Binding var messages : [Message]
+    
+    var body : some View {
+        HStack(alignment: .bottom, spacing: 5) {
+            Spacer()
+            VStack(alignment: .trailing) {
+                Text(isRead ? "5분 전에 읽음" : "")
+                Text(time)
+                
+            }
+            .font(.caption2)
+            .foregroundColor(.gray)
+            
+            RoundedRectangle(cornerRadius: 10)
+                .frame(width: 250, height: 80)
+                .foregroundColor(.yellow)
+                .contextMenu{
+                    Button {} label: {
+                        Text("수정하기")
+                    }
+                    Button {showingAlert.toggle()} label: {
+                        Text("삭제하기")
+                    }
+                }
+        }
+        .padding(.bottom, 20)
+        .alert("메세지 삭제", isPresented: $showingAlert) {
+            Button("삭제", role: .destructive) {}
+        } message: {
+            Text("메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?")
+        }
+            
+    
+    }
+}
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
