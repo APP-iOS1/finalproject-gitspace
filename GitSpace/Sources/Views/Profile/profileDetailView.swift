@@ -19,7 +19,7 @@ struct profileDetailView: View {
                         .bold()
                     Spacer()
                         .frame(height: 20)
-                    Text("@여기에 사람 닉네임 들어감.")
+                    Text("@ 여기에 사람 닉네임 들어감.")
                 }
             }
             .frame(height: 100)
@@ -50,8 +50,8 @@ struct profileDetailView: View {
                         .frame(minWidth: 130)
                         .foregroundColor(.white)
                         .padding()
-                        .background(.gray)
-                        .cornerRadius(15)
+                        .background(.black)
+                        .cornerRadius(20)
                 }
                 Spacer()
                 Button {
@@ -62,14 +62,15 @@ struct profileDetailView: View {
                         .frame(minWidth: 130)
                         .foregroundColor(.white)
                         .padding()
-                        .background(.gray)
-                        .cornerRadius(15)
+                        .background(.black)
+                        .cornerRadius(20)
                 }
             }
-            .padding(.vertical, 15)
+            .padding(15)
             Divider()
                 .frame(height: 2)
                 .overlay(.gray)
+                .padding(.horizontal)
             Spacer()
         }
         .padding()
