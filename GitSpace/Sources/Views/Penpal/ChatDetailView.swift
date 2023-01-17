@@ -20,6 +20,8 @@ struct ChatDetailView: View {
     @State private var showingSheet : Bool = false
     @State private var updateMessageField : String = "기존 메세지 내용입니다."
     
+    //TODO: -Navigation Toolbar 추가
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -37,7 +39,6 @@ struct ChatDetailView: View {
                     }
                     .padding(.vertical, 10)
                     .padding(.top, 10)
-                    
                     
                     Text("Taeyoung Won")
                         .bold()
@@ -109,18 +110,22 @@ struct ChatDetailView: View {
                     .foregroundColor(.black)
                     .padding(.horizontal, 20)
                 }
+                .padding(.bottom, 20)
             
             
         }
         .sheet(isPresented: $showingSheet, content: {
+            
             TextField("수정할 메세지를 입력해주세요.", text: $updateMessageField)
+                .padding(.horizontal, 30)
+                .textFieldStyle(.roundedBorder)
+                
             Button {
                 showingSheet.toggle()
             } label: {
                 Text("수정 완료")
                     .padding()
                     .border(.black, width: 2)
-                    
             }
         })
         .padding(.horizontal, 20)
@@ -133,12 +138,7 @@ struct ChatDetailView: View {
         let dateAt = Date()
         return dateFormatter.string(from: dateAt)
     }
-        
 }
-
-
-
-
 
 // MARK: -View :
 struct MessageCell : View {
