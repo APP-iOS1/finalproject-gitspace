@@ -16,18 +16,19 @@ struct Message : Identifiable {
 struct ChatDetailView: View {
     
     @State private var messageField : String = ""
-    @State private var messages : [Message] = []
+    @State private var messages : [Message] = [
+        Message(isRead: true, time: "17:54"),
+        Message(isRead: false, time: "18:01")
+    ]
     @State private var showingSheet : Bool = false
     @State private var updateMessageField : String = "기존 메세지 내용입니다."
     
     //TODO: -Navigation Toolbar 추가
-    
     var body: some View {
         VStack {
             ScrollView {
                 Section {
                     Divider()
-                    
                     AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
                         image
                             .resizable()
@@ -73,11 +74,12 @@ struct ChatDetailView: View {
                         .padding(.bottom, 20)
                     
                     
-                    MessageCell(isRead: true, time: "17:54", messages: $messages, showingSheet: $showingSheet)
-                    MessageCell(isRead: false, time: "18:01", messages: $messages, showingSheet: $showingSheet)
-                    
                     ForEach(messages) { cell in
-                        MessageCell(isRead: cell.isRead, time: cell.time, messages: $messages, showingSheet: $showingSheet)
+                        MessageCell(id: cell.id,
+                                    isRead: cell.isRead,
+                                    time: cell.time,
+                                    messages: $messages,
+                                    showingSheet: $showingSheet)
                     }
                     
                 }
@@ -143,6 +145,7 @@ struct ChatDetailView: View {
 // MARK: -View :
 struct MessageCell : View {
     
+    let id : String
     let isRead : Bool
     let time : String
     @State var showingAlert : Bool = false
@@ -174,7 +177,11 @@ struct MessageCell : View {
         }
         .padding(.bottom, 20)
         .alert("메세지 삭제", isPresented: $showingAlert) {
-            Button("삭제", role: .destructive) {}
+            Button("삭제", role: .destructive) {
+                if let removeIndex = messages.firstIndex(where: {$0.id == self.id}) {
+                    messages.remove(at: removeIndex)
+                }
+            }
         } message: {
             Text("메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?")
         }
