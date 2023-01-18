@@ -14,7 +14,9 @@ struct MainHomeView: View {
 		VStack {
 			HStack {
 				Button {
-                        tabSelection = "star"
+					withAnimation(.easeIn(duration: 0.2)) {
+						tabSelection = "star"
+					}
 				} label: {
                     if tabSelection == "star" {
                         Text("Starred")
