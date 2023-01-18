@@ -117,18 +117,19 @@ struct ChatDetailView: View {
             
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    Text("Taeyoung Won")
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .frame(width:30)
+                } placeholder: {
+                    ProgressView()
                 }
+                Text("Taeyoung Won")
+                    .bold()
+                    .padding(.horizontal, -8)
             }
             
             ToolbarItem(placement : .navigationBarTrailing) {
@@ -141,6 +142,7 @@ struct ChatDetailView: View {
                 }
             }
         }
+        .foregroundColor(.primary)
         .sheet(isPresented: $showingSheet, content: {
             
             TextField("수정할 메세지를 입력해주세요.", text: $updateMessageField)
