@@ -16,42 +16,9 @@ struct ProfileDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10){ //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
-            HStack{ //MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
-                Image(systemName: "person")
-                    .resizable()
-                    .scaledToFit()
-                
-                VStack(alignment: .leading){ // 이름, 닉네임
-                    Text("여기에 사람 이름이 들어갈거임.")
-                        .bold()
-                    Spacer()
-                        .frame(height: 20)
-                    Text("@ 여기에 사람 닉네임 들어감.")
-                }
-                
-            }
-            .frame(height: 100)
             
-            //MARK: - 프로필 자기 ..설명..?
-            Text("아임 브라질 랜덤 가이..")
-                .padding(.vertical, 10)
+            profileSectionView()
             
-            HStack{ //MARK: - 위치 이미지, 국가 및 위치
-                Image(systemName: "mappin.and.ellipse")
-                Text("Brazil, South America")
-                    .bold()
-                    .foregroundColor(.gray)
-            }
-            HStack{ //MARK: - 링크 이미지, 블로그 및 기타 링크
-                Image(systemName: "link")
-                Text("yeseul-programming.tistory.com")
-                    .bold()
-            }
-            HStack{ //MARK: - 사람 심볼, 팔로워 및 팔로잉 수
-                Image(systemName: "person")
-                Text("1924 followers · 1272 following")
-                    .bold()
-            }
             HStack{ //MARK: - follow, knock 버튼을 위한 stack
                 Button { /// 누르면 follow, unfollow로 전환
                     followButtonLable == "Unfollow" ? (followButtonLable = "+ Follow") : (followButtonLable = "Unfollow")
@@ -82,16 +49,62 @@ struct ProfileDetailView: View {
                     knockSheetView(kncokMessage: "")
                 }
             }
-            .padding(15)
+            .padding(.vertical)
             
             Divider()
                 .frame(height: 2)
                 .overlay(.gray)
-                .padding(.horizontal)
             
             Spacer()
+            
         }
         .padding()
+
+    }
+    
+}
+
+//MARK: - 재사용되는 profile section을 위한 뷰 (이미지, 이름, 닉네임, description, 위치, 링크, 팔로잉 등)
+struct profileSectionView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10){
+            HStack{ //MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
+                Image(systemName: "person")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 100)
+                
+                
+                VStack(alignment: .leading){ // 이름, 닉네임
+                    Text("여기에 사람 이름이 들어갈거임.")
+                        .bold()
+                    Spacer()
+                        .frame(height: 20)
+                    Text("@ 여기에 사람 닉네임 들어감.")
+                }
+                
+            }
+            
+            //MARK: - 프로필 자기 ..설명..?
+            Text("아임 브라질 랜덤 가이..")
+            
+            HStack{ //MARK: - 위치 이미지, 국가 및 위치
+                Image(systemName: "mappin.and.ellipse")
+                Text("Brazil, South America")
+                    .bold()
+                    .foregroundColor(Color(.systemGray))
+            }
+            HStack{ //MARK: - 링크 이미지, 블로그 및 기타 링크
+                Image(systemName: "link")
+                Text("yeseul-programming.tistory.com")
+                    .bold()
+            }
+            HStack{ //MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+                Image(systemName: "person")
+                Text("1924 followers · 1272 following")
+                    .bold()
+            }
+        }
     }
 }
 
@@ -119,6 +132,8 @@ struct knockSheetView: View {
         }
     }
 }
+
+
 
 struct ProfileDetailView_Previews: PreviewProvider {
     static var previews: some View {
