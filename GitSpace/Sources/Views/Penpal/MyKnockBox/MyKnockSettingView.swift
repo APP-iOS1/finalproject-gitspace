@@ -20,8 +20,16 @@ struct MyKnockSettingView: View {
             } // ScrollView
             .navigationBarTitle("노크 설정", displayMode: .inline)
             .toolbar {
+				ToolbarItem(placement: .navigationBarLeading) {
+					Button {
+						showingKnockSetting.toggle()
+					} label: {
+						Text("Cancel")
+					}
+				}
+				
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("완료") {
+                    Button("Done") {
                         showingKnockSetting.toggle()
                     } // Button
                 } // ToolbarItem

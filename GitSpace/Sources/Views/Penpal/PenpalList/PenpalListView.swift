@@ -20,7 +20,12 @@ struct PenpalListView: View {
 					TabView {
 						ForEach(0..<5) { int in
 							HStack {
-								RecommendationPageCell(isKnockModalDisplayed: $isKnockModalDisplayed)
+								NavigationLink {
+									ProfileDetailView()
+								} label: {
+									RecommendationPageCell(isKnockModalDisplayed: $isKnockModalDisplayed)
+										.tint(.primary)
+								}
 							}
 						}
 					}
@@ -39,8 +44,14 @@ struct PenpalListView: View {
 				
 				Section {
 					ForEach(0..<5) { int in
-						UserProfileCompact()
-							.padding(.vertical, 5)
+						NavigationLink {
+							// 탭바 숨기기는 iOS16부터 된단다.,.,.
+							ChatDetailView()
+						} label: {
+							UserProfileCompact()
+								.padding(.vertical, 5)
+								.foregroundColor(.primary)
+						}
 					}
 				} header: {
 					Text("Penpal")
@@ -51,7 +62,7 @@ struct PenpalListView: View {
 				
 			}
 		}
-		.sheet(isPresented: $isKnockModalDisplayed, content: {
+		.fullScreenCover(isPresented: $isKnockModalDisplayed, content: {
 			NavigationView {
 				SendKnockModal(isKnockModalDisplayed: $isKnockModalDisplayed)
 			}
@@ -64,13 +75,13 @@ struct PenpalListView: View {
 			
 			ToolbarItemGroup(placement: .navigationBarTrailing) {
 				NavigationLink {
-					Text("MyKnockBox")
+					MyKnockBoxView()
 				} label: {
 					Text("📦")
 				}
 				
 				Button {
-					print("toggle")
+					isKnockModalDisplayed.toggle()
 				} label: {
 					Image(systemName: "square.and.pencil")
 						.foregroundColor(.black)

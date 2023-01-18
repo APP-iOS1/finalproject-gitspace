@@ -22,7 +22,7 @@ struct MyKnockBoxView: View {
     
     var body: some View {
         
-        NavigationView {
+//        NavigationView {
             ScrollView {
                 LazyVStack {
                     
@@ -104,7 +104,7 @@ struct MyKnockBoxView: View {
                     }
                 }
             }
-        } // NavigationView
+//        } // NavigationView
         .fullScreenCover(isPresented: $showingKnockSetting) {
             MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
         }

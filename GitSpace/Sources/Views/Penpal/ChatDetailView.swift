@@ -30,21 +30,26 @@ struct ChatDetailView: View {
             ScrollView(showsIndicators: false) {
                 Section {
                     Divider()
-                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                            .frame(width : 100)
-                    } placeholder: {
-                        Text("불러오는 중입니다...")
-                    }
-                    .padding(.vertical, 10)
-                    .padding(.top, 10)
+					NavigationLink(destination: ProfileDetailView()) {
+						VStack {
+							AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
+								image
+									.resizable()
+									.aspectRatio(contentMode: .fit)
+									.clipShape(Circle())
+									.frame(width : 100)
+							} placeholder: {
+								Text("불러오는 중입니다...")
+							}
+							.padding(.vertical, 10)
+							.padding(.top, 10)
+							
+							Text("Taeyoung Won")
+								.bold()
+								.padding(.vertical, 20)
+						}
+					}
                     
-                    Text("Taeyoung Won")
-                        .bold()
-                        .padding(.vertical, 20)
                     
                     Text("wontaeyoung,")
                     Text("starred 3 repos,")
@@ -100,6 +105,8 @@ struct ChatDetailView: View {
                         }
                         
                         TextField("쪽지 작성", text: $messageField)
+							.autocorrectionDisabled()
+							.textInputAutocapitalization(.never)
                         
                         Button {
                             messages.append(Message(isRead: false, time: getStringDate()))
@@ -117,19 +124,22 @@ struct ChatDetailView: View {
             
         }
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarLeading) {
-                AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(width:30)
-                } placeholder: {
-                    ProgressView()
-                }
-                Text("Taeyoung Won")
-                    .bold()
-                    .padding(.horizontal, -8)
+            ToolbarItemGroup(placement: .principal) {
+				HStack(spacing: 10) {
+					AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
+						image
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.clipShape(Circle())
+							.frame(width:30)
+					} placeholder: {
+						ProgressView()
+					}
+					Text("Taeyoung Won")
+						.bold()
+//						.padding(.horizontal, -8)
+				}
+                
             }
             
             ToolbarItem(placement : .navigationBarTrailing) {
@@ -219,6 +229,8 @@ struct MessageCell : View {
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatDetailView()
+//		NavigationView {
+			ChatDetailView()
+//		}
     }
 }
