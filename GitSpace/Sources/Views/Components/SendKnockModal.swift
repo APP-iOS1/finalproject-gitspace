@@ -8,13 +8,162 @@
 import SwiftUI
 
 struct SendKnockModal: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+	@State private var knockMessages: KnockMessages = .offer()
+	@State private var usersKnockMessages: String = ""
+	@FocusState private var textEditingState: TextEditorFocusState?
+	@Binding var isKnockModalDisplayed: Bool
+	
+	var body: some View {
+		ScrollView {
+			Spacer()
+				.frame(maxHeight: 200)
+			
+			Text("Select Knock Message")
+				.bold()
+				.font(.title3)
+			
+			Text("좋은 노크 메시지는 답장 확률을 높여줍니다!")
+				.font(.footnote)
+				.foregroundColor(Color(.systemGray))
+			
+			Divider()
+			
+			VStack(alignment: .center) {
+				
+				Group {
+					Text("${name}")
+						.bold() +
+					Text("님에게 \n 노크 메시지를 보냅니다.")
+				}
+					.multilineTextAlignment(.center)
+					.padding(.vertical, 10)
+				
+				Spacer()
+				
+				Text("""
+상대방은 노크 메시지를 받고 응답을 거절할 권리가 있으며,
+거절 의사와 노크 메시지를 주고 받은 히스토리는
+KnockBox에서 확인할 수 있습니다.
+""")
+				.font(.footnote)
+				.multilineTextAlignment(.center)
+				.foregroundColor(Color(.systemGray))
+				.padding(.horizontal, 10)
+			}
+			.font(.body)
+			
+			
+			Divider()
+			
+			Picker("", selection: $knockMessages) {
+				ForEach(KnockMessages.allCases, id: \.id) { cases in
+					switch cases {
+					case .customoffer(let key, _):
+						Text(key!)
+					case .offer(let key, _):
+						Text(key!)
+					case .questionoffer(let key, _):
+						Text(key!)
+					}
+				}
+			}
+			
+			switch knockMessages {
+			case .offer(_, let example),
+					.questionoffer(_, let example):
+				Text("Send Knock Message with this:")
+					.font(.callout)
+					.padding(.bottom, 10)
+				
+				Text(example!)
+					.bold()
+					.multilineTextAlignment(.center)
+			case .customoffer( _, _):
+				HStack {
+					HStack {
+						TextEditor(text: $usersKnockMessages)
+							.autocorrectionDisabled()
+							.textInputAutocapitalization(.never)
+							.frame(maxWidth: UIScreen.main.bounds.width - 20, minHeight: 50)
+							.focused($textEditingState, equals: .textEditor)
+							.onAppear {
+								textEditingState = .textEditor
+							}
+						
+						Spacer()
+						
+						Button {
+							usersKnockMessages.removeAll()
+						} label: {
+							Image(systemName: "xmark")
+						}
+						.frame(minWidth: 30, minHeight: 30)
+						
+					}
+					
+					
+					Spacer()
+					
+					Image(systemName: "pencil")
+						.frame(minWidth: 30, minHeight: 30)
+				}
+				.padding(.horizontal, 20)
+			}
+		}
+		.toolbar {
+			ToolbarItem {
+				Button {
+					switch knockMessages {
+					case .offer(_, let example),
+							.questionoffer(_, let example):
+						usersKnockMessages = example ?? ""
+					case .customoffer(_, _):
+						break
+					}
+					
+					isKnockModalDisplayed.toggle()
+					print("SEND MESSAGE : ", usersKnockMessages)
+				} label: {
+					Text("Send")
+				}
+				.disabled(usersKnockMessages.isEmpty ? true : false)
+			}
+		}
+	}
+}
+
+enum KnockMessages: CaseIterable, Hashable {
+	static var allCases: [KnockMessages] = [
+		.offer(key: "Offer ",
+			   example: "I would like to offer you a job."),
+		.questionoffer(key: "Question",
+					   example: "I have questions about your tasks in this Repository"),
+		.customoffer(key: "Write by Myself",
+					 example: "I'd like to write my own Knock Message."),
+	]
+	
+	var id: Self { return self }
+	
+	case offer(
+		key: String? = "Offer ",
+		example: String? = "I would like to offer you a job."
+	)
+	case questionoffer(
+		key: String? = "Question",
+		example: String? = "I have questions about your tasks in this Repository"
+	)
+	case customoffer(
+		key: String? = "Write by Myself",
+		example: String? = "I'd like to write my own Knock Message."
+	)
+}
+
+enum TextEditorFocusState {
+	case textEditor
 }
 
 struct SendKnockModal_Previews: PreviewProvider {
-    static var previews: some View {
-        SendKnockModal()
-    }
+	static var previews: some View {
+		SendKnockModal(isKnockModalDisplayed: .constant(true))
+	}
 }
