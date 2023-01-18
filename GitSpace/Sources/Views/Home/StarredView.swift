@@ -83,35 +83,34 @@ struct StarredView: View {
                 
                 /* repository list */
                 ForEach(repositoryList) { repository in
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(repository.owner)
-                                .font(.body)
+                    RepositoryCardView {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(repository.owner)
+                                    .font(.body)
+                                    .multilineTextAlignment(.leading)
+                                    .foregroundColor(.black)
+                                Spacer()
+                                Button(action: { print("penpal") }) {
+                                    Image(systemName: "message.circle.fill")
+                                }
+                                Button(action: { print("ellipsis") }) {
+                                    Image(systemName: "ellipsis")
+                                }
+                            }
+                            
+                            Text(repository.name)
+                                .font(.title2)
+                                .padding(.bottom, 1)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(.black)
-                            Spacer()
-                            Button(action: { print("penpal") }) {
-                                Image(systemName: "message.circle.fill")
-                            }
-                            Button(action: { print("ellipsis") }) {
-                                Image(systemName: "ellipsis")
-                            }
+                            
+                            Text(repository.description)
+                                .font(.caption)
+                                .multilineTextAlignment(.leading)
+                                .foregroundColor(.gray)
                         }
-                        
-                        Text(repository.name)
-                            .font(.title2)
-                            .padding(.bottom, 1)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.black)
-                        
-                        Text(repository.description)
-                            .font(.caption)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(.gray)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(.systemFill))
-                    .padding(5)
                 }
             }
             /* searchbar */
@@ -121,6 +120,23 @@ struct StarredView: View {
                 prompt: Text("Placeholder")
             )
         }
+    }
+}
+
+// MARK: - Repository Card View
+struct RepositoryCardView<Content: View>: View {
+    var content: () -> Content
+    
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+    
+    var body: some View {
+        Group(content: content)
+            .padding()  // 내부 패딩
+            .background(Color(.systemBackground))
+            .cornerRadius(10)
+            .shadow(color: Color(.systemGray6), radius: 5)
     }
 }
 
