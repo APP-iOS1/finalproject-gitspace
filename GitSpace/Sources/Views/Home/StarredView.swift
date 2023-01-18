@@ -26,7 +26,6 @@ struct Repository: Identifiable {
 
 // MARK: - Dummy Tag Data
 var tagList: [Tag] = [
-    Tag(name: "All", selectedCount: 0),
     Tag(name: "SwiftUI", selectedCount: 0),
     Tag(name: "Swift", selectedCount: 0),
     Tag(name: "MVVM", selectedCount: 0),
@@ -47,13 +46,25 @@ var repositoryList: [Repository] = [
 struct StarredView: View {
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
+    @State private var isShowingSelectTagView: Bool = false
     
     var body: some View {
         VStack {
             ScrollView(.horizontal) {
                 /* selection tag view */
                 HStack {
-                    ForEach(tagList) { tag in
+                    /* All, 모든 Starred Repository 열람하기 */
+                    Button {
+                        print("All")
+                    } label: {
+                        Text("All")
+                    }
+                    .padding(10)
+                    .background(Color.black)
+                    .foregroundColor(Color(.systemBackground))
+                    .cornerRadius(10)
+                    
+                    ForEach(tagList[...2]) { tag in
                         Button {
                             print("\(tag.name)")
                             selectedTagList.append(tag)
@@ -67,8 +78,8 @@ struct StarredView: View {
                     }
                     
                     Button {
-//                        SelectTagsView()
                         /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
+                        isShowingSelectTagView.toggle()
                     } label: {
                         Text("...")
                     }
@@ -92,6 +103,7 @@ struct StarredView: View {
             .cornerRadius(10)
             .padding(.horizontal, 10)
             
+            /* Scroll Main Content */
             ScrollView {
                 /* selected tags */
                 HStack {
@@ -109,6 +121,7 @@ struct StarredView: View {
                     }
                     Spacer()
                 }
+                .padding(.horizontal, 10)
                 
                 /* repository list */
                 ForEach(repositoryList) { repository in
@@ -146,6 +159,9 @@ struct StarredView: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $isShowingSelectTagView) {
+            SelectTagsView()
         }
     }
 }
