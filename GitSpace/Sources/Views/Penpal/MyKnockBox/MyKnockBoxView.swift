@@ -15,7 +15,7 @@ struct MyKnockBoxView: View {
     @State private var knockMsg = []
     
     @State var isEdit: Bool = false
-    @State var showingKnockSettings: Bool = false
+    @State var showingKnockSetting: Bool = false
     
     var body: some View {
         
@@ -32,7 +32,7 @@ struct MyKnockBoxView: View {
 
                         
                         Button {
-                            showingKnockSettings.toggle()
+                            showingKnockSetting.toggle()
                         } label: {
                             Text("나에게 노크 할 수 있는 사람 설정하기")
                         }
@@ -95,6 +95,9 @@ struct MyKnockBoxView: View {
                 }
             }
         } // NavigationView
+        .fullScreenCover(isPresented: $showingKnockSetting) {
+            MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
+        }
     } // body
 } // MyKnockBoxView()
 
