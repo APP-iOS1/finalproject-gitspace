@@ -45,7 +45,8 @@ var repositoryList: [Repository] = [
 ]
 
 struct StarredView: View {
-    @State var searchTag: String = ""
+    @State private var searchTag: String = ""
+    @State private var selectedTagList: [Tag] = []
     
     var body: some View {
         VStack {
@@ -55,6 +56,7 @@ struct StarredView: View {
                     ForEach(tagList) { tag in
                         Button {
                             print("\(tag.name)")
+                            selectedTagList.append(tag)
                         } label: {
                             Text("\(tag.name)")
                         }
@@ -63,62 +65,87 @@ struct StarredView: View {
                         .foregroundColor(Color(.systemBackground))
                         .cornerRadius(10)
                     }
+                    
+                    Button {
+//                        SelectTagsView()
+                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
+                    } label: {
+                        Text("...")
+                    }
+                    .padding(10)
+                    .background(Color(.systemGray))
+                    .foregroundColor(Color(.systemBackground))
+                    .cornerRadius(30)
                 }
             }
+            .padding(.horizontal, 10)
+            
+            /* searchbar (custom) */
+            HStack {
+                Image(systemName: "magnifyingglass")
+                TextField("Search", text: $searchTag)
+                    .foregroundColor(.primary)
+            }
+            .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
+            .foregroundColor(.secondary)
+            .background(Color(.secondarySystemBackground))
+            .cornerRadius(10)
+            .padding(.horizontal, 10)
+            
             ScrollView {
                 /* selected tags */
                 HStack {
-                    ForEach(tagList) { tag in
+                    ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
                         Button {
                             print("\(tag.name)")
+                            selectedTagList.remove(at: index)
                         } label: {
                             Text("\(tag.name)")
                         }
-                        .padding(10)
+                        .padding(5)
                         .background(Color.black)
                         .foregroundColor(Color(.systemBackground))
-                        .cornerRadius(20)
+                        .cornerRadius(10)
                     }
+                    Spacer()
                 }
                 
                 /* repository list */
                 ForEach(repositoryList) { repository in
-                    RepositoryCardView {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(repository.owner)
-                                    .font(.body)
+                    NavigationLink {
+                        /* Repository Detail View */
+                    } label: {
+                        RepositoryCardView {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(repository.owner)
+                                        .font(.body)
+                                        .multilineTextAlignment(.leading)
+                                        .foregroundColor(.black)
+                                    Spacer()
+                                    Button(action: { print("penpal") }) {
+                                        Image(systemName: "message.circle.fill")
+                                    }
+                                    Button(action: { print("ellipsis") }) {
+                                        Image(systemName: "ellipsis")
+                                    }
+                                }
+                                Text(repository.name)
+                                    .font(.title2)
+                                    .padding(.bottom, 1)
                                     .multilineTextAlignment(.leading)
                                     .foregroundColor(.black)
-                                Spacer()
-                                Button(action: { print("penpal") }) {
-                                    Image(systemName: "message.circle.fill")
-                                }
-                                Button(action: { print("ellipsis") }) {
-                                    Image(systemName: "ellipsis")
-                                }
+                                
+                                Text(repository.description)
+                                    .font(.caption)
+                                    .multilineTextAlignment(.leading)
+                                    .foregroundColor(.gray)
                             }
-                            
-                            Text(repository.name)
-                                .font(.title2)
-                                .padding(.bottom, 1)
-                                .multilineTextAlignment(.leading)
-                                .foregroundColor(.black)
-                            
-                            Text(repository.description)
-                                .font(.caption)
-                                .multilineTextAlignment(.leading)
-                                .foregroundColor(.gray)
+                            .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         }
                     }
                 }
             }
-            /* searchbar */
-            .searchable(
-                text: $searchTag,
-                placement: .navigationBarDrawer,
-                prompt: Text("Placeholder")
-            )
         }
     }
 }
@@ -133,9 +160,7 @@ struct RepositoryCardView<Content: View>: View {
     
     var body: some View {
         Group(content: content)
-            .padding()  // 내부 패딩
             .background(Color(.systemBackground))
-            .cornerRadius(10)
             .shadow(color: Color(.systemGray6), radius: 5)
     }
 }
