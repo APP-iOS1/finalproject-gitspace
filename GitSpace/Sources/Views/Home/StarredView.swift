@@ -30,7 +30,12 @@ var tagList: [Tag] = [
     Tag(name: "Swift", selectedCount: 0),
     Tag(name: "MVVM", selectedCount: 0),
     Tag(name: "Interview", selectedCount: 0),
-    Tag(name: "iOS", selectedCount: 0)
+    Tag(name: "iOS", selectedCount: 0),
+    Tag(name: "UIKit", selectedCount: 0),
+    Tag(name: "Yummy", selectedCount: 0),
+    Tag(name: "Checkit", selectedCount: 0),
+    Tag(name: "TheVoca", selectedCount: 0),
+    Tag(name: "GGOM-GGO-MI", selectedCount: 0)
 ]
 
 // MARK: - Dummy Repository Data
@@ -161,7 +166,7 @@ struct StarredView: View {
             }
         }
         .sheet(isPresented: $isShowingSelectTagView) {
-            SelectTagsView()
+            SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
         }
     }
 }
