@@ -20,6 +20,7 @@ struct ContributorListView: View {
                 .foregroundColor(.gray)
             
             List(contributors, id:\.self) { contributor in
+				// 멀티 셀렉트하게 수정
                 NavigationLink(destination: {
                     // SendKnockView()
                 }, label: {

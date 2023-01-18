@@ -11,14 +11,14 @@ struct FollowingView: View {
     // FIXME: - MainHomeView와 연결 필요
     var body: some View {
         // FIXME: - 상위 뷰(MainHome)로 NavigationView 옮겨주고, MainHomeView에 ScrollView 필요
-        NavigationView {
+//        NavigationView {
             ScrollView {
                 ForEach(1..<5) { number in
                     FeedView(userNumber: number)
                     Divider()
                 }
             } // vstack
-        } // nav
+//        } // nav
     } // body
 }
 

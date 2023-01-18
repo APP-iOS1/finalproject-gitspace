@@ -8,8 +8,46 @@
 import SwiftUI
 
 struct MainHomeView: View {
+	@State private var tabSelection = "star"
+	
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		VStack {
+			HStack {
+				Button {
+					tabSelection = "star"
+				} label: {
+					Text("star")
+				}
+				
+				Button {
+					tabSelection = "follow"
+				} label: {
+					Text("follow")
+				}
+			}
+			
+			TabView(selection: $tabSelection) {
+				StarredView()
+					.tag("star")
+				FollowingView()
+					.tag("follow")
+			}
+			.tabViewStyle(.page)
+		}
+		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				Text("GitSpace")
+					.bold()
+			}
+			
+			ToolbarItem(placement: .navigationBarTrailing) {
+				NavigationLink {
+					Text("알람뷰")
+				} label: {
+					Image(systemName: "bell")
+				}
+			}
+		}
     }
 }
 

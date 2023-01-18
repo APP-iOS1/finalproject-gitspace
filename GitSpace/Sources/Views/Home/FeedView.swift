@@ -14,9 +14,8 @@ struct FeedView: View {
     var body: some View {
 
         HStack(spacing: 25) {
-            // FIXME: - Profile Detail View와 연결하기
             NavigationLink {
-                Text("특정유저의 프로필 입니다.")
+                ProfileDetailView()
             } label: {
                 Circle()
                     .foregroundColor(.gray)
@@ -36,7 +35,7 @@ struct FeedView: View {
                         .renderingMode(.original)
                 }
 
-                NavigationLink(destination: Text("특정유저의 프로필 입니다.")) {
+                NavigationLink(destination: ProfileDetailView()) {
                     Text("Profile로 이동")
                     Image(systemName: "person.circle")
                 }
@@ -56,7 +55,7 @@ struct FeedView: View {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     NavigationLink {
-                        Text("특정유저의 프로필 입니다.")
+						ProfileDetailView()
                     } label: {
                         Text("User \(userNumber)")
                             .bold()
@@ -105,9 +104,9 @@ struct FeedView: View {
                     .foregroundColor(.primary)
 
                 }
-                // FIXME: - Repository Detail View와 연결하기
+                
                 NavigationLink {
-                    Text("특정 레포지토리의 디테일 뷰 입니다.")
+                    RepositoryDetailView()
                 } label: {
                     Text("User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
                         .multilineTextAlignment(.leading)

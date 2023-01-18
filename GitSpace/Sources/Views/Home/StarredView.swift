@@ -135,7 +135,7 @@ struct StarredView: View {
                             HStack {
                                 NavigationLink {
                                     /* Repository Detail View */
-                                    Text("Repository Detail View")
+                                    RepositoryDetailView()
                                 } label: {
                                     VStack(alignment: .leading) {
                                         HStack(alignment: .top) {
@@ -166,7 +166,13 @@ struct StarredView: View {
                             /* Penpal, Menu button */
                              HStack {
                                 Spacer()
-                                NavigationLink(destination: { Text("PenpalView") }) {
+                                NavigationLink(destination: {
+									/*
+									 1. 우선 누구한테 챗 할지 레포기여자 목록 보여주기
+									 2. 그 중에서 이미 챗하고 있는 사람은 조금 다르게 표기하기
+									 */
+									ContributorListView()
+								}) {
                                     Image(systemName: "message.circle.fill")
                                 }
                                 Menu {
