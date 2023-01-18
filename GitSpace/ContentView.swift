@@ -28,8 +28,8 @@ struct ContentView: View {
 				MainProfileView()
 			}
 			.tabItem {
-//				Image(systemName: "person")
-				Image("그사람프사")
+				Image(systemName: "person")
+				//Image("그사람프사")
 			}
 		}
     }
