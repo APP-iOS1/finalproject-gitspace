@@ -22,13 +22,12 @@ struct ChatDetailView: View {
     ]
     @State private var showingSheet : Bool = false
     @State private var updateMessageField : String = "기존 메세지 내용입니다."
-    @Binding var naviIsActive : Bool
     
     //TODO: -Navigation Toolbar 추가
     var body: some View {
         VStack {
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 Section {
                     Divider()
                     AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
@@ -135,7 +134,7 @@ struct ChatDetailView: View {
             
             ToolbarItem(placement : .navigationBarTrailing) {
                 NavigationLink {
-                    PenpalInfoView(naviIsActive: $naviIsActive)
+                    PenpalInfoView()
                         .navigationTitle("대화 정보")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
@@ -220,6 +219,6 @@ struct MessageCell : View {
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatDetailView(naviIsActive: .constant(false))
+        ChatDetailView()
     }
 }
