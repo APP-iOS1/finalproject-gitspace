@@ -105,7 +105,7 @@ struct ChatDetailView: View {
                             messages.append(Message(isRead: false, time: getStringDate()))
                             messageField = ""
                         } label: {
-                            Image(systemName: "arrowtriangle.right.fill")
+                            Image(systemName: messageField.isEmpty ? "arrowtriangle.right" : "arrowtriangle.right.fill")
                         }
                         .disabled(messageField.isEmpty)
                     }
@@ -115,6 +115,21 @@ struct ChatDetailView: View {
                 .padding(.bottom, 20)
             
             
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                HStack {
+                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    Text("Taeyoung Won")
+                }
+            }
         }
         .sheet(isPresented: $showingSheet, content: {
             
@@ -142,7 +157,7 @@ struct ChatDetailView: View {
     }
 }
 
-// MARK: -View :
+// MARK: -View : 채팅 메세지 Cell
 struct MessageCell : View {
     
     let id : String
