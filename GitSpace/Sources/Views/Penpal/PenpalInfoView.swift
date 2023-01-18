@@ -10,6 +10,11 @@ import SwiftUI
 struct PenpalInfoView: View {
     
     @State private var notificationStop : Bool = false
+    @State private var isBlocked : Bool = false
+    @State private var showingBlockAlert : Bool = false
+    @State private var showingUnblockAlert : Bool = false
+    @State private var showingDeleteChatAlert : Bool = false
+    @Binding var naviIsActive: Bool
     
     var body: some View {
         VStack {
@@ -48,15 +53,38 @@ struct PenpalInfoView: View {
                     .padding(.horizontal, -10)
             }
             
+            Button {
+                if isBlocked {
+                    showingUnblockAlert.toggle()
+                } else {
+                    showingBlockAlert.toggle()
+                }
+                
+            } label: {
+                Text("@wontaeyoung \(isBlocked ? "차단 해제하기" : "차단하기")")
+            }
+
+            Button(role: .destructive) {
+                showingDeleteChatAlert.toggle()
+            } label: {
+                Text("대화 삭제")
+            }
             
             Spacer()
         }
         .padding(.horizontal, 20)
+        .alert("차단하기", isPresented: $showingBlockAlert) {
+            Button("차단", role: .destructive) {
+                
+            }
+        } message: {
+            Text("메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?")
+        }
     }
 }
 
 struct PenpalInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        PenpalInfoView()
+        PenpalInfoView(naviIsActive: .constant(false))
     }
 }
