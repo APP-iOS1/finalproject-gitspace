@@ -26,6 +26,7 @@ struct ChatDetailView: View {
     //TODO: -Navigation Toolbar 추가
     var body: some View {
         VStack {
+            
             ScrollView {
                 Section {
                     Divider()
@@ -53,26 +54,25 @@ struct ChatDetailView: View {
                 
                 Section {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(width: UIScreen.main.bounds.width - 60, height: 5)
+                        .frame(width: UIScreen.main.bounds.width - 40, height: 5)
                         .foregroundColor(Color(.systemGray5))
                         .padding(.vertical, 15)
                     
                     Text("오늘")
-                        .foregroundColor(Color(uiColor: .systemGray4))
+                        .foregroundColor(Color(uiColor: .systemGray3))
                         .padding(.bottom, 15)
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 250, height: 80)
-                        .foregroundColor(Color(uiColor: .systemGray3))
-                        .overlay(alignment : .bottomTrailing) {
-                            Text("17:53")
-                                .font(.caption2)
-                                .foregroundColor(.gray)
-                                .offset(x: 35)
-                        }
-                        .offset(x: -40)
-                        .padding(.bottom, 20)
-                    
+                    HStack(alignment: .bottom) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 250, height: 80)
+                            .foregroundColor(Color(uiColor: .systemGray3))
+                        Text("17:53")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                        Spacer()
+                        
+                    }
+                    .padding(.bottom, 20)
                     
                     ForEach(messages) { cell in
                         MessageCell(id: cell.id,
@@ -87,7 +87,7 @@ struct ChatDetailView: View {
             .padding(.bottom, 1)
             
             RoundedRectangle(cornerRadius: 25)
-                .frame(width: 355, height: 50)
+                .frame(width: UIScreen.main.bounds.width - 40, height: 50)
                 .foregroundColor(Color(uiColor: .systemGray5))
                 .overlay {
                     HStack {
@@ -148,7 +148,7 @@ struct ChatDetailView: View {
             TextField("수정할 메세지를 입력해주세요.", text: $updateMessageField)
                 .padding(.horizontal, 30)
                 .textFieldStyle(.roundedBorder)
-                
+            
             Button {
                 showingSheet.toggle()
             } label: {
@@ -212,8 +212,8 @@ struct MessageCell : View {
         } message: {
             Text("메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?")
         }
-            
-    
+        
+        
     }
 }
 
