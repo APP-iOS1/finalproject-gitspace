@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MyKnockBoxView.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
 		7068B6AA29769448005D6B7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A929769448005D6B7B /* ContentView.swift */; };
 		7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AB29769449005D6B7B /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34BC356829777253000DCBC7 /* MyKnockBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockBoxView.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
 		7068B6A929769448005D6B7B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,6 +40,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34BC3567297770C5000DCBC7 /* MyKnockBox */ = {
+			isa = PBXGroup;
+			children = (
+				34BC356829777253000DCBC7 /* MyKnockBoxView.swift */,
+			);
+			path = MyKnockBox;
+			sourceTree = "<group>";
+		};
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 		7068B6BA2976950B005D6B7B /* Penpal */ = {
 			isa = PBXGroup;
 			children = (
+				34BC3567297770C5000DCBC7 /* MyKnockBox */,
 				7068B6BF29769522005D6B7B /* MainPenpalView.swift */,
 			);
 			path = Penpal;
@@ -207,6 +218,7 @@
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
+				34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
