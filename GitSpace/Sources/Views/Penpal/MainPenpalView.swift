@@ -9,7 +9,13 @@ import SwiftUI
 
 struct MainPenpalView: View {
     var body: some View {
-        ChatDetailView()
+        NavigationView {
+            NavigationLink {
+                ChatDetailView()
+            } label: {
+                Text("채팅방으로")
+            }
+        }
     }
 }
 
