@@ -27,22 +27,25 @@ struct MyKnockBoxView: View {
                 LazyVStack {
                     
                     VStack {
-                        Text("노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.")
+                        // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
+                        Text("Check the message for information about who's Knocking on you.")
                             .foregroundColor(Color(.systemGray))
                         
-                        Text("상대방은 수락될 때까지 회원님의 노크 확인 여부를 알 수 없습니다.")
+                        // 상대방은 응답할 때까지 회원님의 노크 확인 여부를 알 수 없습니다.
+                        Text("They won't know you've seen it until you respond.")
                             .foregroundColor(Color(.systemGray))
 
                         
                         Button {
                             showingKnockSetting.toggle()
                         } label: {
-                            Text("나에게 노크 할 수 있는 사람 설정하기")
+                            // 나에게 노크 할 수 있는 사람 설정하기
+                            Text("Decide who can Knock on you")
                         }
                         .padding(.top, -3)
                     }
                     .font(.caption2)
-                    .padding(.vertical, 3)
+                    .padding(3)
                     
                     Divider()
                     
@@ -91,13 +94,13 @@ struct MyKnockBoxView: View {
                         
                         
                     } // ForEach
-                    .searchable(text: $searchWord, prompt: "유저 이름, 메세지 내용 검색")
+                    .searchable(text: $searchWord, prompt: "Search UserName, Message Contents")
                 } // LazyVStack
             } // ScrollView
-            .navigationBarTitle("노크 박스", displayMode: .inline)
+            .navigationBarTitle("Knock Box", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(isEdit ? "취소" : "수정") {
+                    Button(isEdit ? "Cancel" : "Edit") {
                         withAnimation(.easeIn(duration: 0.28)) {
                             isEdit.toggle()
                         }

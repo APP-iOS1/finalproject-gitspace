@@ -15,10 +15,16 @@ struct MyKnockSettingView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    Text("까 꿍 !")
+                    Spacer()
+                    
+                    Text("GGA - GGUNG !")
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    Spacer()
                 } // VStack
             } // ScrollView
-            .navigationBarTitle("노크 설정", displayMode: .inline)
+            .navigationBarTitle("Knock Controls", displayMode: .inline)
             .toolbar {
 				ToolbarItem(placement: .navigationBarLeading) {
 					Button {
