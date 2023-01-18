@@ -19,15 +19,16 @@ struct MainHomeView: View {
                     if tabSelection == "star" {
                         Text("Starred")
                             .foregroundColor(.black)
-                            .font(.title)
+                            .font(.title2)
                             .bold()
                     } else {
                         Text("Starred")
                             .foregroundColor(Color(.systemGray))
-                            .font(.title)
+                            .font(.title2)
+                            .bold()
                     }
 				}
-                .frame(minWidth: 100)
+                .frame(minWidth: 80)
 				
 				Button {
                     withAnimation(.easeIn(duration: 0.2)) {
@@ -37,18 +38,19 @@ struct MainHomeView: View {
                     if tabSelection == "star" {
                         Text("Activity")
                             .foregroundColor(Color(.systemGray))
-                            .font(.title)
+                            .font(.title2)
+                            .bold()
                     } else {
                         Text("Activity")
                             .foregroundColor(.black)
-                            .font(.title)
+                            .font(.title2)
                             .bold()
                     }
 				}
                 
                 Spacer()
 			}
-            .padding(.horizontal)
+            .padding([.horizontal, .top], 10)
 			
 			TabView(selection: $tabSelection) {
 				StarredView()
@@ -67,7 +69,7 @@ struct MainHomeView: View {
 			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				NavigationLink {
-					Text("알람뷰")
+					Text("Notifications View")
 				} label: {
 					Image(systemName: "bell")
                         .foregroundColor(.black)

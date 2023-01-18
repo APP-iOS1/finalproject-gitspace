@@ -95,11 +95,11 @@ struct ProfileSectionView: View {
             HStack{ //MARK: - 위치 이미지, 국가 및 위치
                 Image(systemName: "mappin.and.ellipse")
                 Text("Brazil, South America")
-                    .bold()
-                    .foregroundColor(Color(.systemGray))
             }
+            .foregroundColor(Color(.systemGray))
             HStack{ //MARK: - 링크 이미지, 블로그 및 기타 링크
                 Image(systemName: "link")
+                    .foregroundColor(Color(.systemGray))
                 Button {
                     
                 } label: {
@@ -113,8 +113,38 @@ struct ProfileSectionView: View {
             }
             HStack{ //MARK: - 사람 심볼, 팔로워 및 팔로잉 수
                 Image(systemName: "person")
-                Text("1924 followers · 1272 following")
-                    .bold()
+                    .foregroundColor(Color(.systemGray))
+                
+                NavigationLink {
+                    Text("This Page Will Shows Followers List.")
+                } label: {
+                    HStack {
+                        Text("1.9K")
+                            .bold()
+                        
+                        Text("followers")
+                            .foregroundColor(Color(.systemGray))
+                            .padding(.leading, -5)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("·")
+                    .foregroundColor(Color(.systemGray))
+                    .padding(.horizontal, -3)
+                NavigationLink {
+                    Text("This Page Will Shows Following List.")
+                } label: {
+                    HStack {
+                        Text("1.2K")
+                            .bold()
+                        
+                        Text("following")
+                            .foregroundColor(Color(.systemGray))
+                            .padding(.leading, -5)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
             }
         }
 		.padding(.horizontal, 10)
