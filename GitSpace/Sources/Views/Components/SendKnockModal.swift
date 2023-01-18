@@ -18,28 +18,35 @@ struct SendKnockModal: View {
 //			Spacer()
 //				.frame(maxHeight: 200)
 //
-			Text("Select Knock Message")
-				.bold()
-				.font(.title3)
+//			Text("Select Knock Message")
+//				.bold()
+//				.font(.title3)
             //좋은 노크 메시지는 답장 확률을 높여줍니다!
             Text("Good Knock, Quick Response!")
                 .font(.footnote)
                 .foregroundColor(Color(.systemGray))
+                .padding(.vertical, -5)
+                .offset(y: -5)
 			
 			
 			Divider()
+            
+            ContributorListView()
+                .frame(height: 335)
+                .offset(y: -30)
 			
 			VStack(alignment: .center) {
 				
 				Group {
                     // ${UserName} 님에게
                     // \n 노크 메시지를 보냅니다.
-                    Text("Send a Knock message\nto ") +
+                    Text("Send a Knock message to\n ") +
 					Text("${UserName} ")
 						.bold()
 				}
                 .multilineTextAlignment(.center)
-                .padding(.vertical, 3)
+                .padding(.top, -35)
+                .padding(.bottom, 3)
 
                 ///상대방은 노크 메시지를 받고 응답을 거절할 권리가 있으며,
                 ///거절 의사와 노크 메시지를 주고 받은 히스토리는
@@ -118,8 +125,10 @@ They have the right to receive knock messages and refuse to respond. You can che
 //				Text("춘만이")
 //				Text("꽃순이")
 //			}
-			ContributorListView()
+//			ContributorListView()
+            Spacer()
 		}
+        .navigationBarTitle("Knock Message", displayMode: .inline)
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Button {

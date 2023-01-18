@@ -16,7 +16,7 @@ struct ContributorListView: View {
             Spacer()
                 .frame(height: 30)
             
-            Text("Choose a user to knock 💬")
+            Text("Choose a user to knock on 💬")
                 .foregroundColor(.gray)
             
             List(contributors, id:\.self) { contributor in

@@ -106,24 +106,25 @@ struct RecommendationPageCell: View {
 	var body: some View {
 		UserProfileCompact()
 		.frame(alignment: .leading)
-		.padding(.leading, 20)
+		.padding(.leading, 5)
 		.padding(.top, 10)
 		.overlay(alignment: .bottomTrailing) {
 			Button {
 				isKnockModalDisplayed.toggle()
 			} label: {
-				Text("Knock")
+				Text("Knock      ")
 					.bold()
 			}
 			.buttonStyle(.borderedProminent)
 			.tint(.black)
-			.padding(.trailing, 20)
+			.padding(.trailing, 25)
 			.padding(.bottom, 50)
 		}
 		.background {
 			Rectangle()
 				.foregroundColor(Color(.systemGray4))
 				.frame(width: UIScreen.main.bounds.width - 20)
+                .cornerRadius(10)
 		}
 	}
 }
