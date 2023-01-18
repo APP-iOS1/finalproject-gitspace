@@ -43,11 +43,13 @@ struct PenpalInfoView: View {
             Section {
                 
                 VStack(alignment: .leading) {
-                    Text("알림")
+                    // 알림
+                    Text("Notifications")
                         .font(.title3)
                         .bold()
                     
-                    Toggle("알림 일시중지", isOn: $notificationStop)
+                    // 알림 일시중지
+                    Toggle("Snooze notifications", isOn: $notificationStop)
                 }
                 
                 Divider()
@@ -62,30 +64,30 @@ struct PenpalInfoView: View {
                 }
                 
             } label: {
-                Text("@wontaeyoung \(isBlocked ? "차단 해제하기" : "차단하기")")
+                Text("\(isBlocked ? "Unblock" : "Block") @wontaeyoung")
             }
             .padding(.vertical, 20)
 
             Button(role: .destructive) {
                 showingDeleteChatAlert.toggle()
             } label: {
-                Text("대화 삭제")
+                Text("Delete conversation")
             }
 
             Spacer()
         }
         .overlay(alignment: .bottom) {
             if showingBlockMessage {
-                Text(isBlocked ? "차단되었습니다" : "차단이 해제되었습니다")
+                Text(isBlocked ? "Blocked" : "Unblocked")
                     .font(.largeTitle.bold())
             } else if showingDeleteMessage {
-                Text("대화가 삭제되었습니다")
+                Text("Conversation has been deleted.")
                     .font(.largeTitle.bold())
             }
         }
         .padding(.horizontal, 20)
-        .alert("차단", isPresented: $showingBlockAlert) {
-            Button("차단하기", role: .destructive) {
+        .alert("Block @wontaeyoung", isPresented: $showingBlockAlert) {
+            Button("Block", role: .destructive) {
                 isBlocked.toggle()
                 showingBlockMessage = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -93,10 +95,11 @@ struct PenpalInfoView: View {
                 }
             }
         } message: {
-            Text("상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다.\n차단하시겠습니까?")
+//상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다. 차단하시겠습니까?
+            Text("@wontaeyoung will no longer be able to follow or message you, and you will not see notificatinos from @wontaeyoung")
         }
-        .alert("차단 해제", isPresented: $showingUnblockAlert) {
-            Button("해제하기", role: .destructive) {
+        .alert("Unblock @wontaeyoung", isPresented: $showingUnblockAlert) {
+            Button("Unblock", role: .destructive) {
                 isBlocked.toggle()
                 showingBlockMessage = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -104,17 +107,19 @@ struct PenpalInfoView: View {
                 }
             }
         } message: {
-            Text("차단을 해제하면 상대방이 보내는 메세지를 다시 받을 수 있습니다.\n차단 해제하시겠습니까?")
+            // 차단을 해제하면 상대방이 보내는 메세지를 다시 받을 수 있습니다. 차단 해체하시겠습니까?
+            Text("@wontaeyoung will be able to follow or message you, and you will see notificatinos from @wontaeyoung")
         }
-        .alert("대화 삭제", isPresented: $showingDeleteChatAlert) {
-            Button("삭제하기", role: .destructive) {
+        .alert("Delete conversation?", isPresented: $showingDeleteChatAlert) {
+            Button("Delete", role: .destructive) {
                 showingDeleteMessage = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     showingDeleteMessage = false
                 }
             }
         } message: {
-            Text("대화를 삭제하면 지금까지 한 대화가 모두 사라지며 복구할 수 없습니다.\n삭제하시겠습니까?")
+            // 대화를 삭제하면 지금까지 한 대화가 모두 사라지며 복구할 수 없습니다. 삭제하시겠습니까?
+            Text("This conversation will be deleted and cannot be recovered.\nAre you sure?")
         }
     }
 }

@@ -21,27 +21,31 @@ struct SendKnockModal: View {
 			Text("Select Knock Message")
 				.bold()
 				.font(.title3)
+            //좋은 노크 메시지는 답장 확률을 높여줍니다!
+            Text("Good Knock, Quick Response!")
+                .font(.footnote)
+                .foregroundColor(Color(.systemGray))
 			
-			Text("좋은 노크 메시지는 답장 확률을 높여줍니다!")
-				.font(.footnote)
-				.foregroundColor(Color(.systemGray))
 			
 			Divider()
 			
 			VStack(alignment: .center) {
 				
 				Group {
-					Text("${name}")
-						.bold() +
-					Text("님에게 \n 노크 메시지를 보냅니다.")
+                    // ${UserName} 님에게
+                    // \n 노크 메시지를 보냅니다.
+                    Text("Send a Knock message\nto ") +
+					Text("${UserName} ")
+						.bold()
 				}
-					.multilineTextAlignment(.center)
-					.padding(.vertical, 10)
-				
+                .multilineTextAlignment(.center)
+                .padding(.vertical, 3)
+
+                ///상대방은 노크 메시지를 받고 응답을 거절할 권리가 있으며,
+                ///거절 의사와 노크 메시지를 주고 받은 히스토리는
+                ///KnockBox에서 확인할 수 있습니다.
 				Text("""
-상대방은 노크 메시지를 받고 응답을 거절할 권리가 있으며,
-거절 의사와 노크 메시지를 주고 받은 히스토리는
-KnockBox에서 확인할 수 있습니다.
+They have the right to receive knock messages and refuse to respond. You can check the history of sending and receiving knock messages with your refusal intention on KnockBox.
 """)
 				.font(.footnote)
 				.multilineTextAlignment(.center)

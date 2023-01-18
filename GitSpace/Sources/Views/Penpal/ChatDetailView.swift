@@ -21,7 +21,7 @@ struct ChatDetailView: View {
         Message(isRead: false, time: "18:01")
     ]
     @State private var showingSheet : Bool = false
-    @State private var updateMessageField : String = "기존 메세지 내용입니다."
+    @State private var updateMessageField : String = "This is the original message."
     
     //TODO: -Navigation Toolbar 추가
     var body: some View {
@@ -39,7 +39,8 @@ struct ChatDetailView: View {
 									.clipShape(Circle())
 									.frame(width : 100)
 							} placeholder: {
-								Text("불러오는 중입니다...")
+                                // 불러오는 중입니다...
+								Text("Loading...")
 							}
 							.padding(.vertical, 10)
 							.padding(.top, 10)
@@ -51,8 +52,7 @@ struct ChatDetailView: View {
 					}
                     
                     
-                    Text("wontaeyoung,")
-                    Text("starred 3 repos,")
+                    Text("wontaeyoung, starred 3 repos,")
                     Text("Airbnb-swift Repository Owner")
                 }
                 
@@ -63,9 +63,11 @@ struct ChatDetailView: View {
                         .foregroundColor(Color(.systemGray5))
                         .padding(.vertical, 15)
                     
-                    Text("오늘")
+                    Text("Today")
+                        .bold()
                         .foregroundColor(Color(uiColor: .systemGray3))
                         .padding(.bottom, 15)
+                        
                     
                     HStack(alignment: .bottom) {
                         RoundedRectangle(cornerRadius: 10)
@@ -104,7 +106,7 @@ struct ChatDetailView: View {
                             Text("</>")
                         }
                         
-                        TextField("쪽지 작성", text: $messageField)
+                        TextField("Message...", text: $messageField)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.never)
                         
@@ -145,7 +147,7 @@ struct ChatDetailView: View {
             ToolbarItem(placement : .navigationBarTrailing) {
                 NavigationLink {
                     PenpalInfoView()
-                        .navigationTitle("대화 정보")
+                        .navigationTitle("Messages Details")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Image(systemName: "ellipsis")
@@ -155,14 +157,15 @@ struct ChatDetailView: View {
         .foregroundColor(.primary)
         .sheet(isPresented: $showingSheet, content: {
             
-            TextField("수정할 메세지를 입력해주세요.", text: $updateMessageField)
+            // 수정할 메세지를 입력해주세요.
+            TextField("Please enter a message to edit.", text: $updateMessageField)
                 .padding(.horizontal, 30)
                 .textFieldStyle(.roundedBorder)
             
             Button {
                 showingSheet.toggle()
             } label: {
-                Text("수정 완료")
+                Text("Save")
                     .padding()
                     .border(.black, width: 2)
             }
@@ -193,7 +196,7 @@ struct MessageCell : View {
         HStack(alignment: .bottom, spacing: 5) {
             Spacer()
             VStack(alignment: .trailing) {
-                Text(isRead ? "5분 전에 읽음" : "")
+                Text(isRead ? "Seen" : "")
                 Text(time)
                 
             }
@@ -205,22 +208,23 @@ struct MessageCell : View {
                 .foregroundColor(.yellow)
                 .contextMenu{
                     Button {showingSheet.toggle()} label: {
-                        Text("수정하기")
+                        Text("Edit")
                     }
                     Button {showingAlert.toggle()} label: {
-                        Text("삭제하기")
+                        Text("Delete")
                     }
                 }
         }
         .padding(.bottom, 20)
-        .alert("메세지 삭제", isPresented: $showingAlert) {
-            Button("삭제", role: .destructive) {
+        .alert("Delete Message", isPresented: $showingAlert) {
+            Button("Delete", role: .destructive) {
                 if let removeIndex = messages.firstIndex(where: {$0.id == self.id}) {
                     messages.remove(at: removeIndex)
                 }
             }
         } message: {
-            Text("메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?")
+            // 메세지를 삭제하면 상대방과 나 모두 이 메세지를 볼 수 없습니다. 삭제하시겠습니까?
+            Text("The other person and you can't see this message. Are you sure?")
         }
         
         
