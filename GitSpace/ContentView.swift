@@ -11,14 +11,14 @@ struct ContentView: View {
     var body: some View {
 		TabView {
 			NavigationView {
-					MainHomeView()
+				MainHomeView()
 			}
 			.tabItem {
 				Image(systemName: "house")
 			}
 			
 			NavigationView {
-				MainPenpalView()
+				PenpalListView()
 			}
 			.tabItem {
 				Image(systemName: "bubble.right")
