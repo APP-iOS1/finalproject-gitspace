@@ -13,8 +13,10 @@ struct MyKnockBoxView: View {
                                  10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     @State private var userName = []
     @State private var knockMsg = []
+    @State var searchWord: String = ""
     
     @State var isEdit: Bool = false
+    @State var checked: Bool = false
     @State var showingKnockSetting: Bool = false
     
     var body: some View {
@@ -45,52 +47,59 @@ struct MyKnockBoxView: View {
                     
                     
                     // MARK: - Knock Cell
-                    ForEach(knocks, id: \.self) { knock in
+                    ForEach($knocks, id: \.self) { knock in
                         
-                        HStack(alignment: .center) {
-                            
-                            Image(systemName: "person.crop.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50, height: 50)
-                            
-                            VStack {
-                                HStack {
-                                    Text("유저 이름 \(knock + 1)")
-                                        .bold()
-                                        .font(.headline)
-                                    Spacer()
-                                } // HStack
-                                
-                                HStack {
-                                    Text("노크 메세지가 출력됩니다.")
-                                        .lineLimit(1)
-                                    
-                                    Text("﹒")
-                                        .padding(.leading, -5)
-                                    
-                                    Text("\(knock + 1)분 전")
-                                        .padding(.leading, -10)
-
-                                    Spacer()
-                                } // HStack
-                                .font(.subheadline)
-                                .foregroundColor(Color(.systemGray))
-                            } // VStack
-                            
-                        } // HStack
-                        .padding(.vertical, 5)
-                        .padding(.horizontal)
+                        MyKnockCell(knock: knock, isEdit: $isEdit, checked: $checked)
+                        
+                        Divider()
+                        
+//                        HStack(alignment: .center) {
+//                            
+//                            Image(systemName: "person.crop.circle.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 50, height: 50)
+//                            
+//                            VStack {
+//                                HStack {
+//                                    Text("유저 이름 \(knock + 1)")
+//                                        .bold()
+//                                        .font(.headline)
+//                                    Spacer()
+//                                } // HStack
+//                                
+//                                HStack {
+//                                    Text("노크 메세지가 출력됩니다.")
+//                                        .lineLimit(1)
+//                                    
+//                                    Text("﹒")
+//                                        .padding(.leading, -5)
+//                                    
+//                                    Text("\(knock + 1)분 전")
+//                                        .padding(.leading, -10)
+//
+//                                    Spacer()
+//                                } // HStack
+//                                .font(.subheadline)
+//                                .foregroundColor(Color(.systemGray))
+//                            } // VStack
+//                            
+//                        } // HStack
+//                        .padding(.vertical, 5)
+//                        .padding(.horizontal)
                         
                         
                     } // ForEach
+                    .searchable(text: $searchWord, prompt: "유저 이름, 메세지 내용 검색")
                 } // LazyVStack
             } // ScrollView
             .navigationBarTitle("노크 박스", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(isEdit ? "취소" : "수정") {
-                        isEdit.toggle()
+                        withAnimation(.easeIn(duration: 0.28)) {
+                            isEdit.toggle()
+                        }
                     }
                 }
             }
