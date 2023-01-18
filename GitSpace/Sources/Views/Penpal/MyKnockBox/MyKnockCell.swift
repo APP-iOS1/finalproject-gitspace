@@ -13,10 +13,10 @@ struct MyKnockCell: View {
     @Binding var isEdit: Bool
     @Binding var checked: Bool
     
-    @State private var knockStates = ["대기중", "대기중", "대기중", "수락됨", "수락됨",
-                                      "거절됨", "수락됨", "거절됨", "거절됨", "거절됨",
-                                      "수락됨", "수락됨", "수락됨", "수락됨", "수락됨",
-                                      "거절됨", "거절됨", "수락됨", "수락됨", "거절됨"]
+    @State private var knockStates = ["Waiting", "Waiting", "Waiting", "Accepted", "Accepted",
+                                      "Declined", "Accepted", "Declined", "Declined", "Declined",
+                                      "Accepted", "Accepted", "Accepted", "Accepted", "Accepted",
+                                      "Declined", "Declined", "Accepted", "Accepted", "Declined"]
     
     var body: some View {
         
@@ -43,7 +43,7 @@ struct MyKnockCell: View {
             
             VStack {
                 HStack {
-                    Text("유저 이름 \(knock + 1)")
+                    Text("User Name \(knock + 1)")
                         .bold()
                         .font(.headline)
                     
@@ -54,7 +54,7 @@ struct MyKnockCell: View {
 //                        .foregroundColor(Color(.systemGray))
 //                        .padding(.leading, -5)
                     
-                    Text("\(knock + 1)분 전")
+                    Text("\(knock + 1)m")
                         .font(.subheadline)
                         .foregroundColor(Color(.systemGray))
                         .padding(.leading, -10)
@@ -68,22 +68,25 @@ struct MyKnockCell: View {
                 } // HStack
                 
                 HStack {
-                    Text("노크 메세지가 출력됩니다.")
+                    Text("Knock message will be displayed.")
                         .lineLimit(1)
                     
                     Spacer()
                     
-                    if knockStates[knock] == "대기중" {
+                    if knockStates[knock] == "Waiting" {
                         Text("\(knockStates[knock])")
-                            .padding(.trailing, 10)
+                            //.padding(.trailing, 5)
+                            .bold()
                             .foregroundColor(Color(.systemBlue))
-                    } else if knockStates[knock] == "수락됨" {
+                    } else if knockStates[knock] == "Accepted" {
                         Text("\(knockStates[knock])")
-                            .padding(.trailing, 10)
+                            //.padding(.trailing, 5)
+                            .bold()
                             .foregroundColor(Color(.systemGreen))
                     } else {
                         Text("\(knockStates[knock])")
-                            .padding(.trailing, 10)
+                            //.padding(.trailing, 0)
+                            .bold()
                             .foregroundColor(Color(.systemRed))
                     }
                 } // HStack
