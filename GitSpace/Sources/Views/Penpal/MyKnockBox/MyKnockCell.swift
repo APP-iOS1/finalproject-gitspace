@@ -13,6 +13,11 @@ struct MyKnockCell: View {
     @Binding var isEdit: Bool
     @Binding var checked: Bool
     
+    @State private var knockStates = ["대기중", "대기중", "대기중", "수락됨", "수락됨",
+                                      "거절됨", "수락됨", "거절됨", "거절됨", "거절됨",
+                                      "수락됨", "수락됨", "수락됨", "수락됨", "수락됨",
+                                      "거절됨", "거절됨", "수락됨", "수락됨", "거절됨"]
+    
     var body: some View {
         
         HStack(alignment: .center) {
@@ -67,6 +72,20 @@ struct MyKnockCell: View {
                         .lineLimit(1)
                     
                     Spacer()
+                    
+                    if knockStates[knock] == "대기중" {
+                        Text("\(knockStates[knock])")
+                            .padding(.trailing, 10)
+                            .foregroundColor(Color(.systemBlue))
+                    } else if knockStates[knock] == "수락됨" {
+                        Text("\(knockStates[knock])")
+                            .padding(.trailing, 10)
+                            .foregroundColor(Color(.systemGreen))
+                    } else {
+                        Text("\(knockStates[knock])")
+                            .padding(.trailing, 10)
+                            .foregroundColor(Color(.systemRed))
+                    }
                 } // HStack
                 .font(.subheadline)
                 .foregroundColor(Color(.systemGray))
