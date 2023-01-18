@@ -14,17 +14,41 @@ struct MainHomeView: View {
 		VStack {
 			HStack {
 				Button {
-					tabSelection = "star"
+                        tabSelection = "star"
 				} label: {
-					Text("star")
+                    if tabSelection == "star" {
+                        Text("Starred")
+                            .foregroundColor(.black)
+                            .font(.title)
+                            .bold()
+                    } else {
+                        Text("Starred")
+                            .foregroundColor(Color(.systemGray))
+                            .font(.title)
+                    }
 				}
+                .frame(minWidth: 100)
 				
 				Button {
-					tabSelection = "follow"
+                    withAnimation(.easeIn(duration: 0.2)) {
+                        tabSelection = "follow"
+                    }
 				} label: {
-					Text("follow")
+                    if tabSelection == "star" {
+                        Text("Activity")
+                            .foregroundColor(Color(.systemGray))
+                            .font(.title)
+                    } else {
+                        Text("Activity")
+                            .foregroundColor(.black)
+                            .font(.title)
+                            .bold()
+                    }
 				}
+                
+                Spacer()
 			}
+            .padding(.horizontal)
 			
 			TabView(selection: $tabSelection) {
 				StarredView()
@@ -37,6 +61,7 @@ struct MainHomeView: View {
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Text("GitSpace")
+                    .font(.title)
 					.bold()
 			}
 			
@@ -45,6 +70,7 @@ struct MainHomeView: View {
 					Text("알람뷰")
 				} label: {
 					Image(systemName: "bell")
+                        .foregroundColor(.black)
 				}
 			}
 		}

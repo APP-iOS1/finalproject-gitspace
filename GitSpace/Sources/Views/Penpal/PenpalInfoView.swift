@@ -30,10 +30,12 @@ struct PenpalInfoView: View {
                     ProgressView()
                 }
                 Text("Taeyoung Won")
+                    .font(.headline)
                     .bold()
                     .padding(.horizontal, -8)
                 
                 Text("@wontaeyoung")
+                    .font(.subheadline)
                     .foregroundColor(Color(uiColor: .systemGray))
                 
                 Divider()
@@ -96,7 +98,7 @@ struct PenpalInfoView: View {
             }
         } message: {
 //상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다. 차단하시겠습니까?
-            Text("@wontaeyoung will no longer be able to follow or message you, and you will not see notificatinos from @wontaeyoung")
+            Text("@wontaeyoung will no longer be able to follow or message you, and you will not see notifications from @wontaeyoung")
         }
         .alert("Unblock @wontaeyoung", isPresented: $showingUnblockAlert) {
             Button("Unblock", role: .destructive) {
@@ -108,7 +110,7 @@ struct PenpalInfoView: View {
             }
         } message: {
             // 차단을 해제하면 상대방이 보내는 메세지를 다시 받을 수 있습니다. 차단 해체하시겠습니까?
-            Text("@wontaeyoung will be able to follow or message you, and you will see notificatinos from @wontaeyoung")
+            Text("@wontaeyoung will be able to follow or message you, and you will see notifications from @wontaeyoung")
         }
         .alert("Delete conversation?", isPresented: $showingDeleteChatAlert) {
             Button("Delete", role: .destructive) {

@@ -147,7 +147,7 @@ struct ChatDetailView: View {
             ToolbarItem(placement : .navigationBarTrailing) {
                 NavigationLink {
                     PenpalInfoView()
-                        .navigationTitle("Messages Details")
+                        .navigationTitle("Conversation Info")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Image(systemName: "ellipsis")

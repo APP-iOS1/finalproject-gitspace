@@ -70,6 +70,7 @@ struct PenpalListView: View {
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Text("GitSpace")
+                    .font(.title)
 					.bold()
 			}
 			
@@ -77,7 +78,9 @@ struct PenpalListView: View {
 				NavigationLink {
 					MyKnockBoxView()
 				} label: {
-					Text("📦")
+                    Image(systemName: "tray.full")
+                        .foregroundColor(.black)
+					//Text("tray.full")
 				}
 				
 				Button {
@@ -129,7 +132,7 @@ struct UserProfileCompact: View {
 	var body: some View {
 		VStack(alignment: .leading) {
 			HStack(alignment: .top) {
-				Image(systemName: "person")
+				Image(systemName: "person.crop.circle")
 					.resizable()
 					.frame(width: 50, height: 50)
 					.aspectRatio(1, contentMode: .fit)

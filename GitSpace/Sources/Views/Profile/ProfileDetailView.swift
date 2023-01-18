@@ -69,25 +69,28 @@ struct ProfileSectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
             HStack{ //MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
-                Image(systemName: "person")
+                Image(systemName: "person.crop.circle")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 100)
 
 
                 VStack(alignment: .leading){ // 이름, 닉네임
-                    Text("여기에 사람 이름이 들어갈거임.")
+                    Text("UserName")
+                        .font(.headline)
                         .bold()
-                    Spacer()
-                        .frame(height: 20)
-                    Text("@ 여기에 사람 닉네임 들어감.")
+                    //Spacer()
+                        //.frame(height: 20)
+                    Text("@UserNickname")
+                        .font(.subheadline)
+                        .foregroundColor(Color(.systemGray))
                 }
                 
 				Spacer()
             }
             
             //MARK: - 프로필 자기 ..설명..?
-            Text("아임 브라질 랜덤 가이..")
+            Text("Hi! I'm Random Brazil Guy!")
             
             HStack{ //MARK: - 위치 이미지, 국가 및 위치
                 Image(systemName: "mappin.and.ellipse")
@@ -97,8 +100,16 @@ struct ProfileSectionView: View {
             }
             HStack{ //MARK: - 링크 이미지, 블로그 및 기타 링크
                 Image(systemName: "link")
-                Text("yeseul-programming.tistory.com")
-                    .bold()
+                Button {
+                    
+                } label: {
+                    HStack {
+                        
+                        Text("yeseul-programming.tistory.com")
+                            .bold()
+                            .foregroundColor(Color(.black))
+                    }
+                }
             }
             HStack{ //MARK: - 사람 심볼, 팔로워 및 팔로잉 수
                 Image(systemName: "person")
