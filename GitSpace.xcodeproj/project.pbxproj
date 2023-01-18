@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE52976F78C008A4405 /* FollowingView.swift */; };
+		22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE92976FEB5008A4405 /* FeedView.swift */; };
 		34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MyKnockBoxView.swift */; };
 		34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */; };
 		34BC356F29779201000DCBC7 /* MyKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* MyKnockCell.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		22DECDE52976F78C008A4405 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
+		22DECDE92976FEB5008A4405 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* MyKnockBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockBoxView.swift; sourceTree = "<group>"; };
 		34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockSettingView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* MyKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockCell.swift; sourceTree = "<group>"; };
@@ -160,6 +164,8 @@
 			children = (
 				EE0CC79A2976F2160096A873 /* ContributorListView.swift */,
 				7068B6BC29769517005D6B7B /* MainHomeView.swift */,
+				22DECDE52976F78C008A4405 /* FollowingView.swift */,
+				22DECDE92976FEB5008A4405 /* FeedView.swift */,
 				EE0CC7982976D9C90096A873 /* RepositoryDetailView.swift */,
 				68E95FC62976D48C002E65AD /* StarredView.swift */,
 				6840F02629777F79008CF2D5 /* SelectTagsView.swift */,
@@ -253,6 +259,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
+				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				34BC356F29779201000DCBC7 /* MyKnockCell.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
