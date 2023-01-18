@@ -16,6 +16,8 @@
 		7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BC29769517005D6B7B /* MainHomeView.swift */; };
 		7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BF29769522005D6B7B /* MainPenpalView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
+		70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD09297773C7005528A1 /* PenpalListView.swift */; };
+		70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		EE0CC7992976D9C90096A873 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC7982976D9C90096A873 /* RepositoryDetailView.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +33,8 @@
 		7068B6BC29769517005D6B7B /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
 		7068B6BF29769522005D6B7B /* MainPenpalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPenpalView.swift; sourceTree = "<group>"; };
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
+		70F4BD09297773C7005528A1 /* PenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalListView.swift; sourceTree = "<group>"; };
+		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		EE0CC7982976D9C90096A873 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +99,7 @@
 		7068B6B6297694BA005D6B7B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				70F4BD0B29778E38005528A1 /* Components */,
 				7068B6BB2976950F005D6B7B /* Home */,
 				7068B6BA2976950B005D6B7B /* Penpal */,
 				7068B6B929769505005D6B7B /* Profile */,
@@ -128,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				7068B6BF29769522005D6B7B /* MainPenpalView.swift */,
+				70F4BD0829776F8B005528A1 /* PenpalList */,
 			);
 			path = Penpal;
 			sourceTree = "<group>";
@@ -142,6 +148,22 @@
 				6840F02629777F79008CF2D5 /* SelectTagsView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		70F4BD0829776F8B005528A1 /* PenpalList */ = {
+			isa = PBXGroup;
+			children = (
+				70F4BD09297773C7005528A1 /* PenpalListView.swift */,
+			);
+			path = PenpalList;
+			sourceTree = "<group>";
+		};
+		70F4BD0B29778E38005528A1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,12 +237,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
+				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
 				6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				EE0CC7992976D9C90096A873 /* RepositoryDetailView.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
+				70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 			);
