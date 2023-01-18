@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */; };
 		6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */; };
 		6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyPenpalListView.swift; sourceTree = "<group>"; };
 		6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalInfoView.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				7068B6BF29769522005D6B7B /* MainPenpalView.swift */,
+				6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */,
 				6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */,
 				6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */,
 			);
@@ -215,6 +218,7 @@
 				6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
+				6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

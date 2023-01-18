@@ -22,6 +22,7 @@ struct ChatDetailView: View {
     ]
     @State private var showingSheet : Bool = false
     @State private var updateMessageField : String = "기존 메세지 내용입니다."
+    @Binding var naviIsActive : Bool
     
     //TODO: -Navigation Toolbar 추가
     var body: some View {
@@ -134,7 +135,7 @@ struct ChatDetailView: View {
             
             ToolbarItem(placement : .navigationBarTrailing) {
                 NavigationLink {
-                    PenpalInfoView()
+                    PenpalInfoView(naviIsActive: $naviIsActive)
                         .navigationTitle("대화 정보")
                         .navigationBarTitleDisplayMode(.inline)
                 } label: {
@@ -219,6 +220,6 @@ struct MessageCell : View {
 
 struct ChatDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatDetailView()
+        ChatDetailView(naviIsActive: .constant(false))
     }
 }
