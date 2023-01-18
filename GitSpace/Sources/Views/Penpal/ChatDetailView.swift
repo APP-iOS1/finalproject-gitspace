@@ -130,6 +130,16 @@ struct ChatDetailView: View {
                     Text("Taeyoung Won")
                 }
             }
+            
+            ToolbarItem(placement : .navigationBarTrailing) {
+                NavigationLink {
+                    PenpalInfoView()
+                        .navigationTitle("대화 정보")
+                        .navigationBarTitleDisplayMode(.inline)
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+            }
         }
         .sheet(isPresented: $showingSheet, content: {
             
