@@ -130,37 +130,66 @@ struct StarredView: View {
                 
                 /* repository list */
                 ForEach(repositoryList) { repository in
-                    NavigationLink {
-                        /* Repository Detail View */
-                    } label: {
+                    ZStack {
                         RepositoryCardView {
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text(repository.owner)
-                                        .font(.body)
-                                        .multilineTextAlignment(.leading)
-                                        .foregroundColor(.black)
-                                    Spacer()
-                                    Button(action: { print("penpal") }) {
-                                        Image(systemName: "message.circle.fill")
+                            HStack {
+                                NavigationLink {
+                                    /* Repository Detail View */
+                                    Text("Repository Detail View")
+                                } label: {
+                                    VStack(alignment: .leading) {
+                                        HStack(alignment: .top) {
+                                            VStack(alignment: .leading) {
+                                                Text(repository.name)
+                                                    .font(.body)
+                                                    .multilineTextAlignment(.leading)
+                                                    .foregroundColor(.black)
+                                                Text(repository.owner)
+                                                    .font(.title2)
+                                                    .padding(.bottom, 1)
+                                                    .multilineTextAlignment(.leading)
+                                                    .foregroundColor(.black)
+                                            }
+                                            Spacer()
+                                        }
+                                        
+                                        Text(repository.description)
+                                            .font(.caption)
+                                            .multilineTextAlignment(.leading)
+                                            .foregroundColor(.gray)
                                     }
-                                    Button(action: { print("ellipsis") }) {
-                                        Image(systemName: "ellipsis")
-                                    }
+                                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                                 }
-                                Text(repository.name)
-                                    .font(.title2)
-                                    .padding(.bottom, 1)
-                                    .multilineTextAlignment(.leading)
-                                    .foregroundColor(.black)
-                                
-                                Text(repository.description)
-                                    .font(.caption)
-                                    .multilineTextAlignment(.leading)
-                                    .foregroundColor(.gray)
                             }
-                            .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                         }
+                        VStack {
+                            /* Penpal, Menu button */
+                             HStack {
+                                Spacer()
+                                NavigationLink(destination: { Text("PenpalView") }) {
+                                    Image(systemName: "message.circle.fill")
+                                }
+                                Menu {
+                                    Button(action: { print("Share") }) {
+                                        Text("Share")
+                                        Image(systemName: "square.and.arrow.up")
+                                    }
+                                    Button(action: { print("Penpal") }) {
+                                        Text("Penpal")
+                                        Image(systemName: "message")
+                                    }
+                                    Button(action: { print("Modify Tags") }) {
+                                        Text("Modify Tags")
+                                        Image(systemName: "tag")
+                                    }
+                                } label: {
+                                    Image(systemName: "ellipsis")
+                                        .frame(height: 20)
+                                }
+                            }
+                            Spacer()
+                        }
+                        .offset(x: -20, y: 20)
                     }
                 }
             }
