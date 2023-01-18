@@ -5,7 +5,8 @@ import SwiftUI
 struct MainProfileView: View {
     var body: some View {
         VStack(alignment: .leading){ //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
-            profileSectionView()
+            ProfileSectionView()
+				.padding(.horizontal, 10)
             Spacer()
         }
         .toolbar{
@@ -15,13 +16,6 @@ struct MainProfileView: View {
                 } label: {
                     Image(systemName: "gearshape")
                 }
-                NavigationLink {
-                    ProfileSettingView() //추후 Send Knock View로 변경해야함
-                } label: {
-                    Image(systemName: "square.and.pencil")
-                }
-
-                
             }
         }
         

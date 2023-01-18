@@ -17,7 +17,7 @@ struct ProfileDetailView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10){ //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
             
-            profileSectionView()
+            ProfileSectionView()
             
             HStack{ //MARK: - follow, knock 버튼을 위한 stack
                 Button { /// 누르면 follow, unfollow로 전환
@@ -65,7 +65,7 @@ struct ProfileDetailView: View {
 }
 
 //MARK: - 재사용되는 profile section을 위한 뷰 (이미지, 이름, 닉네임, description, 위치, 링크, 팔로잉 등)
-struct profileSectionView: View {
+struct ProfileSectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
             HStack{ //MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
@@ -73,8 +73,8 @@ struct profileSectionView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: 100)
-                
-                
+
+
                 VStack(alignment: .leading){ // 이름, 닉네임
                     Text("여기에 사람 이름이 들어갈거임.")
                         .bold()
@@ -83,6 +83,7 @@ struct profileSectionView: View {
                     Text("@ 여기에 사람 닉네임 들어감.")
                 }
                 
+				Spacer()
             }
             
             //MARK: - 프로필 자기 ..설명..?
@@ -105,6 +106,7 @@ struct profileSectionView: View {
                     .bold()
             }
         }
+		.padding(.horizontal, 10)
     }
 }
 

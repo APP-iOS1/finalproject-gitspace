@@ -14,10 +14,10 @@ struct SendKnockModal: View {
 	@Binding var isKnockModalDisplayed: Bool
 	
 	var body: some View {
-		ScrollView {
-			Spacer()
-				.frame(maxHeight: 200)
-			
+		VStack {
+//			Spacer()
+//				.frame(maxHeight: 200)
+//
 			Text("Select Knock Message")
 				.bold()
 				.font(.title3)
@@ -37,8 +37,6 @@ struct SendKnockModal: View {
 				}
 					.multilineTextAlignment(.center)
 					.padding(.vertical, 10)
-				
-				Spacer()
 				
 				Text("""
 상대방은 노크 메시지를 받고 응답을 거절할 권리가 있으며,
@@ -84,7 +82,7 @@ KnockBox에서 확인할 수 있습니다.
 						TextEditor(text: $usersKnockMessages)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.never)
-							.frame(maxWidth: UIScreen.main.bounds.width - 20, minHeight: 50)
+							.frame(maxWidth: UIScreen.main.bounds.width - 20, maxHeight: 150)
 							.focused($textEditingState, equals: .textEditor)
 							.onAppear {
 								textEditingState = .textEditor
@@ -98,9 +96,7 @@ KnockBox에서 확인할 수 있습니다.
 							Image(systemName: "xmark")
 						}
 						.frame(minWidth: 30, minHeight: 30)
-						
 					}
-					
 					
 					Spacer()
 					
@@ -109,8 +105,26 @@ KnockBox에서 확인할 수 있습니다.
 				}
 				.padding(.horizontal, 20)
 			}
+			
+//			VStack {
+//				// 멀티셀렉팅 가능하게 하고 여러 사람에게 노크 보내기
+//				Text("이 레포의 기여자 중 누구에게 노크메시지를 보낼까요~")
+//
+//				Text("덕배")
+//				Text("춘만이")
+//				Text("꽃순이")
+//			}
+			ContributorListView()
 		}
 		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				Button {
+					isKnockModalDisplayed.toggle()
+				} label: {
+					Text("Cancel")
+				}
+			}
+			
 			ToolbarItem {
 				Button {
 					switch knockMessages {
@@ -126,7 +140,7 @@ KnockBox에서 확인할 수 있습니다.
 				} label: {
 					Text("Send")
 				}
-				.disabled(usersKnockMessages.isEmpty ? true : false)
+//				.disabled(usersKnockMessages.isEmpty ? true : false)
 			}
 		}
 	}
