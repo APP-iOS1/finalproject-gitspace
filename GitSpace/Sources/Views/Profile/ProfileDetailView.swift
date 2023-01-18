@@ -9,7 +9,7 @@ import SwiftUI
 
 //TODO: - kncokSheetView 70%만 뜰 수 있도록 수정...(iOS 15에선 너무 까다롭다..)
 
-struct profileDetailView: View {
+struct ProfileDetailView: View {
     
     @State var followButtonLable: String = "+ Follow" //follow/unfollow 버튼 lable(누를 시 텍스트 변환을 위해 state 변수로 선언)
     @State var showKnockSheet: Bool = false //knock 버튼 눌렀을 때 sheet view 띄우는 것에 대한 Bool state var.
@@ -120,8 +120,8 @@ struct knockSheetView: View {
     }
 }
 
-struct profileDetailView_Previews: PreviewProvider {
+struct ProfileDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        profileDetailView()
+        ProfileDetailView()
     }
 }
