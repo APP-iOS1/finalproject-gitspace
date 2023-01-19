@@ -1,7 +1,7 @@
 ---
 name: Issue 
 about: 해당 Issue 대한 작업(Task)를 적어주세요!
-title: ""
+title: "[Feat]"
 labels: ''
 assignees: ''
 
