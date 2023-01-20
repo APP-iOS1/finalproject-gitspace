@@ -19,12 +19,10 @@ class CollectionGroupViewModel: ObservableObject {
         self.reviews = reviews
     }
     
-    
     func requestData(userID : String) {
         
         db.collectionGroup("Review")
-            .whereField("userID", isEqualTo: "kaz")
-            .order(by: "content")
+            .whereField("userID", isEqualTo: userID)
             .getDocuments { (snapshot, error) in
                 self.reviews.removeAll()
                 
