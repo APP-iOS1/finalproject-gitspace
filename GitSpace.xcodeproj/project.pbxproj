@@ -23,6 +23,8 @@
 		6E199B0F297A18B100F88569 /* CollectionGroupResearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */; };
 		6E199B11297A18EF00F88569 /* CollectionGroupResearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */; };
 		6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B12297A1B5300F88569 /* CollectionGroupView.swift */; };
+		6E199B15297A291A00F88569 /* ListenerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B14297A291A00F88569 /* ListenerView.swift */; };
+		6E199B17297A2A0300F88569 /* ListenerResearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */; };
 		6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */; };
 		6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */; };
 		6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */; };
@@ -54,6 +56,8 @@
 		6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchModel.swift; sourceTree = "<group>"; };
 		6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchViewModel.swift; sourceTree = "<group>"; };
 		6E199B12297A1B5300F88569 /* CollectionGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupView.swift; sourceTree = "<group>"; };
+		6E199B14297A291A00F88569 /* ListenerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerView.swift; sourceTree = "<group>"; };
+		6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerResearchViewModel.swift; sourceTree = "<group>"; };
 		6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyPenpalListView.swift; sourceTree = "<group>"; };
 		6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalInfoView.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				7068B6BA2976950B005D6B7B /* Penpal */,
 				7068B6B929769505005D6B7B /* Profile */,
 				6E199B12297A1B5300F88569 /* CollectionGroupView.swift */,
+				6E199B14297A291A00F88569 /* ListenerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */,
+				6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -310,11 +316,13 @@
 				6E199B11297A18EF00F88569 /* CollectionGroupResearchViewModel.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
+				6E199B15297A291A00F88569 /* ListenerView.swift in Sources */,
 				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
 				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
+				6E199B17297A2A0300F88569 /* ListenerResearchViewModel.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */,
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
