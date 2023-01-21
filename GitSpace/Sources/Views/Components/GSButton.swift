@@ -19,9 +19,9 @@ struct GSButton {
 	}
 	
 	// 추상화 하는 이유 : 뷰 통일성, 수정에 용이하다.
-	struct ContentView<ContentView: View>: View {
-		typealias FunctionType = () -> Void
-		
+	// 뷰 자체의 내용은 밖에서 전달.
+	// 뷰의 형식만 정의.
+	struct ContentView<ContentView: View>: View {		
 		var style: ButtonStyle
 		var tagSelection: Binding<Bool>?
 		var action: () -> Void
