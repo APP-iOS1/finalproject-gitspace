@@ -189,6 +189,18 @@ struct StarredView: View {
                                         Text("Share")
                                         Image(systemName: "square.and.arrow.up")
                                     }
+									
+									GSButton.ContentView (
+										style: .symbols) {
+											print("Share")
+										} content: {
+											Group {
+												Text("Share")
+												Image(systemName: "square.and.arrow.up")
+											}
+										}
+
+									
                                     Button(action: { print("Penpal") }) {
                                         Text("Penpal")
                                         Image(systemName: "message")
