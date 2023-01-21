@@ -20,9 +20,8 @@ class ListenerViewModel: ObservableObject {
     }
     
     func requestData(userID : String) {
-        
         db.collectionGroup("Review")
-//            .whereField("userID", isEqualTo: userID)
+            .whereField("userID", isEqualTo: userID)
             .getDocuments { (snapshot, error) in
                 self.reviews.removeAll()
                 
@@ -46,6 +45,7 @@ class ListenerViewModel: ObservableObject {
                 }
             }
     }
+    //TODO: API에서 async await concurrency 지원하는지 여부 파악
     
     func addListener() {
         
@@ -55,7 +55,6 @@ class ListenerViewModel: ObservableObject {
                     print("Error fetching documents: \(error!)")
                     return
                 }
-                
                 querySnapshot?.documentChanges.forEach { diff in
                     if (diff.type == .added) {
                         // message add
