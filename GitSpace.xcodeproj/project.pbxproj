@@ -35,6 +35,7 @@
 		7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BF29769522005D6B7B /* MainPenpalView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
+		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD09297773C7005528A1 /* PenpalListView.swift */; };
 		70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
@@ -81,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */,
 				6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */,
 				6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */,
 				6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */,
@@ -105,6 +107,7 @@
 			children = (
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
+				70D07379297D69CE0049A359 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -213,6 +216,13 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		70D07379297D69CE0049A359 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		70F4BD0829776F8B005528A1 /* PenpalList */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +261,7 @@
 				6E199B06297A161000F88569 /* FirebaseAuth */,
 				6E199B08297A161000F88569 /* FirebaseFirestore */,
 				6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */,
+				70D0737A297D69CE0049A359 /* FirebaseMessaging */,
 			);
 			productName = GitSpace;
 			productReference = 7068B6A429769448005D6B7B /* GitSpace.app */;
@@ -566,6 +577,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		70D0737A297D69CE0049A359 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
