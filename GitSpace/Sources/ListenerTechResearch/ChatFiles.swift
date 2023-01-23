@@ -41,6 +41,8 @@ import FirebaseFirestore
 class ChatCellStore : ObservableObject {
     
     @Published var chatCells : [ChatCell]
+    var listener : ListenerRegistration?
+    
     
     let database = Firestore.firestore()
     
@@ -105,27 +107,21 @@ class ChatCellStore : ObservableObject {
         return newChatCell
     }
     
-    
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
     
     func addListener() {
-        
-        let oldChatList = self.chatCells
-        
-        database.collectionGroup("ChatCell").addSnapshotListener { snapshot, error in
+        listener = database.collectionGroup("ChatCell").addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
                     print("Error fetching documents: \(error!)")
                     return
                 }
-                
                 // document 변경 사항에 대해 감지해서 작업 수행
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
                         print("added")
                         self.chatCells.append(self.fetchNewChat(newChat: diff.document))
-                        
                     case .modified:
                         print("modified")
                     case .removed:
@@ -133,9 +129,13 @@ class ChatCellStore : ObservableObject {
                     }
                 }
             }
-        
-        print("마지막")
-        chatCells = oldChatList
+    }
+    
+    func removeListener() {
+        guard listener != nil else {
+            return
+        }
+        listener!.remove()
     }
 }
 
@@ -157,9 +157,13 @@ struct ChatView : View {
             Button {
                 chatCellStore.addListener()
             } label: {
-                Text("리스너 스타느")
+                Text("리스너 스타트")
             }
-
+            Button {
+                chatCellStore.removeListener()
+            } label: {
+                Text("리스너 스탑")
+            }
             
             // 채팅 메세지 스크롤 뷰
             ScrollView {
