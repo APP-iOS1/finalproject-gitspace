@@ -24,7 +24,8 @@ struct GitSpaceApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CollectionGroupView()
+            ContentView()
+                .environmentObject(AuthStore())
         }
     }
 }
