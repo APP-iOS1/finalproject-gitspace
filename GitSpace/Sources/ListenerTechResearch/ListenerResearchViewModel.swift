@@ -49,24 +49,23 @@ class ListenerViewModel: ObservableObject {
     
     func addListener() {
         
-        db.collectionGroup("Review")
-            .addSnapshotListener { querySnapshot, error in
-                guard let documents = querySnapshot?.documents else {
+        db.collectionGroup("Review").addSnapshotListener { snapshot, error in
+                // snapshot이 비어있으면 에러 출력 후 리턴
+                guard let snp = snapshot else {
                     print("Error fetching documents: \(error!)")
                     return
                 }
-                querySnapshot?.documentChanges.forEach { diff in
-                    if (diff.type == .added) {
-                        // message add
+                
+                // document 변경 사항에 대해 감지해서 작업 수행
+                snp.documentChanges.forEach { diff in
+                    switch diff.type {
+                    case .added:
+                        print("added")
                         
-                        print("New Message: \(diff.document.data())")
-                        self.requestData(userID: "kaz")
-                    }
-                    if (diff.type == .modified) {
-                        print("Modified Message: \(diff.document.data())")
-                    }
-                    if (diff.type == .removed) {
-                        print("Removed Message: \(diff.document.data())")
+                    case .modified:
+                        print("modified")
+                    case .removed:
+                        print("removed")
                     }
                 }
             }
@@ -87,3 +86,7 @@ class ListenerViewModel: ObservableObject {
 }
 
 
+// TODO: -해야할 거
+/// 1. snapshotListener에서 단일로 Cell을 추가하거나 삭제하는 것이 가능한지
+/// 2. 업데이트 된 단일 Cell이 View에 반영되는지
+/// 3. remove할 때 인덱스 번호로 찾아가서 걔만 지울 수 있는지
