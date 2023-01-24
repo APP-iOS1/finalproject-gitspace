@@ -39,8 +39,26 @@ extension Color {
 		.init(hex: "#E0FF66")
 	}
 	
-	static var gsYelloPrimary: Self {
+	static var gsYellowPrimary: Self {
 		.init(hex: "#FAFF10")
+	}
+	
+	static var gsRed: Self {
+		.init(hex: "#FF611E")
+	}
+	
+	/// Disabled Button Color in Lightmode and Darkmode
+	static var gsLightGray1: Self {
+		.init(hex: "#8D8F97")
+	}
+	
+	/// SearchBar Input Background Color in Lightmode and Darkmode
+	static var gsLightGray2: Self {
+		.init(hex: "#A8AeB4")
+	}
+	
+	static var gsDarkGray: Self {
+		.init(hex: "#FF611E")
 	}
 	
 	static let captionRed = Color(hex : "#cc0000")
