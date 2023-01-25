@@ -7,20 +7,25 @@
 
 import SwiftUI
 
-struct GSButton {
-	enum ButtonStyle {
+public struct GSButton {
+	
+	/**
+	 각 버튼의 케이스에 따라 기본 레이아웃을 구성합니다.
+	 - Important: 각 케이스는 연관 값을 갖고 있으며 `hometab` 케이스의 경우, 그 연관값을 **필수**로 입력해야 합니다.
+	 `primary`와 `secondary` 케이스의 연관값은 필수가 아니며, 연관값을 할당하면 GSButton의 label 을 **비운 채로** UI를 그릴 수 있습니다.
+	*/
+	public enum GSButtonStyle {
 		case primary(labelTitle: String? = nil)
-		case secondary(labelTitle: String? = nil)
+		case secondary(labelTitle: String? = nil,
+					   isDisabled: Bool)
 		case tag
-		case plainText(labelTitle: String)
-		case homeTab(labelTitle: String, tag: Binding<String>)
+		case plainText(isDestructive: Bool)
+		case homeTab(tabName: String,
+					 tabSelection: Binding<String>)
 	}
 	
-	// 추상화 하는 이유 : 뷰 통일성, 수정에 용이하다.
-	// 뷰 자체의 내용은 밖에서 전달.
-	// 뷰의 형식만 정의.
 	struct CustomButtonView<CustomLabelType: View>: View {
-		public let style: ButtonStyle
+		public let style: GSButtonStyle
 		public let action: () -> Void
 		public var label: CustomLabelType?
 		
@@ -31,43 +36,73 @@ struct GSButton {
 					if let labelTitle {
 						Text(labelTitle)
 							.bold()
-							.buttonLabelSizeModifier(buttonLabelStyle: .primary)
+							.buttonLabelLayoutModifier(
+								buttonLabelStyle: .primary
+							)
 					} else {
 						label
-							.buttonLabelSizeModifier(buttonLabelStyle: .primary)
-						
+							.buttonLabelLayoutModifier(
+								buttonLabelStyle: .primary
+							)
 					}	
 				}
-				.buttonColorSchemeModifier()
+				.buttonColorSchemeModifier(style: style)
 				
-			case .secondary(let labelTitle):
+			case .secondary(let labelTitle, let isDisabled):
 				Button(action: action) {
 					if let labelTitle {
 						Text(labelTitle)
 							.bold()
-							.buttonLabelSizeModifier(buttonLabelStyle: .secondary)
+							.buttonLabelLayoutModifier(
+								buttonLabelStyle: .secondary(isDisabled: isDisabled)
+							)
 					} else {
 						label
-							.buttonLabelSizeModifier(buttonLabelStyle: .secondary)
+							.buttonLabelLayoutModifier(
+								buttonLabelStyle: .secondary(isDisabled: isDisabled)
+							)
 					}
 				}
-				.buttonColorSchemeModifier()
+				.buttonColorSchemeModifier(style: style)
 			case .tag:
 				Button(action: action) {
 					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .tag
+						)
 				}
-			case .plainText:
+				.buttonColorSchemeModifier(style: style)
+				
+			// MARK: - DONE
+			case .plainText(let isDestructive):
 				Button(action: action) {
 					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .plainText(
+								isDestructive: isDestructive
+							)
+						)
 				}
-			case .homeTab:
+				.buttonColorSchemeModifier(style: style)
+		
+			// MARK: - DONE
+			case .homeTab(let tabName, let tabSelection):
 				Button(action: action) {
 					label
+						.overlay(alignment: .bottom) {
+							if tabName == tabSelection.wrappedValue {
+								Divider()
+									.frame(minHeight: 2)
+									.overlay(Color.primary)
+									.offset(y: 3)
+							}
+						}
 				}
 			}
 		}
 		
-		init(style: ButtonStyle,
+		// Simple Initializer
+		init(style: GSButtonStyle,
 			 action: @escaping () -> Void,
 			 @ViewBuilder label: () -> CustomLabelType) {
 			self.style = style
@@ -78,39 +113,82 @@ struct GSButton {
 }
 
 struct Test2: View {
-	@State private var tabSelection = "Starred"
-	
-	@State private var starTab = "Starred"
-	@State private var followTab = "Follow"
+	private let starTab = "Starred"
+	private let followTab = "Following"
+	@State private var isDisabled = false
+	@State private var selectedHomeTab = "Starred"
+	@Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
 		VStack {
-			GSButton.CustomButtonView(style: .primary()) {
-				print()
+			GSButton.CustomButtonView(
+				style: .secondary(
+					labelTitle: nil,
+					isDisabled: isDisabled
+				)
+			) {
+				withAnimation {
+					isDisabled.toggle()
+				}
 			} label: {
 				HStack {
-					Text("✨")
-					
-					Text("Hi")
+					Text("HiHI")
 				}
+			}
+			
+			HStack {
+				GSButton.CustomButtonView(
+					style: .homeTab(
+						tabName: starTab,
+						tabSelection: $selectedHomeTab
+					)
+				) {
+					withAnimation {
+						selectedHomeTab = starTab
+					}
+				} label: {
+					Text(starTab)
+						.foregroundColor(.primary)
+						.bold()
+				}
+				.tag(starTab)
+				
+				GSButton.CustomButtonView(
+					style: .homeTab(
+						tabName: followTab,
+						tabSelection: $selectedHomeTab
+					)
+				) {
+					withAnimation {
+						selectedHomeTab = followTab
+					}
+				} label: {
+					Text(followTab)
+						.foregroundColor(.primary)
+						.bold()
+				}
+				.tag(followTab)
+				
+				Spacer()
+			}
+			.overlay(alignment: .bottom) {
+				Divider()
+					.frame(minHeight: 0.5)
+					.overlay(Color.primary)
+					.offset(y: 3.5)
+			}
+			.padding(16)
+			
+			GSButton.CustomButtonView(
+				style: .plainText(isDestructive: false)
+			) {
+				print()
+			} label: {
+				Text("??")
 			}
 		}
 	}
 	
-	private func tabMoveTo() -> Void {
-		switch tabSelection {
-		case starTab:
-			withAnimation {
-				tabSelection = followTab
-			}
-		case followTab:
-			withAnimation {
-				tabSelection = starTab
-			}
-		default:
-			tabSelection = "?.?"
-		}
-	}
 }
 
 struct GSButton_Previews: PreviewProvider {
