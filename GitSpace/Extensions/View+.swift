@@ -9,34 +9,34 @@ import SwiftUI
 
 // TODO: 어째서 뷰가 Button Modifier를 가져야 하는가..? 아니면 이걸 기똥차게 분리할 수 있나..?
 extension View {
-	public func buttonLabelLayoutModifier(buttonLabelStyle: ButtonLabelType) -> some View {
+	public func buttonLabelLayoutModifier(buttonLabelStyle: GSButton.GSButtonStyle) -> some View {
 		modifier(ButtonLabelLayoutModifier(buttonLabel: buttonLabelStyle))
 	}
 }
 
 public struct ButtonLabelLayoutModifier: ViewModifier {
-	public let buttonLabel: ButtonLabelType
+	public let buttonLabel: GSButton.GSButtonStyle
 	
 	public func body(content: Content) -> some View {
 		switch buttonLabel {
-		case .primary:
+		case .primary(let isDisabled):
 			content
 				.padding(.horizontal, 34)
 				.padding(.vertical, 18)
 				.frame(minWidth: 150)
-				.foregroundColor(.black)
+				.foregroundColor(isDisabled ? Color.white : Color.primary)
 		case .secondary(let isDisabled):
 			content
 				.padding(.horizontal, 23)
 				.padding(.vertical, 13)
 				.frame(minWidth: 80)
-				.foregroundColor(isDisabled ? .white : .black)
-		case .tag:
+				.foregroundColor(isDisabled ? .white : Color.primary)
+		case .tag(let isEditing, let isSelected):
 			content
 				.padding(.horizontal, 12)
 				.padding(.vertical, 9)
 				.frame(minWidth: 62)
-				.foregroundColor(.black)
+				.foregroundColor(isSelected ? Color.primary : Color.white)
 		case .homeTab:
 			content
 				.foregroundColor(Color.primary)
@@ -46,7 +46,7 @@ public struct ButtonLabelLayoutModifier: ViewModifier {
 		}
 	}
 	
-	fileprivate init(buttonLabel: ButtonLabelType) {
+	fileprivate init(buttonLabel: GSButton.GSButtonStyle) {
 		self.buttonLabel = buttonLabel
 	}
 }

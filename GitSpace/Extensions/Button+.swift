@@ -18,9 +18,7 @@ extension Button {
 			// MARK: - LIGHT MODE
 			case .light: // light Mode
 				switch style { // Button Style
-				case .primary:
-					content
-				case .secondary(_, let isDisabled):
+				case .primary(let isDisabled):
 					content
 						.buttonBorderShape(.capsule)
 						.buttonStyle(.borderedProminent)
@@ -29,10 +27,20 @@ extension Button {
 								radius: 9,
 								x: 0,
 								y: 9)
-				case .tag:
+				case .secondary(let isDisabled):
 					content
 						.buttonBorderShape(.capsule)
 						.buttonStyle(.borderedProminent)
+						.tint(isDisabled ? .gsLightGray1 : .gsGreenPrimary)
+						.shadow(color: .gsYellowPrimary.opacity(0.21),
+								radius: 9,
+								x: 0,
+								y: 9)
+				case .tag(let isEditing, let isSelected):
+					content
+						.buttonBorderShape(.capsule)
+						.buttonStyle(.borderedProminent)
+						.tint(isSelected ? Color.gsGreenPrimary : Color.primary)
 				case .plainText,
 						.homeTab:
 					content
@@ -52,10 +60,12 @@ extension Button {
 								radius: 36,
 								x: 0,
 								y: 14)
-				case .tag:
+				case .tag(let isEditing, let isSelected):
 					content
 						.buttonBorderShape(.capsule)
 						.buttonStyle(.borderedProminent)
+						.tint(isSelected ? Color.gsYellowPrimary : Color.gsDarkGray)
+//						.tint(tagButtonColorModifier(isEditing: isEditing, isSelected: isSelected))
 				case .plainText(let isDestructive):
 					content
 						.foregroundColor(isDestructive ? .gsRed : .white)
@@ -70,6 +80,12 @@ extension Button {
 		
 		fileprivate init(style: GSButton.GSButtonStyle) {
 			self.style = style
+		}
+		
+		// TODO: - branch Processing for each Bool Value
+		private func tagButtonColorModifier(isEditing: Bool, isSelected: Bool) -> Color {
+			if isEditing, isSelected { return .primary }
+			else { return .gsGreenPrimary }
 		}
 	}
 	
