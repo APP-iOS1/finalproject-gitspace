@@ -15,10 +15,10 @@ public struct GSButton {
 	 `primary`와 `secondary` 케이스의 연관값은 필수가 아니며, 연관값을 할당하면 GSButton의 label 을 **비운 채로** UI를 그릴 수 있습니다.
 	*/
 	public enum GSButtonStyle {
-		case primary(labelTitle: String? = nil)
-		case secondary(labelTitle: String? = nil,
-					   isDisabled: Bool)
-		case tag
+		case primary(isDisabled: Bool)
+		case secondary(isDisabled: Bool)
+		case tag(isEditing: Bool,
+				 isSelected: Bool = false)
 		case plainText(isDestructive: Bool)
 		case homeTab(tabName: String,
 					 tabSelection: Binding<String>)
@@ -31,44 +31,39 @@ public struct GSButton {
 		
 		var body: some View {
 			switch style {
-			case .primary(let labelTitle):
-				Button(action: action) {
-					if let labelTitle {
-						Text(labelTitle)
-							.bold()
-							.buttonLabelLayoutModifier(
-								buttonLabelStyle: .primary
-							)
-					} else {
-						label
-							.buttonLabelLayoutModifier(
-								buttonLabelStyle: .primary
-							)
-					}	
-				}
-				.buttonColorSchemeModifier(style: style)
 				
-			case .secondary(let labelTitle, let isDisabled):
-				Button(action: action) {
-					if let labelTitle {
-						Text(labelTitle)
-							.bold()
-							.buttonLabelLayoutModifier(
-								buttonLabelStyle: .secondary(isDisabled: isDisabled)
-							)
-					} else {
-						label
-							.buttonLabelLayoutModifier(
-								buttonLabelStyle: .secondary(isDisabled: isDisabled)
-							)
-					}
-				}
-				.buttonColorSchemeModifier(style: style)
-			case .tag:
+			// MARK: DONE
+			case .primary(let isDisabled):
 				Button(action: action) {
 					label
 						.buttonLabelLayoutModifier(
-							buttonLabelStyle: .tag
+							buttonLabelStyle: .primary(
+								isDisabled: isDisabled
+							)
+						)
+				}
+				.buttonColorSchemeModifier(style: style)
+			
+			// MARK: - DONE
+			case .secondary(let isDisabled):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .secondary(
+								isDisabled: isDisabled
+							)
+						)
+				}
+				.buttonColorSchemeModifier(style: style)
+				
+			case .tag(let isEditing, let isSelected):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .tag(
+								isEditing: isEditing,
+								isSelected: isSelected
+							)
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
@@ -116,15 +111,17 @@ struct Test2: View {
 	private let starTab = "Starred"
 	private let followTab = "Following"
 	@State private var isDisabled = false
+	@State private var isEditing = false
+	@State private var isSelected = false
+	
 	@State private var selectedHomeTab = "Starred"
 	@Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
 		VStack {
 			GSButton.CustomButtonView(
-				style: .secondary(
-					labelTitle: nil,
-					isDisabled: isDisabled
+				style: .primary(
+					isDisabled: true
 				)
 			) {
 				withAnimation {
@@ -132,9 +129,27 @@ struct Test2: View {
 				}
 			} label: {
 				HStack {
+					Text("✨")
+					
 					Text("HiHI")
 				}
 			}
+			
+			GSButton.CustomButtonView(
+				style: .tag(
+					isEditing: isEditing,
+					isSelected: isSelected
+				)
+			) {
+				withAnimation {
+					isSelected.toggle()
+				}
+			} label: {
+				Text("?")
+					.font(.callout)
+					.bold()
+			}
+			.tag("HI")
 			
 			HStack {
 				GSButton.CustomButtonView(
@@ -148,6 +163,7 @@ struct Test2: View {
 					}
 				} label: {
 					Text(starTab)
+						.font(.title3)
 						.foregroundColor(.primary)
 						.bold()
 				}
@@ -164,6 +180,7 @@ struct Test2: View {
 					}
 				} label: {
 					Text(followTab)
+						.font(.title3)
 						.foregroundColor(.primary)
 						.bold()
 				}
@@ -180,7 +197,9 @@ struct Test2: View {
 			.padding(16)
 			
 			GSButton.CustomButtonView(
-				style: .plainText(isDestructive: false)
+				style: .plainText(
+					isDestructive: false
+				)
 			) {
 				print()
 			} label: {
