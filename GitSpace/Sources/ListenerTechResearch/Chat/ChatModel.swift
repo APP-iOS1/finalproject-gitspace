@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 채팅방 모델
 struct Chat : Identifiable {
     let id : String // 채팅방 ID
     let date : Double // 생성 날짜
