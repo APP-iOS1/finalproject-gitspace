@@ -22,8 +22,7 @@ struct ChatView: View {
                 NavigationLink {
                     ChatDetailView(chat: chat)
                 } label: {
-                    ListCellLabel(chat: chat,
-                                  userStore: userStore)
+                    ListCellLabel(chat: chat)
                     .foregroundColor(.black)
                 }
             }
@@ -37,30 +36,23 @@ struct ChatView: View {
 struct ListCellLabel : View {
     
     let chat : Chat
+    @EnvironmentObject var userStore : UserStore
     
     var body: some View {
-        
-        let enemyID = chat.userIDList.filter{$0 != userUID}.first ?? "ID 확인 불가"
-        let enemyName = userStore.userList[enemyID]?.name ?? "이름 확인 불가"
         
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Label(enemyName, systemImage: "person.fill")
-                        .bold()
+                    Label(userStore.targetUserName, systemImage: "person.fill")
                         .font(.title2)
                         .padding(.bottom, 10)
-                    
-                    Text(board.title)
-                        .font(.title3)
                 }
                 
                 Spacer()
                 // 날짜, 시간
                 VStack(alignment:.trailing) {
-                    let dateTime = ChatStore().parseStringDate(strDate: chat.stringDate)
-                    Text(dateTime.date)
-                    Text(dateTime.time)
+                    Text(chat.stringLastDate)
+                    Text(chat.stringLastTime)
                 }
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -71,6 +63,9 @@ struct ListCellLabel : View {
             // 마지막 채팅 메세지
             Text(chat.lastContent)
             
+        }
+        .task {
+            userStore.requestTargetUserName(targetID: chat.targetID)
         }
         .padding()
         .background(Color("mango"))
