@@ -28,6 +28,7 @@ struct GitSpaceApp: App {
                 .environmentObject(AuthStore())
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
+                .environmentObject(UserStore())
         }
     }
 }
