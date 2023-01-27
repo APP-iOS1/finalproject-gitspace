@@ -14,13 +14,31 @@ struct ContentView: View {
     var body: some View {
         Group {
             if authStore.isLogin {
+                
                 TabView {
+                    NavigationView {
+                        UserView()
+                    }
+                    .tabItem {
+                        Image(systemName: "person.3.fill")
+                    }
+                    
+                    NavigationView {
+                        ChatView()
+                    }
+                    .tabItem {
+                        Image(systemName: "message.fill")
+                    }
+                }
+                /* FIXME: Listener 채팅방 테스트를 위한 기존 탭뷰 주석처리 by. 예슬
+                 TabView {
                     NavigationView {
                         ChatListView()
                     }
                     .tabItem {
                         Image(systemName: "house")
                     }
+                    
                     
                     NavigationView {
                         PenpalListView()
@@ -37,6 +55,7 @@ struct ContentView: View {
                         //Image("그사람프사")
                     }
                 }
+                 */
             } else {
                 NavigationView {
                     LoginView()
