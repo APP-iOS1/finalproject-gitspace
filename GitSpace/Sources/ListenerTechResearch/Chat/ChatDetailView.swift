@@ -11,7 +11,11 @@ import SwiftUI
 struct ChatDetailView : View {
     
     let chat : Chat
+    let isFromUserList : Bool
+    
+    @EnvironmentObject var chatStore : ChatStore
     @EnvironmentObject var messageStore : MessageStore
+    
     @State var isShowingUpdateCell : Bool = false
     @State var currentMessage : Message?
     @State private var contentField : String = ""
@@ -65,7 +69,12 @@ struct ChatDetailView : View {
                 .padding(20)
         }
         .task {
-            messageStore.fetchMessages(chatID: chat.id)
+            if isFromUserList {
+                chatStore.requestChatFromUserList(userIDs: chat.userIDList)
+                messageStore.fetchMessages(chatID: chatStore.targetChat.id)
+            } else {
+                messageStore.fetchMessages(chatID: chat.id)
+            }
         }
         
     }
