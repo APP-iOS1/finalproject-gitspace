@@ -9,6 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 class UserStore : ObservableObject {
+    
+    @Published var targetUserName: String
     @Published var users: [UserInfo]
     
     let db = Firestore.firestore()
@@ -36,6 +38,19 @@ class UserStore : ObservableObject {
                                                         signUpDate: signUpDate)
                         self.users.append(newUserInfo)
                     }
+                }
+            }
+    }
+    
+    func requestTargetUserName(targetID: String) {
+        
+        db
+            .collection("UserInfo")
+            .document(targetID)
+            .getDocument { (snapshot, error) in
+                if let data = snapshot?.data() {
+                    let name = data["name"] as? String ?? ""
+                    self.targetUserName = name
                 }
             }
     }
