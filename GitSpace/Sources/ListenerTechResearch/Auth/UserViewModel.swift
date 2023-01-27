@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 class UserStore : ObservableObject {
     
-    @Published var targetUserName: String
+    @Published var targetUserName: String?
     @Published var users: [UserInfo]
     
     let db = Firestore.firestore()
