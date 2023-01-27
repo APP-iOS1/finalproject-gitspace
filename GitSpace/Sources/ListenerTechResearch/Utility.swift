@@ -6,7 +6,16 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 enum Utility {
+    
+    static var loginUserID : String {
+        guard let currentUser = Auth.auth().currentUser else {
+            return ""
+        }
+        return currentUser.uid
+    }
+    
     
 }
