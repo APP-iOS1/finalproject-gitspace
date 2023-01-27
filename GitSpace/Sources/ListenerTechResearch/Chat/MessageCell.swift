@@ -9,16 +9,13 @@ import SwiftUI
 
 // MARK: -View : 채팅 메세지 셀
 struct MessageCell : View {
-    let userID : String
     let message : Message
     var isMine : Bool {
-        return userID == message.userID
+        return Utility.loginUserID == message.userID
     }
     
     var body: some View {
-        
         HStack(alignment: .bottom) {
-
             switch isMine {
             case true:
                 Spacer()
