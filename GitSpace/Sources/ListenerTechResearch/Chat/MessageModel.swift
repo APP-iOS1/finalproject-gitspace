@@ -7,6 +7,7 @@
 
 import Foundation
 
+// 채팅 메세지 모델
 struct Message : Identifiable {
     let id : String
     let userID : String
