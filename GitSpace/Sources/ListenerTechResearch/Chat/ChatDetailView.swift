@@ -70,8 +70,10 @@ struct ChatDetailView : View {
         }
         .task {
             if isFromUserList {
-                chatStore.requestChatFromUserList(userIDs: chat.userIDList)
-                messageStore.fetchMessages(chatID: chatStore.targetChat.id)
+                if let targetChat = chatStore.targetChat{
+                    chatStore.requestChatFromUserList(userIDs: chat.userIDList)
+                    messageStore.fetchMessages(chatID: targetChat.id)
+                }
             } else {
                 messageStore.fetchMessages(chatID: chat.id)
             }
