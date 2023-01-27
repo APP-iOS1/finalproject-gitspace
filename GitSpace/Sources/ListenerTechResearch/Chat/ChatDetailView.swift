@@ -9,9 +9,9 @@ import SwiftUI
 
 // MARK: -View : 채팅방 뷰
 struct ChatDetailView : View {
-    let userID : String
     
-    @StateObject var messageStore : MessageStore = MessageStore()
+    let chat : Chat
+    @EnvironmentObject var messageStore : MessageStore
     @State var isShowingUpdateCell : Bool = false
     @State var currentMessage : Message?
     @State private var contentField : String = ""
@@ -20,7 +20,7 @@ struct ChatDetailView : View {
         
         VStack {
             Button {
-                messageStore.addListener()
+                messageStore.addListener(chatID: chat.id)
             } label: {
                 Text("리스너 스타트")
             }
@@ -34,7 +34,7 @@ struct ChatDetailView : View {
             ScrollView {
                 ForEach(messageStore.messages) { message in
                     
-                    MessageCell(userID: userID, message: message)
+                    MessageCell(message: message)
                         .contextMenu {
                             
                             Button {
@@ -54,9 +54,8 @@ struct ChatDetailView : View {
                         }
                         .sheet(isPresented: $isShowingUpdateCell) {
                             ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
-                                                   messageStore: <#T##MessageStore#>,
-                                                   chatID: <#T##String#>,
-                                                   message: )
+                                                   chatID: chat.id,
+                                                   message: message)
                         }
                 }
                 
@@ -65,8 +64,8 @@ struct ChatDetailView : View {
             typeContentField
                 .padding(20)
         }
-        .onAppear {
-            messageStore.fetchMessages()
+        .task {
+            messageStore.fetchMessages(chatID: chat.id)
         }
         
     }
@@ -104,7 +103,7 @@ struct ChatDetailView : View {
     private var addContentButton : some View {
         Button {
             let newMessage = makeMessage()
-            messageStore.addMessage(newMessage)
+            messageStore.addMessage(newMessage, chatID: chat.id)
             contentField = ""
         } label: {
             Image(systemName: "paperplane.circle.fill")
@@ -116,7 +115,7 @@ struct ChatDetailView : View {
         
         let date = Date().timeIntervalSince1970
         let message = Message(id: UUID().uuidString,
-                                userID: userUID,
+                                userID: Utility.loginUserID,
                                 content: contentField,
                                 date: date)
         return message
@@ -128,7 +127,7 @@ struct ChatDetailView : View {
 struct ChangeContentSheetView : View {
     @Binding var isShowingUpdateCell : Bool
     @State var changeContentField : String = ""
-    @ObservedObject var messageStore : MessageStore
+    @EnvironmentObject var messageStore : MessageStore
     let chatID : String
     let message : Message
     
