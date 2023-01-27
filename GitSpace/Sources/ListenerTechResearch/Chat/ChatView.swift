@@ -20,7 +20,7 @@ struct ChatView: View {
             ForEach(chatStore.chats) { chat in
                 
                 NavigationLink {
-                    ChatDetailView(chat: chat)
+                    ChatDetailView(chat: chat, isFromUserList: false)
                 } label: {
                     ListCellLabel(chat: chat)
                     .foregroundColor(.black)
@@ -43,7 +43,7 @@ struct ListCellLabel : View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
-                    Label(userStore.targetUserName, systemImage: "person.fill")
+                    Label(userStore.targetUserName ?? "No Name", systemImage: "person.fill")
                         .font(.title2)
                         .padding(.bottom, 10)
                 }
