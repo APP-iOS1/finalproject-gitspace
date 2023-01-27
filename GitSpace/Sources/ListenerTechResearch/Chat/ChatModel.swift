@@ -15,14 +15,22 @@ struct Chat : Identifiable {
     let lastDate : Double // 마지막 메세지 날짜
     let lastContent : String // 마지막 메세지 내용
     
+    // MARK: -Computed Properties
+    // 로그인 ID와 userIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
+    var targetID : String {
+        return userIDs.open == Utility.loginUserID ? userIDs.join : userIDs.open
+    }
+    
+    var userIDList : [String] {
+        return [userIDs.open, userIDs.join]
+    }
+    
     var stringDate : String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
         let dateAt = Date(timeIntervalSince1970: date)
-        
         return dateFormatter.string(from: dateAt)
     }
     
@@ -30,10 +38,17 @@ struct Chat : Identifiable {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         let dateAt = Date(timeIntervalSince1970: lastDate)
-        
+        return dateFormatter.string(from: dateAt)
+    }
+    
+    var stringLastTime : String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_kr")
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        dateFormatter.dateFormat = "HH:mm"
+        let dateAt = Date(timeIntervalSince1970: lastDate)
         return dateFormatter.string(from: dateAt)
     }
 }
