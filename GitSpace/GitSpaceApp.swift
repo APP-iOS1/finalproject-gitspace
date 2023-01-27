@@ -26,6 +26,8 @@ struct GitSpaceApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
         }
     }
 }
