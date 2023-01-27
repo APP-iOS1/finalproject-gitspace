@@ -108,12 +108,28 @@
 			path = MyKnockBox;
 			sourceTree = "<group>";
 		};
+		6E08401229838F1600F51169 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6E7278C2297E73910014CA17 /* AuthFiles.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		6E08401329838F1B00F51169 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				6E7278C0297E58EB0014CA17 /* ChatFiles.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
 			isa = PBXGroup;
 			children = (
+				6E08401329838F1B00F51169 /* Chat */,
+				6E08401229838F1600F51169 /* Auth */,
 				6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */,
-				6E7278C0297E58EB0014CA17 /* ChatFiles.swift */,
-				6E7278C2297E73910014CA17 /* AuthFiles.swift */,
 			);
 			path = ListenerTechResearch;
 			sourceTree = "<group>";
