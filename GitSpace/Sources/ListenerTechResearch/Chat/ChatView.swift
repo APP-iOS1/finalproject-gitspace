@@ -20,7 +20,7 @@ struct ChatView: View {
             ForEach(chatStore.chats) { chat in
                 
                 NavigationLink {
-                    ChatView(chatStore: chatStore, userID: userUID, chat: chat)
+                    ChatDetailView(chat: chat)
                 } label: {
                     ListCellLabel(chat: chat,
                                   userStore: userStore)
