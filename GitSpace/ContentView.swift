@@ -46,7 +46,6 @@ struct ContentView: View {
         }
         .task {
             if authStore.currentUser != nil {
-                userUID = authStore.currentUser?.uid ?? ""
                 authStore.isLogin = true
             }
         }
