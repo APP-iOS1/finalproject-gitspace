@@ -68,7 +68,7 @@ struct ListCellLabel : View {
             userStore.requestTargetUserName(targetID: chat.targetID)
         }
         .padding()
-        .background(Color("mango"))
+        .background(Color.backAccent)
         .cornerRadius(20)
         .padding()
     }
