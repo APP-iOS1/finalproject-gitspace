@@ -29,6 +29,13 @@ struct ContentView: View {
                     .tabItem {
                         Image(systemName: "message.fill")
                     }
+                    
+                    NavigationView {
+                        ProfileView()
+                    }
+                    .tabItem {
+                        Image(systemName: "gear")
+                    }
                 }
                 /* FIXME: Listener 채팅방 테스트를 위한 기존 탭뷰 주석처리 by. 예슬
                  TabView {
