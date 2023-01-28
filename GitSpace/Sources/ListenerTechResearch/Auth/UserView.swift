@@ -54,6 +54,15 @@ struct UserView: View {
                             Text("채팅 ㄱㄱ?")
                                 .modifier(ButtonModifier())
                         }
+                        
+                        Button {
+                            showZStack = false
+                        } label: {
+                            Text("이미 채팅은 생성했지만 ZStack 끄기")
+                                .modifier(ButtonModifier())
+                        }
+
+                        
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.black.opacity(0.4))
