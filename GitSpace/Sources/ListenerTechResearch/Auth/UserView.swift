@@ -19,43 +19,50 @@ struct UserView: View {
     @State var chatPersonID: String = ""
     
     var body: some View {
-        ZStack{
-            ScrollView {
-                ForEach(userStore.users) { user in
-                    Button {
-                        Task{
-                            chatPersonID = user.id
-                            print(chatStore.targetChat ?? "no target")
-                            chatStore.requestChatFromUserList(userIDs: [Utility.loginUserID, chatPersonID])
-                            print(chatStore.targetChat ?? "no target 2")
-                            showZStack = true
-                        }
-                    } label: {
-                        HStack{
-                            Image(systemName: "person")
-                            Text(user.name)
+        VStack {
+            if let targetName = userStore.targetUserName {
+                Text("현재 로그인 중인 유저 : \(targetName)")
+            }
+            
+            ZStack{
+                List {
+                    
+                    ForEach(userStore.users) { user in
+                        Button {
+                            Task{
+                                chatPersonID = user.id
+                                chatStore.requestChatFromUserList(userIDs: [Utility.loginUserID, chatPersonID])
+                                showZStack = true
+                            }
+                        } label: {
+                            HStack{
+                                Image(systemName: "person")
+                                Text(user.name)
+                            }
                         }
                     }
                 }
-            }
-            if showZStack {
-                VStack{
-                    NavigationLink {
-                        //???: -targetChat is availiable 이거 왜 3번이나 출력 됨?
-                        if let targetChat = chatStore.targetChat {
-                            let _ = print("targetChat is availiable")
-                            ChatDetailView(chat: targetChat, isFromUserList: true)
+                if showZStack {
+                    VStack{
+                        NavigationLink {
+                            //???: -targetChat is availiable 이거 왜 3번이나 출력 됨?
+                            if let targetChat = chatStore.targetChat {
+                                let _ = print("targetChat is availiable")
+                                ChatDetailView(chat: targetChat, isFromUserList: true)
+                            }
+                        } label: {
+                            Text("채팅 ㄱㄱ?")
+                                .modifier(ButtonModifier())
                         }
-                    } label: {
-                        Text("채팅 ㄱㄱ?")
-                            .modifier(ButtonModifier())
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.4))
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.4))
             }
+            
         }
         .task {
+            userStore.requestTargetUserName(targetID: Utility.loginUserID)
             userStore.fetchUsers()
         }
     }
