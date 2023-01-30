@@ -46,7 +46,8 @@ struct PenpalListView: View {
 					ForEach(0..<5) { int in
 						NavigationLink {
 							// 탭바 숨기기는 iOS16부터 된단다.,.,.
-							ChatDetailView()
+                            // FIXME: Listener 테스트를 위해 ChatDetailView 주석처리 by. 태영
+							// ChatDetailView()
 						} label: {
 							UserProfileCompact()
 								.padding(.vertical, 5)
