@@ -7,215 +7,268 @@
 
 import SwiftUI
 
-struct GSButton {
-	enum ButtonStyle {
-		case primary // width 300
-		case secondary // width 150
-		case tabPage // Text + Underline
-		case textCancelation // text + accentColor
-		case textConfirmation // text + Color.red
-		case tag // width 100
-		case symbols // Image(systemName:)
+public struct GSButton {
+	
+	/**
+	 각 버튼의 케이스에 따라 기본 레이아웃을 구성합니다.
+	 - Important: 각 케이스는 연관 값을 갖고 있으며 `hometab` 케이스의 경우, 그 연관값을 **필수**로 입력해야 합니다.
+	 `primary`와 `secondary` 케이스의 연관값은 필수가 아니며, 연관값을 할당하면 GSButton의 label 을 **비운 채로** UI를 그릴 수 있습니다.
+	*/
+	public enum GSButtonStyle {
+		case primary(isDisabled: Bool)
+		case secondary(isDisabled: Bool)
+		case tag(isEditing: Bool,
+				 isSelected: Bool = false)
+		case plainText(isDestructive: Bool)
+		case homeTab(tabName: String,
+					 tabSelection: Binding<String>)
 	}
 	
-	// 추상화 하는 이유 : 뷰 통일성, 수정에 용이하다.
-	// 뷰 자체의 내용은 밖에서 전달.
-	// 뷰의 형식만 정의.
-	struct ContentView<ContentView: View>: View {		
-		var style: ButtonStyle
-		var tagSelection: Binding<Bool>?
-		var action: () -> Void
-		var tabSelectionTag: Binding<String>?
-		var tabMoveTo: String?
-		var content: () -> ContentView
+	struct CustomButtonView<CustomLabelType: View>: View {
+		public let style: GSButtonStyle
+		public let action: () -> Void
+		public var label: CustomLabelType?
 		
 		var body: some View {
 			switch style {
-			case .primary:
-				Button(action: action,
-					   label: {
-					content()
-						.font(.title)
-						.padding(.horizontal, 50)
-						.padding(.vertical, 10)
-				})
-				.buttonBorderShape(ButtonBorderShape.capsule)
-				.buttonStyle(.borderedProminent)
-				.tint(Color.accentColor)
-			case .secondary:
-				Button(action: action, label: {
-					content()
-						.padding(.horizontal, 15)
-						.padding(.vertical, 5)
-				})
-				.buttonBorderShape(ButtonBorderShape.capsule)
-				.buttonStyle(.borderedProminent)
-				.tint(Color.accentColor)
-
-			case .tabPage:
-				VStack(spacing: 0) {
-					Button(action: action, label: {
-						content()
-							.font(.largeTitle)
-					})
-					.foregroundColor(.black)
-					.overlay(alignment: .bottom) {
-						if let tabSelectionTag,
-						   let tabMoveTo,
-						   tabSelectionTag.wrappedValue != tabMoveTo {
-							Divider()
-								.overlay(Color.accentColor)
-								.offset(x: 0, y: 0)
-						}
-					}
+				
+			// MARK: DONE
+			case .primary(let isDisabled):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .primary(
+								isDisabled: isDisabled
+							)
+						)
 				}
-			case .textCancelation:
-				Button(action: action, label: content)
-					.foregroundColor(.red)
-			case .textConfirmation:
-				Button(action: action, label: content)
-					.foregroundColor(.accentColor)
-			case .tag: // 해결
-				Button(action: action, label: content)
-					.buttonBorderShape(ButtonBorderShape.capsule)
-					.frame(minWidth: 50, minHeight: 10)
-					.buttonStyle(.borderedProminent)
-					.tint(.green) // 강조색
-			case .symbols:
-				Button(action: action, label: content)
+				.buttonColorSchemeModifier(style: style)
+			
+			// MARK: - DONE
+			case .secondary(let isDisabled):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .secondary(
+								isDisabled: isDisabled
+							)
+						)
+				}
+				.buttonColorSchemeModifier(style: style)
+				
+			case .tag(let isEditing, let isSelected):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .tag(
+								isEditing: isEditing,
+								isSelected: isSelected
+							)
+						)
+				}
+				.buttonColorSchemeModifier(style: style)
+				
+			// MARK: - DONE
+			case .plainText(let isDestructive):
+				Button(action: action) {
+					label
+						.buttonLabelLayoutModifier(
+							buttonLabelStyle: .plainText(
+								isDestructive: isDestructive
+							)
+						)
+				}
+				.buttonColorSchemeModifier(style: style)
+		
+			// MARK: - DONE
+			case .homeTab(let tabName, let tabSelection):
+				Button(action: action) {
+					label
+						.overlay(alignment: .bottom) {
+							if tabName == tabSelection.wrappedValue {
+								Divider()
+									.frame(minHeight: 2)
+									.overlay(Color.primary)
+									.offset(y: 3)
+							}
+						}
+				}
 			}
 		}
 		
-		// tab Button Init
-		init(style: ButtonStyle,
+		// Simple Initializer
+		init(style: GSButtonStyle,
 			 action: @escaping () -> Void,
-			 tabSelectionTag: Binding<String>? = nil,
-			 tabMoveTo: String? = nil,
-			 content: @escaping () -> ContentView) {
-			
+			 @ViewBuilder label: () -> CustomLabelType) {
 			self.style = style
 			self.action = action
-			self.content = content
-			
-			if let tabSelectionTag {
-				self.tabSelectionTag = tabSelectionTag
-			}
-			
-			if let tabMoveTo {
-				self.tabMoveTo = tabMoveTo
-			}
-		}
-		
-		// normal Button Init
-		init(
-			style: ButtonStyle,
-			action: @escaping () -> Void,
-			content: @escaping () -> ContentView
-		) {
-			self.style = style
-			self.action = action
-			self.content = content
-		}
-		
-		// tag Button Init
-		init(
-			style: ButtonStyle,
-			tagSelection: Binding<Bool>,
-			action: @escaping () -> Void,
-			content: @escaping () -> ContentView
-		) {
-			self.style = style
-			self.tagSelection = tagSelection
-			self.action = action
-			self.content = content
+			self.label = label()
 		}
 	}
 }
 
 struct Test2: View {
-	@State private var tabSelection = "Starred"
+	private let starTab = "Starred"
+	private let followTab = "Following"
+	@State private var isDisabled = false
+	@State private var isEditing = false
+	@State private var isSelected = false
 	
-	@State private var starTab = "Starred"
-	@State private var followTab = "Follow"
+	@State private var selectedHomeTab = "Starred"
+	@Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
 		VStack {
-			Text(tabSelection)
-			
-			GSButton.ContentView(
-				style: .tabPage,
-				action: tabMoveTo,
-				tabSelectionTag: $tabSelection,
-				tabMoveTo: followTab
+			GSButton.CustomButtonView(
+				style: .primary(
+					isDisabled: true
+				)
 			) {
-				Text(starTab)
+				withAnimation {
+					isDisabled.toggle()
+				}
+			} label: {
+				HStack {
+					Text("✨")
+					
+					Text("HiHI")
+				}
 			}
 			
-			GSButton.ContentView(
-				style: .tabPage,
-				action: tabMoveTo,
-				tabSelectionTag: $tabSelection,
-				tabMoveTo: starTab
+			GSButton.CustomButtonView(
+				style: .tag(
+					isEditing: isEditing,
+					isSelected: isSelected
+				)
 			) {
-				Text(followTab)
+				withAnimation {
+					isSelected.toggle()
+				}
+			} label: {
+				Text("?")
+					.font(.callout)
+					.bold()
 			}
+			.tag("HI")
 			
-			GSButton.ContentView(
-				style: .primary,
-				action: tabMoveTo
-			) {
-				Text("Knock")
+			HStack {
+				GSButton.CustomButtonView(
+					style: .homeTab(
+						tabName: starTab,
+						tabSelection: $selectedHomeTab
+					)
+				) {
+					withAnimation {
+						selectedHomeTab = starTab
+					}
+				} label: {
+					Text(starTab)
+						.font(.title3)
+						.foregroundColor(.primary)
+						.bold()
+				}
+				.tag(starTab)
+				
+				GSButton.CustomButtonView(
+					style: .homeTab(
+						tabName: followTab,
+						tabSelection: $selectedHomeTab
+					)
+				) {
+					withAnimation {
+						selectedHomeTab = followTab
+					}
+				} label: {
+					Text(followTab)
+						.font(.title3)
+						.foregroundColor(.primary)
+						.bold()
+				}
+				.tag(followTab)
+				
+				Spacer()
 			}
-			
-			GSButton.ContentView(
-				style: .secondary,
-				action: tabMoveTo
-			) {
-				Text(followTab)
+			.overlay(alignment: .bottom) {
+				Divider()
+					.frame(minHeight: 0.5)
+					.overlay(Color.primary)
+					.offset(y: 3.5)
 			}
+			.padding(16)
 			
-			GSButton.ContentView(
-				style: .textConfirmation,
-				action: tabMoveTo
+			GSButton.CustomButtonView(
+				style: .plainText(
+					isDestructive: false
+				)
 			) {
-				Text("Block @wontaeyoung")
-			}
-			
-			GSButton.ContentView(
-				style: .textCancelation,
-				action: tabMoveTo
-			) {
-				Text("Delete Chat")
-			}
-			
-			GSButton.ContentView(
-				style: .tag,
-				action: tabMoveTo
-			) {
-				Text("Tag")
+				print()
+			} label: {
+				Text("??")
 			}
 		}
-		
 	}
 	
-	private func tabMoveTo() -> Void {
-		switch tabSelection {
-		case starTab:
-			withAnimation {
-				tabSelection = followTab
-			}
-		case followTab:
-			withAnimation {
-				tabSelection = starTab
-			}
-		default:
-			tabSelection = "?.?"
-		}
-	}
 }
 
 struct GSButton_Previews: PreviewProvider {
     static var previews: some View {
-		Text("?")
+		Test2()
     }
 }
+
+//		VStack {
+//			Text(tabSelection)
+//
+//			GSButton.ContentView(
+//				style: .tabPage,
+//				action: tabMoveTo,
+//				tabSelectionTag: $tabSelection,
+//				tabMoveTo: followTab
+//			) {
+//				Text(starTab)
+//			}
+//
+//			GSButton.ContentView(
+//				style: .tabPage,
+//				action: tabMoveTo,
+//				tabSelectionTag: $tabSelection,
+//				tabMoveTo: starTab
+//			) {
+//				Text(followTab)
+//			}
+//
+//			GSButton.ContentView(
+//				style: .primary,
+//				action: tabMoveTo
+//			) {
+//				Text("Knock")
+//			}
+//
+//			GSButton.ContentView(
+//				style: .secondary,
+//				action: tabMoveTo
+//			) {
+//				Text(followTab)
+//			}
+//
+//			GSButton.ContentView(
+//				style: .textConfirmation,
+//				action: tabMoveTo
+//			) {
+//				Text("Block @wontaeyoung")
+//			}
+//
+//			GSButton.ContentView(
+//				style: .textCancelation,
+//				action: tabMoveTo
+//			) {
+//				Text("Delete Chat")
+//			}
+//
+//			GSButton.ContentView(
+//				style: .tag,
+//				action: tabMoveTo
+//			) {
+//				Text("Tag")
+//			}
+//		}
