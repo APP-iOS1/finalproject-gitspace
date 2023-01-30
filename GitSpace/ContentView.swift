@@ -17,7 +17,7 @@ struct ContentView: View {
         Group {
             if authStore.isLogin {
                 
-                TabView(selection : $tabManager.tabSelection) {
+                TabView() {
                     NavigationView {
                         UserView()
                     }
