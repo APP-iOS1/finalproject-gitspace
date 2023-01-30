@@ -39,6 +39,9 @@
 		7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BF29769522005D6B7B /* MainPenpalView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
+		7095265D297F8CEC00F97E27 /* Button+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+.swift */; };
+		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
+		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
 		70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD09297773C7005528A1 /* PenpalListView.swift */; };
 		70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
@@ -77,6 +80,9 @@
 		7068B6BF29769522005D6B7B /* MainPenpalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPenpalView.swift; sourceTree = "<group>"; };
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
 		707E58F529799449007F4ADF /* GSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextField.swift; sourceTree = "<group>"; };
+		7095265C297F8CEC00F97E27 /* Button+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+.swift"; sourceTree = "<group>"; };
+		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		70F4BD09297773C7005528A1 /* PenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalListView.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 				6E199B0C297A168300F88569 /* GoogleService-Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
+				7095CFA2297EB90A000F2BF6 /* Extensions */,
 				7068B6B529769479005D6B7B /* Sources */,
 				7068B6AB29769449005D6B7B /* Assets.xcassets */,
 				7068B6AD29769449005D6B7B /* Preview Content */,
@@ -231,6 +238,16 @@
 				6840F02629777F79008CF2D5 /* SelectTagsView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		7095CFA2297EB90A000F2BF6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7095CFA3297EB913000F2BF6 /* Color+.swift */,
+				7095265C297F8CEC00F97E27 /* Button+.swift */,
+				7095265E297F8F4D00F97E27 /* View+.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		70F4BD0829776F8B005528A1 /* PenpalList */ = {
@@ -339,6 +356,7 @@
 				6E7278C1297E58EB0014CA17 /* ChatFiles.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				6E199B15297A291A00F88569 /* ListenerView.swift in Sources */,
+				7095265D297F8CEC00F97E27 /* Button+.swift in Sources */,
 				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
 				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
@@ -347,9 +365,11 @@
 				6E199B17297A2A0300F88569 /* ListenerResearchViewModel.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */,
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
+				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */,
 				6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */,
+				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
 				6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
