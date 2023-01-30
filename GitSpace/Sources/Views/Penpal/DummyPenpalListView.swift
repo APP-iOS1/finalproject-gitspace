@@ -12,7 +12,7 @@ struct DummyPenpalListView: View {
     var body: some View {
         NavigationView {
             NavigationLink {
-                ChatDetailView()
+                //ChatDetailView()
             } label: {
                 Text("여기는 펜팔 채팅방 리스트 뷰입니다. 채팅방으로 이동")
             }
