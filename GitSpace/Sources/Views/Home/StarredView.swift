@@ -113,16 +113,25 @@ struct StarredView: View {
                 /* selected tags */
                 HStack {
                     ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
-                        Button {
-                            print("\(tag.name)")
-                            selectedTagList.remove(at: index)
-                        } label: {
-                            Text("\(tag.name)")
-                        }
-                        .padding(5)
-                        .background(Color.black)
-                        .foregroundColor(Color(.systemBackground))
-                        .cornerRadius(10)
+//                        Button {
+//                            print("\(tag.name)")
+//                            selectedTagList.remove(at: index)
+//                        } label: {
+//                            Text("\(tag.name)")
+//                        }
+//                        .padding(5)
+//                        .background(Color.black)
+//                        .foregroundColor(Color(.systemBackground))
+//                        .cornerRadius(10)
+						
+						// 버튼 추상화 완료~
+						GSButton.ContentView(
+							style: .tag
+						) {
+							selectedTagList.remove(at: index)
+						} content:  {
+							Text("\(tag.name)")
+						}
                     }
                     Spacer()
                 }
@@ -180,6 +189,18 @@ struct StarredView: View {
                                         Text("Share")
                                         Image(systemName: "square.and.arrow.up")
                                     }
+									
+									GSButton.ContentView (
+										style: .symbols) {
+											print("Share")
+										} content: {
+											Group {
+												Text("Share")
+												Image(systemName: "square.and.arrow.up")
+											}
+										}
+
+									
                                     Button(action: { print("Penpal") }) {
                                         Text("Penpal")
                                         Image(systemName: "message")
@@ -204,6 +225,10 @@ struct StarredView: View {
             SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
         }
     }
+	
+	private func doth(index: Int) {
+		selectedTagList.remove(at: index)
+	}
 }
 
 // MARK: - Repository Card View

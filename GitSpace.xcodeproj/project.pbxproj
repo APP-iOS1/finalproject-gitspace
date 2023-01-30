@@ -22,9 +22,21 @@
 		68D76D55298713B900C1EA88 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D54298713B900C1EA88 /* FirebaseFirestoreCombine-Community */; };
 		68D76D57298713B900C1EA88 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D56298713B900C1EA88 /* FirebaseFirestoreSwift */; };
 		68E95FC72976D48C002E65AD /* StarredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E95FC62976D48C002E65AD /* StarredView.swift */; };
+		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
+		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
+		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
+		6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E199B0C297A168300F88569 /* GoogleService-Info.plist */; };
+		6E199B0F297A18B100F88569 /* CollectionGroupResearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */; };
+		6E199B11297A18EF00F88569 /* CollectionGroupResearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */; };
+		6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B12297A1B5300F88569 /* CollectionGroupView.swift */; };
+		6E199B15297A291A00F88569 /* ListenerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B14297A291A00F88569 /* ListenerView.swift */; };
+		6E199B17297A2A0300F88569 /* ListenerResearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */; };
 		6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */; };
+		6E7278C1297E58EB0014CA17 /* ChatFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C0297E58EB0014CA17 /* ChatFiles.swift */; };
+		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */; };
 		6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */; };
+		7065B459297A1F51000B91D2 /* GSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7065B458297A1F51000B91D2 /* GSButton.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
 		7068B6AA29769448005D6B7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A929769448005D6B7B /* ContentView.swift */; };
 		7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AB29769449005D6B7B /* Assets.xcassets */; };
@@ -32,6 +44,10 @@
 		7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BC29769517005D6B7B /* MainHomeView.swift */; };
 		7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BF29769522005D6B7B /* MainPenpalView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
+		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
+		7095265D297F8CEC00F97E27 /* Button+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+.swift */; };
+		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
+		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
 		70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD09297773C7005528A1 /* PenpalListView.swift */; };
 		70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
@@ -50,9 +66,18 @@
 		6840F02629777F79008CF2D5 /* SelectTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagsView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
+		6E199B0C297A168300F88569 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Sources/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchModel.swift; sourceTree = "<group>"; };
+		6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchViewModel.swift; sourceTree = "<group>"; };
+		6E199B12297A1B5300F88569 /* CollectionGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupView.swift; sourceTree = "<group>"; };
+		6E199B14297A291A00F88569 /* ListenerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerView.swift; sourceTree = "<group>"; };
+		6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerResearchViewModel.swift; sourceTree = "<group>"; };
 		6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyPenpalListView.swift; sourceTree = "<group>"; };
+		6E7278C0297E58EB0014CA17 /* ChatFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFiles.swift; sourceTree = "<group>"; };
+		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
 		6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalInfoView.swift; sourceTree = "<group>"; };
+		7065B458297A1F51000B91D2 /* GSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButton.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
 		7068B6A929769448005D6B7B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +86,10 @@
 		7068B6BC29769517005D6B7B /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
 		7068B6BF29769522005D6B7B /* MainPenpalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPenpalView.swift; sourceTree = "<group>"; };
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
+		707E58F529799449007F4ADF /* GSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextField.swift; sourceTree = "<group>"; };
+		7095265C297F8CEC00F97E27 /* Button+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+.swift"; sourceTree = "<group>"; };
+		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
+		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		70F4BD09297773C7005528A1 /* PenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalListView.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -78,6 +107,9 @@
 				68D76D55298713B900C1EA88 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				68D76D51298713B900C1EA88 /* FirebaseAuthCombine-Community in Frameworks */,
 				68D76D53298713B900C1EA88 /* FirebaseFirestore in Frameworks */,
+				6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */,
+				6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */,
+				6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +124,16 @@
 				34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */,
 			);
 			path = MyKnockBox;
+			sourceTree = "<group>";
+		};
+		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
+			isa = PBXGroup;
+			children = (
+				6E199B16297A2A0300F88569 /* ListenerResearchViewModel.swift */,
+				6E7278C0297E58EB0014CA17 /* ChatFiles.swift */,
+				6E7278C2297E73910014CA17 /* AuthFiles.swift */,
+			);
+			path = ListenerTechResearch;
 			sourceTree = "<group>";
 		};
 		7068B69B29769448005D6B7B = {
@@ -113,8 +155,10 @@
 		7068B6A629769448005D6B7B /* GitSpace */ = {
 			isa = PBXGroup;
 			children = (
+				6E199B0C297A168300F88569 /* GoogleService-Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
+				7095CFA2297EB90A000F2BF6 /* Extensions */,
 				7068B6B529769479005D6B7B /* Sources */,
 				7068B6AB29769449005D6B7B /* Assets.xcassets */,
 				7068B6AD29769449005D6B7B /* Preview Content */,
@@ -134,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */,
+				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
 				7068B6B8297694C2005D6B7B /* Models */,
 				7068B6B7297694BE005D6B7B /* ViewModel */,
 				7068B6B6297694BA005D6B7B /* Views */,
@@ -148,6 +193,8 @@
 				7068B6BB2976950F005D6B7B /* Home */,
 				7068B6BA2976950B005D6B7B /* Penpal */,
 				7068B6B929769505005D6B7B /* Profile */,
+				6E199B12297A1B5300F88569 /* CollectionGroupView.swift */,
+				6E199B14297A291A00F88569 /* ListenerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -155,6 +202,7 @@
 		7068B6B7297694BE005D6B7B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -162,6 +210,7 @@
 		7068B6B8297694C2005D6B7B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -204,6 +253,16 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		7095CFA2297EB90A000F2BF6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7095CFA3297EB913000F2BF6 /* Color+.swift */,
+				7095265C297F8CEC00F97E27 /* Button+.swift */,
+				7095265E297F8F4D00F97E27 /* View+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		70F4BD0829776F8B005528A1 /* PenpalList */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +275,8 @@
 			isa = PBXGroup;
 			children = (
 				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
+				707E58F529799449007F4ADF /* GSTextField.swift */,
+				7065B458297A1F51000B91D2 /* GSButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -242,6 +303,9 @@
 				68D76D52298713B900C1EA88 /* FirebaseFirestore */,
 				68D76D54298713B900C1EA88 /* FirebaseFirestoreCombine-Community */,
 				68D76D56298713B900C1EA88 /* FirebaseFirestoreSwift */,
+				6E199B06297A161000F88569 /* FirebaseAuth */,
+				6E199B08297A161000F88569 /* FirebaseFirestore */,
+				6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */,
 			);
 			productName = GitSpace;
 			productReference = 7068B6A429769448005D6B7B /* GitSpace.app */;
@@ -273,6 +337,7 @@
 			mainGroup = 7068B69B29769448005D6B7B;
 			packageReferences = (
 				68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7068B6A529769448005D6B7B /* Products */;
 			projectDirPath = "";
@@ -290,6 +355,7 @@
 			files = (
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
+				6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,20 +368,31 @@
 			files = (
 				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
+				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				34BC356F29779201000DCBC7 /* MyKnockCell.swift in Sources */,
+				6E199B11297A18EF00F88569 /* CollectionGroupResearchViewModel.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
+				6E7278C1297E58EB0014CA17 /* ChatFiles.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
+				6E199B15297A291A00F88569 /* ListenerView.swift in Sources */,
+				7095265D297F8CEC00F97E27 /* Button+.swift in Sources */,
 				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
 				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
+				6E199B17297A2A0300F88569 /* ListenerResearchViewModel.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */,
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
+				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */,
+				6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */,
+				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
 				6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */,
+				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
+				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
 				70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
@@ -323,6 +400,7 @@
 				6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */,
 				34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
+				6E199B0F297A18B100F88569 /* CollectionGroupResearchModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +611,12 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 9.0.0;
+		6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -561,6 +645,19 @@
 		68D76D56298713B900C1EA88 /* FirebaseFirestoreSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+		6E199B06297A161000F88569 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6E199B08297A161000F88569 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
