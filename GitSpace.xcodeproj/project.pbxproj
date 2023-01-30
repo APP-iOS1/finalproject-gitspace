@@ -237,7 +237,6 @@
 		7068B6B529769479005D6B7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */,
 				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
 				7068B6B8297694C2005D6B7B /* Models */,
 				7068B6B7297694BE005D6B7B /* ViewModel */,
@@ -262,6 +261,7 @@
 		7068B6B7297694BE005D6B7B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */,
 				6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */,
 			);
 			path = ViewModel;
@@ -456,7 +456,7 @@
 				6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */,
 				6E8C05C52976D77E002C9F45 /* PenpalDetailView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
-				6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */,
+				6E8C05C52976D77E002C9F45 /* PenpalDetailView.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
 				6E0840272983BB9A00F51169 /* UserInfo.swift in Sources */,

@@ -125,13 +125,13 @@ struct StarredView: View {
 //                        .cornerRadius(10)
 						
 						// 버튼 추상화 완료~
-						GSButton.ContentView(
-							style: .tag
-						) {
-							selectedTagList.remove(at: index)
-						} content:  {
-							Text("\(tag.name)")
-						}
+//						GSButton.ContentView(
+//							style: .tag
+//						) {
+//							selectedTagList.remove(at: index)
+//						} content:  {
+//							Text("\(tag.name)")
+//						}
                     }
                     Spacer()
                 }
@@ -190,15 +190,15 @@ struct StarredView: View {
                                         Image(systemName: "square.and.arrow.up")
                                     }
 									
-									GSButton.ContentView (
-										style: .symbols) {
-											print("Share")
-										} content: {
-											Group {
-												Text("Share")
-												Image(systemName: "square.and.arrow.up")
-											}
-										}
+//									GSButton.ContentView (
+//										style: .symbols) {
+//											print("Share")
+//										} content: {
+//											Group {
+//												Text("Share")
+//												Image(systemName: "square.and.arrow.up")
+//											}
+//										}
 
 									
                                     Button(action: { print("Penpal") }) {
