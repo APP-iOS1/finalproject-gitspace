@@ -110,6 +110,7 @@ struct MainHomeView: View {
 					.tag("Activity")
 			}
 			.tabViewStyle(.page)
+            .ignoresSafeArea()
 		}
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
