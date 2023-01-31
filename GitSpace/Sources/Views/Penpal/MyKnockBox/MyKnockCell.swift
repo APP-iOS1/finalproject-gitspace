@@ -8,22 +8,15 @@
 import SwiftUI
 
 struct MyKnockCell: View {
-    
-    @Binding var knock: Int
+	@ObservedObject var knockHistoryViewModel: KnockHistoryViewModel
+	@State var eachKnock: Knock
     @Binding var isEdit: Bool
     @Binding var checked: Bool
-    
-    @State private var knockStates = ["Waiting", "Waiting", "Waiting", "Accepted", "Accepted",
-                                      "Declined", "Accepted", "Declined", "Declined", "Declined",
-                                      "Accepted", "Accepted", "Accepted", "Accepted", "Accepted",
-                                      "Declined", "Declined", "Accepted", "Accepted", "Declined"]
-    
+	@Binding var knockMessenger: String
+
     var body: some View {
-        
         HStack(alignment: .center) {
-            
             if isEdit {
-                
                 Image(systemName: checked ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -32,9 +25,7 @@ struct MyKnockCell: View {
                     .onTapGesture {
                         self.checked.toggle()
                     }
-                    
             }
-            
             
             Image(systemName: "person.crop.circle.fill")
                 .resizable()
@@ -43,7 +34,10 @@ struct MyKnockCell: View {
             
             VStack {
                 HStack {
-                    Text("User Name \(knock + 1)")
+					Text(knockMessenger == "Received" ?
+						 "from: \(eachKnock.senderID)" :
+						 "to: \(eachKnock.receiverID)"
+					)
                         .bold()
                         .font(.headline)
                     
@@ -54,7 +48,7 @@ struct MyKnockCell: View {
 //                        .foregroundColor(Color(.systemGray))
 //                        .padding(.leading, -5)
                     
-                    Text("\(knock + 1)m")
+					Text("\(eachKnock.dateDiff)m")
                         .font(.subheadline)
                         .foregroundColor(Color(.systemGray))
                         .padding(.leading, -10)
@@ -68,25 +62,22 @@ struct MyKnockCell: View {
                 } // HStack
                 
                 HStack {
-                    Text("Knock message will be displayed.")
+					Text(eachKnock.knockMessage)
                         .lineLimit(1)
                     
                     Spacer()
                     
-                    if knockStates[knock] == "Waiting" {
-                        Text("\(knockStates[knock])")
+					if eachKnock.knockStatus == "Waiting" {
+						Text(eachKnock.knockStatus)
                             //.padding(.trailing, 5)
-                            .bold()
                             .foregroundColor(Color(.systemBlue))
-                    } else if knockStates[knock] == "Accepted" {
-                        Text("\(knockStates[knock])")
+					} else if eachKnock.knockStatus == "Accepted" {
+						Text(eachKnock.knockStatus)
                             //.padding(.trailing, 5)
-                            .bold()
                             .foregroundColor(Color(.systemGreen))
                     } else {
-                        Text("\(knockStates[knock])")
+						Text("\(eachKnock.knockStatus)")
                             //.padding(.trailing, 0)
-                            .bold()
                             .foregroundColor(Color(.systemRed))
                     }
                 } // HStack
