@@ -27,19 +27,26 @@ struct Chat : Identifiable {
     
     // targetID 연산 프로퍼티를 활용해서 DB의 target User Name을 찾아서 반환하는 연산 프로퍼티
     var targetUserName: String {
-        let db = Firestore.firestore()
-        var returnUserName : String = ""
-        db
-            .collection("UserInfo")
-            .document(targetID)
-            .getDocument { (snapshot, error) in
-                if let data = snapshot?.data() {
+        get async {
+            let db = Firestore.firestore()
+            var returnUserName : String = ""
+            
+            do  {
+                let document = try await db
+                    .collection("UserInfo")
+                    .document(targetID)
+                    .getDocument()
+                if let data = document.data() {
                     let name = data["name"] as? String ?? ""
                     returnUserName = name
                 }
-            }
-        return returnUserName.isEmpty ? "이름 없음" : returnUserName
+            } catch {}
+
+            return returnUserName.isEmpty ? "이름 없음" : returnUserName
+        }
     }
+    
+    
     
     var userIDList: [String] {
         return [users.senderID, users.receiverID]
@@ -73,7 +80,7 @@ struct Chat : Identifiable {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
-        return dateFormatter.string(from: knockDate) + (dateFormatter.timeZone.abbreviation() ?? "")
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
+        return dateFormatter.string(from: knockDate) + " " + (dateFormatter.timeZone.abbreviation() ?? "")
     }
 }
