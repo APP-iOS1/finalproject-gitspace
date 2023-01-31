@@ -26,6 +26,7 @@ struct ChatListSection: View {
 struct ListCellLabel : View {
     
     let chat : Chat
+    @State private var targetName: String = ""
     @EnvironmentObject var userStore : UserStore
     @EnvironmentObject var chatStore: ChatStore
     
@@ -38,10 +39,12 @@ struct ListCellLabel : View {
                     .frame(width: 70)
                     .padding(.trailing)
                 
-                VStack(alignment: .leading){
-                    Text(chat.users.receiverID == Utility.loginUserID ? chat.users.senderID : chat.users.receiverID)
+                VStack(alignment: .leading) {
+                    
+                    Text(targetName)
                         .font(.title2)
                         .padding(.bottom, 5)
+                    
                     Text(chat.lastContent)
                         .foregroundColor(.gray)
                 }
@@ -49,6 +52,9 @@ struct ListCellLabel : View {
             }
             Divider()
                 .frame(width: 350)
+        }
+        .task {
+            targetName = await chat.targetUserName
         }
     }
 }
