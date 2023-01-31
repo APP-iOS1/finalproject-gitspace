@@ -51,7 +51,7 @@ var repositoryList: [Repository] = [
 struct StarredView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var searchTag: String = ""
-    @State private var selectedTagList: [Tag] = tagList
+    @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
@@ -194,12 +194,12 @@ struct StarredView: View {
                                                     Text(repository.name)
                                                         .font(.body)
                                                         .multilineTextAlignment(.leading)
-                                                        .foregroundColor(.black)
+                                                        .foregroundColor(colorScheme == .light ? .black : .white)
                                                     Text(repository.owner)
                                                         .font(.title2)
                                                         .padding(.bottom, 1)
                                                         .multilineTextAlignment(.leading)
-                                                        .foregroundColor(.black)
+                                                        .foregroundColor(colorScheme == .light ? .black : .white)
                                                 }
                                                 Spacer()
                                             }
@@ -217,6 +217,7 @@ struct StarredView: View {
                                 /* Penpal, Menu button */
                                 HStack {
                                     Spacer()
+                                    
                                     NavigationLink(destination: {
                                         /*
                                          1. 우선 누구한테 챗 할지 레포기여자 목록 보여주기
@@ -226,23 +227,13 @@ struct StarredView: View {
                                     }) {
                                         Image(systemName: "message.circle.fill")
                                     }
+                                    .foregroundColor(colorScheme == .light ? .black : .white)
+                                    
                                     Menu {
                                         Button(action: { print("Share") }) {
                                             Text("Share")
                                             Image(systemName: "square.and.arrow.up")
                                         }
-                                        
-                                        //									GSButton.ContentView (
-                                        //										style: .symbols) {
-                                        //											print("Share")
-                                        //										} content: {
-                                        //											Group {
-                                        //												Text("Share")
-                                        //												Image(systemName: "square.and.arrow.up")
-                                        //											}
-                                        //										}
-                                        
-                                        
                                         Button(action: { print("Penpal") }) {
                                             Text("Penpal")
                                             Image(systemName: "message")
@@ -255,6 +246,8 @@ struct StarredView: View {
                                         Image(systemName: "ellipsis")
                                             .frame(height: 20)
                                     }
+                                    .foregroundColor(colorScheme == .light ? .black : .white)
+                                    
                                 }
                                 Spacer()
                             }
@@ -279,15 +272,18 @@ struct StarredView: View {
 // MARK: - Repository Card View
 /// Starred View에서 사용되는 Repository를 감싸는 Card View입니다.
 struct RepositoryCardView<Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
     var content: () -> Content
     
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
     
+    // FIXME: 배경색을 GScolor로 바꿔줘야 함
+    /// systemGray 컬러를 임시 방편으로 다크모드에 대응하도록 설정하였다.
     var body: some View {
         Group(content: content)
-            .background(Color(.systemBackground))
+            .background(colorScheme == .light ? .white : Color(.systemGray4))
             .cornerRadius(17)
             .shadow(
                 color: Color(.systemGray6),
