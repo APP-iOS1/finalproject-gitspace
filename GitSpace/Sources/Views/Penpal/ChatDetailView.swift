@@ -21,17 +21,6 @@ struct ChatDetailView : View {
     var body: some View {
         
         VStack {
-            Button {
-                messageStore.addListener(chatID: chat.id)
-            } label: {
-                Text("리스너 스타트")
-            }
-            Button {
-                messageStore.removeListener()
-            } label: {
-                Text("리스너 스탑")
-            }
-            
             // 채팅 메세지 스크롤 뷰
             ScrollView {
                 ForEach(messageStore.messages) { message in
@@ -48,7 +37,7 @@ struct ChatDetailView : View {
                             }
                             
                             Button {
-                                messageStore.removeMessage(message)
+                                messageStore.removeMessage(message, chatID: chat.id)
                             } label: {
                                 Text("삭제하기")
                                 Image(systemName: "trash")
@@ -68,12 +57,16 @@ struct ChatDetailView : View {
         }
         .task {
             messageStore.addListener(chatID: chat.id)
-//            messageStore.fetchMessages(chatID: chat.id)
+            messageStore.removeListenerMessages()
+            messageStore.fetchMessages(chatID: chat.id)
         }
         .onDisappear {
             messageStore.removeListener()
         }
     }
+    
+    /// 1. 리스너로 배열에 추가를 한뒤, 로컬로 정렬하는 과정을 거친다
+    /// 2. 처음 들어갔을 때는 전체 패치, addListener를 하면서 한번 더 추가된 애들은 제거한다 -> 채택
     
     // MARK: -Button : 메세지 수정
     private var updateContentButton : some View {
@@ -156,7 +149,7 @@ struct ChangeContentSheetView : View {
                 .textFieldStyle(.roundedBorder)
             
             Button {
-                messageStore.updateMessage(message)
+                messageStore.updateMessage(message, chatID: chatID)
                 isShowingUpdateCell = false
             } label: {
                 Text("수정하기")
