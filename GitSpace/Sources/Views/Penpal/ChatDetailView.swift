@@ -100,10 +100,24 @@ struct ChatDetailView : View {
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack {
-            TextField("",text: $contentField)
+            Button {
+                print("이미지 첨부 버튼 탭")
+            } label: {
+                Image(systemName: "photo.tv")
+            }
+            Button {
+                print("레포지토리 선택 버튼 탭")
+            } label: {
+                Image("RepositoryIcon")
+            }
+            
+            TextField("Enter Message",text: $contentField)
                 .textFieldStyle(.roundedBorder)
+            
             addContentButton
+                .disabled(contentField.isEmpty)
         }
+        .foregroundColor(.primary)
     }
     
     // MARK: Button : 메세지 추가(보내기)
@@ -127,7 +141,7 @@ struct ChatDetailView : View {
             contentField = ""
             
         } label: {
-            Image(systemName: "paperplane.circle.fill")
+            Image(systemName: "location")
         }
     }
     
