@@ -12,7 +12,7 @@ struct UserInfo : Identifiable {
     var id : String // 유저 ID
     var name : String // 유저 닉네임
     var email : String // 유저 이메일
-    var signUpDate : Double // 유저 회원가입 일시
+    var date : Date // 유저 회원가입 일시
     
     // MARK: -Func : Double 타입 Date를 문자열로 반환하는 함수
     var stringDate : String {
@@ -20,9 +20,6 @@ struct UserInfo : Identifiable {
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let dateAt = Date(timeIntervalSince1970: signUpDate)
-        
-        return dateFormatter.string(from: dateAt)
+        return dateFormatter.string(from: date)
     }
 }
