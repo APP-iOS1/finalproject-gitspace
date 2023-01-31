@@ -12,7 +12,7 @@ struct Message : Identifiable {
     let id : String
     let userID : String
     let content : String
-    let date : Double
+    let date: Date
     
     var stringDate : String {
         let dateFormatter = DateFormatter()
@@ -20,8 +20,6 @@ struct Message : Identifiable {
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        let dateAt = Date(timeIntervalSince1970: date)
-        
-        return dateFormatter.string(from: dateAt)
+        return dateFormatter.string(from: date)
     }
 }

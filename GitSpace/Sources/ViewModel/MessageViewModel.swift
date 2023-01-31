@@ -32,9 +32,9 @@ class MessageStore : ObservableObject {
                     for document in snapshot.documents {
                         let id: String = document.documentID
                         let docData = document.data()
-                        let userID : String = docData["userID"] as? String ?? ""
-                        let content : String = docData["content"] as? String ?? ""
-                        let date : Double = docData["date"] as? Double ?? 0.0
+                        let userID: String = docData["userID"] as? String ?? ""
+                        let content: String = docData["content"] as? String ?? ""
+                        let date: Date = docData["date"] as? Date ?? Date()
                         
                         let newMessage = Message(id: id,
                                                  userID: userID,
@@ -82,14 +82,14 @@ class MessageStore : ObservableObject {
     func fetchNewMessage(change : QueryDocumentSnapshot) -> Message {
         let id = change.documentID
         let data = change.data()
-        let userID : String = data["userID"] as? String ?? ""
-        let content : String = data["content"] as? String ?? ""
-        let date : Double = data["date"] as? Double ?? 0.0
+        let userID: String = data["userID"] as? String ?? ""
+        let content: String = data["content"] as? String ?? ""
+        let date: Date = data["date"] as? Date ?? Date()
         let newMessage = Message(id: id, userID: userID, content: content, date: date)
         return newMessage
     }
     
-    //TODO: API에서 async await concurrency 지원하는지 여부 파악
+    //TODO: API에서 async await concurrency 지원하는지 여부 파악 
     
     func addListener(chatID : String) {
         listener = database
