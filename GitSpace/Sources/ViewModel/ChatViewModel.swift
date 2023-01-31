@@ -27,10 +27,14 @@ class ChatStore: ObservableObject {
                         let docData = document.data()
                         let date: Date = docData["date"] as? Date ?? Date()
                         let users: [String: String] = docData["users"] as? [String: String] ?? [:]
-                        let lastDate: Date = docData["lastDate"] as? Date ?? Date()
+                        let lastTimeStamp: Timestamp = docData["lastDate"] as? Timestamp ?? Timestamp()
+                        let lastDate: Date = Timestamp.dateValue(lastTimeStamp)()
                         let lastContent: String = docData["lastContent"] as? String ?? ""
-                        let knockDate: Date = docData["knockDate"] as? Date ?? Date()
+                        let knockTimeStamp: Timestamp = docData["knockDate"] as? Timestamp ?? Timestamp()
+                        let knockDate: Date = Timestamp.dateValue(knockTimeStamp)()
                         let knockContent: String = docData["knockContent"] as? String ?? ""
+                        
+                        
                         
                         let userIDs : (String, String)
                         
