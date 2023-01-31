@@ -23,11 +23,17 @@ struct ChatDetailView : View {
         VStack {
             // 채팅 메세지 스크롤 뷰
             ScrollView {
+                
+                ChatDetailProfileSection(chat: chat)
+                
+                Divider()
+                    .padding(.vertical, 20)
+                
+                ChatDetailKnockSection(chat: chat)
+                
                 ForEach(messageStore.messages) { message in
-                    
                     MessageCell(message: message)
                         .contextMenu {
-                            
                             Button {
                                 self.currentMessage = message
                                 isShowingUpdateCell = true
@@ -37,7 +43,8 @@ struct ChatDetailView : View {
                             }
                             
                             Button {
-                                messageStore.removeMessage(message, chatID: chat.id)
+                                messageStore.removeMessage(message,
+                                                           chatID: chat.id)
                             } label: {
                                 Text("삭제하기")
                                 Image(systemName: "trash")
@@ -49,8 +56,10 @@ struct ChatDetailView : View {
                                                    message: message)
                         }
                 }
+                .padding(.top, 10)
                 
             }
+            .padding(.horizontal, 20)
             // 메세지 입력 필드
             typeContentField
                 .padding(20)
@@ -68,7 +77,7 @@ struct ChatDetailView : View {
     /// 1. 리스너로 배열에 추가를 한뒤, 로컬로 정렬하는 과정을 거친다
     /// 2. 처음 들어갔을 때는 전체 패치, addListener를 하면서 한번 더 추가된 애들은 제거한다 -> 채택
     
-    // MARK: -Button : 메세지 수정
+    // MARK: Button : 메세지 수정
     private var updateContentButton : some View {
         Button {
             isShowingUpdateCell = true
@@ -78,7 +87,7 @@ struct ChatDetailView : View {
         }
     }
     
-    // MARK: -Button : 메세지 삭제
+    // MARK: Button : 메세지 삭제
     private var removeContentButton : some View {
         Button {
             
@@ -88,7 +97,7 @@ struct ChatDetailView : View {
         }
     }
     
-    // MARK: -Section : 메세지 입력
+    // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack {
             TextField("",text: $contentField)
@@ -97,9 +106,9 @@ struct ChatDetailView : View {
         }
     }
     
-    // MARK: -Button : 메세지 추가(보내기)
+    // MARK: Button : 메세지 추가(보내기)
     private var addContentButton : some View {
-        // MARK: -Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
+        // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
         /// 새 메세지 셀 생성
         /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
