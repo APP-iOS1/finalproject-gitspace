@@ -32,7 +32,13 @@ struct ContentView: View {
                     .tabItem {
                         Image(systemName: "message.fill")
                     }
-                    
+					
+					NavigationView {
+						MyKnockBoxView()
+					}
+					.tabItem {
+						Image(systemName: "archivebox")
+					}
                     
                     NavigationView {
                         ProfileView()
