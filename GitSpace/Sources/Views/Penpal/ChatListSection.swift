@@ -1,10 +1,3 @@
-//
-//  ChatListSection.swift
-//  GitSpace
-//
-//  Created by 원태영 on 2023/01/31.
-//
-
 import SwiftUI
 
 struct ChatListSection: View {
@@ -16,7 +9,6 @@ struct ChatListSection: View {
         ScrollView {
             // 채팅방 목록 리스트
             ForEach(chatStore.chats) { chat in
-                
                 NavigationLink {
                     ChatDetailView(chat: chat)
                 } label: {
@@ -25,8 +17,38 @@ struct ChatListSection: View {
                 }
             }
         }
-        .onAppear{
+        .task{
             chatStore.fetchChats()
+        }
+    }
+}
+
+struct ListCellLabel : View {
+    
+    let chat : Chat
+    @EnvironmentObject var userStore : UserStore
+    @EnvironmentObject var chatStore: ChatStore
+    
+    var body: some View {
+        VStack(alignment: .leading){
+            HStack{
+                Image(systemName: "globe.americas.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 70)
+                    .padding(.trailing)
+                
+                VStack(alignment: .leading){
+                    Text(chat.users.receiverID == Utility.loginUserID ? chat.users.senderID : chat.users.receiverID)
+                        .font(.title2)
+                        .padding(.bottom, 5)
+                    Text(chat.lastContent)
+                        .foregroundColor(.gray)
+                }
+                
+            }
+            Divider()
+                .frame(width: 350)
         }
     }
 }
@@ -34,5 +56,7 @@ struct ChatListSection: View {
 struct ChatListSection_Previews: PreviewProvider {
     static var previews: some View {
         ChatListSection()
+            .environmentObject(ChatStore())
+            .environmentObject(UserStore())
     }
 }

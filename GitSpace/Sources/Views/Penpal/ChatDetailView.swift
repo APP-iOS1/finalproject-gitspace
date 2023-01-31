@@ -67,7 +67,11 @@ struct ChatDetailView : View {
                 .padding(20)
         }
         .task {
-            messageStore.fetchMessages(chatID: chat.id)
+            messageStore.addListener(chatID: chat.id)
+//            messageStore.fetchMessages(chatID: chat.id)
+        }
+        .onDisappear {
+            messageStore.removeListener()
         }
     }
     
