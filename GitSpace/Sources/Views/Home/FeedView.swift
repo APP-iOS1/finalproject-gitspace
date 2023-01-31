@@ -17,54 +17,67 @@ struct FeedView: View {
             NavigationLink {
                 ProfileDetailView()
             } label: {
-                Circle()
-                    .foregroundColor(.gray)
+                Image("avatarImage")
+                    .resizable()
                     .frame(width: 50, height: 50)
-                    .overlay {
-                    Text("User \(userNumber)")
-                }
             }
                 .foregroundColor(.primary)
-                .contextMenu(menuItems: {
+            // FIXME: - ContextMenu 일단 보류, 제거 가능
+//                .contextMenu(menuItems: {
+//
+//                Button(role: .none) {
+//                    // action
+//                } label: {
+//                    Text("Penpal 보내기")
+//                    Image(systemName: "paperplane")
+//                        .renderingMode(.original)
+//                }
+//
+//                NavigationLink(destination: ProfileDetailView()) {
+//                    Text("Profile로 이동")
+//                    Image(systemName: "person.circle")
+//                }
+//
+//
+//                Divider()
+//
+//                Button(role: .destructive) {
+//                    // action
+//                } label: {
+//                    Text("Unfollow")
+//                    Image(systemName: "person.badge.minus")
+//                        .renderingMode(.original)
+//                }
+//            })
 
-                Button(role: .none) {
-                    // action
-                } label: {
-                    Text("Penpal 보내기")
-                    Image(systemName: "paperplane")
-                        .renderingMode(.original)
-                }
-
-                NavigationLink(destination: ProfileDetailView()) {
-                    Text("Profile로 이동")
-                    Image(systemName: "person.circle")
-                }
-
-
-                Divider()
-
-                Button(role: .destructive) {
-                    // action
-                } label: {
-                    Text("Unfollow")
-                    Image(systemName: "person.badge.minus")
-                        .renderingMode(.original)
-                }
-            })
-
-            VStack(alignment: .leading, spacing: 10) {
-                HStack {
+            HStack(alignment:.top) {
+                VStack(alignment: .leading, spacing: 10) {
                     NavigationLink {
-						ProfileDetailView()
+                        ProfileDetailView()
                     } label: {
                         Text("User \(userNumber)")
                             .bold()
                     }
                         .foregroundColor(.primary)
 
-                    Spacer()
 
+
+                    NavigationLink {
+                        RepositoryDetailView()
+                    } label: {
+                        Text("User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
+                            .multilineTextAlignment(.leading)
+                    }
+//                    .multilineTextAlignment(.leading)
+                        .foregroundColor(.primary)
+
+                }
+                
+                Spacer()
+                
+                VStack {
                     Menu {
+
                         Button(role: .none) {
                             // action
                         } label: {
@@ -72,7 +85,7 @@ struct FeedView: View {
                             Image(systemName: "paperplane")
                                 .renderingMode(.original)
                         }
-                        
+
                         Button(role: .none) {
                             // action
                         } label: {
@@ -82,7 +95,7 @@ struct FeedView: View {
                                 .renderingMode(.original)
                         }
                         Divider()
-                        
+
                         Button(role: .destructive) {
                             // action
                         } label: {
@@ -90,9 +103,9 @@ struct FeedView: View {
                             Image(systemName: "star.slash")
                                 .renderingMode(.original)
                         }
-                        
+
                         Button(role: .destructive) {
-                            
+
                         } label: {
                             Text("Unfollow")
                             Image(systemName: "person.badge.minus")
@@ -101,40 +114,31 @@ struct FeedView: View {
                     } label: {
                         Image(systemName: "ellipsis")
                     }
-                    .foregroundColor(.primary)
+                        .foregroundColor(.primary)
+                    // FIXME: - ContextMenu 일단 보류, 제거 가능
+                    //                    .contextMenu(menuItems: {
+                    //                    // 만약 사용자도 팔로우중인 레포지토리라면 unstar 버튼을 보여줌
+                    //                    Button(role: .destructive) {
+                    //                        // action
+                    //                    } label: {
+                    //                        Text("Unstar")
+                    //                        Image(systemName: "star.slash")
+                    //                    }
+                    //
+                    //                    // 사용자가 팔로우중인 레포지토리가 아니라면 star버튼을 보여줌
+                    //                    Button(role: .none) {
+                    //                        // action
+                    //                    } label: {
+                    //                        Text("Star")
+                    //                        Image(systemName: "star")
+                    //                    }
+                    //                })
 
-                }
-                
-                NavigationLink {
-                    RepositoryDetailView()
-                } label: {
-                    Text("User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
-                        .multilineTextAlignment(.leading)
-                }
-                    .foregroundColor(.primary)
-                    .contextMenu(menuItems: {
-                    // 만약 사용자도 팔로우중인 레포지토리라면 unstar 버튼을 보여줌
-                    Button(role: .destructive) {
-                        // action
-                    } label: {
-                        Text("Unstar")
-                        Image(systemName: "star.slash")
-                    }
-
-                    // 사용자가 팔로우중인 레포지토리가 아니라면 star버튼을 보여줌
-                    Button(role: .none) {
-                        // action
-                    } label: {
-                        Text("Star")
-                        Image(systemName: "star")
-                    }
-                })
-                
-                HStack {
                     Spacer()
                     Text("\(userNumber) 시간 전")
                         .font(.footnote)
                         .foregroundColor(Color(.systemGray))
+
                 }
             } // vstack
         } // hstack
