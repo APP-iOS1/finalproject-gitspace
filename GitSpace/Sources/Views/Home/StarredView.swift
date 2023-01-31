@@ -117,7 +117,9 @@ struct StarredView: View {
                     .foregroundColor(.gsLightGray2)
                     .font(.system(size: 13))
                     .fontWeight(.regular)
+                
                 Spacer()
+                
                 Button {
                     /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
                     isShowingSelectTagView.toggle()
@@ -158,7 +160,7 @@ struct StarredView: View {
                     }
                     Spacer()
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 20)
             }
             .padding(.bottom, 10)
             
@@ -244,6 +246,8 @@ struct StarredView: View {
                         }
                         .offset(x: -20, y: 20)
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 15)
                 }
             }
         }
@@ -258,6 +262,7 @@ struct StarredView: View {
 }
 
 // MARK: - Repository Card View
+/// Starred View에서 사용되는 Repository를 감싸는 Card View입니다.
 struct RepositoryCardView<Content: View>: View {
     var content: () -> Content
     
@@ -268,7 +273,8 @@ struct RepositoryCardView<Content: View>: View {
     var body: some View {
         Group(content: content)
             .background(Color(.systemBackground))
-            .shadow(color: Color(.systemGray6), radius: 5)
+            .cornerRadius(17)
+            
     }
 }
 
