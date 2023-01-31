@@ -67,15 +67,8 @@ struct ChatDetailView : View {
                 .padding(20)
         }
         .task {
-            if isFromUserList {
-                if let targetChat = chatStore.targetChat{
-                    messageStore.fetchMessages(chatID: targetChat.id)
-                }
-            } else {
-                messageStore.fetchMessages(chatID: chat.id)
-            }
+            messageStore.fetchMessages(chatID: chat.id)
         }
-        
     }
     
     // MARK: -Button : 메세지 수정
