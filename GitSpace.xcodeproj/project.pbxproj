@@ -142,8 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				6E7278C2297E73910014CA17 /* AuthFiles.swift */,
-				6E0840242983BAD700F51169 /* UserViewModel.swift */,
-				6E0840262983BB9A00F51169 /* UserInfo.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -244,6 +242,7 @@
 				6E08401A298394DF00F51169 /* MessageViewModel.swift */,
 				6E0840182983948300F51169 /* ChatViewModel.swift */,
 				68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */,
+				6E0840242983BAD700F51169 /* UserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -253,6 +252,7 @@
 			children = (
 				6E0840162983906F00F51169 /* Message.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
+				6E0840262983BB9A00F51169 /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
