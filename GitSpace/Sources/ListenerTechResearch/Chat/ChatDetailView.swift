@@ -71,7 +71,6 @@ struct ChatDetailView : View {
         .task {
             if isFromUserList {
                 if let targetChat = chatStore.targetChat{
-                    chatStore.requestChatFromUserList(userIDs: chat.userIDList)
                     messageStore.fetchMessages(chatID: targetChat.id)
                 }
             } else {
@@ -121,9 +120,11 @@ struct ChatDetailView : View {
             let newMessage = makeMessage()
             let newChat = Chat(id: chat.id,
                                date: chat.date,
-                               userIDs: (chat.userIDs.open, chat.userIDs.join),
-                               lastDate: Date().timeIntervalSince1970,
-                               lastContent: contentField)
+                               users: (chat.users.senderID, chat.users.receiverID),
+                               lastDate: Date(),
+                               lastContent: contentField,
+                               knockContent: chat.knockContent,
+                               knockDate: chat.knockDate)
             messageStore.addMessage(newMessage, chatID: chat.id)
             chatStore.updateChat(newChat)
             contentField = ""
@@ -136,11 +137,10 @@ struct ChatDetailView : View {
     // MARK: -Method : Message 인스턴스를 만들어서 반환하는 함수
     private func makeMessage() -> Message {
         
-        let date = Date().timeIntervalSince1970
         let message = Message(id: UUID().uuidString,
                                 userID: Utility.loginUserID,
                                 content: contentField,
-                                date: date)
+                                date: Date())
         return message
     }
 }
