@@ -18,7 +18,7 @@ struct Message : Identifiable {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.dateFormat = "HH:mm"
         
         return dateFormatter.string(from: date)
     }
