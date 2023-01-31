@@ -22,6 +22,9 @@
 		68D76D55298713B900C1EA88 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D54298713B900C1EA88 /* FirebaseFirestoreCombine-Community */; };
 		68D76D57298713B900C1EA88 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		68E95FC72976D48C002E65AD /* StarredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E95FC62976D48C002E65AD /* StarredView.swift */; };
+		6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CAE29899F6C00446C0D /* ChatModifiers.swift */; };
+		6E000CB12989A1B600446C0D /* ChatDetailProfileSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB02989A1B600446C0D /* ChatDetailProfileSection.swift */; };
+		6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */; };
 		6E0840152983902800F51169 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840142983902800F51169 /* Chat.swift */; };
 		6E0840172983906F00F51169 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
 		6E0840192983948300F51169 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840182983948300F51169 /* ChatViewModel.swift */; };
@@ -74,6 +77,9 @@
 		6840F02629777F79008CF2D5 /* SelectTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagsView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
+		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
+		6E000CB02989A1B600446C0D /* ChatDetailProfileSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailProfileSection.swift; sourceTree = "<group>"; };
+		6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailKnockSection.swift; sourceTree = "<group>"; };
 		6E0840142983902800F51169 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		6E0840162983906F00F51169 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6E0840182983948300F51169 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -276,6 +282,9 @@
 				6E70333D29890ADE00FFC018 /* ChatListSection.swift */,
 				6E08401E2983966200F51169 /* ChatDetailView.swift */,
 				6E0840202983979B00F51169 /* MessageCell.swift */,
+				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
+				6E000CB02989A1B600446C0D /* ChatDetailProfileSection.swift */,
+				6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */,
 				34BC3567297770C5000DCBC7 /* MyKnockBox */,
 				7068B6BF29769522005D6B7B /* MainPenpalView.swift */,
 				6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */,
@@ -430,10 +439,12 @@
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */,
+				6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */,
 				6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */,
 				6E08402329839BD200F51169 /* Utility.swift in Sources */,
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
 				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
+				6E000CB12989A1B600446C0D /* ChatDetailProfileSection.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				6E084030298510E100F51169 /* TabManager.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
@@ -447,6 +458,7 @@
 				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
 				70F4BD0A297773C7005528A1 /* PenpalListView.swift in Sources */,
 				6E0840212983979B00F51169 /* MessageCell.swift in Sources */,
+				6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatRecommandCardSection.swift in Sources */,
