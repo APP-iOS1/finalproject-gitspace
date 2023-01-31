@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 // 채팅방 모델
 struct Chat : Identifiable {
@@ -20,15 +21,31 @@ struct Chat : Identifiable {
     
     // MARK: -Computed Properties
     // 로그인 ID와 userIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
-    var targetID : String {
+    var targetID: String {
         return users.senderID == Utility.loginUserID ? users.receiverID : users.senderID
     }
     
-    var userIDList : [String] {
+    // targetID 연산 프로퍼티를 활용해서 DB의 target User Name을 찾아서 반환하는 연산 프로퍼티
+    var targetUserName: String {
+        let db = Firestore.firestore()
+        var returnUserName : String = ""
+        db
+            .collection("UserInfo")
+            .document(targetID)
+            .getDocument { (snapshot, error) in
+                if let data = snapshot?.data() {
+                    let name = data["name"] as? String ?? ""
+                    returnUserName = name
+                }
+            }
+        return returnUserName.isEmpty ? "이름 없음" : returnUserName
+    }
+    
+    var userIDList: [String] {
         return [users.senderID, users.receiverID]
     }
     
-    var stringDate : String {
+    var stringDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -36,7 +53,7 @@ struct Chat : Identifiable {
         return dateFormatter.string(from: date)
     }
     
-    var stringLastDate : String {
+    var stringLastDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -44,7 +61,7 @@ struct Chat : Identifiable {
         return dateFormatter.string(from: lastDate)
     }
     
-    var stringLastTime : String {
+    var stringLastTime: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -52,7 +69,7 @@ struct Chat : Identifiable {
         return dateFormatter.string(from: lastDate)
     }
     
-    var stringKnockDate : String {
+    var stringKnockDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
