@@ -30,7 +30,8 @@ class UserStore : ObservableObject {
                         let docData = document.data()
                         let name = docData["name"] as? String ?? ""
                         let email = docData["email"] as? String ?? ""
-                        let date = docData["date"] as? Date ?? Date()
+                        let timeStamp: Timestamp = docData["date"] as? Timestamp ?? Timestamp()
+                        let date: Date = Timestamp.dateValue(timeStamp)()
                         
                         let newUserInfo = UserInfo.init(id: id,
                                                         name: name,
