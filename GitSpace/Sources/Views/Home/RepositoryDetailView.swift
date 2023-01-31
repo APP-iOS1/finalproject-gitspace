@@ -160,8 +160,10 @@ struct RepositoryDetailViewTags: View {
             }
             
         }
+        // FIXME: selectedTag의 값
+        /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
-            AddTagSheetView()
+            AddTagSheetView(selectedTags: .constant([]))
         }
     }
 }

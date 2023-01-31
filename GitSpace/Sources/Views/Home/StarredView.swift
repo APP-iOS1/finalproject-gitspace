@@ -11,7 +11,7 @@ import SwiftUI
 struct Tag: Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String
-    var selectedCount: Int
+//    var selectedCount: Int
     var isSelected: Bool = false
 }
 
@@ -24,18 +24,19 @@ struct Repository: Identifiable {
     var tags: [Tag]?
 }
 
+
 // MARK: - Dummy Tag Data
 var tagList: [Tag] = [
-    Tag(name: "SwiftUI", selectedCount: 0),
-    Tag(name: "Swift", selectedCount: 0),
-    Tag(name: "MVVM", selectedCount: 0),
-    Tag(name: "Interview", selectedCount: 0),
-    Tag(name: "iOS", selectedCount: 0),
-    Tag(name: "UIKit", selectedCount: 0),
-    Tag(name: "Yummy", selectedCount: 0),
-    Tag(name: "Checkit", selectedCount: 0),
-    Tag(name: "TheVoca", selectedCount: 0),
-    Tag(name: "GGOM-GGO-MI", selectedCount: 0)
+    Tag(name: "SwiftUI"),
+    Tag(name: "Swift"),
+    Tag(name: "MVVM"),
+    Tag(name: "Interview"),
+    Tag(name: "iOS"),
+    Tag(name: "UIKit"),
+    Tag(name: "Yummy"),
+    Tag(name: "Checkit"),
+    Tag(name: "TheVoca"),
+    Tag(name: "GGOM-GGO-MI")
 ]
 
 // MARK: - Dummy Repository Data
@@ -125,7 +126,7 @@ struct StarredView: View {
                 
                 /* Scroll Main Content */
                 
-                /* selected tags */
+                /* selected tags header*/
                 HStack {
                     Text("Selected Tags")
                         .foregroundColor(.gsLightGray2)
@@ -146,31 +147,26 @@ struct StarredView: View {
                 .padding(.top, 10)
                 .padding(.horizontal, 20)
                 
+                /* Selected Tag List */
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
-                            //                    Button {
-                            //                        print("\(tag.name)")
-                            //                        selectedTagList.remove(at: index)
-                            //                    } label: {
-                            //                        Text("\(tag.name)")
-                            //                    }
-                            //                    .padding(5)
-                            //                    .background(Color.black)
-                            //                    .foregroundColor(Color(.systemBackground))
-                            //                    .cornerRadius(10)
-                            
                             GSButton.CustomButtonView(
                                 style: .tag(
                                     isEditing: false,
                                     isSelected: true
                                 )
                             ) {
+                                /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
+                                for (index, item) in Array(zip(tagList.indices, tagList)) {
+                                    if item.id == tag.id {
+                                        tagList[index].isSelected = false
+                                    }
+                                }
                                 selectedTagList.remove(at: index)
                             } label: {
                                 Text("\(tag.name)")
                             }
-                            
                         }
                         Spacer()
                     }
@@ -178,8 +174,8 @@ struct StarredView: View {
                 }
                 .padding(.bottom, 10)
                 
+                /* repository list */
                 ScrollView {
-                    /* repository list */
                     ForEach(repositoryList) { repository in
                         ZStack {
                             RepositoryCardView {
@@ -259,7 +255,8 @@ struct StarredView: View {
                 }
             }
             .sheet(isPresented: $isShowingSelectTagView) {
-                SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
+//                SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
+                AddTagSheetView(selectedTags: $selectedTagList)
             }
         }
     }
