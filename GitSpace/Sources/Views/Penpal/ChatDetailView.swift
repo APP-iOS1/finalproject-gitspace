@@ -18,46 +18,57 @@ struct ChatDetailView : View {
     @State var currentMessage : Message?
     @State private var contentField : String = ""
     
+    
     var body: some View {
         
         VStack {
             // 채팅 메세지 스크롤 뷰
-            ScrollView {
-                
-                ChatDetailProfileSection(chat: chat)
-                
-                Divider()
-                    .padding(.vertical, 20)
-                
-                ChatDetailKnockSection(chat: chat)
-                
-                ForEach(messageStore.messages) { message in
-                    MessageCell(message: message)
-                        .contextMenu {
-                            Button {
-                                self.currentMessage = message
-                                isShowingUpdateCell = true
-                            } label: {
-                                Text("수정하기")
-                                Image(systemName: "pencil")
+            ScrollViewReader { proxy in
+                ScrollView {
+                    
+                    ChatDetailProfileSection(chat: chat)
+                    
+                    Divider()
+                        .padding(.vertical, 20)
+                    
+                    ChatDetailKnockSection(chat: chat)
+                    
+                    ForEach(messageStore.messages) { message in
+                        MessageCell(message: message)
+                            .contextMenu {
+                                Button {
+                                    self.currentMessage = message
+                                    isShowingUpdateCell = true
+                                } label: {
+                                    Text("수정하기")
+                                    Image(systemName: "pencil")
+                                }
+                                
+                                Button {
+                                    messageStore.removeMessage(message,
+                                                               chatID: chat.id)
+                                } label: {
+                                    Text("삭제하기")
+                                    Image(systemName: "trash")
+                                }
                             }
-                            
-                            Button {
-                                messageStore.removeMessage(message,
-                                                           chatID: chat.id)
-                            } label: {
-                                Text("삭제하기")
-                                Image(systemName: "trash")
+                            .sheet(isPresented: $isShowingUpdateCell) {
+                                ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
+                                                       chatID: chat.id,
+                                                       message: message)
+                            }
+                    }
+                    .padding(.top, 10)
+                    
+                    Text("")
+                        .id(1)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                proxy.scrollTo(1, anchor: .bottomTrailing)
                             }
                         }
-                        .sheet(isPresented: $isShowingUpdateCell) {
-                            ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
-                                                   chatID: chat.id,
-                                                   message: message)
-                        }
+                    
                 }
-                .padding(.top, 10)
-                
             }
             .padding(.horizontal, 20)
             // 메세지 입력 필드
@@ -68,6 +79,7 @@ struct ChatDetailView : View {
             messageStore.addListener(chatID: chat.id)
             messageStore.removeListenerMessages()
             messageStore.fetchMessages(chatID: chat.id)
+            
         }
         .onDisappear {
             messageStore.removeListener()
@@ -179,6 +191,10 @@ struct ChangeContentSheetView : View {
                 Image(systemName: "pencil")
             }
             
+        }
+        .padding(.horizontal, 20)
+        .onAppear {
+            changeContentField = message.content
         }
     }
 }
