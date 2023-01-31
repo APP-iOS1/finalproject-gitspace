@@ -71,47 +71,6 @@ struct StarredView: View {
                 .ignoresSafeArea()
             
             VStack {
-                //            ScrollView(.horizontal) {
-                //                /* selection tag view */
-                //                HStack {
-                //                    /* All, 모든 Starred Repository 열람하기 */
-                //                    Button {
-                //                        print("All")
-                //                    } label: {
-                //                        Text("All")
-                //                    }
-                //                    .padding(10)
-                //                    .background(Color.black)
-                //                    .foregroundColor(Color(.systemBackground))
-                //                    .cornerRadius(10)
-                //
-                //                    ForEach(tagList[...2]) { tag in
-                //                        Button {
-                //                            print("\(tag.name)")
-                //                            selectedTagList.append(tag)
-                //                        } label: {
-                //                            Text("\(tag.name)")
-                //                        }
-                //                        .padding(10)
-                //                        .background(Color.black)
-                //                        .foregroundColor(Color(.systemBackground))
-                //                        .cornerRadius(10)
-                //                    }
-                //
-                //                    Button {
-                //                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
-                //                        isShowingSelectTagView.toggle()
-                //                    } label: {
-                //                        Text("...")
-                //                    }
-                //                    .padding(10)
-                //                    .background(Color(.systemGray))
-                //                    .foregroundColor(Color(.systemBackground))
-                //                    .cornerRadius(30)
-                //                }
-                //            }
-                //            .padding(.horizontal, 10)
-                
                 /* searchbar (custom) */
                 HStack {
                     Image(systemName: "magnifyingglass")

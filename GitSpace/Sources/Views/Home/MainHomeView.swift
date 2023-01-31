@@ -59,49 +59,6 @@ struct MainHomeView: View {
                     .offset(y: 3.5)
             }
             .padding(16)
-            
-            
-//			HStack {
-//				Button {
-//					withAnimation(.easeIn(duration: 0.2)) {
-//						tabSelection = "star"
-//					}
-//				} label: {
-//                    if tabSelection == "star" {
-//                        Text("Starred")
-//                            .foregroundColor(.black)
-//                            .font(.title2)
-//                            .bold()
-//                    } else {
-//                        Text("Starred")
-//                            .foregroundColor(Color(.systemGray))
-//                            .font(.title2)
-//                            .bold()
-//                    }
-//				}
-//                .frame(minWidth: 80)
-//
-//				Button {
-//                    withAnimation(.easeIn(duration: 0.2)) {
-//                        tabSelection = "follow"
-//                    }
-//				} label: {
-//                    if tabSelection == "star" {
-//                        Text("Activity")
-//                            .foregroundColor(Color(.systemGray))
-//                            .font(.title2)
-//                            .bold()
-//                    } else {
-//                        Text("Activity")
-//                            .foregroundColor(.black)
-//                            .font(.title2)
-//                            .bold()
-//                    }
-//				}
-//
-//                Spacer()
-//			}
-//            .padding([.horizontal, .top], 10)
 			
 			TabView(selection: $selectedHomeTab) {
 				StarredView()

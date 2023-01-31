@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-//class TagSample: ObservableObject {
-//    @Published var tags: [String] = ["thisis", "my", "tag", "hehe"]
-//    @Published var tagSelections: [Bool] = [false, false, false, false]
-//}
-
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var selectedTags: [Tag]
