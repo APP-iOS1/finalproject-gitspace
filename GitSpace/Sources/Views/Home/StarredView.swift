@@ -49,52 +49,53 @@ var repositoryList: [Repository] = [
 ]
 
 struct StarredView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var searchTag: String = ""
-    @State private var selectedTagList: [Tag] = []
+    @State private var selectedTagList: [Tag] = tagList
     @State private var isShowingSelectTagView: Bool = false
     
     var body: some View {
         VStack {
-            ScrollView(.horizontal) {
-                /* selection tag view */
-                HStack {
-                    /* All, 모든 Starred Repository 열람하기 */
-                    Button {
-                        print("All")
-                    } label: {
-                        Text("All")
-                    }
-                    .padding(10)
-                    .background(Color.black)
-                    .foregroundColor(Color(.systemBackground))
-                    .cornerRadius(10)
-                    
-                    ForEach(tagList[...2]) { tag in
-                        Button {
-                            print("\(tag.name)")
-                            selectedTagList.append(tag)
-                        } label: {
-                            Text("\(tag.name)")
-                        }
-                        .padding(10)
-                        .background(Color.black)
-                        .foregroundColor(Color(.systemBackground))
-                        .cornerRadius(10)
-                    }
-                    
-                    Button {
-                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
-                        isShowingSelectTagView.toggle()
-                    } label: {
-                        Text("...")
-                    }
-                    .padding(10)
-                    .background(Color(.systemGray))
-                    .foregroundColor(Color(.systemBackground))
-                    .cornerRadius(30)
-                }
-            }
-            .padding(.horizontal, 10)
+//            ScrollView(.horizontal) {
+//                /* selection tag view */
+//                HStack {
+//                    /* All, 모든 Starred Repository 열람하기 */
+//                    Button {
+//                        print("All")
+//                    } label: {
+//                        Text("All")
+//                    }
+//                    .padding(10)
+//                    .background(Color.black)
+//                    .foregroundColor(Color(.systemBackground))
+//                    .cornerRadius(10)
+//
+//                    ForEach(tagList[...2]) { tag in
+//                        Button {
+//                            print("\(tag.name)")
+//                            selectedTagList.append(tag)
+//                        } label: {
+//                            Text("\(tag.name)")
+//                        }
+//                        .padding(10)
+//                        .background(Color.black)
+//                        .foregroundColor(Color(.systemBackground))
+//                        .cornerRadius(10)
+//                    }
+//
+//                    Button {
+//                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
+//                        isShowingSelectTagView.toggle()
+//                    } label: {
+//                        Text("...")
+//                    }
+//                    .padding(10)
+//                    .background(Color(.systemGray))
+//                    .foregroundColor(Color(.systemBackground))
+//                    .cornerRadius(30)
+//                }
+//            }
+//            .padding(.horizontal, 10)
             
             /* searchbar (custom) */
             HStack {
@@ -109,34 +110,59 @@ struct StarredView: View {
             .padding(.horizontal, 10)
             
             /* Scroll Main Content */
-            ScrollView {
-                /* selected tags */
+            
+            /* selected tags */
+            HStack {
+                Text("Selected Tags")
+                    .foregroundColor(.gsLightGray2)
+                    .font(.system(size: 13))
+                    .fontWeight(.regular)
+                Spacer()
+                Button {
+                    /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
+                    isShowingSelectTagView.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                }
+                .foregroundColor(colorScheme == .light ? .black : .white)
+
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
-//                        Button {
-//                            print("\(tag.name)")
-//                            selectedTagList.remove(at: index)
-//                        } label: {
-//                            Text("\(tag.name)")
-//                        }
-//                        .padding(5)
-//                        .background(Color.black)
-//                        .foregroundColor(Color(.systemBackground))
-//                        .cornerRadius(10)
-						
-						// 버튼 추상화 완료~
-//						GSButton.ContentView(
-//							style: .tag
-//						) {
-//							selectedTagList.remove(at: index)
-//						} content:  {
-//							Text("\(tag.name)")
-//						}
+//                    Button {
+//                        print("\(tag.name)")
+//                        selectedTagList.remove(at: index)
+//                    } label: {
+//                        Text("\(tag.name)")
+//                    }
+//                    .padding(5)
+//                    .background(Color.black)
+//                    .foregroundColor(Color(.systemBackground))
+//                    .cornerRadius(10)
+                        
+                        GSButton.CustomButtonView(
+                            style: .tag(
+                                isEditing: false,
+                                isSelected: true
+                            )
+                        ) {
+                            selectedTagList.remove(at: index)
+                        } label: {
+                            Text("\(tag.name)")
+                        }
+                        
                     }
                     Spacer()
                 }
                 .padding(.horizontal, 10)
-                
+            }
+            .padding(.bottom, 10)
+            
+            ScrollView {
                 /* repository list */
                 ForEach(repositoryList) { repository in
                     ZStack {
