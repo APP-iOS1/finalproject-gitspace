@@ -13,7 +13,7 @@ struct ChatView: View {
     
     var body: some View {
         
-        VStack {
+        ScrollView {
             ChatRecommandCardSection()
 				.padding()
             
