@@ -37,12 +37,13 @@ struct ListCellLabel : View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70)
+                    .clipShape(Circle())
                     .padding(.trailing)
                 
                 VStack(alignment: .leading) {
-                    
-                    Text(targetName)
+                    Text("@\(targetName)")
                         .font(.title2)
+                        .bold()
                         .padding(.bottom, 5)
                     
                     Text(chat.lastContent)
@@ -50,6 +51,7 @@ struct ListCellLabel : View {
                 }
                 
             }
+            .frame(height: 100)
             Divider()
                 .frame(width: 350)
         }
