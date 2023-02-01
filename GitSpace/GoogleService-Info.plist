@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>144879966378-uqr4c5bk6k9g022tqi9ni5h6gcgepsn2.apps.googleusercontent.com</string>
+	<string>144879966378-kjvh4sdkd2okm0gfggvs7bjg9ums6tfk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.144879966378-uqr4c5bk6k9g022tqi9ni5h6gcgepsn2</string>
+	<string>com.googleusercontent.apps.144879966378-kjvh4sdkd2okm0gfggvs7bjg9ums6tfk</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBXApCb_OjBVq99Ssb5n_RbWJRhl8D5PHs</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.valselee.GitSpace</string>
+	<string>com.GitSpace</string>
 	<key>PROJECT_ID</key>
 	<string>gitspace-b2d4f</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:144879966378:ios:c3542ec32e901e3c9518d3</string>
+	<string>1:144879966378:ios:803ea047517dab759518d3</string>
 </dict>
 </plist>
