@@ -36,7 +36,7 @@ struct ChatDetailView : View {
                     
                     
                     ForEach(messageStore.messages) { message in
-                        MessageCell(message: message)
+                        MessageCell(message: message, targetName: targetName)
                             .contextMenu {
                                 Button {
                                     self.currentMessage = message
@@ -77,6 +77,7 @@ struct ChatDetailView : View {
             typeContentField
                 .padding(20)
         }
+        .padding(.bottom, 1)
         .task {
             messageStore.addListener(chatID: chat.id)
             messageStore.removeListenerMessages()
