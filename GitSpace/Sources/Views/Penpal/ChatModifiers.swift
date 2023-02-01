@@ -13,8 +13,8 @@ struct MessageModifier : ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.system(size: 16))
-            .padding(20)
-            .frame(maxWidth: Utility.MessageCellWidth)
+            .padding()
+//            .frame(maxWidth: Utility.MessageCellWidth)
             .background(isMine ? Color.gsGreenPrimary : Color(uiColor: .systemGray4))
             .cornerRadius(17)
             .overlay(alignment: isMine ? .trailing : .leading) {
@@ -37,12 +37,13 @@ struct MessageTimeModifier : ViewModifier {
 // MARK: Modifier : 노크 메세지 셀 속성
 struct KnockMessageModifier : ViewModifier {
     func body(content: Content) -> some View {
-        content
-            .font(.system(size: 12))
-            .padding(20)
-            .border(.gray.opacity(0.1))
-            .shadow(radius: 10)
-            .cornerRadius(17)
+            content
+                .font(.system(size: 12))
+                .padding(20)
+                .frame(minWidth: Utility.UIWidth - 40)
+                .border(.gray.opacity(0.1))
+                .shadow(radius: 10)
+                .cornerRadius(17)
     }
 }
 
