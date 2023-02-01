@@ -162,7 +162,7 @@ struct NewKnockView: View {
                         
                         VStack(alignment: .center, spacing: 10) {
                             VStack (alignment: .center) {
-                                Text("Send you Knock messages to")
+                                Text("Send your Knock messages to")
                                 Text("\("guguhanogu")!")
                                     .bold()
                             }
