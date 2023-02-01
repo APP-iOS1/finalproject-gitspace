@@ -36,11 +36,8 @@ struct ChatRecommandCardSection: View {
                 .foregroundColor(.gray)
                 .padding(.bottom, -10)
             
-            
             ScrollView(.horizontal, showsIndicators: false) {
-                
                 HStack(spacing: 12) {
-                    
                     ForEach(recommendedUsers) { user in
                         VStack(alignment: .trailing) {
                             HStack {
