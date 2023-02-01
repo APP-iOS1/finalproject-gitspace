@@ -23,7 +23,6 @@ struct ContentView: View {
                 Image(systemName: "house")
             }
             
-            
             NavigationView {
                 PenpalListView()
             }
@@ -39,56 +38,6 @@ struct ContentView: View {
                 //Image("그사람프사")
             }
         }
-         
-//        Group {
-//            if authStore.isLogin {
-//
-//                TabView() {
-//                    NavigationView {
-//                        UserView()
-//                    }
-//                    .tabItem {
-//                        Image(systemName: "person.3.fill")
-//                    }
-//
-//
-//                    NavigationView {
-//                        ChatView()
-//                    }
-//                    .tabItem {
-//                        Image(systemName: "message.fill")
-//                    }
-//
-//					NavigationView {
-//						MyKnockBoxView()
-//					}
-//					.tabItem {
-//						Image(systemName: "archivebox")
-//					}
-//
-//                    NavigationView {
-//                        ProfileView()
-//                    }
-//                    .tabItem {
-//                        Image(systemName: "gear")
-//                    }
-//
-//                }
-//
-//            } else {
-//                NavigationView {
-//                    LoginView()
-//                }
-//            }
-//
-//        }
-//        .task {
-//            if authStore.currentUser != nil {
-//                authStore.isLogin = true
-//            }
-//        }
-        
-		
     }
 }
 
