@@ -41,7 +41,7 @@ struct ChatRecommandCardSection: View {
                     ForEach(recommendedUsers) { user in
                         VStack(alignment: .trailing) {
                             HStack {
-                                // TODO: - [GITHUB API] 유저 프로필 내용으로 교체 예정
+                                // TODO: - [GITHUB API] 유저 프로필 내용으로 바꾸기
                                 Image("avatarImage")
                                     .frame(width: 64)
                                 
@@ -95,6 +95,8 @@ struct ChatRecommandCardSection: View {
                         }
                         .padding(.vertical, 21)
                         .padding(.horizontal, 17)
+                        
+                        // TODO: - 추상화 후 백그라운드를 캔버스 디자인시스템으로 바꾸기
                         .background(
                             RoundedRectangle(cornerRadius: 35, style: .continuous)
                                 .fill(.white)
