@@ -14,6 +14,8 @@
 		34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MyKnockBoxView.swift */; };
 		34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */; };
 		34BC356F29779201000DCBC7 /* MyKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* MyKnockCell.swift */; };
+		34BC357E2988EA4D000DCBC7 /* NewKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* NewKnockView.swift */; };
+		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6840F02629777F79008CF2D5 /* SelectTagsView.swift */; };
 		68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */; };
 		68D76D4F298713B900C1EA88 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D4E298713B900C1EA88 /* FirebaseAuth */; };
@@ -74,6 +76,8 @@
 		34BC356829777253000DCBC7 /* MyKnockBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockBoxView.swift; sourceTree = "<group>"; };
 		34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockSettingView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* MyKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockCell.swift; sourceTree = "<group>"; };
+		34BC357D2988EA4D000DCBC7 /* NewKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewKnockView.swift; sourceTree = "<group>"; };
+		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		6840F02629777F79008CF2D5 /* SelectTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagsView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				34BC356829777253000DCBC7 /* MyKnockBoxView.swift */,
 				34BC356E29779201000DCBC7 /* MyKnockCell.swift */,
 				34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */,
+				34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */,
 			);
 			path = MyKnockBox;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				6E8C05C42976D77E002C9F45 /* PenpalDetailView.swift */,
 				6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */,
 				70F4BD0829776F8B005528A1 /* PenpalList */,
+				34BC357D2988EA4D000DCBC7 /* NewKnockView.swift */,
 			);
 			path = Penpal;
 			sourceTree = "<group>";
@@ -434,6 +440,14 @@
 				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
 				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
 				6E0840172983906F00F51169 /* Message.swift in Sources */,
+				6E199B15297A291A00F88569 /* ListenerView.swift in Sources */,
+				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
+				7095265D297F8CEC00F97E27 /* Button+ColorScheme.swift in Sources */,
+				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
+				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
+				34BC357E2988EA4D000DCBC7 /* NewKnockView.swift in Sources */,
+				6E0840172983906F00F51169 /* MessageModel.swift in Sources */,
+				6E0840292983BCE200F51169 /* UserView.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
