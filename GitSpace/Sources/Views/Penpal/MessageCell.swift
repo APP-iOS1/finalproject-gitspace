@@ -35,27 +35,5 @@ struct MessageCell : View {
     }
 }
 
-// MARK: -Modifier : 채팅 메세지 셀 속성
-struct MessageModifier : ViewModifier {
-    let isMine : Bool
-    func body(content: Content) -> some View {
-        content
-            .padding()
-            .padding(.vertical,-8)
-            .foregroundColor(isMine ? .white : .black)
-            .background(isMine ? .orange : .gray)
-            .cornerRadius(22)
-        
-        
-    }
-}
 
-// MARK: -Modifier : 채팅 메세지 보낸 시간 속성
-struct MessageTimeModifier : ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .font(.caption2)
-            .foregroundColor(.secondary)
-    }
-}
 

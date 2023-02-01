@@ -30,12 +30,13 @@ class UserStore : ObservableObject {
                         let docData = document.data()
                         let name = docData["name"] as? String ?? ""
                         let email = docData["email"] as? String ?? ""
-                        let signUpDate = docData["signUpDate"] as? Double ?? 0.0
+                        let timeStamp: Timestamp = docData["date"] as? Timestamp ?? Timestamp()
+                        let date: Date = Timestamp.dateValue(timeStamp)()
                         
                         let newUserInfo = UserInfo.init(id: id,
                                                         name: name,
                                                         email: email,
-                                                        signUpDate: signUpDate)
+                                                        date: date)
                         self.users.append(newUserInfo)
                     }
                 }
