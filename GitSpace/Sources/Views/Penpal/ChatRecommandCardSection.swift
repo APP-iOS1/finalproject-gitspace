@@ -95,7 +95,6 @@ struct ChatRecommandCardSection: View {
                                     .background(Color.gsGreenPrimary)
                                     .cornerRadius(20)
                             }
-                            
                         }
                         .padding(.vertical, 21)
                         .padding(.horizontal, 17)
