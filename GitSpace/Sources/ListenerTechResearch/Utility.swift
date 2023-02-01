@@ -16,4 +16,8 @@ enum Utility {
     static var MessageCellWidth: CGFloat {
         return UIScreen.main.bounds.width / 5 * 3
     }
+    
+    static var UIWidth: CGFloat {
+        return UIScreen.main.bounds.width
+    }
 }
