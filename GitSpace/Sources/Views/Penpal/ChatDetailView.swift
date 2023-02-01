@@ -69,7 +69,7 @@ struct ChatDetailView : View {
                         }
                 }
             }
-            .padding(.horizontal, 20)
+//            .padding(.horizontal, 20)
             // 메세지 입력 필드
             typeContentField
                 .padding(20)

@@ -8,11 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    @EnvironmentObject var authStore: AuthStore
-    @EnvironmentObject var tabManager: TabManager
-    
-    
     var body: some View {
         // FIXME: Listener 채팅방 테스트를 위한 기존 탭뷰 주석처리 by. 예슬
          TabView {
@@ -24,7 +19,7 @@ struct ContentView: View {
             }
             
             NavigationView {
-                PenpalListView()
+                ChatView()
             }
             .tabItem {
                 Image(systemName: "bubble.right")

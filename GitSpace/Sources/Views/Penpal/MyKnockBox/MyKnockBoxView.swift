@@ -76,11 +76,11 @@ struct MyKnockBoxView: View {
 						// 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
 						Text("Check the message for information about who's Knocking on you.")
 							.foregroundColor(Color(.systemGray))
-						
+
 						// 상대방은 응답할 때까지 회원님의 노크 확인 여부를 알 수 없습니다.
 						Text("They won't know you've seen it until you respond.")
 							.foregroundColor(Color(.systemGray))
-						
+
 						Button {
 							showingKnockSetting.toggle()
 						} label: {
@@ -91,9 +91,9 @@ struct MyKnockBoxView: View {
 					}
 					.font(.caption2)
 					.padding(3)
-					
+
 					Divider()
-					
+
 					// MARK: - Knock Cell
 					ForEach(
 						knockHistoryViewModel.receivedKnockLists.sorted {
@@ -101,10 +101,15 @@ struct MyKnockBoxView: View {
 						},
 						id: \.self) { eachKnock in
 							NavigationLink {
-								KnockHistoryView(
-									eachKnock: eachKnock,
-									knockMessenger: $knockMessenger
-								)
+
+								if eachKnock.knockStatus == "Waiting" {
+									ReceivedKnockView()
+								} else {
+									KnockHistoryView(
+										eachKnock: eachKnock,
+										knockMessenger: $knockMessenger
+									)
+								}
 							} label: {
 								MyKnockCell(
 									knockHistoryViewModel: knockHistoryViewModel,
@@ -124,6 +129,7 @@ struct MyKnockBoxView: View {
 						)
 				} // LazyVStack
 				.tag(receiverTab)
+				
 			case senderTab:
 				LazyVStack {
 					VStack {

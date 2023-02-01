@@ -55,6 +55,8 @@ public struct GSButton {
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
+				.disabled(isDisabled)
+				
 				
 			case .tag(let isEditing, let isSelected):
 				Button(action: action) {

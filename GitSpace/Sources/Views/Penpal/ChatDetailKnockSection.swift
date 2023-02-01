@@ -17,10 +17,11 @@ struct ChatDetailKnockSection: View {
                 .font(.caption)
                 .foregroundColor(.gsLightGray2)
             HStack {
-                Text("Knock Message")
+                Text("**Knock Message**")
+					.padding(.leading, 20)
                     .font(.caption)
                     .foregroundColor(.gsLightGray2)
-                    .bold()
+                    
                 Spacer()
             }
             

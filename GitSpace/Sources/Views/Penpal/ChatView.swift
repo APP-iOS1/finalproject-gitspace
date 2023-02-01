@@ -15,11 +15,37 @@ struct ChatView: View {
         
         VStack {
             ChatRecommandCardSection()
+				.padding()
             
             Divider()
             
             ChatListSection()
         }
+		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				Text("GitSpace")
+					.font(.title2)
+					.bold()
+			}
+			
+			ToolbarItem(placement: .navigationBarTrailing) {
+				NavigationLink {
+					MyKnockBoxView()
+				} label: {
+					Image(systemName: "archivebox")
+						.foregroundColor(.primary)
+				}
+			}
+			
+//			ToolbarItem(placement: .navigationBarTrailing) {
+//				NavigationLink {
+//					NewKnockView()
+//				} label: {
+//					Image(systemName: "plus.message")
+//						.foregroundColor(.primary)
+//				}
+//			}
+		}
         
     }
 }

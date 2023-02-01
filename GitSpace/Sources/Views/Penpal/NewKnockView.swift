@@ -159,7 +159,7 @@ struct NewKnockView: View {
 //                    }
 //                }
             } // ScrollViewReader
-            .padding(.top, -40)
+//            .padding(.top, -40)
             
             VStack {
                 if chatPurpose == "offer" {
@@ -212,19 +212,19 @@ struct NewKnockView: View {
             } // VStack
         } // VStack
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("Back")
-                            .padding(.leading, -5)
-                    }
-                    .foregroundColor(.black)
-                }
-                
-            } // ToolbarItem
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Button {
+//                    dismiss()
+//                } label: {
+//                    HStack {
+//                        Image(systemName: "chevron.left")
+//                        Text("Back")
+//                            .padding(.leading, -5)
+//                    }
+//                    .foregroundColor(.black)
+//                }
+//
+//            } // ToolbarItem
             
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {

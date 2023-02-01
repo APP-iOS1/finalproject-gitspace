@@ -59,8 +59,9 @@ struct ReceivedKnockView: View {
                     ProfileDetailView()
                 } label: {
                     GSButton.CustomButtonView(style: .secondary(
-                        isDisabled: false)) {
-                            
+                        isDisabled: false)
+					) {
+
                         } label: {
                             Text("View Profile")
                                 .font(.footnote)
@@ -68,6 +69,7 @@ struct ReceivedKnockView: View {
                                 .bold()
                                 .padding(-8)
                         }
+						.disabled(true)
                 }
                 
                 Divider()
@@ -127,47 +129,41 @@ struct ReceivedKnockView: View {
                 }
                 
             } // ScrollView
-            .padding(.top, -40)
-            
             VStack {
                 
             } // VStack
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("Back")
-                            .padding(.leading, -5)
-                    }
-                    .foregroundColor(.black)
-                }
-                
-            } // ToolbarItem
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Button {
+//                    dismiss()
+//                } label: {
+//                    HStack {
+//                        Image(systemName: "chevron.left")
+//                        Text("Back")
+//                            .padding(.leading, -5)
+//                    }
+//                    .foregroundColor(.black)
+//                }
+//
+//            } // ToolbarItem
             
-            ToolbarItemGroup(placement: .principal) {
-                NavigationLink {
-                    ProfileDetailView()
-                } label: {
-                    HStack(spacing: 5) {
-                        AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                                .frame(width: 30)
-                        } placeholder: {
-                            ProgressView()
-                        } // AsyncImage
-                        
-                        Text("\("guguhanogu")")
-                            .bold()
-                    } // HStack
-                    .foregroundColor(.black)
-                }
+            ToolbarItem(placement: .principal) {
+				HStack(spacing: 5) {
+					AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
+						image
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+							.clipShape(Circle())
+							.frame(width: 30)
+					} placeholder: {
+						ProgressView()
+					} // AsyncImage
+					
+					Text("\("guguhanogu")")
+						.bold()
+				} // HStack
+				.foregroundColor(.black)
             } // ToolbarItemGroup
         } // toolbar
     }
