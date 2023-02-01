@@ -34,7 +34,11 @@ struct MessageCell : View {
             HStack {
                 
                 VStack {
-                    ProfileAsyncImage(size: 50)
+                    NavigationLink {
+                        ProfileDetailView()
+                    } label: {
+                        ProfileAsyncImage(size: 50)
+                    }
                     Spacer()
                 }
                 
