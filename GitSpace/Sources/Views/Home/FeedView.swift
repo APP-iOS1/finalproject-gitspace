@@ -50,7 +50,7 @@ struct FeedView: View {
 //                }
 //            })
 
-            HStack(alignment:.top) {
+            HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     NavigationLink {
                         ProfileDetailView()
@@ -67,6 +67,7 @@ struct FeedView: View {
                     } label: {
                         Text("User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
                             .multilineTextAlignment(.leading)
+                            .font(.body)
                     }
 //                    .multilineTextAlignment(.leading)
                         .foregroundColor(.primary)
@@ -149,6 +150,7 @@ struct FeedView: View {
 
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedView(userNumber: 1)
+//        FeedView(userNumber: 1)
+        ContentView()
     }
 }
