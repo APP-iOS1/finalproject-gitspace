@@ -14,12 +14,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
 		
+		// 메세징 델리겟
+		Messaging.messaging().delegate = self
+		
 		// 원격 알림 등록
 		if #available(iOS 10.0, *) {
 			// For iOS 10 display notification (sent via APNS)
-			UNUserNotificationCenter.current().delegate = self
+			UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
 			
 			let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+			
 			UNUserNotificationCenter.current().requestAuthorization(
 				options: authOptions,
 				completionHandler: { _, _ in }
@@ -32,42 +36,56 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		application.registerForRemoteNotifications()
 		
-		// 메세징 델리겟
-		Messaging.messaging().delegate = self
-		
 		// 푸시 포그라운드 설정
 		UNUserNotificationCenter.current().delegate = self
         return true
     }
 }
 
-// FCM의 메시지 토큰 관리
+// MARK: - FCM 메시지 및 토큰 관리
 extension AppDelegate: MessagingDelegate {
-	// fcm 토큰이 등록 되었을 때
-	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		Messaging.messaging().apnsToken = deviceToken
+	/* 메시지 토큰 등록 완료 */
+	func application(_ application: UIApplication,
+					 didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		print(#function, "+++ didRegister Success", deviceToken)
+//		Messaging.messaging().apnsToken = deviceToken
+		Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+	}
+	
+	/* 메시지 토큰 등록 실패 */
+	func application(_ application: UIApplication,
+					 didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		print(#function, "DEBUG: +++ register error: \(error.localizedDescription)")
+	}
+	
+	func messaging(_ messaging: Messaging,
+				   didReceiveRegistrationToken fcmToken: String?) {
+		print(#function, "Messaging")
+		let deviceToken: [String: String] = ["token" : fcmToken ?? ""]
+		print(#function, "+++ Device Test Token", deviceToken)
+		
 	}
 }
 
-// 알람 등록 후 반응 로직
+// MARK: - 알람 처리 메소드 구현
 extension AppDelegate: UNUserNotificationCenterDelegate {
 	func userNotificationCenter(_ center: UNUserNotificationCenter,
 								willPresent notification: UNNotification,
 								withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-		
+		/* 앱이 포어그라운드에서 실행될 때 도착한 알람 처리 */
 		let userInfo = notification.request.content.userInfo
 		
-		print("willPresent: userInfo: ", userInfo)
+		print(#function, "+++ willPresent: userInfo: ", userInfo)
 		
 		completionHandler([.banner, .sound, .badge])
 	}
 	
-	// 푸시메세지를 받았을 때
+	/* 전달 알림에 대한 사용자 응답을 처리하도록 대리인에 요청 */
 	func userNotificationCenter(_ center: UNUserNotificationCenter,
 								didReceive response: UNNotificationResponse,
 								withCompletionHandler completionHandler: @escaping () -> Void) {
 		let userInfo = response.notification.request.content.userInfo
-		print("didReceive: userInfo: ", userInfo)
+		print(#function, "+++ didReceive: userInfo: ", userInfo)
 		completionHandler()
 	}
 }
