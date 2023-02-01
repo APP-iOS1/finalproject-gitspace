@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var repositoryStore: RepositoryStore
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State private var tagInput: String = ""
@@ -34,7 +35,7 @@ struct AddTagSheetView: View {
                     // 태그 추가 버튼
                     Button {
                         if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                            tagList.append( Tag(name: tagInput) )
+                            repositoryStore.tagList.append( Tag(name: tagInput) )
                         }
                     } label: {
                         Image(systemName: "plus")
@@ -55,40 +56,26 @@ struct AddTagSheetView: View {
                 HStack {
                     LazyVGrid(columns: columns) {
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                        ForEach(Array(tagList.enumerated()), id: \.offset) { index, tag in
-                            Button {
-                                if !selectedTags.contains(tag) {
-                                    selectedTags.append(tag)
+                        ForEach(Array(repositoryStore.tagList.enumerated()), id: \.offset) { index, tag in
+                            GSButton.CustomButtonView(
+                                style: .tag(
+                                    isEditing: false,
+                                    isSelected: selectedTags.contains(tag)
+                                )
+                            ) {
+                                withAnimation {
+                                    if selectedTags.contains(tag) {
+                                        let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
+                                        selectedTags.remove(at: selectedIndex)
+                                    } else {
+                                        selectedTags.append(tag)
+                                    }
                                 }
                             } label: {
-                                Text(tag.name)
-                                    .frame(width: 50)
-                                    .padding(.vertical, 7)
-                                    .padding(.horizontal, 13)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(.black)
-                                    )
+                                Text("\(tag.name)")
                                     .font(.callout)
-                                    .foregroundColor(selectedTags.contains(tag) ? .white : .black)
-                                    .background(selectedTags.contains(tag) ? .black : .clear)
-                                    .cornerRadius(20)
                             }
-                            
-//                            GSButton.CustomButtonView(
-//                                style: .tag(
-//                                    isEditing: false,
-//                                    isSelected: false
-//                                )
-//                            ) {
-//                                withAnimation {
-////                                    selectedTags[0].isSelected.toggle()
-//                                }
-//                            } label: {
-//                                Text("\(tag.name)")
-//                                    .font(.callout)
-//                            }
-//                            .tag("HI")
+                            .tag("\(tag.name)")
                         }
                     }
                 }
@@ -112,7 +99,7 @@ struct AddTagSheetView: View {
                          사용자가 선택한 태그들(selectedTags)를
                          preSelectedTag에 추가한다.
                         */
-                        preSelectedTags += selectedTags
+                        preSelectedTags = selectedTags
                         dismiss()
                     } label: {
                         Text("Done")
