@@ -63,11 +63,10 @@ struct ChatDetailView : View {
                     Text("")
                         .id(1)
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 proxy.scrollTo(1, anchor: .bottomTrailing)
                             }
                         }
-                    
                 }
             }
             .padding(.horizontal, 20)
