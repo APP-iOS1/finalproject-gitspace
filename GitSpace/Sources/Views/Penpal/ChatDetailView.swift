@@ -12,12 +12,11 @@ struct ChatDetailView : View {
     
     let chat : Chat
     
-    @EnvironmentObject var chatStore : ChatStore
-    @EnvironmentObject var messageStore : MessageStore
-    @State var isShowingUpdateCell : Bool = false
-    @State var currentMessage : Message?
-    @State private var contentField : String = ""
-    
+    @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var messageStore: MessageStore
+    @State var isShowingUpdateCell: Bool = false
+    @State private var contentField: String = ""
+    @State private var targetName: String = ""
     
     var body: some View {
         
@@ -26,67 +25,87 @@ struct ChatDetailView : View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    ChatDetailProfileSection(chat: chat)
+                    ChatDetailProfileSection(chat: chat, targetName: $targetName)
                     
                     Divider()
                         .padding(.vertical, 20)
                     
                     ChatDetailKnockSection(chat: chat)
                     
-                    ForEach(messageStore.messages) { message in
-                        MessageCell(message: message)
-                            .contextMenu {
-                                Button {
-                                    self.currentMessage = message
-                                    isShowingUpdateCell = true
-                                } label: {
-                                    Text("수정하기")
-                                    Image(systemName: "pencil")
-                                }
-                                
-                                Button {
-                                    messageStore.removeMessage(message,
-                                                               chatID: chat.id)
-                                } label: {
-                                    Text("삭제하기")
-                                    Image(systemName: "trash")
-                                }
-                            }
-                            .sheet(isPresented: $isShowingUpdateCell) {
-                                ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
-                                                       chatID: chat.id,
-                                                       message: message)
-                            }
-                    }
-                    .padding(.top, 10)
+                    messageCells
+                        .padding(.top, 10)
+                        .padding(.horizontal, 10)
                     
                     Text("")
-                        .id(1)
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                proxy.scrollTo(1, anchor: .bottomTrailing)
-                            }
-                        }
+                        .id("bottom")
+                        
+                }
+//                .onAppear {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+//                    }
+//                }
+                .onChange(of: messageStore.messageAdded) { state in
+                    proxy.scrollTo("bottom", anchor: .bottomTrailing)
                 }
             }
-//            .padding(.horizontal, 20)
             // 메세지 입력 필드
             typeContentField
                 .padding(20)
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .principal) {
+                HStack(spacing: 10) {
+                    ProfileAsyncImage(size: 30)
+                    Text(targetName)
+                        .bold()
+                        .padding(.horizontal, -8)
+                }
+            }
         }
         .task {
             messageStore.addListener(chatID: chat.id)
             messageStore.removeListenerMessages()
             messageStore.fetchMessages(chatID: chat.id)
-            
+            targetName = await chat.targetUserName
         }
         .onDisappear {
             messageStore.removeListener()
         }
     }
     
-    /// 1. 리스너로 배열에 추가를 한뒤, 로컬로 정렬하는 과정을 거친다
-    /// 2. 처음 들어갔을 때는 전체 패치, addListener를 하면서 한번 더 추가된 애들은 제거한다 -> 채택
+    // MARK: View : message cells ForEach문
+    private var messageCells: some View {
+        ForEach(messageStore.messages) { message in
+            MessageCell(message: message, targetName: targetName)
+                .contextMenu {
+                    /* FIXME: 업데이트 sheet에서 타겟 Message를 정확하게 받아오지 못하는 이슈가 있어서 주석처리 By.태영
+                    Button {
+                        self.currentMessage = message
+                        isShowingUpdateCell = true
+                    } label: {
+                        Text("수정하기")
+                        Image(systemName: "pencil")
+                    }
+                     */
+                    
+                    Button {
+                        messageStore.removeMessage(message,
+                                                   chatID: chat.id)
+                    } label: {
+                        Text("삭제하기")
+                        Image(systemName: "trash")
+                    }
+                }
+            /* FIXME: 업데이트 sheet에서 타겟 Message를 정확하게 받아오지 못하는 이슈가 있어서 주석처리 By.태영
+                .sheet(isPresented: $isShowingUpdateCell) {
+                    ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
+                                           chatID: chat.id,
+                                           message: message)
+                }
+             */
+        }
+    }
     
     // MARK: Button : 메세지 수정
     private var updateContentButton : some View {
@@ -110,7 +129,7 @@ struct ChatDetailView : View {
     
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
-        HStack {
+        HStack(spacing: 10) {
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
@@ -124,6 +143,11 @@ struct ChatDetailView : View {
             
             TextField("Enter Message",text: $contentField)
                 .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .onSubmit {
+                    addContent()
+                }
             
             addContentButton
                 .disabled(contentField.isEmpty)
@@ -139,24 +163,36 @@ struct ChatDetailView : View {
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
         /// 메세지 입력 필드 공백으로 초기화
         Button {
-            let newMessage = makeMessage()
-            let newChat = Chat(id: chat.id,
-                               date: chat.date,
-                               users: (chat.users.senderID, chat.users.receiverID),
-                               lastDate: Date(),
-                               lastContent: contentField,
-                               knockContent: chat.knockContent,
-                               knockDate: chat.knockDate)
-            messageStore.addMessage(newMessage, chatID: chat.id)
-            chatStore.updateChat(newChat)
-            contentField = ""
-            
+            addContent()
         } label: {
             Image(systemName: "location")
         }
     }
     
-    // MARK: -Method : Message 인스턴스를 만들어서 반환하는 함수
+    // MARK: -Methods
+    // MARK: Method : 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
+    private func addContent() {
+        let newMessage = makeMessage()
+        let newChat = makeChat()
+        messageStore.addMessage(newMessage, chatID: chat.id)
+        chatStore.updateChat(newChat)
+        contentField = ""
+    }
+    
+    // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
+    private func makeChat() -> Chat {
+        
+        let chat = Chat(id: chat.id,
+                           date: chat.date,
+                           users: (chat.users.senderID, chat.users.receiverID),
+                           lastDate: Date(),
+                           lastContent: contentField,
+                           knockContent: chat.knockContent,
+                           knockDate: chat.knockDate)
+        return chat
+    }
+    
+    // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
     private func makeMessage() -> Message {
         
         let message = Message(id: UUID().uuidString,
@@ -168,32 +204,4 @@ struct ChatDetailView : View {
 }
 
 
-// MARK: -View : 메세지 수정 Sheet
-struct ChangeContentSheetView : View {
-    @Binding var isShowingUpdateCell : Bool
-    @State var changeContentField : String = ""
-    @EnvironmentObject var messageStore : MessageStore
-    let chatID : String
-    let message : Message
-    
-    var body: some View {
-        VStack(spacing : 50) {
-            
-            TextField(message.content, text: $changeContentField)
-                .textFieldStyle(.roundedBorder)
-            
-            Button {
-                messageStore.updateMessage(message, chatID: chatID)
-                isShowingUpdateCell = false
-            } label: {
-                Text("수정하기")
-                Image(systemName: "pencil")
-            }
-            
-        }
-        .padding(.horizontal, 20)
-        .onAppear {
-            changeContentField = message.content
-        }
-    }
-}
+

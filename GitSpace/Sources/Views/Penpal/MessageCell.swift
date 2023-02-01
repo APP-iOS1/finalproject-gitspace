@@ -9,29 +9,52 @@ import SwiftUI
 
 // MARK: -View : 채팅 메세지 셀
 struct MessageCell : View {
-    let message : Message
-    var isMine : Bool {
+    let message: Message
+    let targetName: String
+    var isMine: Bool {
         return Utility.loginUserID == message.userID
     }
     
     var body: some View {
-        HStack(alignment: .bottom) {
-            switch isMine {
-            case true:
+        
+        switch isMine {
+        case true:
+            HStack(alignment: .bottom) {
                 Spacer()
                 Text(message.stringDate)
                     .modifier(MessageTimeModifier())
                 Text(message.content)
                     .modifier(MessageModifier(isMine: self.isMine))
-            case false:
-                Text(message.content)
-                    .modifier(MessageModifier(isMine: self.isMine))
-                Text(message.stringDate)
-                    .modifier(MessageTimeModifier())
-                Spacer()
+            }
+            .padding(.trailing, 20)
+            
+        case false:
+            
+            
+            HStack {
+                
+                VStack {
+                    NavigationLink {
+                        ProfileDetailView()
+                    } label: {
+                        ProfileAsyncImage(size: 50)
+                    }
+                    Spacer()
+                }
+                
+                VStack (alignment: .leading) {
+                    Text(targetName)
+                    HStack(alignment: .bottom) {
+                        Text(message.content)
+                            .modifier(MessageModifier(isMine: self.isMine))
+                        Text(message.stringDate)
+                            .modifier(MessageTimeModifier())
+                        Spacer()
+                    }
+                }
             }
         }
-        .padding(isMine ? .trailing : .leading, 20)
+        
     }
 }
 

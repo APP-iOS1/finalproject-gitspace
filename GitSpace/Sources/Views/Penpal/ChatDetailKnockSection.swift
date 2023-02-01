@@ -18,16 +18,17 @@ struct ChatDetailKnockSection: View {
                 .foregroundColor(.gsLightGray2)
             HStack {
                 Text("**Knock Message**")
-					.padding(.leading, 20)
                     .font(.caption)
                     .foregroundColor(.gsLightGray2)
+                    .padding(.leading, 20)
                     
                 Spacer()
             }
             
+            
             Text(chat.knockContent)
                 .modifier(KnockMessageModifier())
-            
+           
         }
     }
 }

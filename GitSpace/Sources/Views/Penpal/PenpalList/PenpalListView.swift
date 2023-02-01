@@ -77,7 +77,7 @@ struct PenpalListView: View {
 			
 			ToolbarItemGroup(placement: .navigationBarTrailing) {
 				NavigationLink {
-					MyKnockBoxView()
+					KnockBoxView()
 				} label: {
                     Image(systemName: "tray.full")
                         .foregroundColor(.black)
