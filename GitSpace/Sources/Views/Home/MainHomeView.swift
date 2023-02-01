@@ -8,64 +8,71 @@
 import SwiftUI
 
 struct MainHomeView: View {
-	@State private var tabSelection = "star"
+    @State private var selectedHomeTab = "Starred"
+    private let starTab = "Starred"
+    private let activityTab = "Activity"
 	
     var body: some View {
 		VStack {
-			HStack {
-				Button {
-					withAnimation(.easeIn(duration: 0.2)) {
-						tabSelection = "star"
-					}
-				} label: {
-                    if tabSelection == "star" {
-                        Text("Starred")
-                            .foregroundColor(.black)
-                            .font(.title2)
-                            .bold()
-                    } else {
-                        Text("Starred")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.title2)
-                            .bold()
+            /* Starred, Activity Tab Button */
+            HStack {
+                GSButton.CustomButtonView(
+                    style: .homeTab(
+                        tabName: starTab,
+                        tabSelection: $selectedHomeTab
+                    )
+                ) {
+                    withAnimation {
+                        selectedHomeTab = starTab
                     }
-				}
-                .frame(minWidth: 80)
-				
-				Button {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        tabSelection = "follow"
+                } label: {
+                    Text(starTab)
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                        .bold()
+                }
+                .tag(starTab)
+                
+                GSButton.CustomButtonView(
+                    style: .homeTab(
+                        tabName: activityTab,
+                        tabSelection: $selectedHomeTab
+                    )
+                ) {
+                    withAnimation {
+                        selectedHomeTab = activityTab
                     }
-				} label: {
-                    if tabSelection == "star" {
-                        Text("Activity")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.title2)
-                            .bold()
-                    } else {
-                        Text("Activity")
-                            .foregroundColor(.black)
-                            .font(.title2)
-                            .bold()
-                    }
-				}
+                } label: {
+                    Text(activityTab)
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                        .bold()
+                }
+                .tag(activityTab)
                 
                 Spacer()
-			}
-            .padding([.horizontal, .top], 10)
+            }
+            .overlay(alignment: .bottom) {
+                Divider()
+                    .frame(minHeight: 0.5)
+                    .overlay(Color.primary)
+                    .offset(y: 3.5)
+            }
+            .padding(16)
 			
-			TabView(selection: $tabSelection) {
+			TabView(selection: $selectedHomeTab) {
 				StarredView()
-					.tag("star")
+					.tag("Starred")
 				FollowingView()
-					.tag("follow")
+					.tag("Activity")
 			}
 			.tabViewStyle(.page)
+            .ignoresSafeArea()
 		}
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Text("GitSpace")
-                    .font(.title)
+                    .font(.title2)
 					.bold()
 			}
 			
@@ -83,6 +90,8 @@ struct MainHomeView: View {
 
 struct MainHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        MainHomeView()
+        NavigationView {
+            MainHomeView()
+        }
     }
 }

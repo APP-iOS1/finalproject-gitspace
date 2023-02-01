@@ -311,7 +311,6 @@
 				22DECDE92976FEB5008A4405 /* FeedView.swift */,
 				70F4BD102977D408005528A1 /* RepositoryDetailView.swift */,
 				68E95FC62976D48C002E65AD /* StarredView.swift */,
-				6840F02629777F79008CF2D5 /* SelectTagsView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -449,7 +448,6 @@
 				6E0840172983906F00F51169 /* MessageModel.swift in Sources */,
 				6E0840292983BCE200F51169 /* UserView.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
-				6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */,
