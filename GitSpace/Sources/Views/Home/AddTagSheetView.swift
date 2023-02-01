@@ -7,14 +7,9 @@
 
 import SwiftUI
 
-class TagSample: ObservableObject {
-    @Published var tags: [String] = ["thisis", "my", "tag", "hehe"]
-    @Published var tagSelections: [Bool] = [false, false, false, false]
-}
-
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var tagSample: TagSample = TagSample()
+    @Binding var selectedTags: [Tag]
     @State private var tagInput: String = ""
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -38,8 +33,7 @@ struct AddTagSheetView: View {
                     // 태그 추가 버튼
                     Button {
                         if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                            tagSample.tags.append(tagInput)
-                            tagSample.tagSelections.append(false)
+                            tagList.append( Tag(name: tagInput) )
                         }
                     } label: {
                         Image(systemName: "plus")
@@ -59,11 +53,15 @@ struct AddTagSheetView: View {
                 
                 HStack {
                     LazyVGrid(columns: columns) {
-                        ForEach(0..<tagSample.tags.count, id: \.self) { index in
+                        /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
+                        ForEach(Array(tagList.enumerated()), id: \.offset) { index, tag in
                             Button {
-                                tagSample.tagSelections[index].toggle()
+                                if !tagList[index].isSelected { // 중복 추가 방지
+                                    selectedTags.append(tag)
+                                }
+                                tagList[index].isSelected.toggle()
                             } label: {
-                                Text(tagSample.tags[index])
+                                Text(tag.name)
                                     .frame(width: 50)
                                     .padding(.vertical, 7)
                                     .padding(.horizontal, 13)
@@ -72,8 +70,8 @@ struct AddTagSheetView: View {
                                             .stroke(.black)
                                     )
                                     .font(.callout)
-                                    .foregroundColor(tagSample.tagSelections[index] ? .white : .black)
-                                    .background(tagSample.tagSelections[index] ? .black : .clear)
+                                    .foregroundColor(tagList[index].isSelected ? .white : .black)
+                                    .background(tagList[index].isSelected ? .black : .clear)
                                     .cornerRadius(20)
                                 
                             }
@@ -109,7 +107,7 @@ struct AddTagSheetView: View {
 struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddTagSheetView()
+            AddTagSheetView(selectedTags: .constant( [Tag(name: "MVVM")] ))
         }
     }
 }

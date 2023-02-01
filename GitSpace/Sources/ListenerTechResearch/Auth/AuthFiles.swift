@@ -74,7 +74,7 @@ class AuthStore: ObservableObject {
             let user = UserInfo(id: authUser.uid,
                                 name: name,
                                 email: email,
-                                signUpDate: Date().timeIntervalSince1970)
+                                date: Date())
             addUserInfo(user)
             // 회원가입 시, 해당 유저 정보로 로그인 되는 문제 해결을 위해 로그아웃 호출
             self.logout()
@@ -88,7 +88,7 @@ class AuthStore: ObservableObject {
             .setData(["id" : userInfo.id,
                       "name" : userInfo.name,
                       "email" : userInfo.email,
-                      "signUpDate" : userInfo.signUpDate])
+                      "date" : userInfo.date])
     }
 }
 

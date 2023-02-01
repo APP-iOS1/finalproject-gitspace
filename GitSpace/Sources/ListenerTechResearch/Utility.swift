@@ -5,17 +5,15 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
-import Foundation
+import SwiftUI
 import FirebaseAuth
 
 enum Utility {
-    
     static var loginUserID : String {
-        guard let currentUser = Auth.auth().currentUser else {
-            return ""
-        }
-        return currentUser.uid
+        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
     }
     
-    
+    static var MessageCellWidth: CGFloat {
+        return UIScreen.main.bounds.width / 5 * 3
+    }
 }
