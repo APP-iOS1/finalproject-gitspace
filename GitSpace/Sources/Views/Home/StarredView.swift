@@ -215,7 +215,7 @@ struct StarredView: View {
             }
             .sheet(isPresented: $isShowingSelectTagView) {
 //                SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
-                AddTagSheetView(selectedTags: $selectedTagList)
+                AddTagSheetView(preSelectedTags: $selectedTagList)
             }
         }
     }

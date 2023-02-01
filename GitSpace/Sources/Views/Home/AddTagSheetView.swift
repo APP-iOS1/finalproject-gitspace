@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var selectedTags: [Tag]
+    @Binding var preSelectedTags: [Tag]
+    @State private var selectedTags: [Tag] = []
     @State private var tagInput: String = ""
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -56,10 +57,11 @@ struct AddTagSheetView: View {
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
                         ForEach(Array(tagList.enumerated()), id: \.offset) { index, tag in
                             Button {
-                                if !tagList[index].isSelected { // 중복 추가 방지
-                                    selectedTags.append(tag)
-                                }
-                                tagList[index].isSelected.toggle()
+//                                if !tagList[index].isSelected { // 중복 추가 방지
+//                                    selectedTags.append(tag)
+//                                }
+//                                tagList[index].isSelected.toggle()
+                                selectedTags.append(tag)
                             } label: {
                                 Text(tag.name)
                                     .frame(width: 50)
@@ -93,6 +95,12 @@ struct AddTagSheetView: View {
 				
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
+                        /*
+                         모달을 내리기 전에
+                         사용자가 선택한 태그들(selectedTags)를
+                         preSelectedTag에 추가한다.
+                        */
+                        preSelectedTags += selectedTags
                         dismiss()
                     } label: {
                         Text("Done")
@@ -107,7 +115,7 @@ struct AddTagSheetView: View {
 struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddTagSheetView(selectedTags: .constant( [Tag(name: "MVVM")] ))
+            AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ))
         }
     }
 }
