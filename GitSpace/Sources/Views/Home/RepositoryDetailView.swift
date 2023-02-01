@@ -10,10 +10,18 @@ import SwiftUI
 struct RepositoryDetailView: View {
 
     var body: some View {
+        // TODO: - 정보가 많아지면 ScrollView 로 변경 고려해볼것
         VStack {
 
-//            Spacer()
-//                .frame(height: 20)
+            HStack {
+                Image("GuideImage")
+                Text("Check out what **Random Brazil Guy** just starred!")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+                .padding(.bottom, 10)
+
 
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard()
@@ -23,32 +31,30 @@ struct RepositoryDetailView: View {
             RepositoryDetailViewTags()
 
             Spacer()
-            
-            GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-                
-            } label: {
-                Text("✊🏻  Knock Knock!")
-                    .font(.headline)
-                    .foregroundColor(.black)
-            }
 
+            
+            NavigationLink {
+                // MARK: - ContributorListView
+                // 툴바 메일 아이콘 탭 시 노크 가능한 유저 리스트 뷰로 이동
+                ContributorListView()
+                    .navigationTitle("Knock Knock!")
+            } label: {
+                GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
+
+                } label: {
+                    Text("✊🏻  Knock Knock!")
+                        .font(.headline)
+                        .foregroundColor(.black)
+                }
+                // FIXME: - 버튼 디자인 시스템 변경되면 disabled 제거
+                // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 버튼이 회색으로 표시됨
+                .disabled(true)
+            }
+            
 
         }
             .padding(.horizontal, 30)
             .navigationBarTitle("Repository", displayMode: .inline)
-            .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    // MARK: - ContributorListView
-                    // 툴바 메일 아이콘 탭 시 노크 가능한 유저 리스트 뷰로 이동
-                    ContributorListView()
-                        .navigationTitle("Knock Knock!")
-                } label: {
-                    Text("📮")
-                        .font(.largeTitle)
-                }
-            }
-        }
     }
 }
 
@@ -133,16 +139,17 @@ struct RepositoryDetailViewTags: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(tags, id: \.self) { tag in
+                        // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 태그버튼이 주황색으로 표시됨
                         GSButton.CustomButtonView(style: .tag(isEditing: false)) {
-                            
+
                         } label: {
                             Text(tag)
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
-                                .padding(-10)
+                            .padding(-10)
                         }
 
-                        
-                            
+
+
                     }
                 }
             }
