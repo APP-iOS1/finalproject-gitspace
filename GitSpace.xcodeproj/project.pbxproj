@@ -15,7 +15,6 @@
 		34BC356F29779201000DCBC7 /* MyKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* MyKnockCell.swift */; };
 		34BC357E2988EA4D000DCBC7 /* NewKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* NewKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
-		6840F02729777F79008CF2D5 /* SelectTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6840F02629777F79008CF2D5 /* SelectTagsView.swift */; };
 		68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */; };
 		68D76D4F298713B900C1EA88 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D4E298713B900C1EA88 /* FirebaseAuth */; };
 		68D76D51298713B900C1EA88 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D50298713B900C1EA88 /* FirebaseAuthCombine-Community */; };
@@ -40,7 +39,6 @@
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
-		6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E199B0C297A168300F88569 /* GoogleService-Info.plist */; };
 		6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */; };
 		6E70333C29890AD000FFC018 /* ChatRecommandCardSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatRecommandCardSection.swift */; };
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
@@ -60,6 +58,7 @@
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
 		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
 		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
+		70BC1FB0298A359B00E6DD76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
 		70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
@@ -81,7 +80,6 @@
 		34BC356E29779201000DCBC7 /* MyKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* NewKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
-		6840F02629777F79008CF2D5 /* SelectTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagsView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		6E0840262983BB9A00F51169 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		6E08402D298501B100F51169 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		6E08402F298510E100F51169 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
-		6E199B0C297A168300F88569 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Sources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyPenpalListView.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatRecommandCardSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRecommandCardSection.swift; sourceTree = "<group>"; };
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
@@ -122,6 +119,7 @@
 		7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ColorScheme.swift"; sourceTree = "<group>"; };
 		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70F4BD09297773C7005528A1 /* PenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalListView.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -214,7 +212,7 @@
 		7068B6A629769448005D6B7B /* GitSpace */ = {
 			isa = PBXGroup;
 			children = (
-				6E199B0C297A168300F88569 /* GoogleService-Info.plist */,
+				70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
 				7095CFA2297EB90A000F2BF6 /* Extensions */,
@@ -431,9 +429,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BC1FB0298A359B00E6DD76 /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
-				6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,13 +455,7 @@
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
-				6E199B15297A291A00F88569 /* ListenerView.swift in Sources */,
-				7095265D297F8CEC00F97E27 /* Button+ColorScheme.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
-				0BF5E35E2977AD5600F3673C /* ProfileSettingView.swift in Sources */,
-				70F4BD0D29778E46005528A1 /* SendKnockModal.swift in Sources */,
-				6E0840172983906F00F51169 /* MessageModel.swift in Sources */,
-				6E0840292983BCE200F51169 /* UserView.swift in Sources */,
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* NewKnockView.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
@@ -481,8 +473,6 @@
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
-				6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */,
-				6E8C05C52976D77E002C9F45 /* PenpalDetailView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				7068B6C029769522005D6B7B /* MainPenpalView.swift in Sources */,
@@ -630,7 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 67M6ZS7KS6;
+				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -644,7 +634,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.valselee.GitSpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -660,7 +650,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 67M6ZS7KS6;
+				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -674,7 +664,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.valselee.GitSpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
