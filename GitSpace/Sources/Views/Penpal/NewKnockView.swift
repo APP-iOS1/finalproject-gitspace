@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+enum TextEditorFocustState {
+    case edit
+    case done
+}
+
+
 struct NewKnockView: View {
     
     @Environment(\.dismiss) private var dismiss
+    
     @Namespace var topID
     @Namespace var bottomID
-    @FocusState private var isFocused: Bool
+    
+    @StateObject private var keyboardHandler = KeyboardHandler()
+    @FocusState private var isFocused: TextEditorFocustState?
     @State private var chatPurpose: String = ""
     @State private var knockMessage: String = ""
     
@@ -118,7 +127,7 @@ struct NewKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "offer"
-                                    proxy.scrollTo(bottomID, anchor: .top)
+//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
                             } label: {
                                 Text("🚀 Offer")
@@ -133,7 +142,7 @@ struct NewKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "question"
-                                    proxy.scrollTo(bottomID, anchor: .top)
+//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
                             } label: {
                                 Text("💡 Question")
@@ -146,13 +155,22 @@ struct NewKnockView: View {
                         
                     } // HStack
                     
+                    
+                    
                     HStack {
                     }.id(bottomID)
+                        
                     
                 } // ScrollView
+                .onChange(of: keyboardHandler.keyboardHeight) { _ in
+                            withAnimation { proxy.scrollTo(bottomID) }
+                        }
                 .onTapGesture {
                     self.endTextEditing()
+                    
                 }
+//                .padding(.top, -(keyboardHandler.keyboardHeight / 2))
+                .animation(.default, value: keyboardHandler.keyboardHeight)
 //                .onChange(of: isFocused) { value in
 //                    withAnimation(.easeInOut.speed(1.5)) {
 //                        proxy.scrollTo(bottomID, anchor: .top)
@@ -170,7 +188,7 @@ struct NewKnockView: View {
                         Spacer()
                         
                         Button {
-                            
+                            self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
                         }
@@ -180,7 +198,7 @@ struct NewKnockView: View {
                     
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
-                        .focused($isFocused)
+                        .focused($isFocused, equals: .edit)
                     //                        .padding()
                     //                        .border(Color.systemGray3, width: 1)
                     
@@ -194,7 +212,7 @@ struct NewKnockView: View {
                         Spacer()
                         
                         Button {
-                            
+                            self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
                         }
@@ -204,13 +222,14 @@ struct NewKnockView: View {
                     
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
-                        .focused($isFocused)
+                        .focused($isFocused, equals: .edit)
                     //                        .padding()
                     //                        .border(Color.systemGray3, width: 1)
                     
                 } // if - else if
             } // VStack
         } // VStack
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
 //            ToolbarItem(placement: .navigationBarLeading) {
 //                Button {

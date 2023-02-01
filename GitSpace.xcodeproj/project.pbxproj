@@ -10,6 +10,8 @@
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE52976F78C008A4405 /* FollowingView.swift */; };
 		22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE92976FEB5008A4405 /* FeedView.swift */; };
+		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
+		34BC356929777253000DCBC7 /* MyKnockBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MyKnockBoxView.swift */; };
 		34BC356929777253000DCBC7 /* KnockBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* KnockBoxView.swift */; };
 		34BC356D29778C43000DCBC7 /* MyKnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */; };
 		34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* KnockCell.swift */; };
@@ -76,6 +78,8 @@
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
 		22DECDE52976F78C008A4405 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		22DECDE92976FEB5008A4405 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		34BC356829777253000DCBC7 /* MyKnockBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockBoxView.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* KnockBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockBoxView.swift; sourceTree = "<group>"; };
 		34BC356C29778C43000DCBC7 /* MyKnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockSettingView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* KnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockCell.swift; sourceTree = "<group>"; };
@@ -148,6 +152,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34582161298A49AD0058CA4C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		34BC3567297770C5000DCBC7 /* MyKnockBox */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,6 +229,7 @@
 				70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
+				34582161298A49AD0058CA4C /* Utilities */,
 				7095CFA2297EB90A000F2BF6 /* Extensions */,
 				7068B6B529769479005D6B7B /* Sources */,
 				7068B6AB29769449005D6B7B /* Assets.xcassets */,
@@ -488,6 +501,7 @@
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatRecommandCardSection.swift in Sources */,
+				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */,
 				706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */,
 				6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */,
