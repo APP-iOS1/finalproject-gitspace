@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatDetailProfileSection: View {
     
     let chat: Chat
+    @Binding var targetName: String
     
     var body: some View {
         VStack {
@@ -26,9 +27,7 @@ struct ChatDetailProfileSection: View {
             .padding(.vertical, 10)
             .padding(.top, 10)
             
-            Text("Random Brazil Guy")
-                .bold()
-            Text("@randombrazilguy")
+            Text("@"+targetName)
                 .font(.subheadline)
                 .foregroundColor(.gsLightGray2)
                 .padding(.bottom, 10)
