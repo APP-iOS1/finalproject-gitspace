@@ -17,7 +17,6 @@ final class KnockHistoryViewModel: ObservableObject {
 	// Dummy Init
 	init() {
 		let cases = KnockStatus.allCases.shuffled()
-		print(cases)
 		for index in 0..<(cases.count + Int.random(in: 10..<15)) {
 			usersKnockHistoryStatus.append(cases.randomElement()!.rawValue)
 			sendedKnockLists.append(
