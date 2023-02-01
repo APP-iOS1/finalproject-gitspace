@@ -21,36 +21,38 @@ struct Repository: Identifiable {
     var name: String
     var owner: String
     var description: String
-    var tags: [Tag]?
+    var tags: [Int]?
 }
 
-
-// MARK: - Dummy Tag Data
-var tagList: [Tag] = [
-    Tag(name: "SwiftUI"),
-    Tag(name: "Swift"),
-    Tag(name: "MVVM"),
-    Tag(name: "Interview"),
-    Tag(name: "iOS"),
-    Tag(name: "UIKit"),
-    Tag(name: "Yummy"),
-    Tag(name: "Checkit"),
-    Tag(name: "TheVoca"),
-    Tag(name: "GGOM-GGO-MI")
-]
-
-// MARK: - Dummy Repository Data
-var repositoryList: [Repository] = [
-    Repository(name: "sanghee-dev", owner: "Hello-Chat", description: "Real time chat application built with SwiftUI & Firestore", tags: [tagList[0], tagList[1], tagList[4]]),
-    Repository(name: "wwdc", owner: "2022", description: "Student submissions for the WWDC 2022 Swift Student Challenge", tags: [tagList[4]]),
-    Repository(name: "apple", owner: "swift-evolution", description: "This maintains proposals for changes and user-visible enhancements to the Swift Programming Language.", tags: [tagList[4]]),
-    Repository(name: "apple", owner: "swift", description: "The Swift Programming Language", tags: [tagList[4]]),
-    Repository(name: "SnapKit", owner: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X", tags: [tagList[1], tagList[4]]),
-    Repository(name: "clarknt", owner: "100-days-of-swiftui", description: "Solutions to Paul Hudson's \"100 days of SwiftUI\" projects and challenges", tags: [tagList[0], tagList[1], tagList[4]])
-]
+class RepositoryStore: ObservableObject {
+    // MARK: - Dummy Tag Data
+    @Published var tagList: [Tag] = [
+        Tag(name: "SwiftUI"),
+        Tag(name: "Swift"),
+        Tag(name: "MVVM"),
+        Tag(name: "Interview"),
+        Tag(name: "iOS"),
+        Tag(name: "UIKit"),
+        Tag(name: "Yummy"),
+        Tag(name: "Checkit"),
+        Tag(name: "TheVoca"),
+        Tag(name: "GGOM-GGO-MI")
+    ]
+    
+    // MARK: - Dummy Repository Data
+    @Published var repositoryList: [Repository] = [
+        Repository(name: "sanghee-dev", owner: "Hello-Chat", description: "Real time chat application built with SwiftUI & Firestore", tags: [0, 1, 4]),
+        Repository(name: "wwdc", owner: "2022", description: "Student submissions for the WWDC 2022 Swift Student Challenge", tags: [4]),
+        Repository(name: "apple", owner: "swift-evolution", description: "This maintains proposals for changes and user-visible enhancements to the Swift Programming Language.", tags: [4]),
+        Repository(name: "apple", owner: "swift", description: "The Swift Programming Language", tags: [4]),
+        Repository(name: "SnapKit", owner: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X", tags: [1, 4]),
+        Repository(name: "clarknt", owner: "100-days-of-swiftui", description: "Solutions to Paul Hudson's \"100 days of SwiftUI\" projects and challenges", tags: [0, 1, 4])
+    ]
+}
 
 struct StarredView: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var repositoryStore: RepositoryStore
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
@@ -117,9 +119,9 @@ struct StarredView: View {
                                 )
                             ) {
                                 /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-                                for (index, item) in Array(zip(tagList.indices, tagList)) {
+                                for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
                                     if item.id == tag.id {
-                                        tagList[index].isSelected = false
+                                        repositoryStore.tagList[index].isSelected = false
                                     }
                                 }
                                 selectedTagList.remove(at: index)
@@ -135,7 +137,7 @@ struct StarredView: View {
                 
                 /* repository list */
                 ScrollView {
-                    ForEach(repositoryList) { repository in
+                    ForEach(repositoryStore.repositoryList) { repository in
                         ZStack {
                             RepositoryCardView {
                                 HStack {
@@ -214,7 +216,6 @@ struct StarredView: View {
                 }
             }
             .sheet(isPresented: $isShowingSelectTagView) {
-//                SelectTagsView(selectedTagList: $selectedTagList, isShowing: $isShowingSelectTagView)
                 AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList)
             }
         }

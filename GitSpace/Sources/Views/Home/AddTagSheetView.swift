@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var repositoryStore: RepositoryStore
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State private var tagInput: String = ""
@@ -34,7 +35,7 @@ struct AddTagSheetView: View {
                     // 태그 추가 버튼
                     Button {
                         if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                            tagList.append( Tag(name: tagInput) )
+                            repositoryStore.tagList.append( Tag(name: tagInput) )
                         }
                     } label: {
                         Image(systemName: "plus")
@@ -55,7 +56,7 @@ struct AddTagSheetView: View {
                 HStack {
                     LazyVGrid(columns: columns) {
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                        ForEach(Array(tagList.enumerated()), id: \.offset) { index, tag in
+                        ForEach(Array(repositoryStore.tagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
                                     isEditing: false,
