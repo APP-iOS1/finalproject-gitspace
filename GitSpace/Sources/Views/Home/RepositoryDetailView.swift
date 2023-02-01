@@ -37,7 +37,7 @@ struct RepositoryDetailView: View {
                 // MARK: - ContributorListView
                 // 툴바 메일 아이콘 탭 시 노크 가능한 유저 리스트 뷰로 이동
                 ContributorListView()
-                    .navigationTitle("Knock Knock!")
+                    .navigationTitle("Contributors")
             } label: {
                 GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
 
