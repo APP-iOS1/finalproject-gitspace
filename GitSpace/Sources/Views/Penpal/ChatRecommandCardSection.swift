@@ -16,9 +16,6 @@ struct DummyUserInfo: Hashable, Identifiable {
 }
 
 struct ChatRecommandCardSection: View {
-    @State private var isDisabled = false
-    @State private var isEditing = false
-    @State private var isSelected = false
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -44,10 +41,9 @@ struct ChatRecommandCardSection: View {
                     ForEach(recommendedUsers) { user in
                         VStack(alignment: .trailing) {
                             HStack {
-                                // TODO: - 유저 프로필로 교체 예정
-                                Circle()
+                                // TODO: - [GITHUB API] 유저 프로필 내용으로 교체 예정
+                                Image("avatarImage")
                                     .frame(width: 64)
-                                    .padding(.trailing, 10)
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("@" + "\(user.userName)")
@@ -56,14 +52,22 @@ struct ChatRecommandCardSection: View {
                                     
                                     HStack {
                                         Group {
-                                            Text("\(user.followerCount)").bold() + Text(" ") + Text("followers")
+                                            Text("\(user.followerCount)")
+                                                .bold()
+                                                .padding(.trailing, -5)
+                                            Text("followers")
                                         }
                                         .font(.callout)
                                         
                                         Text("·")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
                                         
                                         Group {
-                                            Text("\(user.repoCount)").bold() + Text(" ") + Text("repos")
+                                            Text("\(user.repoCount)")
+                                                .bold()
+                                                .padding(.trailing, -5)
+                                            Text("repos")
                                         }
                                         .font(.callout)
                                     }
@@ -74,32 +78,33 @@ struct ChatRecommandCardSection: View {
                             Spacer()
                                 .frame(height: 20)
                             
-                            // TODO: - 네비링크버튼 추상화 완료시 코드 바꾸기
-							NavigationLink {
-								NewKnockView()
-							} label: {
-								GSButton.CustomButtonView(
-									style: .secondary(
-										isDisabled: false
-								)) {
-									
-								} label: {
-									Text("💬 Chat")
-								}
-								.disabled(true)
-							}
+                            // MARK: - NewKnockView로 이동하는 챗 버튼
+                            // TODO: - 버튼 추상화 후 네비링크버튼 타입으로 바꾸기
+                            NavigationLink {
+                                NewKnockView()
+                            } label: {
+                                Text("Let's Chat!")
+                                    .font(.callout)
+                                    .foregroundColor(.primary)
+                                    .fontWeight(.semibold)
+                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 23)
+                                    .background(Color.gsGreenPrimary)
+                                    .cornerRadius(20)
+                            }
                         }
                         .padding(.vertical, 21)
                         .padding(.horizontal, 17)
                         .background(
                             RoundedRectangle(cornerRadius: 35, style: .continuous)
                                 .fill(.white)
-                                .shadow(color: Color(uiColor: UIColor.systemGray6), radius: 8, x: 0, y: 2)
+                                .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
                         )
                     }
                     
                 }
                 .padding(.vertical, 20)
+                .padding(.horizontal, 4)
             }
             
         }

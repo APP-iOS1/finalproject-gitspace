@@ -12,12 +12,12 @@ struct ChatDetailView : View {
     
     let chat : Chat
     
-    @EnvironmentObject var chatStore : ChatStore
-    @EnvironmentObject var messageStore : MessageStore
-    @State var isShowingUpdateCell : Bool = false
-    @State var currentMessage : Message?
-    @State private var contentField : String = ""
-    
+    @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var messageStore: MessageStore
+    @State var isShowingUpdateCell: Bool = false
+    @State var currentMessage: Message?
+    @State private var contentField: String = ""
+    @State private var targetName: String = ""
     
     var body: some View {
         
@@ -26,15 +26,17 @@ struct ChatDetailView : View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    ChatDetailProfileSection(chat: chat)
+                    ChatDetailProfileSection(chat: chat, targetName: $targetName)
                     
                     Divider()
                         .padding(.vertical, 20)
                     
                     ChatDetailKnockSection(chat: chat)
                     
+                    
+                    
                     ForEach(messageStore.messages) { message in
-                        MessageCell(message: message)
+                        MessageCell(message: message, targetName: targetName)
                             .contextMenu {
                                 Button {
                                     self.currentMessage = message
@@ -59,26 +61,28 @@ struct ChatDetailView : View {
                             }
                     }
                     .padding(.top, 10)
+                    .padding(.horizontal, 10)
                     
                     Text("")
-                        .id(1)
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                proxy.scrollTo(1, anchor: .bottomTrailing)
-                            }
-                        }
+                        .id("bottom")
+                        
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    }
                 }
             }
-//            .padding(.horizontal, 20)
             // 메세지 입력 필드
             typeContentField
                 .padding(20)
         }
+        .padding(.bottom, 1)
         .task {
             messageStore.addListener(chatID: chat.id)
             messageStore.removeListenerMessages()
             messageStore.fetchMessages(chatID: chat.id)
-            
+            targetName = await chat.targetUserName
         }
         .onDisappear {
             messageStore.removeListener()
@@ -124,6 +128,11 @@ struct ChatDetailView : View {
             
             TextField("Enter Message",text: $contentField)
                 .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .onSubmit {
+                    addContent()
+                }
             
             addContentButton
                 .disabled(contentField.isEmpty)
@@ -139,24 +148,36 @@ struct ChatDetailView : View {
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
         /// 메세지 입력 필드 공백으로 초기화
         Button {
-            let newMessage = makeMessage()
-            let newChat = Chat(id: chat.id,
-                               date: chat.date,
-                               users: (chat.users.senderID, chat.users.receiverID),
-                               lastDate: Date(),
-                               lastContent: contentField,
-                               knockContent: chat.knockContent,
-                               knockDate: chat.knockDate)
-            messageStore.addMessage(newMessage, chatID: chat.id)
-            chatStore.updateChat(newChat)
-            contentField = ""
-            
+            addContent()
         } label: {
             Image(systemName: "location")
         }
     }
     
-    // MARK: -Method : Message 인스턴스를 만들어서 반환하는 함수
+    // MARK: -Methods
+    // MARK: Method : 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
+    private func addContent() {
+        let newMessage = makeMessage()
+        let newChat = makeChat()
+        messageStore.addMessage(newMessage, chatID: chat.id)
+        chatStore.updateChat(newChat)
+        contentField = ""
+    }
+    
+    // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
+    private func makeChat() -> Chat {
+        
+        let chat = Chat(id: chat.id,
+                           date: chat.date,
+                           users: (chat.users.senderID, chat.users.receiverID),
+                           lastDate: Date(),
+                           lastContent: contentField,
+                           knockContent: chat.knockContent,
+                           knockDate: chat.knockDate)
+        return chat
+    }
+    
+    // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
     private func makeMessage() -> Message {
         
         let message = Message(id: UUID().uuidString,
@@ -168,32 +189,4 @@ struct ChatDetailView : View {
 }
 
 
-// MARK: -View : 메세지 수정 Sheet
-struct ChangeContentSheetView : View {
-    @Binding var isShowingUpdateCell : Bool
-    @State var changeContentField : String = ""
-    @EnvironmentObject var messageStore : MessageStore
-    let chatID : String
-    let message : Message
-    
-    var body: some View {
-        VStack(spacing : 50) {
-            
-            TextField(message.content, text: $changeContentField)
-                .textFieldStyle(.roundedBorder)
-            
-            Button {
-                messageStore.updateMessage(message, chatID: chatID)
-                isShowingUpdateCell = false
-            } label: {
-                Text("수정하기")
-                Image(systemName: "pencil")
-            }
-            
-        }
-        .padding(.horizontal, 20)
-        .onAppear {
-            changeContentField = message.content
-        }
-    }
-}
+
