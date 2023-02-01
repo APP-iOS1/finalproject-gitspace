@@ -37,11 +37,7 @@ struct ListCellLabel : View {
     var body: some View {
         VStack(alignment: .leading){
             HStack{
-                Image(systemName: "globe.americas.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 55)
-                    .clipShape(Circle())
+                ProfileAsyncImage(size: 55)
                     .padding(.trailing)
                 
                 VStack(alignment: .leading) {
