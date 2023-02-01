@@ -39,11 +39,8 @@ struct ChatRecommandCardSection: View {
                 .foregroundColor(.gray)
                 .padding(.bottom, -10)
             
-            
             ScrollView(.horizontal, showsIndicators: false) {
-                
                 HStack(spacing: 12) {
-                    
                     ForEach(recommendedUsers) { user in
                         VStack(alignment: .trailing) {
                             HStack {
@@ -77,18 +74,20 @@ struct ChatRecommandCardSection: View {
                             Spacer()
                                 .frame(height: 20)
                             
-                            // MARK: - 노크 버튼
-                            GSButton.CustomButtonView(
-                                style: .tag(
-                                    isEditing: isEditing,
-                                    isSelected: isSelected
-                                )) {
-                                } label: {
-                                    Text("Knock!")
-                                        .font(.callout)
-                                        .bold()
-                                }
-                            
+                            // TODO: - 네비링크버튼 추상화 완료시 코드 바꾸기
+							NavigationLink {
+								NewKnockView()
+							} label: {
+								GSButton.CustomButtonView(
+									style: .secondary(
+										isDisabled: false
+								)) {
+									
+								} label: {
+									Text("💬 Chat")
+								}
+								.disabled(true)
+							}
                         }
                         .padding(.vertical, 21)
                         .padding(.horizontal, 17)
