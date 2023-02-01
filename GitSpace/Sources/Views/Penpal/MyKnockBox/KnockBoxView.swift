@@ -33,10 +33,11 @@ struct KnockBoxView: View {
 			headerTabPagenationViewBuilder()
 			.overlay(alignment: .bottom) {
 				Divider()
-					.frame(height: 0.5)
+					.frame(minHeight: 0.5)
 					.overlay(Color.primary)
 					.offset(y: 3.5)
 			}
+			.padding(.top, 10)
 			.padding(.horizontal, 16)
 			
 			TabView(selection: $knockMessenger) {
@@ -58,7 +59,7 @@ struct KnockBoxView: View {
 						}
 					}
 					.font(.caption2)
-					.padding(.top, 16)
+					.padding(.top, 8)
 					
 					Divider()
 					
@@ -105,11 +106,6 @@ struct KnockBoxView: View {
 									}
 								}
 							} // ForEach
-							.searchable(
-								text: $searchWord,
-								placement: .navigationBarDrawer(displayMode: .always),
-								prompt: "Search..."
-							)
 					} // LazyVStack
 				}
 				.tag(receivedTab)
@@ -118,56 +114,74 @@ struct KnockBoxView: View {
 					VStack {
 						// 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
 						Text("You can check your knock history.")
-							.foregroundColor(Color(.systemGray))
 						
 						// 상대방은 응답할 때까지 회원님의 노크 확인 여부를 알 수 없습니다.
-						Text("You can't send other messages until your receiver has approved your knock")
-							.foregroundColor(Color(.systemGray))
-							.multilineTextAlignment(.center)
+						Text("You can't send other messages until your receiver")
+						
+						Text("has approved your knock")
 					}
+					.foregroundColor(Color(.systemGray))
+					.multilineTextAlignment(.center)
 					.font(.caption2)
-					.padding(.top, 16)
+					.padding(.top, 8)
 					
 					Divider()
 					
 					LazyVStack {
-					// MARK: - Knock Cell
-					ForEach(
-						knockHistoryViewModel.sendedKnockLists.sorted {
-							knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
-						},
-						id: \.self) { eachKnock in
-							NavigationLink {
-								KnockHistoryView(
-									eachKnock: eachKnock,
-									knockMessenger: $knockMessenger
-								)
-							} label: {
-								MyKnockCell(
-									knockHistoryViewModel: knockHistoryViewModel,
-									eachKnock: eachKnock,
-									isEdit: $isEdit,
-									checked: $checked,
-									knockMessenger: $knockMessenger
-								)
-								.foregroundColor(.black)
-							}
-							Divider()
-						} // ForEach
-						.searchable(
-							text: $searchWord,
-							placement: .navigationBarDrawer(displayMode: .always),
-							prompt: "Search..."
-						)
-				} // LazyVStack
+						// MARK: - Knock Cell
+						ForEach(
+							knockHistoryViewModel.sendedKnockLists.sorted {
+								knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
+							},
+							id: \.self) { eachKnock in
+								NavigationLink {
+									KnockHistoryView(
+										eachKnock: eachKnock,
+										knockMessenger: $knockMessenger
+									)
+								} label: {
+									switch userFilteredKnockState {
+									case .waiting,
+											.declined,
+											.accepted:
+										if eachKnock.knockStatus == userFilteredKnockState.rawValue {
+											MyKnockCell(
+												knockHistoryViewModel: knockHistoryViewModel,
+												eachKnock: eachKnock,
+												isEdit: $isEdit,
+												checked: $checked,
+												knockMessenger: $knockMessenger
+											)
+											.foregroundColor(.primary)
+										}
+									case .all:
+										MyKnockCell(
+											knockHistoryViewModel: knockHistoryViewModel,
+											eachKnock: eachKnock,
+											isEdit: $isEdit,
+											checked: $checked,
+											knockMessenger: $knockMessenger
+										)
+										.foregroundColor(.primary)
+									}
+								}
+							} // ForEach
+					} // LazyVStack
 				}
 				.tag(sendedTab)
-			}
-			.tabViewStyle(.page)
-			.ignoresSafeArea(.container, edges: .bottom)
-		} // ScrollView
+			} // TabView
+				.tabViewStyle(.page)
+		} // VStack
 		.navigationBarTitle(knockMessenger + " Knock", displayMode: .inline)
 		.toolbar {
+			ToolbarItem(placement: .navigationBarTrailing) {
+				NavigationLink {
+					Text("검색하기")
+				} label: {
+					Image(systemName: "magnifyingglass")
+						.foregroundColor(.primary)
+				}
+			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button(isEdit ? "Cancel" : "Edit") {
 					withAnimation(.easeIn(duration: 0.28)) {
