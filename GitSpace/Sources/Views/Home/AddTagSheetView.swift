@@ -10,7 +10,7 @@ import SwiftUI
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var preSelectedTags: [Tag]
-    @State private var selectedTags: [Tag] = []
+    @State var selectedTags: [Tag]
     @State private var tagInput: String = ""
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -57,11 +57,9 @@ struct AddTagSheetView: View {
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
                         ForEach(Array(tagList.enumerated()), id: \.offset) { index, tag in
                             Button {
-//                                if !tagList[index].isSelected { // 중복 추가 방지
-//                                    selectedTags.append(tag)
-//                                }
-//                                tagList[index].isSelected.toggle()
-                                selectedTags.append(tag)
+                                if !selectedTags.contains(tag) {
+                                    selectedTags.append(tag)
+                                }
                             } label: {
                                 Text(tag.name)
                                     .frame(width: 50)
@@ -72,11 +70,25 @@ struct AddTagSheetView: View {
                                             .stroke(.black)
                                     )
                                     .font(.callout)
-                                    .foregroundColor(tagList[index].isSelected ? .white : .black)
-                                    .background(tagList[index].isSelected ? .black : .clear)
+                                    .foregroundColor(selectedTags.contains(tag) ? .white : .black)
+                                    .background(selectedTags.contains(tag) ? .black : .clear)
                                     .cornerRadius(20)
-                                
                             }
+                            
+//                            GSButton.CustomButtonView(
+//                                style: .tag(
+//                                    isEditing: false,
+//                                    isSelected: false
+//                                )
+//                            ) {
+//                                withAnimation {
+////                                    selectedTags[0].isSelected.toggle()
+//                                }
+//                            } label: {
+//                                Text("\(tag.name)")
+//                                    .font(.callout)
+//                            }
+//                            .tag("HI")
                         }
                     }
                 }
@@ -115,7 +127,7 @@ struct AddTagSheetView: View {
 struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ))
+            AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ), selectedTags: [])
         }
     }
 }
