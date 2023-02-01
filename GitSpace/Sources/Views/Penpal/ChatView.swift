@@ -30,7 +30,7 @@ struct ChatView: View {
 			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				NavigationLink {
-					MyKnockBoxView()
+					KnockBoxView()
 				} label: {
 					Image(systemName: "archivebox")
 						.foregroundColor(.primary)
