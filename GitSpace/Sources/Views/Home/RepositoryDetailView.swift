@@ -28,7 +28,8 @@ struct RepositoryDetailView: View {
                 
             } label: {
                 Text("✊🏻  Knock Knock!")
-                    .foregroundColor(.black )
+                    .font(.headline)
+                    .foregroundColor(.black)
             }
 
 
