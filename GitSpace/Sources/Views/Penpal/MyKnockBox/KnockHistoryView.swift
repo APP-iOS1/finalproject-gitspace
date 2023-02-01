@@ -223,20 +223,33 @@ struct KnockHistoryView: View {
 			}
 			.padding(.horizontal, 20)
 		}
+		.toolbar {
+			ToolbarItem(placement: .principal) {
+				HStack {
+					Image(systemName: "star")
+					
+					Text("**\(eachKnock.receiverID)**")
+				}
+			}
+		}
 	}
 }
 
 struct KnockHistoryView_Previews: PreviewProvider {
 	static var previews: some View {
-		KnockHistoryView(
-			eachKnock: Knock(
-				date: Date.now,
-				knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
-				knockStatus: "Declined",
-				knockCategory: "Offer",
-				declineMessage: "I am Currently Employeed, sorry.",
-				receiverID: "HEY",
-				senderID: "RandomBrazilGuy"
-			), knockMessenger: .constant("Sended"))
+		NavigationView {
+			KnockHistoryView(
+				eachKnock: Knock(
+					date: Date.now,
+					knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
+					knockStatus: "Declined",
+					knockCategory: "Offer",
+					declineMessage: "I am Currently Employeed, sorry.",
+					receiverID: "HEYHEYHEYHEY",
+					senderID: "RandomBrazilGuy"
+				), knockMessenger: .constant("Sended")
+			)
+		}
+		
 	}
 }
