@@ -24,7 +24,7 @@ struct ChatDetailKnockSection: View {
                 Spacer()
             }
             
-            Text("Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? Thank you so much for your help!")
+            Text(chat.knockContent)
                 .modifier(KnockMessageModifier())
             
         }
