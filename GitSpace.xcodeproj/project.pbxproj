@@ -19,13 +19,13 @@
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
-		6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E199B0C297A168300F88569 /* GoogleService-Info.plist */; };
 		6E199B0F297A18B100F88569 /* CollectionGroupResearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */; };
 		6E199B11297A18EF00F88569 /* CollectionGroupResearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */; };
 		6E199B13297A1B5300F88569 /* CollectionGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E199B12297A1B5300F88569 /* CollectionGroupView.swift */; };
 		6E634A462977AC5800E36C71 /* DummyPenpalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */; };
 		6E8C05C52976D77E002C9F45 /* ChatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */; };
 		6E8C05C7297781BB002C9F45 /* PenpalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */; };
+		701DA8AB298A7BAC00FB0C18 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 701DA8AA298A7BAC00FB0C18 /* GoogleService-Info.plist */; };
 		7065B459297A1F51000B91D2 /* GSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7065B458297A1F51000B91D2 /* GSButton.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
 		7068B6AA29769448005D6B7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A929769448005D6B7B /* ContentView.swift */; };
@@ -53,13 +53,15 @@
 		34BC356E29779201000DCBC7 /* MyKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyKnockCell.swift; sourceTree = "<group>"; };
 		6840F02629777F79008CF2D5 /* SelectTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagsView.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
-		6E199B0C297A168300F88569 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Sources/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6E199B0E297A18B100F88569 /* CollectionGroupResearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchModel.swift; sourceTree = "<group>"; };
 		6E199B10297A18EF00F88569 /* CollectionGroupResearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupResearchViewModel.swift; sourceTree = "<group>"; };
 		6E199B12297A1B5300F88569 /* CollectionGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGroupView.swift; sourceTree = "<group>"; };
 		6E634A452977AC5800E36C71 /* DummyPenpalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyPenpalListView.swift; sourceTree = "<group>"; };
 		6E8C05C42976D77E002C9F45 /* ChatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailView.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* PenpalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenpalInfoView.swift; sourceTree = "<group>"; };
+		701DA8AA298A7BAC00FB0C18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		701DA8AC298A7CA700FB0C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		7065B458297A1F51000B91D2 /* GSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButton.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
@@ -122,7 +124,9 @@
 		7068B6A629769448005D6B7B /* GitSpace */ = {
 			isa = PBXGroup;
 			children = (
-				6E199B0C297A168300F88569 /* GoogleService-Info.plist */,
+				701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */,
+				701DA8AC298A7CA700FB0C18 /* Info.plist */,
+				701DA8AA298A7BAC00FB0C18 /* GoogleService-Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
 				7068B6B529769479005D6B7B /* Sources */,
@@ -308,9 +312,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				701DA8AB298A7BAC00FB0C18 /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
-				6E199B0D297A168300F88569 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,12 +477,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GitSpace/GitSpace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 67M6ZS7KS6;
+				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitSpace/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -490,7 +496,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.valselee.GitSpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -503,12 +509,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GitSpace/GitSpace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
 				DEVELOPMENT_TEAM = 67M6ZS7KS6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitSpace/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -520,7 +528,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.valselee.GitSpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
