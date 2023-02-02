@@ -29,33 +29,91 @@ public struct ButtonLabelLayoutModifier: ViewModifier {
 		switch buttonLabel {
 		case .primary(let isDisabled):
 			content
-				.padding(.horizontal, 34)
-				.padding(.vertical, 18)
-				.frame(minWidth: 150)
+				.modifier(GSButtonLabelModifier(
+					horizontalPadding: 34,
+					verticalPadding: 18,
+					minWidth: 150)
+				)
 				.foregroundColor(isDisabled ? Color.white : Color.primary)
+			
 		case .secondary(let isDisabled):
 			content
-				.padding(.horizontal, 23)
-				.padding(.vertical, 13)
-				.frame(minWidth: 80)
+				.modifier(GSButtonLabelModifier(
+					horizontalPadding: 23,
+					verticalPadding: 13,
+					minWidth: 80)
+				)
 				.foregroundColor(isDisabled ? .white : Color.primary)
+		
+		// TODO: - TAG BUTTON 액션이 다 정리되면 마지막으로 구현예정
 		case .tag(let isEditing, let isSelected):
 			content
-				.padding(.horizontal, 12)
-				.padding(.vertical, 9)
-				.frame(minWidth: 62)
+				.modifier(GSButtonLabelModifier(
+					horizontalPadding: 12,
+					verticalPadding: 9,
+					minWidth: 62)
+				)
 				.foregroundColor(isSelected ? Color.primary : Color.white)
+			
 		case .homeTab:
 			content
 				.foregroundColor(Color.primary)
+			
 		case .plainText(let isDestructive):
 			content
 				.foregroundColor(isDestructive ? .gsRed : Color.primary)
+			
+		case .navigate(let style):
+			switch style {
+			case .primary(let isDisabled):
+				content
+					.modifier(GSButtonLabelModifier(
+						horizontalPadding: 34,
+						verticalPadding: 18,
+						minWidth: 150)
+					)
+					.foregroundColor(isDisabled ? Color.white : Color.primary)
+				
+			case .secondary(let isDisabled):
+				content
+					.modifier(GSButtonLabelModifier(
+						horizontalPadding: 23,
+						verticalPadding: 13,
+						minWidth: 80)
+					)
+					.foregroundColor(isDisabled ? .white : Color.primary)
+				
+			case .tag(_, let isSelected):
+				content
+					.modifier(GSButtonLabelModifier(
+						horizontalPadding: 12,
+						verticalPadding: 9,
+						minWidth: 62)
+					)
+					.foregroundColor(isSelected ? Color.primary : Color.white)
+				
+			default:
+				content
+			}
+//			content
 		}
 	}
 	
 	fileprivate init(buttonLabel: GSButton.GSButtonStyle) {
 		self.buttonLabel = buttonLabel
+	}
+	
+	fileprivate struct GSButtonLabelModifier: ViewModifier {
+		let horizontalPadding: CGFloat
+		let verticalPadding: CGFloat
+		let minWidth: CGFloat
+		
+		func body(content: Content) -> some View {
+			content
+				.padding(.horizontal, horizontalPadding)
+				.padding(.vertical, verticalPadding)
+				.frame(minWidth: minWidth)
+		}
 	}
 }
 

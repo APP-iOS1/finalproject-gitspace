@@ -45,6 +45,9 @@ extension Button {
 						.homeTab:
 					content
 						.foregroundColor(.primary)
+					
+				case .navigate(let style):
+					content
 				}
 			
 			// MARK: - DARK MODE
@@ -72,6 +75,9 @@ extension Button {
 				case .homeTab:
 					content
 						.colorInvert()
+					
+				case .navigate(let style):
+					content
 				}
 			@unknown default: // neither Light nor Dark
 				content
