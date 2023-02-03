@@ -13,7 +13,7 @@ enum TextEditorFocustState {
 }
 
 
-struct NewKnockView: View {
+struct SendKnockView: View {
     
     @Environment(\.dismiss) private var dismiss
     
@@ -331,7 +331,7 @@ struct NewKnockView: View {
 struct NewKnockView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NewKnockView()
+            SendKnockView()
         }
     }
 }

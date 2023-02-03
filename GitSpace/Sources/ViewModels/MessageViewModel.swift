@@ -9,13 +9,13 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
-class MessageStore : ObservableObject {
+class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var messageAdded: Bool = false
     
     var startMessagesCounter: Int = 0
     var startMessagesRemoved: Bool = false
-    var listener : ListenerRegistration?
+    var listener: ListenerRegistration?
     let database = Firestore.firestore()
     
     init() {
@@ -58,7 +58,7 @@ extension MessageStore {
     
     
     // MARK: - Message CRUD
-    func addMessage(_ message: Message, chatID : String) {
+    func addMessage(_ message: Message, chatID: String) {
         
         database
             .collection("Chat")
@@ -124,7 +124,7 @@ extension MessageStore {
     }
     
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
-    func addListener(chatID : String) {
+    func addListener(chatID: String) {
         listener = database
             .collection("Chat")
             .document(chatID)

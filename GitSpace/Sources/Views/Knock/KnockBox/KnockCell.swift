@@ -99,6 +99,6 @@ struct MyKnockCell: View {
 
 struct MyKnockCell_Previews: PreviewProvider {
     static var previews: some View {
-        KnockBoxView()
+        MainKnockView()
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct KnockBoxView: View {
+struct MainKnockView: View {
 	@ObservedObject var knockHistoryViewModel = KnockHistoryViewModel()
 	
 	@State private var knocks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -271,7 +271,7 @@ struct KnockBoxView: View {
 struct KnockBoxView_Previews: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
-			KnockBoxView()
+			MainKnockView()
 		}
 	}
 }

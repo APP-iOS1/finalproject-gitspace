@@ -19,11 +19,18 @@ struct ContentView: View {
             }
             
             NavigationView {
-                ChatView()
+                MainChatView()
             }
             .tabItem {
                 Image(systemName: "bubble.right")
             }
+			 
+			 NavigationView {
+				 MainKnockView()
+			 }
+			 .tabItem {
+				 Image(systemName: "bubble.right")
+			 }
             
             NavigationView {
                 MainProfileView()

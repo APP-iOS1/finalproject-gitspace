@@ -15,7 +15,7 @@ struct DummyUserInfo: Hashable, Identifiable {
     let repoCount: String
 }
 
-struct ChatRecommandCardSection: View {
+struct ChatUserRecommendationSection: View {
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -81,7 +81,7 @@ struct ChatRecommandCardSection: View {
                             // MARK: - NewKnockView로 이동하는 챗 버튼
                             // TODO: - 버튼 추상화 후 네비링크버튼 타입으로 바꾸기
                             NavigationLink {
-                                NewKnockView()
+                                SendKnockView()
                             } label: {
                                 Text("Let's Chat!")
                                     .font(.callout)
@@ -117,6 +117,6 @@ struct ChatRecommandCardSection: View {
 
 struct ChatRecommandCardSection_Previews: PreviewProvider {
     static var previews: some View {
-        ChatRecommandCardSection()
+        ChatUserRecommendationSection()
     }
 }

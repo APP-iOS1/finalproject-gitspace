@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PenpalInfoView: View {
+struct ChatRoomInfoView: View {
     
     @State private var notificationStop : Bool = false
     @State private var isBlocked : Bool = false
@@ -126,8 +126,8 @@ struct PenpalInfoView: View {
     }
 }
 
-struct PenpalInfoView_Previews: PreviewProvider {
+struct ChatRoomInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        PenpalInfoView()
+        ChatRoomInfoView()
     }
 }

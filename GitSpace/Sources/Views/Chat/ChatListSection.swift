@@ -14,7 +14,7 @@ struct ChatListSection: View {
             // 채팅방 목록 리스트
             ForEach(chatStore.chats) { chat in
                 NavigationLink {
-                    ChatDetailView(chat: chat)
+                    ChatRoomView(chat: chat)
                 } label: {
                     ListCellLabel(chat: chat)
                     .foregroundColor(.black)
