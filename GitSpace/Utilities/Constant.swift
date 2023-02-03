@@ -27,17 +27,16 @@ enum Constant {
 		 static let blogLinkChangeWidth = 50
 		 static let blogLinkChangeHeight = 30
 	 }
-	 
 	 */
     
     enum TextFieldConst {
+        
         static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
         static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
         static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
         static let SEARCHBAR_CORNER_RADIUS: CGFloat = 10
         static let SEARCHBAR_FIELD_SYMBOL_NAME: String = "magnifyingglass"
         static let SEARCHBAR_FIELD_PLACEHOLDER: String = "Search"
-        
         
         static let ADDTAG_INSET_HORIZONTAL: CGFloat = 10
         static let ADDTAG_INSET_VERTICAL: CGFloat = 10
