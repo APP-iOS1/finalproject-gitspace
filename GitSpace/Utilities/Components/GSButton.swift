@@ -26,7 +26,7 @@ public struct GSButton {
 				Button(action: action) {
 					if let label {
 						label
-							.labelHierarchyFrameModifier(style: .primary)
+							.labelHierarchyModifier(style: .primary)
 					}
 				}
 				.buttonColorSchemeModifier(style: style)
@@ -35,15 +35,17 @@ public struct GSButton {
 			case .secondary:
 				Button(action: action) {
 					label
-						.labelHierarchyFrameModifier(style: .secondary)
+						.labelHierarchyModifier(style: .secondary)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
-			case .tag:
+			case let .tag(isSelected, isEdited):
 				Button(action: action) {
 					label
-						.labelHierarchyFrameModifier(style: .tertiary)
+						.labelHierarchyModifier(
+							style: .tertiary(isSelected: isSelected)
+						)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
@@ -96,11 +98,94 @@ struct Test2: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-					print()
+//
+//				GSButton.CustomButtonView(
+//					style: .primary(
+//						isDisabled: true
+//					)
+//				) {
+//					withAnimation {
+//						isDisabled.toggle()
+//					}
+//				} label: {
+//					HStack {
+//						Text("✨")
+//
+//						Text("HiHI")
+//					}
+//				}
+				
+				GSButton.CustomButtonView(
+					style: .tag(
+						isSelected: isSelected,
+						isEditing: isEditing
+					)
+				) {
+					withAnimation {
+						isSelected.toggle()
+					}
 				} label: {
-					Text("??")
-				}				
+					Text("????")
+						.font(.callout)
+						.bold()
+				}
+				.tag("HI")
+				
+//				HStack {
+//					GSButton.CustomButtonView(
+//						style: .homeTab(
+//							tabName: starTab,
+//							tabSelection: $selectedHomeTab
+//						)
+//					) {
+//						withAnimation {
+//							selectedHomeTab = starTab
+//						}
+//					} label: {
+//						Text(starTab)
+//							.font(.title3)
+//							.foregroundColor(.primary)
+//							.bold()
+//					}
+//					.tag(starTab)
+//				
+//					GSButton.CustomButtonView(
+//						style: .homeTab(
+//							tabName: followTab,
+//							tabSelection: $selectedHomeTab
+//						)
+//					) {
+//						withAnimation {
+//							selectedHomeTab = followTab
+//						}
+//					} label: {
+//						Text(followTab)
+//							.font(.title3)
+//							.foregroundColor(.primary)
+//							.bold()
+//					}
+//					.tag(followTab)
+//				
+//					Spacer()
+//				}
+//				.overlay(alignment: .bottom) {
+//					Divider()
+//						.frame(minHeight: 0.5)
+//						.overlay(Color.primary)
+//						.offset(y: 3.5)
+//				}
+//				.padding(16)
+//				
+//				GSButton.CustomButtonView(
+//					style: .plainText(
+//						isDestructive: false
+//					)
+//				) {
+//					print()
+//				} label: {
+//					Text("??")
+//					}
+
 			}	
 		}
 	}
@@ -111,90 +196,3 @@ struct GSButton_Previews: PreviewProvider {
 		Test2()
     }
 }
-//
-//GSButton.CustomButtonView(
-//	style: .primary(
-//		isDisabled: true
-//	)
-//) {
-//	withAnimation {
-//		isDisabled.toggle()
-//	}
-//} label: {
-//	HStack {
-//		Text("✨")
-//
-//		Text("HiHI")
-//	}
-//}
-//
-//GSButton.CustomButtonView(
-//	style: .tag(
-//		isEditing: isEditing,
-//		isSelected: isSelected
-//	)
-//) {
-//	withAnimation {
-//		isSelected.toggle()
-//	}
-//} label: {
-//	Text("?")
-//		.font(.callout)
-//		.bold()
-//}
-//.tag("HI")
-//
-//HStack {
-//	GSButton.CustomButtonView(
-//		style: .homeTab(
-//			tabName: starTab,
-//			tabSelection: $selectedHomeTab
-//		)
-//	) {
-//		withAnimation {
-//			selectedHomeTab = starTab
-//		}
-//	} label: {
-//		Text(starTab)
-//			.font(.title3)
-//			.foregroundColor(.primary)
-//			.bold()
-//	}
-//	.tag(starTab)
-//
-//	GSButton.CustomButtonView(
-//		style: .homeTab(
-//			tabName: followTab,
-//			tabSelection: $selectedHomeTab
-//		)
-//	) {
-//		withAnimation {
-//			selectedHomeTab = followTab
-//		}
-//	} label: {
-//		Text(followTab)
-//			.font(.title3)
-//			.foregroundColor(.primary)
-//			.bold()
-//	}
-//	.tag(followTab)
-//
-//	Spacer()
-//}
-//.overlay(alignment: .bottom) {
-//	Divider()
-//		.frame(minHeight: 0.5)
-//		.overlay(Color.primary)
-//		.offset(y: 3.5)
-//}
-//.padding(16)
-//
-//GSButton.CustomButtonView(
-//	style: .plainText(
-//		isDestructive: false
-//	)
-//) {
-//	print()
-//} label: {
-//	Text("??")
-//	}

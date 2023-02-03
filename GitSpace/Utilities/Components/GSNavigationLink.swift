@@ -13,8 +13,9 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 	private(set) var destination: Destination
 	private(set) var label: Label
 	private(set) var style: Constant.LabelHierarchy
-	@State private(set) var isTapped: Bool = false
+
 	
+	// MARK: - Body
 	var body: some View {
 		switch style {
 		case .primary:
@@ -22,39 +23,34 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 				destination
 			} label: {
 				label
-					.foregroundColor(.black)
-					.labelHierarchyFrameModifier(style: .primary)
+					.labelHierarchyModifier(style: .primary)
 			}
-			.buttonStyle(ViewHighlightColorStyle())
+			.buttonStyle(
+				ViewHighlightColorStyle(style: style)
+			)
+			.shadowColorSchemeModifier()
 			
 		case .secondary:
 			NavigationLink {
 				destination
 			} label: {
 				label
-					.foregroundColor(.black)
-					.labelHierarchyFrameModifier(style: .secondary)
+					.labelHierarchyModifier(style: .secondary)
 			}
-			.background {
-				Capsule()
-					.foregroundColor(
-						isLightMode() ? .gsGreenPrimary : .gsYellowPrimary
-					)
-			}
+			.buttonStyle(
+				ViewHighlightColorStyle(style: style)
+			)
+			
 		case .tertiary:
 			NavigationLink {
 				destination
 			} label: {
 				label
-					.foregroundColor(.primary)
-					.labelHierarchyFrameModifier(style: .tertiary)
+					.labelHierarchyModifier(style: .tertiary())
 			}
-			.background {
-				Capsule()
-					.foregroundColor(
-						isLightMode() ? .gsGreenPrimary : .gsYellowPrimary
-					)
-			}
+			.buttonStyle(
+				ViewHighlightColorStyle(style: style)
+			)
 		}
 	}
 	
@@ -78,10 +74,12 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 struct Test3: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
-			GSNavigationLink(style: .primary) {
-				Text("?")
-			} label: {
-				Text("Hi")
+			VStack {
+				GSNavigationLink(style: .tertiary()) {
+					Text("?")
+				} label: {
+					Text("Hi")
+				}
 			}
 		}
 	}
