@@ -8,65 +8,42 @@
 import SwiftUI
 
 public struct GSButton {
-	
 	/**
 	 각 버튼의 케이스에 따라 기본 레이아웃을 구성합니다.
 	 - Important: 각 케이스는 연관 값을 갖고 있으며 `hometab` 케이스의 경우, 그 연관값을 **필수**로 입력해야 합니다.
 	 `primary`와 `secondary` 케이스의 연관값은 필수가 아니며, 연관값을 할당하면 GSButton의 label 을 **비운 채로** UI를 그릴 수 있습니다.
 	*/
-	public enum GSButtonStyle {
-		case primary(isDisabled: Bool)
-		case secondary(isDisabled: Bool)
-		case tag(isEditing: Bool,
-				 isSelected: Bool = false)
-		case plainText(isDestructive: Bool)
-		case homeTab(tabName: String,
-					 tabSelection: Binding<String>)
-	}
-	
 	struct CustomButtonView<CustomLabelType: View>: View {
 		public let style: GSButtonStyle
 		public let action: () -> Void
 		public var label: CustomLabelType?
-		public var destination: CustomLabelType?
 		
 		var body: some View {
 			switch style {
 				
 				// MARK: DONE
-			case .primary(let isDisabled):
+			case .primary:
 				Button(action: action) {
-					label
-						.buttonLabelPaddingModifier(
-							buttonLabelStyle: .primary(
-								isDisabled: isDisabled
-							)
-						)
+					if let label {
+						label
+							.labelHierarchyFrameModifier(style: .primary)
+					}
 				}
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - DONE
-			case .secondary(let isDisabled):
+			case .secondary:
 				Button(action: action) {
 					label
-						.buttonLabelPaddingModifier(
-							buttonLabelStyle: .secondary(
-								isDisabled: isDisabled
-							)
-						)
+						.labelHierarchyFrameModifier(style: .secondary)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
-			case .tag(let isEditing, let isSelected):
+			case .tag:
 				Button(action: action) {
 					label
-						.buttonLabelPaddingModifier(
-							buttonLabelStyle: .tag(
-								isEditing: isEditing,
-								isSelected: isSelected
-							)
-						)
+						.labelHierarchyFrameModifier(style: .tertiary)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
@@ -74,11 +51,7 @@ public struct GSButton {
 			case .plainText(let isDestructive):
 				Button(action: action) {
 					label
-						.buttonLabelPaddingModifier(
-							buttonLabelStyle: .plainText(
-								isDestructive: isDestructive
-							)
-						)
+						.foregroundColor(isDestructive ? .gsRed : Color.primary)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
@@ -123,8 +96,11 @@ struct Test2: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				
-
+				GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
+					print()
+				} label: {
+					Text("??")
+				}				
 			}	
 		}
 	}
