@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// MARK: - BUTTON COLOR SCHEME MODIFIER
 public struct GSButtonColorSchemeModifier: ViewModifier {
 	let style: GSButtonStyle
 	@Environment(\.colorScheme) var colorScheme
@@ -22,25 +23,20 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
 					.tint(isDisabled ? .gsLightGray1 : .gsGreenPrimary)
-					.shadow(color: .gsYellowPrimary.opacity(0.21),
-							radius: 9,
-							x: 0,
-							y: 9)
+					.shadowColorSchemeModifier()
 				
 			case .secondary(let isDisabled):
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
 					.tint(isDisabled ? .gsLightGray1 : .gsGreenPrimary)
-					.shadow(color: .gsYellowPrimary.opacity(0.21),
-							radius: 9,
-							x: 0,
-							y: 9)
-			case .tag(let isEditing, let isSelected):
+					
+			case .tag(let isSelected, let isEditing):
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
-					.tint(isSelected ? Color.gsGreenPrimary : Color.primary)
+					.tint(tertiaryLightForegroundColor(isSelected: isSelected))
+				
 			case .plainText,
 					.homeTab:
 				content
@@ -51,21 +47,25 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
 			// MARK: - DARK MODE
 		case .dark: // dark mode
 			switch style { // Button Style
-			case .primary,
-					.secondary:
+			case .primary:
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
 					.tint(.gsYellowPrimary)
-					.shadow(color: .gsGreenPrimary.opacity(0.29),
-							radius: 36,
-							x: 0,
-							y: 14)
-			case .tag(let isEditing, let isSelected):
+					.shadowColorSchemeModifier()
+				
+			case .secondary:
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
-					.tint(isSelected ? Color.gsYellowPrimary : Color.gsDarkGray)
+					.tint(.gsYellowPrimary)
+				
+			case .tag(let isSelected, let isEditing):
+				content
+					.buttonBorderShape(.capsule)
+					.buttonStyle(.borderedProminent)
+					.tint(tertiaryDarkForegroundColor(isSelected: isSelected))
+				
 			case .plainText(let isDestructive):
 				content
 					.foregroundColor(isDestructive ? .gsRed : .white)
@@ -84,9 +84,21 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
 		self.style = style
 	}
 	
-	// TODO: - branch Processing for each Bool Value
-	private func tagButtonColorModifier(isEditing: Bool, isSelected: Bool) -> Color {
-		if isEditing, isSelected { return .primary }
-		else { return .gsGreenPrimary }
+	private func tertiaryLightForegroundColor(isSelected: Bool?) -> Color {
+		if let isSelected {
+			if isSelected { return .gsGreenPrimary }
+			else { return .primary }
+		} else {
+			return .primary
+		}
+	}
+	
+	private func tertiaryDarkForegroundColor(isSelected: Bool?) -> Color {
+		if let isSelected {
+			if isSelected { return .gsYellowPrimary }
+			else { return .gsDarkGray }
+		} else {
+			return .black
+		}
 	}
 }

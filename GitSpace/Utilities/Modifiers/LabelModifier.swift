@@ -31,12 +31,37 @@ struct GSLabelModifier: ViewModifier {
 				.frame(minWidth: 80)
 				.frame(maxHeight: maxHeight)
 				
-		case .tertiary:
+		case let .tertiary(isSelected):
 			content
+				.foregroundColor(
+					colorScheme == .light
+					? tertiaryLightForegroundColor(
+						isSelected: isSelected)
+					: tertiaryDarkForegroundColor(
+						isSelected: isSelected)
+				)
 				.padding(.horizontal, 12)
 				.padding(.vertical, 9)
 				.frame(minWidth: 62)
 				.frame(maxHeight: maxHeight)
+		}
+	}
+	
+	private func tertiaryLightForegroundColor(isSelected: Bool?) -> Color {
+		if let isSelected {
+			if isSelected { return .black }
+			else { return .white }
+		} else {
+			return .black
+		}
+	}
+	
+	private func tertiaryDarkForegroundColor(isSelected: Bool?) -> Color {
+		if let isSelected {
+			if isSelected { return .black }
+			else { return .white }
+		} else {
+			return .black
 		}
 	}
 }

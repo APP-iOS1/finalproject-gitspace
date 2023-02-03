@@ -7,14 +7,31 @@
 
 import SwiftUI
 
-struct ShadowColorSchemeModifier: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct ShadowColorSchemeModifier_Previews: PreviewProvider {
-    static var previews: some View {
-        ShadowColorSchemeModifier()
-    }
+// MARK: - SHADOW COLOR SCHEME MODIFIER
+public struct ShadowColorSchemeModifier: ViewModifier {
+	@Environment(\.colorScheme) var colorScheme
+	
+	public func body(content: Content) -> some View {
+		switch colorScheme {
+		case .light:
+			content
+				.shadow(
+					color: .gsYellowPrimary.opacity(0.21),
+					radius: 9,
+					x: 0,
+					y: 9
+				)
+		case .dark:
+			content
+				.shadow(
+					color: .gsGreenPrimary.opacity(0.29),
+					radius: 36,
+					x: 0,
+					y: 14
+				)
+		@unknown default:
+			content
+			
+		}
+	}
 }
