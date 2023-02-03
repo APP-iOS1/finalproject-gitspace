@@ -58,7 +58,7 @@ extension Color {
 	}
 	
 	static var gsDarkGray: Self {
-		.init(hex: "#FF611E")
+		.init(hex: "#27292E")
 	}
 	
 	static let captionRed = Color(hex : "#cc0000")

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO: 어째서 뷰가 Button Modifier를 가져야 하는가..? 아니면 이걸 기똥차게 분리할 수 있나..?
 extension View {
     
     /**
