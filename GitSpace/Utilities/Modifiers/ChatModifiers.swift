@@ -8,8 +8,8 @@
 import SwiftUI
 
 // MARK: Modifier : 채팅 메세지 셀 속성
-struct MessageModifier : ViewModifier {
-    let isMine : Bool
+struct MessageModifier: ViewModifier {
+    let isMine: Bool
     func body(content: Content) -> some View {
         content
             .font(.system(size: 16))
@@ -26,7 +26,7 @@ struct MessageModifier : ViewModifier {
 }
 
 // MARK: Modifier : 채팅 메세지 보낸 시간 속성
-struct MessageTimeModifier : ViewModifier {
+struct MessageTimeModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.caption2)
@@ -35,7 +35,7 @@ struct MessageTimeModifier : ViewModifier {
 }
 
 // MARK: Modifier : 노크 메세지 셀 속성
-struct KnockMessageModifier : ViewModifier {
+struct KnockMessageModifier: ViewModifier {
     func body(content: Content) -> some View {
             content
                 .font(.system(size: 12))
