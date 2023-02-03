@@ -2,7 +2,7 @@
 //  Constant.swift
 //  GitSpace
 //
-//  Created by 이승준 on 2023/02/03.
+//  Created by 이승준, 원태영, 이다혜, 최한호, 정예슬, 박제균, 최예은 on 2023/02/03.
 //
 
 import SwiftUI
@@ -29,6 +29,20 @@ enum Constant {
 	 }
 	 
 	 */
-	
-	
+    
+    enum TextFieldConst {
+        static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
+        static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
+        static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
+        static let SEARCHBAR_CORNER_RADIUS: CGFloat = 10
+        static let SEARCHBAR_FIELD_SYMBOL_NAME: String = "magnifyingglass"
+        static let SEARCHBAR_FIELD_PLACEHOLDER: String = "Search"
+        
+        
+        static let ADDTAG_INSET_HORIZONTAL: CGFloat = 10
+        static let ADDTAG_INSET_VERTICAL: CGFloat = 10
+        static let ADDTAG_CORNER_RADIUS: CGFloat = 10
+        static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
+        
+    }
 }
