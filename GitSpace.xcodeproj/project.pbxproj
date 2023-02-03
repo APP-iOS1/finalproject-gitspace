@@ -48,7 +48,11 @@
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
 		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
-		703C844C298CA85D00398F2C /* ButtonLabelLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */; };
+		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
+		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
+		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
+		7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */; };
+		7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */; };
 		7065B459297A1F51000B91D2 /* GSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7065B458297A1F51000B91D2 /* GSButton.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
 		7068B6AA29769448005D6B7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A929769448005D6B7B /* ContentView.swift */; };
@@ -62,6 +66,8 @@
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
 		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
 		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
+		70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */; };
+		70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C6298C07F90058467E /* View+DesignSystem.swift */; };
 		70BC1FB0298A359B00E6DD76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -109,7 +115,11 @@
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
 		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
-		703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabelLayoutModifier.swift; sourceTree = "<group>"; };
+		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
+		7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeModifiers.swift; sourceTree = "<group>"; };
+		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
+		7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHighlightColorStyle.swift; sourceTree = "<group>"; };
+		7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowColorSchemeModifier.swift; sourceTree = "<group>"; };
 		7065B458297A1F51000B91D2 /* GSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButton.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
@@ -125,6 +135,8 @@
 		7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ColorScheme.swift"; sourceTree = "<group>"; };
 		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSNavigationLink.swift; sourceTree = "<group>"; };
+		70ABF2C6298C07F90058467E /* View+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DesignSystem.swift"; sourceTree = "<group>"; };
 		70BC1FAF298A359B00E6DD76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
@@ -155,6 +167,8 @@
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
+				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
@@ -227,6 +241,10 @@
 				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
 				703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */,
 				6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */,
+				7062E130298CCB1700CCE946 /* LabelModifier.swift */,
+				7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */,
+				7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */,
+
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -372,10 +390,11 @@
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				7095CFA3297EB913000F2BF6 /* Color+.swift */,
-				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
 				7095265E297F8F4D00F97E27 /* View+.swift */,
+				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
+				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
 				706BDE462988FBE000284F0F /* Date+DateDiff.swift */,
+				7095CFA3297EB913000F2BF6 /* Color+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -387,6 +406,8 @@
 				707E58F529799449007F4ADF /* GSTextField.swift */,
 				7065B458297A1F51000B91D2 /* GSButton.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
+				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
+
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -486,13 +507,16 @@
 				34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
-				703C844C298CA85D00398F2C /* ButtonLabelLayoutModifier.swift in Sources */,
+				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
+				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
+				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
+				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */,
@@ -518,15 +542,20 @@
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */,
+				7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */,
+				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */,
 				70BE63E5298CA5190060336F /* Constant.swift in Sources */,
+				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
+				7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */,
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
 				6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */,
+				7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */,
 				6E08402E298501B100F51169 /* ProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

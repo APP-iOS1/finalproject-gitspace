@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Constant {
+public enum Constant {
 	// 전체가 정적인 텍스트만 상수로 관리
 	
 	/* EXAMPLE
@@ -28,6 +28,7 @@ enum Constant {
 		 static let blogLinkChangeHeight = 30
 	 }
 	 */
+
     
     enum TextFieldConst {
         
@@ -44,4 +45,12 @@ enum Constant {
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
         
     }
+
+	
+	public enum LabelHierarchy {
+		case primary
+		case secondary
+		case tertiary(isSelected: Bool? = nil)
+	}
+
 }
