@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct ViewHighlightColorStyle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct ViewHighlightColorStyle_Previews: PreviewProvider {
-    static var previews: some View {
-        ViewHighlightColorStyle()
-    }
+struct ViewHighlightColorStyle: ButtonStyle {
+	@Environment(\.colorScheme) var colorScheme
+	
+	func makeBody(configuration: Self.Configuration) -> some View {
+		configuration.label
+			.foregroundColor(.gsGreenPrimary)
+			.background(configuration.isPressed ? Color.gsGreenPrimary : Color.gsGreenPressed)
+			.cornerRadius(.infinity)
+	}
 }
