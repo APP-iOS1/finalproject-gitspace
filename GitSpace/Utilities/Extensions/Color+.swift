@@ -61,9 +61,14 @@ extension Color {
 		.init(hex: "#FF611E")
 	}
 	
-	static let captionRed = Color(hex : "#cc0000")
-	static let captionGreen = Color(hex : "#6aa84f")
-	static let textAccent = Color(hex : "#efbb1a")
+	static let captionRed = Color(hex: "#cc0000")
+	static let captionGreen = Color(hex: "#6aa84f")
+	static let textAccent = Color(hex: "#efbb1a")
 	static let backAccent = Color(hex: "#FFE577")
+    
+    //Color Asset에 넣어놓은 색상들. (라이트 / 다크 자동 호환)
+    static let gsGray1 = Color("GSGray1")
+    static let gsGray2 = Color("GSGray2")
+    static let gsGray3 = Color("GSGray3")
 	
 }
