@@ -127,8 +127,10 @@ struct SendKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "offer"
-//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
+                                
+                                withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
+                                
                             } label: {
                                 Text("🚀 Offer")
                                     .font(.subheadline)
@@ -142,8 +144,9 @@ struct SendKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "question"
-//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
+                                
+                                withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
                             } label: {
                                 Text("💡 Question")
                                     .font(.subheadline)
@@ -217,38 +220,44 @@ struct SendKnockView: View {
                         
                     
                 } // ScrollView
-//                .onChange(of: keyboardHandler.keyboardHeight) { _ in
-//                            withAnimation { proxy.scrollTo(bottomID) }
-//                        }
-                .onChange(of: chatPurpose/*keyboardHandler.keyboardHeight*/) { _ in
+                .onChange(of: chatPurpose) { _ in
                     withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
                         }
                 .onTapGesture {
                     self.endTextEditing()
-                    
                 }
-//                .padding(.top, -(keyboardHandler.keyboardHeight / 2))
                 .animation(.default, value: keyboardHandler.keyboardHeight)
-//                .onChange(of: isFocused) { value in
-//                    withAnimation(.easeInOut.speed(1.5)) {
-//                        proxy.scrollTo(bottomID, anchor: .top)
-//                    }
-//                }
             } // ScrollViewReader
-//            .padding(.top, -40)
             
+            // MARK: - 텍스트 에디터
             VStack {
+                
                 if chatPurpose == "offer" {
+                    
+                    Divider()
+                    
                     HStack {
                         Text("✍️ Offer-related message...")
                             .foregroundColor(.gsLightGray1)
                             .bold()
+                        
+                        Button {
+                            self.endTextEditing()
+                            withAnimation(.easeInOut.speed(1.5)) {
+                                chatPurpose = ""
+                            }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gsLightGray1)
+                        }
+                        
                         Spacer()
                         
                         Button {
                             self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
+                                .foregroundColor(.gsLightGray1)
                         }
                         
                     } // HStack
@@ -257,22 +266,30 @@ struct SendKnockView: View {
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
                         .focused($isFocused, equals: .edit)
-                    //                        .padding()
-                    //                        .border(Color.systemGray3, width: 1)
-                    
-                    
                     
                 } else if chatPurpose == "question" {
                     HStack {
                         Text("✍️ Question-related message...")
                             .foregroundColor(.gsLightGray1)
                             .bold()
+                        
+                        Button {
+                            self.endTextEditing()
+                            withAnimation(.easeInOut.speed(1.5)) {
+                                chatPurpose = ""
+                            }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gsLightGray1)
+                        }
+                        
                         Spacer()
                         
                         Button {
                             self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
+                                .foregroundColor(.gsLightGray1)
                         }
                         
                     } // HStack
@@ -281,28 +298,12 @@ struct SendKnockView: View {
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
                         .focused($isFocused, equals: .edit)
-                    //                        .padding()
-                    //                        .border(Color.systemGray3, width: 1)
-                    
                 } // if - else if
             } // VStack
         } // VStack
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Button {
-//                    dismiss()
-//                } label: {
-//                    HStack {
-//                        Image(systemName: "chevron.left")
-//                        Text("Back")
-//                            .padding(.leading, -5)
-//                    }
-//                    .foregroundColor(.black)
-//                }
-//
-//            } // ToolbarItem
-            
+
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
                     ProfileDetailView()
