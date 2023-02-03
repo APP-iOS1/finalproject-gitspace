@@ -59,8 +59,8 @@ struct AddTagSheetView: View {
                         ForEach(Array(repositoryStore.tagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    isEditing: false,
-                                    isSelected: selectedTags.contains(tag)
+									isSelected: selectedTags.contains(tag),
+                                    isEditing: false
                                 )
                             ) {
                                 withAnimation {
@@ -115,6 +115,7 @@ struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ), selectedTags: [])
+                .environmentObject(RepositoryStore())
         }
     }
 }
