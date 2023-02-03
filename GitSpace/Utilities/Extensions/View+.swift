@@ -16,10 +16,6 @@ extension View {
         modifier(TabBarBackgroundModifier(backgroundStyle: style))
     }
     
-	public func buttonLabelLayoutModifier(buttonLabelStyle: GSButton.GSButtonStyle) -> some View {
-		modifier(ButtonLabelLayoutModifier(buttonLabel: buttonLabelStyle))
-	}
-    
     // MARK: - 키보드 내리기 위한 extension
     func endTextEditing() {
         UIApplication.shared.sendAction(
