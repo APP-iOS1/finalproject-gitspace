@@ -13,9 +13,3 @@ extension Button {
 		modifier(GSButtonColorSchemeModifier(style: style))
 	}
 }
-
-extension PrimitiveButtonStyle {
-	var gsHighlight: ViewHighlightColorStyle {
-		.init()
-	}
-}

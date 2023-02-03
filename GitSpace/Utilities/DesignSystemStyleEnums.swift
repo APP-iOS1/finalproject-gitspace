@@ -10,8 +10,8 @@ import SwiftUI
 public enum GSButtonStyle {
 	case primary(isDisabled: Bool)
 	case secondary(isDisabled: Bool)
-	case tag(isEditing: Bool,
-			 isSelected: Bool = false)
+	case tag(isSelected: Bool? = nil,
+			 isEditing: Bool)
 	case plainText(isDestructive: Bool)
 	case homeTab(tabName: String,
 				 tabSelection: Binding<String>)

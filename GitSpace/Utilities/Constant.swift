@@ -33,6 +33,6 @@ public enum Constant {
 	public enum LabelHierarchy {
 		case primary
 		case secondary
-		case tertiary
+		case tertiary(isSelected: Bool? = nil)
 	}
 }

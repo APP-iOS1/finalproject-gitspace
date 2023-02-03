@@ -12,8 +12,12 @@ extension View {
 		modifier(GSButtonColorSchemeModifier(style: navigationStyle))
 	}
 	
-	public func labelHierarchyFrameModifier(style: Constant.LabelHierarchy) -> some View {
+	public func labelHierarchyModifier(style: Constant.LabelHierarchy) -> some View {
 		modifier(GSLabelModifier(style: style))
+	}
+	
+	public func shadowColorSchemeModifier() -> some View {
+		modifier(ShadowColorSchemeModifier())
 	}
 }
 
