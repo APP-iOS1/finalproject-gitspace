@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ChatView: View {
+struct MainChatView: View {
     
     @EnvironmentObject var chatStore : ChatStore
     
     var body: some View {
         
         ScrollView {
-            ChatRecommandCardSection()
+            ChatUserRecommendationSection()
 				.padding()
             
             Divider()
@@ -30,7 +30,7 @@ struct ChatView: View {
 			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				NavigationLink {
-					KnockBoxView()
+					MainKnockView()
 				} label: {
 					Image(systemName: "archivebox")
 						.foregroundColor(.primary)

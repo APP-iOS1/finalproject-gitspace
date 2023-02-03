@@ -25,7 +25,7 @@ struct ContributorListView: View {
             ScrollView {
                 ForEach(contributors, id:\.self) { contributor in
                     NavigationLink(destination: {
-                        NewKnockView()
+                        SendKnockView()
                     }, label: {
                         HStack() {
                             /* 유저 프로필 이미지 */

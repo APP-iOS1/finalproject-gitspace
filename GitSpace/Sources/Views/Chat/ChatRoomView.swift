@@ -8,9 +8,9 @@
 import SwiftUI
 
 // MARK: -View : 채팅방 뷰
-struct ChatDetailView : View {
+struct ChatRoomView: View {
     
-    let chat : Chat
+    let chat: Chat
     
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
