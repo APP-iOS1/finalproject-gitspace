@@ -40,11 +40,11 @@ struct ChatRoomView: View {
                         .id("bottom")
                         
                 }
-//                .onAppear {
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
-//                    }
-//                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    }
+                }
                 .onChange(of: messageStore.messageAdded) { state in
                     proxy.scrollTo("bottom", anchor: .bottomTrailing)
                 }
