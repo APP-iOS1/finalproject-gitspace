@@ -18,6 +18,8 @@ struct MainProfileView: View {
 				.padding(.horizontal, 10)
             Spacer()
         }
+        // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
+        .navigationTitle("")
         .toolbar{
             ToolbarItemGroup(placement: .navigationBarTrailing){
                 NavigationLink {
