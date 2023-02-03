@@ -59,8 +59,8 @@ struct AddTagSheetView: View {
                         ForEach(Array(repositoryStore.tagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    isEditing: false,
-                                    isSelected: selectedTags.contains(tag)
+									isSelected: selectedTags.contains(tag),
+                                    isEditing: false
                                 )
                             ) {
                                 withAnimation {

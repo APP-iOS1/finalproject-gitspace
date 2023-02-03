@@ -114,8 +114,8 @@ struct StarredView: View {
                         ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    isEditing: false,
-                                    isSelected: true
+									isSelected: true,
+                                    isEditing: false
                                 )
                             ) {
                                 /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
