@@ -115,6 +115,7 @@ struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ), selectedTags: [])
+                .environmentObject(RepositoryStore())
         }
     }
 }

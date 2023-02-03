@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
+		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */; };
 		22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */; };
 		22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412C298CD22500CC89EC /* View+cornerRadius.swift */; };
@@ -86,6 +87,7 @@
 
 /* Begin PBXFileReference section */
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
 		22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarBackGround.swift; sourceTree = "<group>"; };
 		22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarBackgroundModifier.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
 				707E58F529799449007F4ADF /* GSTextField.swift */,
 				7065B458297A1F51000B91D2 /* GSButton.swift */,
+				0B87BA51298CCD9E006B80D3 /* GSText.swift */,
 				22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */,
 				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
@@ -552,6 +555,7 @@
 				68E95FC72976D48C002E65AD /* StarredView.swift in Sources */,
 				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
 				6E000CB12989A1B600446C0D /* ChatDetailProfileSection.swift in Sources */,
+				0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */,
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				6E084030298510E100F51169 /* TabManager.swift in Sources */,
