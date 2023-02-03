@@ -129,7 +129,7 @@ struct SendKnockView: View {
                                     chatPurpose = "offer"
                                 }
                                 
-                                withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
+                                withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                                 
                             } label: {
                                 Text("🚀 Offer")
@@ -146,7 +146,7 @@ struct SendKnockView: View {
                                     chatPurpose = "question"
                                 }
                                 
-                                withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
+                                withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                             } label: {
                                 Text("💡 Question")
                                     .font(.subheadline)
@@ -221,7 +221,7 @@ struct SendKnockView: View {
                     
                 } // ScrollView
                 .onChange(of: chatPurpose) { _ in
-                    withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
+                    withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                         }
                 .onTapGesture {
                     self.endTextEditing()
