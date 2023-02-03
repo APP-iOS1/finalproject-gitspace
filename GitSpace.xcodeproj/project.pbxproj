@@ -40,6 +40,7 @@
 		6E08402E298501B100F51169 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08402D298501B100F51169 /* ProfileView.swift */; };
 		6E084030298510E100F51169 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08402F298510E100F51169 /* TabManager.swift */; };
 		6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */; };
+		6E0F9595298CF5F8000FE529 /* GSTextEdior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */; };
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
@@ -103,6 +104,7 @@
 		6E08402D298501B100F51169 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		6E08402F298510E100F51169 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
+		6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEdior.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
 		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
 				707E58F529799449007F4ADF /* GSTextField.swift */,
 				7065B458297A1F51000B91D2 /* GSButton.swift */,
+				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E0F9595298CF5F8000FE529 /* GSTextEdior.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
