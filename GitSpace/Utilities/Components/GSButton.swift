@@ -98,23 +98,6 @@ struct Test2: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-//
-//				GSButton.CustomButtonView(
-//					style: .primary(
-//						isDisabled: true
-//					)
-//				) {
-//					withAnimation {
-//						isDisabled.toggle()
-//					}
-//				} label: {
-//					HStack {
-//						Text("✨")
-//
-//						Text("HiHI")
-//					}
-//				}
-				
 				GSButton.CustomButtonView(
 					style: .tag(
 						isSelected: isSelected,
@@ -130,62 +113,6 @@ struct Test2: View {
 						.bold()
 				}
 				.tag("HI")
-				
-//				HStack {
-//					GSButton.CustomButtonView(
-//						style: .homeTab(
-//							tabName: starTab,
-//							tabSelection: $selectedHomeTab
-//						)
-//					) {
-//						withAnimation {
-//							selectedHomeTab = starTab
-//						}
-//					} label: {
-//						Text(starTab)
-//							.font(.title3)
-//							.foregroundColor(.primary)
-//							.bold()
-//					}
-//					.tag(starTab)
-//				
-//					GSButton.CustomButtonView(
-//						style: .homeTab(
-//							tabName: followTab,
-//							tabSelection: $selectedHomeTab
-//						)
-//					) {
-//						withAnimation {
-//							selectedHomeTab = followTab
-//						}
-//					} label: {
-//						Text(followTab)
-//							.font(.title3)
-//							.foregroundColor(.primary)
-//							.bold()
-//					}
-//					.tag(followTab)
-//				
-//					Spacer()
-//				}
-//				.overlay(alignment: .bottom) {
-//					Divider()
-//						.frame(minHeight: 0.5)
-//						.overlay(Color.primary)
-//						.offset(y: 3.5)
-//				}
-//				.padding(16)
-//				
-//				GSButton.CustomButtonView(
-//					style: .plainText(
-//						isDestructive: false
-//					)
-//				) {
-//					print()
-//				} label: {
-//					Text("??")
-//					}
-
 			}	
 		}
 	}
