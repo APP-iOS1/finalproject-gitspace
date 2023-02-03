@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Constant {
+public enum Constant {
 	// 전체가 정적인 텍스트만 상수로 관리
 	
 	/* EXAMPLE
@@ -30,5 +30,9 @@ enum Constant {
 	 
 	 */
 	
-	
+	public enum LabelHierarchy {
+		case primary
+		case secondary
+		case tertiary
+	}
 }
