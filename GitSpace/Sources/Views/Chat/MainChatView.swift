@@ -21,6 +21,8 @@ struct MainChatView: View {
             
             ChatListSection()
         }
+        // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
+        .navigationTitle("")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Text("GitSpace")
