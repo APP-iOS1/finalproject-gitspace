@@ -14,7 +14,7 @@ public struct GSButton {
 	 - Important: 각 케이스는 연관 값을 갖고 있으며 `hometab` 케이스의 경우, 그 연관값을 **필수**로 입력해야 합니다.
 	 `primary`와 `secondary` 케이스의 연관값은 필수가 아니며, 연관값을 할당하면 GSButton의 label 을 **비운 채로** UI를 그릴 수 있습니다.
 	*/
-	public indirect enum GSButtonStyle {
+	public enum GSButtonStyle {
 		case primary(isDisabled: Bool)
 		case secondary(isDisabled: Bool)
 		case tag(isEditing: Bool,
@@ -22,7 +22,6 @@ public struct GSButton {
 		case plainText(isDestructive: Bool)
 		case homeTab(tabName: String,
 					 tabSelection: Binding<String>)
-		case navigate(style: GSButtonStyle)
 	}
 	
 	struct CustomButtonView<CustomLabelType: View>: View {
@@ -34,36 +33,35 @@ public struct GSButton {
 		var body: some View {
 			switch style {
 				
-			// MARK: DONE
+				// MARK: DONE
 			case .primary(let isDisabled):
 				Button(action: action) {
 					label
-						.buttonLabelLayoutModifier(
+						.buttonLabelPaddingModifier(
 							buttonLabelStyle: .primary(
 								isDisabled: isDisabled
 							)
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
-			
-			// MARK: - DONE
+				
+				// MARK: - DONE
 			case .secondary(let isDisabled):
 				Button(action: action) {
 					label
-						.buttonLabelLayoutModifier(
+						.buttonLabelPaddingModifier(
 							buttonLabelStyle: .secondary(
 								isDisabled: isDisabled
 							)
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
-				.disabled(isDisabled)
 				
-			// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
+				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
 			case .tag(let isEditing, let isSelected):
 				Button(action: action) {
 					label
-						.buttonLabelLayoutModifier(
+						.buttonLabelPaddingModifier(
 							buttonLabelStyle: .tag(
 								isEditing: isEditing,
 								isSelected: isSelected
@@ -72,19 +70,19 @@ public struct GSButton {
 				}
 				.buttonColorSchemeModifier(style: style)
 				
-			// MARK: - DONE
+				// MARK: - DONE
 			case .plainText(let isDestructive):
 				Button(action: action) {
 					label
-						.buttonLabelLayoutModifier(
+						.buttonLabelPaddingModifier(
 							buttonLabelStyle: .plainText(
 								isDestructive: isDestructive
 							)
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
-		
-			// MARK: - DONE
+				
+				// MARK: - DONE
 			case .homeTab(let tabName, let tabSelection):
 				Button(action: action) {
 					label
@@ -96,17 +94,6 @@ public struct GSButton {
 									.offset(y: 3)
 							}
 						}
-				}
-				
-			// FIXME: destination이 작동을 안하는 상황이옵니다...
-			case .navigate(let style):
-				NavigationLink {
-					destination
-				} label: {
-					label
-						.buttonLabelLayoutModifier(
-							buttonLabelStyle: style
-						)
 				}
 			}
 		}
@@ -120,17 +107,6 @@ public struct GSButton {
 				self.action = action
 				self.label = label()
 		}
-
-		// Navi Button Initializer
-		init(
-			style: GSButtonStyle,
-			@ViewBuilder destination: () -> CustomLabelType,
-			@ViewBuilder label: () -> CustomLabelType) {
-				self.style = style
-				self.destination = destination()
-				self.label = label()
-				self.action = { }
-			}
 	}
 }
 
@@ -147,18 +123,9 @@ struct Test2: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				NavigationLink(destination: Text("")) {
-					Text("HIHI")
-				}
 				
-				GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-					Text("")
-				} label: {
-					Text("GG")
-				}
 
-			}
-			
+			}	
 		}
 	}
 }

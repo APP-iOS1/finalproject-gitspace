@@ -14,8 +14,8 @@ extension Button {
 		
 		public func body(content: Content) -> some View {
 			switch colorScheme {
-
-			// MARK: - LIGHT MODE
+				
+				// MARK: - LIGHT MODE
 			case .light: // light Mode
 				switch style { // Button Style
 				case .primary(let isDisabled):
@@ -46,11 +46,9 @@ extension Button {
 					content
 						.foregroundColor(.primary)
 					
-				case .navigate(let style):
-					content
 				}
-			
-			// MARK: - DARK MODE
+					
+				// MARK: - DARK MODE
 			case .dark: // dark mode
 				switch style { // Button Style
 				case .primary,
@@ -68,20 +66,17 @@ extension Button {
 						.buttonBorderShape(.capsule)
 						.buttonStyle(.borderedProminent)
 						.tint(isSelected ? Color.gsYellowPrimary : Color.gsDarkGray)
-//						.tint(tagButtonColorModifier(isEditing: isEditing, isSelected: isSelected))
+					//						.tint(tagButtonColorModifier(isEditing: isEditing, isSelected: isSelected))
 				case .plainText(let isDestructive):
 					content
 						.foregroundColor(isDestructive ? .gsRed : .white)
 				case .homeTab:
 					content
 						.colorInvert()
-					
-				case .navigate(let style):
-					content
 				}
 			@unknown default: // neither Light nor Dark
 				content
-			}
+			}	
 		}
 		
 		fileprivate init(style: GSButton.GSButtonStyle) {
