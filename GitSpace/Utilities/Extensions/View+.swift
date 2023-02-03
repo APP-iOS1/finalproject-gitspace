@@ -8,6 +8,18 @@
 import SwiftUI
 
 extension View {
+    
+    /**
+     탭바의 배경화면 생성을 위한 modifier
+     */
+    func tabBarBackGroundModifier(style: GSTabBarBackGround.GSTabBarBackGroundStyle) -> some View {
+        modifier(TabBarBackgroundModifier(backgroundStyle: style))
+    }
+    
+	public func buttonLabelLayoutModifier(buttonLabelStyle: GSButton.GSButtonStyle) -> some View {
+		modifier(ButtonLabelLayoutModifier(buttonLabel: buttonLabelStyle))
+	}
+    
     // MARK: - 키보드 내리기 위한 extension
     func endTextEditing() {
         UIApplication.shared.sendAction(

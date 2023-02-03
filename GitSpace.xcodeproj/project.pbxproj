@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
+		22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */; };
+		22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */; };
+		22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412C298CD22500CC89EC /* View+cornerRadius.swift */; };
+		22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */; };
+		22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54131298CE38300CC89EC /* GSTabBarRouter.swift */; };
 		22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE52976F78C008A4405 /* FollowingView.swift */; };
 		22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE92976FEB5008A4405 /* FeedView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
@@ -82,6 +87,11 @@
 /* Begin PBXFileReference section */
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarBackGround.swift; sourceTree = "<group>"; };
+		22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarBackgroundModifier.swift; sourceTree = "<group>"; };
+		22C5412C298CD22500CC89EC /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
+		22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarIcon.swift; sourceTree = "<group>"; };
+		22C54131298CE38300CC89EC /* GSTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarRouter.swift; sourceTree = "<group>"; };
 		22DECDE52976F78C008A4405 /* FollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingView.swift; sourceTree = "<group>"; };
 		22DECDE92976FEB5008A4405 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
@@ -164,6 +174,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22C54130298CE36F00CC89EC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +258,7 @@
 			children = (
 				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
 				703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */,
+				22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */,
 				6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */,
 				7062E130298CCB1700CCE946 /* LabelModifier.swift */,
 				7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */,
@@ -290,6 +309,7 @@
 		7068B6B529769479005D6B7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				22C54130298CE36F00CC89EC /* Router */,
 				7068B6B8297694C2005D6B7B /* Models */,
 				7068B6B7297694BE005D6B7B /* ViewModels */,
 				7068B6B6297694BA005D6B7B /* Views */,
@@ -394,6 +414,7 @@
 				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
 				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
 				706BDE462988FBE000284F0F /* Date+DateDiff.swift */,
+				22C5412C298CD22500CC89EC /* View+cornerRadius.swift */,
 				7095CFA3297EB913000F2BF6 /* Color+.swift */,
 			);
 			path = Extensions;
@@ -405,6 +426,8 @@
 				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
 				707E58F529799449007F4ADF /* GSTextField.swift */,
 				7065B458297A1F51000B91D2 /* GSButton.swift */,
+				22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */,
+				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
 
@@ -498,12 +521,15 @@
 			files = (
 				6E0F9595298CF5F8000FE529 /* GSTextEdior.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
+				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
+				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
+				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
@@ -536,6 +562,7 @@
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
 				6E0840272983BB9A00F51169 /* UserInfo.swift in Sources */,
+				22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */,
 				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
 				6E0840212983979B00F51169 /* MessageCell.swift in Sources */,
 				6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */,
@@ -545,6 +572,7 @@
 				7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */,
+				22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */,
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */,
 				70BE63E5298CA5190060336F /* Constant.swift in Sources */,

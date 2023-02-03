@@ -21,10 +21,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct GitSpaceApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    let tabBarRouter = GSTabBarRouter()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(tabBarRouter: tabBarRouter)
                 .environmentObject(AuthStore())
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
