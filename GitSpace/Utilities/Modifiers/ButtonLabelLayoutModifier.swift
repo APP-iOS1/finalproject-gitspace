@@ -44,10 +44,3 @@ public struct ButtonLabelLayoutModifier: ViewModifier {
 	}
 }
 
-public enum ButtonLabelType {
-	case primary
-	case secondary(isDisabled: Bool)
-	case tag
-	case homeTab
-	case plainText(isDestructive: Bool)
-}
