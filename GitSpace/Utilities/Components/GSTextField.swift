@@ -2,109 +2,75 @@
 //  GSTextField.swift
 //  GitSpace
 //
-//  Created by 이승준 on 2023/01/20.
+//  Created by 원태영, 이다혜, 최한호 on 2023/02/03.
 //
+
+// TODO: Namespace 학습해서 GS 접두어 뺄 수 있는 구조로 만들기
 
 import SwiftUI
 
-struct GSInputField {
-	enum InputFieldStyle {
-		case secureField
-		case textField
-		case textEditor
+// MARK: -Memo
+/// 1. Field 스타일 두 개가 HStack과 TextField라서 한 extension으로 Modifier를 만들 수 없음
+/// 2. placeHolder는 컬러를 따로 지정해줄 수 없음
+/// 3. 다크모드에서 백그라운드가 .white면 좀 밝은 것 같아서 으니한테 물어보기. 이거 placeHolder가 다크모드 기준으로 색이 더 연함
+/// 4. 돋보기 아이콘이 일반 앱에서 보통 깜박이 커서랑 같은 회색인데 블랙으로 갈지
+/// 5. 텍스트필드에서 제네릭을 따로 안써도 되는데 가지고 있어야 함? 제네릭 선언해두고 안넣어주면 빌드가 안됨 됌?
+
+struct GSTextField {
+    
+	enum GSTextFieldStyle {
+		case searchBarField
+        case addTagField
 	}
 	
-	struct ContentView<ContentView: View>: View {
-		private(set) var style: InputFieldStyle
-		private(set) var primaryInputFieldTitle: String?
-		private(set) var text: Binding<String>
-		private(set) var content: () -> ContentView
-		@State private(set) var isVisible: Bool = false
-		
-		var body: some View {
-			
-			VStack(alignment: .leading) {
-				if let primaryInputFieldTitle {
-					Text(primaryInputFieldTitle)
-						.bold()
-						.padding(.leading, 15)
-				}
-				
-				content()
-					.autocorrectionDisabled()
-					.textInputAutocapitalization(.never)
-					.padding(.horizontal, 15)
-					.overlay {
-						Divider()
-							.background(Color.accentColor)
-							.offset(x: 0, y: 15)
-							.padding(.horizontal, 15)
-					}
-					.overlay {
-						switch style {
-						case .secureField:
-							HStack {
-								Spacer()
-								
-								Button {
-									self.isVisible.toggle()
-								} label: {
-									Image(systemName: isVisible ? "eye.slash" : "eye")
-								}
-							}
-							.padding(.horizontal, 15)
-						default:
-							EmptyView()
-						}
-					}
-			}
-			
-		}
-	}
-	
-	// 바깥에서 호출해서 사용하는 인풋필드 메소드
-	public static func customInputField(
-		style: InputFieldStyle,
-		primaryInputFieldTitle: String?,
-		text: Binding<String>,
-		@ViewBuilder content: @escaping () -> some View
-	) -> some View {
-		GSInputField.ContentView(
-			style: style,
-			primaryInputFieldTitle: primaryInputFieldTitle,
-			text: text,
-			content: content)
+    struct CustomTextFieldView: View {
+        
+        public let const = Constant.TextFieldConst.self
+        public let style: GSTextFieldStyle
+        public let text: Binding<String>
+        
+        init(style: GSTextFieldStyle, text: Binding<String>) {
+            self.style = style
+            self.text = text
+        }
+        
+        var body: some View {
+            switch style {
+                
+                // MARK: SearchBar
+            case .searchBarField:
+                HStack(spacing: const.SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE) {
+                    Image(systemName: const.SEARCHBAR_FIELD_SYMBOL_NAME)
+                        .foregroundColor(.black)
+                    TextField(const.SEARCHBAR_FIELD_PLACEHOLDER, text: text)
+                        .foregroundColor(.primary)
+                }
+                .modifier(GSTextFieldLayoutModifier(style: style))
+                
+            case .addTagField:
+                TextField(const.ADDTAG_FIELD_PLACEHOLDER, text: text)
+                    .modifier(GSTextFieldLayoutModifier(style: style))
+            }
+        }
 	}
 }
 
+
 struct Test: View {
-	@State private var email = ""
-	@State private var password = ""
+    @State var text1: String = ""
+    @State var text2: String = ""
 	
 	var body: some View {
 		VStack {
-			GSInputField.customInputField(
-				style: .textField,
-				primaryInputFieldTitle: "Email",
-				text: $email
-			) {
-				TextField("ID", text: $email)
-			}
-			.padding(.vertical, 30)
-			
-			GSInputField.customInputField(
-				style: .secureField,
-				primaryInputFieldTitle: "Password",
-				text: $password,
-				content: viewBuilder)
+            GSTextField.CustomTextFieldView.init(style: .searchBarField,
+                                         text: $text1)
+            
+            GSTextField.CustomTextFieldView.init(style: .addTagField,
+                                         text: $text2)
 		}
 	}
-	
-	// Your ViewBuilder
-	private func viewBuilder() -> some View {
-		SecureField("Password", text: $password)
-	}
 }
+ 
 
 struct Test_: PreviewProvider {
 	@State static var text = "112"
@@ -113,3 +79,4 @@ struct Test_: PreviewProvider {
 		Test()
 	}
 }
+ 
