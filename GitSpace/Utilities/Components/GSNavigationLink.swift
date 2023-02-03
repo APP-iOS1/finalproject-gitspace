@@ -13,44 +13,16 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 	private(set) var destination: Destination
 	private(set) var label: Label
 	private(set) var style: Constant.LabelHierarchy
-
 	
 	// MARK: - Body
 	var body: some View {
 		switch style {
 		case .primary:
-			NavigationLink {
-				destination
-			} label: {
-				label
-					.labelHierarchyModifier(style: .primary)
-			}
-			.buttonStyle(
-				ViewHighlightColorStyle(style: style)
-			)
-			.shadowColorSchemeModifier()
+			navigationLinkBuilder(style: style)
+				.shadowColorSchemeModifier()
 			
-		case .secondary:
-			NavigationLink {
-				destination
-			} label: {
-				label
-					.labelHierarchyModifier(style: .secondary)
-			}
-			.buttonStyle(
-				ViewHighlightColorStyle(style: style)
-			)
-			
-		case .tertiary:
-			NavigationLink {
-				destination
-			} label: {
-				label
-					.labelHierarchyModifier(style: .tertiary())
-			}
-			.buttonStyle(
-				ViewHighlightColorStyle(style: style)
-			)
+		default:
+			navigationLinkBuilder(style: style)
 		}
 	}
 	
@@ -66,16 +38,39 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 	}
 	
 	// MARK: - METHODS
-	private func isLightMode() -> Bool {
-		colorScheme == .light ? true : false
+	@ViewBuilder
+	private func navigationLinkBuilder(
+		style: Constant.LabelHierarchy
+	) -> some View {
+		NavigationLink {
+			destination
+		} label: {
+			label
+				.labelHierarchyModifier(style: style)
+		}
+		.buttonStyle(
+			ViewHighlightColorStyle(style: style)
+		)
 	}
 }
 
-struct Test3: PreviewProvider {
+struct GSNavigationPreview: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			VStack {
 				GSNavigationLink(style: .tertiary()) {
+					Text("?")
+				} label: {
+					Text("Hi")
+				}
+				
+				GSNavigationLink(style: .secondary) {
+					Text("?")
+				} label: {
+					Text("Hi")
+				}
+				
+				GSNavigationLink(style: .primary) {
 					Text("?")
 				} label: {
 					Text("Hi")
