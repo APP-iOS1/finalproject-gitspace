@@ -120,7 +120,7 @@ struct ReceivedKnockView: View {
             VStack(spacing: 10) {
                 
                 Divider()
-                    .padding(.top, -10)
+                    .padding(.top, -8)
                 
                 
 //                Text("\("guguhanogu")")

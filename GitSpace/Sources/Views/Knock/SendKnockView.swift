@@ -71,16 +71,17 @@ struct SendKnockView: View {
                         ProfileDetailView()
                     } label: {
                         GSButton.CustomButtonView(style: .secondary(
-                            isDisabled: false)) {
-                                
-                            } label: {
-                                Text("View Profile")
-                                    .font(.footnote)
-                                    .foregroundColor(.primary)
-                                    .bold()
-                                    .padding(-8)
-                                    .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
-                            }
+                            isDisabled: false)
+                        ) {
+                            
+                        } label: {
+                            Text("View Profile")
+                                .font(.footnote)
+                                .foregroundColor(.primary)
+                                .bold()
+                                .padding(-8)
+                        }
+                        .disabled(true)
                     }
                     
                     Divider()
@@ -240,6 +241,7 @@ struct SendKnockView: View {
                 if chatPurpose == "offer" {
                     
                     Divider()
+                        .padding(.top, -8)
                     
                     HStack {
                         Text("✍️ Offer-related message...")
@@ -276,6 +278,10 @@ struct SendKnockView: View {
                         .focused($isFocused, equals: .edit)
                     
                 } else if chatPurpose == "question" {
+                    
+                    Divider()
+                        .padding(.top, -8)
+                    
                     HStack {
                         Text("✍️ Question-related message...")
                             .foregroundColor(.gsLightGray1)
@@ -317,7 +323,7 @@ struct SendKnockView: View {
 
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
-                    ProfileDetailView()
+                        ProfileDetailView()
                 } label: {
                     HStack(spacing: 5) {
                         AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
