@@ -1,5 +1,5 @@
 //
-//  NewKnockView.swift
+//  SendKnockView.swift
 //  GitSpace
 //
 //  Created by 최한호 on 2023/01/31.
@@ -24,6 +24,8 @@ struct SendKnockView: View {
     @FocusState private var isFocused: TextEditorFocustState?
     @State private var chatPurpose: String = ""
     @State private var knockMessage: String = ""
+    
+    @State private var showKnockGuide: Bool = false
     
     var body: some View {
         VStack {
@@ -98,7 +100,7 @@ struct SendKnockView: View {
                         HStack(spacing: 5) {
                             Text("Would you like to")
                             Button {
-                                
+                                showKnockGuide.toggle()
                             } label: {
                                 Text("Knock")
                                     .bold()
@@ -220,9 +222,12 @@ struct SendKnockView: View {
                         
                     
                 } // ScrollView
+                /// chatPurpose 값이 바뀜에 따라 키보드를 bottomID로 이동시킴
                 .onChange(of: chatPurpose) { _ in
                     withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                         }
+                /// TextEditor 이외의 공간을 터치할 경우,
+                /// 키보드 포커싱을 없앰
                 .onTapGesture {
                     self.endTextEditing()
                 }
@@ -241,6 +246,8 @@ struct SendKnockView: View {
                             .foregroundColor(.gsLightGray1)
                             .bold()
                         
+                        // MARK: 메세지 작성 취소 버튼
+                        /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
                         Button {
                             self.endTextEditing()
                             withAnimation(.easeInOut.speed(1.5)) {
@@ -253,6 +260,7 @@ struct SendKnockView: View {
                         
                         Spacer()
                         
+                        // MARK: 키보드 내리기 버튼
                         Button {
                             self.endTextEditing()
                         } label: {
@@ -273,6 +281,8 @@ struct SendKnockView: View {
                             .foregroundColor(.gsLightGray1)
                             .bold()
                         
+                        // MARK: 메세지 작성 취소 버튼
+                        /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
                         Button {
                             self.endTextEditing()
                             withAnimation(.easeInOut.speed(1.5)) {
@@ -285,12 +295,13 @@ struct SendKnockView: View {
                         
                         Spacer()
                         
+                        // MARK: 키보드 내리기 버튼
                         Button {
                             self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
                                 .foregroundColor(.gsLightGray1)
-                        }
+                        } // Button
                         
                     } // HStack
                     .padding(.horizontal)
@@ -323,13 +334,16 @@ struct SendKnockView: View {
                             .bold()
                     } // HStack
                     .foregroundColor(.black)
-                }
+                } // NavigationLink
             } // ToolbarItemGroup
         } // toolbar
+        .sheet(isPresented: $showKnockGuide) {
+            KnockGuideView()
+        }
     }
 }
 
-struct NewKnockView_Previews: PreviewProvider {
+struct SendKnockView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             SendKnockView()
