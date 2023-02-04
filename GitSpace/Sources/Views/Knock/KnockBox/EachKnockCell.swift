@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MyKnockCell: View {
+struct EachKnockCell: View {
 	@ObservedObject var knockHistoryViewModel: KnockHistoryViewModel
 	@State var eachKnock: Knock
     @Binding var isEdit: Bool
@@ -43,11 +43,6 @@ struct MyKnockCell: View {
 						.font(.headline)
 						
 						Spacer()
-						
-						//                    Text("﹒")
-						//                        .font(.subheadline)
-						//                        .foregroundColor(Color(.systemGray))
-						//                        .padding(.leading, -5)
 						
 						Text("\(eachKnock.dateDiff)m")
 							.font(.subheadline)
