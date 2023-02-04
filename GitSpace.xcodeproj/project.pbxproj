@@ -19,7 +19,7 @@
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* KnockSettingView.swift */; };
-		34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* KnockCell.swift */; };
+		34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
 		34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */; };
@@ -99,7 +99,7 @@
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
 		34BC356C29778C43000DCBC7 /* KnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockSettingView.swift; sourceTree = "<group>"; };
-		34BC356E29779201000DCBC7 /* KnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockCell.swift; sourceTree = "<group>"; };
+		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				34BC356829777253000DCBC7 /* MainKnockView.swift */,
-				34BC356E29779201000DCBC7 /* KnockCell.swift */,
+				34BC356E29779201000DCBC7 /* EachKnockCell.swift */,
 				34BC356C29778C43000DCBC7 /* KnockSettingView.swift */,
 				34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */,
 				706BDE412988E2E800284F0F /* KnockHistoryView.swift */,
@@ -259,13 +259,11 @@
 			isa = PBXGroup;
 			children = (
 				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
-				703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */,
 				22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */,
 				6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */,
 				7062E130298CCB1700CCE946 /* LabelModifier.swift */,
 				7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */,
 				7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */,
-
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -433,7 +431,6 @@
 				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
-
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -533,7 +530,7 @@
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
-				34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */,
+				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
