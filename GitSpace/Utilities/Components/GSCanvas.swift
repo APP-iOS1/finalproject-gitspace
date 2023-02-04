@@ -41,9 +41,9 @@ struct GSCanvas {
             self.style = style
             self.content = content()
         }
+        
     }
 }
-
 
 
 
@@ -54,33 +54,23 @@ struct TestCanvas: View {
         VStack {
             
             
-            // MARK: - testing
+            // MARK: - Testing Views
+            
+            /*
+             
+             GSCanvas는 아래와 같은 방식으로 사용됩니다.
+             GSCanvas.CustomCanvasView.init(style: 라이트모드 or 다크모드, content: {
+                Stack or Group으로 감싸진 내용
+             })
+             
+             */
+            
+
+            // MARK: - 1. Repo List
             
             GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
-                VStack {
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                    Text("dddddd")
-                        .font(.title3)
-                }
-            })
-            
-            
-            
-            
-            // MARK: - 1. Repo List
-            Group {
-                HStack {
+                /* 캔버스 내부: */
+                Group {
                     NavigationLink {
                         RepositoryDetailView()
                     } label: {
@@ -105,144 +95,117 @@ struct TestCanvas: View {
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(.gray)
                         }
-                        .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                     }
                 }
-            }
-            .cornerRadius(17)
-            .background(
-                RoundedRectangle(cornerRadius: 17, style: .continuous)
-                    .fill(.white)
-                    .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
-            )
-
-            
-            Spacer()
-            
-            
+            })
             
             
             // MARK: - 2. Repo Detail
-            VStack(alignment: .leading) {
+            
+            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+                /* 캔버스 내부: */
+                VStack(alignment: .leading) {
+                    Text("Repo title")
+                        .font(.largeTitle)
+                        .padding(.bottom, 5)
 
-                Text("Repo title")
-                    .font(.largeTitle)
-                    .padding(.bottom, 5)
+                    Text("This is a description paragraph for current repository. Check out more information by knocking on users!")
+                        .padding(.vertical, 5)
 
-                Text("This is a description paragraph for current repository. Check out more information by knocking on users!")
-                    .padding(.vertical, 5)
+                    Text("⭐️ 234,305 stars")
+                        .font(.footnote)
+                        .padding(.vertical, 5)
+                        .foregroundColor(.secondary)
 
-                Text("⭐️ 234,305 stars")
-                    .font(.footnote)
-                    .padding(.vertical, 5)
-                    .foregroundColor(.secondary)
+                    Divider()
 
-                Divider()
+                    Text("**Contributors**")
+                        .padding(.vertical, 5)
 
-                Text("**Contributors**")
-                    .padding(.vertical, 5)
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(0...2, id: \.self) { profile in
+                                NavigationLink(destination: ProfileDetailView()) {
 
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0...2, id: \.self) { profile in
-                            NavigationLink(destination: ProfileDetailView()) {
-
-                                Image("avatarImage")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
+                                    Image("avatarImage")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                }
                             }
                         }
                     }
                 }
-            }
-            .padding(20)
-            .background(
-                RoundedRectangle(cornerRadius: 17, style: .continuous)
-                    .fill(.white)
-                    .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
-            )
-
-            Spacer()
+            })
             
             
             // MARK: - 3. Chat Recommendation
-            VStack(alignment: .trailing) {
-                HStack {
-                    Image("avatarImage")
-                        .frame(width: 64)
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("@" + "Username")
-                            .font(.title3)
-                            .bold()
-                        
-                        HStack {
-                            Group {
-                                Text("112")
-                                    .bold()
-                                    .padding(.trailing, -5)
-                                Text("followers")
+            
+            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+                /* 캔버스 내부: */
+                VStack(alignment: .trailing) {
+                    HStack {
+                        Image("avatarImage")
+                            .frame(width: 64)
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("@" + "Username")
+                                .font(.title3)
+                                .bold()
+
+                            HStack {
+                                Group {
+                                    Text("112")
+                                        .bold()
+                                        .padding(.trailing, -5)
+                                    Text("followers")
+                                }
+                                .font(.callout)
+
+                                Text("·")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+
+                                Group {
+                                    Text("357")
+                                        .bold()
+                                        .padding(.trailing, -5)
+                                    Text("repos")
+                                }
+                                .font(.callout)
                             }
-                            .font(.callout)
-                            
-                            Text("·")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            
-                            Group {
-                                Text("357")
-                                    .bold()
-                                    .padding(.trailing, -5)
-                                Text("repos")
-                            }
-                            .font(.callout)
+
                         }
-                        
+                    }
+
+                    Spacer()
+                        .frame(height: 20)
+
+                    NavigationLink {
+                        SendKnockView()
+                    } label: {
+                        Text("Let's Chat!")
+                            .font(.callout)
+                            .foregroundColor(.primary)
+                            .fontWeight(.semibold)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 23)
+                            .background(Color.gsGreenPrimary)
+                            .cornerRadius(20)
                     }
                 }
-                
-                Spacer()
-                    .frame(height: 20)
-
-                NavigationLink {
-                    SendKnockView()
-                } label: {
-                    Text("Let's Chat!")
-                        .font(.callout)
-                        .foregroundColor(.primary)
-                        .fontWeight(.semibold)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 23)
-                        .background(Color.gsGreenPrimary)
-                        .cornerRadius(20)
-                }
-            }
-            .padding(.vertical, 21)
-            .padding(.horizontal, 17)
-            
-            .background(
-                RoundedRectangle(cornerRadius: 17, style: .continuous)
-                    .fill(.white)
-                    .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
-            )
-            
-            
-            Spacer()
+            })
             
             
             // MARK: - 4. Knock Message
-            Text("\("Knock message - Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? \nThank you so much for your help!")")
-                .font(.system(size: 15, weight: .regular))
-                .padding(.horizontal, 30)
-                .padding(.vertical, 30)
-                .fixedSize(horizontal: false, vertical: true)
-                .background(
-                    RoundedRectangle(cornerRadius: 17)
-                        .fill(.white)
-                        .shadow(color: Color(.systemGray5), radius: 6, x: 0, y: 2)
-                    
-                )
-                .padding(.horizontal, 15)
+            
+            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+                /* 캔버스 내부: */
+                VStack {
+                    Text("\("Knock message - Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? \nThank you so much for your help!")")
+                        .font(.system(size: 15, weight: .regular))
+                }
+
+            })
         }
         .padding(.horizontal, 40)
     }
