@@ -25,63 +25,67 @@ struct AddTagSheetView: View {
                     
                     // MARK: - 새 태그 추가 섹션
                     // 새 태그 추가 안내문
-                    Text("Add if you want new tags 💬")
-                        .foregroundColor(Color(.systemGray))
-                        .font(.callout)
-                    
-                    HStack {
-                        TextField("tag name", text: $tagInput)
-                            .textFieldStyle(.roundedBorder)
+                    Group {
+                        Text("Add if you want new tags 💬")
+                            .foregroundColor(Color(.systemGray))
+                            .font(.callout)
                         
-                        // 태그 추가 버튼
-                        Button {
-                            if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                                repositoryStore.tagList.append( Tag(name: tagInput) )
+                        HStack {
+                            TextField("tag name", text: $tagInput)
+                                .textFieldStyle(.roundedBorder)
+                            
+                            // 태그 추가 버튼
+                            Button {
+                                // FIXME: Animation이 너무 못생겼음.
+                                /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
+                                withAnimation {
+                                    if tagInput.trimmingCharacters(in: .whitespaces) != "" {
+                                        repositoryStore.tagList.append( Tag(name: tagInput) )
+                                    }
+                                }
+                            } label: {
+                                Image(systemName: "plus")
+                                    .font(.title2)
+                                    .foregroundColor(.black)
+                                    .padding(5)
                             }
-                        } label: {
-                            Image(systemName: "plus")
-                                .font(.title2)
-                                .foregroundColor(.black)
-                                .padding(5)
                         }
+                        .padding(.bottom, 30)
                     }
-                    .padding(.bottom, 30)
-                    
                     
                     // MARK: - 태그 선택 섹션
                     // 기존 태그 선택 안내문
-                    Text("Select tags from your tag list 🙌")
-                        .foregroundColor(Color(.systemGray))
-                        .font(.callout)
-                    
-                    HStack {
-                        LazyVGrid(columns: columns) {
-                            /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                            ForEach(Array(repositoryStore.tagList.enumerated()), id: \.offset) { index, tag in
-                                GSButton.CustomButtonView(
-                                    style: .tag(
-                                        isSelected: selectedTags.contains(tag),
-                                        isEditing: false
-                                    )
-                                ) {
-                                    withAnimation {
+                    Group {
+                        Text("Select tags from your tag list 🙌")
+                            .foregroundColor(Color(.systemGray))
+                            .font(.callout)
+                        
+                        HStack {
+                            LazyVGrid(columns: columns) {
+                                /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
+                                ForEach(Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList.reversed())), id: \.0) { index, tag in
+                                    GSButton.CustomButtonView(
+                                        style: .tag(
+                                            isSelected: selectedTags.contains(tag),
+                                            isEditing: false
+                                        )
+                                    ) {
                                         if selectedTags.contains(tag) {
                                             let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
                                             selectedTags.remove(at: selectedIndex)
                                         } else {
                                             selectedTags.append(tag)
                                         }
+                                    } label: {
+                                        Text("\(tag.name)")
+                                            .font(.callout)
                                     }
-                                } label: {
-                                    Text("\(tag.name)")
-                                        .font(.callout)
+                                    .tag("\(tag.name)")
                                 }
-                                .tag("\(tag.name)")
                             }
                         }
+                        Spacer()
                     }
-                    
-                    Spacer()
                 }
                 .navigationBarTitle("Knock Knock!", displayMode: .inline)
                 .toolbar {
