@@ -8,7 +8,7 @@
 import SwiftUI
 
 final class KnockHistoryViewModel: ObservableObject {
-	@Published var sendedKnockLists: [Knock] = []
+	@Published var sentKnockLists: [Knock] = []
 	@Published var receivedKnockLists: [Knock] = []
 	
 	@Published var usersKnockHistoryStatus: [String] = []
@@ -19,7 +19,7 @@ final class KnockHistoryViewModel: ObservableObject {
 		let cases = KnockStatus.allCases.shuffled()
 		for index in 0..<(cases.count + Int.random(in: 10..<15)) {
 			usersKnockHistoryStatus.append(cases.randomElement()!.rawValue)
-			sendedKnockLists.append(
+			sentKnockLists.append(
 				Knock(
 					date: Date.now - Double.random(in: 10...1500),
 					knockMessage: "Message +\(index)",
