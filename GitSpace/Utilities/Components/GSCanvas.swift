@@ -11,8 +11,8 @@ import SwiftUI
 
 struct GSCanvas {
     public enum GSCanvasStyle {
-        case lightmode
-        case darkmode
+        case primary
+        /* 카드 스타일은 나중에 더 추가될 가능성 있음 (예: 프로필 뷰에서 자기소개 카드) */
     }
     
     struct CustomCanvasView<Content: View>: View {
@@ -22,19 +22,8 @@ struct GSCanvas {
         
         var body: some View {
             
-            switch style {
-            case .lightmode:
-                Group {
-                    content
-                }
-                .modifier(GSCanvasModifier(style: .lightmode))
-                
-            case .darkmode:
-                Group {
-                    content
-                }
-                .modifier(GSCanvasModifier(style: .darkmode))
-            }
+            content
+                .modifier(GSCanvasModifier(style: .primary))
         }
         
         init(style: GSCanvasStyle, @ViewBuilder content: () -> Content) {
@@ -59,7 +48,7 @@ struct TestCanvas: View {
             /*
              
              GSCanvas는 아래와 같은 방식으로 사용됩니다.
-             GSCanvas.CustomCanvasView.init(style: 라이트모드 or 다크모드, content: {
+             GSCanvas.CustomCanvasView.init(style: 카드 스타일 (현재는 primary만 존재), content: {
                 Stack or Group으로 감싸진 내용
              })
              
@@ -68,7 +57,7 @@ struct TestCanvas: View {
 
             // MARK: - 1. Repo List
             
-            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+            GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
                 Group {
                     NavigationLink {
@@ -102,7 +91,7 @@ struct TestCanvas: View {
             
             // MARK: - 2. Repo Detail
             
-            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+            GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
                 VStack(alignment: .leading) {
                     Text("Repo title")
@@ -140,7 +129,7 @@ struct TestCanvas: View {
             
             // MARK: - 3. Chat Recommendation
             
-            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+            GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
                 VStack(alignment: .trailing) {
                     HStack {
@@ -198,7 +187,7 @@ struct TestCanvas: View {
             
             // MARK: - 4. Knock Message
             
-            GSCanvas.CustomCanvasView.init(style: .lightmode, content: {
+            GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
                 VStack {
                     Text("\("Knock message - Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? \nThank you so much for your help!")")
