@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
+		221DE111298FAD7F009FADDF /* GitHubAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221DE110298FAD7F009FADDF /* GitHubAPIEndpoint.swift */; };
+		221DE113298FC32F009FADDF /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221DE112298FC32F009FADDF /* GitHubAPIError.swift */; };
 		22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */; };
 		22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */; };
 		22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412C298CD22500CC89EC /* View+cornerRadius.swift */; };
@@ -89,6 +91,8 @@
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		221DE110298FAD7F009FADDF /* GitHubAPIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIEndpoint.swift; sourceTree = "<group>"; };
+		221DE112298FC32F009FADDF /* GitHubAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarBackGround.swift; sourceTree = "<group>"; };
 		22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarBackgroundModifier.swift; sourceTree = "<group>"; };
 		22C5412C298CD22500CC89EC /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
@@ -176,6 +180,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		221DE10F298FAA31009FADDF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				221DE110298FAD7F009FADDF /* GitHubAPIEndpoint.swift */,
+				221DE112298FC32F009FADDF /* GitHubAPIError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		22C54130298CE36F00CC89EC /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,13 +272,11 @@
 			isa = PBXGroup;
 			children = (
 				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
-				703C844B298CA85D00398F2C /* ButtonLabelLayoutModifier.swift */,
 				22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */,
 				6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */,
 				7062E130298CCB1700CCE946 /* LabelModifier.swift */,
 				7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */,
 				7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */,
-
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -311,6 +322,7 @@
 		7068B6B529769479005D6B7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				221DE10F298FAA31009FADDF /* Network */,
 				22C54130298CE36F00CC89EC /* Router */,
 				7068B6B8297694C2005D6B7B /* Models */,
 				7068B6B7297694BE005D6B7B /* ViewModels */,
@@ -433,7 +445,6 @@
 				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEdior.swift */,
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
-
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -529,6 +540,7 @@
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
+				221DE113298FC32F009FADDF /* GitHubAPIError.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
@@ -557,6 +569,7 @@
 				6E000CB12989A1B600446C0D /* ChatDetailProfileSection.swift in Sources */,
 				0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */,
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
+				221DE111298FAD7F009FADDF /* GitHubAPIEndpoint.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				6E084030298510E100F51169 /* TabManager.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
