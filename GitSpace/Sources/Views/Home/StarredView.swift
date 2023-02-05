@@ -24,6 +24,16 @@ struct StarredView: View {
         startPoint: .top, endPoint: .bottom
     )
     
+    func removeTag(at index: Int, tag: Tag) {
+        /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
+        for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
+            if item.id == tag.id {
+                repositoryStore.tagList[index].isSelected = false
+            }
+        }
+        selectedTagList.remove(at: index)
+    }
+    
     var body: some View {
         ZStack {
             backgroundGradient
@@ -54,7 +64,6 @@ struct StarredView: View {
                     Spacer()
                     
                     Button {
-                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
                         isShowingSelectTagView.toggle()
                     } label: {
                         Image(systemName: "plus")
@@ -75,13 +84,7 @@ struct StarredView: View {
                                     isEditing: false
                                 )
                             ) {
-                                /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-                                for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
-                                    if item.id == tag.id {
-                                        repositoryStore.tagList[index].isSelected = false
-                                    }
-                                }
-                                selectedTagList.remove(at: index)
+                                removeTag(at: index, tag: tag)
                             } label: {
                                 Text("\(tag.name)")
                             }
@@ -177,10 +180,6 @@ struct StarredView: View {
             }
         }
     }
-	
-	private func doth(index: Int) {
-		selectedTagList.remove(at: index)
-	}
 }
 
 
