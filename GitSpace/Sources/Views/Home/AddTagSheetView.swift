@@ -16,6 +16,15 @@ struct AddTagSheetView: View {
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
+    func doesExistTag(_ inputTagName: String) -> Bool {
+        for tag in repositoryStore.tagList {
+            if tag.name == inputTagName {
+                return false
+            }
+        }
+        return true
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -40,7 +49,9 @@ struct AddTagSheetView: View {
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
                                 withAnimation {
                                     if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                                        repositoryStore.tagList.append( Tag(name: tagInput) )
+                                        if doesExistTag(tagInput) {
+                                            repositoryStore.tagList.append( Tag(name: tagInput) )
+                                        }
                                     }
                                 }
                             } label: {
