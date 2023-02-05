@@ -18,6 +18,11 @@ struct GSTextEditor {
         return UIFont.fontToUIFont(from: .body)
     }
     
+    // font의 한 줄 높이를 계산하는 프로퍼티
+    private var mainFontLineHeight: CGFloat {
+        return mainUIFont.lineHeight
+    }
+    
     init (
         style: GSTextEditorStyle,
         text: Binding<String>,
