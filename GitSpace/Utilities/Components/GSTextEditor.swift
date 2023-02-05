@@ -6,10 +6,20 @@ struct GSTextEditor {
     }
     
     // MARK: -Properties
+    // MARK: Stored Properties
     let style: GSTextEditorStyle
     let text: Binding<String>
     let font: Font?
     let lineSpace: CGFloat?
+    
+    // MARK: Computed Properties
+    // font 사이즈 관련 프로퍼티를 활용하기 위해 Font -> UIFont로 변환
+    private var mainUIFont: UIFont {
+        if let font {
+            return UIFont.fontToUIFont(from: font)
+        }
+        return UIFont.fontToUIFont(from: .body)
+    }
     
     init (
         style: GSTextEditorStyle,
@@ -22,6 +32,7 @@ struct GSTextEditor {
         self.font = font
         self.lineSpace = lineSpace
     }
+    
     
 }
 
