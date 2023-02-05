@@ -16,10 +16,18 @@ struct ContributorListView: View {
             Spacer()
                 .frame(height: 30)
             
-            // MARK: - 안내 메시지
-            Text("Choose a user to start a chat 💬")
-                .foregroundColor(Color(.systemGray))
-                .font(.callout)
+            // MARK: - 안내 메시지 ( ~하세요 -> ~하시겠어요? 질문형으로 변경)
+            GSText.CustomTextView(
+                style: .title2,
+                string: "Who do you want to chat with?")
+                .padding(.leading, 10)
+                .padding(.bottom, 5)
+            
+
+            
+            GSText.CustomTextView(
+                style: .caption1,
+                string: "Choose a user to start your chat.")
                 .padding(.leading, 10)
             
             ScrollView {
@@ -34,9 +42,9 @@ struct ContributorListView: View {
                                 .padding(.trailing, 10)
                             
                             /* 유저네임 */
-                            Text(contributor)
-                                .font(.headline)
-                                .foregroundColor(.primary)
+                            GSText.CustomTextView(
+                                style: .title3,
+                                string: contributor)
                             
                             Spacer()
                         }
@@ -56,8 +64,11 @@ struct ContributorListView: View {
                             .padding(.vertical, 5)
                     )
                 }
-                .padding(.vertical, 10)
+
                 .padding(.horizontal, 10)
+                
+                
+
             }
             
             Spacer()
