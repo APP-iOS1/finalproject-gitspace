@@ -28,6 +28,15 @@ struct GSTextEditor {
         return mainFontLineHeight * 5
     }
     
+    // 현재 text가 몇 줄인지 반환하는 프로퍼티
+    // 개행문자가 4개 초과일 때, 4개로 고정
+    // 입력이 없을 때도 한 줄에 대한 최소 높이가 필요하므로 + 1
+    private var newLineCounter: Int {
+        let currentText: String = text.wrappedValue
+        let currentLineCounter: Int = currentText.filter{$0 == "\n"}.count
+        return (currentLineCounter > 4 ? 4 : currentLineCounter) + 1
+    }
+    
     init (
         style: GSTextEditorStyle,
         text: Binding<String>,
