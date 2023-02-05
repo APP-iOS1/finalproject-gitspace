@@ -2,7 +2,7 @@
 //  AddTagSheetView.swift
 //  GitSpace
 //
-//  Created by yeeunchoi on 2023/01/18.
+//  Created by yeeunchoi, dahae on 2023/01/18.
 //
 
 import SwiftUI
@@ -16,13 +16,35 @@ struct AddTagSheetView: View {
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
-    func doesExistTag(_ inputTagName: String) -> Bool {
-        for tag in repositoryStore.tagList {
-            if tag.name == inputTagName {
-                return false
-            }
+    var trimmedTagInput: String {
+        tagInput.trimmingCharacters(in: .whitespaces)
+    }
+    
+    var shouldBlankTag: Bool {
+        trimmedTagInput != ""
+    }
+    
+    var shouldExistTag: Bool {
+        /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
+        /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
+        return repositoryStore.tagList.filter { tag in
+            tag.name == trimmedTagInput
+        }.isEmpty
+    }
+    
+    func addNewTag() {
+        if shouldBlankTag && shouldExistTag {
+            repositoryStore.tagList.append( Tag(name: trimmedTagInput) )
         }
-        return true
+    }
+    
+    func selectTag(to tag: Tag) {
+        if selectedTags.contains(tag) {
+            let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
+            selectedTags.remove(at: selectedIndex)
+        } else {
+            selectedTags.append(tag)
+        }
     }
     
     var body: some View {
@@ -48,11 +70,7 @@ struct AddTagSheetView: View {
                                 // FIXME: Animation이 너무 못생겼음.
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
                                 withAnimation {
-                                    if tagInput.trimmingCharacters(in: .whitespaces) != "" {
-                                        if doesExistTag(tagInput) {
-                                            repositoryStore.tagList.append( Tag(name: tagInput) )
-                                        }
-                                    }
+                                    addNewTag()
                                 }
                             } label: {
                                 Image(systemName: "plus")
@@ -81,11 +99,8 @@ struct AddTagSheetView: View {
                                             isEditing: false
                                         )
                                     ) {
-                                        if selectedTags.contains(tag) {
-                                            let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
-                                            selectedTags.remove(at: selectedIndex)
-                                        } else {
-                                            selectedTags.append(tag)
+                                        withAnimation {
+                                            selectTag(to: tag)
                                         }
                                     } label: {
                                         Text("\(tag.name)")
