@@ -23,6 +23,11 @@ struct GSTextEditor {
         return mainUIFont.lineHeight
     }
     
+    // TextEditor가 5줄을 초과했는지 검사하기 위한 프로퍼티
+    private var maxTextEditorHeight: CGFloat {
+        return mainFontLineHeight * 5
+    }
+    
     init (
         style: GSTextEditorStyle,
         text: Binding<String>,
