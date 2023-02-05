@@ -23,7 +23,19 @@ struct ContributorListView: View {
                 .padding(.leading, 10)
                 .padding(.bottom, 5)
             
-
+            HStack {
+                Spacer()
+                
+                /* 상황별 마스코트 이미지로 노트 시나리오의 시각적 힌트 제공 */
+                Image("ContributorListViewSampleImg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width - 250)
+                    .padding(.vertical, 30)
+                    .opacity(0.7)
+                
+                Spacer()
+            }
             
             GSText.CustomTextView(
                 style: .caption1,
