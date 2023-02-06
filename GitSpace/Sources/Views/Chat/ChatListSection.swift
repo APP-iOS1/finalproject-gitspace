@@ -13,17 +13,27 @@ struct ChatListSection: View {
                 .foregroundColor(Color.gray)
             
             // 채팅방 목록 리스트
-            ForEach(chatStore.chats.indices, id: \.self) { i in
+            ForEach(chatStore.targetUserID.indices, id: \.self) { i in
                 NavigationLink {
                     ChatRoomView(chat: chatStore.chats[i])
                 } label: {
-                    ListCellLabel(chat: chatStore.chats[i], targetUserID: chatStore.targetUserID[i])
-                    .foregroundColor(.black)
+                    if chatStore.isFetchFinished{
+                        ListCellLabel(chat: chatStore.chats[i], targetUserID: chatStore.targetUserID[i])
+                            .foregroundColor(.black)
+                    } else {
+                        ListCellLabel(chat: chatStore.chats[i], targetUserID: chatStore.targetUserID[i])
+                            .foregroundColor(.black)
+                            .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
+                    }
                 }
             }
+            Text("\(chatStore.isFetchFinished.description)")
         }
         .task{
-            chatStore.fetchChats()
+            await chatStore.fetchChats()
+//            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)){
+//                self.opacity = opacity == 0.4 ? 0.8 : 0.4
+//            }
         }
     }
 }
@@ -33,7 +43,6 @@ struct ListCellLabel : View {
     var chat: Chat
     var targetUserID: String
     @State private var targetName: String = ""
-    @State public var isTargetName: Bool = false
     @EnvironmentObject var userStore : UserStore
     @EnvironmentObject var chatStore: ChatStore
     @State var opacity: Double = 0.4
@@ -52,12 +61,12 @@ struct ListCellLabel : View {
                         .bold()
                         .padding(.bottom, 5)
                         .lineLimit(1)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !isTargetName))
+//                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
                     
                     Text(chat.lastContent)
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !isTargetName))
+//                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
                 }
                 
             }
@@ -65,13 +74,7 @@ struct ListCellLabel : View {
             Divider()
                 .frame(width: 350)
         }
-        .task {
-            targetName = await chat.targetUserName
-            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)){
-                self.opacity = opacity == 0.4 ? 0.8 : 0.4
-            }
-            isTargetName = true
-        }
+
     }
 }
 
