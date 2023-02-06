@@ -32,6 +32,7 @@ struct MessageModifier: ViewModifier {
     }
 }
 
+
 // MARK: Modifier : 채팅 메세지 보낸 시간 속성
 struct MessageTimeModifier: ViewModifier {
     func body(content: Content) -> some View {
