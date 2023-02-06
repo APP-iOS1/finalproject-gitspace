@@ -41,7 +41,6 @@ struct Chat : Identifiable {
                     returnUserName = name
                 }
             } catch {}
-
             return returnUserName.isEmpty ? "이름 없음" : returnUserName
         }
     }

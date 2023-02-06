@@ -7,13 +7,14 @@ import Foundation
 import FirebaseFirestore
 
 class ChatStore: ObservableObject {
-    @Published var targetChat : Chat?
+    @Published var targetUserID: [String]
     @Published var chats: [Chat]
     
     let db = Firestore.firestore()
     
     init() {
         chats = []
+        targetUserID = []
     }
     
     func fetchChats() {
@@ -42,6 +43,7 @@ class ChatStore: ObservableObject {
                         // 할당에 성공한 경우에만 Chat 구조체 추가
                         if let senderID = users["senderID"], let receiverID = users["receiverID"] {
                             userIDs = (senderID, receiverID)
+                            let targetID = Utility.loginUserID == senderID ? receiverID : senderID
                             let chat = Chat(id: id,
                                             date: date,
                                             users: userIDs,
@@ -50,6 +52,7 @@ class ChatStore: ObservableObject {
                                             knockContent: knockContent,
                                             knockDate: knockDate)
                             self.chats.append(chat)
+                            self.targetUserID.append(targetID)
                         }
                     }
                 }
