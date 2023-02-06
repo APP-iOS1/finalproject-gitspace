@@ -13,6 +13,9 @@ public enum Constant {
 	static let KNOCK_ACCEPTED: String = "Accepted"
 	static let KNOCK_DECLINED: String = "Declined"
 	static let KNOCK_ALL: String = "All"
+	
+	static let KNOCK_RECEIVED: String = "Received"
+	static let KNOCK_SENT: String = "Sent"
     
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
