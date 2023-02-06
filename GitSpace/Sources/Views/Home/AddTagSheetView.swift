@@ -107,7 +107,9 @@ struct AddTagSheetView: View {
                                             .font(.callout)
                                     }
                                     .tag("\(tag.name)")
+                                    
                                 }
+//                                .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .leading)), removal: .opacity.combined(with: .move(edge: .leading))))
                             }
                         }
                         Spacer()
