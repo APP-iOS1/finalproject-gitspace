@@ -10,10 +10,14 @@ import SwiftUI
 struct MainKnockView: View {
 	@ObservedObject var knockHistoryViewModel = KnockHistoryViewModel()
 	
-	@State private var knockMessenger: String = "Received"
-	@State private var receivedTab: String = "Received"
-	@State private var sentTab: String = "Sent"
+	@State private var knockMessenger: String = Constant.KNOCK_RECEIVED
+	@State private var receivedTab: String = Constant.KNOCK_RECEIVED
+	@State private var sentTab: String = Constant.KNOCK_SENT
 	@State private var userFilteredKnockState: KnockStateFilter = .all
+	
+	@State private var isSentViewDisplayed: Bool = false
+	@State private var isSearching: Bool = false
+	@State private var searchText: String = ""
 	
 	@State var isEdit: Bool = false
 	@State var checked: Bool = false
@@ -22,6 +26,25 @@ struct MainKnockView: View {
 	var body: some View {
 		VStack {
 			// MARK: - Tab Buttons
+			
+			HStack {
+				Image(systemName: "magnifyingglass")
+					.foregroundColor(.gray)
+				
+				TextField("Search", text: $searchText)
+					.autocorrectionDisabled()
+					.textInputAutocapitalization(.never)
+			}
+			.padding(.horizontal, 8)
+			.padding(.vertical, 8)
+			.background(
+				Color(.systemGray4)
+					.cornerRadius(16)
+			)
+			.padding(.horizontal, 20)
+			.opacity(isSearching ? 1 : 0)
+			.frame(height: isSearching ? 40 : 0)
+			
 			headerTabPagenationViewBuilder()
 				.overlay(alignment: .bottom) {
 					Divider()
@@ -32,82 +55,171 @@ struct MainKnockView: View {
 				.padding(.top, 10)
 				.padding(.horizontal, 16)
 			
-			TabView(selection: $knockMessenger) {
-				ScrollView {
-					subHeaderGuideMessageBuilder()
-						.font(.caption2)
-						.padding(.top, 8)
+			if isSearching {
+				switch knockMessenger {
+				case Constant.KNOCK_RECEIVED:
+					ScrollView {
+						LazyVStack(pinnedViews: .sectionHeaders) {
+							switch userFilteredKnockState {
+							case .waiting,
+									.accepted,
+									.declined:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_RECEIVED
+								)
+							case .all:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_WAITING,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_RECEIVED
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_ACCEPTED,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_RECEIVED
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_DECLINED,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_RECEIVED
+								)
+							}
+						} // LazyVStack
+					}
+					.tag(receivedTab)
 					
-					Divider()
+				case Constant.KNOCK_SENT:
+					ScrollView {
+						LazyVStack(pinnedViews: .sectionHeaders) {
+							switch userFilteredKnockState {
+							case .waiting,
+									.accepted,
+									.declined:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_SENT
+								)
+							case .all:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_WAITING,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_SENT
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_ACCEPTED,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_SENT
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_DECLINED,
+									searchWith: searchText,
+									knockType: Constant.KNOCK_SENT
+								)
+							}
+						} // LazyVStack
+					}
+					.tag(sentTab)
 					
-					LazyVStack(pinnedViews: .sectionHeaders) {
-						switch userFilteredKnockState {
-						case .waiting,
-								.accepted,
-								.declined:
-							eachCellSectionBuilder(knockList: knockHistoryViewModel.receivedKnockLists)
-						case .all:
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.receivedKnockLists,
-								filterState: Constant.KNOCK_WAITING
-							)
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.receivedKnockLists,
-								filterState: Constant.KNOCK_ACCEPTED
-							)
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.receivedKnockLists,
-								filterState: Constant.KNOCK_DECLINED
-							)
-						}
-					} // LazyVStack
+				default:
+					EmptyView()
 				}
-				.tag(receivedTab)
-				.fullScreenCover(isPresented: $showingKnockSetting) {
-					MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
-				}
-				
-				ScrollView {
-					subHeaderGuideMessageBuilder()
-						.foregroundColor(Color(.systemGray))
-						.multilineTextAlignment(.center)
-						.font(.caption2)
-						.padding(.top, 8)
+			} else {
+				switch knockMessenger {
+				case Constant.KNOCK_RECEIVED:
+					ScrollView {
+						subHeaderGuideMessageBuilder()
+							.font(.caption2)
+							.padding(.top, 8)
+						
+						Divider()
+						
+						// MARK: - Knock Received
+						LazyVStack(pinnedViews: .sectionHeaders) {
+							switch userFilteredKnockState {
+							case .waiting,
+									.accepted,
+									.declined:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists
+								)
+							case .all:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_WAITING
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_ACCEPTED
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.receivedKnockLists,
+									filterState: Constant.KNOCK_DECLINED
+								)
+							}
+						} // LazyVStack
+					}
+					.tag(receivedTab)
+					.fullScreenCover(isPresented: $showingKnockSetting) {
+						MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
+					}
 					
-					Divider()
+				case Constant.KNOCK_SENT:
+					ScrollView {
+						subHeaderGuideMessageBuilder()
+							.foregroundColor(Color(.systemGray))
+							.multilineTextAlignment(.center)
+							.font(.caption2)
+							.padding(.top, 8)
+						
+						Divider()
+						
+						LazyVStack(pinnedViews: .sectionHeaders) {
+							// MARK: - Knock Sent
+							switch userFilteredKnockState {
+							case .waiting,
+									.accepted,
+									.declined:
+								eachCellSectionBuilder(knockList: knockHistoryViewModel.sentKnockLists)
+							case .all:
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_WAITING
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_ACCEPTED
+								)
+								eachCellSectionBuilder(
+									knockList: knockHistoryViewModel.sentKnockLists,
+									filterState: Constant.KNOCK_DECLINED
+								)
+							}
+						} // LazyVStack
+					}
+					.tag(sentTab)
 					
-					LazyVStack(pinnedViews: .sectionHeaders) {
-						switch userFilteredKnockState {
-						case .waiting,
-								.accepted,
-								.declined:
-							eachCellSectionBuilder(knockList: knockHistoryViewModel.sentKnockLists)
-						case .all:
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.sentKnockLists,
-								filterState: Constant.KNOCK_WAITING
-							)
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.sentKnockLists,
-								filterState: Constant.KNOCK_ACCEPTED
-							)
-							eachCellSectionBuilder(
-								knockList: knockHistoryViewModel.sentKnockLists,
-								filterState: Constant.KNOCK_DECLINED
-							)
-						}
-					} // LazyVStack
+				default:
+					EmptyView()
 				}
-				.tag(sentTab)
-				
-			} // TabView
-			.tabViewStyle(.page)
+			}
 		} // VStack
-		.navigationBarTitle(knockMessenger + " Knock", displayMode: .inline)
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("\(knockMessenger) Knock")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarTrailing) {
-				NavigationLink {
-					Text("검색하기")
+				Button {
+					withAnimation(.linear(duration: 0.3)) {
+						isSearching.toggle()
+					}
 				} label: {
 					Image(systemName: "magnifyingglass")
 						.foregroundColor(.primary)
@@ -130,8 +242,11 @@ struct MainKnockView: View {
 			GSButton.CustomButtonView(style: .homeTab(
 				tabName: receivedTab,
 				tabSelection: $knockMessenger)) {
-					withAnimation {
-						knockMessenger = receivedTab
+					knockMessenger = receivedTab
+					if isSentViewDisplayed {
+						withAnimation {
+							isSentViewDisplayed.toggle()
+						}
 					}
 				} label: {
 					Text(receivedTab)
@@ -141,11 +256,18 @@ struct MainKnockView: View {
 						.padding(.bottom, 4)
 				}
 			
+			Divider()
+				.frame(height: 10)
+				.padding(.horizontal, 4)
+			
 			GSButton.CustomButtonView(style: .homeTab(
 				tabName: sentTab,
 				tabSelection: $knockMessenger)) {
-					withAnimation {
-						knockMessenger = sentTab
+					knockMessenger = sentTab
+					if !isSentViewDisplayed {
+						withAnimation {
+							isSentViewDisplayed.toggle()
+						}
 					}
 				} label: {
 					Text(sentTab)
@@ -231,6 +353,7 @@ struct MainKnockView: View {
 				
 				Text("has approved your knock")
 			}
+			.foregroundColor(Color(.systemGray))
 		default:
 			EmptyView()
 		}
@@ -239,19 +362,24 @@ struct MainKnockView: View {
 	@ViewBuilder
 	private func eachCellSectionBuilder(
 		knockList: [Knock],
-		filterState: String? = nil
+		filterState: String? = nil,
+		searchWith: String? = nil,
+		knockType: String? = nil
 	) -> some View {
 		Section {
 			ForEach(
 				knockList
 					.sorted {
 						knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
-					}.filter {
-						if let filterState {
-							return $0.knockStatus == filterState
-						} else {
-							return $0.knockStatus == userFilteredKnockState.rawValue
-						}
+					}
+					.filter {
+						knockHistoryViewModel.filterKnockListWithCondition(
+							eachKnock: $0,
+							eachFilterOption: filterState,
+							userFilteredKnockState: userFilteredKnockState,
+							searchWith: searchWith,
+							knockType: knockType
+						)
 					}, id: \.id) { eachKnock in
 						NavigationLink {
 							if eachKnock.knockStatus == Constant.KNOCK_WAITING {
@@ -263,14 +391,25 @@ struct MainKnockView: View {
 								)
 							}
 						} label: {
-							EachKnockCell(
-								knockHistoryViewModel: knockHistoryViewModel,
-								eachKnock: eachKnock,
-								isEdit: $isEdit,
-								checked: $checked,
-								knockMessenger: $knockMessenger
-							)
-							.foregroundColor(.primary)
+							if knockMessenger == receivedTab {
+								EachKnockCell(
+									knockMessenger: "from: \(eachKnock.senderID)",
+									knockHistoryViewModel: knockHistoryViewModel,
+									eachKnock: eachKnock,
+									isEdit: $isEdit,
+									checked: $checked
+								)
+								.foregroundColor(.primary)
+							} else {
+								EachKnockCell(
+									knockMessenger: "to: \(eachKnock.receiverID)",
+									knockHistoryViewModel: knockHistoryViewModel,
+									eachKnock: eachKnock,
+									isEdit: $isEdit,
+									checked: $checked
+								)
+								.foregroundColor(.primary)
+							}
 						}
 					}
 		} header: {
@@ -315,47 +454,3 @@ enum KnockStateFilter: String {
 	case declined = "Declined"
 	case all = "All"
 }
-
-//
-//// MARK: - Knock Cell
-//ForEach(
-//	knockHistoryViewModel.receivedKnockLists.sorted {
-//		knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
-//	},
-//	id: \.self) { eachKnock in
-//		NavigationLink {
-//			if eachKnock.knockStatus == "Waiting" {
-//				ReceivedKnockView()
-//			} else {
-//				KnockHistoryView(
-//					eachKnock: eachKnock,
-//					knockMessenger: $knockMessenger
-//				)
-//			}
-//		} label: {
-//			switch userFilteredKnockState {
-//			case .waiting,
-//					.declined,
-//					.accepted:
-//				if eachKnock.knockStatus == userFilteredKnockState.rawValue {
-//					EachKnockCell(
-//						knockHistoryViewModel: knockHistoryViewModel,
-//						eachKnock: eachKnock,
-//						isEdit: $isEdit,
-//						checked: $checked,
-//						knockMessenger: $knockMessenger
-//					)
-//					.foregroundColor(.primary)
-//				}
-//			case .all:
-//				EachKnockCell(
-//					knockHistoryViewModel: knockHistoryViewModel,
-//					eachKnock: eachKnock,
-//					isEdit: $isEdit,
-//					checked: $checked,
-//					knockMessenger: $knockMessenger
-//				)
-//				.foregroundColor(.primary)
-//			}
-//		}
-//		} // ForEach
