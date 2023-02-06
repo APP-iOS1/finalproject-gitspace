@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIFlowLayout
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
@@ -89,29 +90,24 @@ struct AddTagSheetView: View {
                             .foregroundColor(Color(.systemGray))
                             .font(.callout)
                         
-                        HStack {
-                            LazyVGrid(columns: columns) {
-                                /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                                ForEach(Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList.reversed())), id: \.0) { index, tag in
-                                    GSButton.CustomButtonView(
-                                        style: .tag(
-                                            isSelected: selectedTags.contains(tag),
-                                            isEditing: false
-                                        )
-                                    ) {
-                                        withAnimation {
-                                            selectTag(to: tag)
-                                        }
-                                    } label: {
-                                        Text("\(tag.name)")
-                                            .font(.callout)
-                                    }
-                                    .tag("\(tag.name)")
-                                    
+                        /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
+                        FlowLayout(mode: .scrollable, items: repositoryStore.tagList.reversed()) { tag in
+                            GSButton.CustomButtonView(
+                                style: .tag(
+                                    isSelected: selectedTags.contains(tag),
+                                    isEditing: false
+                                )
+                            ) {
+                                withAnimation {
+                                    selectTag(to: tag)
                                 }
-//                                .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .leading)), removal: .opacity.combined(with: .move(edge: .leading))))
+                            } label: {
+                                Text("\(tag.name)")
+                                    .font(.callout)
                             }
+                            .tag("\(tag.name)")
                         }
+                        
                         Spacer()
                     }
                 }
