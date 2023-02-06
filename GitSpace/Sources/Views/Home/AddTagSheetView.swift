@@ -91,7 +91,7 @@ struct AddTagSheetView: View {
                             .font(.callout)
                         
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                        FlowLayout(mode: .scrollable, items: repositoryStore.tagList.reversed()) { tag in
+                        FlowLayout(mode: .scrollable, items: Array(zip(repositoryStore.tagList.indices.reversed(), repositoryStore.tagList.reversed()))) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
                                     isSelected: selectedTags.contains(tag),
@@ -106,6 +106,17 @@ struct AddTagSheetView: View {
                                     .font(.callout)
                             }
                             .tag("\(tag.name)")
+                            .contextMenu {
+                                Button {
+                                    print("삭제")
+                                    withAnimation {
+                                        repositoryStore.tagList.remove(at: index)
+                                    }
+                                } label: {
+                                    Label("태그 삭제하기", systemImage: "trash")
+                                }
+                            }
+                            .transition(.opacity.combined(with: .move(edge: .leading)))
                         }
                         
                         Spacer()
