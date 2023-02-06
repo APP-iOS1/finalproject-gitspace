@@ -35,12 +35,13 @@ struct ChatUserRecommendationSection: View {
         
         VStack(alignment: .leading) {
             
-            // TODO: - 모든 gray 컬러 gsGray로 변경 예정
-            Text("Recommended “pals” for you 👋")
-                .font(.footnote)
-                .foregroundColor(.gray)
-                .padding(.bottom, -10)
-            
+            /* 유저 추천 카드 안내 메세지 */
+            GSText.CustomTextView(
+                style: .caption1,
+                string: ("Recommended users for you 👋"))
+            .padding(.bottom, -10)
+                
+        
             
             // MARK: -  카드 페이지네이션 Carousel
             Carousel(index: $currentIndex, items: users) { user in
@@ -59,20 +60,26 @@ struct ChatUserRecommendationSection: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 
                                 HStack {
-                                    Text("@" + "\(user.userName)")
-                                        .font(.title3)
-                                        .bold()
+                                    /* 유저 깃헙아이디 (username) */
+                                    GSText.CustomTextView(
+                                        style: .title2,
+                                        string: ("@" + "\(user.userName)"))
                                         .lineLimit(1)
                                     Spacer()
                                 }
 
                                 HStack {
                                     Group {
-                                        /* 팔로워 수 >= 1000 일 때, ~k 단위로 처리 */
-                                        Text(handleCountUnit(countInfo: user.followerCount))
-                                            .bold()
+                                        /* 유저 팔로워 수 */
+                                        /// 팔로워 수 >= 1000 일 때, ~k 단위로 처리
+                                        GSText.CustomTextView(
+                                            style: .title3,
+                                            string: handleCountUnit(countInfo: user.followerCount))
                                             .padding(.trailing, -5)
-                                        Text("followers")
+                                        
+                                        GSText.CustomTextView(
+                                            style: .body1,
+                                            string: "followers")
                                     }
                                     .font(.callout)
 
@@ -81,13 +88,19 @@ struct ChatUserRecommendationSection: View {
                                         .foregroundColor(.gray)
 
                                     Group {
-                                        /* 레포 개수 >= 1000 일 때, ~k 단위로 처리 */
-                                        Text(handleCountUnit(countInfo: user.repoCount))
-                                            .bold()
+                                        /* 유저 레포 수 */
+                                        /// 레포 개수 >= 1000 일 때, ~k 단위로 처리
+                                        // TODO: 버튼 라벨 같은 것들 Constant로 다 빼기
+                                        GSText.CustomTextView(
+                                            style: .title3,
+                                            string: handleCountUnit(countInfo: user.repoCount))
                                             .padding(.trailing, -5)
-                                        Text("repos")
+                                        
+                                        GSText.CustomTextView(
+                                            style: .body1,
+                                            string: "repos")
                                     }
-                                    .font(.callout)
+
                                 }
      
                             }
@@ -123,8 +136,6 @@ struct ChatUserRecommendationSection: View {
 
                 }
 
-
-
             }
             .frame(height: 120)
             .padding(.vertical,20)
@@ -132,7 +143,7 @@ struct ChatUserRecommendationSection: View {
      
             
             
-            // MARK: - Carousel Indicator Dots
+            // MARK: - Carousel 인디케이터 (하단 "...")
             HStack {
                 
                 Spacer()
