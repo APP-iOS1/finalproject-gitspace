@@ -13,15 +13,22 @@ struct MessageModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.system(size: 16))
-            .padding()
 //            .frame(maxWidth: Utility.MessageCellWidth)
-            .background(isMine ? Color.gsGreenPrimary : Color(uiColor: .systemGray4))
-            .cornerRadius(17)
-            .overlay(alignment: isMine ? .topTrailing : .topLeading) {
-                Image(systemName: isMine ? "arrowtriangle.forward.fill" : "arrowtriangle.backward.fill")
-                    .foregroundColor(isMine ? .gsGreenPrimary : Color(uiColor: .systemGray4))
-                    .offset(x: isMine ? 12 : -12, y: 10)
-            }
+            .padding(15)
+            .background(
+                LinearGradient(colors: [.gsYellowPrimary, .gsGreenPrimary], startPoint: .top, endPoint: .center)
+            )
+            .clipShape(ChatBubbleShape(direction: isMine ? .right : .left))
+
+        
+        // 기존 모디파이어 코드:
+//            .background(isMine ? Color.gsGreenPrimary : Color(uiColor: .systemGray4))
+//            .cornerRadius(17)
+//            .overlay(alignment: isMine ? .topTrailing : .topLeading) {
+//                Image(systemName: isMine ? "arrowtriangle.forward.fill" : "arrowtriangle.backward.fill")
+//                    .foregroundColor(isMine ? .gsGreenPrimary : Color(uiColor: .systemGray4))
+//                    .offset(x: isMine ? 12 : -12, y: 10)
+//            }
     }
 }
 
