@@ -62,8 +62,6 @@ struct GSTextEditor {
             self.lineSpace = lineSpace
         }
         
-        
-        
         // MARK: -Methods
         // MARK: Method - 시작 textEditor 높이를 세팅해주는 메서드
         private func setTextEditorStartHeight() {
@@ -76,6 +74,21 @@ struct GSTextEditor {
             (CGFloat(newLineCounter) * mainFontLineHeight)
             + (CGFloat(newLineCounter) * lineSpace)
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
+        }
+        
+        var body: some View {
+            switch style {
+            case .message:
+                TextEditor(text: text)
+                    .font(font)
+                    .lineSpacing(lineSpace)
+                    .frame(maxHeight: textEditorHeight)
+                    .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                            .stroke()
+                    }
+            }
         }
     }
     
