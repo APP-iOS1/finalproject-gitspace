@@ -84,10 +84,18 @@ struct StarredView: View {
                                     isEditing: false
                                 )
                             ) {
-                                removeTag(at: index, tag: tag)
+                                withAnimation {
+                                    removeTag(at: index, tag: tag)
+                                }
                             } label: {
                                 Text("\(tag.name)")
                             }
+                            .transition(
+                                .asymmetric(
+                                    insertion: .opacity.combined(with: .move(edge: .trailing)),
+                                    removal: .opacity.combined(with: .move(edge: .leading))
+                                )
+                            )
                         }
                         Spacer()
                     }
