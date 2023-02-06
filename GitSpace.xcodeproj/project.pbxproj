@@ -55,7 +55,6 @@
 		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
-		6EC383A7298FE68700F209CF /* GSTextEditorTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A6298FE68700F209CF /* GSTextEditorTestView.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
 		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
@@ -130,7 +129,6 @@
 		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
-		6EC383A6298FE68700F209CF /* GSTextEditorTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditorTestView.swift; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
 		7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeModifiers.swift; sourceTree = "<group>"; };
 		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
@@ -435,7 +433,6 @@
 				22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */,
 				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */,
-				6EC383A6298FE68700F209CF /* GSTextEditorTestView.swift */,
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
 			);
 			path = Components;
@@ -535,7 +532,6 @@
 				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
-				6EC383A7298FE68700F209CF /* GSTextEditorTestView.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
