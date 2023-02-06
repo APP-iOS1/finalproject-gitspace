@@ -88,6 +88,9 @@ struct GSTextEditor {
                         RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
                             .stroke()
                     }
+                    .onAppear {
+                        setTextEditorStartHeight()
+                    }
             }
         }
     }
