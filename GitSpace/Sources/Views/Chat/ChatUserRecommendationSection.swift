@@ -21,11 +21,13 @@ struct ChatUserRecommendationSection: View {
     
     @State var currentIndex: Int = 0
     
-    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: "1.9k", repoCount: "20")
-    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: "3.3k", repoCount: "61")
-    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "340", repoCount: "44")
-
-
+    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: "2667", repoCount: "20")
+    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: "140", repoCount: "61")
+    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "167479", repoCount: "1044")
+    
+    @State var currentFollowerCount: String = ""
+    
+    
     
     var body: some View {
         
@@ -40,6 +42,7 @@ struct ChatUserRecommendationSection: View {
                 .padding(.bottom, -10)
             
             
+            // MARK: -  카드 페이지네이션 Carousel
             Carousel(index: $currentIndex, items: users) { user in
 
                 GeometryReader { proxy in
@@ -65,7 +68,8 @@ struct ChatUserRecommendationSection: View {
 
                                 HStack {
                                     Group {
-                                        Text("\(user.followerCount)")
+                                        /* 팔로워 수 >= 1000 일 때, ~k 단위로 처리 */
+                                        Text(handleCountUnit(countInfo: user.followerCount))
                                             .bold()
                                             .padding(.trailing, -5)
                                         Text("followers")
@@ -73,18 +77,19 @@ struct ChatUserRecommendationSection: View {
                                     .font(.callout)
 
                                     Text("·")
-                                        .font(.caption)
+                                        .font(.caption2)
                                         .foregroundColor(.gray)
 
                                     Group {
-                                        Text("\(user.repoCount)")
+                                        /* 레포 개수 >= 1000 일 때, ~k 단위로 처리 */
+                                        Text(handleCountUnit(countInfo: user.repoCount))
                                             .bold()
                                             .padding(.trailing, -5)
                                         Text("repos")
                                     }
                                     .font(.callout)
                                 }
-
+     
                             }
                         }
 
@@ -147,14 +152,30 @@ struct ChatUserRecommendationSection: View {
 
         }
     }
+    
+    
+    
+    // MARK: - 팔로워, 레포 숫자를 처리하는 함수
+    /* 예: 3300 -> 3.3k로 변환 */
+    func handleCountUnit(countInfo: String) -> String {
+        var handledCount: String
+        let convertedIntCount: Double = Double(countInfo) ?? 0
+        
+        if convertedIntCount > 999 {
+            handledCount = "\((convertedIntCount / 1000).rounded())k"
+        } else {
+            handledCount = countInfo
+        }
+        
+        return handledCount
+    }
+
 }
 
 
 
 
-
-
-
+// MARK: -  카드 페이지네이션 Carousel 내부 코드
 struct Carousel<Content: View,T: Identifiable>: View {
     var content: (T) -> Content
     var list: [T]
@@ -164,8 +185,8 @@ struct Carousel<Content: View,T: Identifiable>: View {
     @Binding var index: Int
 
     
-    init(spacing: CGFloat = 15,
-         trailingSpace: CGFloat = 80,
+    init(spacing: CGFloat = 10,
+         trailingSpace: CGFloat = 60,
          index: Binding<Int>,
          items: [T],
          @ViewBuilder content: @escaping (T)->Content) {
@@ -228,198 +249,8 @@ struct Carousel<Content: View,T: Identifiable>: View {
 
 
 
-
-
-
-
 struct ChatRecommandCardSection_Previews: PreviewProvider {
     static var previews: some View {
         ChatUserRecommendationSection()
     }
 }
-
-
-
-
-
-
-//struct ChatUserRecommendationSection: View {
-//
-//    @Environment(\.colorScheme) var colorScheme
-//
-//    let userInfo1 = DummyUserInfo(userName: "randombrazilguy", followerCount: "1.9k", repoCount: "20")
-//    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl", followerCount: "3.3k", repoCount: "61")
-//    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "340", repoCount: "44")
-//
-//
-//    var body: some View {
-//        let recommendedUsers = [userInfo1, userInfo2, userInfo3]
-//
-//        // MARK: - 단일 카드 컴포넌트
-//        VStack(alignment: .leading) {
-//
-//            TabView {
-//                ForEach(recommendedUsers) { user in
-//
-//                    VStack(alignment: .trailing) {
-//                        HStack {
-//                            // TODO: - [GITHUB API] 유저 프로필 내용으로 바꾸기
-//                            Image("avatarImage")
-//                                .frame(width: 64)
-//
-//
-//                            VStack(alignment: .leading, spacing: 8) {
-//                                Text("@" + "\(user.userName)")
-//                                    .font(.title3)
-//                                    .bold()
-//
-//                                HStack {
-//                                    Group {
-//                                        Text("\(user.followerCount)")
-//                                            .bold()
-//                                            .padding(.trailing, -5)
-//                                        Text("followers")
-//                                    }
-//                                    .font(.callout)
-//
-//                                    Text("·")
-//                                        .font(.caption)
-//                                        .foregroundColor(.gray)
-//
-//                                    Group {
-//                                        Text("\(user.repoCount)")
-//                                            .bold()
-//                                            .padding(.trailing, -5)
-//                                        Text("repos")
-//                                    }
-//                                    .font(.callout)
-//                                }
-//
-//                            }
-//                        }
-//
-//                        Spacer()
-//                            .frame(height: 20)
-//
-//                        // MARK: - NewKnockView로 이동하는 챗 버튼
-//                        // TODO: - 버튼 추상화 후 네비링크버튼 타입으로 바꾸기
-//                        NavigationLink {
-//                            SendKnockView()
-//                        } label: {
-//                            Text("Let's Chat!")
-//                                .font(.callout)
-//                                .foregroundColor(.primary)
-//                                .fontWeight(.semibold)
-//                                .padding(.vertical, 12)
-//                                .padding(.horizontal, 23)
-//                                .background(Color.gsGreenPrimary)
-//                                .cornerRadius(20)
-//                        }
-//                    }
-//                    .padding(.vertical, 21)
-//                    .padding(.horizontal, 17)
-//                    // TODO: - 추상화 후 백그라운드를 캔버스 디자인시스템으로 바꾸기
-//                    .background(
-//                        RoundedRectangle(cornerRadius: 35, style: .continuous)
-//                            .fill(.white)
-//                            .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
-//                    )
-//                }
-//
-//            }
-//            .tabViewStyle(.page)
-//            .indexViewStyle(.page(backgroundDisplayMode: .always))
-//
-//            .frame(width: UIScreen.main.bounds.width, height: 250)
-//
-//
-//            Spacer()
-//
-//
-//
-//            // TODO: - 모든 gray 컬러 gsGray로 변경 예정
-//            Text("Recommended “pals” for you 👋")
-//                .font(.footnote)
-//                .foregroundColor(.gray)
-//                .padding(.bottom, -10)
-//
-////            ScrollView(.horizontal, showsIndicators: false) {
-////                HStack(spacing: 12) {
-////                    ForEach(recommendedUsers) { user in
-////                        VStack(alignment: .trailing) {
-////                            HStack {
-////                                // TODO: - [GITHUB API] 유저 프로필 내용으로 바꾸기
-////                                Image("avatarImage")
-////                                    .frame(width: 64)
-////
-////
-////                                VStack(alignment: .leading, spacing: 8) {
-////                                    Text("@" + "\(user.userName)")
-////                                        .font(.title3)
-////                                        .bold()
-////
-////                                    HStack {
-////                                        Group {
-////                                            Text("\(user.followerCount)")
-////                                                .bold()
-////                                                .padding(.trailing, -5)
-////                                            Text("followers")
-////                                        }
-////                                        .font(.callout)
-////
-////                                        Text("·")
-////                                            .font(.caption)
-////                                            .foregroundColor(.gray)
-////
-////                                        Group {
-////                                            Text("\(user.repoCount)")
-////                                                .bold()
-////                                                .padding(.trailing, -5)
-////                                            Text("repos")
-////                                        }
-////                                        .font(.callout)
-////                                    }
-////
-////                                }
-////                            }
-////
-////                            Spacer()
-////                                .frame(height: 20)
-////
-////                            // MARK: - NewKnockView로 이동하는 챗 버튼
-////                            // TODO: - 버튼 추상화 후 네비링크버튼 타입으로 바꾸기
-////                            NavigationLink {
-////                                SendKnockView()
-////                            } label: {
-////                                Text("Let's Chat!")
-////                                    .font(.callout)
-////                                    .foregroundColor(.primary)
-////                                    .fontWeight(.semibold)
-////                                    .padding(.vertical, 12)
-////                                    .padding(.horizontal, 23)
-////                                    .background(Color.gsGreenPrimary)
-////                                    .cornerRadius(20)
-////                            }
-////                        }
-////                        .padding(.vertical, 21)
-////                        .padding(.horizontal, 17)
-////
-////                        // TODO: - 추상화 후 백그라운드를 캔버스 디자인시스템으로 바꾸기
-////                        .background(
-////                            RoundedRectangle(cornerRadius: 35, style: .continuous)
-////                                .fill(.white)
-////                                .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
-////                        )
-////                    }
-////
-////                }
-////                .padding(.vertical, 20)
-////                .padding(.horizontal, 4)
-////            }
-//
-//        }
-//
-//
-//    }
-//}
-
