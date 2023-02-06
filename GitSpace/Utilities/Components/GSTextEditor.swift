@@ -69,6 +69,7 @@ struct GSTextEditor {
         }
         
         // MARK: Method - line count를 통해 textEditor 현재 높이를 계산해서 업데이트하는 메서드
+        // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
         private func updateTextEditorCurrentHeight() {
             textEditorHeight =
             (CGFloat(newLineCounter) * mainFontLineHeight)
@@ -90,6 +91,9 @@ struct GSTextEditor {
                     }
                     .onAppear {
                         setTextEditorStartHeight()
+                    }
+                    .onChange(of: newLineCounter) { n in
+                        updateTextEditorCurrentHeight()
                     }
             }
         }
