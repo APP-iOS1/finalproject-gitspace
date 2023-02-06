@@ -1,3 +1,16 @@
+// MARK: -Process
+/// 1. TextEditor에 쓰일 Font를 전달받는다
+/// 2. Font를 UIFont로 변환한 연산 프로퍼티를 통해 텍스트 한 줄의 높이를 계산한다 (lineHeight)
+/// 3. 행간을 추가로 max 높이에 더해주기 위해 줄 간격을 필수 파라미터로 받는다
+/// 4. Font 높이, 라인 갯수, 행간, 여유공간을 모두 더해서 TextEditor 높이를 실시간으로 업데이트한다
+///
+
+// MARK: -Memo
+/// 1. Font 이니셜라이저를 통해 UIFont -> Font 타입으로 변환
+///     Font.init(font: CTFont(UIFont 타입))
+/// 2. Font -> UIFont 타입으로 변환
+///     UIFont.preferredFont(from: Font(스유 Font 타입))
+
 import SwiftUI
 
 struct GSTextEditor {
