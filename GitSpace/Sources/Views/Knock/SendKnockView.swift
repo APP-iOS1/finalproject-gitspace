@@ -39,50 +39,8 @@ struct SendKnockView: View {
             
             ScrollViewReader { proxy in
                 ScrollView {
-                    // MARK: - User Profice Pic
-                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                            .frame(width: 100)
-                    } placeholder: {
-                        ProgressView()
-                    } // AsyncImage
-                    
-                    // MARK: - User Info
-                    VStack(spacing: 5) {
-                        /// userName이 들어갈 자리
-                        Text("\("guguhanogu")")
-                            .bold()
-                            .font(.title3)
-                            .foregroundColor(Color(.black))
-                        
-                        /// user의 팔로워 수, 레포 수 가 표시될 자리
-                        HStack {
-                            Text("\("0") repositories﹒\("392") followers")
-                        }
-                    } // VStack : User Info
-                    .font(.footnote)
-                    .foregroundColor(Color(.systemGray))
-                    
-                    // MARK: - 프로필 이동 버튼
-                    NavigationLink {
-                        ProfileDetailView()
-                    } label: {
-                        GSButton.CustomButtonView(style: .secondary(
-                            isDisabled: false)
-                        ) {
-                            
-                        } label: {
-                            Text("View Profile")
-                                .font(.footnote)
-                                .foregroundColor(.primary)
-                                .bold()
-                                .padding(-8)
-                        }
-                        .disabled(true)
-                    }
+                    // MARK: - 상단 프로필 정보 뷰
+                    TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 10)
