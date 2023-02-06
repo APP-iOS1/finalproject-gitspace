@@ -20,6 +20,7 @@ struct MessageModifier: ViewModifier {
             )
             .clipShape(ChatBubbleShape(direction: isMine ? .right : .left))
 
+
         
         // 기존 모디파이어 코드:
 //            .background(isMine ? Color.gsGreenPrimary : Color(uiColor: .systemGray4))
