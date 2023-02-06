@@ -1,5 +1,5 @@
 //
-//  NewKnockView.swift
+//  SendKnockView.swift
 //  GitSpace
 //
 //  Created by 최한호 on 2023/01/31.
@@ -24,6 +24,8 @@ struct SendKnockView: View {
     @FocusState private var isFocused: TextEditorFocustState?
     @State private var chatPurpose: String = ""
     @State private var knockMessage: String = ""
+    
+    @State private var showKnockGuide: Bool = false
     
     var body: some View {
         VStack {
@@ -69,16 +71,17 @@ struct SendKnockView: View {
                         ProfileDetailView()
                     } label: {
                         GSButton.CustomButtonView(style: .secondary(
-                            isDisabled: false)) {
-                                
-                            } label: {
-                                Text("View Profile")
-                                    .font(.footnote)
-                                    .foregroundColor(.primary)
-                                    .bold()
-                                    .padding(-8)
-                                    .padding(EdgeInsets(top: 0, leading: -10, bottom: 0, trailing: -10))
-                            }
+                            isDisabled: false)
+                        ) {
+                            
+                        } label: {
+                            Text("View Profile")
+                                .font(.footnote)
+                                .foregroundColor(.primary)
+                                .bold()
+                                .padding(-8)
+                        }
+                        .disabled(true)
                     }
                     
                     Divider()
@@ -98,7 +101,7 @@ struct SendKnockView: View {
                         HStack(spacing: 5) {
                             Text("Would you like to")
                             Button {
-                                
+                                showKnockGuide.toggle()
                             } label: {
                                 Text("Knock")
                                     .bold()
@@ -127,8 +130,10 @@ struct SendKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "offer"
-//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
+                                
+                                withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
+                                
                             } label: {
                                 Text("🚀 Offer")
                                     .font(.subheadline)
@@ -142,8 +147,9 @@ struct SendKnockView: View {
                             isDisabled: false)) {
                                 withAnimation(.easeInOut.speed(1.5)) {
                                     chatPurpose = "question"
-//                                    proxy.scrollTo(bottomID, anchor: .top)
                                 }
+                                
+                                withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                             } label: {
                                 Text("💡 Question")
                                     .font(.subheadline)
@@ -217,38 +223,51 @@ struct SendKnockView: View {
                         
                     
                 } // ScrollView
-//                .onChange(of: keyboardHandler.keyboardHeight) { _ in
-//                            withAnimation { proxy.scrollTo(bottomID) }
-//                        }
-                .onChange(of: chatPurpose/*keyboardHandler.keyboardHeight*/) { _ in
-                    withAnimation(.easeIn.speed(0.5)) { proxy.scrollTo(bottomID) }
+                /// chatPurpose 값이 바뀜에 따라 키보드를 bottomID로 이동시킴
+                .onChange(of: chatPurpose) { _ in
+                    withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                         }
+                /// TextEditor 이외의 공간을 터치할 경우,
+                /// 키보드 포커싱을 없앰
                 .onTapGesture {
                     self.endTextEditing()
-                    
                 }
-//                .padding(.top, -(keyboardHandler.keyboardHeight / 2))
                 .animation(.default, value: keyboardHandler.keyboardHeight)
-//                .onChange(of: isFocused) { value in
-//                    withAnimation(.easeInOut.speed(1.5)) {
-//                        proxy.scrollTo(bottomID, anchor: .top)
-//                    }
-//                }
             } // ScrollViewReader
-//            .padding(.top, -40)
             
+            // MARK: - 텍스트 에디터
             VStack {
+                
                 if chatPurpose == "offer" {
+                    
+                    Divider()
+                        .padding(.top, -8)
+                    
                     HStack {
                         Text("✍️ Offer-related message...")
                             .foregroundColor(.gsLightGray1)
                             .bold()
+                        
+                        // MARK: 메세지 작성 취소 버튼
+                        /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
+                        Button {
+                            self.endTextEditing()
+                            withAnimation(.easeInOut.speed(1.5)) {
+                                chatPurpose = ""
+                            }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gsLightGray1)
+                        }
+                        
                         Spacer()
                         
+                        // MARK: 키보드 내리기 버튼
                         Button {
                             self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
+                                .foregroundColor(.gsLightGray1)
                         }
                         
                     } // HStack
@@ -257,23 +276,38 @@ struct SendKnockView: View {
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
                         .focused($isFocused, equals: .edit)
-                    //                        .padding()
-                    //                        .border(Color.systemGray3, width: 1)
-                    
-                    
                     
                 } else if chatPurpose == "question" {
+                    
+                    Divider()
+                        .padding(.top, -8)
+                    
                     HStack {
                         Text("✍️ Question-related message...")
                             .foregroundColor(.gsLightGray1)
                             .bold()
+                        
+                        // MARK: 메세지 작성 취소 버튼
+                        /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
+                        Button {
+                            self.endTextEditing()
+                            withAnimation(.easeInOut.speed(1.5)) {
+                                chatPurpose = ""
+                            }
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gsLightGray1)
+                        }
+                        
                         Spacer()
                         
+                        // MARK: 키보드 내리기 버튼
                         Button {
                             self.endTextEditing()
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
-                        }
+                                .foregroundColor(.gsLightGray1)
+                        } // Button
                         
                     } // HStack
                     .padding(.horizontal)
@@ -281,31 +315,15 @@ struct SendKnockView: View {
                     TextEditor(text: $knockMessage)
                         .frame(maxHeight: 50)
                         .focused($isFocused, equals: .edit)
-                    //                        .padding()
-                    //                        .border(Color.systemGray3, width: 1)
-                    
                 } // if - else if
             } // VStack
         } // VStack
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Button {
-//                    dismiss()
-//                } label: {
-//                    HStack {
-//                        Image(systemName: "chevron.left")
-//                        Text("Back")
-//                            .padding(.leading, -5)
-//                    }
-//                    .foregroundColor(.black)
-//                }
-//
-//            } // ToolbarItem
-            
+
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
-                    ProfileDetailView()
+                        ProfileDetailView()
                 } label: {
                     HStack(spacing: 5) {
                         AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
@@ -322,13 +340,16 @@ struct SendKnockView: View {
                             .bold()
                     } // HStack
                     .foregroundColor(.black)
-                }
+                } // NavigationLink
             } // ToolbarItemGroup
         } // toolbar
+        .sheet(isPresented: $showKnockGuide) {
+            KnockGuideView()
+        }
     }
 }
 
-struct NewKnockView_Previews: PreviewProvider {
+struct SendKnockView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             SendKnockView()
