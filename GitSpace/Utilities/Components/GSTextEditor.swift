@@ -69,6 +69,14 @@ struct GSTextEditor {
         private func setTextEditorStartHeight() {
             textEditorHeight = mainFontLineHeight + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
         }
+        
+        // MARK: Method - line count를 통해 textEditor 현재 높이를 계산해서 업데이트하는 메서드
+        private func updateTextEditorCurrentHeight() {
+            textEditorHeight =
+            (CGFloat(newLineCounter) * mainFontLineHeight)
+            + (CGFloat(newLineCounter) * lineSpace)
+            + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
+        }
     }
     
     
