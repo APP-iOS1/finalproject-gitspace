@@ -23,6 +23,18 @@ struct MainKnockView: View {
 	@State var checked: Bool = false
 	@State var showingKnockSetting: Bool = false
 	
+	let trailingTransition = AnyTransition
+		.asymmetric(
+			insertion: .move(edge: .trailing),
+			removal: .move(edge: .trailing)
+		)
+	
+	let leadingTransition = AnyTransition
+		.asymmetric(
+			insertion: .move(edge: .leading),
+			removal: .move(edge: .leading)
+		)
+	
 	var body: some View {
 		VStack {
 			// MARK: - Tab Buttons
@@ -167,6 +179,8 @@ struct MainKnockView: View {
 							}
 						} // LazyVStack
 					}
+					.transition(leadingTransition)
+					.animation(.easeInOut(duration: 10.0), value: knockMessenger)
 					.tag(receivedTab)
 					.fullScreenCover(isPresented: $showingKnockSetting) {
 						MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
@@ -205,6 +219,8 @@ struct MainKnockView: View {
 							}
 						} // LazyVStack
 					}
+					.transition(trailingTransition)
+					.animation(.easeInOut(duration: 10.0), value: knockMessenger)
 					.tag(sentTab)
 					
 				default:
@@ -242,11 +258,8 @@ struct MainKnockView: View {
 			GSButton.CustomButtonView(style: .homeTab(
 				tabName: receivedTab,
 				tabSelection: $knockMessenger)) {
-					knockMessenger = receivedTab
-					if isSentViewDisplayed {
-						withAnimation {
-							isSentViewDisplayed.toggle()
-						}
+					withAnimation {
+						knockMessenger = receivedTab
 					}
 				} label: {
 					Text(receivedTab)
@@ -263,11 +276,8 @@ struct MainKnockView: View {
 			GSButton.CustomButtonView(style: .homeTab(
 				tabName: sentTab,
 				tabSelection: $knockMessenger)) {
-					knockMessenger = sentTab
-					if !isSentViewDisplayed {
-						withAnimation {
-							isSentViewDisplayed.toggle()
-						}
+					withAnimation {
+						knockMessenger = sentTab
 					}
 				} label: {
 					Text(sentTab)
