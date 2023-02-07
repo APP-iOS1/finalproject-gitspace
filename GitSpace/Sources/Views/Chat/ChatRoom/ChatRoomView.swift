@@ -65,7 +65,7 @@ struct ChatRoomView: View {
         .task {
             messageStore.addListener(chatID: chat.id)
             messageStore.removeListenerMessages()
-            messageStore.fetchMessages(chatID: chat.id)
+            await messageStore.fetchMessages(chatID: chat.id)
             targetName = await chat.targetUserName
         }
         .onDisappear {
