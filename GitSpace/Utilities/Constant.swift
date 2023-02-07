@@ -9,7 +9,13 @@ import SwiftUI
 
 public enum Constant {
 	// 전체가 정적인 텍스트만 상수로 관리
+	static let KNOCK_WAITING: String = "Waiting"
+	static let KNOCK_ACCEPTED: String = "Accepted"
+	static let KNOCK_DECLINED: String = "Declined"
+	static let KNOCK_ALL: String = "All"
 	
+	static let KNOCK_RECEIVED: String = "Received"
+	static let KNOCK_SENT: String = "Sent"
     
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
