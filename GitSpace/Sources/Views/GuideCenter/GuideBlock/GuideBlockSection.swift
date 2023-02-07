@@ -60,7 +60,7 @@ struct GuideBlockSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        KnockGuideView()
+                        BlockGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
@@ -78,7 +78,7 @@ struct GuideBlockSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        KnockGuideView()
+                        BlockGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             

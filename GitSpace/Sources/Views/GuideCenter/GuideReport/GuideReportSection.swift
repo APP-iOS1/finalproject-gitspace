@@ -28,7 +28,7 @@ struct GuideReportSection: View {
                 Group {
                     
                     NavigationLink {
-
+                        ReportGuideView()
                     } label: {
                         HStack(spacing: 10) {
 
@@ -60,7 +60,7 @@ struct GuideReportSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        KnockGuideView()
+                        ReportGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
@@ -78,7 +78,7 @@ struct GuideReportSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        KnockGuideView()
+                        ReportGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             

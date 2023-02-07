@@ -14,7 +14,7 @@ struct ReportGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("사용자를 차단하거나 차단 해제하기")
+                        Text("신고해야 할 때와 하지 말아야 할 때")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
@@ -34,29 +34,39 @@ GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이�
 """)
                     .padding(.vertical)
                     
-                    Text("차단하기")
+                    Text("온라인")
                         .font(.title2)
                         .bold()
                     
                     Text(
 """
-1. 사용자를 차단합니다.
+GitSpace는 탐험을 즐기는 모험가들을 위한 곳이지 돈 거래를 위한 곳이 아닙니다. 여러분의 금융 정보를 묻는 사람이 있다면 단호하게 거절하고 이 사실을 GitSpace에 알려주세요. 프로필에 이러한 개인정보를 공개하거나 나의 개인정보를 요청하는 회원은 GitSpace에 신고해주시기 바랍니다.
 """)
                     
-                    Text("차단 해제하기")
+                    Text("괴롭힘을 당한 경우 신고하세요.")
                         .font(.title2)
                         .bold()
                         .padding(.top)
                     
                     Text(
 """
-1. 사용자 차단을 해제합니다.
+GitSpace는 괴롭힘과 관련된 모든 신고건을 엄중하게 인식하고 있으며 회원들도 같은 마음으로 행동해 주길 기대합니다. 불쾌한 메시지를 보내는 사람이 있다면 꼭 GitSpace에 알려 주세요. 거기서부터는 **제굴맨**이 처리하겠습니다.
+""")
+                    
+                    Text("답장을 하지 않는다고 해서 신고하지는 마세요.")
+                        .font(.title2)
+                        .bold()
+                        .padding(.top)
+                    
+                    Text(
+"""
+노크 메세지를 보냈지만 응답이 없을 때가 있어요. 그리고 노크를 승낙한 상대에게 메시지를 보냈는데 답장이 오지 않을 때가 있습니다. 상대에게 궁금한 것이 너무나도 많지만 답장이 없으니 답답하죠. 업무가 바쁠수도, 실수로 승낙했을 수도, 아니면 그냥 답장하고 싶지 않은 것일 수도 있겠지만 어쨌든 정확한 이유는 알 수가 없어요. 이럴 땐 적당한 자기 합리화가 도움이 될 거예요. 신고 대신 새로운 탐험가를 찾아 모험을 떠나 보세요.
 """)
                     
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Block")
+            .navigationBarTitle("Report")
         } // NavigationView
     } // body
 }
