@@ -72,7 +72,7 @@ struct MainHomeView: View {
                 StarredView()
                     .ignoresSafeArea()
             case activityTab:
-                FollowingView()
+                ActivityView()
                     .ignoresSafeArea()
             default:
                 Text("네트워크 에러입니다.")

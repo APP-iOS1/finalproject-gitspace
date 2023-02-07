@@ -88,7 +88,6 @@ struct SendKnockView: View {
                                 }
                                 
                                 withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
-                                
 //                                    .becomeFirstResponder()
                                 
                             } label: {
