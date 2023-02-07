@@ -16,9 +16,7 @@ struct MainChatView: View {
         ScrollView {
             ChatUserRecommendationSection()
 				.padding()
-            
             Divider()
-            
             ChatListSection()
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
