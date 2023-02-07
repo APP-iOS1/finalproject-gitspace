@@ -41,25 +41,27 @@ struct StarredView: View {
             
             VStack {
                 /* searchbar (custom) */
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("Search", text: $searchTag)
-                        .foregroundColor(.primary)
-                }
-                .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
-                .foregroundColor(.secondary)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
-                .padding(.horizontal, 10)
+//                HStack {
+//                    Image(systemName: "magnifyingglass")
+//                    TextField("Search", text: $searchTag)
+//                        .foregroundColor(.primary)
+//                }
+//                .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
+//                .foregroundColor(.secondary)
+//                .background(Color(.secondarySystemBackground))
+//                .cornerRadius(10)
+//                .padding(.horizontal, 10)
+                
+                GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
+                    .padding(.horizontal, 10)
                 
                 /* Scroll Main Content */
                 
                 /* selected tags header*/
                 HStack {
-                    Text("Selected Tags")
-                        .foregroundColor(.gsLightGray2)
-                        .font(.system(size: 13))
-                        .fontWeight(.regular)
+                    GSText.CustomTextView(
+                        style: .caption1,
+                        string: "Selected Tags")
                     
                     Spacer()
                     
@@ -116,23 +118,22 @@ struct StarredView: View {
                                         VStack(alignment: .leading) {
                                             HStack(alignment: .top) {
                                                 VStack(alignment: .leading) {
-                                                    Text(repository.name)
-                                                        .font(.body)
+                                                    GSText.CustomTextView(
+                                                        style: .body1,
+                                                        string: repository.name)
                                                         .multilineTextAlignment(.leading)
-                                                        .foregroundColor(colorScheme == .light ? .black : .white)
-                                                    Text(repository.owner)
-                                                        .font(.title2)
-                                                        .padding(.bottom, 1)
+                                                    GSText.CustomTextView(
+                                                        style: .title2,
+                                                        string: repository.owner)
                                                         .multilineTextAlignment(.leading)
-                                                        .foregroundColor(colorScheme == .light ? .black : .white)
                                                 }
                                                 Spacer()
                                             }
-                                            
-                                            Text(repository.description)
-                                                .font(.caption)
+                                            .padding(.bottom, 5)
+                                            GSText.CustomTextView(
+                                                style: .caption1,
+                                                string: repository.description)
                                                 .multilineTextAlignment(.leading)
-                                                .foregroundColor(.gray)
                                         }
                                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                                     }
