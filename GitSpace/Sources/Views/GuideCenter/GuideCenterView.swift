@@ -44,7 +44,7 @@ struct GuideCenterView: View {
                 
                 
             } // ScrollView
-            .navigationBarTitle("Guide Center", displayMode: .inline)
+            .navigationBarTitle("Guide Center"/*, displayMode: .inline*/)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {

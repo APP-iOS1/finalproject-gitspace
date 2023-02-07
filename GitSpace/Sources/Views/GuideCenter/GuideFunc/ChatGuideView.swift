@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ChatGuideView: View {
     var body: some View {
-        NavigationView {
-            
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -61,7 +59,6 @@ struct ChatGuideView: View {
                 .padding(.horizontal)
             } // ScrollView
             .navigationBarTitle("Knock")
-        } // NavigationView
     } // body
 }
 

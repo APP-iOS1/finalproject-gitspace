@@ -12,8 +12,6 @@ struct KnockGuideView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
-            
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -64,7 +62,6 @@ struct KnockGuideView: View {
                 .padding(.horizontal)
             } // ScrollView
             .navigationBarTitle("Knock")
-        } // NavigationView
     } // body
 }
 

@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ReportGuideView: View {
     var body: some View {
-        NavigationView {
-            
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -18,8 +16,6 @@ struct ReportGuideView: View {
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
-                        
-                        
                     }
                     
                     Divider()
@@ -67,7 +63,6 @@ GitSpace는 괴롭힘과 관련된 모든 신고건을 엄중하게 인식하고
                 .padding(.horizontal)
             } // ScrollView
             .navigationBarTitle("Report")
-        } // NavigationView
     } // body
 }
 

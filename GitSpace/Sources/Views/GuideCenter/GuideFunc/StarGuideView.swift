@@ -9,8 +9,6 @@ import SwiftUI
 
 struct StarGuideView: View {
     var body: some View {
-        NavigationView {
-            
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -51,7 +49,6 @@ struct StarGuideView: View {
                 .padding(.horizontal)
             } // ScrollView
             .navigationBarTitle("Star")
-        } // NavigationView
     } // body
 }
 

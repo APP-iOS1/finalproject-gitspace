@@ -9,8 +9,6 @@ import SwiftUI
 
 struct BlockGuideView: View {
     var body: some View {
-        NavigationView {
-            
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
@@ -57,7 +55,6 @@ GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이�
                 .padding(.horizontal)
             } // ScrollView
             .navigationBarTitle("Block")
-        } // NavigationView
     } // body
 }
 
