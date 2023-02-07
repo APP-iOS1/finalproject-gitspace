@@ -8,7 +8,7 @@
 import Foundation
 
 // 채팅 메세지 모델
-struct Message : Identifiable {
+struct Message : Identifiable, Codable {
     let id : String
     let userID : String
     let content : String

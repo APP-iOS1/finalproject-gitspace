@@ -12,15 +12,7 @@ struct TopperProfileView: View {
         VStack(spacing: 8) {
             
             // MARK: - User Profice Pic
-            AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
-                    .frame(width: 100)
-            } placeholder: {
-                ProgressView()
-            } // AsyncImage
+            ProfileAsyncImage(urlStr: "https://avatars.githubusercontent.com/u/64696968?v=4", size: 100)
             
             
             // MARK: - User Name
@@ -41,24 +33,16 @@ struct TopperProfileView: View {
             .foregroundColor(.gsLightGray2)
             
             // MARK: - 프로필 이동 버튼
-            NavigationLink {
+            GSNavigationLink(style: .secondary) {
                 ProfileDetailView()
             } label: {
-                GSButton.CustomButtonView(style: .secondary(
-                    isDisabled: false)
-                ) {
-                    
-                } label: {
-                    Text("View Profile")
-                        .font(.footnote)
-                        .foregroundColor(.primary)
-                        .bold()
-                        .padding(-8)
-                }
-                .disabled(true)
+                Text("View Profile")
+                    .font(.footnote)
+                    .foregroundColor(.primary)
+                    .bold()
+                    .padding(-8)
             }
             .padding(5)
-            
         }
     }
 }

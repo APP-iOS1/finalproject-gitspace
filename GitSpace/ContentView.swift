@@ -17,7 +17,6 @@ struct ContentView: View {
     @StateObject var tabBarRouter: GSTabBarRouter
     
     var body: some View {
-        
         /**
          현재 라우팅 하고있는 page에 따라서
          상단에는 해당 page에 대응하는 view를 보여주고
@@ -25,10 +24,9 @@ struct ContentView: View {
          */
         GeometryReader { geometry in
             NavigationView {
-                //                VStack {
                 VStack(spacing: -10) {
                     showCurrentTabPage()
-                    showTabBar(geometry: geometry)
+                    showGSTabBar(geometry: geometry)
                 }
                 .edgesIgnoringSafeArea(.horizontal)
             }
@@ -36,7 +34,9 @@ struct ContentView: View {
     }
     
     /**
-     반환되는 View의 타입이 각각 다르기 때문에 ViewBuilder를 사용해준다.
+     현재 선택된 tabPage에 따라 탭페이지를 보여준다.
+     반환되는 View의 타입이 tabPage에 따라 다르기 때문에 ViewBuilder를 사용해준다.
+     - Author: 제균
      */
     @ViewBuilder private func showCurrentTabPage() -> some View {
         switch tabBarRouter.currentPage {
@@ -51,9 +51,11 @@ struct ContentView: View {
         }
     }
     
-    
-    private func showTabBar(geometry: GeometryProxy) -> some View {
-        return GSTabBarBackGround.CustomTabBarBackgroundView(style: .rectangle(backGroundColor: .primary)) {
+    /**
+     탭바를 보여준다.
+     */
+    private func showGSTabBar(geometry: GeometryProxy) -> some View {
+        return GSTabBarBackGround.CustomTabBarBackgroundView(style: .rectangle(backGroundColor: .black)) {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .stars, geometry: geometry, isSystemImage: true, imageName: "sparkles", tabName: "Stars")
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .chats, geometry: geometry, isSystemImage: true, imageName: "bubble.left", tabName: "Chats")
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .knocks, geometry: geometry, isSystemImage: true, imageName: "door.left.hand.closed", tabName: "Knocks")

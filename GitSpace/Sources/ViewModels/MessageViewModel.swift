@@ -9,14 +9,14 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
-class MessageStore: ObservableObject {
+final class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var messageAdded: Bool = false
     
-    var startMessagesCounter: Int = 0
-    var startMessagesRemoved: Bool = false
-    var listener: ListenerRegistration?
-    let database = Firestore.firestore()
+    private var startMessagesCounter: Int = 0
+    private var startMessagesRemoved: Bool = false
+    private var listener: ListenerRegistration?
+    private let db = Firestore.firestore()
     
     init() {
         messages = []
@@ -26,69 +26,72 @@ class MessageStore: ObservableObject {
 
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
-    // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
-    func fetchMessages(chatID: String) {
-        self.database
-            .collection("Chat").document(chatID)
-            .collection("Message")
-            .order(by: "date")
-            .getDocuments { snapshot, error in
-                self.messages.removeAll()
-                
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let userID: String = docData["userID"] as? String ?? ""
-                        let content: String = docData["content"] as? String ?? ""
-                        let timeStamp: Timestamp = docData["date"] as? Timestamp ?? Timestamp()
-                        let date: Date = Timestamp.dateValue(timeStamp)()
-                        
-                        let newMessage = Message(id: id,
-                                                 userID: userID,
-                                                 content: content,
-                                                 date: date)
-                        
-                        self.messages.append(newMessage)
-                    }
-                }
-            }
+    
+    private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
+        do {
+            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "date").getDocuments()
+            return snapshot
+        } catch {
+            print("Get Message Documents Error : \(error)")
+        }
+        return nil
     }
     
-    
+    @MainActor
+    // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
+    func fetchMessages(chatID: String) async {
+        
+        let snapshot = await getMessageDocuments(chatID)
+        var newMessages: [Message] = []
+        
+        if let snapshot {
+            for document in snapshot.documents {
+                do {
+                    let message: Message = try document.data(as: Message.self)
+                    newMessages.append(message)
+                } catch {
+                    print("fetch Messages Error : \(error)")
+                }
+            }
+        }
+        messages = newMessages
+    }
     
     // MARK: - Message CRUD
     func addMessage(_ message: Message, chatID: String) {
-        
-        database
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .setData(["id" : message.id,
-                      "userID" : message.userID,
-                      "content" : message.content,
-                      "date" : message.date])
+        do {
+            try db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .setData(from: message.self)
+        } catch {
+            print("Add Message Error : \(error)")
+        }
     }
     
     func updateMessage(_ message: Message, chatID: String) {
-        database
+        db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
             .document(message.id)
-            .updateData(["content" : message.content,
-                         "date" : message.date])
+            .updateData(
+                ["content" : message.content,
+                         "date" : message.date]
+            )
     }
     
     func removeMessage(_ message: Message, chatID: String) {
-        database
+        db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
             .document(message.id)
             .delete()
     }
+    
 }
 
 
@@ -104,15 +107,14 @@ extension MessageStore {
     }
     
     // MARK: Method : 추가된 문서 필드에 접근하여 Message 객체를 만들어 반환하는 함수
-    func fetchNewMessage(change : QueryDocumentSnapshot) -> Message {
-        let id = change.documentID
-        let data = change.data()
-        let userID: String = data["userID"] as? String ?? ""
-        let content: String = data["content"] as? String ?? ""
-        let timeStamp: Timestamp = data["date"] as? Timestamp ?? Timestamp()
-        let date: Date = Timestamp.dateValue(timeStamp)()
-        let newMessage = Message(id: id, userID: userID, content: content, date: date)
-        return newMessage
+    func fetchNewMessage(change : QueryDocumentSnapshot) -> Message? {
+        do {
+            let newMessage = try change.data(as: Message.self)
+            return newMessage
+        } catch {
+            print("Fetch New Message in Message Listener Error : \(error)")
+        }
+        return nil
     }
     
     // MARK: Method : 삭제된 문서 필드에서 ID를 받아서 Local Published 메세지 배열에서 해당 메세지를 삭제하는 함수
@@ -125,7 +127,7 @@ extension MessageStore {
     
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener(chatID: String) {
-        listener = database
+        listener = db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
@@ -142,10 +144,13 @@ extension MessageStore {
                         print("added")
                         print(diff.document.documentID)
                         let newMessage = self.fetchNewMessage(change: diff.document)
-                        self.messages.append(newMessage)
-                        // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
-                        self.startMessagesCounter += 1
-                        self.messageAdded.toggle()
+                        if let newMessage {
+                            self.messages.append(newMessage)
+                            // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
+                            self.startMessagesCounter += 1
+                            self.messageAdded.toggle()
+                        }
+                        
                     case .modified:
                         print("modified")
                         print(diff.document.documentID)
@@ -158,10 +163,10 @@ extension MessageStore {
     }
     
     func removeListener() {
-        guard listener != nil else {
+        guard let listener else {
             return
         }
-        listener!.remove()
+        listener.remove()
     }
 }
 
