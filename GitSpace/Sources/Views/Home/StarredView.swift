@@ -7,49 +7,6 @@
 
 import SwiftUI
 
-// MARK: - Temporary Tag Struct
-struct Tag: Identifiable, Hashable {
-    var id: String = UUID().uuidString
-    var name: String
-//    var selectedCount: Int
-    var isSelected: Bool = false
-}
-
-// MARK: - Temporary Repository Sturct
-struct Repository: Identifiable {
-    var id: String = UUID().uuidString
-    var name: String
-    var owner: String
-    var description: String
-    var tags: [Int]?
-}
-
-class RepositoryStore: ObservableObject {
-    // MARK: - Dummy Tag Data
-    @Published var tagList: [Tag] = [
-        Tag(name: "SwiftUI"),
-        Tag(name: "Swift"),
-        Tag(name: "MVVM"),
-        Tag(name: "Interview"),
-        Tag(name: "iOS"),
-        Tag(name: "UIKit"),
-        Tag(name: "Yummy"),
-        Tag(name: "Checkit"),
-        Tag(name: "TheVoca"),
-        Tag(name: "GGOM-GGO-MI")
-    ]
-    
-    // MARK: - Dummy Repository Data
-    @Published var repositoryList: [Repository] = [
-        Repository(name: "sanghee-dev", owner: "Hello-Chat", description: "Real time chat application built with SwiftUI & Firestore", tags: [0, 1, 4]),
-        Repository(name: "wwdc", owner: "2022", description: "Student submissions for the WWDC 2022 Swift Student Challenge", tags: [4]),
-        Repository(name: "apple", owner: "swift-evolution", description: "This maintains proposals for changes and user-visible enhancements to the Swift Programming Language.", tags: [4]),
-        Repository(name: "apple", owner: "swift", description: "The Swift Programming Language", tags: [4]),
-        Repository(name: "SnapKit", owner: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X", tags: [1, 4]),
-        Repository(name: "clarknt", owner: "100-days-of-swiftui", description: "Solutions to Paul Hudson's \"100 days of SwiftUI\" projects and challenges", tags: [0, 1, 4])
-    ]
-}
-
 struct StarredView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryStore: RepositoryStore
@@ -66,6 +23,16 @@ struct StarredView: View {
         ),
         startPoint: .top, endPoint: .bottom
     )
+    
+    func removeTag(at index: Int, tag: Tag) {
+        /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
+        for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
+            if item.id == tag.id {
+                repositoryStore.tagList[index].isSelected = false
+            }
+        }
+        selectedTagList.remove(at: index)
+    }
     
     var body: some View {
         ZStack {
@@ -97,7 +64,6 @@ struct StarredView: View {
                     Spacer()
                     
                     Button {
-                        /* SelectTagsView가 나오게 하기 위한 Bool 값 토글 */
                         isShowingSelectTagView.toggle()
                     } label: {
                         Image(systemName: "plus")
@@ -118,16 +84,18 @@ struct StarredView: View {
                                     isEditing: false
                                 )
                             ) {
-                                /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-                                for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
-                                    if item.id == tag.id {
-                                        repositoryStore.tagList[index].isSelected = false
-                                    }
+                                withAnimation {
+                                    removeTag(at: index, tag: tag)
                                 }
-                                selectedTagList.remove(at: index)
                             } label: {
                                 Text("\(tag.name)")
                             }
+                            .transition(
+                                .asymmetric(
+                                    insertion: .opacity.combined(with: .move(edge: .trailing)),
+                                    removal: .opacity.combined(with: .move(edge: .leading))
+                                )
+                            )
                         }
                         Spacer()
                     }
@@ -220,34 +188,8 @@ struct StarredView: View {
             }
         }
     }
-	
-	private func doth(index: Int) {
-		selectedTagList.remove(at: index)
-	}
 }
 
-// MARK: - Repository Card View
-/// Starred View에서 사용되는 Repository를 감싸는 Card View입니다.
-struct RepositoryCardView<Content: View>: View {
-    @Environment(\.colorScheme) var colorScheme
-    var content: () -> Content
-    
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-    
-    // FIXME: 배경색을 GScolor로 바꿔줘야 함
-    /// systemGray 컬러를 임시 방편으로 다크모드에 대응하도록 설정하였다.
-    var body: some View {
-        Group(content: content)
-            .background(colorScheme == .light ? .white : Color(.systemGray4))
-            .cornerRadius(17)
-            .shadow(
-                color: Color(.systemGray6),
-                radius: 8,
-                x: 0, y: 2)
-    }
-}
 
 struct StarredView_Previews: PreviewProvider {
     static var previews: some View {

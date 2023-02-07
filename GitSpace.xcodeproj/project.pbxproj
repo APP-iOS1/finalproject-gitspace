@@ -23,6 +23,11 @@
 		34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* KnockCell.swift */; };
 		34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
+		687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryStore.swift */; };
+		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
+		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
+		688772D22990BBF900B3A0CD /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */; };
+		6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */; };
 		68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */; };
 		68D76D4F298713B900C1EA88 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D4E298713B900C1EA88 /* FirebaseAuth */; };
 		68D76D51298713B900C1EA88 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D50298713B900C1EA88 /* FirebaseAuthCombine-Community */; };
@@ -105,6 +110,10 @@
 		34BC356E29779201000DCBC7 /* KnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
+		687AE54D298FA1E800113ABF /* RepositoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStore.swift; sourceTree = "<group>"; };
+		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCardView.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAuthenticate.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
@@ -168,6 +177,7 @@
 			files = (
 				68D76D57298713B900C1EA88 /* (null) in Frameworks */,
 				68D76D4F298713B900C1EA88 /* FirebaseAuth in Frameworks */,
+				688772D22990BBF900B3A0CD /* SwiftUIFlowLayout in Frameworks */,
 				68D76D55298713B900C1EA88 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				68D76D51298713B900C1EA88 /* FirebaseAuthCombine-Community in Frameworks */,
 				68D76D53298713B900C1EA88 /* FirebaseFirestore in Frameworks */,
@@ -341,6 +351,7 @@
 				6E0840182983948300F51169 /* ChatViewModel.swift */,
 				68D76D4B298712EC00C1EA88 /* GithubAuthenticate.swift */,
 				6E0840242983BAD700F51169 /* UserViewModel.swift */,
+				687AE54D298FA1E800113ABF /* RepositoryStore.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -351,6 +362,8 @@
 				6E0840162983906F00F51169 /* Message.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
 				6E0840262983BB9A00F51169 /* UserInfo.swift */,
+				687AE54F298FA22500113ABF /* Repository.swift */,
+				687AE551298FA23700113ABF /* Tag.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -392,6 +405,7 @@
 				22DECDE92976FEB5008A4405 /* FeedView.swift */,
 				70F4BD102977D408005528A1 /* RepositoryDetailView.swift */,
 				68E95FC62976D48C002E65AD /* StarredView.swift */,
+				6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -465,6 +479,7 @@
 				6E199B06297A161000F88569 /* FirebaseAuth */,
 				6E199B08297A161000F88569 /* FirebaseFirestore */,
 				6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */,
+				688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */,
 			);
 			productName = GitSpace;
 			productReference = 7068B6A429769448005D6B7B /* GitSpace.app */;
@@ -497,6 +512,7 @@
 			packageReferences = (
 				68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				688772D02990BBF900B3A0CD /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
 			);
 			productRefGroup = 7068B6A529769448005D6B7B /* Products */;
 			projectDirPath = "";
@@ -532,12 +548,15 @@
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
+				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* FeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* FollowingView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* KnockCell.swift in Sources */,
+				6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
+				687AE552298FA23700113ABF /* Tag.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
@@ -580,6 +599,7 @@
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */,
+				687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */,
 				22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */,
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */,
@@ -798,6 +818,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		688772D02990BBF900B3A0CD /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-flow-layout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -817,6 +845,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 688772D02990BBF900B3A0CD /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */;
+			productName = SwiftUIFlowLayout;
+		};
 		68D76D4E298713B900C1EA88 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
