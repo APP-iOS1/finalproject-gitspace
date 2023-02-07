@@ -38,13 +38,16 @@ public struct GSText {
         var body: some View {
             switch style {
             //MARK: - Title 종류 -> title1, title2, title3, sectionTitle
+            /*
+             강조, 이탤릭 등 마크다운 효과를 적용하기 위해 LocalizedStringKey의 initializer를 사용한 Text를 만듭니다.
+             */
             case .title1:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.TITLE1_SIZE))
                     .fontWeight(Constant.GSTextConst.TITLE1_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE1_COLOR)
             case .title2:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.TITLE2_SIZE))
                     .fontWeight(Constant.GSTextConst.TITLE2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE2_COLOR)
@@ -54,36 +57,36 @@ public struct GSText {
                     .fontWeight(Constant.GSTextConst.TITLE3_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE3_COLOR)
             case .sectionTitle:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.SECTION_TITLE_SIZE))
                     .fontWeight(Constant.GSTextConst.SECTION_TITLE_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.SECTION_TITLE_COLOR)
                 
             //MARK: -  body 종류 -> body1, body2
             case .body1:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.BODY1_SIZE))
                     .fontWeight(Constant.GSTextConst.BODY1_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.BODY1_COLOR)
             case .body2:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.BODY2_SIZE))
                     .fontWeight(Constant.GSTextConst.BODY2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.BODY2_COLOR)
                 
             //MARK: - 그 외 종류 -> caption1, caption2, description
             case .caption1:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.CAPTION1_SIZE))
                     .fontWeight(Constant.GSTextConst.CAPTION1_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.CAPTION1_COLOR)
             case .caption2:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.CAPTION2_SIZE))
                     .fontWeight(Constant.GSTextConst.CAPTION2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.CAPTION2_COLOR)
             case .description:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.DESCRIPTION_SIZE))
                     .fontWeight(Constant.GSTextConst.DESCRIPTION_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.DESCRIPTION_COLOR)

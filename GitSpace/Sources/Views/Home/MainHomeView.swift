@@ -90,7 +90,7 @@ struct MainHomeView: View {
 			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				NavigationLink {
-					Text("Notifications View")
+                    NotificationView()
 				} label: {
 					Image(systemName: "bell")
                         .foregroundColor(.black)
