@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: -View : 채팅 메세지 셀
 struct MessageCell : View {
+    
     let message: Message
     let targetName: String
     var isMine: Bool {
@@ -32,7 +33,7 @@ struct MessageCell : View {
             
             
             HStack {
-                
+                // Profile Image 부분
                 VStack {
                     NavigationLink {
                         ProfileDetailView()
@@ -42,6 +43,7 @@ struct MessageCell : View {
                     Spacer()
                 }
                 
+                // UserName과 Message Bubble 부분
                 VStack (alignment: .leading) {
                     Text(targetName)
                     HStack(alignment: .bottom) {
@@ -57,8 +59,6 @@ struct MessageCell : View {
         
     }
 }
-
-
 
 
 // MARK: - 메세지 셀 말풍선 Custom Shape

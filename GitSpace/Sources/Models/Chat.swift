@@ -13,8 +13,7 @@ import FirebaseFirestore
 struct Chat : Identifiable, Codable {
     let id : String // 채팅방 ID
     let date : Date // 생성 날짜
-    let senderID: String // 채팅방 개설 유저
-    let receiverID: String // 채팅방 참여 유저
+    let joinUserIDs: [String] // 채팅방에 참여한 유저 ID 리스트
     let lastDate : Date // 마지막 메세지 날짜
     let lastContent : String // 마지막 메세지 내용
     let knockContent: String // 노크 메세지 내용
@@ -23,8 +22,12 @@ struct Chat : Identifiable, Codable {
     // MARK: -Computed Properties
     // 로그인 ID와 userIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
     var targetID: String {
-        let users: (senderID: String, receiverID: String) = (senderID, receiverID)
-        return users.senderID == Utility.loginUserID ? users.receiverID : users.senderID
+        if let firstUser = joinUserIDs.first, let secondUser = joinUserIDs.last {
+            return firstUser == Utility.loginUserID
+            ? secondUser
+            : firstUser
+        }
+        return ""
     }
     
     // targetID 연산 프로퍼티를 활용해서 DB의 target User Name을 찾아서 반환하는 연산 프로퍼티
@@ -42,11 +45,11 @@ struct Chat : Identifiable, Codable {
                     let name = data["name"] as? String ?? ""
                     returnUserName = name
                 }
-            } catch {}
+            } catch { }
+            
             return returnUserName.isEmpty ? "이름 없음" : returnUserName
         }
     }
-    
     
     var stringDate: String {
         let dateFormatter = DateFormatter()

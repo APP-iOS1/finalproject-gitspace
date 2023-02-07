@@ -16,9 +16,7 @@ struct MainChatView: View {
         ScrollView {
             ChatUserRecommendationSection()
 				.padding()
-            
             Divider()
-            
             ChatListSection()
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
@@ -29,26 +27,7 @@ struct MainChatView: View {
 					.font(.title2)
 					.bold()
 			}
-			
-			ToolbarItem(placement: .navigationBarTrailing) {
-				NavigationLink {
-					MainKnockView()
-				} label: {
-					Image(systemName: "archivebox")
-						.foregroundColor(.primary)
-				}
-			}
-			
-//			ToolbarItem(placement: .navigationBarTrailing) {
-//				NavigationLink {
-//					NewKnockView()
-//				} label: {
-//					Image(systemName: "plus.message")
-//						.foregroundColor(.primary)
-//				}
-//			}
 		}
-        
     }
 }
 
