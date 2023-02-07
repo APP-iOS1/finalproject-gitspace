@@ -13,20 +13,12 @@ struct KnockHistoryView: View {
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			VStack(alignment: .center) {
-				VStack {
-					Image(systemName: "circle")
-						.resizable()
-						.frame(width: 40, height: 40)
-						.padding(.top, 24)
-					
-					Text("Your Knock message is sent to")
-					Text("**\(eachKnock.receiverID)**")
-						.multilineTextAlignment(.center)
-				}
-			} // VStack
-			.font(.title3)
-			.padding(.bottom, 12)
+			TopperProfileView()
+			
+			Text("Your Knock Message is \nsent to **guguhanogu**")
+				.multilineTextAlignment(.center)
+				.font(.footnote)
+				.padding(.bottom, 4)
 			
 			Text(eachKnock.date.formattedDateString())
 				.foregroundColor(.gray)
@@ -226,8 +218,6 @@ struct KnockHistoryView: View {
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {
-					Image(systemName: "circle")
-					
 					Text("**\(eachKnock.receiverID)**")
 				}
 			}
