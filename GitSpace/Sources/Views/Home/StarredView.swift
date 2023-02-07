@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct StarredView: View {
+    
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryStore: RepositoryStore
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
+    @StateObject private var keyboardHandler = KeyboardHandler()
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
     /// 현재 존재하는 gsGray 컬러가 너무 진해서 시스템 그레이로 설정해두었다.
@@ -68,10 +70,10 @@ struct StarredView: View {
                 /* Selected Tag List */
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        ForEach(Array(selectedTagList.enumerated()), id:\.offset) { index, tag in
+                        ForEach(Array(selectedTagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-									isSelected: true,
+                                    isSelected: true,
                                     isEditing: false
                                 )
                             ) {
@@ -110,11 +112,11 @@ struct StarredView: View {
                                                     GSText.CustomTextView(
                                                         style: .body1,
                                                         string: repository.name)
-                                                        .multilineTextAlignment(.leading)
+                                                    .multilineTextAlignment(.leading)
                                                     GSText.CustomTextView(
                                                         style: .title2,
                                                         string: repository.owner)
-                                                        .multilineTextAlignment(.leading)
+                                                    .multilineTextAlignment(.leading)
                                                 }
                                                 Spacer()
                                             }
@@ -122,7 +124,7 @@ struct StarredView: View {
                                             GSText.CustomTextView(
                                                 style: .caption1,
                                                 string: repository.description)
-                                                .multilineTextAlignment(.leading)
+                                            .multilineTextAlignment(.leading)
                                         }
                                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                                     }
@@ -152,9 +154,9 @@ struct StarredView: View {
                                             Button(action: { print("Chat") }) {
                                                 Label("Chat", systemImage: "message")
                                             }
-//                                            Button(action: { print("Modify Tags") }) {
-//                                                Label("Modify Tags", systemImage: "tag")
-//                                            }
+                                            //                                            Button(action: { print("Modify Tags") }) {
+                                            //                                                Label("Modify Tags", systemImage: "tag")
+                                            //                                            }
                                         }
                                         
                                         Section {
@@ -181,6 +183,9 @@ struct StarredView: View {
             .sheet(isPresented: $isShowingSelectTagView) {
                 AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList)
             }
+        }
+        .onTapGesture {
+            self.endTextEditing()
         }
     }
 }

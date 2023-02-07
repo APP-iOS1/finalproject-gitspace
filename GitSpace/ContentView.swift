@@ -29,6 +29,7 @@ struct ContentView: View {
                     showGSTabBar(geometry: geometry)
                 }
                 .edgesIgnoringSafeArea(.horizontal)
+                .edgesIgnoringSafeArea(.bottom)
             }
         }
     }
@@ -62,7 +63,7 @@ struct ContentView: View {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .profile, geometry: geometry, isSystemImage: false, imageName: "avatarImage", tabName: "Profile")
         }
         .frame(width: geometry.size.width, height: 60)
-                .padding(.bottom, -10)
+                .padding(.bottom, 20)
     }
     
 }

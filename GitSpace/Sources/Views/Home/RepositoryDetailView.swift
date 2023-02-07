@@ -32,25 +32,12 @@ struct RepositoryDetailView: View {
 
             Spacer()
 
-            
-            NavigationLink {
-                // MARK: - ContributorListView
-                // 툴바 메일 아이콘 탭 시 노크 가능한 유저 리스트 뷰로 이동
+            GSNavigationLink(style: .primary) {
                 ContributorListView()
                     .navigationTitle("Contributors")
             } label: {
-                GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-
-                } label: {
-                    Text("✊🏻  Knock Knock!")
-                        .font(.headline)
-                        .foregroundColor(.black)
-                }
-                // FIXME: - 버튼 디자인 시스템 변경되면 disabled 제거
-                // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 버튼이 회색으로 표시됨
-                .disabled(true)
+                GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
             }
-            
 
         }
             .padding(.horizontal, 30)
@@ -136,15 +123,16 @@ struct RepositoryDetailViewTags: View {
             }
 
             // 추가된 태그들
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(tags, id: \.self) { tag in
                         // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 태그버튼이 주황색으로 표시됨
-                        GSButton.CustomButtonView(style: .tag(isEditing: false)) {
+                        GSButton.CustomButtonView(style: .tag(isSelected: true, isEditing: false)) {
 
                         } label: {
-                            Text(tag)
+                            // !!!: - 대응데이
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
+                            Text(tag)
                             .padding(-10)
                         }
 
