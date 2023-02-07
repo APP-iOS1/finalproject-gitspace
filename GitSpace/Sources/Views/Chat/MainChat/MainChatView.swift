@@ -29,26 +29,7 @@ struct MainChatView: View {
 					.font(.title2)
 					.bold()
 			}
-			
-			ToolbarItem(placement: .navigationBarTrailing) {
-				NavigationLink {
-					MainKnockView()
-				} label: {
-					Image(systemName: "archivebox")
-						.foregroundColor(.primary)
-				}
-			}
-			
-//			ToolbarItem(placement: .navigationBarTrailing) {
-//				NavigationLink {
-//					NewKnockView()
-//				} label: {
-//					Image(systemName: "plus.message")
-//						.foregroundColor(.primary)
-//				}
-//			}
 		}
-        
     }
 }
 
