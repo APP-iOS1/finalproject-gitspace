@@ -163,10 +163,10 @@ extension MessageStore {
     }
     
     func removeListener() {
-        guard listener != nil else {
+        guard let listener else {
             return
         }
-        listener!.remove()
+        listener.remove()
     }
 }
 
