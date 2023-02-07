@@ -26,51 +26,8 @@ struct ReceivedKnockView: View {
             } // VStack
             
             ScrollView {
-                
-                // MARK: - User Profice Pic
-                AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(width: 100)
-                } placeholder: {
-                    ProgressView()
-                } // AsyncImage
-                
-                // MARK: - User Info
-                VStack(spacing: 5) {
-                    /// userName이 들어갈 자리
-                    Text("\("guguhanogu")")
-                        .bold()
-                        .font(.title3)
-                        .foregroundColor(Color(.black))
-                        
-                    /// user의 팔로워 수, 레포 수 가 표시될 자리
-                    HStack {
-                        Text("팔로워 \("392")명﹒레포 \("0")개")
-                    }
-                } // VStack : User Info
-                .font(.footnote)
-                .foregroundColor(Color(.systemGray))
-                
-                // MARK: - 프로필 이동 버튼
-                NavigationLink {
-                    ProfileDetailView()
-                } label: {
-                    GSButton.CustomButtonView(style: .secondary(
-                        isDisabled: false)
-					) {
-
-                        } label: {
-                            Text("View Profile")
-                                .font(.footnote)
-                                .foregroundColor(.primary)
-                                .bold()
-                                .padding(-8)
-                        }
-						.disabled(true)
-                }
+                // MARK: - 상단 프로필 정보 뷰
+                TopperProfileView()
                 
                 Divider()
                     .padding(.vertical, 20)
@@ -93,13 +50,13 @@ struct ReceivedKnockView: View {
                             .font(.subheadline)
                             .foregroundColor(.gsLightGray1)
                             .bold()
-                            
+                        
                         Spacer()
                     }
                     .padding(.leading, 15)
                     
                     /// 3. 메세지 내용
-                        
+                    
                     
                     Text("\("Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? \nThank you so much for your help!")")
                         .font(.system(size: 15, weight: .regular))
@@ -113,57 +70,92 @@ struct ReceivedKnockView: View {
                             
                         )
                         .padding(.horizontal, 15)
-//                        .overlay(
-//                                RoundedRectangle(cornerRadius: 16)
-//                                    //.shadow(color: .gray, radius: 10, x: 10, y: 10)
-//                                    //.foregroundColor(.clear)
-//                                    .stroke(Color.gsLightGray2, lineWidth: 0.2)
-//                                    .padding(.horizontal, 10)
-//
-//
-//
-//                            )
-                        
-
-
                 }
                 
             } // ScrollView
-            VStack {
+            
+            VStack(spacing: 10) {
+                
+                Divider()
+                    .padding(.top, -8)
+                
+                
+//                Text("\("guguhanogu")")
+//                    .bold()
+//                    .font(.title3)
+//                + Text(" knocked on you!")
+//
+                Text("Accept message request from \("guguhanogu")?")
+                    .font(.subheadline)
+                    .bold()
+                    .padding(.bottom, 10)
+                
+                Text("If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.")
+                    .multilineTextAlignment(.center)
+                    .font(.caption)
+                    .foregroundColor(.gsGray2)
+                    .padding(.top, -15)
+                    .padding(.bottom)
+                    .padding(.horizontal)
+                    
+                
+                
+                GSButton.CustomButtonView(style: .secondary(
+                    isDisabled: false)) {
+                        
+                        
+                    } label: {
+                        Text("Accept")
+                            .font(.body)
+                            .foregroundColor(.primary)
+                            .bold()
+                            .padding(-10)
+                            .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
+                    } // button: Accept
+                
+                
+                
+                HStack(spacing: 60) {
+                    Button {
+                        
+                    } label: {
+                        Text("Block")
+                            .bold()
+                            .foregroundColor(.red)
+                    } // Button: Block
+                    
+                    Divider()
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Decline")
+                            .bold()
+                            .foregroundColor(.primary)
+                    } // Button: Decline
+                }
+                .frame(height: 30)
                 
             } // VStack
         }
         .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Button {
-//                    dismiss()
-//                } label: {
-//                    HStack {
-//                        Image(systemName: "chevron.left")
-//                        Text("Back")
-//                            .padding(.leading, -5)
-//                    }
-//                    .foregroundColor(.black)
-//                }
-//
-//            } // ToolbarItem
             
             ToolbarItem(placement: .principal) {
-				HStack(spacing: 5) {
-					AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-						image
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.clipShape(Circle())
-							.frame(width: 30)
-					} placeholder: {
-						ProgressView()
-					} // AsyncImage
-					
-					Text("\("guguhanogu")")
-						.bold()
-				} // HStack
-				.foregroundColor(.black)
+                HStack(spacing: 5) {
+                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(Circle())
+                            .frame(width: 30)
+                    } placeholder: {
+                        ProgressView()
+                    } // AsyncImage
+                    
+                    Text("\("guguhanogu")")
+                        .bold()
+                } // HStack
+                .foregroundColor(.black)
             } // ToolbarItemGroup
         } // toolbar
     }
