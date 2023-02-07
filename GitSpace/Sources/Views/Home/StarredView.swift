@@ -41,23 +41,12 @@ struct StarredView: View {
             
             VStack {
                 /* searchbar (custom) */
-//                HStack {
-//                    Image(systemName: "magnifyingglass")
-//                    TextField("Search", text: $searchTag)
-//                        .foregroundColor(.primary)
-//                }
-//                .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10))
-//                .foregroundColor(.secondary)
-//                .background(Color(.secondarySystemBackground))
-//                .cornerRadius(10)
-//                .padding(.horizontal, 10)
-                
                 GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
                     .padding(.horizontal, 10)
                 
                 /* Scroll Main Content */
                 
-                /* selected tags header*/
+                /* selected tags header */
                 HStack {
                     GSText.CustomTextView(
                         style: .caption1,
