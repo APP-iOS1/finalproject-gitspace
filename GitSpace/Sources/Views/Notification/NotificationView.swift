@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct NotificationView: View {
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        ScrollView {
+            
+            ForEach(0..<10) { _ in
+                KnockNotificationCell()
+                Divider()
+                SystemNotificationCell()
+                Divider()
+            }
+            
+        }
+//        .padding(.top, 20)
+        .navigationBarTitle("Notifications")
+        .navigationBarTitleDisplayMode(.inline)
+        
+        
     }
 }
 
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationView()
+        NavigationView {
+            NotificationView()
+        }
     }
 }
