@@ -25,7 +25,7 @@ struct ChatRoomView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    ChatDetailProfileSection(chat: chat, targetName: $targetName)
+                    TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 20)
