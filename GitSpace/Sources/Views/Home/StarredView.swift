@@ -155,17 +155,22 @@ struct StarredView: View {
                                     .foregroundColor(colorScheme == .light ? .black : .white)
                                     
                                     Menu {
-                                        Button(action: { print("Share") }) {
-                                            Text("Share")
-                                            Image(systemName: "square.and.arrow.up")
+                                        Section {
+                                            Button(action: { print("Share") }) {
+                                                Label("Share", systemImage: "square.and.arrow.up")
+                                            }
+                                            Button(action: { print("Chat") }) {
+                                                Label("Chat", systemImage: "message")
+                                            }
+//                                            Button(action: { print("Modify Tags") }) {
+//                                                Label("Modify Tags", systemImage: "tag")
+//                                            }
                                         }
-                                        Button(action: { print("Penpal") }) {
-                                            Text("Penpal")
-                                            Image(systemName: "message")
-                                        }
-                                        Button(action: { print("Modify Tags") }) {
-                                            Text("Modify Tags")
-                                            Image(systemName: "tag")
+                                        
+                                        Section {
+                                            Button(role: .destructive, action: { print("Unstar") }) {
+                                                Label("Unstar", systemImage: "star")
+                                            }
                                         }
                                     } label: {
                                         Image(systemName: "ellipsis")
@@ -191,10 +196,10 @@ struct StarredView: View {
 }
 
 
-struct StarredView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            StarredView()
-        }
-    }
-}
+//struct StarredView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            StarredView()
+//        }
+//    }
+//}
