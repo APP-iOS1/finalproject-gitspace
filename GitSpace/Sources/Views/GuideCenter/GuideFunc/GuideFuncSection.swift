@@ -14,7 +14,7 @@ struct GuideFuncSection: View {
             HStack {
                 GSText.CustomTextView(
                     style: .title2,
-                    string: "GitSpace 기능")
+                    string: "기능")
                 
                 Spacer()
             }
@@ -27,38 +27,36 @@ struct GuideFuncSection: View {
                 Group {
                     
                     NavigationLink {
-                        
+                        StarGuideView()
                     } label: {
                         HStack(spacing: 10) {
-                            
+
                             Image("GitSpace-KnockHistoryView-LightMode")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
-                            
+
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "Star")
-                                
+
                                 GSText.CustomTextView(
-                                    style: .body1,
-                                    string: "다시 보고 싶은 레포,\nstar에 대한 모든 것")
+                                    style: .caption1,
+                                    string: "다시 보고 싶은 레포지토리\nStar 해봅시다!")
                                 .multilineTextAlignment(.leading)
                             }
-                            
+
                             VStack {
                                 Text("")
                             }
-                            
+
                             Spacer()
-                            
+
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gsGray2)
                         } // HStack
                     } // NavigationLink
-                    
-                    
                     
                     NavigationLink {
                         KnockGuideView()
@@ -70,13 +68,13 @@ struct GuideFuncSection: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "Knock")
                                 
                                 GSText.CustomTextView(
-                                    style: .body1,
+                                    style: .caption1,
                                     string: "정중한 대화의 시작,\n노크에 대한 모든 것")
                                 .multilineTextAlignment(.leading)
                             }
@@ -91,6 +89,36 @@ struct GuideFuncSection: View {
                                 .foregroundColor(.gsGray2)
                         } // HStack
                     } // NavigationLink
+                    
+                    NavigationLink {
+                        KnockGuideView()
+                    } label: {
+                        HStack(spacing: 10) {
+                            
+                            Image("GitSpace-MainKnockView-LightMode")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 50)
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "Chat")
+                                
+                                GSText.CustomTextView(
+                                    style: .caption1,
+                                    string: "")
+                                .multilineTextAlignment(.leading)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gsGray2)
+                        } // HStack
+                    } // NavigationLink
+                    
+                    
                 }
                 
                 
