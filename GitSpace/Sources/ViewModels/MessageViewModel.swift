@@ -9,14 +9,14 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
-class MessageStore: ObservableObject {
+final class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var messageAdded: Bool = false
     
-    var startMessagesCounter: Int = 0
-    var startMessagesRemoved: Bool = false
-    var listener: ListenerRegistration?
-    let database = Firestore.firestore()
+    private var startMessagesCounter: Int = 0
+    private var startMessagesRemoved: Bool = false
+    private var listener: ListenerRegistration?
+    private let db = Firestore.firestore()
     
     init() {
         messages = []
@@ -28,7 +28,7 @@ class MessageStore: ObservableObject {
 extension MessageStore {
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
     func fetchMessages(chatID: String) {
-        self.database
+        self.db
             .collection("Chat").document(chatID)
             .collection("Message")
             .order(by: "date")
@@ -60,7 +60,7 @@ extension MessageStore {
     // MARK: - Message CRUD
     func addMessage(_ message: Message, chatID: String) {
         
-        database
+        db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
@@ -72,7 +72,7 @@ extension MessageStore {
     }
     
     func updateMessage(_ message: Message, chatID: String) {
-        database
+        db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
@@ -82,7 +82,7 @@ extension MessageStore {
     }
     
     func removeMessage(_ message: Message, chatID: String) {
-        database
+        db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
@@ -125,7 +125,7 @@ extension MessageStore {
     
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener(chatID: String) {
-        listener = database
+        listener = db
             .collection("Chat")
             .document(chatID)
             .collection("Message")
