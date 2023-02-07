@@ -2,6 +2,11 @@
 /// 1. snapshotListener에서 단일로 Cell을 추가하거나 삭제하는 것이 가능한지
 /// 2. 업데이트 된 단일 Cell이 View에 반영되는지
 /// 3. remove할 때 인덱스 번호로 찾아가서 걔만 지울 수 있는지
+///
+// TODO: 채팅 관련 작업
+// 1. 채팅방 전역으로 알림 띄우기
+// 2. ScrollView == 카카오톡
+// 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
 
 import Foundation
 import FirebaseFirestore
@@ -21,9 +26,6 @@ final class ChatStore: ObservableObject {
         targetUserNames = []
         isFetchFinished = false
     }
-    // 1. 채팅방 전역으로 알림 띄우기
-    // 2. ScrollView == 카카오톡
-    // 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
 }
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
@@ -44,24 +46,28 @@ extension ChatStore {
         return nil
     }
     
+
     @MainActor
     func fetchChats() async {
         let snapshot = await getChatDocuments()
-        chats.removeAll()
-        targetUserNames.removeAll()
-        var chats: [Chat] = []
-        var targetUserNames: [String] = []
+        // MARK: Memo - 함수 내부 배열에 추가 -> Published에 덮어쓰기 로직으로 removeAll 없이 정상 작동함 by.태영
+        var newChats: [Chat] = []
+        var newTargetUserNames: [String] = []
         
         if let snapshot {
             for document in snapshot.documents {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
                     let targetUserName: String = await chat.targetUserName
-                    chats.append(chat)
-                    targetUserNames.append(targetUserName)
+                    newChats.append(chat)
+                    newTargetUserNames.append(targetUserName)
                 } catch { }
             }
         }
+        // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
+        // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
+        chats = newChats
+        targetUserNames = newTargetUserNames
         self.isFetchFinished = true
     }
     
