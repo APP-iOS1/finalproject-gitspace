@@ -35,3 +35,9 @@ struct BlinkingSkeletonModifier: Animatable, ViewModifier{
     
 }
 
+struct BlankModifier: Animatable, ViewModifier {
+    func body(content: Content) -> some View {
+        content
+    }
+}
+

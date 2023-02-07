@@ -175,7 +175,9 @@ struct ChatRoomView: View {
         let newMessage = makeMessage()
         let newChat = makeChat()
         messageStore.addMessage(newMessage, chatID: chat.id)
-        chatStore.updateChat(newChat)
+        Task{
+            await chatStore.updateChat(newChat)
+        }
         contentField = ""
     }
     
@@ -183,12 +185,13 @@ struct ChatRoomView: View {
     private func makeChat() -> Chat {
         
         let chat = Chat(id: chat.id,
-                           date: chat.date,
-                           users: (chat.users.senderID, chat.users.receiverID),
-                           lastDate: Date(),
-                           lastContent: contentField,
-                           knockContent: chat.knockContent,
-                           knockDate: chat.knockDate)
+                        date: chat.date,
+                        senderID: chat.senderID,
+                        receiverID: chat.receiverID,
+                        lastDate: Date(),
+                        lastContent: contentField,
+                        knockContent: chat.knockContent,
+                        knockDate: chat.knockDate)
         return chat
     }
     
