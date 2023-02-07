@@ -57,8 +57,6 @@ extension MessageStore {
         messages = newMessages
     }
     
-    
-    
     // MARK: - Message CRUD
     func addMessage(_ message: Message, chatID: String) {
         do {
@@ -93,6 +91,7 @@ extension MessageStore {
             .document(message.id)
             .delete()
     }
+    
 }
 
 
@@ -108,15 +107,14 @@ extension MessageStore {
     }
     
     // MARK: Method : 추가된 문서 필드에 접근하여 Message 객체를 만들어 반환하는 함수
-    func fetchNewMessage(change : QueryDocumentSnapshot) -> Message {
-        let id = change.documentID
-        let data = change.data()
-        let userID: String = data["userID"] as? String ?? ""
-        let content: String = data["content"] as? String ?? ""
-        let timeStamp: Timestamp = data["date"] as? Timestamp ?? Timestamp()
-        let date: Date = Timestamp.dateValue(timeStamp)()
-        let newMessage = Message(id: id, userID: userID, content: content, date: date)
-        return newMessage
+    func fetchNewMessage(change : QueryDocumentSnapshot) -> Message? {
+        do {
+            let newMessage = try change.data(as: Message.self)
+            return newMessage
+        } catch {
+            print("Fetch New Message in Message Listener Error : \(error)")
+        }
+        return nil
     }
     
     // MARK: Method : 삭제된 문서 필드에서 ID를 받아서 Local Published 메세지 배열에서 해당 메세지를 삭제하는 함수
@@ -146,10 +144,13 @@ extension MessageStore {
                         print("added")
                         print(diff.document.documentID)
                         let newMessage = self.fetchNewMessage(change: diff.document)
-                        self.messages.append(newMessage)
-                        // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
-                        self.startMessagesCounter += 1
-                        self.messageAdded.toggle()
+                        if let newMessage {
+                            self.messages.append(newMessage)
+                            // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
+                            self.startMessagesCounter += 1
+                            self.messageAdded.toggle()
+                        }
+                        
                     case .modified:
                         print("modified")
                         print(diff.document.documentID)
