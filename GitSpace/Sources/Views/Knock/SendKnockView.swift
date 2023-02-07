@@ -31,14 +31,14 @@ struct SendKnockView: View {
         VStack {
             ScrollViewReader { proxy in
                 ScrollView {
-                
+                    
                     HStack {
                     }
                     .id(topID)
-                
+                    
                     // MARK: - 상단 프로필 정보 뷰
                     TopperProfileView()
-
+                    
                     Divider()
                         .padding(.vertical, 10)
                         .padding(.horizontal, 5)
@@ -88,7 +88,7 @@ struct SendKnockView: View {
                                 }
                                 
                                 withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
-//                                    .becomeFirstResponder()
+                                //                                    .becomeFirstResponder()
                             } label: {
                                 Text("🚀 Offer")
                                     .font(.subheadline)
@@ -177,7 +177,7 @@ struct SendKnockView: View {
                     .frame(height: 320)
                     
                 } // ScrollView
-//                .padding(.bottom, keyboardHandler.keyboardHeight)
+                //                .padding(.bottom, keyboardHandler.keyboardHeight)
                 /// chatPurpose 값이 바뀜에 따라 키보드를 bottomID로 이동시킴
                 .onChange(of: chatPurpose) { _ in
                     withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
@@ -224,7 +224,7 @@ struct SendKnockView: View {
                             Image(systemName: keyboardHandler.keyboardHeight > 0
                                   ? "keyboard.chevron.compact.down"
                                   : "")
-                                .foregroundColor(.gsLightGray1)
+                            .foregroundColor(.gsLightGray1)
                         }
                         
                     } // HStack
@@ -232,39 +232,39 @@ struct SendKnockView: View {
                     
                     HStack(spacing: 10) {
                         
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                print("이미지 첨부 버튼 탭")
-                            } label: {
-                                Image(systemName: "photo.tv")
-                            }
-//                        } // VStack: 이미지 첨부 버튼
+                        //                        VStack {
+                        //                            Spacer()
                         
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                print("레포지토리 선택 버튼 탭")
-                            } label: {
-                                Image("RepositoryIcon")
-                            }
-//                        } // VStack: 레포지토리 선택 버튼
-                            
+                        Button {
+                            print("이미지 첨부 버튼 탭")
+                        } label: {
+                            Image(systemName: "photo.tv")
+                        }
+                        //                        } // VStack: 이미지 첨부 버튼
+                        
+                        //                        VStack {
+                        //                            Spacer()
+                        
+                        Button {
+                            print("레포지토리 선택 버튼 탭")
+                        } label: {
+                            Image("RepositoryIcon")
+                        }
+                        //                        } // VStack: 레포지토리 선택 버튼
+                        
                         
                         GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                         
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                //sendKnock()
-                            } label: {
-                                Image(systemName: "location")
-                            }
-                            .disabled(knockMessage.isEmpty)
-//                        } // VStakc: 노크 전송 버튼
+                        //                        VStack {
+                        //                            Spacer()
+                        
+                        Button {
+                            //sendKnock()
+                        } label: {
+                            Image(systemName: "location")
+                        }
+                        .disabled(knockMessage.isEmpty)
+                        //                        } // VStakc: 노크 전송 버튼
                         
                     } // HStack
                     .foregroundColor(.primary)
@@ -302,46 +302,46 @@ struct SendKnockView: View {
                             Image(systemName: keyboardHandler.keyboardHeight > 0
                                   ? "keyboard.chevron.compact.down"
                                   : "")
-                                .foregroundColor(.gsLightGray1)
+                            .foregroundColor(.gsLightGray1)
                         } // Button
                         
                     } // HStack
                     .padding(.horizontal)
                     
                     HStack(spacing: 10) {
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                print("이미지 첨부 버튼 탭")
-                            } label: {
-                                Image(systemName: "photo.tv")
-                            }
-//                        } // VStack: 이미지 첨부 버튼
+                        //                        VStack {
+                        //                            Spacer()
                         
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                print("레포지토리 선택 버튼 탭")
-                            } label: {
-                                Image("RepositoryIcon")
-                            }
-//                        } // VStack: 레포지토리 선택 버튼
+                        Button {
+                            print("이미지 첨부 버튼 탭")
+                        } label: {
+                            Image(systemName: "photo.tv")
+                        }
+                        //                        } // VStack: 이미지 첨부 버튼
+                        
+                        //                        VStack {
+                        //                            Spacer()
+                        
+                        Button {
+                            print("레포지토리 선택 버튼 탭")
+                        } label: {
+                            Image("RepositoryIcon")
+                        }
+                        //                        } // VStack: 레포지토리 선택 버튼
                         
                         GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                         
                         
-//                        VStack {
-//                            Spacer()
-                            
-                            Button {
-                                //sendKnock()
-                            } label: {
-                                Image(systemName: "location")
-                            }
-                            .disabled(knockMessage.isEmpty)
-//                        } // VStack
+                        //                        VStack {
+                        //                            Spacer()
+                        
+                        Button {
+                            //sendKnock()
+                        } label: {
+                            Image(systemName: "location")
+                        }
+                        .disabled(knockMessage.isEmpty)
+                        //                        } // VStack
                     } // HStack
                     .foregroundColor(.primary)
                     .padding(.horizontal)
@@ -376,28 +376,19 @@ struct SendKnockView: View {
             } // ToolbarItemGroup
         } // toolbar
         .sheet(isPresented: $showKnockGuide) {
-            ZStack(alignment: .top) {
+            NavigationView {
                 KnockGuideView()
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button {
-                                dismiss()
+                                showKnockGuide.toggle()
                             } label: {
                                 Image(systemName: "xmark")
                             } // Button
                         } // ToolbarItem
                     } // toolbar
-                
-                // MARK: - presentationDragIndicator
-                /// .presentationDragIndicator(.visible)
-                /// iOS15에는 presentationDragIncidator 가 없어서 수작업으로 구현함.
-                /// 추후 다른 방법을 찾으면 변경할 예정
-                Capsule()
-                    .fill(Color.secondary)
-                    .opacity(0.5)
-                    .frame(width: 35, height: 5)
-                    .padding(6)
             }
+            .navigationBarTitle("Knock")
         }
     }
 }
