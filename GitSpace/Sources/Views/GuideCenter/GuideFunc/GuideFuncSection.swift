@@ -98,7 +98,7 @@ struct GuideFuncSection: View {
                             Image("GitSpace-MainKnockView-LightMode")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 50)
+                                .frame(width: 70, height: 60)
                             
                             VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
@@ -107,7 +107,7 @@ struct GuideFuncSection: View {
                                 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "")
+                                    string: "Star한 레포의 기여자들과 대화 나누기")
                                 .multilineTextAlignment(.leading)
                             }
                             

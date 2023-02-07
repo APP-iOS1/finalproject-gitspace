@@ -37,7 +37,7 @@ struct GuideReportSection: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
 
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "신고 대상")
