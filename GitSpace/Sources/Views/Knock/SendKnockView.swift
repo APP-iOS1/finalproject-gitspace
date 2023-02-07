@@ -88,8 +88,7 @@ struct SendKnockView: View {
                                 }
                                 
                                 withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
-//                                    .becomeFirstResponder()
-                                
+                                    //.becomeFirstResponder()
                             } label: {
                                 Text("🚀 Offer")
                                     .font(.subheadline)
@@ -377,7 +376,28 @@ struct SendKnockView: View {
             } // ToolbarItemGroup
         } // toolbar
         .sheet(isPresented: $showKnockGuide) {
-            KnockGuideView()
+            ZStack(alignment: .top) {
+                KnockGuideView()
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Image(systemName: "xmark")
+                            } // Button
+                        } // ToolbarItem
+                    } // toolbar
+                
+                // MARK: - presentationDragIndicator
+                /// .presentationDragIndicator(.visible)
+                /// iOS15에는 presentationDragIncidator 가 없어서 수작업으로 구현함.
+                /// 추후 다른 방법을 찾으면 변경할 예정
+                Capsule()
+                    .fill(Color.secondary)
+                    .opacity(0.5)
+                    .frame(width: 35, height: 5)
+                    .padding(6)
+            }
         }
     }
 }
