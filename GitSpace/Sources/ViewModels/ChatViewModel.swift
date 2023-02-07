@@ -26,37 +26,34 @@ class ChatStore: ObservableObject {
         do {
             let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
             return snapshot
-        } catch {
-            
-        }
+        } catch { }
         return nil
     }
     
-    
+    @MainActor
     func fetchChats() async {
-        
         let snapshot = await getChatDocuments()
         chats.removeAll()
         targetUserNames.removeAll()
+        var chats: [Chat] = []
+        var targetUserNames: [String] = []
         
         if let snapshot {
             for document in snapshot.documents {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
                     let targetUserName: String = await chat.targetUserName
-                    DispatchQueue.main.async { [self] in
-                        chats.append(chat)
-                        targetUserNames.append(targetUserName)
-                    }
+                    chats.append(chat)
+                    targetUserNames.append(targetUserName)
                 } catch { }
             }
         }
-        
-        DispatchQueue.main.async {
-            self.isFetchFinished = true
-        }
+        self.isFetchFinished = true
     }
     
+    // 1. 채팅방 전역으로 알림 띄우기
+    // 2. ScrollView == 카카오톡
+    // 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
     
 //
 //    func fetchChats() {
