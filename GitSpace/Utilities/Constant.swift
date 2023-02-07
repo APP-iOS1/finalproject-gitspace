@@ -17,6 +17,12 @@ public enum Constant {
 	static let KNOCK_RECEIVED: String = "Received"
 	static let KNOCK_SENT: String = "Sent"
     
+	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
+	enum AppStorage {
+		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
+		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+	}
+	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
         static let TITLE1_SIZE: CGFloat = 28
@@ -102,11 +108,9 @@ public enum Constant {
         static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
     }
 
-	
 	public enum LabelHierarchy {
 		case primary
 		case secondary
 		case tertiary(isSelected: Bool? = nil)
 	}
-
 }
