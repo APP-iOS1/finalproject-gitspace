@@ -2,94 +2,107 @@
 /// 1. snapshotListener에서 단일로 Cell을 추가하거나 삭제하는 것이 가능한지
 /// 2. 업데이트 된 단일 Cell이 View에 반영되는지
 /// 3. remove할 때 인덱스 번호로 찾아가서 걔만 지울 수 있는지
+///
+// TODO: 채팅 관련 작업
+// 1. 채팅방 전역으로 알림 띄우기
+// 2. ScrollView == 카카오톡
+// 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
 
 import Foundation
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-class ChatStore: ObservableObject {
-    @Published var targetChat : Chat?
-    @Published var chats: [Chat]
+final class ChatStore: ObservableObject {
     
-    let db = Firestore.firestore()
+    @Published var targetUserNames: [String]
+    @Published var chats: [Chat]
+    @Published var isFetchFinished: Bool
+    
+    private var listener: ListenerRegistration?
+    private let db = Firestore.firestore()
     
     init() {
         chats = []
+        targetUserNames = []
+        isFetchFinished = false
+    }
+}
+
+// MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
+extension ChatStore {
+}
+
+
+// MARK: -Extension : Chat CRUD 관련 메서드를 모아둔 익스텐션
+extension ChatStore {
+    
+    // MARK: -Methods
+    // MARK: Method - Chat Documents
+    private func getChatDocuments() async -> QuerySnapshot? {
+        do {
+            let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
+            return snapshot
+        } catch { }
+        return nil
     }
     
-    func fetchChats() {
-        db.collection("Chat").order(by: "lastDate", descending: true)
-            .getDocuments { (snapshot, error) in
-                self.chats.removeAll()
-                
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let date: Date = docData["date"] as? Date ?? Date()
-                        let users: [String: String] = docData["users"] as? [String: String] ?? [:]
-                        let lastTimeStamp: Timestamp = docData["lastDate"] as? Timestamp ?? Timestamp()
-                        let lastDate: Date = Timestamp.dateValue(lastTimeStamp)()
-                        let lastContent: String = docData["lastContent"] as? String ?? ""
-                        let knockTimeStamp: Timestamp = docData["knockDate"] as? Timestamp ?? Timestamp()
-                        let knockDate: Date = Timestamp.dateValue(knockTimeStamp)()
-                        let knockContent: String = docData["knockContent"] as? String ?? ""
-                        
-                        
-                        
-                        let userIDs : (String, String)
-                        
-                        // DB에 Array로 저장한 userIDs를 Tuple로 변환
-                        // 할당에 성공한 경우에만 Chat 구조체 추가
-                        if let senderID = users["senderID"], let receiverID = users["receiverID"] {
-                            userIDs = (senderID, receiverID)
-                            let chat = Chat(id: id,
-                                            date: date,
-                                            users: userIDs,
-                                            lastDate: lastDate,
-                                            lastContent: lastContent,
-                                            knockContent: knockContent,
-                                            knockDate: knockDate)
-                            self.chats.append(chat)
-                        }
-                    }
-                }
+
+    @MainActor
+    func fetchChats() async {
+        let snapshot = await getChatDocuments()
+        // MARK: Memo - 함수 내부 배열에 추가 -> Published에 덮어쓰기 로직으로 removeAll 없이 정상 작동함 by.태영
+        var newChats: [Chat] = []
+        var newTargetUserNames: [String] = []
+        
+        if let snapshot {
+            for document in snapshot.documents {
+                do {
+                    let chat: Chat = try document.data(as: Chat.self)
+                    let targetUserName: String = await chat.targetUserName
+                    newChats.append(chat)
+                    newTargetUserNames.append(targetUserName)
+                } catch { }
             }
+        }
+        // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
+        // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
+        chats = newChats
+        targetUserNames = newTargetUserNames
+        self.isFetchFinished = true
     }
     
     // MARK: -Chat CRUD
-    func addChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .setData(["id" : chat.id,
-                      "date" : chat.date,
-                      "users" : [chat.users.senderID, chat.users.receiverID],
-                      "lastDate" : chat.lastDate,
-                      "lastContent" : chat.lastContent,
-                      "knockContent" : chat.knockContent,
-                      "knockDate" : chat.knockDate])
-        fetchChats()
+    func addChat(_ chat: Chat) async {
+        do {
+            try db.collection("Chat")
+                .document(chat.id)
+                .setData(from: chat.self)
+            await fetchChats()
+        } catch { }
     }
     
-    func updateChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .updateData(["lastDate" : chat.lastDate,
-                         "lastContent" : chat.lastContent])
-        fetchChats()
+    func updateChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id)
+                .updateData(["lastDate" : chat.lastDate,
+                             "lastContent" : chat.lastContent])
+            await fetchChats()
+        } catch { }
     }
     
-    func removeChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id).delete()
-        
-        fetchChats()
+    func removeChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id).delete()
+            await fetchChats()
+        } catch { }
     }
 }
-    
-    
+
 
 //MARK: - 이전 리스너 기술 검증을 위해 썼던 코드로, 이후 참고할 수도 있어서 주석으로 남겨놓았습니다. by. 예슬
-    // MARK: -Method : 유저 리스트를 통해서 채팅방을 Request해서 채팅방 객체를 Published 변수에 할당하는 함수
+// MARK: -Method : 유저 리스트를 통해서 채팅방을 Request해서 채팅방 객체를 Published 변수에 할당하는 함수
 //    func requestChatFromUserList(userIDs : [String]) {
 //
 //        db.collection("Chat")

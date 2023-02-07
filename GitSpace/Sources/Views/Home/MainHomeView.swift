@@ -30,8 +30,13 @@ struct MainHomeView: View {
                         .font(.title3)
                         .foregroundColor(.primary)
                         .bold()
+                        .padding(.bottom, 4)
                 }
                 .tag(starTab)
+                
+                Divider()
+                    .frame(height: 10)
+                    .padding(.horizontal, 4)
                 
                 GSButton.CustomButtonView(
                     style: .homeTab(
@@ -47,6 +52,7 @@ struct MainHomeView: View {
                         .font(.title3)
                         .foregroundColor(.primary)
                         .bold()
+                        .padding(.bottom, 4)
                 }
                 .tag(activityTab)
                 
@@ -59,15 +65,19 @@ struct MainHomeView: View {
                     .offset(y: 3.5)
             }
             .padding(16)
-			
-			TabView(selection: $selectedHomeTab) {
-				StarredView()
-					.tag("Starred")
-				FollowingView()
-					.tag("Activity")
-			}
-			.tabViewStyle(.page)
-            .ignoresSafeArea()
+            
+            /* Starred, Activity View */
+            switch selectedHomeTab {
+            case starTab:
+                StarredView()
+                    .ignoresSafeArea()
+            case activityTab:
+                ActivityView()
+                    .ignoresSafeArea()
+            default:
+                Text("네트워크 에러입니다.")
+            }
+            
 		}
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
@@ -80,7 +90,7 @@ struct MainHomeView: View {
 			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				NavigationLink {
-					Text("Notifications View")
+                    NotificationView()
 				} label: {
 					Image(systemName: "bell")
                         .foregroundColor(.black)

@@ -9,8 +9,20 @@ import SwiftUI
 
 public enum Constant {
 	// 전체가 정적인 텍스트만 상수로 관리
+	static let KNOCK_WAITING: String = "Waiting"
+	static let KNOCK_ACCEPTED: String = "Accepted"
+	static let KNOCK_DECLINED: String = "Declined"
+	static let KNOCK_ALL: String = "All"
 	
+	static let KNOCK_RECEIVED: String = "Received"
+	static let KNOCK_SENT: String = "Sent"
     
+	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
+	enum AppStorage {
+		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
+		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+	}
+	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
         static let TITLE1_SIZE: CGFloat = 28
@@ -85,12 +97,20 @@ public enum Constant {
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
         
     }
+    
+    enum TextEditorConst {
+        
+        
+        static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
+        static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
+        static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
+        static let TEXTEDITOR_STROKE_CORNER_RADIUS: CGFloat = 20
+        static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
+    }
 
-	
 	public enum LabelHierarchy {
 		case primary
 		case secondary
 		case tertiary(isSelected: Bool? = nil)
 	}
-
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContributorListView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     let contributors: [String] = ["contributor1", "contributor2", "contributor3"]
     
     var body: some View {
@@ -16,10 +18,35 @@ struct ContributorListView: View {
             Spacer()
                 .frame(height: 30)
             
-            // MARK: - 안내 메시지
-            Text("Choose a user to start a chat 💬")
-                .foregroundColor(Color(.systemGray))
-                .font(.callout)
+            // MARK: - 안내 메시지 ( ~하세요 -> ~하시겠어요? 질문형으로 변경)
+            GSText.CustomTextView(
+                style: .title2,
+                string: "Who do you want to chat with?")
+                .padding(.leading, 10)
+                .padding(.bottom, 5)
+            
+            HStack {
+                Spacer()
+                
+                // MARK: - 상황별 마스코트 이미지
+                /* 노트 시나리오의 시각적 힌트 제공 */
+                Image("GitSpace-ContributorListView")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.width - 250)
+                    .padding(.vertical, 30)
+//                    .opacity(0.7)
+                
+                Spacer()
+            }
+            
+            
+            
+            // MARK: - 컨트리뷰터 명단 스크롤 뷰
+            /* 서브 캡션 */
+            GSText.CustomTextView(
+                style: .caption1,
+                string: "Choose a user to start your chat.")
                 .padding(.leading, 10)
             
             ScrollView {
@@ -34,9 +61,9 @@ struct ContributorListView: View {
                                 .padding(.trailing, 10)
                             
                             /* 유저네임 */
-                            Text(contributor)
-                                .font(.headline)
-                                .foregroundColor(.primary)
+                            GSText.CustomTextView(
+                                style: .title3,
+                                string: contributor)
                             
                             Spacer()
                         }
@@ -56,8 +83,11 @@ struct ContributorListView: View {
                             .padding(.vertical, 5)
                     )
                 }
-                .padding(.vertical, 10)
+
                 .padding(.horizontal, 10)
+                
+                
+
             }
             
             Spacer()
