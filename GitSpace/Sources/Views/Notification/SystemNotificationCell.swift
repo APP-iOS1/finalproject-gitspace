@@ -9,7 +9,24 @@ import SwiftUI
 
 struct SystemNotificationCell: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(spacing: 25) {
+
+            Image("GitSpace-MainKnockView-LightMode")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
+            
+            GSText.CustomTextView(style: .body1, string: "Some System Message")
+
+            Spacer()
+            VStack {
+                Spacer()
+                GSText.CustomTextView(style: .caption2, string: "\("1") 시간 전")
+            }
+        }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+
     }
 }
 
