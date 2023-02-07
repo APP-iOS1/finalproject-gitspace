@@ -3,6 +3,7 @@ import SwiftUI
 struct ChatListSection: View {
     
     @EnvironmentObject var chatStore: ChatStore
+    @State var opacity: Double = 0.4
     
     var body: some View {
         // MARK: -Constant : 채팅방 리스트를 최근순으로 정렬한 리스트
@@ -12,53 +13,68 @@ struct ChatListSection: View {
                 .foregroundColor(Color.gray)
             
             // 채팅방 목록 리스트
-            ForEach(chatStore.chats) { chat in
+            ForEach(chatStore.targetUserID.indices, id: \.self) { i in
                 NavigationLink {
-                    ChatRoomView(chat: chat)
+                    ChatRoomView(chat: chatStore.chats[i])
                 } label: {
-                    ListCellLabel(chat: chat)
-                    .foregroundColor(.black)
+                    if chatStore.isFetchFinished{
+                        ListCellLabel(chat: chatStore.chats[i], targetUserID: chatStore.targetUserID[i])
+                            .foregroundColor(.black)
+                    } else {
+                        ListCellLabel(chat: chatStore.chats[i], targetUserID: chatStore.targetUserID[i])
+                            .foregroundColor(.black)
+                            .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
+                    }
                 }
             }
+            Text("\(chatStore.isFetchFinished.description)")
         }
         .task{
-            chatStore.fetchChats()
+            await chatStore.fetchChats()
+//            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)){
+//                self.opacity = opacity == 0.4 ? 0.8 : 0.4
+//            }
         }
     }
 }
 
 struct ListCellLabel : View {
     
-    let chat : Chat
+    var chat: Chat
+    var targetUserID: String
     @State private var targetName: String = ""
     @EnvironmentObject var userStore : UserStore
     @EnvironmentObject var chatStore: ChatStore
+    @State var opacity: Double = 0.4
     
     var body: some View {
         VStack(alignment: .leading){
             HStack{
                 ProfileAsyncImage(size: 55)
                     .padding(.trailing)
+//                    .overlay(RoundedRectangle(cornerRadius: 8).fill())
+//                    .overlay(Circle().fill(.gray).opacity(self.opacity))
                 
                 VStack(alignment: .leading) {
-                    Text("@\(targetName)")
+                    Text("@\(targetUserID)")
                         .font(.title3)
                         .bold()
                         .padding(.bottom, 5)
                         .lineLimit(1)
+//                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
                     
                     Text(chat.lastContent)
                         .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
                 }
                 
             }
-            .frame(height: 100)
+            .frame(width: 330,height: 100, alignment: .leading)
             Divider()
                 .frame(width: 350)
         }
-        .task {
-            targetName = await chat.targetUserName
-        }
+
     }
 }
 

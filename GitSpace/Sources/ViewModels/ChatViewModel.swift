@@ -5,84 +5,111 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class ChatStore: ObservableObject {
-    @Published var targetChat : Chat?
+    @Published var targetUserID: [String]
     @Published var chats: [Chat]
+    @Published var isFetchFinished: Bool
     
     let db = Firestore.firestore()
     
     init() {
         chats = []
+        targetUserID = []
+        isFetchFinished = false
     }
     
-    func fetchChats() {
-        db.collection("Chat").order(by: "lastDate", descending: true)
-            .getDocuments { (snapshot, error) in
-                self.chats.removeAll()
-                
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        let date: Date = docData["date"] as? Date ?? Date()
-                        let users: [String: String] = docData["users"] as? [String: String] ?? [:]
-                        let lastTimeStamp: Timestamp = docData["lastDate"] as? Timestamp ?? Timestamp()
-                        let lastDate: Date = Timestamp.dateValue(lastTimeStamp)()
-                        let lastContent: String = docData["lastContent"] as? String ?? ""
-                        let knockTimeStamp: Timestamp = docData["knockDate"] as? Timestamp ?? Timestamp()
-                        let knockDate: Date = Timestamp.dateValue(knockTimeStamp)()
-                        let knockContent: String = docData["knockContent"] as? String ?? ""
-                        
-                        
-                        
-                        let userIDs : (String, String)
-                        
-                        // DB에 Array로 저장한 userIDs를 Tuple로 변환
-                        // 할당에 성공한 경우에만 Chat 구조체 추가
-                        if let senderID = users["senderID"], let receiverID = users["receiverID"] {
-                            userIDs = (senderID, receiverID)
-                            let chat = Chat(id: id,
-                                            date: date,
-                                            users: userIDs,
-                                            lastDate: lastDate,
-                                            lastContent: lastContent,
-                                            knockContent: knockContent,
-                                            knockDate: knockDate)
-                            self.chats.append(chat)
-                        }
-                    }
-                }
+    func fetchChats() async {
+        do {
+            let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
+            
+            for document in snapshot.documents {
+                let chat: Chat = try document.data(as: Chat.self)
+                let targetUser: String = await chat.targetUserName
+                chats.append(chat)
+                targetUserID.append(targetUser)
+                print("after End of For~")
             }
+            
+            isFetchFinished = true
+            print(isFetchFinished)
+            
+        } catch {
+            
+        }
     }
+    
+    
+//
+//    func fetchChats() {
+//        db.collection("Chat").order(by: "lastDate", descending: true)
+//            .getDocuments { (snapshot, error) in
+//                self.chats.removeAll()
+//
+//                if let snapshot {
+//                    for document in snapshot.documents {
+//                        let id: String = document.documentID
+//                        let docData = document.data()
+//                        let date: Date = docData["date"] as? Date ?? Date()
+//                        let users: [String: String] = docData["users"] as? [String: String] ?? [:]
+//                        let lastTimeStamp: Timestamp = docData["lastDate"] as? Timestamp ?? Timestamp()
+//                        let lastDate: Date = Timestamp.dateValue(lastTimeStamp)()
+//                        let lastContent: String = docData["lastContent"] as? String ?? ""
+//                        let knockTimeStamp: Timestamp = docData["knockDate"] as? Timestamp ?? Timestamp()
+//                        let knockDate: Date = Timestamp.dateValue(knockTimeStamp)()
+//                        let knockContent: String = docData["knockContent"] as? String ?? ""
+//
+//
+//
+//                        let userIDs : (String, String)
+//
+//                        // DB에 Array로 저장한 userIDs를 Tuple로 변환
+//                        // 할당에 성공한 경우에만 Chat 구조체 추가
+//                        if let senderID = users["senderID"], let receiverID = users["receiverID"] {
+//                            userIDs = (senderID, receiverID)
+//                            let targetID = Utility.loginUserID == senderID ? receiverID : senderID
+//                            let chat = Chat(id: id,
+//                                            date: date,
+//                                            users: userIDs,
+//                                            lastDate: lastDate,
+//                                            lastContent: lastContent,
+//                                            knockContent: knockContent,
+//                                            knockDate: knockDate)
+//                            self.chats.append(chat)
+//                            self.targetUserID.append(targetID)
+//                        }
+//                    }
+//                }
+//            }
+//    }
     
     // MARK: -Chat CRUD
-    func addChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .setData(["id" : chat.id,
-                      "date" : chat.date,
-                      "users" : [chat.users.senderID, chat.users.receiverID],
-                      "lastDate" : chat.lastDate,
-                      "lastContent" : chat.lastContent,
-                      "knockContent" : chat.knockContent,
-                      "knockDate" : chat.knockDate])
-        fetchChats()
+    func addChat(_ chat: Chat) async {
+        do {
+            try db.collection("Chat")
+                .document(chat.id)
+                .setData(from: chat.self)
+            await fetchChats()
+        } catch { }
     }
     
-    func updateChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .updateData(["lastDate" : chat.lastDate,
-                         "lastContent" : chat.lastContent])
-        fetchChats()
+    func updateChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id)
+                .updateData(["lastDate" : chat.lastDate,
+                             "lastContent" : chat.lastContent])
+            await fetchChats()
+        } catch { }
     }
     
-    func removeChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id).delete()
-        
-        fetchChats()
+    func removeChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id).delete()
+            await fetchChats()
+        } catch { }
     }
 }
     
