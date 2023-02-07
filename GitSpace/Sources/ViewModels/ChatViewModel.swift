@@ -8,6 +8,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class ChatStore: ObservableObject {
+    
     @Published var targetUserNames: [String]
     @Published var chats: [Chat]
     @Published var isFetchFinished: Bool

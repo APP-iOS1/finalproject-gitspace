@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: -View : 채팅 메세지 셀
 struct MessageCell : View {
+    
     let message: Message
     let targetName: String
     var isMine: Bool {
