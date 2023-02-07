@@ -32,7 +32,7 @@ struct GuideBlockSection: View {
                     } label: {
                         HStack(spacing: 10) {
 
-                            Image("GitSpace-KnockHistoryView-LightMode")
+                            Image("GitSpace-AddTagSheetView")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)

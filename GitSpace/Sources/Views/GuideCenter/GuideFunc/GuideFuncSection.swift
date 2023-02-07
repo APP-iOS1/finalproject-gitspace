@@ -31,7 +31,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
 
-                            Image("GitSpace-KnockHistoryView-LightMode")
+                            Image("GitSpace-AddTagSheetView")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
@@ -63,7 +63,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
                             
-                            Image("GitSpace-KnockHistoryView-LightMode")
+                            Image("GitSpace-KnockHistoryView")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
@@ -95,7 +95,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
                             
-                            Image("GitSpace-MainKnockView-LightMode")
+                            Image("GitSpace-MainKnockView")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 60)
