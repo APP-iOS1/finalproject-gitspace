@@ -11,7 +11,6 @@ import SwiftUI
 struct ChatRoomView: View {
     
     let chat: Chat
-    
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @State var isShowingUpdateCell: Bool = false
@@ -186,8 +185,7 @@ struct ChatRoomView: View {
         
         let chat = Chat(id: chat.id,
                         date: chat.date,
-                        senderID: chat.senderID,
-                        receiverID: chat.receiverID,
+                        joinUserIDs: chat.joinUserIDs,
                         lastDate: Date(),
                         lastContent: contentField,
                         knockContent: chat.knockContent,
