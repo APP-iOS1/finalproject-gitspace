@@ -94,10 +94,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 struct GitSpaceApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    let tabBarRouter = GSTabBarRouter()
     var body: some Scene {
         WindowGroup {
-            CollectionGroupView()
+            ContentView(tabBarRouter: tabBarRouter)
+                .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(TabManager())
+                .environmentObject(RepositoryStore())
         }
     }
 }

@@ -8,64 +8,83 @@
 import SwiftUI
 
 struct MainHomeView: View {
-	@State private var tabSelection = "star"
+    @State private var selectedHomeTab = "Starred"
+    private let starTab = "Starred"
+    private let activityTab = "Activity"
 	
     var body: some View {
 		VStack {
-			HStack {
-				Button {
-					withAnimation(.easeIn(duration: 0.2)) {
-						tabSelection = "star"
-					}
-				} label: {
-                    if tabSelection == "star" {
-                        Text("Starred")
-                            .foregroundColor(.black)
-                            .font(.title2)
-                            .bold()
-                    } else {
-                        Text("Starred")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.title2)
-                            .bold()
+            /* Starred, Activity Tab Button */
+            HStack {
+                GSButton.CustomButtonView(
+                    style: .homeTab(
+                        tabName: starTab,
+                        tabSelection: $selectedHomeTab
+                    )
+                ) {
+                    withAnimation {
+                        selectedHomeTab = starTab
                     }
-				}
-                .frame(minWidth: 80)
-				
-				Button {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        tabSelection = "follow"
+                } label: {
+                    Text(starTab)
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                        .bold()
+                        .padding(.bottom, 4)
+                }
+                .tag(starTab)
+                
+                Divider()
+                    .frame(height: 10)
+                    .padding(.horizontal, 4)
+                
+                GSButton.CustomButtonView(
+                    style: .homeTab(
+                        tabName: activityTab,
+                        tabSelection: $selectedHomeTab
+                    )
+                ) {
+                    withAnimation {
+                        selectedHomeTab = activityTab
                     }
-				} label: {
-                    if tabSelection == "star" {
-                        Text("Activity")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.title2)
-                            .bold()
-                    } else {
-                        Text("Activity")
-                            .foregroundColor(.black)
-                            .font(.title2)
-                            .bold()
-                    }
-				}
+                } label: {
+                    Text(activityTab)
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                        .bold()
+                        .padding(.bottom, 4)
+                }
+                .tag(activityTab)
                 
                 Spacer()
-			}
-            .padding([.horizontal, .top], 10)
-			
-			TabView(selection: $tabSelection) {
-				StarredView()
-					.tag("star")
-				FollowingView()
-					.tag("follow")
-			}
-			.tabViewStyle(.page)
+            }
+            .overlay(alignment: .bottom) {
+                Divider()
+                    .frame(minHeight: 0.5)
+                    .overlay(Color.primary)
+                    .offset(y: 3.5)
+            }
+            .padding(16)
+            
+            /* Starred, Activity View */
+            switch selectedHomeTab {
+            case starTab:
+                StarredView()
+                    .ignoresSafeArea()
+            case activityTab:
+                FollowingView()
+                    .ignoresSafeArea()
+            default:
+                Text("네트워크 에러입니다.")
+            }
+            
 		}
+        // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
+        .navigationTitle("")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Text("GitSpace")
-                    .font(.title)
+                    .font(.title2)
 					.bold()
 			}
 			
@@ -83,6 +102,8 @@ struct MainHomeView: View {
 
 struct MainHomeView_Previews: PreviewProvider {
     static var previews: some View {
-        MainHomeView()
+        NavigationView {
+            MainHomeView()
+        }
     }
 }
