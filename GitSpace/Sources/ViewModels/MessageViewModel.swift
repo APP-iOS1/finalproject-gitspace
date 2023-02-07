@@ -61,16 +61,16 @@ extension MessageStore {
     
     // MARK: - Message CRUD
     func addMessage(_ message: Message, chatID: String) {
-        
-        db
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .setData(["id" : message.id,
-                      "userID" : message.userID,
-                      "content" : message.content,
-                      "date" : message.date])
+        do {
+            try db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .setData(from: message.self)
+        } catch {
+            print("Add Message Error : \(error)")
+        }
     }
     
     func updateMessage(_ message: Message, chatID: String) {
@@ -79,8 +79,10 @@ extension MessageStore {
             .document(chatID)
             .collection("Message")
             .document(message.id)
-            .updateData(["content" : message.content,
-                         "date" : message.date])
+            .updateData(
+                ["content" : message.content,
+                         "date" : message.date]
+            )
     }
     
     func removeMessage(_ message: Message, chatID: String) {
