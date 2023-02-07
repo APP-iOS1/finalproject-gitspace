@@ -7,22 +7,35 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-class ChatStore: ObservableObject {
+final class ChatStore: ObservableObject {
     
     @Published var targetUserNames: [String]
     @Published var chats: [Chat]
     @Published var isFetchFinished: Bool
     
-    let db = Firestore.firestore()
+    private var listener: ListenerRegistration?
+    private let db = Firestore.firestore()
     
     init() {
         chats = []
         targetUserNames = []
         isFetchFinished = false
     }
+    // 1. 채팅방 전역으로 알림 띄우기
+    // 2. ScrollView == 카카오톡
+    // 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
+}
+
+// MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
+extension ChatStore {
+}
+
+
+// MARK: -Extension : Chat CRUD 관련 메서드를 모아둔 익스텐션
+extension ChatStore {
     
     // MARK: -Methods
-    // MARK: Method - Chat 나중에 적을게요
+    // MARK: Method - Chat Documents
     private func getChatDocuments() async -> QuerySnapshot? {
         do {
             let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
@@ -52,53 +65,6 @@ class ChatStore: ObservableObject {
         self.isFetchFinished = true
     }
     
-    // 1. 채팅방 전역으로 알림 띄우기
-    // 2. ScrollView == 카카오톡
-    // 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
-    
-//
-//    func fetchChats() {
-//        db.collection("Chat").order(by: "lastDate", descending: true)
-//            .getDocuments { (snapshot, error) in
-//                self.chats.removeAll()
-//
-//                if let snapshot {
-//                    for document in snapshot.documents {
-//                        let id: String = document.documentID
-//                        let docData = document.data()
-//                        let date: Date = docData["date"] as? Date ?? Date()
-//                        let users: [String: String] = docData["users"] as? [String: String] ?? [:]
-//                        let lastTimeStamp: Timestamp = docData["lastDate"] as? Timestamp ?? Timestamp()
-//                        let lastDate: Date = Timestamp.dateValue(lastTimeStamp)()
-//                        let lastContent: String = docData["lastContent"] as? String ?? ""
-//                        let knockTimeStamp: Timestamp = docData["knockDate"] as? Timestamp ?? Timestamp()
-//                        let knockDate: Date = Timestamp.dateValue(knockTimeStamp)()
-//                        let knockContent: String = docData["knockContent"] as? String ?? ""
-//
-//
-//
-//                        let userIDs : (String, String)
-//
-//                        // DB에 Array로 저장한 userIDs를 Tuple로 변환
-//                        // 할당에 성공한 경우에만 Chat 구조체 추가
-//                        if let senderID = users["senderID"], let receiverID = users["receiverID"] {
-//                            userIDs = (senderID, receiverID)
-//                            let targetID = Utility.loginUserID == senderID ? receiverID : senderID
-//                            let chat = Chat(id: id,
-//                                            date: date,
-//                                            users: userIDs,
-//                                            lastDate: lastDate,
-//                                            lastContent: lastContent,
-//                                            knockContent: knockContent,
-//                                            knockDate: knockDate)
-//                            self.chats.append(chat)
-//                            self.targetUserID.append(targetID)
-//                        }
-//                    }
-//                }
-//            }
-//    }
-    
     // MARK: -Chat CRUD
     func addChat(_ chat: Chat) async {
         do {
@@ -127,11 +93,10 @@ class ChatStore: ObservableObject {
         } catch { }
     }
 }
-    
-    
+
 
 //MARK: - 이전 리스너 기술 검증을 위해 썼던 코드로, 이후 참고할 수도 있어서 주석으로 남겨놓았습니다. by. 예슬
-    // MARK: -Method : 유저 리스트를 통해서 채팅방을 Request해서 채팅방 객체를 Published 변수에 할당하는 함수
+// MARK: -Method : 유저 리스트를 통해서 채팅방을 Request해서 채팅방 객체를 Published 변수에 할당하는 함수
 //    func requestChatFromUserList(userIDs : [String]) {
 //
 //        db.collection("Chat")
