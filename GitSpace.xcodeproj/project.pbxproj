@@ -10,6 +10,9 @@
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
+		22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A5299231B60010FD15 /* NotificationView.swift */; };
+		22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */; };
+		22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */; };
 		22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */; };
 		22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */; };
 		22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5412C298CD22500CC89EC /* View+cornerRadius.swift */; };
@@ -102,6 +105,9 @@
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		22B1F2A5299231B60010FD15 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemNotificationCell.swift; sourceTree = "<group>"; };
+		22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockNotificationCell.swift; sourceTree = "<group>"; };
 		22C54128298CC36D00CC89EC /* GSTabBarBackGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarBackGround.swift; sourceTree = "<group>"; };
 		22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarBackgroundModifier.swift; sourceTree = "<group>"; };
 		22C5412C298CD22500CC89EC /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
@@ -202,6 +208,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22B1F2A4299231960010FD15 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				22B1F2A5299231B60010FD15 /* NotificationView.swift */,
+				22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */,
+				22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		22C54130298CE36F00CC89EC /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +376,7 @@
 		7068B6B6297694BA005D6B7B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				22B1F2A4299231960010FD15 /* Notification */,
 				7068B6BB2976950F005D6B7B /* Home */,
 				7068B6BA2976950B005D6B7B /* Chat */,
 				703C8449298CA60E00398F2C /* Knock */,
@@ -599,6 +616,7 @@
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
+				22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */,
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
@@ -606,6 +624,7 @@
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
+				22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
 				34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */,
@@ -626,6 +645,7 @@
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
+				22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */,
 				6E0840272983BB9A00F51169 /* UserInfo.swift in Sources */,
 				22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */,
 				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
