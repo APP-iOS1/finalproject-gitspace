@@ -98,14 +98,14 @@ struct GitSpaceApp: App {
     var body: some Scene {
         WindowGroup {
 			
-			Text("?")
-//            ContentView(tabBarRouter: tabBarRouter)
-//                .environmentObject(AuthStore())
-//                .environmentObject(ChatStore())
-//                .environmentObject(MessageStore())
-//                .environmentObject(UserStore())
-//                .environmentObject(TabManager())
-//                .environmentObject(RepositoryStore())
+//			Text("?")
+            ContentView(tabBarRouter: tabBarRouter)
+                .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(TabManager())
+                .environmentObject(RepositoryStore())
         }
     }
 }
