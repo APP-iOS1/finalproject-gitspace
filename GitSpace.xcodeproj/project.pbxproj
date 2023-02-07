@@ -20,6 +20,7 @@
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		347146022990BC5200ED990C /* TopperProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146012990BC5200ED990C /* TopperProfileView.swift */; };
+		347146052991F02500ED990C /* GuideCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146042991F02500ED990C /* GuideCenterView.swift */; };
 		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* KnockSettingView.swift */; };
 		34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
@@ -111,6 +112,7 @@
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		347146012990BC5200ED990C /* TopperProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopperProfileView.swift; sourceTree = "<group>"; };
+		347146042991F02500ED990C /* GuideCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCenterView.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
 		34BC356C29778C43000DCBC7 /* KnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockSettingView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		347146032991E8DC00ED990C /* GuideCenter */ = {
 			isa = PBXGroup;
 			children = (
+				347146042991F02500ED990C /* GuideCenterView.swift */,
 				34582166298E0ABD0058CA4C /* KnockGuideView.swift */,
 			);
 			path = GuideCenter;
@@ -626,6 +629,7 @@
 				6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
+				347146052991F02500ED990C /* GuideCenterView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */,
 				7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */,
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,

@@ -22,11 +22,11 @@ struct KnockGuideView: View {
                 } // ScrollView
                 .navigationBarTitle("Knock")
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItem(placement: .navigationBarLeading) {
                         Button {
                             dismiss()
                         } label: {
-                            Text("Done")
+                            Image(systemName: "xmark")
                         } // Button
                     } // ToolbarItem
                 } // toolbar
