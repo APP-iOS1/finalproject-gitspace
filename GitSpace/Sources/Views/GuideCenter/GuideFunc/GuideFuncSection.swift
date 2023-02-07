@@ -31,7 +31,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
 
-                            Image("GitSpace-AddTagSheetView")
+                            Image("GitSpace-Star")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
@@ -59,11 +59,44 @@ struct GuideFuncSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
+                        StarGuideView()
+                    } label: {
+                        HStack(spacing: 10) {
+
+                            Image("GitSpace-Activity")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 50)
+
+                            VStack(alignment: .leading) {
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "Activity")
+
+                                GSText.CustomTextView(
+                                    style: .caption1,
+                                    string: "Follow한 유저들의 활동 보기")
+                                .multilineTextAlignment(.leading)
+                            }
+
+                            VStack {
+                                Text("")
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gsGray2)
+                        } // HStack
+                    } // NavigationLink
+                    
+                    
+                    NavigationLink {
                         KnockGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
-                            Image("GitSpace-KnockHistoryView")
+                            Image("GitSpace-Knock")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
@@ -95,7 +128,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
                             
-                            Image("GitSpace-MainKnockView")
+                            Image("GitSpace-Chat")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 60)

@@ -20,6 +20,7 @@
 		22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C54131298CE38300CC89EC /* GSTabBarRouter.swift */; };
 		22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE52976F78C008A4405 /* ActivityView.swift */; };
 		22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE92976FEB5008A4405 /* ActivityFeedView.swift */; };
+		3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427734D2992A78900818816 /* ActivityGuideView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -125,6 +126,7 @@
 		22C54131298CE38300CC89EC /* GSTabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTabBarRouter.swift; sourceTree = "<group>"; };
 		22DECDE52976F78C008A4405 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		22DECDE92976FEB5008A4405 /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
+		3427734D2992A78900818816 /* ActivityGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGuideView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 			children = (
 				3471460629920F8500ED990C /* GuideFuncSection.swift */,
 				347146092992112000ED990C /* StarGuideView.swift */,
+				3427734D2992A78900818816 /* ActivityGuideView.swift */,
 				34582166298E0ABD0058CA4C /* KnockGuideView.swift */,
 				346EF6AB29923F6B00878949 /* ChatGuideView.swift */,
 			);
@@ -383,9 +386,7 @@
 		703C8449298CA60E00398F2C /* Knock */ = {
 			isa = PBXGroup;
 			children = (
-				34BC3567297770C5000DCBC7 /* KnockBox */,
 				34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */,
-				34582166298E0ABD0058CA4C /* KnockGuideView.swift */,
 				34BC3567297770C5000DCBC7 /* KnockBox */,
 			);
 			path = Knock;
@@ -697,6 +698,7 @@
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
+				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
@@ -910,9 +912,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -942,9 +947,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

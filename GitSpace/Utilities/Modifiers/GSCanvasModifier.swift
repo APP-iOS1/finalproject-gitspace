@@ -23,7 +23,7 @@ public struct GSCanvasModifier: ViewModifier {
                 .background(
                     RoundedRectangle(cornerRadius: 17, style: .continuous)
                         .fill(colorScheme == .dark ? Color.gsGray3 : Color.white)
-                        .frame(width: .infinity)
+                        .frame(maxWidth: .infinity)
                         .frame(minHeight: minHeight)
                         .shadow(color: .gsGray2.opacity(colorScheme == .dark ? 0.0 : 0.3), radius: 6, x: 0, y: 2)
                 )

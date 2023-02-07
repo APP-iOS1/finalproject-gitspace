@@ -10,6 +10,7 @@ import SwiftUI
 struct MainChatView: View {
     
     @EnvironmentObject var chatStore : ChatStore
+    @State private var showGuideCenter: Bool = false
     
     var body: some View {
         
@@ -27,7 +28,20 @@ struct MainChatView: View {
 					.font(.title2)
 					.bold()
 			}
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showGuideCenter.toggle()
+                } label: {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundColor(.primary)
+                }
+
+            }
 		}
+        .fullScreenCover(isPresented: $showGuideCenter) {
+            GuideCenterView()
+        }
     }
 }
 
