@@ -8,7 +8,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class ChatStore: ObservableObject {
-    @Published var targetUserID: [String]
+    @Published var targetUserNames: [String]
     @Published var chats: [Chat]
     @Published var isFetchFinished: Bool
     
@@ -16,27 +16,44 @@ class ChatStore: ObservableObject {
     
     init() {
         chats = []
-        targetUserID = []
+        targetUserNames = []
         isFetchFinished = false
     }
     
-    func fetchChats() async {
+    // MARK: -Methods
+    // MARK: Method - Chat 나중에 적을게요
+    private func getChatDocuments() async -> QuerySnapshot? {
         do {
             let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
-            
-            for document in snapshot.documents {
-                let chat: Chat = try document.data(as: Chat.self)
-                let targetUser: String = await chat.targetUserName
-                chats.append(chat)
-                targetUserID.append(targetUser)
-                print("after End of For~")
-            }
-            
-            isFetchFinished = true
-            print(isFetchFinished)
-            
+            return snapshot
         } catch {
             
+        }
+        return nil
+    }
+    
+    
+    func fetchChats() async {
+        
+        let snapshot = await getChatDocuments()
+        chats.removeAll()
+        targetUserNames.removeAll()
+        
+        if let snapshot {
+            for document in snapshot.documents {
+                do {
+                    let chat: Chat = try document.data(as: Chat.self)
+                    let targetUserName: String = await chat.targetUserName
+                    DispatchQueue.main.async { [self] in
+                        chats.append(chat)
+                        targetUserNames.append(targetUserName)
+                    }
+                } catch { }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.isFetchFinished = true
         }
     }
     
