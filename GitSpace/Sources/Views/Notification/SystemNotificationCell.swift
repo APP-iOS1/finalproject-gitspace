@@ -11,7 +11,7 @@ struct SystemNotificationCell: View {
     var body: some View {
         HStack(spacing: 25) {
 
-            Image("GitSpace-MainKnockView-LightMode")
+            Image("GitSpace-MainKnockView")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 50)
