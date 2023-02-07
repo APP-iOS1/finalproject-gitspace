@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct MyKnockCell: View {
+struct EachKnockCell: View {
+	let knockMessenger: String
+	
 	@ObservedObject var knockHistoryViewModel: KnockHistoryViewModel
 	@State var eachKnock: Knock
     @Binding var isEdit: Bool
     @Binding var checked: Bool
-	@Binding var knockMessenger: String
-
+	
     var body: some View {
 		VStack {
 			HStack(alignment: .center) {
@@ -35,19 +36,12 @@ struct MyKnockCell: View {
 				
 				VStack {
 					HStack {
-						Text(knockMessenger == "Received" ?
-							 "from: \(eachKnock.senderID)" :
-								"to: \(eachKnock.receiverID)"
-						)
+						Text(knockMessenger)
 						.bold()
+						.animation(nil)
 						.font(.headline)
 						
 						Spacer()
-						
-						//                    Text("﹒")
-						//                        .font(.subheadline)
-						//                        .foregroundColor(Color(.systemGray))
-						//                        .padding(.leading, -5)
 						
 						Text("\(eachKnock.dateDiff)m")
 							.font(.subheadline)

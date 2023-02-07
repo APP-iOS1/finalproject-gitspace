@@ -73,8 +73,21 @@ struct KnockHistoryView: View {
 					.padding(.horizontal, 10)
 			} // Knock Message Bubble
 			
+			if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
+				GSButton.CustomButtonView(
+					style: .secondary(
+						isDisabled: false
+					)) {
+						print()
+					} label: {
+						Text("Move To Chat List")
+							.bold()
+					}
+					.padding(.top, 8)
+			}
+			
 			Divider()
-				.padding(.top, 40)
+				.padding(.top, 8)
 				.padding(.bottom, 30)
 			
 			HStack {
@@ -177,19 +190,6 @@ struct KnockHistoryView: View {
 								.font(.footnote)
 						}
 					}
-					
-					VStack {
-						GSButton.CustomButtonView(
-							style: .secondary(
-								isDisabled: false
-							)) {
-								print()
-							} label: {
-								Text("Move To Chat List")
-									.bold()
-							}
-							.padding(.top, 8)
-					}
 				case "Declined":
 					HStack(alignment: .top, spacing: 32) {
 						Circle()
@@ -226,7 +226,7 @@ struct KnockHistoryView: View {
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {
-					Image(systemName: "star")
+					Image(systemName: "circle")
 					
 					Text("**\(eachKnock.receiverID)**")
 				}
@@ -242,7 +242,7 @@ struct KnockHistoryView_Previews: PreviewProvider {
 				eachKnock: Knock(
 					date: Date.now,
 					knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
-					knockStatus: "Declined",
+					knockStatus: "Accepted",
 					knockCategory: "Offer",
 					declineMessage: "I am Currently Employeed, sorry.",
 					receiverID: "HEYHEYHEYHEY",
