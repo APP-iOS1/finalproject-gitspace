@@ -13,13 +13,13 @@ struct ChatListSection: View {
             
             if chatStore.isFetchFinished {
                 // 채팅방 목록 리스트
-                ForEach(chatStore.targetUserID.indices, id: \.self) { i in
+                ForEach(chatStore.targetUserNames.indices, id: \.self) { i in
                     
                     NavigationLink {
                         ChatRoomView(chat: chatStore.chats[i])
                     } label: {
                         ChatListCell(chat: chatStore.chats[i],
-                                     targetUserID: chatStore.targetUserID[i])
+                                     targetUserID: chatStore.targetUserNames[i])
                             .foregroundColor(.black)
                     }
                 }
