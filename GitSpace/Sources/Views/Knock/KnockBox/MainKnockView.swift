@@ -183,7 +183,7 @@ struct MainKnockView: View {
 					.animation(.easeInOut(duration: 10.0), value: knockMessenger)
 					.tag(receivedTab)
 					.fullScreenCover(isPresented: $showingKnockSetting) {
-						MyKnockSettingView(showingKnockSetting: $showingKnockSetting)
+						KnockSettingView(showingKnockSetting: $showingKnockSetting)
 					}
 					
 				case Constant.KNOCK_SENT:
@@ -254,7 +254,7 @@ struct MainKnockView: View {
 	// MARK: - METHODS
 	@ViewBuilder
 	private func headerTabPagenationViewBuilder() -> some View {
-		HStack(spacing: 12) {
+		HStack(alignment: .firstTextBaseline, spacing: 12) {
 			GSButton.CustomButtonView(style: .homeTab(
 				tabName: receivedTab,
 				tabSelection: $knockMessenger)) {
@@ -270,7 +270,10 @@ struct MainKnockView: View {
 				}
 			
 			Divider()
-				.frame(height: 10)
+				.frame(height: 12)
+				.overlay {
+					Color.gsDarkGray
+				}
 				.padding(.horizontal, 4)
 			
 			GSButton.CustomButtonView(style: .homeTab(
@@ -350,7 +353,7 @@ struct MainKnockView: View {
 					showingKnockSetting.toggle()
 				} label: {
 					// 나에게 노크 할 수 있는 사람 설정하기
-					Text("Decide who can Knock on you")
+					Text("Decide who can Knock on You.")
 				}
 			}
 		case sentTab:

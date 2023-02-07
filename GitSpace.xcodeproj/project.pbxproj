@@ -249,13 +249,13 @@
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				70BE63E4298CA5190060336F /* Constant.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
 				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
-				70BE63E4298CA5190060336F /* Constant.swift */,
 				70BE63E2298CA3B10060336F /* Temp */,
 			);
 			path = Utilities;
@@ -383,7 +383,9 @@
 		703C8449298CA60E00398F2C /* Knock */ = {
 			isa = PBXGroup;
 			children = (
+				34BC3567297770C5000DCBC7 /* KnockBox */,
 				34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */,
+				34582166298E0ABD0058CA4C /* KnockGuideView.swift */,
 				34BC3567297770C5000DCBC7 /* KnockBox */,
 			);
 			path = Knock;
