@@ -28,7 +28,7 @@ struct GuideBlockSection: View {
                 Group {
                     
                     NavigationLink {
-
+                        BlockGuideView()
                     } label: {
                         HStack(spacing: 10) {
 
