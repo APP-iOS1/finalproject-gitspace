@@ -39,7 +39,7 @@
 		68E95FC72976D48C002E65AD /* StarredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E95FC62976D48C002E65AD /* StarredView.swift */; };
 		6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CAE29899F6C00446C0D /* ChatModifiers.swift */; };
 		6E000CB12989A1B600446C0D /* ChatDetailProfileSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB02989A1B600446C0D /* ChatDetailProfileSection.swift */; };
-		6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */; };
+		6E000CB32989A2F700446C0D /* ChatRoomKnockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */; };
 		6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB4298A553A00446C0D /* ChangeContentSheetView.swift */; };
 		6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB6298A67E800446C0D /* ProfileAsyncImage.swift */; };
 		6E0840152983902800F51169 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840142983902800F51169 /* Chat.swift */; };
@@ -126,7 +126,7 @@
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
 		6E000CB02989A1B600446C0D /* ChatDetailProfileSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailProfileSection.swift; sourceTree = "<group>"; };
-		6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailKnockSection.swift; sourceTree = "<group>"; };
+		6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomKnockSection.swift; sourceTree = "<group>"; };
 		6E000CB4298A553A00446C0D /* ChangeContentSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeContentSheetView.swift; sourceTree = "<group>"; };
 		6E000CB6298A67E800446C0D /* ProfileAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAsyncImage.swift; sourceTree = "<group>"; };
 		6E0840142983902800F51169 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -286,7 +286,7 @@
 				6E08401E2983966200F51169 /* ChatRoomView.swift */,
 				6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */,
 				6E0840202983979B00F51169 /* MessageCell.swift */,
-				6E000CB22989A2F700446C0D /* ChatDetailKnockSection.swift */,
+				6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */,
 				6E000CB4298A553A00446C0D /* ChangeContentSheetView.swift */,
 			);
 			path = ChatRoom;
@@ -638,7 +638,7 @@
 				22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */,
 				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
 				6E0840212983979B00F51169 /* MessageCell.swift in Sources */,
-				6E000CB32989A2F700446C0D /* ChatDetailKnockSection.swift in Sources */,
+				6E000CB32989A2F700446C0D /* ChatRoomKnockSection.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */,
