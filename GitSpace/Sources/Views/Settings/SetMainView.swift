@@ -9,10 +9,27 @@ import SwiftUI
 
 struct SetMainView: View {
     
-    @AppStorage(Constant.AppStorage.KNOCK_ALL_NOTIFICATION) var isAllNotificationEnabled: Bool?
+    @AppStorage("systemAppearance") private var systemAppearance: Int = AppearanceType.allCases.first!.rawValue
+    
     @State private var isAllNotiEnabled: Bool = true
     @State private var isDeclinedNotiEnabled: Bool = true
     @State private var isAcceptedNotiEnabled: Bool = true
+//    @State private var appearanceText: String = "Automatic"
+//
+//
+    var appearanceText: String? {
+        guard let appearance = AppearanceType(rawValue: systemAppearance) else { return nil }
+        
+        switch appearance {
+        case .light:
+            return "Light"
+        case .dark:
+            return "Dark"
+        default:
+            return "Automatic"
+        }
+    }
+    
     
     var body: some View {
             List {
@@ -137,6 +154,7 @@ struct SetMainView: View {
                 // 연구 중
                 */
                 
+                // MARK: - USER SETTINGS
                 Section {
                     NavigationLink {
                         
@@ -161,10 +179,11 @@ struct SetMainView: View {
                     }
                 }
                 
+                // MARK: - APP SETTINGS
                 Section {
                     
                     NavigationLink {
-                        
+                        SetAppearanceView()
                     } label: {
                         HStack {
                             Image(systemName: "paintpalette")
@@ -174,7 +193,7 @@ struct SetMainView: View {
                             
                             Spacer()
                             
-                            Text("\("Automatic")")
+                            Text("\(appearanceText ?? "Automatic")")
                                 .font(.subheadline)
                                 .foregroundColor(.gsGray2)
                         }
@@ -245,6 +264,7 @@ struct SetMainView: View {
                     Text("APP SETTINGS")
                 }
                 
+                // MARK: - LEGAL
                 Section {
                     NavigationLink {
                         
@@ -268,7 +288,7 @@ struct SetMainView: View {
                     Text("LEGAL")
                 }
                 
-                
+                // MARK: - APP MANAGEMENT
                 Section {
                     Button(role: .cancel) {
                         print("모든 캐시를 ;;삭제할거임")
