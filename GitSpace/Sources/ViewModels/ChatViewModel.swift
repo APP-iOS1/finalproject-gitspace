@@ -23,8 +23,8 @@ final class ChatStore: ObservableObject {
     
     @Published var targetUserNames: [String]
     @Published var chats: [Chat]
-    @Published var isFetchFinished: Bool
-    
+    @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
+    @Published var isListenerAdded: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -32,14 +32,86 @@ final class ChatStore: ObservableObject {
     init() {
         chats = []
         targetUserNames = []
-        isFetchFinished = false
+        isDoneFetch = false
+        isListenerAdded = false
     }
 }
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
 extension ChatStore {
     
+    // MARK: Method : chat 리스트를 마지막 메세지 시간 최신순으로 정렬
+    private func sortChats() {
+        chats.sort {
+            $0.lastDate > $1.lastDate
+        }
+    }
     
+    // MARK: Method : 추가된 문서 필드에 접근하여 Chat 객체를 만들어 반환하는 메서드
+    private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
+        do {
+            let newChat = try change.data(as: Chat.self)
+            return newChat
+        } catch {
+            print("Fetch New Chat in Chat Listener Error : \(error)")
+        }
+        return nil
+    }
+    
+    // MARK: Chat Listener에서 Added가 감지되었을 때, Chat을 로컬 Chat 리스트에 추가하고 재정렬하는 메서드
+    private func listenerAddChat(change: QueryDocumentSnapshot) {
+        let newChat = decodeNewChat(change: change)
+        if let newChat {
+            chats.append(newChat)
+            sortChats()
+        }
+    }
+    
+    private func updateLocalChat() {
+        
+    }
+    
+    //TODO: API에서 async await concurrency 지원하는지 여부 파악
+    func addListener(chatID: String) {
+        listener = db
+            .collection("Chat")
+            .document(chatID)
+            .collection("Message")
+            .addSnapshotListener { snapshot, error in
+                // snapshot이 비어있으면 에러 출력 후 리턴
+                guard let snp = snapshot else {
+                    print("Error fetching documents: \(error!)")
+                    return
+                }
+                // document 변경 사항에 대해 감지해서 작업 수행
+                snp.documentChanges.forEach { diff in
+                    switch diff.type {
+                    case .added:
+                        print("added")
+                        print(diff.document.documentID)
+                        
+                        if self.isListenerAdded {
+                            self.listenerAddChat(change: diff.document)
+                        }
+                        
+                    case .modified:
+                        print("modified")
+                        print(diff.document.documentID)
+                    case .removed:
+                        print("removed")
+                        
+                    }
+                }
+            }
+    }
+    
+    func removeListener() {
+        guard let listener else {
+            return
+        }
+        listener.remove()
+        isListenerAdded = false
+    }
 }
 
 
@@ -79,7 +151,7 @@ extension ChatStore {
         // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
         chats = newChats
         targetUserNames = newTargetUserNames
-        self.isFetchFinished = true
+        self.isDoneFetch = true
     }
     
     // MARK: -Chat CRUD
