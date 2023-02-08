@@ -11,11 +11,11 @@ import SwiftUI
 struct ChatRoomView: View {
     
     let chat: Chat
+    let targetName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @State var isShowingUpdateCell: Bool = false
     @State private var contentField: String = ""
-    @State private var targetName: String = ""
     
     var body: some View {
         
@@ -44,7 +44,7 @@ struct ChatRoomView: View {
                         proxy.scrollTo("bottom", anchor: .bottomTrailing)
                     }
                 }
-                .onChange(of: messageStore.messageAdded) { state in
+                .onChange(of: messageStore.isMessageAdded) { state in
                     proxy.scrollTo("bottom", anchor: .bottomTrailing)
                 }
             }
@@ -64,9 +64,8 @@ struct ChatRoomView: View {
         }
         .task {
             messageStore.addListener(chatID: chat.id)
-            messageStore.removeListenerMessages()
+            messageStore.isListenerAdded = true
             await messageStore.fetchMessages(chatID: chat.id)
-            targetName = await chat.targetUserName
         }
         .onDisappear {
             messageStore.removeListener()
