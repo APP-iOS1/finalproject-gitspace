@@ -100,10 +100,8 @@ struct KnockSettingView: View {
 				} header: {
 					Text("History Management")
 				} footer: {
-					Text("It cannot be restored after Removing All Knock Histories.")
+					Text("It cannot be restored after Removing All Knock Histories. \nYour Knock History will be terminated in **30 days** automatically.")
 				}
-
-                
             } // ScrollView
             .navigationBarTitle("Knock Controls", displayMode: .inline)
             .toolbar {
