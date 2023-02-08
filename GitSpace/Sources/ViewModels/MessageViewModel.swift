@@ -138,8 +138,7 @@ extension MessageStore {
                         if let newMessage {
                             if self.isListenerAdded {
                                 self.messages.append(newMessage)
-                                // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
-    //                            self.startMessagesCounter += 1
+                                // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
                                 self.isMessageAdded.toggle()
                             }
                         }
