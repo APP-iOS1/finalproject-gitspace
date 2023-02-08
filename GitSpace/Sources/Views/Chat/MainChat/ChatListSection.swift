@@ -11,7 +11,7 @@ struct ChatListSection: View {
                 .font(.footnote)
                 .foregroundColor(Color.gray)
             
-            if chatStore.isFetchFinished {
+            if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
                 ForEach(chatStore.targetUserNames.indices, id: \.self) { i in
                     

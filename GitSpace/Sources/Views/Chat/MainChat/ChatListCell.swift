@@ -29,12 +29,12 @@ struct ChatListCell : View {
                         .bold()
                         .padding(.bottom, 5)
                         .lineLimit(1)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
+                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isDoneFetch))
                     
                     Text(chat.lastContent)
                         .foregroundColor(.gray)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isFetchFinished))
+                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isDoneFetch))
                 }
             }
             .frame(width: 330,height: 100, alignment: .leading)
