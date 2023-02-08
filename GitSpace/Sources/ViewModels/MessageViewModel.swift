@@ -11,10 +11,9 @@ import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
-    @Published var messageAdded: Bool = false
+    @Published var isMessageAdded: Bool = false
+    @Published var isListenerAdded: Bool = false
     
-    private var startMessagesCounter: Int = 0
-    private var startMessagesRemoved: Bool = false
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     
@@ -22,7 +21,6 @@ final class MessageStore: ObservableObject {
         messages = []
     }
 }
-
 
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
@@ -98,13 +96,6 @@ extension MessageStore {
 
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
 extension MessageStore {
-    // MARK: Method : AddListener 호출 시 기존 메세지들이 한번씩 불러와지는 오류를 수정하는 함수
-    func removeListenerMessages() {
-        if !startMessagesRemoved {
-            messages.removeFirst(startMessagesCounter)
-            startMessagesRemoved = true
-        }
-    }
     
     // MARK: Method : 추가된 문서 필드에 접근하여 Message 객체를 만들어 반환하는 함수
     func fetchNewMessage(change : QueryDocumentSnapshot) -> Message? {
@@ -145,10 +136,12 @@ extension MessageStore {
                         print(diff.document.documentID)
                         let newMessage = self.fetchNewMessage(change: diff.document)
                         if let newMessage {
-                            self.messages.append(newMessage)
-                            // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
-                            self.startMessagesCounter += 1
-                            self.messageAdded.toggle()
+                            if self.isListenerAdded {
+                                self.messages.append(newMessage)
+                                // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
+    //                            self.startMessagesCounter += 1
+                                self.isMessageAdded.toggle()
+                            }
                         }
                         
                     case .modified:
@@ -167,6 +160,7 @@ extension MessageStore {
             return
         }
         listener.remove()
+        isListenerAdded = false
     }
 }
 
