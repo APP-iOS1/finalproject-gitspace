@@ -11,14 +11,16 @@ import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
-    @Published var isMessageAdded: Bool = false
-    @Published var isListenerAdded: Bool = false
+    @Published var isMessageAdded: Bool
+    @Published var isListenerAdded: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     
     init() {
         messages = []
+        isMessageAdded = false
+        isListenerAdded = false
     }
 }
 
