@@ -1,5 +1,5 @@
 //
-//  SettingsMainView.swift
+//  SetAppearanceView.swift
 //  GitSpace
 //
 //  Created by 최한호 on 2023/02/08.
@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct SettingsMainView: View {
-    
+struct AppearanceSettings: View {
     @AppStorage(Constant.AppStorage.KNOCK_ALL_NOTIFICATION) var isAllNotificationEnabled: Bool?
     @State private var isAllNotiEnabled: Bool = true
     @State private var isDeclinedNotiEnabled: Bool = true
@@ -291,8 +290,8 @@ struct SettingsMainView: View {
     } // body
 }
 
-struct SettingsMainView_Previews: PreviewProvider {
+struct AppearanceSettings_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsMainView()
+        AppearanceSettings()
     }
 }
