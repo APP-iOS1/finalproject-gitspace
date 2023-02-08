@@ -37,6 +37,7 @@
 		34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
 		34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
+		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryStore.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
@@ -143,6 +144,7 @@
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
+		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStore.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -324,6 +326,14 @@
 			path = KnockBox;
 			sourceTree = "<group>";
 		};
+		680C199D29937C8B009AF5D5 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				680C199E29937CAD009AF5D5 /* SigninView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		6E08401229838F1600F51169 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +472,7 @@
 		7068B6B6297694BA005D6B7B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				680C199D29937C8B009AF5D5 /* Auth */,
 				22B1F2A4299231960010FD15 /* Notification */,
 				7068B6BB2976950F005D6B7B /* Home */,
 				7068B6BA2976950B005D6B7B /* Chat */,
@@ -682,6 +693,7 @@
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
+				680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */,
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
