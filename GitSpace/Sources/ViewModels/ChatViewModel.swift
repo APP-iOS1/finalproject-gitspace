@@ -18,6 +18,7 @@ final class ChatStore: ObservableObject {
     @Published var chats: [Chat]
     @Published var isFetchFinished: Bool
     
+    
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     
@@ -30,6 +31,7 @@ final class ChatStore: ObservableObject {
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
 extension ChatStore {
+    
 }
 
 
@@ -64,6 +66,7 @@ extension ChatStore {
                 } catch { }
             }
         }
+        
         // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
         // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
         chats = newChats
@@ -99,55 +102,3 @@ extension ChatStore {
         } catch { }
     }
 }
-
-
-//MARK: - 이전 리스너 기술 검증을 위해 썼던 코드로, 이후 참고할 수도 있어서 주석으로 남겨놓았습니다. by. 예슬
-// MARK: -Method : 유저 리스트를 통해서 채팅방을 Request해서 채팅방 객체를 Published 변수에 할당하는 함수
-//    func requestChatFromUserList(userIDs : [String]) {
-//
-//        db.collection("Chat")
-//            .whereField("users", arrayContainsAny: userIDs)
-//            .getDocuments { (snapshot, error) in
-//
-//                // MARK: -Logic : userIDs에 해당하는 (내 ID와 상대방 ID로 만들어진 채팅방이 이미 존재하면) 해당 채팅방을 return, 없으면 신규 채팅방을 add하고 해당 채팅방을 return.
-//                if let snapshot {
-//                    if snapshot.documents.isEmpty {
-//                        print("documents is Empty")
-//                        let date = Date()
-//                        if let open = chat.users.senderID, let join = chat.users.receiverID {
-//
-//                            let newChat = Chat(id: UUID().uuidString,
-//                                               date: date,
-//                                               userIDs: (open, join),
-//                                               lastDate: date,
-//                                               lastContent: "")
-//                            self.addChat(newChat)
-//                            self.targetChat = newChat
-//                        }
-//                    } else {
-//                        for document in snapshot.documents {
-//                            let id: String = document.documentID
-//                            let docData = document.data()
-//                            let date = docData["date"] as? Double ?? 0.0
-//                            let userIDList = docData["userIDs"] as? [String] ?? []
-//                            let lastDate = docData["lastDate"] as? Double ?? 0.0
-//                            let lastContent = docData["lastContent"] as? String ?? ""
-//
-//                            let userIDs : (String, String)
-//
-//                            // DB에 Array로 저장한 userIDs를 Tuple로 변환
-//                            // 할당에 성공한 경우에만 Chat 구조체 추가
-//                            if let open = userIDList.first, let join = userIDList.last {
-//                                userIDs = (open, join)
-//                                let chat = Chat(id: id,
-//                                                date: date,
-//                                                userIDs: userIDs,
-//                                                lastDate: lastDate,
-//                                                lastContent: lastContent)
-//                                self.targetChat = chat
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//    }
