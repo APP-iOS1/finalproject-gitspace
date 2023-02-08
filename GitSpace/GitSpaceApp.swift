@@ -107,6 +107,13 @@ struct GitSpaceApp: App {
 //                .environmentObject(TabManager())
 //                .environmentObject(RepositoryStore())
             InitialView(tabBarRouter: tabBarRouter)
+                .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(TabManager())
+                .environmentObject(RepositoryStore())
+                .environmentObject(GitHubAuthManager())
         }
     }
 }

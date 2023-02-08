@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserInfo : Identifiable {
+struct UserInfo : Identifiable, Codable {
     // MARK: -Properties
     var id : String // 유저 ID
     var name : String // 유저 닉네임

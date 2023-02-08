@@ -39,6 +39,7 @@
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
+		680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 680C19A22993D332009AF5D5 /* GoogleService-Info.plist */; };
 		687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryStore.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
@@ -105,7 +106,6 @@
 		70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
 		70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */; };
-		70EDBE4029921DBA00960042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70EDBE3F29921DBA00960042 /* GoogleService-Info.plist */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
@@ -147,6 +147,7 @@
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		680C19A22993D332009AF5D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStore.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -204,7 +205,6 @@
 		70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSNavigationLink.swift; sourceTree = "<group>"; };
 		70ABF2C6298C07F90058467E /* View+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DesignSystem.swift"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		70EDBE3F29921DBA00960042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
@@ -439,8 +439,8 @@
 		7068B6A629769448005D6B7B /* GitSpace */ = {
 			isa = PBXGroup;
 			children = (
+				680C19A22993D332009AF5D5 /* GoogleService-Info.plist */,
 				701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */,
-				70EDBE3F29921DBA00960042 /* GoogleService-Info.plist */,
 				701DA8AC298A7CA700FB0C18 /* Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				680C19A0299385A2009AF5D5 /* InitialView.swift */,
@@ -676,8 +676,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
-				70EDBE4029921DBA00960042 /* GoogleService-Info.plist in Resources */,
 				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
+				680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,7 +911,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Info.plist;
@@ -946,7 +946,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Info.plist;

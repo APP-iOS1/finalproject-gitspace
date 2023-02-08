@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SigninView: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject var githubAuthManager: GitHubAuthManager
+    
     var body: some View {
         VStack {
             Spacer()
@@ -25,6 +28,7 @@ struct SigninView: View {
                 style: .primary(isDisabled: false)
             ) {
                 print("signin button tapped")
+                githubAuthManager.signIn()
             } label: {
                 Text("**GitHub Signin**")
             }
@@ -36,6 +40,6 @@ struct SigninView: View {
 
 struct SigninView_Previews: PreviewProvider {
     static var previews: some View {
-        SigninView()
+        SigninView(githubAuthManager: GitHubAuthManager())
     }
 }

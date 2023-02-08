@@ -8,21 +8,15 @@
 import SwiftUI
 
 struct InitialView: View {
-    @ObservedObject var githubAuthManager: GitHubAuthManager = GitHubAuthManager.shared
+    @EnvironmentObject var githubAuthManager: GitHubAuthManager
     let tabBarRouter: GSTabBarRouter
     
     var body: some View {
         switch githubAuthManager.state {
         case .signedIn:
             ContentView(tabBarRouter: tabBarRouter)
-                .environmentObject(AuthStore())
-                .environmentObject(ChatStore())
-                .environmentObject(MessageStore())
-                .environmentObject(UserStore())
-                .environmentObject(TabManager())
-                .environmentObject(RepositoryStore())
         case .signedOut:
-            SigninView()
+            SigninView(githubAuthManager: githubAuthManager)
         }
     }
 }

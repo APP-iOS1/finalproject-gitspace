@@ -6,15 +6,28 @@
 //
 
 import Foundation
+import Firebase
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-class GitHubAuthManager: ObservableObject {
+enum GithubURL: String {
+    case baseURL = "https://api.github.com"
+    case userPath = "/user"
+    case bearer = "Bearer"
+}
+
+final class GitHubAuthManager: ObservableObject {
     static let shared: GitHubAuthManager = GitHubAuthManager() // singleton
+    
     @Published var state: SignInState = .signedOut
-
-    var provider = OAuthProvider(providerID: "github.com")
+    @Published var githubAcessToken: OAuthCredential?
+    
     let authentification = Auth.auth()
+    let database = Firestore.firestore()
+    var provider = OAuthProvider(providerID: "github.com")
     private var githubCredential: AuthCredential? = nil
+    var authenticatedUser: UserInfo?
     
     enum SignInState {
         case signedIn
@@ -25,44 +38,101 @@ class GitHubAuthManager: ObservableObject {
         githubPermissionPreconfigure()
     }
     
+    // MARK: - GitHub OAuth 연결 설정
+    /// GitHub OAuth를 사용하기 위해 필요한 설정들을 세팅합니다.
     func githubPermissionPreconfigure() {
-        provider.customParameters = [ // ② - (1)
+        provider.customParameters = [
             "allow_signup": "false"
         ]
         // 사용자의 이메일 주소에 접근하기 위한 요청입니다.
         // 이 부분은 앱의 API 권한에서 사전에 설정되어야만 합니다.
-        provider.scopes = ["user:email"]  // ② - (2)
+        provider.scopes = [
+            "user:email",
+            "read:user"
+        ]
     }
     
-    // MARK: - Sign In
+    // MARK: - SignIn
+    /// Authenticate User.
     /// Authenticate with Firebase using the OAuth provider object.
+    /// 사용자의 깃허브 로그인을 진행합니다.
     func signIn() {
         provider.getCredentialWith(nil) { credential, error in
-            if error != nil {
+            if let error {
                 // Handle error
+                print("here")
+                print(error)
             }
-            guard let credential else { return }
-            self.githubCredential = credential
-            self.authentification.signIn(with: credential) { authResult, error in
-                if error != nil {
-                    // Handle error
+            
+            if let credential {
+            
+                self.authentification.signIn(with: credential) { authResult, error in
+                    if error != nil {
+                        print("SignIn Error: \(String(describing: error?.localizedDescription))")
+                    }
+                    // User is signed in.
+                    guard let oauthCredential = authResult?.credential as? OAuthCredential else { return }
+                    
+                    // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
+                    guard let githubAuthenticatedUserURL = URL(string: "\(GithubURL.baseURL.rawValue)\(GithubURL.userPath.rawValue)") else {
+                        return
+                    }
+                    var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
+                    githubRequest.httpMethod = "GET"
+                    githubRequest.addValue("\(GithubURL.bearer.rawValue) \(oauthCredential.accessToken!))", forHTTPHeaderField: "Authorization")
+                    
+                    let task = URLSession.shared.dataTask(with: githubRequest) { data, response, error in
+                        guard error != nil  else {
+                            print("SignIn Task Error: ", error?.localizedDescription as Any)
+                            return
+                        }
+                        guard let userData = data else {
+                            print("SignIn Decoded Error: ", error?.localizedDescription as Any)
+                            return
+                        }
+                        //                    self.decodeUserData(userData)
+                        
+                        do {
+                            let decodedUser = try JSONDecoder().decode(UserInfo.self, from: userData)
+                            self.authenticatedUser = decodedUser
+                        } catch {
+                            print(error)
+                        }
+                        
+                        guard self.authenticatedUser != nil else {
+                            return
+                        }
+                        self.registerNewUser(self.authenticatedUser!)
+                        
+                        // TODO: 로그인한 유저의 레포정보 가져오기 (request)
+                        /* */
+                        
+                        DispatchQueue.main.async {
+                            self.state = .signedIn
+
+                        }
+                    }
+                    task.resume()
                 }
-                // User is signed in.
-                // IdP data available in authResult.additionalUserInfo.profile.
-                
-                guard let oauthCredential = authResult?.credential as? OAuthCredential else { return }
-                // GitHub OAuth access token can also be retrieved by:
-                // oauthCredential.accessToken
-                print("\(String(describing: oauthCredential.accessToken))")
-                // GitHub OAuth ID token can be retrieved by calling:
-                // oauthCredential.idToken
-                print("\(String(describing: oauthCredential.idToken))")
-                
             }
         }
     }
     
+    // MARK: - Register New User at Firestore
+    /// Firestore에 새로운 회원을 등록합니다.
+    func registerNewUser(_ user: UserInfo) {
+        database.collection("UserInfo")
+            .document(user.id)
+            .setData([
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "data": Date.now
+            ])
+    }
+    
     // MARK: - Link Existing User
+    /// 이미 Firebase Authenticate에 존재하는 유저를 연결합니다.
     func linkGitHubProviderToExistingUser() {
         if let githubCredential {
             self.authentification.currentUser?.link(with: githubCredential) { authResult, error in
@@ -80,6 +150,7 @@ class GitHubAuthManager: ObservableObject {
     }
     
     // MARK: - Reauthenticate
+    /// Reauthenticate User.
     func reauthenticateUser() {
         if let githubCredential {
             self.authentification.currentUser?.reauthenticate(with: githubCredential) { authResult, error in
@@ -99,6 +170,7 @@ class GitHubAuthManager: ObservableObject {
     }
     
     // MARK: - Sign Out
+    /// 사용자의 깃허브 로그아웃을 진행합니다.
     func signOut() {
         do {
             try authentification.signOut()
@@ -107,4 +179,19 @@ class GitHubAuthManager: ObservableObject {
             print("Error signing out: %@", signOutError)
         }
     }
+}
+
+
+extension GitHubAuthManager {
+    
+    // MARK: - Decode User Data
+    func decodeUserData(_ data: Data) {
+        do {
+            let decodedUser = try JSONDecoder().decode(UserInfo.self, from: data)
+            self.authenticatedUser = decodedUser
+        } catch {
+            print(error)
+        }
+    }
+    
 }
