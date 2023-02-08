@@ -8,7 +8,8 @@
 import Foundation
 import FirebaseAuth
 
-class GithubAuthenticate: ObservableObject {
+class GitHubAuthManager: ObservableObject {
+    static let shared: GitHubAuthManager = GitHubAuthManager() // singleton
     @Published var state: SignInState = .signedOut
 
     var provider = OAuthProvider(providerID: "github.com")
