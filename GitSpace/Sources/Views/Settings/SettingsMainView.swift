@@ -1,5 +1,5 @@
 //
-//  ProfileSettingView.swift
+//  SettingsMainView.swift
 //  GitSpace
 //
 //  Created by 최한호 on 2023/02/08.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileSettingView: View {
+struct SettingsMainView: View {
     
     @AppStorage(Constant.AppStorage.KNOCK_ALL_NOTIFICATION) var isAllNotificationEnabled: Bool?
     @State private var isAllNotiEnabled: Bool = true
@@ -291,8 +291,8 @@ struct ProfileSettingView: View {
     } // body
 }
 
-struct ProfileSettingView_Previews: PreviewProvider {
+struct SettingsMainView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileSettingView()
+        SettingsMainView()
     }
 }

@@ -102,7 +102,7 @@
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
 		70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
-		70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */; };
+		70DB32B42989FAB0004E82AD /* SettingsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SettingsMainView.swift */; };
 		70EDBE4029921DBA00960042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70EDBE3F29921DBA00960042 /* GoogleService-Info.plist */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
@@ -115,7 +115,7 @@
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
-		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		0BF5E35D2977AD5600F3673C /* SettingsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMainView.swift; sourceTree = "<group>"; };
 		22B1F2A5299231B60010FD15 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemNotificationCell.swift; sourceTree = "<group>"; };
 		22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockNotificationCell.swift; sourceTree = "<group>"; };
@@ -246,6 +246,14 @@
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		342773502993DF0300818816 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0BF5E35D2977AD5600F3673C /* SettingsMainView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		34582161298A49AD0058CA4C /* Utilities */ = {
@@ -467,6 +475,7 @@
 				7068B6BA2976950B005D6B7B /* Chat */,
 				703C8449298CA60E00398F2C /* Knock */,
 				7068B6B929769505005D6B7B /* Profile */,
+				342773502993DF0300818816 /* Settings */,
 				347146032991E8DC00ED990C /* GuideCenter */,
 				347146002990BBF500ED990C /* Common */,
 			);
@@ -503,7 +512,6 @@
 			children = (
 				7068B6C12976952B005D6B7B /* MainProfileView.swift */,
 				0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */,
-				0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -679,7 +687,7 @@
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
-				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
+				70DB32B42989FAB0004E82AD /* SettingsMainView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
