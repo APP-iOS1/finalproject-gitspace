@@ -27,7 +27,7 @@ final class GitHubAuthManager: ObservableObject {
     let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
     private var githubCredential: AuthCredential? = nil
-    var authenticatedUser: UserInfo?
+    var authenticatedUser: UserInfoTemp?
     
     enum SignInState {
         case signedIn
@@ -74,15 +74,18 @@ final class GitHubAuthManager: ObservableObject {
                     guard let oauthCredential = authResult?.credential as? OAuthCredential else { return }
                     
                     // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
-                    guard let githubAuthenticatedUserURL = URL(string: "\(GithubURL.baseURL.rawValue)\(GithubURL.userPath.rawValue)") else {
+                    guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
                         return
                     }
+                    print(oauthCredential.accessToken!)
+                    
+                    var session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
                     githubRequest.httpMethod = "GET"
-                    githubRequest.addValue("\(GithubURL.bearer.rawValue) \(oauthCredential.accessToken!))", forHTTPHeaderField: "Authorization")
+                    githubRequest.addValue("Bearer \(oauthCredential.accessToken!)", forHTTPHeaderField: "Authorization")
                     
-                    let task = URLSession.shared.dataTask(with: githubRequest) { data, response, error in
-                        guard error != nil  else {
+                    let task = session.dataTask(with: githubRequest) { data, response, error in
+                        guard error == nil else {
                             print("SignIn Task Error: ", error?.localizedDescription as Any)
                             return
                         }
@@ -93,7 +96,7 @@ final class GitHubAuthManager: ObservableObject {
                         //                    self.decodeUserData(userData)
                         
                         do {
-                            let decodedUser = try JSONDecoder().decode(UserInfo.self, from: userData)
+                            let decodedUser = try JSONDecoder().decode(UserInfoTemp.self, from: userData)
                             self.authenticatedUser = decodedUser
                         } catch {
                             print(error)
@@ -120,14 +123,13 @@ final class GitHubAuthManager: ObservableObject {
     
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    func registerNewUser(_ user: UserInfo) {
+    func registerNewUser(_ user: UserInfoTemp) {
         database.collection("UserInfo")
-            .document(user.id)
+            .document("\(user.id)")
             .setData([
                 "id": user.id,
                 "name": user.name,
-                "email": user.email,
-                "data": Date.now
+                "email": user.email
             ])
     }
     
@@ -187,7 +189,7 @@ extension GitHubAuthManager {
     // MARK: - Decode User Data
     func decodeUserData(_ data: Data) {
         do {
-            let decodedUser = try JSONDecoder().decode(UserInfo.self, from: data)
+            let decodedUser = try JSONDecoder().decode(UserInfoTemp.self, from: data)
             self.authenticatedUser = decodedUser
         } catch {
             print(error)

@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
+import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,

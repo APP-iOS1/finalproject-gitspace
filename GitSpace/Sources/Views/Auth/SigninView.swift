@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SigninView: View {
-    @Environment(\.dismiss) var dismiss
+//    @Environment(\.dismiss) var dismiss
     @StateObject var githubAuthManager: GitHubAuthManager
     
     var body: some View {
@@ -29,6 +29,7 @@ struct SigninView: View {
             ) {
                 print("signin button tapped")
                 githubAuthManager.signIn()
+//                githubAuthManager.state = .signedIn
             } label: {
                 Text("**GitHub Signin**")
             }
