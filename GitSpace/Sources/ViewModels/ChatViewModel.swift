@@ -8,6 +8,13 @@
 // 2. ScrollView == 카카오톡
 // 3. 채팅방 데이터 추가하고 채팅 리스트 Listener 테스트하기
 
+// MEMO: Chat List Listener 단일 패치와 노크 승인 시점에 대한 논의
+/// 1. 노크 승인에 의해 새로운 채팅방이 개설되었을 때, .added에 의해서 해당 채팅방 하나만 로컬 배열에 추가하고, 로컬에서 정렬한다.
+/// 2. lastContent가 변경되었을 때, .modified에 의해 로컬에서 해당 Chat 모델의 lastContent를 업데이트 하고, 로컬에서 정렬한다.
+/// 3. 채팅방이 있고 메세지가 0개일 때, 노크 메세지를 채팅방 Cell에 띄울 수 있는 방법을 논의해야함
+/// 3-1. Knock 쪽에서 승인 시점에 Knock 메세지를 Chat 모델 lastContent에 업데이트 해주는 방법
+/// 3-2. lastContent가 ""일 때 혹은 메세지 배열이 empty일 때, knock message를 View에서 표시
+
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -31,6 +38,7 @@ final class ChatStore: ObservableObject {
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
 extension ChatStore {
+    
     
 }
 
