@@ -16,7 +16,8 @@ struct ChatListSection: View {
                 ForEach(chatStore.targetUserNames.indices, id: \.self) { i in
                     
                     NavigationLink {
-                        ChatRoomView(chat: chatStore.chats[i])
+                        ChatRoomView(chat: chatStore.chats[i],
+                                     targetName: chatStore.targetUserNames[i])
                     } label: {
                         ChatListCell(chat: chatStore.chats[i],
                                      targetUserID: chatStore.targetUserNames[i])
