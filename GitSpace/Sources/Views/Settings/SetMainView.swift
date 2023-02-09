@@ -138,7 +138,7 @@ struct SetMainView: View {
                     // MARK: Knock Controls
                     /// 노크 제어
                     NavigationLink {
-                        KnockSettingView()
+                        //KnockSettingView 
                     } label: {
                         HStack {
                             Image(systemName: "hand.wave")
