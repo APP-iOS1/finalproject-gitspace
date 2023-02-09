@@ -13,15 +13,19 @@ struct ChatListSection: View {
             
             if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
-                ForEach(chatStore.targetUserNames.indices, id: \.self) { i in
+                ForEach(chatStore.chats) { chat in
                     
-                    NavigationLink {
-                        ChatRoomView(chat: chatStore.chats[i],
-                                     targetName: chatStore.targetUserNames[i])
-                    } label: {
-                        ChatListCell(chat: chatStore.chats[i],
-                                     targetUserName: chatStore.targetUserNames[i])
+                    if let targetUserName = chatStore.targetNameDict[chat.id] {
+                        
+                        NavigationLink {
+                            ChatRoomView(chat: chat,
+                                         targetName: targetUserName)
+                        } label: {
+                            ChatListCell(chat: chat,
+                                         targetUserName: targetUserName)
                             .foregroundColor(.black)
+                        }
+                        
                     }
                 }
             } else {
@@ -31,8 +35,10 @@ struct ChatListSection: View {
             }
         }
         .task{
-            chatStore.addListener()
-            await chatStore.fetchChats()
+            if !chatStore.isDoneFetch {
+                chatStore.addListener()
+                await chatStore.fetchChats()
+            }
         }
     }
 }
