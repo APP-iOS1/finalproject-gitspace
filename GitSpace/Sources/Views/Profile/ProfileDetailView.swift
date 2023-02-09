@@ -54,22 +54,6 @@ struct ProfileDetailView: View {
                 .sheet(isPresented: $showKnockSheet) {
                     knockSheetView(kncokMessage: "")
                 }
-                
-                
-//                Button { ///누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
-//                    showKnockSheet.toggle()
-//                } label: {
-//                    Text("Knock")
-//                        .bold()
-//                        .frame(minWidth: 130)
-//                        .foregroundColor(Color(.systemBackground))
-//                        .padding()
-//                        .background(.black)
-//                        .cornerRadius(20)
-//                }
-//                .sheet(isPresented: $showKnockSheet) {
-//                    knockSheetView(kncokMessage: "")
-//                }
             }
             .padding(.vertical)
             
