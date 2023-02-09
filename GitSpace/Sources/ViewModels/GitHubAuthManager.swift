@@ -188,10 +188,8 @@ final class GitHubAuthManager: ObservableObject {
     func withdrawal() async -> Void {
         do {
             await deleteCurrentUser()
-//            DispatchQueue.main.async {
-                try await authentification.currentUser?.delete()
-                state = .signedOut
-//            }
+            try await authentification.currentUser?.delete()
+            state = .signedOut
         } catch let deleteUserError as NSError {
             print(#function, "Error delete user: %@", deleteUserError)
         }
