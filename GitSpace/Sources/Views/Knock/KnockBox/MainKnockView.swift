@@ -456,8 +456,8 @@ struct MainKnockView: View {
             .background {
                 LinearGradient(
                     colors: [
-                        Color.white,
-                        Color.white.opacity(0.4),
+						Color(.systemBackground),
+						Color(.systemBackground).opacity(0.4)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
