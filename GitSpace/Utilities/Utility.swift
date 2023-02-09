@@ -10,7 +10,10 @@ import FirebaseAuth
 
 enum Utility {
     static var loginUserID : String {
-        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
+        //아래는 원태영 userID
+//        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
+        //아래는 정예슬 userID
+        return "u87hDEGpJ6WQcLXe8GM9yaGwT993"
     }
     
     static var MessageCellWidth: CGFloat {
