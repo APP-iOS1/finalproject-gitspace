@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatListCell : View {
     
     var chat: Chat
-    var targetUserID: String
+    var targetUserName: String
     @State private var targetName: String = ""
     @EnvironmentObject var userStore : UserStore
     @EnvironmentObject var chatStore: ChatStore
@@ -24,7 +24,7 @@ struct ChatListCell : View {
 
                 
                 VStack(alignment: .leading) {
-                    Text("@\(targetUserID)")
+                    Text("@\(targetName)")
                         .font(.title3)
                         .bold()
                         .padding(.bottom, 5)
@@ -42,10 +42,10 @@ struct ChatListCell : View {
                 .frame(width: 350)
         }
         .task {
+            targetName = await chat.targetUserName
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)){
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4
             }
         }
-
     }
 }
