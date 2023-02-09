@@ -67,16 +67,29 @@ extension ChatStore {
         }
     }
     
-    private func updateLocalChat() {
-        
+    // MARK: 새로운 메시지가 추가되었을 때 lastContent 등 업데이트 시키고 채팅방 재정렬.
+    /// 변경을 감지해서 lastContent를 뽑아서 로컬 배열에서 채팅방을 찾으러 감(채팅방 ID 필요)
+    ///  그 배열에서 해당 채팅방의 lastContent를 수정
+    private func updateLocalChat(change: QueryDocumentSnapshot) {
+        guard let index = chats.firstIndex(where: { $0.id == change.documentID}) else {
+            return
+        }
+        let newChat = decodeNewChat(change: change)
+        if let newChat {
+            chats[index] = newChat
+        }
+    }
+    
+    private func listenerUpdateChat(change: QueryDocumentSnapshot) {
+        updateLocalChat(change: change)
+        sortChats()
     }
     
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
-    func addListener(chatID: String) {
+    func addListener() {
         listener = db
             .collection("Chat")
-            .document(chatID)
-            .collection("Message")
+            .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
@@ -88,15 +101,14 @@ extension ChatStore {
                     switch diff.type {
                     case .added:
                         print("added")
-                        print(diff.document.documentID)
-                        
                         if self.isListenerAdded {
                             self.listenerAddChat(change: diff.document)
                         }
                         
                     case .modified:
                         print("modified")
-                        print(diff.document.documentID)
+                        self.listenerUpdateChat(change: diff.document)
+                        
                     case .removed:
                         print("removed")
                         
