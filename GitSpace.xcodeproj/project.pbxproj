@@ -27,6 +27,7 @@
 		3427735C2994244A00818816 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3427735E2994244A00818816 /* Localizable.strings */; };
 		34277361299495C000818816 /* SetAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277360299495C000818816 /* SetAccountView.swift */; };
 		34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277362299495EC00818816 /* SetPrivacySafetyView.swift */; };
+		342773652994A98400818816 /* SetLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773642994A98400818816 /* SetLanguageView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -140,6 +141,7 @@
 		3427735F2994249500818816 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34277360299495C000818816 /* SetAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAccountView.swift; sourceTree = "<group>"; };
 		34277362299495EC00818816 /* SetPrivacySafetyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPrivacySafetyView.swift; sourceTree = "<group>"; };
+		342773642994A98400818816 /* SetLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLanguageView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				342773542993E19700818816 /* SetAppearanceView.swift */,
+				342773642994A98400818816 /* SetLanguageView.swift */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
+				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
