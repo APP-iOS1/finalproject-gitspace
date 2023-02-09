@@ -11,12 +11,6 @@ struct SetMainView: View {
     
     @AppStorage("systemAppearance") private var systemAppearance: Int = AppearanceType.allCases.first!.rawValue
     
-    @State private var isAllNotiEnabled: Bool = true
-    @State private var isDeclinedNotiEnabled: Bool = true
-    @State private var isAcceptedNotiEnabled: Bool = true
-//    @State private var appearanceText: String = "Automatic"
-//
-//
     var appearanceText: String? {
         guard let appearance = AppearanceType(rawValue: systemAppearance) else { return nil }
         
@@ -33,129 +27,11 @@ struct SetMainView: View {
     
     var body: some View {
             List {
-                
-                /*
-                // 연구 중
-                Section {
-                    NavigationLink {
-                        StarGuideView()
-                    } label: {
-                        HStack(spacing: 10) {
-                            
-                            Image("GitSpace-Star")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 50)
-                            
-                            VStack(alignment: .leading) {
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: "Star")
-                                
-                                GSText.CustomTextView(
-                                    style: .caption1,
-                                    string: "다시 보고 싶은 레포지토리\nStar 해봅시다!")
-                                .multilineTextAlignment(.leading)
-                            }
-                            
-                            Spacer()
-                        } // HStack
-                    } // NavigationLink
-                }
-                
-                Section {
-                    NavigationLink {
-                        StarGuideView()
-                    } label: {
-                        HStack(spacing: 10) {
-                            
-                            Image("GitSpace-Activity")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 50)
-                            
-                            VStack(alignment: .leading) {
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: "Activity")
-                                
-                                GSText.CustomTextView(
-                                    style: .caption1,
-                                    string: "Follow한 유저들의 활동 보기")
-                                .multilineTextAlignment(.leading)
-                            }
-                            
-                            VStack {
-                                Text("")
-                            }
-                            
-                            Spacer()
-                        } // HStack
-                    } // NavigationLink
-                }
-                
-                Section {
-                    NavigationLink {
-                        KnockGuideView()
-                    } label: {
-                        HStack(spacing: 10) {
-                            
-                            Image("GitSpace-Knock")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 50)
-                            
-                            VStack(alignment: .leading, spacing: 5) {
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: "Knock")
-                                
-                                GSText.CustomTextView(
-                                    style: .caption1,
-                                    string: "정중한 대화의 시작,\n노크에 대한 모든 것")
-                                .multilineTextAlignment(.leading)
-                            }
-                            
-                            VStack {
-                                Text("")
-                            }
-                            
-                            Spacer()
-                        } // HStack
-                    } // NavigationLink
-                }
-                
-                Section {
-                    NavigationLink {
-                        KnockGuideView()
-                    } label: {
-                        HStack(spacing: 10) {
-                            
-                            Image("GitSpace-Chat")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 60)
-                            
-                            VStack(alignment: .leading, spacing: 5) {
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: "Chat")
-                                
-                                GSText.CustomTextView(
-                                    style: .caption1,
-                                    string: "Star한 레포의 기여자들과 대화 나누기")
-                                .multilineTextAlignment(.leading)
-                            }
-                            
-                            Spacer()
-                        } // HStack
-                    } // NavigationLink
-                }
-                // 연구 중
-                */
-                
                 // MARK: - USER SETTINGS
                 Section {
+                    
+                    // MARK: Account Settings
+                    /// 계정
                     NavigationLink {
                         
                     } label: {
@@ -167,6 +43,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Privacy & Safety Settings
+                    /// 개인정보 보호 및 보안
                     NavigationLink {
                         
                     } label: {
@@ -182,6 +60,8 @@ struct SetMainView: View {
                 // MARK: - APP SETTINGS
                 Section {
                     
+                    // MARK: Appearance Settings
+                    /// 디스플레이
                     NavigationLink {
                         SetAppearanceView()
                     } label: {
@@ -199,6 +79,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Accessibility Settings
+                    /// 접근성
                     NavigationLink {
                         
                     } label: {
@@ -210,6 +92,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Language Settings
+                    /// 언어
                     NavigationLink {
                         
                     } label: {
@@ -227,6 +111,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Text & Media Settings
+                    /// 텍스트 및 미디어
                     NavigationLink {
                         
                     } label: {
@@ -238,6 +124,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Notifications Settings
+                    /// 알림
                     NavigationLink {
                         
                     } label: {
@@ -249,6 +137,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Knock Controls
+                    /// 노크 제어
                     NavigationLink {
                         
                     } label: {
@@ -266,6 +156,9 @@ struct SetMainView: View {
                 
                 // MARK: - LEGAL
                 Section {
+                    
+                    // MARK: Licenses
+                    /// 라이센스
                     NavigationLink {
                         
                     } label: {
@@ -275,6 +168,8 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: Terms of Service
+                    /// 이용약관
                     NavigationLink {
                         
                     } label: {
@@ -305,7 +200,6 @@ struct SetMainView: View {
                 }
                 
             } // List
-            //.listStyle(GroupedListStyle())
             .navigationBarTitle("Settings", displayMode: .inline)
         
     } // body
