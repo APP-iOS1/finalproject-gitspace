@@ -16,7 +16,7 @@ struct MainProfileView: View {
 
     var body: some View {
         //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
             ProfileSectionView()
 				.padding(.horizontal, 10)
             Spacer()
