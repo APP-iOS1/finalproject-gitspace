@@ -15,8 +15,11 @@ struct SigninView: View {
         VStack {
             Spacer()
             VStack {
-                Image("GitSpace-Activity")
-                    .padding(.top, 20)
+                Image("GitSpace-Signin")
+//                    .padding(.top, 20)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200)
                 GSText.CustomTextView(style: .title1, string: "Hello, GitSpacer!")
                 GSText.CustomTextView(style: .body1, string: "Welcome to GitSpace.")
                     .padding(5)
@@ -33,7 +36,7 @@ struct SigninView: View {
             } label: {
                 Text("**GitHub Signin**")
             }
-            .padding()
+            .padding(.bottom, 30)
 
         }
     }
