@@ -31,6 +31,7 @@ struct ChatListSection: View {
             }
         }
         .task{
+            chatStore.addListener()
             await chatStore.fetchChats()
         }
     }
