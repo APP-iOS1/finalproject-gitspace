@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ChatRoomInfoView: View {
-    
+
+    let targetName: String
     @State private var notificationStop : Bool = false
     @State private var isBlocked : Bool = false
     @State private var showingBlockAlert : Bool = false
@@ -17,26 +18,11 @@ struct ChatRoomInfoView: View {
     @State private var showingBlockMessage : Bool = false
     @State private var showingDeleteMessage : Bool = false
     
+    
     var body: some View {
         VStack {
             Section{
-                AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/45925685?v=4")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(width: 80)
-                } placeholder: {
-                    ProgressView()
-                }
-                Text("Taeyoung Won")
-                    .font(.headline)
-                    .bold()
-                    .padding(.horizontal, -8)
-                
-                Text("@wontaeyoung")
-                    .font(.subheadline)
-                    .foregroundColor(Color(uiColor: .systemGray))
+                TopperProfileView()
                 
                 Divider()
                     .padding(.horizontal, -10)
@@ -128,6 +114,7 @@ struct ChatRoomInfoView: View {
 
 struct ChatRoomInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatRoomInfoView()
+        ChatRoomInfoView(targetName: "test")
+        
     }
 }
