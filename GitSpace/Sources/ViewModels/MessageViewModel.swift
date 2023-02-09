@@ -12,7 +12,6 @@ import FirebaseFirestore
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
-    @Published var isListenerAdded: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -20,7 +19,6 @@ final class MessageStore: ObservableObject {
     init() {
         messages = []
         isMessageAdded = false
-        isListenerAdded = false
     }
 }
 
@@ -94,8 +92,6 @@ extension MessageStore {
     
 }
 
-
-
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
 extension MessageStore {
     
@@ -135,19 +131,14 @@ extension MessageStore {
                     switch diff.type {
                     case .added:
                         print("added")
-                        print(diff.document.documentID)
                         let newMessage = self.fetchNewMessage(change: diff.document)
                         if let newMessage {
-                            if self.isListenerAdded {
-                                self.messages.append(newMessage)
-                                // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
-                                self.isMessageAdded.toggle()
-                            }
+                            self.messages.append(newMessage)
+                            // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
+                            self.isMessageAdded.toggle()
                         }
-                        
                     case .modified:
                         print("modified")
-                        print(diff.document.documentID)
                     case .removed:
                         print("removed")
                         self.removeDeletedLocalMessage(change: diff.document)
@@ -161,7 +152,6 @@ extension MessageStore {
             return
         }
         listener.remove()
-        isListenerAdded = false
     }
 }
 
