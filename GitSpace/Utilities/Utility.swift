@@ -14,6 +14,8 @@ enum Utility {
 //        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
         //아래는 정예슬 userID
         return "u87hDEGpJ6WQcLXe8GM9yaGwT993"
+        //아래는 홍길동 userID
+//        return "lX1YHIOZiLXVtB76QDIeekxKgt34"
     }
     
     static var MessageCellWidth: CGFloat {
