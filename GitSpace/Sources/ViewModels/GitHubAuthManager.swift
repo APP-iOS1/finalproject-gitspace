@@ -133,6 +133,41 @@ final class GitHubAuthManager: ObservableObject {
             ])
     }
     
+    // MARK: - Sign Out
+    /// 사용자의 깃허브 로그아웃을 진행합니다.
+    func signOut() {
+        do {
+            try authentification.signOut()
+            state = .signedOut
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    // MARK: - Delete User at Authentication
+    /// 사용자의 회원탈퇴를 진행합니다.
+    @MainActor
+    func withdrawal() async -> Void {
+        do {
+            await deleteCurrentUser()
+            try await authentification.currentUser?.delete()
+            state = .signedOut
+        } catch let deleteUserError as NSError {
+            print(#function, "Error delete user: %@", deleteUserError)
+        }
+    }
+    
+    // MARK: - Delete User at Firestore
+    func deleteCurrentUser() async -> Void {
+        do {
+            try await database.collection("UserInfo")
+                .document("\(self.authenticatedUser!.id)")
+                .delete()
+        } catch let deleteUserError as NSError {
+            print(#function, "Error delete user: %@", deleteUserError)
+        }
+    }
+    
     // MARK: - Link Existing User
     /// 이미 Firebase Authenticate에 존재하는 유저를 연결합니다.
     func linkGitHubProviderToExistingUser() {
@@ -168,41 +203,6 @@ final class GitHubAuthManager: ObservableObject {
                 // GitHub OAuth ID token can be retrieved by calling:
                 // (authResult.credential as? OAuthCredential)?.idToken
             }
-        }
-    }
-    
-    // MARK: - Sign Out
-    /// 사용자의 깃허브 로그아웃을 진행합니다.
-    func signOut() {
-        do {
-            try authentification.signOut()
-            state = .signedOut
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-    }
-    
-    // MARK: - Delete User at Authentication
-    /// 사용자의 회원탈퇴를 진행합니다.
-    @MainActor
-    func withdrawal() async -> Void {
-        do {
-            await deleteCurrentUser()
-            try await authentification.currentUser?.delete()
-            state = .signedOut
-        } catch let deleteUserError as NSError {
-            print(#function, "Error delete user: %@", deleteUserError)
-        }
-    }
-    
-    // MARK: - Delete User at Firestore
-    func deleteCurrentUser() async -> Void {
-        do {
-            try await database.collection("UserInfo")
-                .document("\(self.authenticatedUser!.id)")
-                .delete()
-        } catch let deleteUserError as NSError {
-            print(#function, "Error delete user: %@", deleteUserError)
         }
     }
 }
