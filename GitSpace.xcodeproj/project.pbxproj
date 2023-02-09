@@ -23,11 +23,13 @@
 		3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427734D2992A78900818816 /* ActivityGuideView.swift */; };
 		342773552993E19700818816 /* SetAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773542993E19700818816 /* SetAppearanceView.swift */; };
 		342773572993E1BE00818816 /* SetLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773562993E1BE00818816 /* SetLicensesView.swift */; };
-		342773592993E2D000818816 /* SetAppManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773582993E2D000818816 /* SetAppManageView.swift */; };
 		3427735C2994244A00818816 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3427735E2994244A00818816 /* Localizable.strings */; };
 		34277361299495C000818816 /* SetAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277360299495C000818816 /* SetAccountView.swift */; };
 		34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277362299495EC00818816 /* SetPrivacySafetyView.swift */; };
 		342773652994A98400818816 /* SetLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773642994A98400818816 /* SetLanguageView.swift */; };
+		342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773662994AD1B00818816 /* SetTextMediaView.swift */; };
+		342773692994AD3100818816 /* SetNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773682994AD3100818816 /* SetNotificationsView.swift */; };
+		3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -136,12 +138,14 @@
 		3427734D2992A78900818816 /* ActivityGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGuideView.swift; sourceTree = "<group>"; };
 		342773542993E19700818816 /* SetAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAppearanceView.swift; sourceTree = "<group>"; };
 		342773562993E1BE00818816 /* SetLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLicensesView.swift; sourceTree = "<group>"; };
-		342773582993E2D000818816 /* SetAppManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAppManageView.swift; sourceTree = "<group>"; };
 		3427735D2994244A00818816 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3427735F2994249500818816 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34277360299495C000818816 /* SetAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAccountView.swift; sourceTree = "<group>"; };
 		34277362299495EC00818816 /* SetPrivacySafetyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPrivacySafetyView.swift; sourceTree = "<group>"; };
 		342773642994A98400818816 /* SetLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLanguageView.swift; sourceTree = "<group>"; };
+		342773662994AD1B00818816 /* SetTextMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTextMediaView.swift; sourceTree = "<group>"; };
+		342773682994AD3100818816 /* SetNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNotificationsView.swift; sourceTree = "<group>"; };
+		3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWorkingHoursView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -271,7 +275,6 @@
 				34277362299495EC00818816 /* SetPrivacySafetyView.swift */,
 				342773512993E13A00818816 /* AppSettings */,
 				342773522993E14F00818816 /* Legal */,
-				342773532993E15B00818816 /* AppManagement */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -281,6 +284,9 @@
 			children = (
 				342773542993E19700818816 /* SetAppearanceView.swift */,
 				342773642994A98400818816 /* SetLanguageView.swift */,
+				342773662994AD1B00818816 /* SetTextMediaView.swift */,
+				342773682994AD3100818816 /* SetNotificationsView.swift */,
+				3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -291,14 +297,6 @@
 				342773562993E1BE00818816 /* SetLicensesView.swift */,
 			);
 			path = Legal;
-			sourceTree = "<group>";
-		};
-		342773532993E15B00818816 /* AppManagement */ = {
-			isa = PBXGroup;
-			children = (
-				342773582993E2D000818816 /* SetAppManageView.swift */,
-			);
-			path = AppManagement;
 			sourceTree = "<group>";
 		};
 		34582161298A49AD0058CA4C /* Utilities */ = {
@@ -735,6 +733,7 @@
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
+				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
@@ -750,6 +749,7 @@
 				3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
+				342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
@@ -791,6 +791,7 @@
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
+				342773692994AD3100818816 /* SetNotificationsView.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
 				22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */,
@@ -824,7 +825,6 @@
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
 				0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
-				342773592993E2D000818816 /* SetAppManageView.swift in Sources */,
 				6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */,
 				7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */,
 				6E08402E298501B100F51169 /* ProfileView.swift in Sources */,

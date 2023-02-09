@@ -8,8 +8,59 @@
 import SwiftUI
 
 struct SetLanguageView: View {
+    
+    @State var isEnglish: Bool = true
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            
+            Button {
+                isEnglish = true
+            } label: {
+                HStack {
+                    Text("🇺🇸")
+                        .font(.title)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("English, US")
+                        Text("English, US")
+                            .font(.caption2)
+                    }
+                    
+                    Spacer()
+                    if isEnglish {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.gsGreenPrimary)
+                    }
+                }
+                .foregroundColor(.primary)
+            }
+
+            Button {
+                isEnglish = false
+            } label: {
+                HStack {
+                    Text("🇰🇷")
+                        .font(.title)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("한국어 (지원 예정)")
+                        Text("Korean(To be applied)")
+                            .font(.caption2)
+                    }
+                    
+                    Spacer()
+                    if !isEnglish {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.gsGreenPrimary)
+                    }
+                }
+                .foregroundColor(.gsLightGray2)
+            }
+            .disabled(true)
+        }
+        .navigationBarTitle("Language", displayMode: .inline)
     }
 }
 

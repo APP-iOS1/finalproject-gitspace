@@ -9,7 +9,51 @@ import SwiftUI
 
 struct SetAccountView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            // MARK: - APP MANAGEMENT
+            Section {
+                HStack {
+                    Text("Username")
+                    Spacer()
+                    Text("\("wontaeyoung")")
+                }
+            } header: {
+                Text("ACCOUNT INFORMATION")
+            }
+            
+            Section {
+                // MARK: Terms of Service
+                /// 이용약관
+                NavigationLink {
+                    
+                } label: {
+                    HStack {
+                        Text("Blocked Users")
+                        Spacer()
+                        Text("\(0)")
+                    }
+                }
+            }
+            
+            Section {
+                Button(role: .cancel) {
+                    print("로그아웃;; 할거임")
+                } label: {
+                    Text("Logout")
+                }
+                
+                Button(role: .destructive) {
+                    print("회원탈퇴;; 할거임")
+                } label: {
+                    Text("Delete Account")
+                }
+
+            } header: {
+                Text("ACCOUNT MANAGEMENT")
+            }
+            
+        } // List
+        .navigationBarTitle("Account", displayMode: .inline)
     }
 }
 

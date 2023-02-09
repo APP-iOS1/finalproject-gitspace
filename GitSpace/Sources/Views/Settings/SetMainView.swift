@@ -29,11 +29,10 @@ struct SetMainView: View {
             List {
                 // MARK: - USER SETTINGS
                 Section {
-                    
                     // MARK: Account Settings
                     /// 계정
                     NavigationLink {
-                        
+                        SetAccountView()
                     } label: {
                         HStack {
                             Image(systemName: "person.crop.square")
@@ -46,7 +45,7 @@ struct SetMainView: View {
                     // MARK: Privacy & Safety Settings
                     /// 개인정보 보호 및 보안
                     NavigationLink {
-                        
+                        SetPrivacySafetyView()
                     } label: {
                         HStack {
                             Image(systemName: "checkerboard.shield")
@@ -59,7 +58,6 @@ struct SetMainView: View {
                 
                 // MARK: - APP SETTINGS
                 Section {
-                    
                     // MARK: Appearance Settings
                     /// 디스플레이
                     NavigationLink {
@@ -79,23 +77,23 @@ struct SetMainView: View {
                         }
                     }
                     
-                    // MARK: Accessibility Settings
-                    /// 접근성
-                    NavigationLink {
-                        
-                    } label: {
-                        HStack {
-                            Image(systemName: "hand.raised.circle")
-                                .foregroundColor(.gsGray2)
-                            
-                            Text("Accessibility")
-                        }
-                    }
+//                    // MARK: Accessibility Settings
+//                    /// 접근성
+//                    NavigationLink {
+//
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "hand.raised.circle")
+//                                .foregroundColor(.gsGray2)
+//
+//                            Text("Accessibility")
+//                        }
+//                    }
                     
                     // MARK: Language Settings
                     /// 언어
                     NavigationLink {
-                        
+                        SetLanguageView()
                     } label: {
                         HStack {
                             Image(systemName: "globe")
@@ -114,7 +112,7 @@ struct SetMainView: View {
                     // MARK: Text & Media Settings
                     /// 텍스트 및 미디어
                     NavigationLink {
-                        
+                        SetTextMediaView()
                     } label: {
                         HStack {
                             Image(systemName: "captions.bubble")
@@ -127,7 +125,7 @@ struct SetMainView: View {
                     // MARK: Notifications Settings
                     /// 알림
                     NavigationLink {
-                        
+                        SetNotificationsView()
                     } label: {
                         HStack {
                             Image(systemName: "bell.badge.fill")
@@ -140,7 +138,7 @@ struct SetMainView: View {
                     // MARK: Knock Controls
                     /// 노크 제어
                     NavigationLink {
-                        
+                        KnockSettingView()
                     } label: {
                         HStack {
                             Image(systemName: "hand.wave")
@@ -156,16 +154,12 @@ struct SetMainView: View {
                 
                 // MARK: - LEGAL
                 Section {
-                    
                     // MARK: Licenses
                     /// 라이센스
                     NavigationLink {
                         
                     } label: {
-                        HStack {
-                            
                             Text("Licenses")
-                        }
                     }
                     
                     // MARK: Terms of Service
@@ -173,32 +167,12 @@ struct SetMainView: View {
                     NavigationLink {
                         
                     } label: {
-                        HStack {
-                            
                             Text("Terms of Service")
-                        }
                     }
                     
                 } header: {
                     Text("LEGAL")
                 }
-                
-                // MARK: - APP MANAGEMENT
-                Section {
-                    Button(role: .cancel) {
-                        print("모든 캐시를 ;;삭제할거임")
-                    } label: {
-                        HStack {
-                            Text("Clear cache")
-                            Spacer()
-                            Text("\(10) MB")
-                                .foregroundColor(.gsGray2)
-                        }
-                    }
-                } header: {
-                    Text("app Management")
-                }
-                
             } // List
             .navigationBarTitle("Settings", displayMode: .inline)
         

@@ -70,6 +70,7 @@ struct SetAppearanceView: View {
                 }
             }
         }
+        .navigationBarTitle("Appearance", displayMode: .inline)
     } // body
     
     
