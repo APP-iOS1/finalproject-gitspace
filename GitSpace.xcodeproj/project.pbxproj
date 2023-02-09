@@ -25,6 +25,8 @@
 		342773572993E1BE00818816 /* SetLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773562993E1BE00818816 /* SetLicensesView.swift */; };
 		342773592993E2D000818816 /* SetAppManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773582993E2D000818816 /* SetAppManageView.swift */; };
 		3427735C2994244A00818816 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3427735E2994244A00818816 /* Localizable.strings */; };
+		34277361299495C000818816 /* SetAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277360299495C000818816 /* SetAccountView.swift */; };
+		34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277362299495EC00818816 /* SetPrivacySafetyView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -136,6 +138,8 @@
 		342773582993E2D000818816 /* SetAppManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAppManageView.swift; sourceTree = "<group>"; };
 		3427735D2994244A00818816 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3427735F2994249500818816 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34277360299495C000818816 /* SetAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAccountView.swift; sourceTree = "<group>"; };
+		34277362299495EC00818816 /* SetPrivacySafetyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPrivacySafetyView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 			isa = PBXGroup;
 			children = (
 				0BF5E35D2977AD5600F3673C /* SetMainView.swift */,
+				34277360299495C000818816 /* SetAccountView.swift */,
+				34277362299495EC00818816 /* SetPrivacySafetyView.swift */,
 				342773512993E13A00818816 /* AppSettings */,
 				342773522993E14F00818816 /* Legal */,
 				342773532993E15B00818816 /* AppManagement */,
@@ -754,8 +760,10 @@
 				EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
+				34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */,
 				342773572993E1BE00818816 /* SetLicensesView.swift in Sources */,
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
+				34277361299495C000818816 /* SetAccountView.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
