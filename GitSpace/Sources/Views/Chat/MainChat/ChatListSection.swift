@@ -7,7 +7,7 @@ struct ChatListSection: View {
     var body: some View {
         // MARK: -Constant : 채팅방 리스트를 최근순으로 정렬한 리스트
         VStack(alignment: .leading) {
-            Text("My Penpals")
+            Text("My Chats")
                 .font(.footnote)
                 .foregroundColor(Color.gray)
             
@@ -20,7 +20,7 @@ struct ChatListSection: View {
                                      targetName: chatStore.targetUserNames[i])
                     } label: {
                         ChatListCell(chat: chatStore.chats[i],
-                                     targetUserID: chatStore.targetUserNames[i])
+                                     targetUserName: chatStore.targetUserNames[i])
                             .foregroundColor(.black)
                     }
                 }
