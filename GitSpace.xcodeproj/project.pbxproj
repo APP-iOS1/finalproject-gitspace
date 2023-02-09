@@ -251,6 +251,7 @@
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				6E08402229839BD200F51169 /* Utility.swift */,
 				70BE63E4298CA5190060336F /* Constant.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
@@ -377,7 +378,6 @@
 				6E08402A2985013300F51169 /* Profile */,
 				6E08401329838F1B00F51169 /* Chat */,
 				6E08401229838F1600F51169 /* Auth */,
-				6E08402229839BD200F51169 /* Utility.swift */,
 				6E08402F298510E100F51169 /* TabManager.swift */,
 			);
 			path = ListenerTechResearch;
