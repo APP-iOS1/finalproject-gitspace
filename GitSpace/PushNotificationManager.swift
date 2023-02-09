@@ -10,10 +10,11 @@ import Foundation
 final class PushNotificationManager {
 	/// 예시 코드에서 API 키와 테스트용 Device Token은 xcconfig 파일로 캡슐화 하여 사용했습니다.
 	private let serverKey = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
-	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "DEVICE_TOKEN") as? String ?? ""
+	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
 	
 	/// Button을 탭할 때, 아래 메소드를 호출합니다.
 	public func sendPushNoti(url: String) async -> Void {
+		print(deviceToken)
 		
 		/// 이 url 에는 Legacy HTTP의 엔드포인트가 아규먼트로 전달됩니다.
 		/// url == https://fcm.googleapis.com/fcm/send
@@ -29,17 +30,22 @@ final class PushNotificationManager {
 		[
 			/// 특정 기기에 알람을 보내기 위해 "to"를 사용합니다.
 			/// 경우에 따라 Topic 등 다른 용도로 활용할 수 있습니다.
-			"to" : "fGaJW44Wp0UOtH63n_6g7t:APA91bHY5fUK5Y2872Du4kXTz8o706FGCSNaJtOxV01MnyZhjUYaam9QWbk9UxaaNjny_Yg8VnBlWfL45XxrcnN-X6ypeS0nIA7HuouM5e67AgOXsa0LrPjrNZ39j8-31XlqUqI8ZTZc",
+			"to": deviceToken,
 			
 			/// 알람의 내용을 구성하는 키-밸류 입니다.
 			"notification": [
 				"title": messageTitle,
-				"body": messageBody
+				"body": messageBody,
+				"badge": "1"
 			],
 			
 			/// 알람을 보내며 함께 전달할 데이터를 삽입합니다.
-			"data" : [
-				"userName": "valselee"
+			"data": [
+				"GSNotification": [
+					"userName": "Valselee",
+					"from": "DeviceToken2",
+					"navigate": "Knock" // or Chat
+				]
 			]
 		]
 		
@@ -69,4 +75,35 @@ final class PushNotificationManager {
 		}
 		
 	}
+}
+
+struct GSPushNotification: Codable {
+	let aps: GSAps
+	let googleCAE, googleCFid, gcmMessageID, googleCSenderID: String
+	let gsNotification: String
+	
+	enum CodingKeys: String, CodingKey {
+		case aps
+		case googleCAE = "google.c.a.e"
+		case googleCFid = "google.c.fid"
+		case gcmMessageID = "gcm.message_id"
+		case googleCSenderID = "google.c.sender.id"
+		case gsNotification = "GSNotification"
+	}
+}
+
+// MARK: - Aps
+struct GSAps: Codable {
+	let alert: GSNotificationDetail
+	let badge: Int
+}
+
+// MARK: - Alert
+struct GSNotificationDetail: Codable {
+	let body, title: String
+}
+
+// MARK: - GSNotification
+struct GSNotificationData: Codable {
+	let navigate, from, userName: String
 }
