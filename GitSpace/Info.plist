@@ -4,10 +4,16 @@
 <dict>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>PUSH_NOTIFICATION_ENDPOINT</key>
+	<string>$(PUSH_NOTIFICATION_ENDPOINT)</string>
+	<key>SERVER_KEY</key>
+	<string>$(SERVER_KEY)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>VALSE_DEVICE_TOKEN</key>
+	<string>$(VALSE_DEVICE_TOKEN)</string>
 </dict>
 </plist>

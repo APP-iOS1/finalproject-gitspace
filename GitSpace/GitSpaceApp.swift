@@ -84,10 +84,37 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	func userNotificationCenter(_ center: UNUserNotificationCenter,
 								didReceive response: UNNotificationResponse,
 								withCompletionHandler completionHandler: @escaping () -> Void) {
+		/*
+		 1. 유저가 알람을 탭하면 이 메소드가 호출된다.
+		 2. 심어둔 data를 꺼내서 decode 한다.
+		 */
 		let userInfo = response.notification.request.content.userInfo
 		print(#function, "+++ didReceive: userInfo: ", userInfo)
+		
+		do {
+			let newData = try JSONSerialization.data(withJSONObject: userInfo)
+			let newStruct = try JSONDecoder().decode(GSPushNotification.self, from: newData)
+//			let newStruct = try JSONDecoder().decode(GSNotification.self, from: newData)
+
+			print(#function, "++++", newStruct.gsNotification)
+		} catch {
+			dump(error.localizedDescription)
+			dump(error)
+		}
+		
 		completionHandler()
 	}
+	
+//	/* Push Notification의 data Field를 받아오는 메소드 */
+//	func application(
+//		_ application: UIApplication,
+//		didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+//		fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+//	) {
+//		print(userInfo)
+//
+//		completionHandler(UIBackgroundFetchResult.newData)
+//	}
 }
 
 @main
@@ -95,10 +122,25 @@ struct GitSpaceApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let tabBarRouter = GSTabBarRouter()
+	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
+	
     var body: some Scene {
         WindowGroup {
 			
-			Text("?")
+			VStack {
+				if let endpoint {
+					Text("https://\(endpoint)")
+				}
+				Button {
+					Task {
+						let instance = PushNotificationManager()
+						await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+					}
+				} label: {
+					Text("Send")
+				}
+
+			}
 //            ContentView(tabBarRouter: tabBarRouter)
 //                .environmentObject(AuthStore())
 //                .environmentObject(ChatStore())

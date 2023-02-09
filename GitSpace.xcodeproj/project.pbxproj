@@ -63,6 +63,7 @@
 		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
+		702C887A2993907B00F2E979 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702C88792993907B00F2E979 /* PushNotificationManager.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
 		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
@@ -149,6 +150,8 @@
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		701DA8AC298A7CA700FB0C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
+		702C88792993907B00F2E979 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		702C887F2993B82C00F2E979 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
 		7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeModifiers.swift; sourceTree = "<group>"; };
 		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
+				702C887F2993B82C00F2E979 /* Secrets.xcconfig */,
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
@@ -329,6 +333,7 @@
 				70EDBE3F29921DBA00960042 /* GoogleService-Info.plist */,
 				701DA8AC298A7CA700FB0C18 /* Info.plist */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
+				702C88792993907B00F2E979 /* PushNotificationManager.swift */,
 				7068B6A929769448005D6B7B /* ContentView.swift */,
 				34582161298A49AD0058CA4C /* Utilities */,
 				7068B6B529769479005D6B7B /* Sources */,
@@ -637,6 +642,7 @@
 				7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */,
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
+				702C887A2993907B00F2E979 /* PushNotificationManager.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GithubAuthenticate.swift in Sources */,
 				687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */,
 				22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */,
@@ -662,6 +668,7 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 702C887F2993B82C00F2E979 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -722,6 +729,7 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 702C887F2993B82C00F2E979 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -776,6 +784,7 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 702C887F2993B82C00F2E979 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -787,6 +796,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -808,6 +818,7 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 702C887F2993B82C00F2E979 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -819,6 +830,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
