@@ -23,11 +23,11 @@ final class GitHubAuthManager: ObservableObject {
     @Published var state: SignInState = .signedOut
     @Published var githubAcessToken: OAuthCredential?
     
-    let authentification = Auth.auth()
+    var authentification = Auth.auth()
     let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
     private var githubCredential: AuthCredential? = nil
-    var authenticatedUser: UserInfoTemp?
+    var authenticatedUser: GitHubUser?
     
     enum SignInState {
         case signedIn
@@ -65,7 +65,6 @@ final class GitHubAuthManager: ObservableObject {
             }
             
             if let credential {
-            
                 self.authentification.signIn(with: credential) { authResult, error in
                     if error != nil {
                         print("SignIn Error: \(String(describing: error?.localizedDescription))")
@@ -93,23 +92,14 @@ final class GitHubAuthManager: ObservableObject {
                             print("SignIn Decoded Error: ", error?.localizedDescription as Any)
                             return
                         }
-                        //                    self.decodeUserData(userData)
                         
-                        do {
-                            let decodedUser = try JSONDecoder().decode(UserInfoTemp.self, from: userData)
-                            self.authenticatedUser = decodedUser
-                        } catch {
-                            print(error)
-                        }
-                        
+                        self.authenticatedUser = self.decodeData(userData, GitHubUser.self)
+
                         guard self.authenticatedUser != nil else {
                             return
                         }
                         self.registerNewUser(self.authenticatedUser!)
-                        
-                        // TODO: 로그인한 유저의 레포정보 가져오기 (request)
-                        /* */
-                        
+                   
                         DispatchQueue.main.async {
                             self.state = .signedIn
 
@@ -123,7 +113,7 @@ final class GitHubAuthManager: ObservableObject {
     
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    func registerNewUser(_ user: UserInfoTemp) {
+    func registerNewUser(_ user: GitHubUser) {
         database.collection("UserInfo")
             .document("\(user.id)")
             .setData([
@@ -211,12 +201,12 @@ final class GitHubAuthManager: ObservableObject {
 extension GitHubAuthManager {
     
     // MARK: - Decode User Data
-    func decodeUserData(_ data: Data) {
+    func decodeData<T: Decodable>(_ data: Data, _ type: T.Type) -> T? {
         do {
-            let decodedUser = try JSONDecoder().decode(UserInfoTemp.self, from: data)
-            self.authenticatedUser = decodedUser
+            return try JSONDecoder().decode(T.self, from: data)
         } catch {
             print(error)
+            return nil
         }
     }
     
