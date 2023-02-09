@@ -181,6 +181,32 @@ final class GitHubAuthManager: ObservableObject {
             print("Error signing out: %@", signOutError)
         }
     }
+    
+    // MARK: - Delete User at Authentication
+    /// 사용자의 회원탈퇴를 진행합니다.
+    @MainActor
+    func withdrawal() async -> Void {
+        do {
+            await deleteCurrentUser()
+//            DispatchQueue.main.async {
+                try await authentification.currentUser?.delete()
+                state = .signedOut
+//            }
+        } catch let deleteUserError as NSError {
+            print(#function, "Error delete user: %@", deleteUserError)
+        }
+    }
+    
+    // MARK: - Delete User at Firestore
+    func deleteCurrentUser() async -> Void {
+        do {
+            try await database.collection("UserInfo")
+                .document("\(self.authenticatedUser!.id)")
+                .delete()
+        } catch let deleteUserError as NSError {
+            print(#function, "Error delete user: %@", deleteUserError)
+        }
+    }
 }
 
 
