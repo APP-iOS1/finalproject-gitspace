@@ -24,7 +24,6 @@ final class ChatStore: ObservableObject {
     @Published var targetUserNames: [String]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
-    @Published var isListenerAdded: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -33,7 +32,6 @@ final class ChatStore: ObservableObject {
         chats = []
         targetUserNames = []
         isDoneFetch = false
-        isListenerAdded = false
     }
 }
 
@@ -101,9 +99,7 @@ extension ChatStore {
                     switch diff.type {
                     case .added:
                         print("added")
-                        if self.isListenerAdded {
-                            self.listenerAddChat(change: diff.document)
-                        }
+                        self.listenerAddChat(change: diff.document)
                         
                     case .modified:
                         print("modified")
@@ -122,10 +118,8 @@ extension ChatStore {
             return
         }
         listener.remove()
-        isListenerAdded = false
     }
 }
-
 
 // MARK: -Extension : Chat CRUD 관련 메서드를 모아둔 익스텐션
 extension ChatStore {
@@ -134,9 +128,15 @@ extension ChatStore {
     // MARK: Method - Chat Documents
     private func getChatDocuments() async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("Chat").order(by: "lastDate", descending: true).getDocuments()
+            let snapshot = try await db
+                .collection("Chat")
+                .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
+                .order(by: "lastDate", descending: true)
+                .getDocuments()
             return snapshot
-        } catch { }
+        } catch {
+            print("Get Chat Documents Error : \(error)")
+        }
         return nil
     }
     
@@ -155,7 +155,9 @@ extension ChatStore {
                     let targetUserName: String = await chat.targetUserName
                     newChats.append(chat)
                     newTargetUserNames.append(targetUserName)
-                } catch { }
+                } catch {
+                    print("Fetch Chat Error : \(error)")
+                }
             }
         }
         
