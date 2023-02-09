@@ -61,6 +61,14 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    ChatRoomInfoView(targetName: targetName)
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
         }
         .task {
             messageStore.addListener(chatID: chat.id)
