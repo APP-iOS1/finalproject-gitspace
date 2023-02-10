@@ -40,6 +40,7 @@ struct ChatListSection: View {
                 await chatStore.fetchChats()
             }
         }
+        
     }
 }
 
