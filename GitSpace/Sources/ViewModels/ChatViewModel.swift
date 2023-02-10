@@ -32,6 +32,7 @@ final class ChatStore: ObservableObject {
     var targetNameDict: [String : String]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
+    @Published var isListenerModified: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -40,6 +41,7 @@ final class ChatStore: ObservableObject {
         chats = []
         targetNameDict = [:]
         isDoneFetch = false
+        isListenerModified = false
     }
 }
 
@@ -95,7 +97,7 @@ extension ChatStore {
     func addListener() {
         listener = db
             .collection("Chat")
-            .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
+            .whereField("joinUsers", arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
@@ -112,6 +114,7 @@ extension ChatStore {
                     case .modified:
                         print("modified")
                         self.listenerUpdateChat(change: diff.document)
+                        self.isListenerModified.toggle()
                         
                     case .removed:
                         print("removed")
@@ -138,7 +141,7 @@ extension ChatStore {
         do {
             let snapshot = try await db
                 .collection("Chat")
-                .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
+                .whereField("joinUsers", arrayContains: Utility.loginUserID)
                 .order(by: "lastDate", descending: true)
                 .getDocuments()
             return snapshot
