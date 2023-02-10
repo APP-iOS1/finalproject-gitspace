@@ -14,6 +14,7 @@ struct ChatRoomView: View {
     let targetName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
+    @EnvironmentObject var userStore: UserStore
     @State var isShowingUpdateCell: Bool = false
     @State private var contentField: String = ""
     
@@ -63,7 +64,12 @@ struct ChatRoomView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    ChatRoomInfoView(targetName: targetName)
+                    
+                    if let user = userStore.user {
+                        let isNotificationReceiveEnable: Bool = UserDefaults().bool(forKey: Constant.AppStorageConst.CHATROOM_NOTIFICATION + chat.id)
+                        let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetID)
+                        ChatRoomInfoView(chatID: chat.id, targetName: targetName, isBlocked: isChatBlocked, isNotificationReceiveEnable: isNotificationReceiveEnable)
+                    }
                 } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)
@@ -191,7 +197,7 @@ struct ChatRoomView: View {
         
         let chat = Chat(id: chat.id,
                         date: chat.date,
-                        joinUserIDs: chat.joinUserIDs,
+                        joinUsers: chat.joinUsers,
                         lastDate: Date(),
                         lastContent: contentField,
                         knockContent: chat.knockContent,
