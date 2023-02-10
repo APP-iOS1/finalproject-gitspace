@@ -62,7 +62,7 @@ struct AddChatView: View {
             Button {
                 let newChat: Chat = .init(id: UUID().uuidString,
                                           date: Date.now,
-                                          joinUserIDs: [user1, user2],
+                                          joinUsers: [user1, user2],
                                           lastDate: Date.now,
                                           lastContent: "",
                                           knockContent: "",
