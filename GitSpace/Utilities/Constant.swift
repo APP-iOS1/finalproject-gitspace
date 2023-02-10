@@ -18,9 +18,11 @@ public enum Constant {
 	static let KNOCK_SENT: String = "Sent"
     
 	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
-	enum AppStorage {
+	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
 		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+        static let CHATROOM_NOTIFICATION: String = "isChatRoomNotificationEnabled"
+        static let USER_CHAT_BLOCK: String = "isUserChatBlocked"
 	}
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
