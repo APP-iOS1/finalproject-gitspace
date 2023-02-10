@@ -10,6 +10,9 @@ import FirebaseCore
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+	private let notificationState: AppState = AppState.shared
+	public let tabBarRouter = GSTabBarRouter()
+	
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
@@ -35,6 +38,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		
 		application.registerForRemoteNotifications()
+		
+//		/*
+//		 1. Launch Option을 제공
+//		 */
+//		let notificationOption = launchOptions?[.remoteNotification]
+//		if let notification = notificationOption as? [String: AnyObject],
+//		   let aps = notification["aps"] as? [String: AnyObject] {
+//			print(#function, "+++++++", aps)
+//		}
 		
 		// 푸시 포그라운드 설정
 		UNUserNotificationCenter.current().delegate = self
@@ -81,12 +93,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	}
 	
 	/* 전달 알림에 대한 사용자 응답을 처리하도록 대리인에 요청 */
-	func userNotificationCenter(_ center: UNUserNotificationCenter,
-								didReceive response: UNNotificationResponse,
-								withCompletionHandler completionHandler: @escaping () -> Void) {
+	func userNotificationCenter(
+		_ center: UNUserNotificationCenter,
+		didReceive response: UNNotificationResponse,
+		withCompletionHandler completionHandler: @escaping () -> Void
+	) {
 		/*
 		 1. 유저가 알람을 탭하면 이 메소드가 호출된다.
 		 2. 심어둔 data를 꺼내서 decode 한다.
+		 3. data의 navigateTo 에 따라 뷰를 open 한다.
 		 */
 		let userInfo = response.notification.request.content.userInfo
 		print(#function, "+++ didReceive: userInfo: ", userInfo)
@@ -94,9 +109,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		do {
 			let newData = try JSONSerialization.data(withJSONObject: userInfo)
 			let newStruct = try JSONDecoder().decode(GSPushNotification.self, from: newData)
-//			let newStruct = try JSONDecoder().decode(GSNotification.self, from: newData)
 
-			print(#function, "++++", newStruct.gsNotification)
+			print(#function, "++++", newStruct)
+			
+			if newStruct.navigateTo == "knock" {
+				// 탭 이동
+				tabBarRouter.currentPage = .knocks
+			}
+			
+			print(notificationState.pageNavigationTo, notificationState.navigationBindingActive)
+			
 		} catch {
 			dump(error.localizedDescription)
 			dump(error)
@@ -121,33 +143,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 struct GitSpaceApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    let tabBarRouter = GSTabBarRouter()
 	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
 	
     var body: some Scene {
+		let tabBarRouter = delegate.tabBarRouter
+		
         WindowGroup {
 			
-			VStack {
-				if let endpoint {
-					Text("https://\(endpoint)")
-				}
-				Button {
-					Task {
-						let instance = PushNotificationManager()
-						await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
-					}
-				} label: {
-					Text("Send")
-				}
-
-			}
-//            ContentView(tabBarRouter: tabBarRouter)
-//                .environmentObject(AuthStore())
-//                .environmentObject(ChatStore())
-//                .environmentObject(MessageStore())
-//                .environmentObject(UserStore())
-//                .environmentObject(TabManager())
-//                .environmentObject(RepositoryStore())
+            ContentView(tabBarRouter: tabBarRouter)
+                .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(TabManager())
+                .environmentObject(RepositoryStore())
         }
     }
 }
