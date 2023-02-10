@@ -10,13 +10,36 @@ import FirebaseFirestore
 
 class UserStore : ObservableObject {
     
-    @Published var targetUserName: String?
+    @Published var user: UserInfo?
     @Published var users: [UserInfo]
     
     let db = Firestore.firestore()
     
     init(users: [UserInfo] = []) {
         self.users = users
+    }
+    
+    private func getUserDocument(userID: String) async -> DocumentSnapshot? {
+        do {
+            let snapshot = try await db.collection("User").document(userID).getDocument()
+            return snapshot
+        } catch {
+            print("Get User Document Error : \(error)")
+        }
+        return nil
+    }
+    
+    func requestUser(userID: String) async {
+        let document = await getUserDocument(userID: userID)
+        
+        if let document {
+            do {
+                let user: UserInfo = try document.data(as: UserInfo.self)
+                self.user = user
+            } catch {
+                print("Request User Error : \(error)")
+            }
+        }
     }
     
     func fetchUsers() {
@@ -39,19 +62,6 @@ class UserStore : ObservableObject {
                                                         date: date)
                         self.users.append(newUserInfo)
                     }
-                }
-            }
-    }
-    
-    func requestTargetUserName(targetID: String) {
-        
-        db
-            .collection("UserInfo")
-            .document(targetID)
-            .getDocument { (snapshot, error) in
-                if let data = snapshot?.data() {
-                    let name = data["name"] as? String ?? ""
-                    self.targetUserName = name
                 }
             }
     }
