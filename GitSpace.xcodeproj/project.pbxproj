@@ -82,6 +82,7 @@
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
+		6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D10092994D21700D43AB9 /* AddChatView.swift */; };
 		6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6032991EF380043A8BB /* ChatListCell.swift */; };
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
 		6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */; };
@@ -191,6 +192,7 @@
 		6E08402F298510E100F51169 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
+		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				6E08402229839BD200F51169 /* Utility.swift */,
 				70BE63E4298CA5190060336F /* Constant.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
@@ -429,6 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				6E08401C2983961300F51169 /* MainChatView.swift */,
+				6E1D10092994D21700D43AB9 /* AddChatView.swift */,
 				6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */,
 				6E70333D29890ADE00FFC018 /* ChatListSection.swift */,
 				6E38C6032991EF380043A8BB /* ChatListCell.swift */,
@@ -455,7 +459,6 @@
 				6E08402A2985013300F51169 /* Profile */,
 				6E08401329838F1B00F51169 /* Chat */,
 				6E08401229838F1600F51169 /* Auth */,
-				6E08402229839BD200F51169 /* Utility.swift */,
 				6E08402F298510E100F51169 /* TabManager.swift */,
 			);
 			path = ListenerTechResearch;
@@ -757,6 +760,7 @@
 			files = (
 				6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
+				6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */,
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,

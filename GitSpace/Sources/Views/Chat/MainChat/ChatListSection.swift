@@ -3,24 +3,30 @@ import SwiftUI
 struct ChatListSection: View {
     
     @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var userStore: UserStore
     
     var body: some View {
         // MARK: -Constant : 채팅방 리스트를 최근순으로 정렬한 리스트
         VStack(alignment: .leading) {
-            Text("My Penpals")
+            Text("My Chats")
                 .font(.footnote)
                 .foregroundColor(Color.gray)
             
-            if chatStore.isFetchFinished {
+            if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
-                ForEach(chatStore.targetUserNames.indices, id: \.self) { i in
+                ForEach(chatStore.chats) { chat in
                     
-                    NavigationLink {
-                        ChatRoomView(chat: chatStore.chats[i])
-                    } label: {
-                        ChatListCell(chat: chatStore.chats[i],
-                                     targetUserID: chatStore.targetUserNames[i])
+                    if let targetUserName = chatStore.targetNameDict[chat.id] {
+                        
+                        NavigationLink {
+                            ChatRoomView(chat: chat,
+                                         targetUserName: targetUserName)
+                        } label: {
+                            ChatListCell(chat: chat,
+                                         targetUserName: targetUserName)
                             .foregroundColor(.black)
+                        }
+                        
                     }
                 }
             } else {
@@ -30,8 +36,13 @@ struct ChatListSection: View {
             }
         }
         .task{
-            await chatStore.fetchChats()
+            if !chatStore.isDoneFetch {
+                chatStore.addListener()
+                await chatStore.fetchChats()
+            }
+            await userStore.requestUser(userID: Utility.loginUserID)
         }
+        
     }
 }
 
