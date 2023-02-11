@@ -3,6 +3,7 @@ import SwiftUI
 struct ChatListSection: View {
     
     @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var userStore: UserStore
     
     var body: some View {
         // MARK: -Constant : 채팅방 리스트를 최근순으로 정렬한 리스트
@@ -39,6 +40,9 @@ struct ChatListSection: View {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
+            print("유저 패치 :\(Utility.loginUserID)")
+            await userStore.requestUser(userID: Utility.loginUserID)
+            print("유저 완료 : \(userStore.user?.name ?? "ASD")")
         }
         
     }
