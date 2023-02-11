@@ -10,6 +10,15 @@
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
+		225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C4299778A900786B35 /* HTTPRequestMethod.swift */; };
+		225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C5299778A900786B35 /* GitHubAPIError.swift */; };
+		225A22D1299778A900786B35 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C6299778A900786B35 /* HTTPClient.swift */; };
+		225A22D2299778A900786B35 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C7299778A900786B35 /* Endpoint.swift */; };
+		225A22D3299778A900786B35 /* GitHubUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C9299778A900786B35 /* GitHubUser.swift */; };
+		225A22D4299778A900786B35 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22CA299778A900786B35 /* UserResponse.swift */; };
+		225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22CB299778A900786B35 /* RepositoryResponse.swift */; };
+		225A22D6299778A900786B35 /* GitHubAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22CC299778A900786B35 /* GitHubAPIEndpoint.swift */; };
+		225A22D7299778A900786B35 /* GitHubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22CE299778A900786B35 /* GitHubService.swift */; };
 		22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A5299231B60010FD15 /* NotificationView.swift */; };
 		22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */; };
 		22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */; };
@@ -118,6 +127,15 @@
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
+		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
+		225A22C6299778A900786B35 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		225A22C7299778A900786B35 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		225A22C9299778A900786B35 /* GitHubUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubUser.swift; sourceTree = "<group>"; };
+		225A22CA299778A900786B35 /* UserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
+		225A22CB299778A900786B35 /* RepositoryResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryResponse.swift; sourceTree = "<group>"; };
+		225A22CC299778A900786B35 /* GitHubAPIEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIEndpoint.swift; sourceTree = "<group>"; };
+		225A22CE299778A900786B35 /* GitHubService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubService.swift; sourceTree = "<group>"; };
 		22B1F2A5299231B60010FD15 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemNotificationCell.swift; sourceTree = "<group>"; };
 		22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockNotificationCell.swift; sourceTree = "<group>"; };
@@ -234,6 +252,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		225A22C2299778A900786B35 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				225A22C3299778A900786B35 /* Common */,
+				225A22C8299778A900786B35 /* APIModels */,
+				225A22CC299778A900786B35 /* GitHubAPIEndpoint.swift */,
+				225A22CD299778A900786B35 /* Services */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		225A22C3299778A900786B35 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				225A22C4299778A900786B35 /* HTTPRequestMethod.swift */,
+				225A22C5299778A900786B35 /* GitHubAPIError.swift */,
+				225A22C6299778A900786B35 /* HTTPClient.swift */,
+				225A22C7299778A900786B35 /* Endpoint.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		225A22C8299778A900786B35 /* APIModels */ = {
+			isa = PBXGroup;
+			children = (
+				225A22C9299778A900786B35 /* GitHubUser.swift */,
+				225A22CA299778A900786B35 /* UserResponse.swift */,
+				225A22CB299778A900786B35 /* RepositoryResponse.swift */,
+			);
+			path = APIModels;
+			sourceTree = "<group>";
+		};
+		225A22CD299778A900786B35 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				225A22CE299778A900786B35 /* GitHubService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		22B1F2A4299231960010FD15 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,6 +522,7 @@
 		7068B6B529769479005D6B7B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				225A22C2299778A900786B35 /* Network */,
 				22C54130298CE36F00CC89EC /* Router */,
 				7068B6B8297694C2005D6B7B /* Models */,
 				7068B6B7297694BE005D6B7B /* ViewModels */,
@@ -703,13 +762,17 @@
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
+				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
+				225A22D7299778A900786B35 /* GitHubService.swift in Sources */,
 				3471460A2992112000ED990C /* StarGuideView.swift in Sources */,
 				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */,
 				3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
+				225A22D3299778A900786B35 /* GitHubUser.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
+				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
@@ -721,6 +784,9 @@
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
+				225A22D6299778A900786B35 /* GitHubAPIEndpoint.swift in Sources */,
+				225A22D4299778A900786B35 /* UserResponse.swift in Sources */,
+				225A22D1299778A900786B35 /* HTTPClient.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
@@ -742,11 +808,13 @@
 				347146022990BC5200ED990C /* TopperProfileView.swift in Sources */,
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
+				225A22D2299778A900786B35 /* Endpoint.swift in Sources */,
 				6E084030298510E100F51169 /* TabManager.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
+				225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
 				22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */,
