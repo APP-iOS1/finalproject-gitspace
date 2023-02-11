@@ -256,8 +256,8 @@
 			isa = PBXGroup;
 			children = (
 				225A22C3299778A900786B35 /* Common */,
+				225A22D829977C0000786B35 /* Endpoints */,
 				225A22C8299778A900786B35 /* APIModels */,
-				225A22CC299778A900786B35 /* GitHubAPIEndpoint.swift */,
 				225A22CD299778A900786B35 /* Services */,
 			);
 			path = Network;
@@ -290,6 +290,14 @@
 				225A22CE299778A900786B35 /* GitHubService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		225A22D829977C0000786B35 /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				225A22CC299778A900786B35 /* GitHubAPIEndpoint.swift */,
+			);
+			path = Endpoints;
 			sourceTree = "<group>";
 		};
 		22B1F2A4299231960010FD15 /* Notification */ = {
