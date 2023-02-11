@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ChatRoomInfoView: View {
     
-    
     let chat: Chat
-    let targetName: String // 음... 그러면 유저 ID나 객.......... 로그인한 유저 객체? 패치받아야되나
+    let targetUserName: String
     @State var isBlocked: Bool // UserInfo에서 blockedUserIDs를 통해서 계산해서 init 필요
     @State var isNotificationReceiveEnable: Bool // UserDefault에서 읽어와서 할당해야 함
     @State private var showingBlockAlert: Bool = false
@@ -52,7 +51,7 @@ struct ChatRoomInfoView: View {
                 
             } label: {
                 Text(isBlocked ? "Unblock" : "Block") +
-                Text(" \(targetName)")
+                Text(" \(targetUserName)")
                     .bold()
             }
             .padding(.vertical, 20)
@@ -71,7 +70,7 @@ struct ChatRoomInfoView: View {
             UserDefaults().set([chat.id : newValue],
                                forKey: Constant.AppStorageConst.CHATROOM_NOTIFICATION)
         })
-        .alert("Block @\(targetName)", isPresented: $showingBlockAlert) {
+        .alert("Block @\(targetUserName)", isPresented: $showingBlockAlert) {
             Button("Block", role: .destructive) {
                 isBlocked.toggle()
                 Task {
@@ -80,9 +79,9 @@ struct ChatRoomInfoView: View {
             }
         } message: {
             //상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다. 차단하시겠습니까?
-            Text("@\(targetName) will no longer be able to follow or message you, and you will not see notifications from @wontaeyoung")
+            Text("@\(targetUserName) will no longer be able to follow or message you, and you will not see notifications from @wontaeyoung")
         }
-        .alert("Unblock @\(targetName)",
+        .alert("Unblock @\(targetUserName)",
                isPresented: $showingUnblockAlert) {
             Button("Unblock",
                    role: .destructive) {
@@ -93,7 +92,7 @@ struct ChatRoomInfoView: View {
             }
         } message: {
             // 차단을 해제하면 상대방이 보내는 메세지를 다시 받을 수 있습니다. 차단 해체하시겠습니까?
-            Text("@\(targetName) will be able to follow or message you, and you will see notifications from @\(targetName)")
+            Text("@\(targetUserName) will be able to follow or message you, and you will see notifications from @\(targetUserName)")
         }
         .alert("Delete conversation?", isPresented: $showingDeleteChatAlert) {
             Button("Delete", role: .destructive) {
