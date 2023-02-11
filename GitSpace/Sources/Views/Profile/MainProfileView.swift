@@ -18,14 +18,14 @@ struct MainProfileView: View {
         //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
         VStack(alignment: .leading) {
             ProfileSectionView()
-				.padding(.horizontal, 10)
+				.padding(.horizontal, 20)
             Spacer()
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
-        .toolbar{
+        .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing){
-                
+                 
                 Button {
                     showGuideCenter.toggle()
                 } label: {

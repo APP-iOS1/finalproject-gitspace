@@ -94,7 +94,6 @@ struct SendKnockView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.primary)
                                     .bold()
-                                    .padding(-10)
                                     .padding(EdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13))
                             } // button: Offer
                         
@@ -110,7 +109,6 @@ struct SendKnockView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.primary)
                                     .bold()
-                                    .padding(-10)
                             } // button: Question
                     } // HStack
                     
