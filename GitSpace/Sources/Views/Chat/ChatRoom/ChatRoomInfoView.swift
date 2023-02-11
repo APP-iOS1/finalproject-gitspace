@@ -9,16 +9,15 @@ import SwiftUI
 
 struct ChatRoomInfoView: View {
     
-    let chatID: String
+    
+    let chat: Chat
     let targetName: String // 음... 그러면 유저 ID나 객.......... 로그인한 유저 객체? 패치받아야되나
     @State var isBlocked: Bool // UserInfo에서 blockedUserIDs를 통해서 계산해서 init 필요
     @State var isNotificationReceiveEnable: Bool // UserDefault에서 읽어와서 할당해야 함
-    
     @State private var showingBlockAlert: Bool = false
     @State private var showingUnblockAlert: Bool = false
     @State private var showingDeleteChatAlert: Bool = false
-    @State private var showingBlockMessage: Bool = false
-    @State private var showingDeleteMessage: Bool = false
+    @EnvironmentObject var userStore: UserStore
     
     var body: some View {
         VStack {
@@ -34,10 +33,10 @@ struct ChatRoomInfoView: View {
                 VStack(alignment: .leading) {
                     // 알림
                     GSText.CustomTextView(style: .title2,
-                                          string: "Notification")
+                                          string: "Notifications")
                     
                     // 알림 일시중지
-                    Toggle("Snooze notifications", isOn: $isNotificationReceiveEnable)
+                    Toggle("Notifications Receive Enable", isOn: $isNotificationReceiveEnable)
                 }
                 
                 Divider()
@@ -69,23 +68,27 @@ struct ChatRoomInfoView: View {
         }
         .padding(.horizontal, 20)
         .onChange(of: isNotificationReceiveEnable, perform: { newValue in
-            UserDefaults().set(newValue, forKey: Constant.AppStorageConst.CHATROOM_NOTIFICATION + chatID)
+            UserDefaults().set([chat.id : newValue],
+                               forKey: Constant.AppStorageConst.CHATROOM_NOTIFICATION)
         })
         .alert("Block @\(targetName)", isPresented: $showingBlockAlert) {
             Button("Block", role: .destructive) {
                 isBlocked.toggle()
-                showingBlockMessage = true
+                Task {
+                    await userStore.updateIsTartgetUserBlocked(blockCase:.block, targetUserID: chat.targetID)
+                }
             }
         } message: {
-//상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다. 차단하시겠습니까?
+            //상대방을 차단하면 상대방이 보내는 메세지를 더 이상 볼 수 없습니다. 차단하시겠습니까?
             Text("@\(targetName) will no longer be able to follow or message you, and you will not see notifications from @wontaeyoung")
         }
-        .alert("Unblock @\(targetName)", isPresented: $showingUnblockAlert) {
-            Button("Unblock", role: .destructive) {
+        .alert("Unblock @\(targetName)",
+               isPresented: $showingUnblockAlert) {
+            Button("Unblock",
+                   role: .destructive) {
                 isBlocked.toggle()
-                showingBlockMessage = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    showingBlockMessage = false
+                Task {
+                    await userStore.updateIsTartgetUserBlocked(blockCase:.unblock, targetUserID: chat.targetID)
                 }
             }
         } message: {
@@ -94,22 +97,12 @@ struct ChatRoomInfoView: View {
         }
         .alert("Delete conversation?", isPresented: $showingDeleteChatAlert) {
             Button("Delete", role: .destructive) {
-                showingDeleteMessage = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    showingDeleteMessage = false
-                }
+                print("대화방 삭제")
             }
         } message: {
             // 대화를 삭제하면 지금까지 한 대화가 모두 사라지며 복구할 수 없습니다. 삭제하시겠습니까?
             Text("This conversation will be deleted and cannot be recovered.\nAre you sure?")
         }
-    }
-}
-
-struct ChatRoomInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatRoomInfoView(chatID: "a", targetName: "test", isBlocked: false)
-        
     }
 }
 
