@@ -12,15 +12,25 @@ struct SetWorkingHoursView: View {
     @AppStorage("isWorkingHours") var isWorkingHours: Bool = false
     @AppStorage("isWorkingHoursCustom") var isWorkingHoursCustom: Bool = false
     
-    @State var fromDate = Date()
-    @State var toDate = Date()
+    @AppStorage("WorkingHoursFrom") var workingHoursFrom: String = "09:00"
+    @AppStorage("WorkingHoursTo") var workingHoursTo: String = "18:00"
+    
     
     let formatter = DateFormatter()
-//    formatter.dateFormat = "HH:mm"
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }
+    
+    
+    @State var fromDate: Date = Date()
+    @State var toDate: Date = Date()
+    
 //
-//
-//    @AppStorage("WorkingHoursFrom") var workingHoursFrom: String = formatter.string(from: fromDate)
-//    @AppStorage("WorkingHoursTo") var workingHoursTo: String = formatter.string(from: toDate)
+//    @State var fromDate: Date = dateFormatter.date(from: workingHoursFrom)!
+//    @State var toDate: Date = dateFormatter.date(from: workingHoursTo)!
 //
     
     
@@ -48,7 +58,6 @@ struct SetWorkingHoursView: View {
                     } header: {
                         Text("SET SCEHDULE")
                     } // Section
-                    
                     
                     Section {
                         Button {

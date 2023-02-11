@@ -27,15 +27,10 @@ extension AppearanceType {
     }
 }
 
-
-
 struct SetAppearanceView: View {
     
     @AppStorage("systemAppearance") private var systemAppearance: Int = AppearanceType.allCases.first!.rawValue
 
-    //@Binding var appearanceText: String
-    
-    
     var selectedAppearance: ColorScheme? {
         guard let appearance = AppearanceType(rawValue: systemAppearance) else { return nil }
         
@@ -77,11 +72,11 @@ struct SetAppearanceView: View {
     func appearancePrint(item: AppearanceType) {
         switch item {
         case .auto:
-            print("Appearance: Automatic -시스템 설정을 따릅니다.")
+            print("[Appearance] Automatic: 시스템 설정을 따릅니다.")
         case .light:
-            print("Appearance: Light 모드로 변경합니다.")
+            print("[Appearance] Light 모드로 변경합니다.")
         case .dark:
-            print("Appearance: Dark 모드로 변경합니다.")
+            print("[Appearance] Dark 모드로 변경합니다.")
         }
     }
 }
