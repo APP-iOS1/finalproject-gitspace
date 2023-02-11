@@ -97,7 +97,7 @@ extension ChatStore {
     func addListener() {
         listener = db
             .collection("Chat")
-            .whereField("joinUsers", arrayContains: Utility.loginUserID)
+            .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
@@ -141,7 +141,7 @@ extension ChatStore {
         do {
             let snapshot = try await db
                 .collection("Chat")
-                .whereField("joinUsers", arrayContains: Utility.loginUserID)
+                .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
                 .order(by: "lastDate", descending: true)
                 .getDocuments()
             return snapshot
@@ -151,7 +151,7 @@ extension ChatStore {
         return nil
     }
     
-
+    
     @MainActor
     func fetchChats() async {
         let snapshot = await getChatDocuments()
@@ -183,20 +183,30 @@ extension ChatStore {
             try db.collection("Chat")
                 .document(chat.id)
                 .setData(from: chat.self)
-        } catch { }
+        } catch {
+            print("Add Chat Error : \(error.localizedDescription)")
+        }
     }
     
-    func updateChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .updateData(["lastDate" : chat.lastDate,
-                         "lastContent" : chat.lastContent])
+    func updateChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id)
+                .updateData(["lastDate" : chat.lastDate,
+                             "lastContent" : chat.lastContent])
+        } catch {
+            print("Update Chat Error : \(error.localizedDescription)")
+        }
         
     }
     
-    func removeChat(_ chat: Chat) {
-        db.collection("Chat")
-            .document(chat.id)
-            .delete()
+    func removeChat(_ chat: Chat) async {
+        do {
+            try await db.collection("Chat")
+                .document(chat.id)
+                .delete()
+        } catch {
+            print("Remove Chat Error : \(error.localizedDescription)")
+        }
     }
 }
