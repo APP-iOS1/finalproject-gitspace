@@ -10,7 +10,7 @@ import SwiftUI
 struct StarredView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var repositoryStore: RepositoryStore
+    @EnvironmentObject var repositoryStore: RepositoryViewModel
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false

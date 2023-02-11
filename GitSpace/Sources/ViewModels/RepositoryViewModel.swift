@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RepositoryStore: ObservableObject {
+class RepositoryViewModel: ObservableObject {
     // MARK: - Dummy Tag Data
     @Published var tagList: [Tag] = [
         Tag(name: "SwiftUI"),

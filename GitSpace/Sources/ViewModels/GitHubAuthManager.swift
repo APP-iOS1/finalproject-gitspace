@@ -14,6 +14,8 @@ import FirebaseFirestoreSwift
 enum GithubURL: String {
     case baseURL = "https://api.github.com"
     case userPath = "/user"
+    case starredPath = "/starred"
+
     case bearer = "Bearer"
 }
 

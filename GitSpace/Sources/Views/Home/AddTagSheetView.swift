@@ -10,7 +10,7 @@ import SwiftUIFlowLayout
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var repositoryStore: RepositoryStore
+    @EnvironmentObject var repositoryStore: RepositoryViewModel
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State private var tagInput: String = ""
@@ -160,7 +160,7 @@ struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             AddTagSheetView(preSelectedTags: .constant( [Tag(name: "MVVM")] ), selectedTags: [])
-                .environmentObject(RepositoryStore())
+                .environmentObject(RepositoryViewModel())
         }
     }
 }

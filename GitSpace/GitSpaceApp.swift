@@ -113,7 +113,7 @@ struct GitSpaceApp: App {
                 .environmentObject(MessageStore())
                 .environmentObject(UserStore())
                 .environmentObject(TabManager())
-                .environmentObject(RepositoryStore())
+                .environmentObject(RepositoryViewModel())
                 .environmentObject(GitHubAuthManager())
         }
     }
