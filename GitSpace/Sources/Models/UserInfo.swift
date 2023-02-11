@@ -5,6 +5,8 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
+// TODO: Chat팀과 혀이 유저 모델링 논의 필요
+
 import Foundation
 
 struct UserInfo : Identifiable, Codable {
