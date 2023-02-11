@@ -11,7 +11,7 @@ import SwiftUI
 struct ChatRoomView: View {
     
     let chat: Chat
-    let targetName: String
+    let targetUserName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
@@ -57,7 +57,7 @@ struct ChatRoomView: View {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 10) {
                     ProfileAsyncImage(size: 30)
-                    Text(targetName)
+                    Text(targetUserName)
                         .bold()
                         .padding(.horizontal, -8)
                 }
@@ -83,7 +83,7 @@ struct ChatRoomView: View {
     // MARK: View : message cells ForEach문
     private var messageCells: some View {
         ForEach(messageStore.messages) { message in
-            MessageCell(message: message, targetName: targetName)
+            MessageCell(message: message, targetName: targetUserName)
                 .contextMenu {
                     /* FIXME: 업데이트 sheet에서 타겟 Message를 정확하게 받아오지 못하는 이슈가 있어서 주석처리 By.태영
                     Button {
@@ -241,7 +241,7 @@ struct ChatRoomView: View {
                 let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetID)
                 // 5
                 ChatRoomInfoView(chat: chat,
-                                 targetName: targetName,
+                                 targetUserName: targetUserName,
                                  isBlocked: isChatBlocked,
                                  isNotificationReceiveEnable: isNotificationReceiveEnable ?? true)
             }
