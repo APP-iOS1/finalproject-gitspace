@@ -8,7 +8,6 @@
 import Foundation
 
 /**
- 
  GitHub REST API에서 제공하는 기능 중에 GitSpace 앱 내에서 사용할 기능들을 정리합니다.
  - Author: 제균
  */
@@ -41,7 +40,7 @@ protocol GitHubServiceProtocol {
     /// 특정 레포지토리의 contributor 목록을 요청하는 함수
     func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[UserResponse], GitHubAPIError>
     
-    
+    // TODO: - 필요한 API 기능을 추가로 작성합니다.
 }
 
 /// GitHubService 구현부
