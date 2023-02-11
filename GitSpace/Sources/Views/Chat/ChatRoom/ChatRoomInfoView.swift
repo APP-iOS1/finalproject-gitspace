@@ -74,7 +74,7 @@ struct ChatRoomInfoView: View {
             Button("Block", role: .destructive) {
                 isBlocked.toggle()
                 Task {
-                    await userStore.updateIsTartgetUserBlocked(blockCase:.block, targetUserID: chat.targetID)
+                    await userStore.updateIsTartgetUserBlocked(blockCase:.block, targetUserID: chat.targetUserID)
                 }
             }
         } message: {
@@ -87,7 +87,7 @@ struct ChatRoomInfoView: View {
                    role: .destructive) {
                 isBlocked.toggle()
                 Task {
-                    await userStore.updateIsTartgetUserBlocked(blockCase:.unblock, targetUserID: chat.targetID)
+                    await userStore.updateIsTartgetUserBlocked(blockCase:.unblock, targetUserID: chat.targetUserID)
                 }
             }
         } message: {
