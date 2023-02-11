@@ -27,6 +27,7 @@ extension View {
     
     // MARK: - 팔로워, 레포 숫자를 처리를 위한 extension
     /// String 타입으로 된 숫자 데이터를 받아와 소수점 처리 후 단위를 붙여 String 타입으로 반환
+    /// TODO: API에서 숫자가 Int로 들어와서 수정해줘야함
     /// 예: "3300" -> "3.3k"
     func handleCountUnit(countInfo: String) -> String {
         var handledCount: String

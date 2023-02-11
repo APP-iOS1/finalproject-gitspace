@@ -29,4 +29,11 @@ struct GitHubUser: Identifiable, Codable {
     var login: String   // github id
     var name : String?  // username
     var email : String? // email
+    var avatar_url: String // profile image
+    var bio: String? // bio, intro message
+    var location: String? // location 
+    var blog: String? // blog url
+    var followers: Int // followers
+    var following: Int // following
 }
+
