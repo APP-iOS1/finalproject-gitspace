@@ -9,9 +9,17 @@ import Foundation
 
 // MARK: - Temporary Repository Sturct
 struct Repository: Identifiable {
-    var id: String = UUID().uuidString
+    var id: Int
     var name: String
-    var owner: String
+    var fullName: String
+    var owner: GitHubUser
     var description: String
     var tags: [Int]?
+    var isPrivate: Bool
+    var stargazers_count: Int
+    
+    enum CodingKeys : String, CodingKey{
+        case fullName = "full_name"
+        case isPrivate = "private"
+    }
 }
