@@ -32,10 +32,7 @@
 		3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471460E2992217A00ED990C /* ReportGuideView.swift */; };
 		347146122992253600ED990C /* GuideBlockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146112992253600ED990C /* GuideBlockSection.swift */; };
 		347146142992254200ED990C /* BlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146132992254200ED990C /* BlockGuideView.swift */; };
-		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* KnockSettingView.swift */; };
-		34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
-		34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
@@ -80,6 +77,9 @@
 		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
+		700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D5299771B5008C94C7 /* KnockViewManager.swift */; };
+		700A11D8299774A0008C94C7 /* Knock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D7299774A0008C94C7 /* Knock.swift */; };
+		7019EDBD2997EC7700135F26 /* PinnedViewHeaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
 		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
@@ -96,6 +96,9 @@
 		706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE442988E84700284F0F /* KnockHistoryViewModel.swift */; };
 		706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE462988FBE000284F0F /* Date+DateDiff.swift */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
+		708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
+		708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
+		708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
 		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
 		70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */; };
@@ -180,6 +183,9 @@
 		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		700A11D5299771B5008C94C7 /* KnockViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockViewManager.swift; sourceTree = "<group>"; };
+		700A11D7299774A0008C94C7 /* Knock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knock.swift; sourceTree = "<group>"; };
+		7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewHeaderModifier.swift; sourceTree = "<group>"; };
 		701DA8AC298A7CA700FB0C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
@@ -415,6 +421,7 @@
 				7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */,
 				0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */,
 				22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */,
+				7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -504,6 +511,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0840162983906F00F51169 /* Message.swift */,
+				700A11D7299774A0008C94C7 /* Knock.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
 				6E0840262983BB9A00F51169 /* UserInfo.swift */,
 				687AE54F298FA22500113ABF /* Repository.swift */,
@@ -552,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				706BDE442988E84700284F0F /* KnockHistoryViewModel.swift */,
+				700A11D5299771B5008C94C7 /* KnockViewManager.swift */,
 			);
 			path = KnockHistory;
 			sourceTree = "<group>";
@@ -688,13 +697,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */,
+				708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */,
+				708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */,
 				6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
+				7019EDBD2997EC7700135F26 /* PinnedViewHeaderModifier.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
+				700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */,
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
@@ -702,9 +716,7 @@
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
 				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
-				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				3471460A2992112000ED990C /* StarGuideView.swift in Sources */,
-				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */,
 				3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
@@ -720,8 +732,6 @@
 				22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */,
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */,
-				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
-				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
@@ -747,6 +757,7 @@
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
+				700A11D8299774A0008C94C7 /* Knock.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
 				22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */,
@@ -770,10 +781,8 @@
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */,
 				70BE63E5298CA5190060336F /* Constant.swift in Sources */,
-				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */,
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
-				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
