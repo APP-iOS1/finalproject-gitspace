@@ -13,20 +13,12 @@ struct KnockHistoryView: View {
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			VStack(alignment: .center) {
-				VStack {
-					Image(systemName: "circle")
-						.resizable()
-						.frame(width: 40, height: 40)
-						.padding(.top, 24)
-					
-					Text("Your Knock message is sent to")
-					Text("**\(eachKnock.receiverID)**")
-						.multilineTextAlignment(.center)
-				}
-			} // VStack
-			.font(.title3)
-			.padding(.bottom, 12)
+			TopperProfileView()
+			
+			Text("Your Knock Message is \nsent to **guguhanogu**")
+				.multilineTextAlignment(.center)
+				.font(.footnote)
+				.padding(.bottom, 4)
 			
 			Text(eachKnock.date.formattedDateString())
 				.foregroundColor(.gray)
@@ -73,8 +65,21 @@ struct KnockHistoryView: View {
 					.padding(.horizontal, 10)
 			} // Knock Message Bubble
 			
+			if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
+				GSButton.CustomButtonView(
+					style: .secondary(
+						isDisabled: false
+					)) {
+						print()
+					} label: {
+						Text("Move To Chat List")
+							.bold()
+					}
+					.padding(.top, 8)
+			}
+			
 			Divider()
-				.padding(.top, 40)
+				.padding(.top, 8)
 				.padding(.bottom, 30)
 			
 			HStack {
@@ -177,19 +182,6 @@ struct KnockHistoryView: View {
 								.font(.footnote)
 						}
 					}
-					
-					VStack {
-						GSButton.CustomButtonView(
-							style: .secondary(
-								isDisabled: false
-							)) {
-								print()
-							} label: {
-								Text("Move To Chat List")
-									.bold()
-							}
-							.padding(.top, 8)
-					}
 				case "Declined":
 					HStack(alignment: .top, spacing: 32) {
 						Circle()
@@ -226,8 +218,6 @@ struct KnockHistoryView: View {
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {
-					Image(systemName: "star")
-					
 					Text("**\(eachKnock.receiverID)**")
 				}
 			}
@@ -242,7 +232,7 @@ struct KnockHistoryView_Previews: PreviewProvider {
 				eachKnock: Knock(
 					date: Date.now,
 					knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
-					knockStatus: "Declined",
+					knockStatus: "Accepted",
 					knockCategory: "Offer",
 					declineMessage: "I am Currently Employeed, sorry.",
 					receiverID: "HEYHEYHEYHEY",

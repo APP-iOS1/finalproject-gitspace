@@ -16,166 +16,175 @@ struct ProfileDetailView: View {
     //knock 버튼 눌렀을 때 sheet view 띄우는 것에 대한 Bool state var.
     @State var showKnockSheet: Bool = false
     
+    
     var body: some View {
-        //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
-        VStack(alignment: .leading, spacing: 10){
+        // MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
+        VStack(alignment: .leading, spacing: 10) {
             
             ProfileSectionView()
             
-            HStack{ //MARK: - follow, knock 버튼을 위한 stack
-                Button { /// 누르면 follow, unfollow로 전환
-                    followButtonLable == "Unfollow" ? (followButtonLable = "+ Follow") : (followButtonLable = "Unfollow")
+            // 내 프로필이 아니라 타인의 프로필에 뜨는 버튼
+            HStack { // MARK: - follow, knock 버튼을 위한 stack
+                
+                // 누르면 follow, unfollow로 전환
+                GSButton.CustomButtonView(
+                    style: .secondary(isDisabled: false)
+                ) {
+                    withAnimation {
+                        followButtonLable == "Unfollow" ? (followButtonLable = "+ Follow") : (followButtonLable = "Unfollow")
+                    }
                 } label: {
-                    Text(self.followButtonLable)
-                        .bold()
-                        .frame(minWidth: 130)
-                        .foregroundColor(Color(.systemBackground))
-                        .padding()
-                        .background(.black)
-                        .cornerRadius(20)
+                    GSText.CustomTextView(style: .title3, string: self.followButtonLable)
+                        .frame(maxWidth: .infinity)
                 }
                 
                 Spacer()
+                    .frame(width: 10)
                 
-                Button { ///누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
-                    showKnockSheet.toggle()
+                // 누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
+                GSButton.CustomButtonView(
+                    style: .secondary(isDisabled: false)
+                ) {
+                    withAnimation {
+                        showKnockSheet.toggle()
+                    }
                 } label: {
-                    Text("Knock")
-                        .bold()
-                        .frame(minWidth: 130)
-                        .foregroundColor(Color(.systemBackground))
-                        .padding()
-                        .background(.black)
-                        .cornerRadius(20)
+                    GSText.CustomTextView(style: .title3, string: "Knock")
+                        .frame(maxWidth: .infinity)
                 }
-                .sheet(isPresented: $showKnockSheet){
-                    knockSheetView(kncokMessage: "")
+                .sheet(isPresented: $showKnockSheet) {
+                    SendKnockView()
                 }
             }
-            .padding(.vertical)
+            .padding(.vertical, 20)
             
             Divider()
-                .frame(height: 2)
-                .overlay(.gray)
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
             
             Spacer()
             
         }
-        .padding()
-
     }
     
 }
 
-//MARK: - 재사용되는 profile section을 위한 뷰 (이미지, 이름, 닉네임, description, 위치, 링크, 팔로잉 등)
+
+
+// MARK: - 재사용되는 profile section을 위한 뷰 (이미지, 이름, 닉네임, description, 위치, 링크, 팔로잉 등)
 struct ProfileSectionView: View {
+    
+    // FIXME: 나중에 상위 뷰에서 받아올 데이터
+    let followerCount: String = "1900"
+    let followingCount: String = "1200"
+    
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 10){
-            HStack{ //MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
+        VStack(alignment: .leading, spacing: 8){
+            HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
                 Image(systemName: "person.crop.circle")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 100)
+                    .frame(height: 60)
+                    .padding(.trailing, 8)
 
-
-                VStack(alignment: .leading){ // 이름, 닉네임
-                    Text("UserName")
-                        .font(.headline)
-                        .bold()
-                    //Spacer()
-                        //.frame(height: 20)
-                    Text("@UserNickname")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                VStack(alignment: .leading) { // 이름, 닉네임
+                    GSText.CustomTextView(style: .title2, string: "Random Brazil Guy")
+                    Spacer()
+                        .frame(height: 8)
+                    GSText.CustomTextView(style: .description, string: "@randombrazilguy")
                 }
                 
 				Spacer()
             }
-            .padding(.bottom, 5)
             
-            //MARK: - 프로필 자기 ..설명..?
             
+            // MARK: - 프로필 자기 ..설명..?
             HStack {
                 Text("Hi! I'm Random Brazil Guy!")
                 Spacer()
             }
-            .padding()
+            .padding(15)
             .font(.callout)
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.leading)
-            // FIXME: - gsGray색상으로 변경 필요
-            .background(Color(.systemGray3))
+            .background(Color.gsGray3)
             .clipShape(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
             )
+            .padding(.vertical, 20)
                 
             
-            HStack{ //MARK: - 위치 이미지, 국가 및 위치
+            HStack { // MARK: - 위치 이미지, 국가 및 위치
                 Image(systemName: "mappin.and.ellipse")
-                Text("Brazil, South America")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.gsGray2)
+                GSText.CustomTextView(style: .description, string: "Brazil, South America")
             }
             .foregroundColor(Color(.systemGray))
-            HStack{ //MARK: - 링크 이미지, 블로그 및 기타 링크
+            HStack{ // MARK: - 링크 이미지, 블로그 및 기타 링크
                 Image(systemName: "link")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.gsGray2)
                 Button {
                     
                 } label: {
                     HStack {
                         Link(destination: URL(string: "https://yeseul-programming.tistory.com")!) {
-                            Text("yeseul-programming.tistory.com")
-                                .font(.callout)
-                                .foregroundColor(.primary)
+                            
+                            GSText.CustomTextView(style: .body1, string: "yeseul-programming.tistory.com")
                         }
                     }
                 }
             }
-            HStack{ //MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+            
+            HStack { // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
                 Image(systemName: "person")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.gsGray2)
                 
                 NavigationLink {
                     Text("This Page Will Shows Followers List.")
                 } label: {
                     HStack {
-                        Text("1.9K")
-                            .foregroundColor(.primary)
-                            .bold()
-                        
-                        Text("followers")
-                            .foregroundColor(.secondary)
-                            .padding(.leading, -5)
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: followerCount))
+                        GSText.CustomTextView(style: .description, string: "followers")
+                            .padding(.leading, -2)
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .padding(.trailing, 5)
                 
-//                Text("·")
-//                    .foregroundColor(Color(.systemGray))
-//                    .padding(.horizontal, -3)
+                Text("|")
+                    .foregroundColor(.gsGray3)
+                    .padding(.trailing, 5)
                 
                 NavigationLink {
                     Text("This Page Will Shows Following List.")
                 } label: {
                     HStack {
-                        Text("1.2K")
-                            .foregroundColor(.primary)
-                            .bold()
-                        
-                        Text("following")
-                            .foregroundColor(.secondary)
-                            .padding(.leading, -5)
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: followingCount))
+                        GSText.CustomTextView(style: .description, string: "following")
+                            .padding(.leading, -2)
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+            }
+            
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
+                .padding(.vertical, 20)
+            
+            
+            // MARK: - 유저의 README
+            GSText.CustomTextView(style: .caption2, string: "README.md")
+            GSCanvas.CustomCanvasView(style: .primary) {
+                Text("ddfds")
+                    .frame(maxWidth: .infinity)
             }
         }
-		.padding(.horizontal, 10)
     }
 }
 
-//MARK: - knock 버튼 눌렀을 때 뜨는 sheet view
+
+
+// MARK: - knock 버튼 눌렀을 때 뜨는 sheet view
 struct knockSheetView: View {
     @Environment(\.dismiss) var dismiss
     @State var kncokMessage: String
