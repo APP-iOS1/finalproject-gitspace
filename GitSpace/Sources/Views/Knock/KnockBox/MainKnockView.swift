@@ -11,35 +11,25 @@ struct MainKnockView: View {
     @ObservedObject var knockHistoryViewModel = KnockHistoryViewModel()
     @StateObject private var keyboardHandler = KeyboardHandler()
     
-    @State private var knockMessenger: String = Constant.KNOCK_RECEIVED
-    @State private var receivedTab: String = Constant.KNOCK_RECEIVED
-    @State private var sentTab: String = Constant.KNOCK_SENT
+	// !!!: TAB Branch
+    @State private var userSelectedTab: String = Constant.KNOCK_RECEIVED
+    @State private var receivedKnockTab: String = Constant.KNOCK_RECEIVED
+    @State private var sentKnockTab: String = Constant.KNOCK_SENT
+	
+	// !!!: FILTER Branch
     @State private var userFilteredKnockState: KnockStateFilter = .all
     
-    @State private var isSentViewDisplayed: Bool = false
+	// !!!: SEARCH Branch
     @State private var isSearching: Bool = false
     @State private var searchText: String = ""
     
     @State var isEdit: Bool = false
     @State var checked: Bool = false
-    @State var showingKnockSetting: Bool = false
-    
-    let trailingTransition = AnyTransition
-        .asymmetric(
-            insertion: .move(edge: .trailing),
-            removal: .move(edge: .trailing)
-        )
-    
-    let leadingTransition = AnyTransition
-        .asymmetric(
-            insertion: .move(edge: .leading),
-            removal: .move(edge: .leading)
-        )
+    @State var isDisplayedKnockSettingView: Bool = false
     
     var body: some View {
         VStack {
             // MARK: - Tab Buttons
-            
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
@@ -68,172 +58,27 @@ struct MainKnockView: View {
                 .padding(.top, 10)
                 .padding(.horizontal, 16)
             
-            if isSearching {
-                switch knockMessenger {
-                case Constant.KNOCK_RECEIVED:
-                    ScrollView {
-                        LazyVStack(pinnedViews: .sectionHeaders) {
-                            switch userFilteredKnockState {
-                            case .waiting,
-                                    .accepted,
-                                    .declined:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_RECEIVED
-                                )
-                            case .all:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_WAITING,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_RECEIVED
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_ACCEPTED,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_RECEIVED
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_DECLINED,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_RECEIVED
-                                )
-                            }
-                        } // LazyVStack
-                    }
-                    .tag(receivedTab)
-                    
-                case Constant.KNOCK_SENT:
-                    ScrollView {
-                        LazyVStack(pinnedViews: .sectionHeaders) {
-                            switch userFilteredKnockState {
-                            case .waiting,
-                                    .accepted,
-                                    .declined:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_SENT
-                                )
-                            case .all:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_WAITING,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_SENT
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_ACCEPTED,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_SENT
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_DECLINED,
-                                    searchWith: searchText,
-                                    knockType: Constant.KNOCK_SENT
-                                )
-                            }
-                        } // LazyVStack
-                    }
-                    .tag(sentTab)
-                    
-                default:
-                    EmptyView()
-                }
-            } else {
-                switch knockMessenger {
-                case Constant.KNOCK_RECEIVED:
-                    ScrollView {
-                        subHeaderGuideMessageBuilder()
-                            .font(.caption2)
-                            .padding(.top, 8)
-                        
-                        Divider()
-                        
-                        // MARK: - Knock Received
-                        LazyVStack(pinnedViews: .sectionHeaders) {
-                            switch userFilteredKnockState {
-                            case .waiting,
-                                    .accepted,
-                                    .declined:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists
-                                )
-                            case .all:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_WAITING
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_ACCEPTED
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.receivedKnockLists,
-                                    filterState: Constant.KNOCK_DECLINED
-                                )
-                            }
-                        } // LazyVStack
-                    }
-                    .transition(leadingTransition)
-                    .animation(.easeInOut(duration: 10.0), value: knockMessenger)
-                    .tag(receivedTab)
-                    .fullScreenCover(isPresented: $showingKnockSetting) {
-                        KnockSettingView(showingKnockSetting: $showingKnockSetting)
-                    }
-                    
-                case Constant.KNOCK_SENT:
-                    ScrollView {
-                        subHeaderGuideMessageBuilder()
-                            .foregroundColor(Color(.systemGray))
-                            .multilineTextAlignment(.center)
-                            .font(.caption2)
-                            .padding(.top, 8)
-                        
-                        Divider()
-                        
-                        LazyVStack(pinnedViews: .sectionHeaders) {
-                            // MARK: - Knock Sent
-                            switch userFilteredKnockState {
-                            case .waiting,
-                                    .accepted,
-                                    .declined:
-                                eachCellSectionBuilder(knockList: knockHistoryViewModel.sentKnockLists)
-                            case .all:
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_WAITING
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_ACCEPTED
-                                )
-                                eachCellSectionBuilder(
-                                    knockList: knockHistoryViewModel.sentKnockLists,
-                                    filterState: Constant.KNOCK_DECLINED
-                                )
-                            }
-                        } // LazyVStack
-                    }
-                    .transition(trailingTransition)
-                    .animation(.easeInOut(duration: 10.0), value: knockMessenger)
-                    .tag(sentTab)
-                    
-                default:
-                    EmptyView()
-                }
-            }
+			// 검색중 vs 기본 조건분기
+			// 셀 그리는 로직은 고정
+			if isSearching {
+				ScrollView {
+					LazyVStack(pinnedViews: .sectionHeaders) {
+						
+					}
+				}
+			} else {
+				ScrollView {
+					LazyVStack(pinnedViews: .sectionHeaders) {
+						Text("/")
+					}
+				}
+			}
         } // VStack
         .onTapGesture {
             self.endTextEditing()
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("\(knockMessenger) Knock")
+        .navigationTitle("\(userSelectedTab) Knock")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -272,13 +117,13 @@ struct MainKnockView: View {
     private func headerTabPagenationViewBuilder() -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
             GSButton.CustomButtonView(style: .homeTab(
-                tabName: receivedTab,
-                tabSelection: $knockMessenger)) {
+                tabName: receivedKnockTab,
+                tabSelection: $userSelectedTab)) {
                     withAnimation {
-                        knockMessenger = receivedTab
+                        userSelectedTab = receivedKnockTab
                     }
                 } label: {
-                    Text(receivedTab)
+                    Text(receivedKnockTab)
                         .font(.title3)
                         .foregroundColor(.primary)
                         .bold()
@@ -293,13 +138,13 @@ struct MainKnockView: View {
                 .padding(.horizontal, 4)
             
             GSButton.CustomButtonView(style: .homeTab(
-                tabName: sentTab,
-                tabSelection: $knockMessenger)) {
+                tabName: sentKnockTab,
+                tabSelection: $userSelectedTab)) {
                     withAnimation {
-                        knockMessenger = sentTab
+                        userSelectedTab = sentKnockTab
                     }
                 } label: {
-                    Text(sentTab)
+                    Text(sentKnockTab)
                         .font(.title3)
                         .foregroundColor(.primary)
                         .bold()
@@ -354,8 +199,8 @@ struct MainKnockView: View {
     
     @ViewBuilder
     private func subHeaderGuideMessageBuilder() -> some View {
-        switch knockMessenger {
-        case receivedTab:
+        switch userSelectedTab {
+        case receivedKnockTab:
             VStack {
                 // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
                 Text("Check the message for information about who's Knocking on you.")
@@ -366,13 +211,13 @@ struct MainKnockView: View {
                     .foregroundColor(Color(.systemGray))
                 
                 Button {
-                    showingKnockSetting.toggle()
+                    isDisplayedKnockSettingView.toggle()
                 } label: {
                     // 나에게 노크 할 수 있는 사람 설정하기
                     Text("Decide who can Knock on You.")
                 }
             }
-        case sentTab:
+        case sentKnockTab:
             VStack {
                 // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
                 Text("You can check your knock history.")
@@ -416,11 +261,11 @@ struct MainKnockView: View {
                             } else {
                                 KnockHistoryView(
                                     eachKnock: eachKnock,
-                                    knockMessenger: $knockMessenger
+                                    knockMessenger: $userSelectedTab
                                 )
                             }
                         } label: {
-                            if knockMessenger == receivedTab {
+                            if userSelectedTab == receivedKnockTab {
                                 EachKnockCell(
                                     knockMessenger: "from: \(eachKnock.senderID)",
                                     knockHistoryViewModel: knockHistoryViewModel,
