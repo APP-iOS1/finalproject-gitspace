@@ -25,9 +25,6 @@ struct ChatUserRecommendationSection: View {
     let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: "140", repoCount: "61")
     let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "167479", repoCount: "1044")
     
-    @State var currentFollowerCount: String = ""
-    
-    
     
     var body: some View {
         
@@ -162,23 +159,6 @@ struct ChatUserRecommendationSection: View {
             .padding(.vertical, 20)
 
         }
-    }
-    
-    
-    
-    // MARK: - 팔로워, 레포 숫자를 처리하는 함수
-    /* 예: 3300 -> 3.3k로 변환 */
-    func handleCountUnit(countInfo: String) -> String {
-        var handledCount: String
-        let convertedIntCount: Double = Double(countInfo) ?? 0
-        
-        if convertedIntCount > 999 {
-            handledCount = "\((convertedIntCount / 1000).rounded())k"
-        } else {
-            handledCount = countInfo
-        }
-        
-        return handledCount
     }
 
 }

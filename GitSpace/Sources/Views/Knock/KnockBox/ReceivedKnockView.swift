@@ -109,7 +109,6 @@ struct ReceivedKnockView: View {
                             .font(.body)
                             .foregroundColor(.primary)
                             .bold()
-                            .padding(-10)
                             .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
                     } // button: Accept
                 

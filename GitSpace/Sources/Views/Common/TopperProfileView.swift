@@ -40,7 +40,6 @@ struct TopperProfileView: View {
                     .font(.footnote)
                     .foregroundColor(.primary)
                     .bold()
-                    .padding(-4)
             }
             .padding(5)
         }
