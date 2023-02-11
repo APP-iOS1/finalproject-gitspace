@@ -64,13 +64,8 @@ struct ChatRoomView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    
-                    if let user = userStore.user {
-                        let isNotificationReceiveEnable: Bool = UserDefaults().bool(forKey: Constant.AppStorageConst.CHATROOM_NOTIFICATION + chat.id)
-                        let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetID)
-                        ChatRoomInfoView(chatID: chat.id, targetName: targetName, isBlocked: isChatBlocked, isNotificationReceiveEnable: isNotificationReceiveEnable)
-                    }
-                } label: {
+                    makeChatRoomInfoViewToolbarItem()
+                } label: { 
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)
                 }
@@ -157,7 +152,12 @@ struct ChatRoomView: View {
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
                 .onSubmit {
-                    addContent()
+                    guard contentField.isEmpty == false else {
+                        return
+                    }
+                    Task {
+                        await addContent()
+                    }
                 }
             
             addContentButton
@@ -174,7 +174,9 @@ struct ChatRoomView: View {
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
         /// 메세지 입력 필드 공백으로 초기화
         Button {
-            addContent()
+            Task {
+                await addContent()
+            }
         } label: {
             Image(systemName: "location")
         }
@@ -182,13 +184,11 @@ struct ChatRoomView: View {
     
     // MARK: -Methods
     // MARK: Method : 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
-    private func addContent() {
+    private func addContent() async {
         let newMessage = makeMessage()
         let newChat = makeChat()
         messageStore.addMessage(newMessage, chatID: chat.id)
-        Task{
-            await chatStore.updateChat(newChat)
-        }
+        await chatStore.updateChat(newChat)
         contentField = ""
     }
     
@@ -197,7 +197,7 @@ struct ChatRoomView: View {
         
         let chat = Chat(id: chat.id,
                         date: chat.date,
-                        joinUsers: chat.joinUsers,
+                        joinUserIDs: chat.joinUserIDs,
                         lastDate: Date(),
                         lastContent: contentField,
                         knockContent: chat.knockContent,
@@ -214,7 +214,38 @@ struct ChatRoomView: View {
                                 date: Date())
         return message
     }
+    
+    @ViewBuilder
+    private func makeChatRoomInfoViewToolbarItem() -> some View {
+        // MARK: Logic
+        /// 1. Published user 객체가 있는지 검사
+        /// 2. ChatRoom Notification 딕셔너리가 UserDefault에 있는지 검사
+        /// 2-1. 없으면 최초 생성
+        /// 3. 딕셔너리에 chatID로 접근해서 해당 채팅방 알림 수신 여부 Bool 값을 받아옴 (한번도 Chat Info에서 세팅한적이 없으면 true로 고정)
+        /// 4. user의 차단 유저 리스트에 채팅 대화 상대방 ID가 있는지 여부 검사
+        /// 5. 1~4에서 받아온 정보를 통해서 채팅방 상세 설정 뷰로 이동
+        // 1
+        if let user = userStore.user {
+            let chatRoomNotificationKey = Constant.AppStorageConst.CHATROOM_NOTIFICATION
+            let isNotificationReceiveEnableDict = UserDefaults().dictionary(forKey: chatRoomNotificationKey)
+            // 2
+            if isNotificationReceiveEnableDict == nil {
+                // 2-1
+                let _ = UserDefaults().set([:], forKey: chatRoomNotificationKey)
+            }
+            
+            if let isNotificationReceiveEnableDict {
+                // 3
+                let isNotificationReceiveEnable: Bool? = isNotificationReceiveEnableDict[chat.id] as? Bool ?? true
+                // 4
+                let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetID)
+                // 5
+                ChatRoomInfoView(chat: chat,
+                                 targetName: targetName,
+                                 isBlocked: isChatBlocked,
+                                 isNotificationReceiveEnable: isNotificationReceiveEnable ?? true)
+            }
+        }
+    }
+    
 }
-
-
-
