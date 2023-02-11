@@ -1,13 +1,13 @@
 //
-//  PushNotificationManager.swift
+//  GSPushNotificationRouter.swift
 //  GitSpace
 //
-//  Created by 이승준 on 2023/02/08.
+//  Created by 이승준 on 2023/02/11.
 //
 
-import Foundation
+import SwiftUI
 
-final class PushNotificationManager {
+final class GSPushNotificationRouter {
 	/// 예시 코드에서 API 키와 테스트용 Device Token은 xcconfig 파일로 캡슐화 하여 사용했습니다.
 	private let serverKey = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
@@ -26,8 +26,7 @@ final class PushNotificationManager {
 		let messageBody = "Message Body Text Here"
 		
 		/// HTTP Request의 body로 전달할 data를 딕셔너리로 선언한 후, JSON으로 변환합니다.
-		let json: [String: Any] =
-		[
+		let json: [AnyHashable: Any] = [
 			/// 특정 기기에 알람을 보내기 위해 "to"를 사용합니다.
 			/// 경우에 따라 Topic 등 다른 용도로 활용할 수 있습니다.
 			"to": deviceToken,
@@ -41,11 +40,11 @@ final class PushNotificationManager {
 			
 			/// 알람을 보내며 함께 전달할 데이터를 삽입합니다.
 			"data": [
-				"GSNotification": [
-					"userName": "Valselee",
-					"from": "DeviceToken2",
-					"navigate": "Knock" // or Chat
-				]
+				"userName": "Valselee",
+				"sentFrom": "senderID",
+				"navigateTo": "knock"
+				//				"viewInfo": "해당뷰를 그릴때 필요한 id",
+				//				"date": Date.now.description
 			]
 		]
 		
@@ -79,16 +78,18 @@ final class PushNotificationManager {
 
 struct GSPushNotification: Codable {
 	let aps: GSAps
-	let googleCAE, googleCFid, gcmMessageID, googleCSenderID: String
-	let gsNotification: String
+	let googleCAE, googleCFid, gcmMessageID, googleCSenderID,
+		navigateTo, sentFrom, userName: String
 	
 	enum CodingKeys: String, CodingKey {
 		case aps
+		case navigateTo
+		case sentFrom
+		case userName
 		case googleCAE = "google.c.a.e"
 		case googleCFid = "google.c.fid"
 		case gcmMessageID = "gcm.message_id"
 		case googleCSenderID = "google.c.sender.id"
-		case gsNotification = "GSNotification"
 	}
 }
 
@@ -103,7 +104,23 @@ struct GSNotificationDetail: Codable {
 	let body, title: String
 }
 
-// MARK: - GSNotification
-struct GSNotificationData: Codable {
-	let navigate, from, userName: String
+struct PushNotificationTestView: View {
+	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
+	
+	var body: some View {
+		VStack {
+			if let endpoint {
+				Text("https://\(endpoint)")
+			}
+			Button {
+				Task {
+					let instance = GSPushNotificationRouter()
+					await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+				}
+			} label: {
+				Text("Send")
+			}
+			
+		}
+	}
 }
