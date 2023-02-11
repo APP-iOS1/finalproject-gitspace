@@ -65,6 +65,7 @@ struct ProfileDetailView: View {
             Spacer()
             
         }
+        .padding(.horizontal, 20)
     }
     
 }
@@ -74,10 +75,7 @@ struct ProfileDetailView: View {
 // MARK: - 재사용되는 profile section을 위한 뷰 (이미지, 이름, 닉네임, description, 위치, 링크, 팔로잉 등)
 struct ProfileSectionView: View {
     
-    // FIXME: 나중에 상위 뷰에서 받아올 데이터
-    let followerCount: String = "1900"
-    let followingCount: String = "1200"
-    
+    @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8){
@@ -89,10 +87,10 @@ struct ProfileSectionView: View {
                     .padding(.trailing, 8)
 
                 VStack(alignment: .leading) { // 이름, 닉네임
-                    GSText.CustomTextView(style: .title2, string: "Random Brazil Guy")
+                    GSText.CustomTextView(style: .title2, string: GitHubAuthManager.authenticatedUser?.name ?? "")
                     Spacer()
                         .frame(height: 8)
-                    GSText.CustomTextView(style: .description, string: "@randombrazilguy")
+                    GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.login ?? "")
                 }
                 
 				Spacer()
@@ -101,7 +99,7 @@ struct ProfileSectionView: View {
             
             // MARK: - 프로필 자기 ..설명..?
             HStack {
-                Text("Hi! I'm Random Brazil Guy!")
+                GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
                 Spacer()
             }
             .padding(15)
@@ -118,7 +116,7 @@ struct ProfileSectionView: View {
             HStack { // MARK: - 위치 이미지, 국가 및 위치
                 Image(systemName: "mappin.and.ellipse")
                     .foregroundColor(.gsGray2)
-                GSText.CustomTextView(style: .description, string: "Brazil, South America")
+                GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.location ?? "")
             }
             .foregroundColor(Color(.systemGray))
             HStack{ // MARK: - 링크 이미지, 블로그 및 기타 링크
@@ -128,9 +126,12 @@ struct ProfileSectionView: View {
                     
                 } label: {
                     HStack {
-                        Link(destination: URL(string: "https://yeseul-programming.tistory.com")!) {
-                            
-                            GSText.CustomTextView(style: .body1, string: "yeseul-programming.tistory.com")
+                        if GitHubAuthManager.authenticatedUser?.blog != nil {
+                            Link(destination: URL(string: GitHubAuthManager.authenticatedUser?.blog ?? "")!) {
+                                GSText.CustomTextView(style: .body1, string: GitHubAuthManager.authenticatedUser?.blog ?? "")
+                            }
+                        } else {
+                            GSText.CustomTextView(style: .body1, string: "-")
                         }
                     }
                 }
@@ -144,7 +145,7 @@ struct ProfileSectionView: View {
                     Text("This Page Will Shows Followers List.")
                 } label: {
                     HStack {
-                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: followerCount))
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.followers ?? 0))
                         GSText.CustomTextView(style: .description, string: "followers")
                             .padding(.leading, -2)
                     }
@@ -159,7 +160,7 @@ struct ProfileSectionView: View {
                     Text("This Page Will Shows Following List.")
                 } label: {
                     HStack {
-                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: followingCount))
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.following ?? 0))
                         GSText.CustomTextView(style: .description, string: "following")
                             .padding(.leading, -2)
                     }
@@ -175,7 +176,7 @@ struct ProfileSectionView: View {
             // MARK: - 유저의 README
             GSText.CustomTextView(style: .caption2, string: "README.md")
             GSCanvas.CustomCanvasView(style: .primary) {
-                Text("ddfds")
+                Text("리드미 내용")
                     .frame(maxWidth: .infinity)
             }
         }
@@ -187,6 +188,7 @@ struct ProfileSectionView: View {
 // MARK: - knock 버튼 눌렀을 때 뜨는 sheet view
 struct knockSheetView: View {
     @Environment(\.dismiss) var dismiss
+    
     @State var kncokMessage: String
     
     var body: some View {

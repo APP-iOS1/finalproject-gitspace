@@ -17,11 +17,18 @@ enum GithubURL: String {
     case bearer = "Bearer"
 }
 
+// FIXME: 수정 요함
+var temporaryAcessToken: String?
+var GitHubUserName: String = "lianne-b" // 임시 유저네임
+
+              
 final class GitHubAuthManager: ObservableObject {
     static let shared: GitHubAuthManager = GitHubAuthManager() // singleton
     
     @Published var state: SignInState = .signedOut
     @Published var githubAcessToken: OAuthCredential?
+    
+//    var result: GitHubUser? = nil
     
     var authentification = Auth.auth()
     let database = Firestore.firestore()
@@ -33,7 +40,7 @@ final class GitHubAuthManager: ObservableObject {
         case signedIn
         case signedOut
     }
-
+    
     init() {
         githubPermissionPreconfigure()
     }
@@ -94,15 +101,15 @@ final class GitHubAuthManager: ObservableObject {
                         }
                         
                         self.authenticatedUser = self.decodeData(userData, GitHubUser.self)
-
+                        
                         guard self.authenticatedUser != nil else {
                             return
                         }
                         self.registerNewUser(self.authenticatedUser!)
-                   
+                        
                         DispatchQueue.main.async {
                             self.state = .signedIn
-
+                            
                         }
                     }
                     task.resume()
@@ -195,8 +202,47 @@ final class GitHubAuthManager: ObservableObject {
             }
         }
     }
+    
+    
+    
+    // MARK: - Get GitHub User Info
+    // GitHubUser 구조체의 데이터를 불러옵니다.
+//    func getGitHubUserInfo() {
+//        guard let url = URL(string: "https://api.github.com/users/\(GitHubUserName)") else {
+//            print("Invalid url")
+//            return
+//        }
+//
+//        var request = URLRequest(url: url)
+//        request.addValue("\(GithubURL.bearer) \(String(describing: temporaryAcessToken))", forHTTPHeaderField: "Authorization")
+//
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if error != nil {
+//                // TODO: Handle data task error
+//                return
+//            }
+//
+//            guard let data = data else {
+//                // TODO: Handle this
+//                return
+//            }
+//
+//            let decoder = JSONDecoder()
+//            decoder.keyDecodingStrategy = .convertFromSnakeCase
+//
+//            do {
+//                let response = try decoder.decode([GitHubUser].self, from: data)
+//
+//                DispatchQueue.main.async {
+//                    self.result = response
+//                }
+//            } catch {
+//                // TODO: Handle decoding error
+//                print(error)
+//            }
+//        }.resume()
+//    }
 }
-
 
 extension GitHubAuthManager {
     
@@ -211,3 +257,4 @@ extension GitHubAuthManager {
     }
     
 }
+
