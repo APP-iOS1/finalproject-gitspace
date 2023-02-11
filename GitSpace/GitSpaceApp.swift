@@ -15,9 +15,11 @@ struct GitSpaceApp: App {
 	
     var body: some Scene {
 		let tabBarRouter = delegate.tabBarRouter
+		let notificationRouter = delegate.pushNotificationRouter
 		
         WindowGroup {
-			PushNotificationTestView()
+			// MARK: - APN 테스트할 때만 각주를 해제합니다.
+			// PushNotificationTestView()
             ContentView(tabBarRouter: tabBarRouter)
                 .environmentObject(AuthStore())
                 .environmentObject(ChatStore())
@@ -25,6 +27,7 @@ struct GitSpaceApp: App {
                 .environmentObject(UserStore())
                 .environmentObject(TabManager())
                 .environmentObject(RepositoryStore())
+				.environmentObject(notificationRouter)
         }
     }
 }
