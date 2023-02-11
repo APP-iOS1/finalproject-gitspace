@@ -22,23 +22,25 @@ struct SetNotificationsView: View {
     
     var body: some View {
         List {
-            Section {
-                NavigationLink {
-                    SetWorkingHoursView()
-                } label: {
-                    HStack {
-                        Text("Working Hours")
-                            .foregroundColor(.primary)
-                        Spacer()
-                        Text("\(isWorkingHours ? "Custom" : "Off")")
-                            .foregroundColor(.gsLightGray2)
-                    }
-                }
-            } footer: {
-                if isWorkingHours {
-                    Text("Allow push notifications every day from \(workingHoursFrom) to \(workingHoursTo)")
-                }
-            } // Section
+            
+            // MARK: - 보류
+//            Section {
+//                NavigationLink {
+//                    SetWorkingHoursView()
+//                } label: {
+//                    HStack {
+//                        Text("Working Hours")
+//                            .foregroundColor(.primary)
+//                        Spacer()
+//                        Text("\(isWorkingHours ? "Custom" : "Off")")
+//                            .foregroundColor(.gsLightGray2)
+//                    }
+//                }
+//            } footer: {
+//                if isWorkingHours {
+//                    Text("Allow push notifications every day from \(workingHoursFrom) to \(workingHoursTo)")
+//                }
+//            } // Section
             
             Section {
                 // MARK: - GitHub API에서 해당 알람을 받을 수 있는지 체크 필요
@@ -80,14 +82,14 @@ struct SetNotificationsView: View {
                     }
                 }
                 
-                
-                Toggle(isOn: $isOnInAppVibes) {
-                    Text("In-App Vibrations")
-                }
-                
-                Toggle(isOn: $isOnInAppSounds) {
-                    Text("In-App Sounds")
-                }
+                // MARK: - 보류
+//                Toggle(isOn: $isOnInAppVibes) {
+//                    Text("In-App Vibrations")
+//                }
+//
+//                Toggle(isOn: $isOnInAppSounds) {
+//                    Text("In-App Sounds")
+//                }
                 
                 
                 

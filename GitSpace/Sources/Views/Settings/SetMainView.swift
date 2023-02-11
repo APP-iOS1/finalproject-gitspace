@@ -36,24 +36,28 @@ struct SetMainView: View {
                     } label: {
                         HStack {
                             Image(systemName: "person.crop.square")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(.gsGray2)
                             
                             Text("Account")
                         }
                     }
                     
+                    // MARK: - 보류
                     // MARK: Privacy & Safety Settings
                     /// 개인정보 보호 및 보안
-                    NavigationLink {
-                        SetPrivacySafetyView()
-                    } label: {
-                        HStack {
-                            Image(systemName: "checkerboard.shield")
-                                .foregroundColor(.gsGray2)
-                            
-                            Text("Privacy & Safety")
-                        }
-                    }
+//                    NavigationLink {
+//                        SetPrivacySafetyView()
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "checkerboard.shield")
+//                                .foregroundColor(.gsGray2)
+//
+//                            Text("Privacy & Safety")
+//                        }
+//                    }
                 }
                 
                 // MARK: - APP SETTINGS
@@ -65,6 +69,9 @@ struct SetMainView: View {
                     } label: {
                         HStack {
                             Image(systemName: "paintpalette")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(.gsGray2)
                             
                             Text("Appearance")
@@ -97,6 +104,9 @@ struct SetMainView: View {
                     } label: {
                         HStack {
                             Image(systemName: "globe")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(.gsGray2)
                             
                             Text("Language")
@@ -109,18 +119,19 @@ struct SetMainView: View {
                         }
                     }
                     
+                    // MARK: - 보류
                     // MARK: Text & Media Settings
                     /// 텍스트 및 미디어
-                    NavigationLink {
-                        SetTextMediaView()
-                    } label: {
-                        HStack {
-                            Image(systemName: "captions.bubble")
-                                .foregroundColor(.gsGray2)
-                            
-                            Text("Text & Media")
-                        }
-                    }
+//                    NavigationLink {
+//                        SetTextMediaView()
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "captions.bubble")
+//                                .foregroundColor(.gsGray2)
+//
+//                            Text("Text & Media")
+//                        }
+//                    }
                     
                     // MARK: Notifications Settings
                     /// 알림
@@ -129,6 +140,9 @@ struct SetMainView: View {
                     } label: {
                         HStack {
                             Image(systemName: "bell.badge.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(.gsGray2)
                             
                             Text("Notifications")
@@ -142,6 +156,9 @@ struct SetMainView: View {
                     } label: {
                         HStack {
                             Image(systemName: "hand.wave")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
                                 .foregroundColor(.gsGray2)
                             
                             Text("Knock Controls")
