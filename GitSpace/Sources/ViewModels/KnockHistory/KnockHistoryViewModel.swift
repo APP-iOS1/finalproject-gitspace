@@ -17,6 +17,18 @@ final class KnockHistoryViewModel: ObservableObject {
 	@Published var usersKnockHistoryStatus: [String] = []
 	@Published var knockMessages: [String] = []
 	
+	public let trailingTransition = AnyTransition
+		.asymmetric(
+			insertion: .move(edge: .trailing),
+			removal: .move(edge: .trailing)
+		)
+	
+	public let leadingTransition = AnyTransition
+		.asymmetric(
+			insertion: .move(edge: .leading),
+			removal: .move(edge: .leading)
+		)
+	
 	// Dummy Init
 	init() {
 		let cases = KnockStatus.allCases.shuffled()
