@@ -89,7 +89,7 @@ class AuthStore: ObservableObject {
             .setData(["id" : userInfo.id,
                       "name" : userInfo.name,
                       "email" : userInfo.email,
-                      "date" : userInfo.date])
+                      "createdDate" : userInfo.date])
     }
 }
 
