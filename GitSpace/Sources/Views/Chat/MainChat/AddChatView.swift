@@ -5,6 +5,8 @@
 //  Created by 원태영 on 2023/02/09.
 //
 
+
+
 import SwiftUI
 
 struct AddChatView: View {
@@ -62,13 +64,13 @@ struct AddChatView: View {
             Button {
                 let newChat: Chat = .init(id: UUID().uuidString,
                                           date: Date.now,
-                                          joinUsers: [user1, user2],
+                                          joinUserIDs: [user1, user2],
                                           lastDate: Date.now,
                                           lastContent: "",
                                           knockContent: "",
                                           knockDate: Date.now)
                 Task {
-                    await chatStore.addChat(newChat)
+                    chatStore.addChat(newChat)
                 }
             } label: {
                 Text("채팅방 추가하기")
@@ -79,7 +81,7 @@ struct AddChatView: View {
             
         }
         .task {
-            userStore.fetchUsers()
+            await userStore.requestUsers()
         }
     }
 }
