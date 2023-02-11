@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-final class GSPushNotificationRouter {
+// TODO: 하위 인스턴스 분리 및 추상화 필요
+final class PushNotificationManager {
 	/// 예시 코드에서 API 키와 테스트용 Device Token은 xcconfig 파일로 캡슐화 하여 사용했습니다.
 	private let serverKey = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
@@ -114,7 +115,7 @@ struct PushNotificationTestView: View {
 			}
 			Button {
 				Task {
-					let instance = GSPushNotificationRouter()
+					let instance = PushNotificationManager()
 					await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
 				}
 			} label: {
