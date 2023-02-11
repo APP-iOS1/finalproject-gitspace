@@ -11,7 +11,6 @@ struct ChatListCell : View {
     
     var chat: Chat
     var targetUserName: String
-    @State private var targetName: String = ""
     @EnvironmentObject var userStore : UserStore
     @EnvironmentObject var chatStore: ChatStore
     @State var opacity: Double = 0.4
@@ -24,7 +23,7 @@ struct ChatListCell : View {
 
                 
                 VStack(alignment: .leading) {
-                    Text("@\(targetName)")
+                    Text("@\(targetUserName)")
                         .font(.title3)
                         .bold()
                         .padding(.bottom, 5)
@@ -41,14 +40,8 @@ struct ChatListCell : View {
                 .frame(width: 350)
         }
         .task {
-            targetName = await chat.targetUserName
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4
-            }
-        }
-        .onChange(of: chatStore.isListenerModified) { n in
-            Task {
-                targetName = await chat.targetUserName
             }
         }
     }
