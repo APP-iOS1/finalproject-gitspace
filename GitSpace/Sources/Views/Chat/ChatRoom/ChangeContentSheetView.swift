@@ -18,7 +18,7 @@ struct ChangeContentSheetView : View {
     var body: some View {
         VStack(spacing : 50) {
             
-            TextField(message.content, text: $changeContentField)
+            TextField(message.textContent, text: $changeContentField)
                 .textFieldStyle(.roundedBorder)
             
             Button {
@@ -32,7 +32,7 @@ struct ChangeContentSheetView : View {
         }
         .padding(.horizontal, 20)
         .onAppear {
-            changeContentField = message.content
+            changeContentField = message.textContent
         }
     }
 }
