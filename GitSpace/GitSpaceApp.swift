@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
+import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -99,13 +100,21 @@ struct GitSpaceApp: App {
         WindowGroup {
 			
 //			Text("?")
-            ContentView(tabBarRouter: tabBarRouter)
+//            ContentView(tabBarRouter: tabBarRouter)
+//                .environmentObject(AuthStore())
+//                .environmentObject(ChatStore())
+//                .environmentObject(MessageStore())
+//                .environmentObject(UserStore())
+//                .environmentObject(TabManager())
+//                .environmentObject(RepositoryStore())
+            InitialView(tabBarRouter: tabBarRouter)
                 .environmentObject(AuthStore())
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
                 .environmentObject(UserStore())
                 .environmentObject(TabManager())
                 .environmentObject(RepositoryStore())
+                .environmentObject(GitHubAuthManager())
         }
     }
 }
