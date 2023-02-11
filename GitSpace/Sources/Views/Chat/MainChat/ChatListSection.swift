@@ -20,7 +20,7 @@ struct ChatListSection: View {
                         
                         NavigationLink {
                             ChatRoomView(chat: chat,
-                                         targetName: targetUserName)
+                                         targetUserName: targetUserName)
                         } label: {
                             ChatListCell(chat: chat,
                                          targetUserName: targetUserName)
@@ -40,9 +40,7 @@ struct ChatListSection: View {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
-            print("유저 패치 :\(Utility.loginUserID)")
             await userStore.requestUser(userID: Utility.loginUserID)
-            print("유저 완료 : \(userStore.user?.name ?? "ASD")")
         }
         
     }
