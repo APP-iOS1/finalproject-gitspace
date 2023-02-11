@@ -130,9 +130,22 @@ struct GitSpaceApp: App {
     var body: some Scene {
         WindowGroup {
             
+            VStack {
+                
+                if let endpoint {
+                    Text("https://\(endpoint)")
+                }
+                Button {
+                    Task {
+                        let instance = PushNotificationManager()
+                        await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+                    }
+                } label: {
+                    Text("Send")
+                }
+            }
+            
             TabView(selection: $selectedTab) {
-                
-                
                 
                 NavigationView {
                     VStack {
@@ -178,10 +191,8 @@ struct GitSpaceApp: App {
                             } label: {
                                 Text("page 3")
                             }
-                            
                         }
                     }
-                    
                 } // NaviView
                 .tabItem {
                     VStack {
@@ -211,10 +222,8 @@ struct GitSpaceApp: App {
                             } label: {
                                 Text("page 6")
                             }
-                            
                         }
                     }
-                    
                 } // NaviView
                 .tabItem {
                     VStack {
@@ -223,19 +232,12 @@ struct GitSpaceApp: App {
                     }
                 }
                 .tag(TabIdentifier.knock)
-                
             }
             .onOpenURL(perform: { url in
                 // MARK: - 들어온 URL 처리
                 guard let tabId = url.tabIdentifier else { return }
                 selectedTab = tabId
-                
             })
-            
-            
-            
-            
-            
             
             //            ContentView(tabBarRouter: tabBarRouter)
             //                .environmentObject(AuthStore())
@@ -247,7 +249,6 @@ struct GitSpaceApp: App {
         }
     }
 }
-
 
 // MARK: - 어떤 탭이 선택되었는지 여부
 enum TabIdentifier: Hashable {
@@ -261,8 +262,6 @@ enum TabIdentifier: Hashable {
 enum PageIdentifier: Hashable {
     case pageItem(id: UUID)
 }
-
-
 
 extension URL {
     
@@ -289,7 +288,6 @@ extension URL {
         }
     }
     
-    
     var detailPage: PageIdentifier? {
         
         /// gitspace-ios://host/detailpage
@@ -311,8 +309,5 @@ extension URL {
             return .pageItem(id: uuid)
         default: return nil
         }
-        
     }
-    
-    
 }
