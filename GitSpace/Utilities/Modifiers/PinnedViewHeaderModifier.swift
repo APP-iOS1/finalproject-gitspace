@@ -7,14 +7,21 @@
 
 import SwiftUI
 
-struct PinnedViewHeaderModifier: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct PinnedViewHeaderModifier_Previews: PreviewProvider {
-    static var previews: some View {
-        PinnedViewHeaderModifier()
-    }
+struct PinnedViewHeaderModifier: ViewModifier {
+	func body(content: Content) -> some View {
+		content
+			.padding(.vertical, 12)
+			.padding(.horizontal, 20)
+			.frame(alignment: .leading)
+			.background {
+				LinearGradient(
+					colors: [
+						Color(.systemBackground),
+						Color(.systemBackground).opacity(0.4)
+					],
+					startPoint: .top,
+					endPoint: .bottom
+				)
+			}
+	}
 }
