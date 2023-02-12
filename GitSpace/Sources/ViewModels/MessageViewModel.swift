@@ -5,6 +5,10 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
+// TODO: 메세지 삭제 시 lastContent 업데이트 로직 체크 필요
+/// 메세지 추가 시 채팅 리스트에서 lastContent를 누가 업데이트해주는지 체크 필요
+/// 어느쪽 리스너 혹은 뷰모델에서 lastContent를 업데이트 하는 로직을 가져야하는지 고려 필요
+
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
