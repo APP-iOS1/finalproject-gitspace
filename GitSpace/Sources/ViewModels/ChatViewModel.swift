@@ -43,7 +43,6 @@ final class ChatStore: ObservableObject {
     var targetNameDict: [String : String]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
-    @Published var isListenerModified: Bool
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -52,7 +51,6 @@ final class ChatStore: ObservableObject {
         chats = []
         targetNameDict = [:]
         isDoneFetch = false
-        isListenerModified = false
     }
 }
 
@@ -125,7 +123,6 @@ extension ChatStore {
                     case .modified:
                         print("Chat Modified")
                         self.listenerUpdateChat(change: diff.document)
-                        self.isListenerModified.toggle()
                         
                     case .removed:
                         print("Chat Removed")
