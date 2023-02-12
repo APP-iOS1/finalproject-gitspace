@@ -12,14 +12,13 @@ import SwiftUI
 struct AddChatView: View {
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var userStore: UserStore
-    @State var currentUserName: String = ""
     @State var user1: String = ""
     @State var user2: String = ""
     
     var body: some View {
         
         VStack {
-            Text("현재 로그인 유저 이름 : \(currentUserName)")
+            Text("현재 로그인 유저 이름 : \(userStore.user?.name ?? "패치 실패")")
             ForEach(userStore.users) { user in
                 HStack {
                     Text(user.name)
@@ -28,7 +27,9 @@ struct AddChatView: View {
                     Group {
                         Button {
                             Utility.loginUserID = user.id
-                            currentUserName = user.name
+                            Task {
+                                await userStore.requestUser(userID: Utility.loginUserID)
+                            }
                         } label: {
                             Text("로그인 유저 변경하기")
                         }
@@ -73,6 +74,7 @@ struct AddChatView: View {
         }
         .task {
             await userStore.requestUsers()
+            
         }
     }
 }
