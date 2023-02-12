@@ -115,11 +115,11 @@ struct StarredView: View {
                                                     VStack(alignment: .leading) {
                                                         GSText.CustomTextView(
                                                             style: .body1,
-                                                            string: repository.name)
+                                                            string: repository.owner.login)
                                                         .multilineTextAlignment(.leading)
                                                         GSText.CustomTextView(
                                                             style: .title2,
-                                                            string: repository.owner.login)
+                                                            string: repository.name)
                                                         .multilineTextAlignment(.leading)
                                                     }
                                                     Spacer()
