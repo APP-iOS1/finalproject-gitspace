@@ -7,9 +7,9 @@
 
 import Foundation
 
-class RepositoryViewModel: ObservableObject {
+final class RepositoryViewModel: ObservableObject {
     // MARK: - Dummy Tag Data
-    @Published var tagList: [Tag] = [
+    @Published var tags: [Tag] = [
         Tag(name: "SwiftUI"),
         Tag(name: "Swift"),
         Tag(name: "MVVM"),
@@ -22,13 +22,25 @@ class RepositoryViewModel: ObservableObject {
         Tag(name: "GGOM-GGO-MI")
     ]
     
-    // MARK: - Dummy Repository Data
-    @Published var repositoryList: [Repository] = [
-        Repository(name: "sanghee-dev", owner: "Hello-Chat", description: "Real time chat application built with SwiftUI & Firestore", tags: [0, 1, 4]),
-        Repository(name: "wwdc", owner: "2022", description: "Student submissions for the WWDC 2022 Swift Student Challenge", tags: [4]),
-        Repository(name: "apple", owner: "swift-evolution", description: "This maintains proposals for changes and user-visible enhancements to the Swift Programming Language.", tags: [4]),
-        Repository(name: "apple", owner: "swift", description: "The Swift Programming Language", tags: [4]),
-        Repository(name: "SnapKit", owner: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X", tags: [1, 4]),
-        Repository(name: "clarknt", owner: "100-days-of-swiftui", description: "Solutions to Paul Hudson's \"100 days of SwiftUI\" projects and challenges", tags: [0, 1, 4])
-    ]
+    @Published var repositories: [Repository]?
+    
+    // MARK: - Request Starred Repositories
+    /// 인증된 사용자가 Star로 지정한 Repository의 목록을 요청합니다.
+    @MainActor
+    func requestStarredRepositories() async -> Void {
+        let session = URLSession(configuration: .default)
+        var request = URLRequest(url: URL(string: GithubURL.baseURL.rawValue + GithubURL.userPath.rawValue + GithubURL.starredPath.rawValue)!)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(String(describing: tempoaryAccessToken!))", forHTTPHeaderField: "Authorization")
+        request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        do {
+            let (data, response) = try await session.data(for: request)    // response 값은 사용하지 않고 있다.
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            // FIXME: status code에 따라 네트워크 에러 처리하기
+            /// 200이면 통과, 401이면 인증되지 않은 사용자 등 문제 해결하기
+            self.repositories = DecodingManager.decodeArrayData(data, [Repository].self)
+        } catch {
+            print(#function, "Starred Repository Error")
+        }
+    }
 }
