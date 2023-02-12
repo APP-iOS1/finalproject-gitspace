@@ -29,14 +29,14 @@ struct AddTagSheetView: View {
     var shouldExistTag: Bool {
         /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
         /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
-        return repositoryStore.tagList.filter { tag in
+        return repositoryStore.tags.filter { tag in
             tag.name == trimmedTagInput
         }.isEmpty
     }
     
     func addNewTag() {
         if shouldBlankTag && shouldExistTag {
-            repositoryStore.tagList.append( Tag(name: trimmedTagInput) )
+            repositoryStore.tags.append( Tag(name: trimmedTagInput) )
         }
     }
     
@@ -92,7 +92,7 @@ struct AddTagSheetView: View {
                             .font(.callout)
                         
                         /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                        FlowLayout(mode: .scrollable, items: Array(zip(repositoryStore.tagList.indices.reversed(), repositoryStore.tagList.reversed()))) { index, tag in
+                        FlowLayout(mode: .scrollable, items: Array(zip(repositoryStore.tags.indices.reversed(), repositoryStore.tags.reversed()))) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
                                     isSelected: selectedTags.contains(tag),
@@ -111,7 +111,7 @@ struct AddTagSheetView: View {
                                 Button {
                                     print("삭제")
                                     withAnimation {
-                                        repositoryStore.tagList.remove(at: index)
+                                        repositoryStore.tags.remove(at: index)
                                     }
                                 } label: {
                                     Label("태그 삭제하기", systemImage: "trash")

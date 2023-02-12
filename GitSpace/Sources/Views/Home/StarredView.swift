@@ -10,7 +10,7 @@ import SwiftUI
 struct StarredView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var repositoryStore: RepositoryViewModel
+    @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
@@ -28,9 +28,9 @@ struct StarredView: View {
     
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-        for (index, item) in Array(zip(repositoryStore.tagList.indices, repositoryStore.tagList)) {
+        for (index, item) in Array(zip(repositoryViewModel.tags.indices, repositoryViewModel.tags)) {
             if item.id == tag.id {
-                repositoryStore.tagList[index].isSelected = false
+                repositoryViewModel.tags[index].isSelected = false
             }
         }
         selectedTagList.remove(at: index)
@@ -98,85 +98,100 @@ struct StarredView: View {
                 
                 /* repository list */
                 ScrollView {
-                    ForEach(repositoryStore.repositoryList) { repository in
-                        ZStack {
-                            RepositoryCardView {
-                                HStack {
-                                    NavigationLink {
-                                        /* Repository Detail View */
-                                        RepositoryDetailView()
-                                    } label: {
-                                        VStack(alignment: .leading) {
-                                            HStack(alignment: .top) {
-                                                VStack(alignment: .leading) {
-                                                    GSText.CustomTextView(
-                                                        style: .body1,
-                                                        string: repository.name)
-                                                    .multilineTextAlignment(.leading)
-                                                    GSText.CustomTextView(
-                                                        style: .title2,
-                                                        string: repository.owner)
-                                                    .multilineTextAlignment(.leading)
+                    switch repositoryViewModel.repositories {
+                    case nil:
+                        Text("Empty")
+                    default:
+                        ForEach(repositoryViewModel.repositories!) { repository in
+                            ZStack {
+                                RepositoryCardView {
+                                    HStack {
+                                        NavigationLink {
+                                            /* Repository Detail View */
+                                            RepositoryDetailView()
+                                        } label: {
+                                            VStack(alignment: .leading) {
+                                                HStack(alignment: .top) {
+                                                    VStack(alignment: .leading) {
+                                                        GSText.CustomTextView(
+                                                            style: .body1,
+                                                            string: repository.name)
+                                                        .multilineTextAlignment(.leading)
+                                                        GSText.CustomTextView(
+                                                            style: .title2,
+                                                            string: repository.owner.login)
+                                                        .multilineTextAlignment(.leading)
+                                                    }
+                                                    Spacer()
                                                 }
-                                                Spacer()
+                                                .padding(.bottom, 5)
+                                                GSText.CustomTextView(
+                                                    style: .caption1,
+                                                    string: repository.description ?? "")
+                                                .multilineTextAlignment(.leading)
                                             }
-                                            .padding(.bottom, 5)
-                                            GSText.CustomTextView(
-                                                style: .caption1,
-                                                string: repository.description)
-                                            .multilineTextAlignment(.leading)
+                                            .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                                         }
-                                        .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
                                     }
                                 }
-                            }
-                            VStack {
-                                /* Penpal, Menu button */
-                                HStack {
-                                    Spacer()
-                                    
-                                    NavigationLink(destination: {
-                                        /*
-                                         1. 우선 누구한테 챗 할지 레포기여자 목록 보여주기
-                                         2. 그 중에서 이미 챗하고 있는 사람은 조금 다르게 표기하기
-                                         */
-                                        ContributorListView()
-                                    }) {
-                                        Image(systemName: "message.circle.fill")
-                                    }
-                                    .foregroundColor(colorScheme == .light ? .black : .white)
-                                    
-                                    Menu {
-                                        Section {
-                                            Button(action: { print("Share") }) {
-                                                Label("Share", systemImage: "square.and.arrow.up")
-                                            }
-                                            Button(action: { print("Chat") }) {
-                                                Label("Chat", systemImage: "message")
-                                            }
-                                            //                                            Button(action: { print("Modify Tags") }) {
-                                            //                                                Label("Modify Tags", systemImage: "tag")
-                                            //                                            }
-                                        }
+                                VStack {
+                                    /* Penpal, Menu button */
+                                    HStack {
+                                        Spacer()
                                         
-                                        Section {
-                                            Button(role: .destructive, action: { print("Unstar") }) {
-                                                Label("Unstar", systemImage: "star")
-                                            }
+                                        NavigationLink(destination: {
+                                            /*
+                                             1. 우선 누구한테 챗 할지 레포기여자 목록 보여주기
+                                             2. 그 중에서 이미 챗하고 있는 사람은 조금 다르게 표기하기
+                                             */
+                                            ContributorListView()
+                                        }) {
+                                            Image(systemName: "message.circle.fill")
                                         }
-                                    } label: {
-                                        Image(systemName: "ellipsis")
-                                            .frame(height: 20)
+                                        .foregroundColor(colorScheme == .light ? .black : .white)
+                                        
+                                        Menu {
+                                            Section {
+                                                Button(action: { print("Share") }) {
+                                                    Label("Share", systemImage: "square.and.arrow.up")
+                                                }
+                                                Button(action: { print("Chat") }) {
+                                                    Label("Chat", systemImage: "message")
+                                                }
+                                                //                                            Button(action: { print("Modify Tags") }) {
+                                                //                                                Label("Modify Tags", systemImage: "tag")
+                                                //                                            }
+                                            }
+                                            
+                                            Section {
+                                                Button(role: .destructive, action: { print("Unstar") }) {
+                                                    Label("Unstar", systemImage: "star")
+                                                }
+                                            }
+                                        } label: {
+                                            Image(systemName: "ellipsis")
+                                                .frame(height: 20)
+                                        }
+                                        .foregroundColor(colorScheme == .light ? .black : .white)
+                                        
                                     }
-                                    .foregroundColor(colorScheme == .light ? .black : .white)
-                                    
+                                    Spacer()
                                 }
-                                Spacer()
+                                .offset(x: -20, y: 20)
                             }
-                            .offset(x: -20, y: 20)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 15)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 15)
+                    }
+                }
+                .onAppear{
+                    Task {
+                        await repositoryViewModel.requestStarredRepositories()
+                    }
+                }
+                .refreshable {
+                    Task {
+                        await repositoryViewModel.requestStarredRepositories()
                     }
                 }
             }
