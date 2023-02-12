@@ -18,7 +18,7 @@
 // TODO: 230210 기준 남은 작업 리스트
 /// 1. ChatRoomInfoView 구현 [완료]
 /// 2. Chat Listener 관련 메서드 구현 및 뷰 연결 [완료]
-/// 3. remove에 대한 lastContent 업데이트 분기 처리
+/// 3. remove에 대한 lastContent 업데이트 분기 처리 [진행 중]
 /// 4. ScrollView Reader 완성 (개어려움)
 /// 5. 메세지 인앱 알림 처리
 /// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
@@ -28,7 +28,7 @@
 /// 1. 스유 컴포넌트 -> 디자인 시스템 적용
 /// 2. 고정값 String -> 전역 상수 교체
 /// 3. Chat관련 ViewModel 메서드 정리
-/// 4. 데이터 모델링 회의 내용 반영
+/// 4. 데이터 모델링 회의 내용 반영 [완료]
 
 import Foundation
 import FirebaseFirestore
