@@ -27,7 +27,12 @@ extension MessageStore {
     
     private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "createdDate").getDocuments()
+            let snapshot = try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .order(by: "sentDate")
+                .getDocuments()
             return snapshot
         } catch {
             print("Get Message Documents Error : \(error)")
@@ -36,6 +41,10 @@ extension MessageStore {
     }
     
     @MainActor
+    private func writeMessages(messages: [Message]) {
+        self.messages = messages
+    }
+    
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
     func fetchMessages(chatID: String) async {
         
@@ -52,7 +61,7 @@ extension MessageStore {
                 }
             }
         }
-        messages = newMessages
+        await writeMessages(messages: newMessages)
     }
     
     // MARK: - Message CRUD
@@ -77,8 +86,7 @@ extension MessageStore {
             .document(message.id)
             .updateData(
                 ["textContent" : message.textContent,
-                         "createdDate" : message.sentDate]
-            )
+                 "createdDate" : message.sentDate])
     }
     
     func removeMessage(_ message: Message, chatID: String) {
