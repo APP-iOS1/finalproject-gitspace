@@ -30,8 +30,6 @@ struct MessageCell : View {
             .padding(.trailing, 20)
             
         case false:
-            
-            
             HStack {
                 // Profile Image 부분
                 VStack {
@@ -56,7 +54,6 @@ struct MessageCell : View {
                 }
             }
         }
-        
     }
 }
 
