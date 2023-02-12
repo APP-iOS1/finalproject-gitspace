@@ -60,6 +60,11 @@ class UserStore : ObservableObject {
     }
     
     @MainActor
+    private func writeUsers(users: [UserInfo]) {
+        self.users = users
+    }
+    
+    
     func requestUsers() async {
         
         let snapshot = await getUserDocuments()
@@ -75,7 +80,7 @@ class UserStore : ObservableObject {
                 }
             }
         }
-        self.users = users
+        await writeUsers(users: users)
     }
     
     private func getTargetUserIDIndex(targetUserID: String) -> Int? {
@@ -85,6 +90,11 @@ class UserStore : ObservableObject {
         return user.blockedUserIDs.firstIndex(of: targetUserID)
     }
     
+    @MainActor
+    private func writeUser(user: UserInfo) {
+        self.user = user
+    }
+    
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
         guard let user else {
             print("로그인 유저 정보가 nil입니다.")
@@ -92,13 +102,16 @@ class UserStore : ObservableObject {
         }
         var newBlockedUserIDs = user.blockedUserIDs
         let index = getTargetUserIDIndex(targetUserID: targetUserID)
+        
         switch blockCase {
+        
         case .block:
             guard index == nil else {
                 print("block 대상 ID가 이미 리스트에 존재합니다.")
                 return
             }
             newBlockedUserIDs.append(targetUserID)
+        
         case .unblock:
             guard let index else {
                 print("unblock 대상 ID가 리스트에 존재하지 않습니다.")
@@ -106,13 +119,15 @@ class UserStore : ObservableObject {
             }
             newBlockedUserIDs.remove(at: index)
         }
+        
         do {
             let newUser: UserInfo = .init(id: user.id,
                                           name: user.name,
                                           email: user.email,
                                           date: user.date,
                                           blockedUserIDs: newBlockedUserIDs)
-            self.user = newUser
+            
+            await writeUser(user: newUser)
             try await db
                 .collection("UserInfo")
                 .document(user.id)

@@ -196,23 +196,24 @@ struct ChatRoomView: View {
     private func makeChat() -> Chat {
         
         let chat = Chat(id: chat.id,
-                        date: chat.date,
-                        joinUserIDs: chat.joinUserIDs,
-                        lastDate: Date(),
-                        lastContent: contentField,
+                        createdDate: chat.createdDate,
+                        joinedMemberIDs: chat.joinedMemberIDs,
+                        lastContent: contentField, lastContentDate: Date(),
                         knockContent: chat.knockContent,
-                        knockDate: chat.knockDate)
+                        knockContentDate: chat.knockContentDate)
         return chat
     }
     
     // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
     private func makeMessage() -> Message {
         
-        let message = Message(id: UUID().uuidString,
-                                userID: Utility.loginUserID,
-                                content: contentField,
-                                date: Date())
-        return message
+        let newMessage = Message.init(id: UUID().uuidString,
+                                      senderID: Utility.loginUserID,
+                                      textContent: contentField,
+                                      imageContent: nil,
+                                      sentDate: Date.now,
+                                      isRead: false)
+        return newMessage
     }
     
     @ViewBuilder
@@ -238,7 +239,7 @@ struct ChatRoomView: View {
                 // 3
                 let isNotificationReceiveEnable: Bool? = isNotificationReceiveEnableDict[chat.id] as? Bool ?? true
                 // 4
-                let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetID)
+                let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetUserID)
                 // 5
                 ChatRoomInfoView(chat: chat,
                                  targetUserName: targetUserName,

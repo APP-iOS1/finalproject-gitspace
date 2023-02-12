@@ -27,7 +27,7 @@ extension MessageStore {
     
     private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "date").getDocuments()
+            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "createdDate").getDocuments()
             return snapshot
         } catch {
             print("Get Message Documents Error : \(error)")
@@ -76,8 +76,8 @@ extension MessageStore {
             .collection("Message")
             .document(message.id)
             .updateData(
-                ["content" : message.content,
-                         "date" : message.date]
+                ["textContent" : message.textContent,
+                         "createdDate" : message.sentDate]
             )
     }
     
@@ -130,7 +130,7 @@ extension MessageStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("added")
+                        print("Message Added")
                         let newMessage = self.fetchNewMessage(change: diff.document)
                         if let newMessage {
                             self.messages.append(newMessage)
@@ -138,9 +138,9 @@ extension MessageStore {
                             self.isMessageAdded.toggle()
                         }
                     case .modified:
-                        print("modified")
+                        print("Message Modified")
                     case .removed:
-                        print("removed")
+                        print("Message Removed")
                         self.removeDeletedLocalMessage(change: diff.document)
                     }
                 }

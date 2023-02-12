@@ -16,12 +16,19 @@
 /// 3-2. lastContent가 ""일 때 혹은 메세지 배열이 empty일 때, knock message를 View에서 표시
 
 // TODO: 230210 기준 남은 작업 리스트
-/// 1. ChatRoomInfoView 구현
-/// 2. remove에 대한 lastContent 업데이트 분기 처리
-/// 3. ScrollView Reader 완성 (개어려움)
-/// 4. 메세지 인앱 알림 처리
-/// 5. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
-/// 6. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치)
+/// 1. ChatRoomInfoView 구현 [완료]
+/// 2. Chat Listener 관련 메서드 구현 및 뷰 연결 [완료]
+/// 3. remove에 대한 lastContent 업데이트 분기 처리
+/// 4. ScrollView Reader 완성 (개어려움)
+/// 5. 메세지 인앱 알림 처리
+/// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
+/// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치)
+
+// TODO: 공통 작업
+/// 1. 스유 컴포넌트 -> 디자인 시스템 적용
+/// 2. 고정값 String -> 전역 상수 교체
+/// 3. Chat관련 ViewModel 메서드 정리
+/// 4. 데이터 모델링 회의 내용 반영
 
 import Foundation
 import FirebaseFirestore
@@ -51,7 +58,7 @@ extension ChatStore {
     // MARK: Method : chat 리스트를 마지막 메세지 시간 최신순으로 정렬
     private func sortChats() {
         chats.sort {
-            $0.lastDate > $1.lastDate
+            $0.lastContentDate > $1.lastContentDate
         }
     }
     
@@ -97,7 +104,7 @@ extension ChatStore {
     func addListener() {
         listener = db
             .collection("Chat")
-            .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
+            .whereField("joinedMemberIDs", arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
@@ -108,16 +115,16 @@ extension ChatStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("added")
+                        print("Chat Added")
                         self.listenerAddChat(change: diff.document)
                         
                     case .modified:
-                        print("modified")
+                        print("Chat Modified")
                         self.listenerUpdateChat(change: diff.document)
                         self.isListenerModified.toggle()
                         
                     case .removed:
-                        print("removed")
+                        print("Chat Removed")
                         
                     }
                 }
@@ -141,8 +148,8 @@ extension ChatStore {
         do {
             let snapshot = try await db
                 .collection("Chat")
-                .whereField("joinUserIDs", arrayContains: Utility.loginUserID)
-                .order(by: "lastDate", descending: true)
+                .whereField("joinedMemberIDs", arrayContains: Utility.loginUserID)
+                .order(by: "lastContentDate", descending: true)
                 .getDocuments()
             return snapshot
         } catch {
@@ -151,8 +158,13 @@ extension ChatStore {
         return nil
     }
     
-    
     @MainActor
+    private func writeChats(chats: [Chat]) {
+        self.chats = chats
+        self.isDoneFetch = true
+    }
+    
+    
     func fetchChats() async {
         let snapshot = await getChatDocuments()
         // MARK: Memo - 함수 내부 배열에 추가 -> Published에 덮어쓰기 로직으로 removeAll 없이 정상 작동함 by.태영
@@ -173,8 +185,7 @@ extension ChatStore {
         
         // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
         // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
-        chats = newChats
-        self.isDoneFetch = true
+        await writeChats(chats: newChats)
     }
     
     // MARK: -Chat CRUD
@@ -192,7 +203,7 @@ extension ChatStore {
         do {
             try await db.collection("Chat")
                 .document(chat.id)
-                .updateData(["lastDate" : chat.lastDate,
+                .updateData(["lastContentDate" : chat.lastContentDate,
                              "lastContent" : chat.lastContent])
         } catch {
             print("Update Chat Error : \(error.localizedDescription)")

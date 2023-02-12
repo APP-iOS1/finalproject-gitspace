@@ -44,31 +44,24 @@ struct AddChatView: View {
                         } label: {
                             Text("유저2 변경하기")
                         }
-                        
                     }
                     .buttonStyle(.bordered)
                     .tint(.pink)
-                    
-                    
-                    
                 }
             }
             .padding()
-            
             Divider()
-            
             Text("유저 1 : \(user1)")
-            
             Text("유저 2 : \(user2)")
             
             Button {
                 let newChat: Chat = .init(id: UUID().uuidString,
-                                          date: Date.now,
-                                          joinUserIDs: [user1, user2],
-                                          lastDate: Date.now,
+                                          createdDate: Date.now,
+                                          joinedMemberIDs: [user1, user2],
                                           lastContent: "",
+                                          lastContentDate: Date.now,
                                           knockContent: "",
-                                          knockDate: Date.now)
+                                          knockContentDate: Date.now)
                 Task {
                     chatStore.addChat(newChat)
                 }
@@ -77,8 +70,6 @@ struct AddChatView: View {
             }
             .buttonStyle(.bordered)
             .tint(.orange)
-            
-            
         }
         .task {
             await userStore.requestUsers()
