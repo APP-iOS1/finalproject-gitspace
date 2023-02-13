@@ -7,11 +7,16 @@
 
 import SwiftUI
 import FirebaseAuth
+//아래는 원태영 userID
+//        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
+//아래는 정예슬 userID
+//        return "u87hDEGpJ6WQcLXe8GM9yaGwT993"
+//아래는 홍길동 userID
+//        return "lX1YHIOZiLXVtB76QDIeekxKgt34"
+
 
 enum Utility {
-    static var loginUserID : String {
-        return "lX1YHIOZiLXVtB76QDIeekxKgt33"
-    }
+    static var loginUserID: String = "lX1YHIOZiLXVtB76QDIeekxKgt33"
     
     static var MessageCellWidth: CGFloat {
         return UIScreen.main.bounds.width / 5 * 3

@@ -11,6 +11,9 @@ final class KnockHistoryViewModel: ObservableObject {
 	@Published var sentKnockLists: [Knock] = []
 	@Published var receivedKnockLists: [Knock] = []
 	
+	@Published var receivedKnockListsFiltered: [Knock] = []
+	@Published var sentKnockListsFiltered: [Knock] = []
+	
 	@Published var usersKnockHistoryStatus: [String] = []
 	@Published var knockMessages: [String] = []
 	
@@ -42,20 +45,63 @@ final class KnockHistoryViewModel: ObservableObject {
 			)
 		}
 	}
-	
+		
+	// dummy
 	enum KnockStatus: String, CaseIterable {
 		case waiting = "Waiting"
 		case accepted = "Accepted"
 		case declined = "Declined"
 	}
 	
+	public func makeReceivedKnockList(
+		userFilteredKnockState: KnockStateFilter,
+		searchText: String? = nil,
+		eachFilterOption: String? = nil,
+		knockType: String? = nil
+	) {
+		self.receivedKnockListsFiltered = self.receivedKnockLists
+			.sorted {
+				self.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
+			}
+			.filter {
+				self.filterKnockListWithCondition(
+					eachKnock: $0,
+					eachFilterOption: eachFilterOption,
+					userFilteredKnockState: userFilteredKnockState,
+					searchWith: searchText,
+					knockType: knockType
+				)
+			}
+	}
+	
+	public func makeSentKnockList(
+		userFilteredKnockState: KnockStateFilter,
+		searchText: String,
+		eachFilterOption: String? = nil,
+		knockType: String? = nil
+	) -> [Knock] {
+		self.sentKnockLists
+			.sorted {
+				self.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
+			}
+			.filter {
+				self.filterKnockListWithCondition(
+					eachKnock: $0,
+					eachFilterOption: eachFilterOption,
+					userFilteredKnockState: userFilteredKnockState,
+					searchWith: searchText,
+					knockType: knockType
+				)
+			}
+	}
+	
 	public func compareTwoKnockWithStatus(lhs: Knock, rhs: Knock) -> Bool {
-		if lhs.knockStatus == "Waiting", rhs.knockStatus == "Declined" { return true }
-		else if lhs.knockStatus == "Waiting", rhs.knockStatus == "Accepted" { return true }
-		else if lhs.knockStatus == "Accepted", rhs.knockStatus == "Declined" { return true }
-		else if lhs.knockStatus == "Accepted", rhs.knockStatus == "Waiting" { return false }
-		else if lhs.knockStatus == "Declined", rhs.knockStatus == "Accepted" { return false }
-		else if lhs.knockStatus == "Declined", rhs.knockStatus == "Waiting" { return false }
+		if lhs.knockStatus == Constant.KNOCK_WAITING, rhs.knockStatus == Constant.KNOCK_DECLINED { return true }
+		else if lhs.knockStatus == Constant.KNOCK_WAITING, rhs.knockStatus == Constant.KNOCK_ACCEPTED { return true }
+		else if lhs.knockStatus == Constant.KNOCK_ACCEPTED, rhs.knockStatus == Constant.KNOCK_DECLINED { return true }
+		else if lhs.knockStatus == Constant.KNOCK_ACCEPTED, rhs.knockStatus == Constant.KNOCK_WAITING { return false }
+		else if lhs.knockStatus == Constant.KNOCK_DECLINED, rhs.knockStatus == Constant.KNOCK_ACCEPTED { return false }
+		else if lhs.knockStatus == Constant.KNOCK_DECLINED, rhs.knockStatus == Constant.KNOCK_WAITING { return false }
 		
 		return true
 	}

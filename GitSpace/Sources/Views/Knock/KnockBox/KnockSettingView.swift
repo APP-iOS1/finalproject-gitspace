@@ -9,7 +9,7 @@ import SwiftUI
 
 struct KnockSettingView: View {
     @Binding var showingKnockSetting: Bool
-	@AppStorage(Constant.AppStorage.KNOCK_ALL_NOTIFICATION) var isAllNotificationEnabled: Bool?
+	@AppStorage(Constant.AppStorageConst.KNOCK_ALL_NOTIFICATION) var isAllNotificationEnabled: Bool?
 	@State private var isAllNotiEnabled: Bool = true
 	@State private var isDeclinedNotiEnabled: Bool = true
 	@State private var isAcceptedNotiEnabled: Bool = true
@@ -100,10 +100,8 @@ struct KnockSettingView: View {
 				} header: {
 					Text("History Management")
 				} footer: {
-					Text("It cannot be restored after Removing All Knock Histories.")
+					Text("It cannot be restored after Removing All Knock Histories. \nYour Knock History will be terminated in **30 days** automatically.")
 				}
-
-                
             } // ScrollView
             .navigationBarTitle("Knock Controls", displayMode: .inline)
             .toolbar {

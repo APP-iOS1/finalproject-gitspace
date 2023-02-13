@@ -252,6 +252,18 @@ struct MainKnockView: View {
                     }
                 }
             }
+			
+			ToolbarItem(placement: .navigationBarLeading) {
+				if isSearching {
+					Button {
+						withAnimation {
+							isSearching.toggle()
+						}
+					} label: {
+						Text("Cancel")
+					}
+				}
+			}
         }
     } // body
     
@@ -435,7 +447,7 @@ struct MainKnockView: View {
                     .bold()
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                
+				
                 Spacer()
             }
             .padding(.vertical, 12)
@@ -444,8 +456,8 @@ struct MainKnockView: View {
             .background {
                 LinearGradient(
                     colors: [
-                        Color.white,
-                        Color.white.opacity(0.4),
+						Color(.systemBackground),
+						Color(.systemBackground).opacity(0.4)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -471,3 +483,17 @@ enum KnockStateFilter: String {
     case declined = "Declined"
     case all = "All"
 }
+
+//                knockList
+//                    .sorted {
+//                        knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
+//                    }
+//                    .filter {
+//                        knockHistoryViewModel.filterKnockListWithCondition(
+//                            eachKnock: $0,
+//                            eachFilterOption: filterState,
+//                            userFilteredKnockState: userFilteredKnockState,
+//                            searchWith: searchWith,
+//                            knockType: knockType
+//                        )
+//                    }
