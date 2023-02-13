@@ -5,6 +5,10 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
+// TODO: 메세지 삭제 시 lastContent 업데이트 로직 체크 필요
+/// 메세지 추가 시 채팅 리스트에서 lastContent를 누가 업데이트해주는지 체크 필요
+/// 어느쪽 리스너 혹은 뷰모델에서 lastContent를 업데이트 하는 로직을 가져야하는지 고려 필요
+
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
@@ -27,7 +31,12 @@ extension MessageStore {
     
     private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "createdDate").getDocuments()
+            let snapshot = try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .order(by: "sentDate")
+                .getDocuments()
             return snapshot
         } catch {
             print("Get Message Documents Error : \(error)")
@@ -36,6 +45,10 @@ extension MessageStore {
     }
     
     @MainActor
+    private func writeMessages(messages: [Message]) {
+        self.messages = messages
+    }
+    
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
     func fetchMessages(chatID: String) async {
         
@@ -52,7 +65,7 @@ extension MessageStore {
                 }
             }
         }
-        messages = newMessages
+        await writeMessages(messages: newMessages)
     }
     
     // MARK: - Message CRUD
@@ -77,8 +90,7 @@ extension MessageStore {
             .document(message.id)
             .updateData(
                 ["textContent" : message.textContent,
-                         "createdDate" : message.sentDate]
-            )
+                 "createdDate" : message.sentDate])
     }
     
     func removeMessage(_ message: Message, chatID: String) {

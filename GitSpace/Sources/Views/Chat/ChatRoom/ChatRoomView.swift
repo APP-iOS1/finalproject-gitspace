@@ -85,31 +85,14 @@ struct ChatRoomView: View {
         ForEach(messageStore.messages) { message in
             MessageCell(message: message, targetName: targetUserName)
                 .contextMenu {
-                    /* FIXME: 업데이트 sheet에서 타겟 Message를 정확하게 받아오지 못하는 이슈가 있어서 주석처리 By.태영
-                    Button {
-                        self.currentMessage = message
-                        isShowingUpdateCell = true
-                    } label: {
-                        Text("수정하기")
-                        Image(systemName: "pencil")
-                    }
-                     */
-                    
                     Button {
                         messageStore.removeMessage(message,
                                                    chatID: chat.id)
                     } label: {
-                        Text("삭제하기")
+                        Text("Delete Message")
                         Image(systemName: "trash")
                     }
                 }
-            /* FIXME: 업데이트 sheet에서 타겟 Message를 정확하게 받아오지 못하는 이슈가 있어서 주석처리 By.태영
-                .sheet(isPresented: $isShowingUpdateCell) {
-                    ChangeContentSheetView(isShowingUpdateCell: $isShowingUpdateCell,
-                                           chatID: chat.id,
-                                           message: message)
-                }
-             */
         }
     }
     
