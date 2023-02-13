@@ -122,9 +122,9 @@ class UserStore : ObservableObject {
         
         do {
             let newUser: UserInfo = .init(id: user.id,
-                                          name: user.name,
+                                          githubUserName: user.githubUserName,
                                           email: user.email,
-                                          date: user.date,
+                                          createdDate: user.createdDate,
                                           blockedUserIDs: newBlockedUserIDs)
             
             await writeUser(user: newUser)

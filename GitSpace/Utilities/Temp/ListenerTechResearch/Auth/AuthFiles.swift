@@ -72,9 +72,9 @@ class AuthStore: ObservableObject {
             guard let authUser = result?.user else { return }
             
             let user = UserInfo(id: authUser.uid,
-                                name: name,
+                                githubUserName: name,
                                 email: email,
-                                date: Date(),
+                                createdDate: Date(),
             blockedUserIDs: [])
             addUserInfo(user)
             // 회원가입 시, 해당 유저 정보로 로그인 되는 문제 해결을 위해 로그아웃 호출
@@ -87,9 +87,9 @@ class AuthStore: ObservableObject {
         database.collection("UserInfo")
             .document(userInfo.id)
             .setData(["id" : userInfo.id,
-                      "name" : userInfo.name,
+                      "githubUserName" : userInfo.githubUserName,
                       "email" : userInfo.email,
-                      "createdDate" : userInfo.date])
+                      "createdDate" : userInfo.createdDate])
     }
 }
 
