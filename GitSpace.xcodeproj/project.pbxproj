@@ -30,6 +30,15 @@
 		22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE52976F78C008A4405 /* ActivityView.swift */; };
 		22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DECDE92976FEB5008A4405 /* ActivityFeedView.swift */; };
 		3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427734D2992A78900818816 /* ActivityGuideView.swift */; };
+		342773552993E19700818816 /* SetAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773542993E19700818816 /* SetAppearanceView.swift */; };
+		342773572993E1BE00818816 /* SetLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773562993E1BE00818816 /* SetLicensesView.swift */; };
+		3427735C2994244A00818816 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3427735E2994244A00818816 /* Localizable.strings */; };
+		34277361299495C000818816 /* SetAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277360299495C000818816 /* SetAccountView.swift */; };
+		34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34277362299495EC00818816 /* SetPrivacySafetyView.swift */; };
+		342773652994A98400818816 /* SetLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773642994A98400818816 /* SetLanguageView.swift */; };
+		342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773662994AD1B00818816 /* SetTextMediaView.swift */; };
+		342773692994AD3100818816 /* SetNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773682994AD3100818816 /* SetNotificationsView.swift */; };
+		3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -115,7 +124,7 @@
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
 		70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
-		70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */; };
+		70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SetMainView.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
@@ -127,7 +136,7 @@
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
-		0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
 		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		225A22C6299778A900786B35 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -148,6 +157,16 @@
 		22DECDE52976F78C008A4405 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		22DECDE92976FEB5008A4405 /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
 		3427734D2992A78900818816 /* ActivityGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityGuideView.swift; sourceTree = "<group>"; };
+		342773542993E19700818816 /* SetAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAppearanceView.swift; sourceTree = "<group>"; };
+		342773562993E1BE00818816 /* SetLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLicensesView.swift; sourceTree = "<group>"; };
+		3427735D2994244A00818816 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3427735F2994249500818816 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34277360299495C000818816 /* SetAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAccountView.swift; sourceTree = "<group>"; };
+		34277362299495EC00818816 /* SetPrivacySafetyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPrivacySafetyView.swift; sourceTree = "<group>"; };
+		342773642994A98400818816 /* SetLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLanguageView.swift; sourceTree = "<group>"; };
+		342773662994AD1B00818816 /* SetTextMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTextMediaView.swift; sourceTree = "<group>"; };
+		342773682994AD3100818816 /* SetNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNotificationsView.swift; sourceTree = "<group>"; };
+		3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWorkingHoursView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -318,6 +337,38 @@
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		342773502993DF0300818816 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0BF5E35D2977AD5600F3673C /* SetMainView.swift */,
+				34277360299495C000818816 /* SetAccountView.swift */,
+				34277362299495EC00818816 /* SetPrivacySafetyView.swift */,
+				342773512993E13A00818816 /* AppSettings */,
+				342773522993E14F00818816 /* Legal */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		342773512993E13A00818816 /* AppSettings */ = {
+			isa = PBXGroup;
+			children = (
+				342773542993E19700818816 /* SetAppearanceView.swift */,
+				342773642994A98400818816 /* SetLanguageView.swift */,
+				342773662994AD1B00818816 /* SetTextMediaView.swift */,
+				342773682994AD3100818816 /* SetNotificationsView.swift */,
+				3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */,
+			);
+			path = AppSettings;
+			sourceTree = "<group>";
+		};
+		342773522993E14F00818816 /* Legal */ = {
+			isa = PBXGroup;
+			children = (
+				342773562993E1BE00818816 /* SetLicensesView.swift */,
+			);
+			path = Legal;
 			sourceTree = "<group>";
 		};
 		34582161298A49AD0058CA4C /* Utilities */ = {
@@ -516,6 +567,7 @@
 				7068B6A929769448005D6B7B /* ContentView.swift */,
 				34582161298A49AD0058CA4C /* Utilities */,
 				7068B6B529769479005D6B7B /* Sources */,
+				3427735E2994244A00818816 /* Localizable.strings */,
 				7068B6AB29769449005D6B7B /* Assets.xcassets */,
 				7068B6AD29769449005D6B7B /* Preview Content */,
 			);
@@ -551,6 +603,7 @@
 				7068B6BA2976950B005D6B7B /* Chat */,
 				703C8449298CA60E00398F2C /* Knock */,
 				7068B6B929769505005D6B7B /* Profile */,
+				342773502993DF0300818816 /* Settings */,
 				347146032991E8DC00ED990C /* GuideCenter */,
 				347146002990BBF500ED990C /* Common */,
 			);
@@ -587,7 +640,6 @@
 			children = (
 				7068B6C12976952B005D6B7B /* MainProfileView.swift */,
 				0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */,
-				0BF5E35D2977AD5600F3673C /* ProfileSettingView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -724,6 +776,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 7068B69B29769448005D6B7B;
 			packageReferences = (
@@ -746,6 +799,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
+				3427735C2994244A00818816 /* Localizable.strings in Resources */,
 				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
 				680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */,
 			);
@@ -764,7 +818,8 @@
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
-				70DB32B42989FAB0004E82AD /* ProfileSettingView.swift in Sources */,
+				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
+				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
 				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */,
@@ -782,6 +837,7 @@
 				3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */,
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
+				342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */,
 				225A22D3299778A900786B35 /* GitHubUser.swift in Sources */,
 				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
@@ -800,7 +856,10 @@
 				225A22D4299778A900786B35 /* UserResponse.swift in Sources */,
 				225A22D1299778A900786B35 /* HTTPClient.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
+				34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */,
+				342773572993E1BE00818816 /* SetLicensesView.swift in Sources */,
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
+				34277361299495C000818816 /* SetAccountView.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
@@ -826,6 +885,7 @@
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
 				7095265F297F8F4D00F97E27 /* View+.swift in Sources */,
+				342773692994AD3100818816 /* SetNotificationsView.swift in Sources */,
 				225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				6E000CB5298A553A00446C0D /* ChangeContentSheetView.swift in Sources */,
@@ -853,7 +913,9 @@
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */,
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
+				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
+				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
@@ -867,11 +929,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		3427735E2994244A00818816 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3427735D2994244A00818816 /* en */,
+				3427735F2994249500818816 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -932,6 +1007,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

@@ -34,7 +34,7 @@ struct MainProfileView: View {
                 }
 
                 NavigationLink {
-                    ProfileSettingView()
+                    SetMainView()
                 } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)
