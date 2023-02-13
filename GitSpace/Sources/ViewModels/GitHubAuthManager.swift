@@ -27,6 +27,8 @@ final class GitHubAuthManager: ObservableObject {
     @Published var state: SignInState = .signedOut
     @Published var githubAcessToken: String?
     
+//    var result: GitHubUser? = nil
+    
     var authentification = Auth.auth()
     let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
@@ -37,7 +39,7 @@ final class GitHubAuthManager: ObservableObject {
         case signedIn
         case signedOut
     }
-
+    
     init() {
         githubPermissionPreconfigure()
     }
@@ -106,10 +108,10 @@ final class GitHubAuthManager: ObservableObject {
                             return
                         }
                         self.registerNewUser(self.authenticatedUser!)
-                   
+                        
                         DispatchQueue.main.async {
                             self.state = .signedIn
-
+                            
                         }
                     }
                     task.resume()
@@ -202,11 +204,51 @@ final class GitHubAuthManager: ObservableObject {
             }
         }
     }
+    
+    
+    
+    // MARK: - Get GitHub User Info
+    // GitHubUser 구조체의 데이터를 불러옵니다.
+//    func getGitHubUserInfo() {
+//        guard let url = URL(string: "https://api.github.com/users/\(GitHubUserName)") else {
+//            print("Invalid url")
+//            return
+//        }
+//
+//        var request = URLRequest(url: url)
+//        request.addValue("\(GithubURL.bearer) \(String(describing: temporaryAcessToken))", forHTTPHeaderField: "Authorization")
+//
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if error != nil {
+//                // TODO: Handle data task error
+//                return
+//            }
+//
+//            guard let data = data else {
+//                // TODO: Handle this
+//                return
+//            }
+//
+//            let decoder = JSONDecoder()
+//            decoder.keyDecodingStrategy = .convertFromSnakeCase
+//
+//            do {
+//                let response = try decoder.decode([GitHubUser].self, from: data)
+//
+//                DispatchQueue.main.async {
+//                    self.result = response
+//                }
+//            } catch {
+//                // TODO: Handle decoding error
+//                print(error)
+//            }
+//        }.resume()
+//    }
 }
 
 
 class DecodingManager {
-    
+
     // MARK: - Decode User Data
     // FIXME: 공동으로 쓰일 수 있는 함수
     /// 밖으로 꺼내서 쓰고 싶다..!!!1
@@ -228,3 +270,4 @@ class DecodingManager {
         }
     }
 }
+

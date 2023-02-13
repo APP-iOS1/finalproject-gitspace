@@ -13,7 +13,7 @@ struct MessageCell : View {
     let message: Message
     let targetName: String
     var isMine: Bool {
-        return Utility.loginUserID == message.userID
+        return Utility.loginUserID == message.senderID
     }
     
     var body: some View {
@@ -24,14 +24,12 @@ struct MessageCell : View {
                 Spacer()
                 Text(message.stringDate)
                     .modifier(MessageTimeModifier())
-                Text(message.content)
+                Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
             }
             .padding(.trailing, 20)
             
         case false:
-            
-            
             HStack {
                 // Profile Image 부분
                 VStack {
@@ -47,7 +45,7 @@ struct MessageCell : View {
                 VStack (alignment: .leading) {
                     Text(targetName)
                     HStack(alignment: .bottom) {
-                        Text(message.content)
+                        Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
                         Text(message.stringDate)
                             .modifier(MessageTimeModifier())
@@ -56,7 +54,6 @@ struct MessageCell : View {
                 }
             }
         }
-        
     }
 }
 

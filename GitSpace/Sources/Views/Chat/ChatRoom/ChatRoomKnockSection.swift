@@ -13,7 +13,7 @@ struct ChatDetailKnockSection: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(chat.stringKnockDate)
+            Text(chat.stringKnockContentDate)
                 .font(.caption)
                 .foregroundColor(.gsLightGray2)
             HStack {
