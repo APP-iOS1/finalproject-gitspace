@@ -36,7 +36,7 @@ struct GitHubUser: Identifiable, Codable {
     var bio: String? // bio, intro message
     var location: String? // location 
     var blog: String? // blog url
-    var followers: Int // followers
-    var following: Int // following
+    var followers: Int? // followers
+    var following: Int? // following
 }
 
