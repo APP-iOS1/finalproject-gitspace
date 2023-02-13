@@ -11,8 +11,8 @@ import SwiftUI
 struct DummyUserInfo: Hashable, Identifiable {
     var id: UUID = UUID()
     let userName: String
-    let followerCount: String
-    let repoCount: String
+    let followerCount: Int
+    let repoCount: Int
 }
 
 
@@ -21,9 +21,9 @@ struct ChatUserRecommendationSection: View {
     
     @State var currentIndex: Int = 0
     
-    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: "2667", repoCount: "20")
-    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: "140", repoCount: "61")
-    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "167479", repoCount: "1044")
+    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: 2667, repoCount: 20)
+    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: 140, repoCount: 61)
+    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: 167479, repoCount: 1044)
     
     
     var body: some View {
