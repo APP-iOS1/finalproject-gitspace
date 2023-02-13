@@ -15,6 +15,8 @@
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict/>
 	<key>PUSH_NOTIFICATION_ENDPOINT</key>
 	<string>$(PUSH_NOTIFICATION_ENDPOINT)</string>
 	<key>SERVER_KEY</key>
