@@ -107,6 +107,7 @@ final class GitHubAuthManager: ObservableObject {
                         guard self.authenticatedUser != nil else {
                             return
                         }
+                        
                         self.registerNewUser(self.authenticatedUser!)
                         
                         DispatchQueue.main.async {
@@ -120,16 +121,42 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
+    // FIXME: requestExistUser -> registerNewUser순으로 Completion Handler { Completion Handler { } } 구조로 작업 필요
+    // existUser에서 가입일시를 받아서 새 user 만들기 + Github API 닉네임과 UserInfo 닉네임이 일치하지 않으면 업데이트
+    // MARK: Method - Auth의 currentUser를 통해 UserInfo에 이미 존재하는 유저인지 여부를 반환하는 메서드
+    private func requestExistUser() -> (isExist: Bool?, user: UserInfo?) {
+        var isExist: Bool?
+        var user: UserInfo?
+        if let uid = authentification.currentUser?.uid {
+            database.collection("UserInfo").document(uid).getDocument { result, error in
+                isExist = result?.exists
+                user = result?.data(as: UserInfo.self)
+            }
+        }
+        return (isExist, user)
+    }
+    
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    func registerNewUser(_ user: GitHubUser) {
-        database.collection("UserInfo")
-            .document("\(user.id)")
-            .setData([
-                "id": user.id,
-                "name": user.name,
-                "email": user.email
-            ])
+    private func registerNewUser(_ user: GitHubUser) {
+        
+        
+        
+        
+        if let isExist {
+            if isExist == false {
+                database.collection("UserInfo")
+                    .document("\(user.id)")
+                    .setData([
+                        "id": user.id,
+                        "name": user.name,
+                        "email": user.email
+                    ])
+            }
+            
+        }
+        
+        
     }
     
     // MARK: - Sign Out
