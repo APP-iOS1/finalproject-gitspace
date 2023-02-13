@@ -14,26 +14,25 @@ import FirebaseFirestoreSwift
 enum GithubURL: String {
     case baseURL = "https://api.github.com"
     case userPath = "/user"
+    case starredPath = "/starred"
     case bearer = "Bearer"
 }
 
-// FIXME: 수정 요함
-var temporaryAcessToken: String?
-var GitHubUserName: String = "lianne-b" // 임시 유저네임
+// FIXME: AccessToken은 안전하게 보관할 것.
+/// keychain에 저장하도록 하자.
+var tempoaryAccessToken: String?
 
-              
 final class GitHubAuthManager: ObservableObject {
-    static let shared: GitHubAuthManager = GitHubAuthManager() // singleton
     
     @Published var state: SignInState = .signedOut
-    @Published var githubAcessToken: OAuthCredential?
+    @Published var githubAcessToken: String?
     
 //    var result: GitHubUser? = nil
     
     var authentification = Auth.auth()
     let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
-    private var githubCredential: AuthCredential? = nil
+    private var githubCredential: OAuthCredential? = nil
     var authenticatedUser: GitHubUser?
     
     enum SignInState {
@@ -83,7 +82,10 @@ final class GitHubAuthManager: ObservableObject {
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
                         return
                     }
+                    // FIXME: Keychain에 accesstoken 저장하기
                     print(oauthCredential.accessToken!)
+                    self.githubAcessToken = oauthCredential.accessToken
+                    tempoaryAccessToken = oauthCredential.accessToken
                     
                     var session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
@@ -100,8 +102,8 @@ final class GitHubAuthManager: ObservableObject {
                             return
                         }
                         
-                        self.authenticatedUser = self.decodeData(userData, GitHubUser.self)
-                        
+                        self.authenticatedUser = DecodingManager.decodeData(userData, GitHubUser.self)
+
                         guard self.authenticatedUser != nil else {
                             return
                         }
@@ -244,10 +246,13 @@ final class GitHubAuthManager: ObservableObject {
 //    }
 }
 
-extension GitHubAuthManager {
-    
+
+class DecodingManager {
+
     // MARK: - Decode User Data
-    func decodeData<T: Decodable>(_ data: Data, _ type: T.Type) -> T? {
+    // FIXME: 공동으로 쓰일 수 있는 함수
+    /// 밖으로 꺼내서 쓰고 싶다..!!!1
+    static func decodeData<T: Decodable>(_ data: Data, _ type: T.Type) -> T? {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
@@ -256,5 +261,13 @@ extension GitHubAuthManager {
         }
     }
     
+    static func decodeArrayData<T: Decodable>(_ data: Data, _ type: [T].Type) -> [T]? {
+        do {
+            return try JSONDecoder().decode([T].self, from: data)
+        } catch {
+            print(error)
+            return nil
+        }
+    }
 }
 

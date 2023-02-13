@@ -76,6 +76,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(MessageStore())
             .environmentObject(UserStore())
             .environmentObject(TabManager())
-            .environmentObject(RepositoryStore())
+            .environmentObject(RepositoryViewModel())
     }
 }
