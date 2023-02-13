@@ -8,24 +8,23 @@
 import SwiftUI
 
 struct EachKnockCell: View {
-	let knockMessenger: String
-	
-	@ObservedObject var knockHistoryViewModel: KnockHistoryViewModel
+	let userSelectedTab: String
 	@State var eachKnock: Knock
     @Binding var isEdit: Bool
-    @Binding var checked: Bool
+    @State private var isChecked: Bool = false
 	
+	// MARK: - body
     var body: some View {
 		VStack {
 			HStack(alignment: .center) {
 				if isEdit {
-					Image(systemName: checked ? "checkmark.circle.fill" : "circle")
+					Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width: 30, height: 30)
-						.foregroundColor(checked ? Color(UIColor.systemBlue) : Color.secondary)
+						.foregroundColor(isChecked ? Color(UIColor.systemBlue) : Color.secondary)
 						.onTapGesture {
-							self.checked.toggle()
+							self.isChecked.toggle()
 						}
 				}
 				
@@ -36,10 +35,12 @@ struct EachKnockCell: View {
 				
 				VStack {
 					HStack {
-						Text(knockMessenger)
-						.bold()
-						.animation(nil)
-						.font(.headline)
+						Text(
+							userSelectedTab == Constant.KNOCK_RECEIVED
+							? "from: **\(eachKnock.sentUserName)**"
+							: "to: **\(eachKnock.receivedUserName)**"
+						)
+							.font(.body)
 						
 						Spacer()
 						
@@ -62,11 +63,11 @@ struct EachKnockCell: View {
 						
 						Spacer()
 						
-						if eachKnock.knockStatus == "Waiting" {
+						if eachKnock.knockStatus == Constant.KNOCK_WAITING {
 							Text(eachKnock.knockStatus)
 							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemBlue))
-						} else if eachKnock.knockStatus == "Accepted" {
+						} else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
 							Text(eachKnock.knockStatus)
 							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemGreen))
@@ -87,8 +88,10 @@ struct EachKnockCell: View {
 			.padding(.horizontal)
 			
 			Divider()
+				.padding(.horizontal, 20)
 		}
     }
+	
 }
 
 struct MyKnockCell_Previews: PreviewProvider {

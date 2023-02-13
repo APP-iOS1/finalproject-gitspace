@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MainKnockView: View {
-    @ObservedObject var knockHistoryViewModel = KnockHistoryViewModel()
 	@ObservedObject var knockViewManager = KnockViewManager()
     @StateObject private var keyboardHandler = KeyboardHandler()
     
@@ -24,7 +23,7 @@ struct MainKnockView: View {
     @State private var isSearching: Bool = false
     @State private var searchText: String = ""
     
-    @State var isEdit: Bool = false
+    @State private var isEdit: Bool = false
     @State var isEditChecked: Bool = false
     @State var isDisplayedKnockSettingView: Bool = false
     
@@ -65,6 +64,12 @@ struct MainKnockView: View {
 					// MARK: - 수신 탭
 					if userSelectedTab == Constant.KNOCK_RECEIVED {
 						LazyVStack(pinnedViews: .sectionHeaders) {
+							if !isSearching {
+								subHeaderGuideMessageBuilder()
+								
+								Divider()
+									.padding(.horizontal, 20)
+							}
 							switch userFilteredKnockState {
 							case .waiting, .accepted, .declined:
 								eachCellSection(
@@ -88,9 +93,21 @@ struct MainKnockView: View {
 							}
 						}
 						.transition(knockViewManager.leadingTransition)
+						.fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
+							KnockSettingView(
+								showingKnockSetting: $isDisplayedKnockSettingView
+							)
+						}
 						
 					} else if userSelectedTab == Constant.KNOCK_SENT {
 						LazyVStack(pinnedViews: .sectionHeaders) {
+							if !isSearching {
+								subHeaderGuideMessageBuilder()
+								
+								Divider()
+									.padding(.horizontal, 20)
+							}
+							
 							switch userFilteredKnockState {
 							case .waiting, .accepted, .declined:
 								eachCellSection(
@@ -115,7 +132,6 @@ struct MainKnockView: View {
 						}
 						.transition(knockViewManager.trailingTransition)
 					}
-				
 			}
         } // VStack
 		.task {
@@ -137,6 +153,7 @@ struct MainKnockView: View {
                         .foregroundColor(.primary)
                 }
             }
+			
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(isEdit ? "Cancel" : "Edit") {
                     withAnimation(.easeIn(duration: 0.28)) {
@@ -264,6 +281,8 @@ struct MainKnockView: View {
                     Text("Decide who can Knock on You.")
                 }
             }
+			.font(.caption2)
+			.padding(.top, 8)
         case sentKnockTab:
             VStack {
                 // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
@@ -275,6 +294,8 @@ struct MainKnockView: View {
                 Text("has approved your knock")
             }
             .foregroundColor(Color(.systemGray))
+			.font(.caption2)
+			.padding(.top, 8)
         default:
             EmptyView()
         }
@@ -300,23 +321,59 @@ struct MainKnockView: View {
 						userSelectedTab == Constant.KNOCK_RECEIVED
 						? $0.sentUserName.contains(searchText, isCaseInsensitive: true)
 						: $0.receivedUserName.contains(searchText, isCaseInsensitive: true)
-					}
-				,
+					},
 				id: \.id) { eachKnock in
 					if let eachFilteredState,
 					   eachFilteredState.rawValue == eachKnock.knockStatus {
-						Text(eachKnock.receivedUserName)
+						NavigationLink {
+							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
+							   userSelectedTab == Constant.KNOCK_RECEIVED {
+								ReceivedKnockView()
+							} else {
+								KnockHistoryView(
+									eachKnock: eachKnock,
+									knockMessenger: $userSelectedTab
+								)
+							}
+						} label: {
+							EachKnockCell(
+								userSelectedTab: userSelectedTab,
+								eachKnock: eachKnock,
+								isEdit: $isEdit
+							)
+							.foregroundColor(.primary)
+						}
 					} else if userFilteredKnockState.rawValue == eachKnock.knockStatus {
-						Text(eachKnock.receivedUserName)
+						NavigationLink {
+							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
+							   userSelectedTab == Constant.KNOCK_RECEIVED {
+								ReceivedKnockView()
+							} else {
+								KnockHistoryView(
+									eachKnock: eachKnock,
+									knockMessenger: $userSelectedTab
+								)
+							}
+						} label: {
+							EachKnockCell(
+								userSelectedTab: userSelectedTab,
+								eachKnock: eachKnock,
+								isEdit: $isEdit
+							)
+							.foregroundColor(.primary)
+						}
 					}
-			}
+				}
 		} header: {
 			switch userFilteredKnockState {
 			case .waiting, .accepted, .declined:
-				if getKnockCountInKnockList(
-					knockList: knockList,
-					equalsToKnockStatus: userFilteredKnockState.rawValue
-				) == 0 {
+				if knockViewManager.getKnockCountInKnockList(
+						knockList: knockList,
+						equalsToKnockStatus:userFilteredKnockState.rawValue,
+						isSearching: isSearching,
+						searchText: searchText,
+						userSelectedTab: userSelectedTab
+					) == 0 {
 					EmptyView()
 				} else {
 					HStack {
@@ -327,9 +384,12 @@ struct MainKnockView: View {
 						Spacer()
 						
 						Text(
-							getKnockCountInKnockList(
+							knockViewManager.getKnockCountInKnockList(
 								knockList: knockList,
-								equalsToKnockStatus: userFilteredKnockState.rawValue
+								equalsToKnockStatus:userFilteredKnockState.rawValue,
+								isSearching: isSearching,
+								searchText: searchText,
+								userSelectedTab: userSelectedTab
 							)
 							.description
 						)
@@ -338,9 +398,12 @@ struct MainKnockView: View {
 					.modifier(PinnedViewHeaderModifier())
 				}
 			case .all:
-				if getKnockCountInKnockList(
+				if knockViewManager.getKnockCountInKnockList(
 					knockList: knockList,
-					equalsToKnockStatus: eachFilteredState?.rawValue ?? ""
+					equalsToKnockStatus: eachFilteredState?.rawValue ?? "",
+					isSearching: isSearching,
+					searchText: searchText,
+					userSelectedTab: userSelectedTab
 				) == 0 {
 					EmptyView()
 				} else {
@@ -351,9 +414,13 @@ struct MainKnockView: View {
 						Spacer()
 						
 						Text(
-							getKnockCountInKnockList(
+							knockViewManager.getKnockCountInKnockList(
 								knockList: knockList,
-								equalsToKnockStatus: eachFilteredState?.rawValue ?? "")
+								equalsToKnockStatus: eachFilteredState?.rawValue ?? "",
+								isSearching: isSearching,
+								searchText: searchText,
+								userSelectedTab: userSelectedTab
+							)
 							.description
 						)
 						.foregroundColor(Color.gsGray2)
@@ -363,119 +430,6 @@ struct MainKnockView: View {
 			}
 		}
 	}
-	
-	private func getKnockCountInKnockList(
-		knockList: [Knock],
-		equalsToKnockStatus: String
-	) -> Int {
-		knockList
-			.filter {
-				filteringSearchText(
-					knock: $0,
-					equalsToKnockStatus: equalsToKnockStatus
-				)
-			}
-			.count
-	}
-	
-	// 검색하고 상태값 맞춘거에 따라 필터링 할 수 있도록 구현해라
-	// 370~372 자리에 들어갈 로직 짜면댐
-	private func filteringSearchText(
-		knock: Knock,
-		equalsToKnockStatus: String
-	) -> Bool {
-		if isSearching, userSelectedTab == Constant.KNOCK_RECEIVED { // 검색중 + 내 수신함
-			// 현재 내가 선택한 필터 옵션과 같아야 하고, 내 수신함에는 보낸 사람의 정보를 가져야 한다.
-			return knock.knockStatus == equalsToKnockStatus && knock.sentUserName.contains(searchText, isCaseInsensitive: true)
-		} else if isSearching, userSelectedTab == Constant.KNOCK_SENT { // 검색중 + 내 발신함
-			return knock.knockStatus == equalsToKnockStatus && knock.receivedUserName.contains(searchText, isCaseInsensitive: true)
-		} else if userSelectedTab == Constant.KNOCK_RECEIVED {
-			return knock.knockStatus == equalsToKnockStatus
-		} else if userSelectedTab == Constant.KNOCK_SENT {
-			return knock.knockStatus == equalsToKnockStatus
-		}
-		return false
-	}
-	
-    @ViewBuilder
-    private func eachCellSectionBuilder(
-        knockList: [Knock],
-        filterState: String? = nil,
-        searchWith: String? = nil,
-        knockType: String? = nil
-    ) -> some View {
-        Section {
-            ForEach(
-                knockList
-                    .sorted {
-                        knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
-                    }
-                    .filter {
-                        knockHistoryViewModel.filterKnockListWithCondition(
-                            eachKnock: $0,
-                            eachFilterOption: filterState,
-                            userFilteredKnockState: userFilteredKnockState,
-                            searchWith: searchWith,
-                            knockType: knockType
-                        )
-                    }, id: \.id) { eachKnock in
-                        NavigationLink {
-                            if eachKnock.knockStatus == Constant.KNOCK_WAITING {
-                                ReceivedKnockView()
-                            } else {
-                                KnockHistoryView(
-                                    eachKnock: eachKnock,
-                                    knockMessenger: $userSelectedTab
-                                )
-                            }
-                        } label: {
-                            if userSelectedTab == receivedKnockTab {
-                                EachKnockCell(
-									userSelectedTab: "from: \(eachKnock.sentUserName)",
-                                    knockHistoryViewModel: knockHistoryViewModel,
-                                    eachKnock: eachKnock,
-                                    isEdit: $isEdit,
-                                    checked: $isEditChecked
-                                )
-                                .foregroundColor(.primary)
-                            } else {
-                                EachKnockCell(
-									userSelectedTab: "to: \(eachKnock.receivedUserName)",
-                                    knockHistoryViewModel: knockHistoryViewModel,
-                                    eachKnock: eachKnock,
-                                    isEdit: $isEdit,
-                                    checked: $isEditChecked
-                                )
-                                .foregroundColor(.primary)
-                            }
-                        }
-                    }
-        } header: {
-            HStack {
-                Text("\(filterState ?? userFilteredKnockState.rawValue)")
-                    .bold()
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-				
-                Spacer()
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 20)
-            .frame(alignment: .leading)
-            .background {
-                LinearGradient(
-                    colors: [
-						Color(.systemBackground),
-						Color(.systemBackground).opacity(0.4)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-            
-            Divider()
-        }
-    }
 } // KnockBoxView()
 
 struct KnockBoxView_Previews: PreviewProvider {
