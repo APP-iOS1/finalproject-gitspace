@@ -184,20 +184,20 @@ struct StarredView: View {
                         }
                     }
                 }
-                .onAppear{
-                    Task {
-                        await repositoryViewModel.requestStarredRepositories()
-                    }
-                }
-                .refreshable {
-                    Task {
-                        await repositoryViewModel.requestStarredRepositories()
-                    }
+            }
+            .onAppear{
+                Task {
+                    await repositoryViewModel.requestStarredRepositories(page: 1)
                 }
             }
-            .sheet(isPresented: $isShowingSelectTagView) {
-                AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList)
+            .refreshable {
+                Task {
+                    await repositoryViewModel.requestStarredRepositories(page: 2)
+                }
             }
+        }
+        .sheet(isPresented: $isShowingSelectTagView) {
+            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList)
         }
         .onTapGesture {
             self.endTextEditing()
