@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-final class AppState: ObservableObject {
-	static let shared = AppState()
+final class GSPushNotificationRouter: ObservableObject {
 	@Published var pageNavigationTo: GSTabBarRouter.Page?
 	
 	var navigationBindingActive: Binding<Bool> {
@@ -18,6 +17,4 @@ final class AppState: ObservableObject {
 			if !newValue { self.pageNavigationTo = nil }
 		}
 	}
-	
-	private init () {}
 }
