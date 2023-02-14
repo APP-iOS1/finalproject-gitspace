@@ -61,7 +61,7 @@ struct TestCanvas: View {
                 /* 캔버스 내부: */
                 Group {
                     NavigationLink {
-                        RepositoryDetailView()
+//                        RepositoryDetailView(service: <#GitHubService#>)
                     } label: {
                         VStack(alignment: .leading) {
                             HStack(alignment: .top) {

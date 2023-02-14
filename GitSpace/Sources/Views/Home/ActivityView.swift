@@ -9,21 +9,19 @@ import SwiftUI
 
 struct ActivityView: View {
     
+    let gitHubService: GitHubService
+    
+    init(service: GitHubService) {
+        self.gitHubService = service
+    }
+    
     var body: some View {
         
             ScrollView {
                 ForEach(1..<5) { number in
-                    ActivityFeedView(userNumber: number)
+                    ActivityFeedView(service: gitHubService, number: number)
                     Divider()
                 }
             } // vstack
     } // body
-}
-
-
-
-struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityView()
-    }
 }

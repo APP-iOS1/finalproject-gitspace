@@ -14,7 +14,7 @@ import Foundation
 protocol GitHubServiceProtocol {
     
     /// 인증된 사용자의 정보를 요청하는 함수
-    func requestAuthenticatedUser() async -> Result<UserResponse, GitHubAPIError>
+    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError>
     
     /// 인증된 사용자의 starred repository들을 요청하는 함수
     func requestAuthenticatedUserStars(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -29,7 +29,7 @@ protocol GitHubServiceProtocol {
     func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
     /// 특정 유저의 정보를 요청하는 함수
-    func requestUserInformation(userName: String) async -> Result<UserResponse, GitHubAPIError>
+    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError>
     
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -37,8 +37,14 @@ protocol GitHubServiceProtocol {
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<RepositoryResponse, GitHubAPIError>
     
+    /// 특정 레포지토리의 리드미를 요청하는 함수
+    func requestRepositoryReadme(owner: String, repositoryName: String) async -> Result<RepositoryReadmeResponse, GitHubAPIError>
+    
+    /// 마크다운 text를 HTML로 변환하는 함수
+    func requestMarkdownToHTML(content: String) async -> Result<String, GitHubAPIError>
+    
     /// 특정 레포지토리의 contributor 목록을 요청하는 함수
-    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError>
     
     // TODO: - 필요한 API 기능을 추가로 작성합니다.
 }
@@ -46,13 +52,14 @@ protocol GitHubServiceProtocol {
 /// GitHubService 구현부
 struct GitHubService: HTTPClient, GitHubServiceProtocol {
     
+    
     /**
      인증된 유저의 정보를 요청합니다.
      - Author: 제균
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestAuthenticatedUser() async -> Result<UserResponse, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: UserResponse.self)
+    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: GitHubUser.self)
     }
     
     /**
@@ -108,8 +115,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - userName: GitHub userName
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserInformation(userName: String) async -> Result<UserResponse, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: UserResponse.self)
+    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GitHubUser.self)
     }
     
     /**
@@ -137,6 +144,28 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryInformation(owner: owner, repositoryName: repositoryName), responseModel: RepositoryResponse.self)
     }
     
+    /**
+     특정 레포지토리의 리드미를 요청합니다.
+     - Author: 제균
+     - parameters:
+        - owner: 레포지토리 주인의 userName
+        - repositoryName: 레포지토리의 이름
+     - returns: 요청 성공시 레포지토리의 readme를 담고있는 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestRepositoryReadme(owner: String, repositoryName: String) async -> Result<RepositoryReadmeResponse, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryREADME(owner: owner, repositoryName: repositoryName), responseModel: RepositoryReadmeResponse.self)
+    }
+    
+    /**
+     마크다운 String을 HTML String으로 변환하도록 요청합니다.
+     - Author: 제균
+     - parameters:
+        - content: html 문자열로 변환할 마크다운 문자열
+     - returns: 요청 성공시 HTML 문자열을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestMarkdownToHTML(content: String) async -> Result<String, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.markdownToHTML(markdownString: content))
+    }
     
     /**
      특정 레포지토리의 contributor 목록을 요청합니다.
@@ -147,10 +176,12 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 페이지 number
      - returns: 요청 성공시 성공했다는 Contributor의 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[UserResponse], GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [UserResponse].self)
+    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [ContributorProfile].self)
     }
-
+    
+    
+    
     
     
     

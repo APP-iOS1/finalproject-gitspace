@@ -9,6 +9,11 @@ import SwiftUI
 
 struct StarredView: View {
     
+    let gitHubService: GitHubService
+    
+    init(service: GitHubService) {
+        self.gitHubService = service
+    }
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @State private var searchTag: String = ""
@@ -108,7 +113,7 @@ struct StarredView: View {
                                     HStack {
                                         NavigationLink {
                                             /* Repository Detail View */
-                                            RepositoryDetailView()
+                                            RepositoryDetailView(service: gitHubService, repository: repository)
                                         } label: {
                                             VStack(alignment: .leading) {
                                                 HStack(alignment: .top) {
