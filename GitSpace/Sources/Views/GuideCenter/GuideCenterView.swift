@@ -18,7 +18,7 @@ struct GuideCenterView: View {
                 
                 HStack {
                     
-                    Image("GitSpace-AddTagSheetView")
+                    Image("GitSpace-General-Guide")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 100)

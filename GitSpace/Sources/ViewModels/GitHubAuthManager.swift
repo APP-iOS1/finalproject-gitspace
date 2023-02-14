@@ -53,8 +53,9 @@ final class GitHubAuthManager: ObservableObject {
         // 사용자의 이메일 주소에 접근하기 위한 요청입니다.
         // 이 부분은 앱의 API 권한에서 사전에 설정되어야만 합니다.
         provider.scopes = [
-            "user:email",
-            "read:user"
+            "user",
+            "read",
+            "repo"
         ]
     }
     
@@ -82,6 +83,11 @@ final class GitHubAuthManager: ObservableObject {
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
                         return
                     }
+                    
+                    guard let at = oauthCredential.accessToken else { return }
+                    
+                    UserDefaults.standard.set(at, forKey: "AT")
+                    
                     // FIXME: Keychain에 accesstoken 저장하기
                     print(oauthCredential.accessToken!)
                     self.githubAcessToken = oauthCredential.accessToken
@@ -90,7 +96,8 @@ final class GitHubAuthManager: ObservableObject {
                     var session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
                     githubRequest.httpMethod = "GET"
-                    githubRequest.addValue("Bearer \(oauthCredential.accessToken!)", forHTTPHeaderField: "Authorization")
+//                    githubRequest.addValue("Bearer \(oauthCredential.accessToken!)", forHTTPHeaderField: "Authorization")
+                    githubRequest.addValue("Bearer \(at)", forHTTPHeaderField: "Authorization")
                     
                     let task = session.dataTask(with: githubRequest) { data, response, error in
                         guard error == nil else {
@@ -101,6 +108,8 @@ final class GitHubAuthManager: ObservableObject {
                             print("SignIn Decoded Error: ", error?.localizedDescription as Any)
                             return
                         }
+                        
+//                        print(String(data: data, encoding: <#T##String.Encoding#>))
                         
                         self.authenticatedUser = DecodingManager.decodeData(userData, GitHubUser.self)
                         
@@ -172,7 +181,7 @@ final class GitHubAuthManager: ObservableObject {
                 .document(user.id)
                 .setData(from: user.self)
         } catch {
-            print("Add User Error : \(error.localizedDescription)")
+            print("Error-GitHubAuthManager-addUser : \(error.localizedDescription)")
         }
     }
     
@@ -204,7 +213,7 @@ final class GitHubAuthManager: ObservableObject {
     func deleteCurrentUser() async -> Void {
         do {
             try await database.collection("UserInfo")
-                .document("\(self.authenticatedUser!.id)")
+                .document(Auth.auth().currentUser?.uid ?? "")
                 .delete()
         } catch let deleteUserError as NSError {
             print(#function, "Error delete user: %@", deleteUserError)

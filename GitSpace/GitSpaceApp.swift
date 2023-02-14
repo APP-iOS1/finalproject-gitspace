@@ -36,20 +36,19 @@ struct GitSpaceApp: App {
 		let notificationManager = delegate.pushNotificationManager
 		
         WindowGroup {
-			VStack {
-				// !!!: - FCM Test를 진행할 때만 각주를 해제합니다.
-				// PushNotificationTestView()
-				
-				InitialView(tabBarRouter: tabBarRouter)
-					.environmentObject(ChatStore())
-					.environmentObject(MessageStore())
-					.environmentObject(UserStore())
-					.environmentObject(RepositoryViewModel())
-					.environmentObject(GitHubAuthManager())
-					.environmentObject(KnockViewManager())
-					.environmentObject(tabBarRouter)
-					.preferredColorScheme(selectedAppearance)
-			}
+            // !!!: - FCM Test를 진행할 때만 각주를 해제합니다.
+            // PushNotificationTestView()
+
+            InitialView(tabBarRouter: tabBarRouter)
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(RepositoryViewModel())
+                .environmentObject(TagViewModel())
+                .environmentObject(GitHubAuthManager())
+                .environmentObject(KnockViewManager())
+                .environmentObject(tabBarRouter)
+                .preferredColorScheme(selectedAppearance)
         }
     }
 }

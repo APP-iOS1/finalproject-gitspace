@@ -28,6 +28,7 @@
 /// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
 /// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치)
 /// 8. Github API 프로필 Image 캐시 처리
+/// 9. UserInfo 모델링 + Github OAuth 로직 연결 [완료]
 
 // TODO: 공통 작업
 /// 1. 스유 컴포넌트 -> 디자인 시스템 적용
@@ -68,7 +69,7 @@ extension ChatStore {
     // MARK: Method : 추가된 문서 필드에 접근하여 Chat 객체를 만들어 반환하는 메서드
     private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
         do {
-            let newChat = try change.data(as: Chat.self)
+            var newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
             print("Fetch New Chat in Chat Listener Error : \(error)")
@@ -196,7 +197,7 @@ extension ChatStore {
                 .document(chat.id)
                 .setData(from: chat.self)
         } catch {
-            print("Add Chat Error : \(error.localizedDescription)")
+            print("Error-ChatViewModel-addChat : \(error.localizedDescription)")
         }
     }
     
@@ -207,7 +208,7 @@ extension ChatStore {
                 .updateData(["lastContentDate" : chat.lastContentDate,
                              "lastContent" : chat.lastContent])
         } catch {
-            print("Update Chat Error : \(error.localizedDescription)")
+            print("Error-ChatViewModel-updateChat : \(error.localizedDescription)")
         }
         
     }
@@ -218,7 +219,23 @@ extension ChatStore {
                 .document(chat.id)
                 .delete()
         } catch {
-            print("Remove Chat Error : \(error.localizedDescription)")
+            print("Error-ChatViewModel-removeChat : \(error.localizedDescription)")
         }
+    }
+    
+    func getUnreadMessageDictionary(chatID: String) async -> [String : Int]? {
+        do {
+            let snapshot = try await db.collection("Chat")
+                .document(chatID)
+                .getDocument()
+            
+            if let data = snapshot.data() {
+                let dict = data["unreadMessageCount"] as? [String : Int] ?? ["no one" : 0]
+                return dict
+            }
+        } catch {
+            print("Get Chat Documents Error : \(error)")
+        }
+        return nil
     }
 }

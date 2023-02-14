@@ -62,7 +62,8 @@ struct AddChatView: View {
                                           lastContent: "",
                                           lastContentDate: Date.now,
                                           knockContent: "",
-                                          knockContentDate: Date.now)
+                                          knockContentDate: Date.now,
+                                          unreadMessageCount: [user1 : 0, user2 : 0])
                 Task {
                     chatStore.addChat(newChat)
                 }
