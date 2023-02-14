@@ -11,6 +11,8 @@ struct SetMainView: View {
     
     @AppStorage("systemAppearance") private var systemAppearance: Int = AppearanceType.allCases.first!.rawValue
     
+    @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
+    
     var appearanceText: String? {
         guard let appearance = AppearanceType(rawValue: systemAppearance) else { return nil }
         
@@ -42,6 +44,11 @@ struct SetMainView: View {
                                 .foregroundColor(.gsGray2)
                             
                             Text("Account")
+                            
+                            Spacer()
+                            
+                            Text("\(GitHubAuthManager.authenticatedUser?.login ?? "")")
+                                .foregroundColor(.gsGray2)
                         }
                     }
                     

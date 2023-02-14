@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct SetAccountView: View {
+    
+    @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
+    @State private var showingLogoutAlert = false
+    @State private var showingDeleteAccountAlert = false
+    
+    
     var body: some View {
         List {
             // MARK: - APP MANAGEMENT
@@ -15,15 +21,16 @@ struct SetAccountView: View {
                 HStack {
                     Text("Username")
                     Spacer()
-                    Text("\("wontaeyoung")")
+                    Text("\(GitHubAuthManager.authenticatedUser?.login ?? "")")
+                        .foregroundColor(.gsLightGray2)
                 }
             } header: {
                 Text("ACCOUNT INFORMATION")
             }
             
             Section {
-                // MARK: Terms of Service
-                /// 이용약관
+                // MARK: Blocked Users
+                /// 차단한 유저 리스트
                 NavigationLink {
                     
                 } label: {
@@ -37,13 +44,13 @@ struct SetAccountView: View {
             
             Section {
                 Button(role: .cancel) {
-                    print("로그아웃;; 할거임")
+                    showingLogoutAlert.toggle()
                 } label: {
                     Text("Logout")
                 }
                 
                 Button(role: .destructive) {
-                    print("회원탈퇴;; 할거임")
+                    showingDeleteAccountAlert.toggle()
                 } label: {
                     Text("Delete Account")
                 }
@@ -54,6 +61,25 @@ struct SetAccountView: View {
             
         } // List
         .navigationBarTitle("Account", displayMode: .inline)
+        .alert("Logout", isPresented: $showingLogoutAlert) {
+              Button("Logout", role: .destructive) {
+                  print("[System] \(GitHubAuthManager.authenticatedUser?.login ?? "") 계정에서 로그아웃 합니다.")
+                  GitHubAuthManager.signOut()
+              }
+        } message: {
+            Text("Logout from ") + Text("\(GitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account.")
+        }
+        .alert("메시지", isPresented: $showingDeleteAccountAlert) {
+              Button("Delete", role: .destructive) {
+                  print("[System] \(GitHubAuthManager.authenticatedUser?.login ?? "") 계정이 탈퇴 되었습니다.")
+                  Task {
+                      await GitHubAuthManager.deleteCurrentUser()
+                      await GitHubAuthManager.withdrawal()
+                  }
+              }
+        } message: {
+            Text("\(GitHubAuthManager.authenticatedUser?.login ?? "")").bold() + Text("account has been deleted.")
+        }
     }
 }
 
