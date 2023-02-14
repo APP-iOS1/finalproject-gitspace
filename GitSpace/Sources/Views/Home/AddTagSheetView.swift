@@ -37,7 +37,6 @@ struct AddTagSheetView: View {
     var shouldExistTag: Bool {
         /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
         /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
-//        guard let tags = repositoryStore.tags else { return true }
         return tagViewModel.tags.filter { tag in
             tag.tagName == trimmedTagInput
         }.isEmpty
@@ -111,19 +110,13 @@ struct AddTagSheetView: View {
                         FlowLayout(mode: .scrollable, items: Array(zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed()))) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    // FIXME: StarredView, RepositoryDetailView switching
                                     isSelected: selectedTags.contains(tag),
                                     isEditing: false
                                 )
                             ) {
                                 withAnimation {
-                                    // FIXME: StarredView, RepositoryDetailView switching
-                                    switch beforeView {
-                                    case .starredView:
-                                        selectTag(to: tag)
-                                    case .repositoryDetailView:
-                                        print("detail view")
-                                    }
+                                    selectTag(to: tag)
+                                    print("detail view")
                                 }
                             } label: {
                                 Text("\(tag.tagName)")
@@ -164,12 +157,10 @@ struct AddTagSheetView: View {
                              사용자가 선택한 태그들(selectedTags)를
                              preSelectedTag에 추가한다.
                              */
-                            // FIXME: StarredView, RepositoryDetailView switching
-                            switch beforeView {
-                            case .starredView:
-                                preSelectedTags = selectedTags
-                            case .repositoryDetailView:
-                                print("repository detail view, done")
+                            preSelectedTags = selectedTags
+                            Task {
+                                // FIXME: 실제 레포 이름 가져오기
+                                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: "wwdc/2022")
                             }
                             dismiss()
                         } label: {
