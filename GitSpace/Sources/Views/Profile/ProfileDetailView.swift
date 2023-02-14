@@ -85,7 +85,7 @@ struct ProfileSectionView: View {
                     .scaledToFit()
                     .frame(height: 60)
                     .padding(.trailing, 8)
-
+                
                 VStack(alignment: .leading) { // 이름, 닉네임
                     GSText.CustomTextView(style: .title2, string: GitHubAuthManager.authenticatedUser?.name ?? "")
                     Spacer()
@@ -93,51 +93,56 @@ struct ProfileSectionView: View {
                     GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.login ?? "")
                 }
                 
-				Spacer()
+                Spacer()
             }
             
             
             // MARK: - 프로필 자기 ..설명..?
-            HStack {
-                GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
-                Spacer()
+            if GitHubAuthManager.authenticatedUser?.bio != "" {
+                HStack {
+                    GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
+                    Spacer()
+                }
+                .padding(15)
+                .font(.callout)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.leading)
+                .background(Color.gsGray3)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                )
+                .padding(.vertical, 20)
             }
-            .padding(15)
-            .font(.callout)
-            .frame(maxWidth: .infinity)
-            .multilineTextAlignment(.leading)
-            .background(Color.gsGray3)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-            )
-            .padding(.vertical, 20)
-                
             
-            HStack { // MARK: - 위치 이미지, 국가 및 위치
-                Image(systemName: "mappin.and.ellipse")
-                    .foregroundColor(.gsGray2)
-                GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.location ?? "")
+            
+            // MARK: - 위치 이미지, 국가 및 위치
+            if GitHubAuthManager.authenticatedUser?.location != "" {
+                HStack {
+                    Image(systemName: "mappin.and.ellipse")
+                        .foregroundColor(.gsGray2)
+                    GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.location ?? "")
+                }
+                .foregroundColor(Color(.systemGray))
             }
-            .foregroundColor(Color(.systemGray))
-            HStack{ // MARK: - 링크 이미지, 블로그 및 기타 링크
-                Image(systemName: "link")
-                    .foregroundColor(.gsGray2)
-                Button {
+            
+            // MARK: - 링크 이미지, 블로그 및 기타 링크
+            if GitHubAuthManager.authenticatedUser?.blog != "" {
+                HStack{
+                    Image(systemName: "link")
+                        .foregroundColor(.gsGray2)
                     
-                } label: {
-                    HStack {
-                        if GitHubAuthManager.authenticatedUser?.blog != nil {
-                            Link(destination: URL(string: GitHubAuthManager.authenticatedUser?.blog ?? "")!) {
-                                GSText.CustomTextView(style: .body1, string: GitHubAuthManager.authenticatedUser?.blog ?? "")
-                            }
-                        } else {
-                            GSText.CustomTextView(style: .body1, string: "-")
+                    Button {
+                        
+                    } label: {
+                        Link(destination: URL(string: GitHubAuthManager.authenticatedUser?.blog ?? "")!) {
+                            GSText.CustomTextView(style: .body1, string: GitHubAuthManager.authenticatedUser?.blog ?? "")
                         }
                     }
                 }
             }
             
-            HStack { // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+            // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+            HStack {
                 Image(systemName: "person")
                     .foregroundColor(.gsGray2)
                 

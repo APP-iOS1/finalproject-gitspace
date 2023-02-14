@@ -15,6 +15,7 @@ struct SetLanguageView: View {
     var body: some View {
         List {
             
+            // MARK: - English, US
             Button {
                 isEnglish = true
             } label: {
@@ -27,16 +28,17 @@ struct SetLanguageView: View {
                         Text("English, US")
                             .font(.caption2)
                     }
+                    .foregroundColor(.primary)
                     
                     Spacer()
                     if isEnglish {
                         Image(systemName: "checkmark")
-                            .foregroundColor(.gsGreenPrimary)
+                            //.foregroundColor(.gsGreenPrimary)
                     }
                 }
-                .foregroundColor(.primary)
             }
 
+            // MARK: - Korean
             Button {
                 isEnglish = false
             } label: {
@@ -46,7 +48,7 @@ struct SetLanguageView: View {
                     
                     VStack(alignment: .leading, spacing: 2) {
                         Text("한국어 (지원 예정)")
-                        Text("Korean(To be applied)")
+                        Text("Korean (To be applied)")
                             .font(.caption2)
                     }
                     
