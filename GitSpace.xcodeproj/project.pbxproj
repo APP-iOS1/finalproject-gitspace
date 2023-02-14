@@ -10,6 +10,8 @@
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
+		0B9EF562299B2E32007C2534 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0B9EF561299B2E32007C2534 /* Secrets.xcconfig */; };
+		0B9EF564299B2E4A007C2534 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B9EF563299B2E4A007C2534 /* Assets.xcassets */; };
 		225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C4299778A900786B35 /* HTTPRequestMethod.swift */; };
 		225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C5299778A900786B35 /* GitHubAPIError.swift */; };
 		225A22D1299778A900786B35 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C6299778A900786B35 /* HTTPClient.swift */; };
@@ -118,7 +120,6 @@
 		70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CDF299B105B009948FC /* URL+DeepLink.swift */; };
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
 		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
-		70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CEF299B2B5E009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -136,6 +137,8 @@
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
+		0B9EF561299B2E32007C2534 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		0B9EF563299B2E4A007C2534 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
 		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
@@ -242,7 +245,6 @@
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
-		70BB6CEF299B2B5E009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../Downloads/finalproject-gitspace-dev/GitSpace/Assets.xcassets"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -509,7 +511,7 @@
 		700A11CE2997364F008C94C7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				70BB6CEF299B2B5E009948FC /* Assets.xcassets */,
+				0B9EF563299B2E4A007C2534 /* Assets.xcassets */,
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
 				700A11CC29973584008C94C7 /* App */,
 			);
@@ -543,6 +545,7 @@
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
+				0B9EF561299B2E32007C2534 /* Secrets.xcconfig */,
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
@@ -808,9 +811,10 @@
 			files = (
 				7085D9FC2994BCE100AC28AD /* Secrets.xcconfig in Resources */,
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
+				0B9EF562299B2E32007C2534 /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
+				0B9EF564299B2E4A007C2534 /* Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
-				70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
