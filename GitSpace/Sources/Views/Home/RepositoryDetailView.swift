@@ -24,17 +24,17 @@ struct RepositoryDetailView: View {
     
     var body: some View {
         // TODO: - 정보가 많아지면 ScrollView 로 변경 고려해볼것
-        ScrollView {
-            
-            HStack {
-                Image("GuideImage")
-                // FIXME: - star를 누른 사람의 이름 주입
-                Text("Check out what **Random Brazil Guy** just starred!")
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                Spacer()
-            }
-            .padding(.bottom, 10)
+        ScrollView(showsIndicators: false) {
+//
+//            HStack {
+//                Image("GuideImage")
+//                // FIXME: - star를 누른 사람의 이름 주입
+//                Text("Check out what **Random Brazil Guy** just starred!")
+//                    .font(.footnote)
+//                    .foregroundColor(.secondary)
+//                Spacer()
+//            }
+//            .padding(.bottom, 10)
             
             
             // MARK: - 레포 디테일 정보 섹션
