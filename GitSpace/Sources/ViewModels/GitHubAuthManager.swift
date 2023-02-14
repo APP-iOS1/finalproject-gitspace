@@ -27,7 +27,7 @@ final class GitHubAuthManager: ObservableObject {
     @Published var state: SignInState = .signedOut
     @Published var githubAcessToken: String?
     
-//    var result: GitHubUser? = nil
+    //    var result: GitHubUser? = nil
     
     var authentification = Auth.auth()
     let database = Firestore.firestore()
@@ -103,7 +103,7 @@ final class GitHubAuthManager: ObservableObject {
                         }
                         
                         self.authenticatedUser = DecodingManager.decodeData(userData, GitHubUser.self)
-
+                        
                         guard self.authenticatedUser != nil else {
                             return
                         }
@@ -124,39 +124,56 @@ final class GitHubAuthManager: ObservableObject {
     // FIXME: requestExistUser -> registerNewUser순으로 Completion Handler { Completion Handler { } } 구조로 작업 필요
     // existUser에서 가입일시를 받아서 새 user 만들기 + Github API 닉네임과 UserInfo 닉네임이 일치하지 않으면 업데이트
     // MARK: Method - Auth의 currentUser를 통해 UserInfo에 이미 존재하는 유저인지 여부를 반환하는 메서드
-    private func requestExistUser() -> (isExist: Bool?, user: UserInfo?) {
-        var isExist: Bool?
-        var user: UserInfo?
-        if let uid = authentification.currentUser?.uid {
-            database.collection("UserInfo").document(uid).getDocument { result, error in
-                isExist = result?.exists
-                user = result?.data(as: UserInfo.self)
-            }
-        }
-        return (isExist, user)
-    }
+    // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
     
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    private func registerNewUser(_ user: GitHubUser) {
+    private func registerNewUser(_ githubUser: GitHubUser) {
         
-        
-        
-        
-        if let isExist {
-            if isExist == false {
-                database.collection("UserInfo")
-                    .document("\(user.id)")
-                    .setData([
-                        "id": user.id,
-                        "name": user.name,
-                        "email": user.email
-                    ])
-            }
-            
+        if let uid = authentification.currentUser?.uid {
+            // 현재 Auth 로그인 uid로 UserInfo에 접근
+            database
+                .collection("UserInfo")
+                .document(uid)
+                .getDocument { result, error in
+                    // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
+                    guard let result, result.exists else {
+                        let newUser: UserInfo = .init(id: uid,
+                                                      createdDate: Date.now,
+                                                      githubUserName: githubUser.login,
+                                                      deviceToken: "",
+                                                      emailTo: githubUser.email,
+                                                      blockedUserIDs: [])
+                        self.addUser(newUser)
+                        return
+                    }
+                    // 이미 존재하는 유저 && 깃허브 프로필과 아이디가 다르면 변경된 아이디로 업데이트
+                    do {
+                        let existUser: UserInfo = try result.data(as: UserInfo.self)
+                        if existUser.githubUserName != githubUser.login {
+                            self.database
+                                .collection("UserInfo")
+                                .document(existUser.id)
+                                .updateData(["githubUserName" : githubUser.login])
+                        }
+                    } catch {
+                        print("Decode User Error : \(error.localizedDescription)")
+                    }
+                }
         }
-        
-        
+    }
+    
+    // MARK: - Add User
+    // 유저를 DB에 추가합니다.
+    private func addUser(_ user: UserInfo) {
+        do {
+            try database
+                .collection("UserInfo")
+                .document(user.id)
+                .setData(from: user.self)
+        } catch {
+            print("Add User Error : \(error.localizedDescription)")
+        }
     }
     
     // MARK: - Sign Out
@@ -236,46 +253,46 @@ final class GitHubAuthManager: ObservableObject {
     
     // MARK: - Get GitHub User Info
     // GitHubUser 구조체의 데이터를 불러옵니다.
-//    func getGitHubUserInfo() {
-//        guard let url = URL(string: "https://api.github.com/users/\(GitHubUserName)") else {
-//            print("Invalid url")
-//            return
-//        }
-//
-//        var request = URLRequest(url: url)
-//        request.addValue("\(GithubURL.bearer) \(String(describing: temporaryAcessToken))", forHTTPHeaderField: "Authorization")
-//
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            if error != nil {
-//                // TODO: Handle data task error
-//                return
-//            }
-//
-//            guard let data = data else {
-//                // TODO: Handle this
-//                return
-//            }
-//
-//            let decoder = JSONDecoder()
-//            decoder.keyDecodingStrategy = .convertFromSnakeCase
-//
-//            do {
-//                let response = try decoder.decode([GitHubUser].self, from: data)
-//
-//                DispatchQueue.main.async {
-//                    self.result = response
-//                }
-//            } catch {
-//                // TODO: Handle decoding error
-//                print(error)
-//            }
-//        }.resume()
-//    }
+    //    func getGitHubUserInfo() {
+    //        guard let url = URL(string: "https://api.github.com/users/\(GitHubUserName)") else {
+    //            print("Invalid url")
+    //            return
+    //        }
+    //
+    //        var request = URLRequest(url: url)
+    //        request.addValue("\(GithubURL.bearer) \(String(describing: temporaryAcessToken))", forHTTPHeaderField: "Authorization")
+    //
+    //        URLSession.shared.dataTask(with: request) { data, response, error in
+    //            if error != nil {
+    //                // TODO: Handle data task error
+    //                return
+    //            }
+    //
+    //            guard let data = data else {
+    //                // TODO: Handle this
+    //                return
+    //            }
+    //
+    //            let decoder = JSONDecoder()
+    //            decoder.keyDecodingStrategy = .convertFromSnakeCase
+    //
+    //            do {
+    //                let response = try decoder.decode([GitHubUser].self, from: data)
+    //
+    //                DispatchQueue.main.async {
+    //                    self.result = response
+    //                }
+    //            } catch {
+    //                // TODO: Handle decoding error
+    //                print(error)
+    //            }
+    //        }.resume()
+    //    }
 }
 
 
 class DecodingManager {
-
+    
     // MARK: - Decode User Data
     // FIXME: 공동으로 쓰일 수 있는 함수
     /// 밖으로 꺼내서 쓰고 싶다..!!!1
