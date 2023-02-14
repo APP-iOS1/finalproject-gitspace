@@ -82,8 +82,6 @@
 		6E08402329839BD200F51169 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08402229839BD200F51169 /* Utility.swift */; };
 		6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840242983BAD700F51169 /* UserViewModel.swift */; };
 		6E0840272983BB9A00F51169 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840262983BB9A00F51169 /* UserInfo.swift */; };
-		6E08402E298501B100F51169 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08402D298501B100F51169 /* ProfileView.swift */; };
-		6E084030298510E100F51169 /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08402F298510E100F51169 /* TabManager.swift */; };
 		6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */; };
 		6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */; };
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
@@ -94,7 +92,6 @@
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
 		6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */; };
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
-		6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7278C2297E73910014CA17 /* AuthFiles.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
@@ -203,8 +200,6 @@
 		6E08402229839BD200F51169 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		6E0840242983BAD700F51169 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		6E0840262983BB9A00F51169 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		6E08402D298501B100F51169 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		6E08402F298510E100F51169 /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
 		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
@@ -212,7 +207,6 @@
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
-		6E7278C2297E73910014CA17 /* AuthFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFiles.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		701DA8AC298A7CA700FB0C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -378,7 +372,6 @@
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
 				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
-				70BE63E2298CA3B10060336F /* Temp */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -452,29 +445,6 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		6E08401229838F1600F51169 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				6E7278C2297E73910014CA17 /* AuthFiles.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		6E08401329838F1B00F51169 /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Chat;
-			sourceTree = "<group>";
-		};
-		6E08402A2985013300F51169 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				6E08402D298501B100F51169 /* ProfileView.swift */,
-			);
-			path = Profile;
-			sourceTree = "<group>";
-		};
 		6E38C6012991EDEA0043A8BB /* MainChat */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,17 +467,6 @@
 				6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */,
 			);
 			path = ChatRoom;
-			sourceTree = "<group>";
-		};
-		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
-			isa = PBXGroup;
-			children = (
-				6E08402A2985013300F51169 /* Profile */,
-				6E08401329838F1B00F51169 /* Chat */,
-				6E08401229838F1600F51169 /* Auth */,
-				6E08402F298510E100F51169 /* TabManager.swift */,
-			);
-			path = ListenerTechResearch;
 			sourceTree = "<group>";
 		};
 		703C8449298CA60E00398F2C /* Knock */ = {
@@ -672,14 +631,6 @@
 			path = KnockHistory;
 			sourceTree = "<group>";
 		};
-		70BE63E2298CA3B10060336F /* Temp */ = {
-			isa = PBXGroup;
-			children = (
-				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
-			);
-			path = Temp;
-			sourceTree = "<group>";
-		};
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -820,7 +771,6 @@
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
-				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
@@ -873,7 +823,6 @@
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				225A22D2299778A900786B35 /* Endpoint.swift in Sources */,
-				6E084030298510E100F51169 /* TabManager.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
 				706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */,
@@ -915,7 +864,6 @@
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
 				6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */,
 				7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */,
-				6E08402E298501B100F51169 /* ProfileView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
