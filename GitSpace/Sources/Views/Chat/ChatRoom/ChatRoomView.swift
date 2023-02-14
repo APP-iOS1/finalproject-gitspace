@@ -10,6 +10,13 @@ import SwiftUI
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
     
+    enum MakeChatCase {
+        case addContent
+        case zeroMessageAfterDeleteLastMessage
+        case remainMessageAfterDeleteLastMessage
+        case enterChatRoom
+    }
+    
     let chat: Chat
     let targetUserName: String
     @EnvironmentObject var chatStore: ChatStore
@@ -75,6 +82,8 @@ struct ChatRoomView: View {
         .task {
             messageStore.addListener(chatID: chat.id)
             await messageStore.fetchMessages(chatID: chat.id)
+            async let enteredChat = makeChat(makeChatCase: .enterChatRoom)
+            await chatStore.updateChat(enteredChat)
         }
         .onDisappear {
             messageStore.removeListener()
@@ -133,58 +142,41 @@ struct ChatRoomView: View {
     
     // MARK: Button : 메세지 추가(보내기)
     private var addContentButton : some View {
-        // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
-        /// 새 메세지 셀 생성
-        /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
-        /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
-        /// 메세지 입력 필드 공백으로 초기화
         Button {
             Task {
                 await addContent()
             }
         } label: {
-            Image(systemName: "location")
+            Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
         }
     }
     
     // MARK: -Methods
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
+        // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
+        /// 새 메세지 셀 생성
+        /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
+        /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
+        /// 메세지 입력 필드 공백으로 초기화
         let newMessage = makeMessage()
-        let newChat = await makeChat()
+        let newChat = await makeChat(makeChatCase: .addContent)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
         contentField = ""
     }
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수
-    private func updateChatWithLastMessage(message: Message) async {
-        let isLastMessage = messageStore.messages.last?.id == message.id
+    private func updateChatWithLastMessage(deletedMessage: Message) async {
+        let isLastMessage = messageStore.messages.last?.id == deletedMessage.id
         if isLastMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
-                
-                // FIXME: makeChat의 파라미터로 enum 케이스를 받아서, 서로 다른 초기화가 필요한 경우 추상화가 가능하도록 변경 후 적용 필요 by.태영
-                let newChat = Chat.init(id: chat.id,
-                                        createdDate: chat.createdDate,
-                                        joinedMemberIDs: chat.joinedMemberIDs,
-                                        lastContent: chat.knockContent,
-                                        lastContentDate: chat.knockContentDate,
-                                        knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate)
+                let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage)
                 await chatStore.updateChat(newChat)
-                
             } else {
                 // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
-                // MEMO: preLastMessage가 index로 접근하는 방식이라서, 안전하게 접근하는 로직으로 변경해야할지 고려 필요 By. 태영
-                let preLastMessage = messageStore.messages[messageStore.messages.count-2]
-                let newChat = Chat.init(id: chat.id,
-                                        createdDate: chat.createdDate,
-                                        joinedMemberIDs: chat.joinedMemberIDs,
-                                        lastContent: preLastMessage.textContent,
-                                        lastContentDate: preLastMessage.sentDate,
-                                        knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate)
+                let newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage)
                 await chatStore.updateChat(newChat)
             }
         }
@@ -192,25 +184,73 @@ struct ChatRoomView: View {
     
     // MARK: Method - 메세지 삭제에 대해 DB에 Chat과 Message를 반영하는 함수
     private func deleteContent(message: Message) async {
-        await updateChatWithLastMessage(message: message)
+        await updateChatWithLastMessage(deletedMessage: message)
         await messageStore.removeMessage(message,
                                          chatID: chat.id)
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat() async -> Chat {
-        var dict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? ["" : 0]
-        dict[chat.targetUserID, default : 0] += 1
+    private func makeChat(makeChatCase: MakeChatCase) async -> Chat {
         
-        let chat = Chat(id: chat.id,
-                        createdDate: chat.createdDate,
-                        joinedMemberIDs: chat.joinedMemberIDs,
-                        lastContent: contentField,
-                        lastContentDate: Date.now,
-                        knockContent: chat.knockContent,
-                        knockContentDate: chat.knockContentDate,
-                        unreadMessageCount: dict)
-        return chat
+        let newChat: Chat
+        
+        switch makeChatCase {
+            
+        case .addContent:
+            
+            var dict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? ["" : 0]
+            print(chat.targetUserID)
+            dict[chat.targetUserID, default : 0] += 1
+            print(dict)
+            newChat = Chat(id: chat.id,
+                           createdDate: chat.createdDate,
+                           joinedMemberIDs: chat.joinedMemberIDs,
+                           lastContent: contentField,
+                           lastContentDate: Date.now,
+                           knockContent: chat.knockContent,
+                           knockContentDate: chat.knockContentDate,
+                           unreadMessageCount: dict)
+            
+        case .zeroMessageAfterDeleteLastMessage:
+            
+            // FIXME: 메세지 삭제 로직에도 안 읽은 메세지 -= 1 로직 구현 필요
+            newChat = Chat.init(id: chat.id,
+                                createdDate: chat.createdDate,
+                                joinedMemberIDs: chat.joinedMemberIDs,
+                                lastContent: chat.knockContent,
+                                lastContentDate: chat.knockContentDate,
+                                knockContent: chat.knockContent,
+                                knockContentDate: chat.knockContentDate,
+                                unreadMessageCount: chat.unreadMessageCount)
+            
+        case .remainMessageAfterDeleteLastMessage:
+            // MEMO: preLastMessage가 index로 접근하는 방식이라서, 안전하게 접근하는 로직으로 변경해야할지 고려 필요 By. 태영
+            let preLastMessage = messageStore.messages[messageStore.messages.count-2]
+            newChat = Chat.init(id: chat.id,
+                                createdDate: chat.createdDate,
+                                joinedMemberIDs: chat.joinedMemberIDs,
+                                lastContent: preLastMessage.textContent,
+                                lastContentDate: preLastMessage.sentDate,
+                                knockContent: chat.knockContent,
+                                knockContentDate: chat.knockContentDate,
+                                unreadMessageCount: chat.unreadMessageCount)
+            
+        case .enterChatRoom:
+            var newDict: [String : Int] = chat.unreadMessageCount
+            if let uid = userStore.user?.id {
+                newDict[uid] = 0
+            }
+            newChat = Chat.init(id: chat.id,
+                                createdDate: chat.createdDate,
+                                joinedMemberIDs: chat.joinedMemberIDs,
+                                lastContent: chat.lastContent,
+                                lastContentDate: chat.lastContentDate,
+                                knockContent: chat.knockContent,
+                                knockContentDate: chat.knockContentDate,
+                                unreadMessageCount: newDict)
+        }
+        
+        return newChat
     }
     
     // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
