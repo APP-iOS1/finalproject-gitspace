@@ -119,21 +119,10 @@ struct GitSpaceApp: App {
     
     var body: some Scene {
         WindowGroup {
-			
-//			Text("?")
-//            ContentView(tabBarRouter: tabBarRouter)
-//                .environmentObject(AuthStore())
-//                .environmentObject(ChatStore())
-//                .environmentObject(MessageStore())
-//                .environmentObject(UserStore())
-//                .environmentObject(TabManager())
-//                .environmentObject(RepositoryStore())
             InitialView(tabBarRouter: tabBarRouter)
-                .environmentObject(AuthStore())
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
                 .environmentObject(UserStore())
-                .environmentObject(TabManager())
                 .environmentObject(RepositoryViewModel())
                 .environmentObject(GitHubAuthManager())
                 .preferredColorScheme(selectedAppearance)
