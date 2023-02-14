@@ -40,9 +40,8 @@ struct GSTabBarIcon: View {
         VStack {
             
             withAnimation {
-                tabBarRouter.currentPage == page ?
-                
-                VStack {
+				tabBarRouter.currentPage ?? GSTabBarRouter.Page.stars == page
+                ? VStack {
                     Rectangle()
                         .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
                         .frame(width:width/2, height: 4)
@@ -56,7 +55,8 @@ struct GSTabBarIcon: View {
                 }
             }
             
-            isSystemImage ? Image(systemName: imageName)
+            isSystemImage
+			? Image(systemName: imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: width, height: height)

@@ -10,7 +10,7 @@ import FirebaseCore
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-	public let pushNotificationRouter: GSPushNotificationRouter = GSPushNotificationRouter()
+	public var pushNotificationManager: PushNotificationManager? = nil
 	public let tabBarRouter = GSTabBarRouter()
 	
 	func application(_ application: UIApplication,
@@ -67,15 +67,18 @@ extension AppDelegate: MessagingDelegate {
 	/* 메시지 토큰 등록 실패 */
 	func application(_ application: UIApplication,
 					 didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		print(#function, "DEBUG: +++ register error: \(error.localizedDescription)")
+		print("DEBUG: register Error -\(#file)-\(#function): \(error.localizedDescription)")
 	}
 	
+	/* 메시지 토큰 등록 성공 */
 	func messaging(_ messaging: Messaging,
 				   didReceiveRegistrationToken fcmToken: String?) {
-		print(#function, "Messaging")
-		let deviceToken: [String: String] = ["token" : fcmToken ?? ""]
-		print(#function, "+++ Device Test Token", deviceToken)
+		guard let fcmToken else { return }
 		
+		// Save Device Token with Init PushNotificationManager
+		pushNotificationManager = PushNotificationManager(
+			currentUserDeviceToken: fcmToken
+		)
 	}
 }
 
@@ -104,29 +107,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		 3. data의 navigateTo 에 따라 뷰를 open 한다.
 		 */
 		let userInfo = response.notification.request.content.userInfo
-		print(#function, "+++ didReceive: userInfo: ", userInfo)
 		
 		do {
-			let newData = try JSONSerialization.data(withJSONObject: userInfo)
-			let newStruct = try JSONDecoder().decode(GSPushNotification.self, from: newData)
+			let pushNotificationData = try JSONSerialization.data(withJSONObject: userInfo)
+			let pushNotificationInfo = try JSONDecoder().decode(GSPushNotification.self, from: pushNotificationData)
 			
-			print(#function, "++++", newStruct)
-			
-			if newStruct.navigateTo == "knock" {
-				// 탭 이동
-				tabBarRouter.currentPage = .knocks
-				
-				// Push Notification의 탭 라우터에 이동된 탭의 정보 할당
-				// 연관값으로 뷰를 그릴 수 있도록 채팅ID, KnockID 전달 필요
-				pushNotificationRouter.pageNavigationTo = tabBarRouter.currentPage
+			// 탭 이동 + 뷰 그릴 때 id 전달
+			if pushNotificationInfo.navigateTo == "knock" {
+				tabBarRouter.currentPage = .pushKnocks(id: pushNotificationInfo.viewBuildID)
+			} else if pushNotificationInfo.navigateTo == "chat" {
+				tabBarRouter.currentPage = .pushChats(id: pushNotificationInfo.viewBuildID)
 			}
-			
-			print(pushNotificationRouter.pageNavigationTo,
-				  pushNotificationRouter.navigationBindingActive)
-			
 		} catch {
-			dump(error.localizedDescription)
-			dump(error)
+			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
 		}
 		
 		completionHandler()
