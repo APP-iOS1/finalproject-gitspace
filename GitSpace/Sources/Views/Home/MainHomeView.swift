@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainHomeView: View {
+    
     @State private var selectedHomeTab = "Starred"
     private let starTab = "Starred"
     private let activityTab = "Activity"
+    let gitHubAPIService = GitHubService()
 	
     var body: some View {
 		VStack {
@@ -69,10 +71,10 @@ struct MainHomeView: View {
             /* Starred, Activity View */
             switch selectedHomeTab {
             case starTab:
-                StarredView()
+                StarredView(service: gitHubAPIService)
                     .ignoresSafeArea()
             case activityTab:
-                ActivityView()
+                ActivityView(service: gitHubAPIService)
                     .ignoresSafeArea()
             default:
                 Text("네트워크 에러입니다.")

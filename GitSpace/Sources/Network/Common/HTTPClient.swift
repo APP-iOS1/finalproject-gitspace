@@ -91,7 +91,7 @@ extension HTTPClient {
         }
 
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.data(for: request)
 
             guard let response = response as? HTTPURLResponse else {
                 return .failure(GitHubAPIError.invalidResponse)
@@ -99,12 +99,19 @@ extension HTTPClient {
 
             switch response.statusCode {
                 
+            case 200:
+                guard let resultString = String(data: data, encoding: .utf8) else {
+                    return .failure(GitHubAPIError.unknown)
+                }
+                return .success(resultString)
             case 204:
                 return .success("request succeed")
             case 304:
                 return .failure(.notModified)
             case 401:
                 return .failure(.requiresAuthentification)
+            case 403:
+                return .failure(.forbidden)
                 
             default:
                 return .failure(.unexpectedStatusCode)
