@@ -14,6 +14,7 @@ struct AddTagSheetView: View {
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State private var tagInput: String = ""
+    @StateObject private var keyboardHandler = KeyboardHandler()
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
@@ -147,6 +148,9 @@ struct AddTagSheetView: View {
                     }
                 }
                 .padding(.horizontal, 30)
+            }
+            .onTapGesture {
+                self.endTextEditing()
             }
         }
     }

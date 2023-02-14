@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserInfo : Identifiable {
+struct UserInfo : Identifiable, Codable {
     // MARK: -Properties
     var id : String // 유저 ID
     var name : String // 유저 닉네임
@@ -22,4 +22,11 @@ struct UserInfo : Identifiable {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter.string(from: date)
     }
+}
+
+struct GitHubUser: Identifiable, Codable {
+    var id : Int       // 고유 id
+    var login: String   // github id
+    var name : String?  // username
+    var email : String? // email
 }

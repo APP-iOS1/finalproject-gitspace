@@ -11,17 +11,28 @@ import SwiftUI
 // TODO: - ToolBar Item들 네비게이션으로 다른 뷰 연결
 
 struct MainProfileView: View {
+    
+    @State private var showGuideCenter: Bool = false
+
     var body: some View {
         //MARK: - 처음부터 끝까지 모든 요소들을 아우르는 stack.
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
             ProfileSectionView()
-				.padding(.horizontal, 10)
+				.padding(.horizontal, 20)
             Spacer()
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
-        .toolbar{
+        .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing){
+                 
+                Button {
+                    showGuideCenter.toggle()
+                } label: {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundColor(.primary)
+                }
+
                 NavigationLink {
                     ProfileSettingView()
                 } label: {
@@ -30,7 +41,9 @@ struct MainProfileView: View {
                 }
             }
         }
-        
+        .fullScreenCover(isPresented: $showGuideCenter) {
+            GuideCenterView()
+        }
     }
 }
 

@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseCore
-import FirebaseMessaging
 
 @main
 struct GitSpaceApp: App {
@@ -21,16 +19,23 @@ struct GitSpaceApp: App {
 		let notificationRouter = delegate.pushNotificationRouter
 		
         WindowGroup {
-			VStack {
-				Text("")
-			}
-            //            ContentView(tabBarRouter: tabBarRouter)
-            //                .environmentObject(AuthStore())
-            //                .environmentObject(ChatStore())
-            //                .environmentObject(MessageStore())
-            //                .environmentObject(UserStore())
-            //                .environmentObject(TabManager())
-            //                .environmentObject(RepositoryStore())
+			
+//			Text("?")
+//            ContentView(tabBarRouter: tabBarRouter)
+//                .environmentObject(AuthStore())
+//                .environmentObject(ChatStore())
+//                .environmentObject(MessageStore())
+//                .environmentObject(UserStore())
+//                .environmentObject(TabManager())
+//                .environmentObject(RepositoryStore())
+            InitialView(tabBarRouter: tabBarRouter)
+                .environmentObject(AuthStore())
+                .environmentObject(ChatStore())
+                .environmentObject(MessageStore())
+                .environmentObject(UserStore())
+                .environmentObject(TabManager())
+                .environmentObject(RepositoryStore())
+                .environmentObject(GitHubAuthManager())
         }
     }
 }

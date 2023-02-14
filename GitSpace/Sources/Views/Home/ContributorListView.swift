@@ -30,7 +30,7 @@ struct ContributorListView: View {
                 
                 // MARK: - 상황별 마스코트 이미지
                 /* 노트 시나리오의 시각적 힌트 제공 */
-                Image(colorScheme == .light ? "GitSpace-ContributorListView-LightMode" : "GitSpace-ContributorListView-DarkMode")
+                Image("GitSpace-ContributorListView")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: UIScreen.main.bounds.width - 250)
