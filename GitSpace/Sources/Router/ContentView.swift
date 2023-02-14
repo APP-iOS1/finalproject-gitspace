@@ -26,12 +26,23 @@ struct ContentView: View {
          */
         GeometryReader { geometry in
             NavigationView {
-                VStack(spacing: -10) {
-                    showCurrentTabPage()
-                    showGSTabBar(geometry: geometry)
+                
+                if UIScreen().isWiderThan375pt {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
+                    .edgesIgnoringSafeArea(.horizontal)
+                    .edgesIgnoringSafeArea(.bottom)
+                } else {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
                 }
-                .edgesIgnoringSafeArea(.horizontal)
-                .edgesIgnoringSafeArea(.bottom)
+                    
+                
+                
             }
         }
         .task {
@@ -73,7 +84,7 @@ struct ContentView: View {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .profile, geometry: geometry, isSystemImage: false, imageName: "avatarImage", tabName: "Profile")
         }
         .frame(width: geometry.size.width, height: 60)
-                .padding(.bottom, 20)
+//        .padding(.bottom, 20)
     }
     
 }
