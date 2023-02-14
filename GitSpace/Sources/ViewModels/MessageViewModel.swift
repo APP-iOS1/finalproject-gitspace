@@ -113,7 +113,7 @@ extension MessageStore {
             let newMessage = try change.data(as: Message.self)
             return newMessage
         } catch {
-            print("Fetch New Message in Message Listener Error : \(error)")
+            print("Error-MessageViewModel-fetchNewMessage : \(error.localizedDescription)")
         }
         return nil
     }
