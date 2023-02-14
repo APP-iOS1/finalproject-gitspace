@@ -86,8 +86,9 @@ struct ChatRoomView: View {
             MessageCell(message: message, targetName: targetUserName)
                 .contextMenu {
                     Button {
-                        messageStore.removeMessage(message,
-                                                   chatID: chat.id)
+                        Task {
+                            await deleteContent(message: message)
+                        }
                     } label: {
                         Text("Delete Message")
                         Image(systemName: "trash")
@@ -155,8 +156,8 @@ struct ChatRoomView: View {
         contentField = ""
     }
     
-    // MARK: Method - 메세지 삭제에 대해 DB에서 메세지를 삭제하고, Chat의 lastContent를 업데이트하는 함수
-    private func deleteContent(message: Message) async {
+    // MARK: Method - Chat의 lastContent를 업데이트하는 함수
+    private func updateChatWithLastMessage(message: Message) async {
         let isLastMessage = messageStore.messages.last?.id == message.id
         if isLastMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
@@ -186,8 +187,13 @@ struct ChatRoomView: View {
                 await chatStore.updateChat(newChat)
             }
         }
-        messageStore.removeMessage(message,
-                                   chatID: chat.id)
+    }
+    
+    // MARK: Method - 메세지 삭제에 대해 DB에 Chat과 Message를 반영하는 함수
+    private func deleteContent(message: Message) async {
+        await updateChatWithLastMessage(message: message)
+        await messageStore.removeMessage(message,
+                                         chatID: chat.id)
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
