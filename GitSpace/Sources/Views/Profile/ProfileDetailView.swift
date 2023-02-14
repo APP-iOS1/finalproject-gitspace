@@ -78,18 +78,20 @@ struct ProfileSectionView: View {
     @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8){
+        VStack(alignment: .leading, spacing: 5){
             HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
-                Image(systemName: "person.crop.circle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 60)
-                    .padding(.trailing, 8)
+//                Image(systemName: "person.crop.circle")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(height: 60)
+//                    .padding(.trailing, 8)
+                
+                ProfileAsyncImage(urlStr: "\(GitHubAuthManager.authenticatedUser?.avatar_url ?? "")", size: 70)
                 
                 VStack(alignment: .leading) { // 이름, 닉네임
                     GSText.CustomTextView(style: .title2, string: GitHubAuthManager.authenticatedUser?.name ?? "")
                     Spacer()
-                        .frame(height: 8)
+                        .frame(height: 1)
                     GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.login ?? "")
                 }
                 
@@ -111,15 +113,31 @@ struct ProfileSectionView: View {
                 .clipShape(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                 )
-                .padding(.vertical, 20)
+                .padding(.vertical, 15)
             }
             
+            // MARK: - 위치 이미지, 국가 및 위치
+            if GitHubAuthManager.authenticatedUser?.company != "" {
+                HStack {
+                    Image(systemName: "building.2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.gsGray2)
+
+                    GSText.CustomTextView(style: .body1, string: GitHubAuthManager.authenticatedUser?.company ?? "")
+                }
+            }
             
             // MARK: - 위치 이미지, 국가 및 위치
             if GitHubAuthManager.authenticatedUser?.location != "" {
                 HStack {
                     Image(systemName: "mappin.and.ellipse")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
+                    
                     GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.location ?? "")
                 }
                 .foregroundColor(Color(.systemGray))
@@ -129,6 +147,9 @@ struct ProfileSectionView: View {
             if GitHubAuthManager.authenticatedUser?.blog != "" {
                 HStack{
                     Image(systemName: "link")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
                     
                     Button {
@@ -144,6 +165,9 @@ struct ProfileSectionView: View {
             // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
             HStack {
                 Image(systemName: "person")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15, height: 15)
                     .foregroundColor(.gsGray2)
                 
                 NavigationLink {
