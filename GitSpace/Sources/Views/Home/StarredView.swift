@@ -30,7 +30,7 @@ struct StarredView: View {
         ),
         startPoint: .top, endPoint: .bottom
     )
-    
+        
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
         for (index, item) in Array(zip(repositoryViewModel.tags.indices, repositoryViewModel.tags)) {
@@ -109,7 +109,7 @@ struct StarredView: View {
                     default:
                         ForEach(repositoryViewModel.repositories!) { repository in
                             ZStack {
-                                RepositoryCardView {
+                                GSCanvas.CustomCanvasView(style: .primary) {
                                     HStack {
                                         NavigationLink {
                                             /* Repository Detail View */
@@ -139,6 +139,7 @@ struct StarredView: View {
                                         }
                                     }
                                 }
+                                    
                                 VStack {
                                     /* Penpal, Menu button */
                                     HStack {

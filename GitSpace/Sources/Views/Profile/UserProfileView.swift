@@ -78,12 +78,12 @@ struct UserProfileView: View {
                     EmptyView()
                 }
 
-                if let blogURLString = user.blog {
+                if let blogURLString = user.blog, blogURLString != "" {
                     HStack { // MARK: - 링크 이미지, 블로그 및 기타 링크
                         Image(systemName: "link")
                             .foregroundColor(.gsGray2)
                         if let blogURL = URL(string: blogURLString) {
-                            Link(destination: blogURL) {
+                            Link(destination: blogURL) {    
                                 GSText.CustomTextView(style: .body1, string: blogURLString)
                             }
                         }
