@@ -8,20 +8,7 @@
 import Foundation
 
 final class RepositoryViewModel: ObservableObject {
-    // MARK: - Dummy Tag Data
-    @Published var tags: [Tag] = [
-        Tag(name: "SwiftUI"),
-        Tag(name: "Swift"),
-        Tag(name: "MVVM"),
-        Tag(name: "Interview"),
-        Tag(name: "iOS"),
-        Tag(name: "UIKit"),
-        Tag(name: "Yummy"),
-        Tag(name: "Checkit"),
-        Tag(name: "TheVoca"),
-        Tag(name: "GGOM-GGO-MI")
-    ]
-    
+//    @Published var tags: [Tag] = []
     @Published var repositories: [Repository]?
     
     // MARK: - Request Starred Repositories
