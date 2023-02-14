@@ -82,24 +82,33 @@ extension MessageStore {
         }
     }
     
-    func updateMessage(_ message: Message, chatID: String) {
-        db
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .updateData(
-                ["textContent" : message.textContent,
-                 "createdDate" : message.sentDate])
+    func updateMessage(_ message: Message, chatID: String) async {
+        do {
+            try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .updateData(
+                    ["textContent" : message.textContent,
+                     "createdDate" : message.sentDate])
+        } catch {
+            print("Error-MessageViewModel-updateMessage : \(error.localizedDescription)")
+        }
     }
     
-    func removeMessage(_ message: Message, chatID: String) {
-        db
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .delete()
+    func removeMessage(_ message: Message, chatID: String) async {
+        do {
+            try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .delete()
+        } catch {
+            print("Error-MessageViewModel-removeMessage : \(error.localizedDescription)")
+        }
+            
     }
     
 }
