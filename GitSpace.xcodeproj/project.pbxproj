@@ -57,8 +57,6 @@
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
-		687AE54E298FA1E800113ABF /* RepositoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryStore.swift */; };
-		680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 680C19A22993D332009AF5D5 /* GoogleService-Info.plist */; };
 		687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
@@ -104,7 +102,6 @@
 		7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */; };
 		7065B459297A1F51000B91D2 /* GSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7065B458297A1F51000B91D2 /* GSButton.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
-		7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AB29769449005D6B7B /* Assets.xcassets */; };
 		7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AE29769449005D6B7B /* Preview Assets.xcassets */; };
 		7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BC29769517005D6B7B /* MainHomeView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
@@ -121,6 +118,7 @@
 		70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CDF299B105B009948FC /* URL+DeepLink.swift */; };
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
 		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
+		70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CEF299B2B5E009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -187,8 +185,6 @@
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
-		687AE54D298FA1E800113ABF /* RepositoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryStore.swift; sourceTree = "<group>"; };
-		680C19A22993D332009AF5D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -228,7 +224,6 @@
 		7065B458297A1F51000B91D2 /* GSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButton.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
-		7068B6AB29769449005D6B7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7068B6AE29769449005D6B7B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7068B6BC29769517005D6B7B /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
@@ -247,6 +242,7 @@
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
+		70BB6CEF299B2B5E009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../Downloads/finalproject-gitspace-dev/GitSpace/Assets.xcassets"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -381,10 +377,8 @@
 			isa = PBXGroup;
 			children = (
 				6E08402229839BD200F51169 /* Utility.swift */,
-				70BE63E4298CA5190060336F /* Constant.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
-				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
 				70BE63E4298CA5190060336F /* Constant.swift */,
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
@@ -491,11 +485,6 @@
 		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
 			isa = PBXGroup;
 			children = (
-				6E08402A2985013300F51169 /* Profile */,
-				6E08401329838F1B00F51169 /* Chat */,
-				6E08401229838F1600F51169 /* Auth */,
-				6E08402229839BD200F51169 /* Utility.swift */,
-				6E08402F298510E100F51169 /* TabManager.swift */,
 			);
 			path = ListenerTechResearch;
 			sourceTree = "<group>";
@@ -520,7 +509,7 @@
 		700A11CE2997364F008C94C7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7068B6AB29769449005D6B7B /* Assets.xcassets */,
+				70BB6CEF299B2B5E009948FC /* Assets.xcassets */,
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
 				700A11CC29973584008C94C7 /* App */,
 			);
@@ -578,7 +567,6 @@
 				34582161298A49AD0058CA4C /* Utilities */,
 				7068B6B529769479005D6B7B /* Sources */,
 				3427735E2994244A00818816 /* Localizable.strings */,
-				7068B6AB29769449005D6B7B /* Assets.xcassets */,
 				7068B6AD29769449005D6B7B /* Preview Content */,
 			);
 			path = GitSpace;
@@ -822,7 +810,7 @@
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
-				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
+				70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,7 +839,6 @@
 				7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
-				6E7278C3297E73910014CA17 /* AuthFiles.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
@@ -864,7 +851,6 @@
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
 				342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */,
 				225A22D3299778A900786B35 /* GitHubUser.swift in Sources */,
-				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */,
@@ -905,7 +891,6 @@
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */,
-				6E084030298510E100F51169 /* TabManager.swift in Sources */,
 				225A22D2299778A900786B35 /* Endpoint.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
