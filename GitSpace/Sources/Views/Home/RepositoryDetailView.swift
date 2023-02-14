@@ -140,7 +140,7 @@ struct RepositoryInfoCard: View {
             GSText.CustomTextView(style: .title3, string: "Contributors")
             
             // Contributors 유저 프로필들
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(contributorManager.contributors) { user in
                         
