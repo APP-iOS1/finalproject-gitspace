@@ -39,7 +39,7 @@ struct ActivityFeedView: View {
                     }
 
                     NavigationLink {
-                        RepositoryDetailView(service: gitHubService)
+//                        RepositoryDetailView(service: gitHubService, repository: <#Repository#>)
                     } label: {
                         GSText.CustomTextView(style: .body1, string: "User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
                             .multilineTextAlignment(.leading)
