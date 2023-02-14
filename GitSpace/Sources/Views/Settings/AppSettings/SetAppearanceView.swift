@@ -60,7 +60,6 @@ struct SetAppearanceView: View {
                     
                     if systemAppearance == item.rawValue {
                         Image(systemName: "checkmark")
-                            .foregroundColor(.gsGreenPrimary)
                     }
                 }
             }

@@ -22,7 +22,7 @@ struct MainKnockView: View {
     
     @State var isEdit: Bool = false
     @State var checked: Bool = false
-    @State var showingKnockSetting: Bool = false
+    @State var showingKnockControls: Bool = false
     
     let trailingTransition = AnyTransition
         .asymmetric(
@@ -183,8 +183,19 @@ struct MainKnockView: View {
                     .transition(leadingTransition)
                     .animation(.easeInOut(duration: 10.0), value: knockMessenger)
                     .tag(receivedTab)
-                    .fullScreenCover(isPresented: $showingKnockSetting) {
-                        KnockSettingView(showingKnockSetting: $showingKnockSetting)
+                    .fullScreenCover(isPresented: $showingKnockControls) {
+                        NavigationView{
+                            SetKnockControlsView(showingKnockControls: $showingKnockControls)
+                                .toolbar {
+                                    ToolbarItem(placement: .navigationBarTrailing) {
+                                        Button {
+                                            showingKnockControls.toggle()
+                                        } label: {
+                                            Text("Done")
+                                        } // Button
+                                    } // ToolbarItem
+                                } // toolbar
+                        }
                     }
                     
                 case Constant.KNOCK_SENT:
@@ -366,7 +377,7 @@ struct MainKnockView: View {
                     .foregroundColor(Color(.systemGray))
                 
                 Button {
-                    showingKnockSetting.toggle()
+                    showingKnockControls.toggle()
                 } label: {
                     // 나에게 노크 할 수 있는 사람 설정하기
                     Text("Decide who can Knock on You.")

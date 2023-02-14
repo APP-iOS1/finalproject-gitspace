@@ -16,7 +16,7 @@ struct InitialView: View {
         case .signedIn:
             ContentView(tabBarRouter: tabBarRouter)
         case .signedOut:
-            SigninView(githubAuthManager: githubAuthManager)
+            SigninView(githubAuthManager: githubAuthManager, tabBarRouter: tabBarRouter)
         }
     }
 }

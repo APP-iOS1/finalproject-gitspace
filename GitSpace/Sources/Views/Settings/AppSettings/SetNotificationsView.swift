@@ -9,16 +9,17 @@ import SwiftUI
 
 struct SetNotificationsView: View {
     
-    @AppStorage("isWorkingHours") var isWorkingHours: Bool = false
-    @AppStorage("WorkingHoursFrom") var workingHoursFrom: String = ""
-    @AppStorage("WorkingHoursTo") var workingHoursTo: String = ""
+    @AppStorage("isOnChat") var isOnChat: Bool = true
+    @AppStorage("isOnKnock") var isOnKnock: Bool = true
     
-    @AppStorage("isOnStar") var isOnStar: Bool = false
-    @AppStorage("isOnActivity") var isOnActivity: Bool = false
-    @AppStorage("isOnChat") var isOnChat: Bool = false
-    @AppStorage("isOnKnock") var isOnKnock: Bool = false
-    @AppStorage("isOnInAppVibes") var isOnInAppVibes: Bool = false
-    @AppStorage("isOnInAppSounds") var isOnInAppSounds: Bool = false
+//    @AppStorage("isWorkingHours") var isWorkingHours: Bool = false
+//    @AppStorage("WorkingHoursFrom") var workingHoursFrom: String = ""
+//    @AppStorage("WorkingHoursTo") var workingHoursTo: String = ""
+//
+//    @AppStorage("isOnStar") var isOnStar: Bool = false
+//    @AppStorage("isOnActivity") var isOnActivity: Bool = false
+//    @AppStorage("isOnInAppVibes") var isOnInAppVibes: Bool = false
+//    @AppStorage("isOnInAppSounds") var isOnInAppSounds: Bool = false
     
     var body: some View {
         List {
@@ -62,7 +63,6 @@ struct SetNotificationsView: View {
 //                    }
 //                }
                 
-                
                 Toggle(isOn: $isOnKnock) {
                     VStack(alignment: .leading) {
                         Text("New Knocks")
@@ -72,7 +72,6 @@ struct SetNotificationsView: View {
                     }
                 }
                 
-                
                 Toggle(isOn: $isOnChat) {
                     VStack(alignment: .leading) {
                         Text("Messages")
@@ -81,7 +80,6 @@ struct SetNotificationsView: View {
                             .foregroundColor(.gsLightGray2)
                     }
                 }
-                
                 // MARK: - 보류
 //                Toggle(isOn: $isOnInAppVibes) {
 //                    Text("In-App Vibrations")
@@ -90,10 +88,6 @@ struct SetNotificationsView: View {
 //                Toggle(isOn: $isOnInAppSounds) {
 //                    Text("In-App Sounds")
 //                }
-                
-                
-                
-                
             } header: {
                 Text("PUSH NOTIFICATION TYPES")
             } // Section
