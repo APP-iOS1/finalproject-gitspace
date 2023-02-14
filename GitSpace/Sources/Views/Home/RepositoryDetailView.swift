@@ -11,10 +11,15 @@ import MarkdownUI
 
 struct RepositoryDetailView: View {
     
-    let gitHubService: GitHubService
+    @State private var markdownString: String = ""
+    @ObservedObject var contributorManager = ContributorManager()
     
-    init(service: GitHubService) {
+    let gitHubService: GitHubService
+    let repository: Repository
+    
+    init(service: GitHubService, repository: Repository) {
         self.gitHubService = service
+        self.repository = repository
     }
     
     var body: some View {
@@ -33,7 +38,7 @@ struct RepositoryDetailView: View {
             
             
             // MARK: - 레포 디테일 정보 섹션
-            RepositoryInfoCard(service: gitHubService)
+            RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorManager)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
@@ -48,67 +53,18 @@ struct RepositoryDetailView: View {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
             }
             
+            Markdown {
+                markdownString
+            }
+            .markdownTheme(.gitHub)
+            .padding(.vertical, 5)
+            
         }
         .padding(.horizontal, 30)
-        .navigationBarTitle("Repository", displayMode: .inline)
-    }
-}
-
-
-struct RepositoryInfoCard: View {
-    
-    let gitHubService: GitHubService
-    @State private var markdownString: String = ""
-    
-    init(service: GitHubService) {
-        self.gitHubService = service
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            
-            // 레포 타이틀
-            Text("**RepoTitle**")
-                .font(.largeTitle)
-                .padding(.bottom, 5)
-            
-            // 레포 설명글
-            Markdown(markdownString)
-                .markdownTheme(.gitHub)
-                .padding(.vertical, 5)
-            
-            // 레포에 찍힌 스타 개수
-            Text("⭐️ 234,305 stars")
-                .font(.footnote)
-                .padding(.vertical, 5)
-                .foregroundColor(.secondary)
-            
-            Divider()
-            
-            // Contributors 섹션 타이틀
-            Text("**Contributors**")
-                .padding(.vertical, 5)
-            
-            
-            // Contributors 유저 프로필들
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(0...2, id: \.self) { profile in
-                        NavigationLink(destination: ProfileDetailView()) {
-                            
-                            Image("avatarImage")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                            
-                        }
-                    }
-                }
-            }
-        }
         .onAppear {
+            
             Task {
-                
-                let readMeResult = await gitHubService.requestRepositoryReadme(owner: "apple", repositoryName: "swift-evolution")
+                let readMeResult = await gitHubService.requestRepositoryReadme(owner: repository.owner.login, repositoryName: repository.name)
                 
                 switch readMeResult {
                     
@@ -129,6 +85,80 @@ struct RepositoryInfoCard: View {
                     print(error)
                 }
                 
+                let contributorsResult = await gitHubService.requestRepositoryContributors(owner: repository.owner.login, repositoryName: repository.name, page: 1)
+                
+                switch contributorsResult {
+                case .success(let users):
+                    for user in users {
+                        let result = await gitHubService.requestUserInformation(userName: user.login)
+                        switch result {
+                        case .success(let user):
+                            contributorManager.contributors.append(user)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print("왜 디코딩 에러가 날까")
+                    print(error.localizedDescription)
+                }
+                
+            }
+        }
+        .navigationBarTitle(repository.name, displayMode: .inline)
+    }
+}
+
+
+struct RepositoryInfoCard: View {
+
+    @ObservedObject var contributorManager: ContributorManager
+    let gitHubService: GitHubService
+    let repository: Repository
+    
+    init(service: GitHubService, repository: Repository, contributorManager: ContributorManager) {
+        self.gitHubService = service
+        self.repository = repository
+        self.contributorManager = contributorManager
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            
+            // 레포 타이틀
+            GSText.CustomTextView(style: .title1, string: repository.name)
+            
+            // 레포 설명글
+            GSText.CustomTextView(style: .body1, string: repository.description ?? "This Repository has no description")
+            
+            GSText.CustomTextView(style: .body2, string: "⭐️ \(repository.stargazersCount) stars")
+            
+            Divider()
+            
+            // Contributors 섹션 타이틀
+            GSText.CustomTextView(style: .title3, string: "Contributors")
+            
+            // Contributors 유저 프로필들
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(contributorManager.contributors) { user in
+                        
+                        NavigationLink(destination: UserProfileView(service: gitHubService, user: user)) {
+                            
+                            let url = URL(string: user.avatar_url)
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            } placeholder: {
+                                Image("avatarImage")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            }
+                        }
+                    }
+                }
             }
         }
         .padding(20)
@@ -194,11 +224,11 @@ struct RepositoryDetailViewTags: View {
 
 
 
-
-struct RepositoryDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            RepositoryDetailView(service: GitHubService())
-        }
-    }
-}
+//
+//struct RepositoryDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            RepositoryDetailView(service: GitHubService())
+//        }
+//    }
+//}
