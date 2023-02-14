@@ -43,6 +43,7 @@ struct ChatRoomView: View {
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                        print(chat.unreadMessageCount)
                     }
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
@@ -169,21 +170,24 @@ struct ChatRoomView: View {
     // MARK: Method : 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
         let newMessage = makeMessage()
-        let newChat = makeChat()
+        let newChat = await makeChat()
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
         contentField = ""
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat() -> Chat {
+    private func makeChat() async -> Chat {
+        var dict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? ["" : 0]
+        dict[chat.targetUserID, default : 0] += 1
         
         let chat = Chat(id: chat.id,
                         createdDate: chat.createdDate,
                         joinedMemberIDs: chat.joinedMemberIDs,
                         lastContent: contentField, lastContentDate: Date(),
                         knockContent: chat.knockContent,
-                        knockContentDate: chat.knockContentDate)
+                        knockContentDate: chat.knockContentDate,
+                        unreadMessageCount: dict)
         return chat
     }
     
