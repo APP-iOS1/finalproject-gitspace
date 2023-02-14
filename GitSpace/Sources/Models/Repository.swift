@@ -12,7 +12,7 @@ struct Repository: Identifiable, Codable {
     var id: Int
     var name: String
     var fullName: String
-    var owner: GitHubUser
+    var owner: Owner
     var description: String?
 //    var tags: [Int]?
     var isPrivate: Bool

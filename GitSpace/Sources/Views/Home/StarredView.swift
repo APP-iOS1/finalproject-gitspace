@@ -9,6 +9,11 @@ import SwiftUI
 
 struct StarredView: View {
     
+    let gitHubService: GitHubService
+    
+    init(service: GitHubService) {
+        self.gitHubService = service
+    }
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @EnvironmentObject var tagViewModel: TagViewModel
@@ -26,7 +31,7 @@ struct StarredView: View {
         ),
         startPoint: .top, endPoint: .bottom
     )
-    
+        
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
 //        guard let tags = repositoryViewModel.tags else { return }
@@ -106,11 +111,11 @@ struct StarredView: View {
                     default:
                         ForEach(repositoryViewModel.repositories!) { repository in
                             ZStack {
-                                RepositoryCardView {
+                                GSCanvas.CustomCanvasView(style: .primary) {
                                     HStack {
                                         NavigationLink {
                                             /* Repository Detail View */
-                                            RepositoryDetailView()
+                                            RepositoryDetailView(service: gitHubService, repository: repository)
                                         } label: {
                                             VStack(alignment: .leading) {
                                                 HStack(alignment: .top) {
@@ -136,6 +141,7 @@ struct StarredView: View {
                                         }
                                     }
                                 }
+                                    
                                 VStack {
                                     /* Penpal, Menu button */
                                     HStack {

@@ -15,6 +15,8 @@ struct ContentView: View {
     let profile = MainProfileView()
     
     @StateObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var githubAuthManager: GitHubAuthManager
     
     var body: some View {
         /**
@@ -24,12 +26,31 @@ struct ContentView: View {
          */
         GeometryReader { geometry in
             NavigationView {
-                VStack(spacing: -10) {
-                    showCurrentTabPage()
-                    showGSTabBar(geometry: geometry)
+                
+                if UIScreen().isWiderThan375pt {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
+                    .edgesIgnoringSafeArea(.horizontal)
+                    .edgesIgnoringSafeArea(.bottom)
+                } else {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
                 }
-                .edgesIgnoringSafeArea(.horizontal)
-                .edgesIgnoringSafeArea(.bottom)
+                    
+                
+                
+            }
+        }
+        .task {
+            // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
+            if let uid = githubAuthManager.authentification.currentUser?.uid {
+                await userStore.requestUser(userID: uid)
+            } else {
+                print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
             }
         }
     }
@@ -63,7 +84,7 @@ struct ContentView: View {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .profile, geometry: geometry, isSystemImage: false, imageName: "avatarImage", tabName: "Profile")
         }
         .frame(width: geometry.size.width, height: 60)
-                .padding(.bottom, 20)
+//        .padding(.bottom, 20)
     }
     
 }
@@ -71,11 +92,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(tabBarRouter: GSTabBarRouter())
-            .environmentObject(AuthStore())
             .environmentObject(ChatStore())
             .environmentObject(MessageStore())
             .environmentObject(UserStore())
-            .environmentObject(TabManager())
             .environmentObject(RepositoryViewModel())
             .environmentObject(TagViewModel())
     }

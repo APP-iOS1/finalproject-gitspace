@@ -18,6 +18,7 @@ struct Chat: Identifiable, Codable {
     let lastContentDate: Date // 마지막 메세지 날짜
     let knockContent: String // 노크 메세지 내용
     let knockContentDate: Date // 노크 메세지 날짜
+    var unreadMessageCount: [String : Int] // 안읽은 메시지 갯수 (userID : 안읽은 메시지 수)
     
     // MARK: -Computed Properties
     // 로그인 ID와 joinedMemberIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
@@ -42,7 +43,7 @@ struct Chat: Identifiable, Codable {
                     .document(targetUserID)
                     .getDocument()
                 if let data = document.data() {
-                    let name = data["name"] as? String ?? ""
+                    let name = data["githubUserName"] as? String ?? ""
                     returnUserName = name
                 }
             } catch { }

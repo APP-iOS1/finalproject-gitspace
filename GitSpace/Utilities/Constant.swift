@@ -39,6 +39,10 @@ public enum Constant {
         static let TITLE3_FONT_WEIGHT: Font.Weight = .semibold
         static let TITLE3_COLOR: Color = Color.primary
         
+        static let TITLE4_SIZE: CGFloat = 13
+        static let TITLE4_FONT_WEIGHT: Font.Weight = .semibold
+        static let TITLE4_COLOR: Color = Color.primary
+        
         static let SECTION_TITLE_SIZE: CGFloat = 13
         static let SECTION_TITLE_FONT_WEIGHT: Font.Weight = .regular
         static let SECTION_TITLE_COLOR: Color = Color.gsGray2
@@ -54,14 +58,20 @@ public enum Constant {
         static let CAPTION1_SIZE: CGFloat = 13
         static let CAPTION1_FONT_WEIGHT: Font.Weight = .medium
         static let CAPTION1_COLOR: Color = Color.gsGray2
+        static let CAPTION_PRIMARY1_COLOR: Color = Color.primary
         
         static let CAPTION2_SIZE: CGFloat = 12
         static let CAPTION2_FONT_WEIGHT: Font.Weight = .regular
         static let CAPTION2_COLOR: Color = Color.gsGray2
+        static let CAPTION_PRIMARY2_COLOR: Color = Color.primary
         
         static let DESCRIPTION_SIZE: CGFloat = 16
         static let DESCRIPTION_FONT_WEIGHT: Font.Weight = .medium
         static let DESCRIPTION_COLOR: Color = Color.gsGray2
+        
+        static let DESCRIPTION2_SIZE: CGFloat = 13
+        static let DESCRIPTION2_FONT_WEIGHT: Font.Weight = .regular
+        static let DESCRIPTION2_COLOR: Color = Color.gsGray2
 
     }
 	/* EXAMPLE

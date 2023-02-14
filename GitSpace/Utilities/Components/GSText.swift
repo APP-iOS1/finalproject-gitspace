@@ -23,12 +23,16 @@ public struct GSText {
         case title1
         case title2
         case title3
+        case title4
         case sectionTitle
         case body1
         case body2
         case caption1
         case caption2
+        case captionPrimary1
+        case captionPrimary2
         case description
+        case description2
     }
     
     struct CustomTextView: View {
@@ -56,6 +60,11 @@ public struct GSText {
                     .font(.system(size: Constant.GSTextConst.TITLE3_SIZE))
                     .fontWeight(Constant.GSTextConst.TITLE3_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE3_COLOR)
+            case .title4:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.TITLE4_SIZE))
+                    .fontWeight(Constant.GSTextConst.TITLE4_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.TITLE4_COLOR)
             case .sectionTitle:
                 Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.SECTION_TITLE_SIZE))
@@ -85,11 +94,26 @@ public struct GSText {
                     .font(.system(size: Constant.GSTextConst.CAPTION2_SIZE))
                     .fontWeight(Constant.GSTextConst.CAPTION2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.CAPTION2_COLOR)
+            case .captionPrimary1:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.CAPTION1_SIZE))
+                    .fontWeight(Constant.GSTextConst.CAPTION1_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.CAPTION_PRIMARY1_COLOR)
+            case .captionPrimary2:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.CAPTION2_SIZE))
+                    .fontWeight(Constant.GSTextConst.CAPTION2_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.CAPTION_PRIMARY2_COLOR)
             case .description:
                 Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.DESCRIPTION_SIZE))
                     .fontWeight(Constant.GSTextConst.DESCRIPTION_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.DESCRIPTION_COLOR)
+            case .description2:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.DESCRIPTION2_SIZE))
+                    .fontWeight(Constant.GSTextConst.DESCRIPTION2_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.DESCRIPTION2_COLOR)
             }
         }
         

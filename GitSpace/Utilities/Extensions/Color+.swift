@@ -70,5 +70,9 @@ extension Color {
     static let gsGray1 = Color("GSGray1")
     static let gsGray2 = Color("GSGray2")
     static let gsGray3 = Color("GSGray3")
+    
+    //ChatListSection에서 캡슐과 텍스트에 쓰일 색상
+    static let unreadMessageCapsule = Color("UnreadMessageCapsule")
+    static let unreadMessageText = Color("UnreadMessageText")
 	
 }

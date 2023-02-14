@@ -38,11 +38,12 @@ struct ChatRoomView: View {
                     
                     Text("")
                         .id("bottom")
-                        
+                    
                 }
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                        print(chat.unreadMessageCount)
                     }
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
@@ -65,7 +66,7 @@ struct ChatRoomView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
-                } label: { 
+                } label: {
                     Image(systemName: "gearshape")
                         .foregroundColor(.primary)
                 }
@@ -86,33 +87,14 @@ struct ChatRoomView: View {
             MessageCell(message: message, targetName: targetUserName)
                 .contextMenu {
                     Button {
-                        messageStore.removeMessage(message,
-                                                   chatID: chat.id)
+                        Task {
+                            await deleteContent(message: message)
+                        }
                     } label: {
                         Text("Delete Message")
                         Image(systemName: "trash")
                     }
                 }
-        }
-    }
-    
-    // MARK: Button : 메세지 수정
-    private var updateContentButton : some View {
-        Button {
-            isShowingUpdateCell = true
-        } label: {
-            Text("수정하기")
-            Image(systemName: "pencil")
-        }
-    }
-    
-    // MARK: Button : 메세지 삭제
-    private var removeContentButton : some View {
-        Button {
-            
-        } label: {
-            Text("삭제하기")
-            Image(systemName: "trash")
         }
     }
     
@@ -166,24 +148,68 @@ struct ChatRoomView: View {
     }
     
     // MARK: -Methods
-    // MARK: Method : 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
+    // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
         let newMessage = makeMessage()
-        let newChat = makeChat()
+        let newChat = await makeChat()
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
         contentField = ""
     }
     
+    // MARK: Method - Chat의 lastContent를 업데이트하는 함수
+    private func updateChatWithLastMessage(message: Message) async {
+        let isLastMessage = messageStore.messages.last?.id == message.id
+        if isLastMessage {
+            // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
+            if messageStore.messages.count < 2 {
+                
+                // FIXME: makeChat의 파라미터로 enum 케이스를 받아서, 서로 다른 초기화가 필요한 경우 추상화가 가능하도록 변경 후 적용 필요 by.태영
+                let newChat = Chat.init(id: chat.id,
+                                        createdDate: chat.createdDate,
+                                        joinedMemberIDs: chat.joinedMemberIDs,
+                                        lastContent: chat.knockContent,
+                                        lastContentDate: chat.knockContentDate,
+                                        knockContent: chat.knockContent,
+                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
+                await chatStore.updateChat(newChat)
+                
+            } else {
+                // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
+                // MEMO: preLastMessage가 index로 접근하는 방식이라서, 안전하게 접근하는 로직으로 변경해야할지 고려 필요 By. 태영
+                let preLastMessage = messageStore.messages[messageStore.messages.count-2]
+                let newChat = Chat.init(id: chat.id,
+                                        createdDate: chat.createdDate,
+                                        joinedMemberIDs: chat.joinedMemberIDs,
+                                        lastContent: preLastMessage.textContent,
+                                        lastContentDate: preLastMessage.sentDate,
+                                        knockContent: chat.knockContent,
+                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
+                await chatStore.updateChat(newChat)
+            }
+        }
+    }
+    
+    // MARK: Method - 메세지 삭제에 대해 DB에 Chat과 Message를 반영하는 함수
+    private func deleteContent(message: Message) async {
+        await updateChatWithLastMessage(message: message)
+        await messageStore.removeMessage(message,
+                                         chatID: chat.id)
+    }
+    
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat() -> Chat {
+    private func makeChat() async -> Chat {
+        var dict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? ["" : 0]
+        dict[chat.targetUserID, default : 0] += 1
         
         let chat = Chat(id: chat.id,
                         createdDate: chat.createdDate,
                         joinedMemberIDs: chat.joinedMemberIDs,
-                        lastContent: contentField, lastContentDate: Date(),
+                        lastContent: contentField,
+                        lastContentDate: Date.now,
                         knockContent: chat.knockContent,
-                        knockContentDate: chat.knockContentDate)
+                        knockContentDate: chat.knockContentDate,
+                        unreadMessageCount: dict)
         return chat
     }
     
@@ -233,3 +259,6 @@ struct ChatRoomView: View {
     }
     
 }
+
+/// 챗을 만들어서 업데이트 챗을 하는데, 마지막 메세지 시간이랑 내용을 가져와야함
+/// 지우는 메세지가 마지막 메세지인지 분기처리를 해야함

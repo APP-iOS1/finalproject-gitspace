@@ -39,7 +39,7 @@ struct MainChatView: View {
                 Button {
                     showGuideCenter.toggle()
                 } label: {
-                    Image(systemName: "questionmark.circle")
+                    Image(systemName: "info.circle")
                         .foregroundColor(.primary)
                 }
 

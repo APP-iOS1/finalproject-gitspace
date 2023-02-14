@@ -16,7 +16,7 @@ import FirebaseAuth
 
 
 enum Utility {
-    static var loginUserID: String = "lX1YHIOZiLXVtB76QDIeekxKgt33"
+    static var loginUserID: String = "aw6BYepF9EhL50sPbhL3NsaD0Fz1"
     
     static var MessageCellWidth: CGFloat {
         return UIScreen.main.bounds.width / 5 * 3

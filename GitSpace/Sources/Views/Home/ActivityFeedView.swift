@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ActivityFeedView: View {
 
+    let gitHubService: GitHubService
     let userNumber: Int
+    
+    init(service: GitHubService, number: Int) {
+        self.gitHubService = service
+        self.userNumber = number
+    }
 
     var body: some View {
 
@@ -33,7 +39,7 @@ struct ActivityFeedView: View {
                     }
 
                     NavigationLink {
-                        RepositoryDetailView()
+//                        RepositoryDetailView(service: gitHubService, repository: <#Repository#>)
                     } label: {
                         GSText.CustomTextView(style: .body1, string: "User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
                             .multilineTextAlignment(.leading)
