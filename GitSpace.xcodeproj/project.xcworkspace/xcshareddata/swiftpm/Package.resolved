@@ -125,15 +125,6 @@
         "revision" : "de7da3440c3b87ba94adfa98c698828d7746a76d",
         "version" : "1.0.5"
       }
-    },
-    {
-      "identity" : "swiftymarkdown",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SimonFairbairn/SwiftyMarkdown",
-      "state" : {
-        "revision" : "dde451ab4ed9b77b328e21baa471fdfa0cf61369",
-        "version" : "1.2.4"
-      }
     }
   ],
   "version" : 2
