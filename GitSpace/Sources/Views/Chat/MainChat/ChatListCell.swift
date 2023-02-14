@@ -20,7 +20,7 @@ struct ChatListCell : View {
             HStack {
                 ProfileAsyncImage(size: 55)
                     .padding(.trailing)
-
+                
                 
                 VStack(alignment: .leading) {
                     Text("@\(targetUserName)")
@@ -35,7 +35,25 @@ struct ChatListCell : View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isDoneFetch))
                 }
-            }            .frame(width: 330,height: 100, alignment: .leading)
+                
+                // MARK: - 안읽은 메시지 갯수 표시
+                if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
+//                    Capsule()
+//                            .fill(Color.unreadMessageCapsule)
+//                            .overlay(
+//                                Text("\(count)")
+//                                    .foregroundColor(Color.unreadMessageText)
+//                            )
+                    Text("\(count)")
+                        .foregroundColor(Color.unreadMessageText)
+                        .padding(5)
+                        .padding(.horizontal, 5)
+                        .background(Color.unreadMessageCapsule)
+                        .clipShape(Capsule())
+                        
+                }
+            }
+            .frame(width: 330,height: 100, alignment: .leading)
             Divider()
                 .frame(width: 350)
         }

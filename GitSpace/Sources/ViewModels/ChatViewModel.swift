@@ -69,7 +69,7 @@ extension ChatStore {
     // MARK: Method : 추가된 문서 필드에 접근하여 Chat 객체를 만들어 반환하는 메서드
     private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
         do {
-            let newChat = try change.data(as: Chat.self)
+            var newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
             print("Fetch New Chat in Chat Listener Error : \(error)")
@@ -221,5 +221,21 @@ extension ChatStore {
         } catch {
             print("Error-ChatViewModel-removeChat : \(error.localizedDescription)")
         }
+    }
+    
+    func getUnreadMessageDictionary(chatID: String) async -> [String : Int]? {
+        do {
+            let snapshot = try await db.collection("Chat")
+                .document(chatID)
+                .getDocument()
+            
+            if let data = snapshot.data() {
+                let dict = data["unreadMessageCount"] as? [String : Int] ?? ["no one" : 0]
+                return dict
+            }
+        } catch {
+            print("Get Chat Documents Error : \(error)")
+        }
+        return nil
     }
 }
