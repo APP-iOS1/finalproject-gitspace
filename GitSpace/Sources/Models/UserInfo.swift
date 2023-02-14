@@ -14,7 +14,7 @@ struct UserInfo : Identifiable, Codable {
     let id: String // 유저 ID
     let createdDate: Date // 유저 생성일시
     let githubUserName: String // 유저 깃허브 ID
-    let deviceToken: String
+    let deviceToken: String // 유저 기기 토큰
     let emailTo: String? // 유저 이메일
     let blockedUserIDs: [String] // 차단한 유저 ID 리스트
     
@@ -29,15 +29,15 @@ struct UserInfo : Identifiable, Codable {
 }
 
 struct GitHubUser: Identifiable, Codable {
-    var id : Int       // 고유 id
-    var login: String   // github id
-    var name : String?  // username
-    var email : String? // email
-    var avatar_url: String // profile image
-    var bio: String? // bio, intro message
-    var location: String? // location 
-    var blog: String? // blog url
-    var followers: Int? // followers
-    var following: Int? // following
+    let id : Int       // 고유 id
+    let login: String   // github id
+    let name : String?  // username
+    let email : String? // email
+    let avatar_url: String // profile image
+    let bio: String? // bio, intro message
+    let location: String? // location
+    let blog: String? // blog url
+    let followers: Int? // followers
+    let following: Int? // following
 }
 
