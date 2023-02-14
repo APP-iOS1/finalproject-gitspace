@@ -181,7 +181,7 @@ final class GitHubAuthManager: ObservableObject {
                 .document(user.id)
                 .setData(from: user.self)
         } catch {
-            print("Add User Error : \(error.localizedDescription)")
+            print("Error-GitHubAuthManager-addUser : \(error.localizedDescription)")
         }
     }
     
