@@ -87,6 +87,7 @@
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
 		6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D10092994D21700D43AB9 /* AddChatView.swift */; };
+		6E24BEB1299B2DEA007C554B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E24BEB0299B2DEA007C554B /* Assets.xcassets */; };
 		6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6032991EF380043A8BB /* ChatListCell.swift */; };
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
 		6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */; };
@@ -118,7 +119,6 @@
 		70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CDF299B105B009948FC /* URL+DeepLink.swift */; };
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
 		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
-		70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CEF299B2B5E009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -207,6 +207,7 @@
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
 		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
+		6E24BEB0299B2DEA007C554B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
@@ -242,7 +243,6 @@
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
-		70BB6CEF299B2B5E009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../Downloads/finalproject-gitspace-dev/GitSpace/Assets.xcassets"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -384,7 +384,6 @@
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
-				70BE63E2298CA3B10060336F /* Temp */,
 				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
 			);
 			path = Utilities;
@@ -482,13 +481,6 @@
 			path = ChatRoom;
 			sourceTree = "<group>";
 		};
-		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ListenerTechResearch;
-			sourceTree = "<group>";
-		};
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,7 +501,7 @@
 		700A11CE2997364F008C94C7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				70BB6CEF299B2B5E009948FC /* Assets.xcassets */,
+				6E24BEB0299B2DEA007C554B /* Assets.xcassets */,
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
 				700A11CC29973584008C94C7 /* App */,
 			);
@@ -684,14 +676,6 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		70BE63E2298CA3B10060336F /* Temp */ = {
-			isa = PBXGroup;
-			children = (
-				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
-			);
-			path = Temp;
-			sourceTree = "<group>";
-		};
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,7 +794,7 @@
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
-				70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */,
+				6E24BEB1299B2DEA007C554B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
