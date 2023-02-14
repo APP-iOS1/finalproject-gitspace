@@ -94,8 +94,8 @@ struct MainKnockView: View {
 						}
 						.transition(knockViewManager.leadingTransition)
 						.fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
-							KnockSettingView(
-								showingKnockSetting: $isDisplayedKnockSettingView
+							SetKnockControlsView(
+								showingKnockControls: $isDisplayedKnockSettingView
 							)
 						}
 						

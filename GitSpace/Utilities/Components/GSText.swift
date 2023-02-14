@@ -52,7 +52,7 @@ public struct GSText {
                     .fontWeight(Constant.GSTextConst.TITLE2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE2_COLOR)
             case .title3:
-                Text(string)
+                Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.TITLE3_SIZE))
                     .fontWeight(Constant.GSTextConst.TITLE3_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE3_COLOR)

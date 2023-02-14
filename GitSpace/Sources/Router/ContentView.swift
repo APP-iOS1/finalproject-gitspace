@@ -71,11 +71,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(tabBarRouter: GSTabBarRouter())
-            .environmentObject(AuthStore())
             .environmentObject(ChatStore())
             .environmentObject(MessageStore())
             .environmentObject(UserStore())
-            .environmentObject(TabManager())
-            .environmentObject(RepositoryStore())
+            .environmentObject(RepositoryViewModel())
     }
 }

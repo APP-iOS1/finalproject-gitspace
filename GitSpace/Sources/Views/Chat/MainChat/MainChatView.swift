@@ -17,6 +17,12 @@ struct MainChatView: View {
         ScrollView {
             ChatUserRecommendationSection()
 				.padding()
+            
+            Divider()
+            
+            Text("채팅방 개수 : \(chatStore.chats.count)")
+            Text("로그인 유저 ID : \(Utility.loginUserID)")
+            
             Divider()
             ChatListSection()
         }
@@ -37,6 +43,14 @@ struct MainChatView: View {
                         .foregroundColor(.primary)
                 }
 
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    AddChatView()
+                } label: {
+                    Text("채팅 추가하기")
+                }
             }
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {
