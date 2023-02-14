@@ -11,6 +11,7 @@ struct StarredView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
+    @EnvironmentObject var tagViewModel: TagViewModel
     @State private var searchTag: String = ""
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
@@ -28,9 +29,10 @@ struct StarredView: View {
     
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-        for (index, item) in Array(zip(repositoryViewModel.tags.indices, repositoryViewModel.tags)) {
+//        guard let tags = repositoryViewModel.tags else { return }
+        for (index, item) in Array(zip(tagViewModel.tags.indices, tagViewModel.tags ?? [])) {
             if item.id == tag.id {
-                repositoryViewModel.tags[index].isSelected = false
+                tagViewModel.tags[index].isSelected = false
             }
         }
         selectedTagList.remove(at: index)
@@ -81,7 +83,7 @@ struct StarredView: View {
                                     removeTag(at: index, tag: tag)
                                 }
                             } label: {
-                                Text("\(tag.name)")
+                                Text("\(tag.tagName)")
                             }
                             .transition(
                                 .asymmetric(
@@ -197,7 +199,7 @@ struct StarredView: View {
             }
         }
         .sheet(isPresented: $isShowingSelectTagView) {
-            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList)
+            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView)
         }
         .onTapGesture {
             self.endTextEditing()
