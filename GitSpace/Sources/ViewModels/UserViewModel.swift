@@ -122,11 +122,11 @@ class UserStore : ObservableObject {
         
         do {
             let newUser: UserInfo = .init(id: user.id,
-                                          githubUserName: user.githubUserName,
-                                          email: user.email,
                                           createdDate: user.createdDate,
+                                          githubUserName: user.githubUserName,
+                                          deviceToken: user.deviceToken,
+                                          emailTo: user.emailTo,
                                           blockedUserIDs: newBlockedUserIDs)
-            
             await writeUser(user: newUser)
             try await db
                 .collection("UserInfo")
