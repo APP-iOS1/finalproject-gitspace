@@ -82,7 +82,8 @@ struct ChatRoomView: View {
         .task {
             messageStore.addListener(chatID: chat.id)
             await messageStore.fetchMessages(chatID: chat.id)
-            async let enteredChat = makeChat(makeChatCase: .enterChatRoom)
+            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
+                                             deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
         }
         .onDisappear {
@@ -160,7 +161,7 @@ struct ChatRoomView: View {
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
         /// 메세지 입력 필드 공백으로 초기화
         let newMessage = makeMessage()
-        let newChat = await makeChat(makeChatCase: .addContent)
+        let newChat = await makeChat(makeChatCase: .addContent, deletedMessage: nil)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
         contentField = ""
@@ -172,11 +173,14 @@ struct ChatRoomView: View {
         if isLastMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
-                let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage)
+                // TODO: message의 isRead가 사용되지 않은 로직 -> unreadCount를 받아와서 배열의 끝에서 이 범위안에 포함되어 있는지 체크 필요 with.뚜리
+                let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
+                                             deletedMessage: deletedMessage)
                 await chatStore.updateChat(newChat)
             } else {
                 // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
-                let newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage)
+                let newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
+                                             deletedMessage: deletedMessage)
                 await chatStore.updateChat(newChat)
             }
         }
@@ -190,18 +194,25 @@ struct ChatRoomView: View {
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat(makeChatCase: MakeChatCase) async -> Chat {
+    private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
         
         let newChat: Chat
+        var newDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
+        let unreadMessageCount = newDict[chat.targetUserID] ?? 1
+        let isContainUnreadMessages: Bool = chatStore.chats
+            .dropLast(unreadMessageCount)
+            .map{$0.id}
+            .contains(deletedMessage?.id ?? "")
+        if isContainUnreadMessages {
+            newDict[chat.targetUserID, default: 0] -= 1
+        }
         
         switch makeChatCase {
             
         case .addContent:
             
-            var dict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? ["" : 0]
-            print(chat.targetUserID)
-            dict[chat.targetUserID, default : 0] += 1
-            print(dict)
+            newDict[chat.targetUserID, default : 0] += 1
+            
             newChat = Chat(id: chat.id,
                            createdDate: chat.createdDate,
                            joinedMemberIDs: chat.joinedMemberIDs,
@@ -209,10 +220,10 @@ struct ChatRoomView: View {
                            lastContentDate: Date.now,
                            knockContent: chat.knockContent,
                            knockContentDate: chat.knockContentDate,
-                           unreadMessageCount: dict)
+                           unreadMessageCount: newDict)
             
         case .zeroMessageAfterDeleteLastMessage:
-            
+                        
             // FIXME: 메세지 삭제 로직에도 안 읽은 메세지 -= 1 로직 구현 필요
             newChat = Chat.init(id: chat.id,
                                 createdDate: chat.createdDate,
@@ -221,19 +232,20 @@ struct ChatRoomView: View {
                                 lastContentDate: chat.knockContentDate,
                                 knockContent: chat.knockContent,
                                 knockContentDate: chat.knockContentDate,
-                                unreadMessageCount: chat.unreadMessageCount)
+                                unreadMessageCount: newDict)
             
         case .remainMessageAfterDeleteLastMessage:
-            // MEMO: preLastMessage가 index로 접근하는 방식이라서, 안전하게 접근하는 로직으로 변경해야할지 고려 필요 By. 태영
-            let preLastMessage = messageStore.messages[messageStore.messages.count-2]
+            
+            let preLastMessage = messageStore.messages.dropLast(2).first
+            
             newChat = Chat.init(id: chat.id,
                                 createdDate: chat.createdDate,
                                 joinedMemberIDs: chat.joinedMemberIDs,
-                                lastContent: preLastMessage.textContent,
-                                lastContentDate: preLastMessage.sentDate,
+                                lastContent: preLastMessage?.textContent ?? chat.lastContent,
+                                lastContentDate: preLastMessage?.sentDate ?? chat.lastContentDate,
                                 knockContent: chat.knockContent,
                                 knockContentDate: chat.knockContentDate,
-                                unreadMessageCount: chat.unreadMessageCount)
+                                unreadMessageCount: newDict)
             
         case .enterChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
