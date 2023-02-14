@@ -12,7 +12,7 @@ import MarkdownUI
 struct RepositoryDetailView: View {
     
     @State private var markdownString: String = ""
-    @ObservedObject var contributorManager = ContributorManager()
+    @StateObject var contributorViewModel = ContributorViewModel()
     
     let gitHubService: GitHubService
     let repository: Repository
@@ -38,7 +38,7 @@ struct RepositoryDetailView: View {
             
             
             // MARK: - 레포 디테일 정보 섹션
-            RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorManager)
+            RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
@@ -89,18 +89,18 @@ struct RepositoryDetailView: View {
                 
                 switch contributorsResult {
                 case .success(let users):
+                    contributorViewModel.contributors.removeAll()
                     for user in users {
                         let result = await gitHubService.requestUserInformation(userName: user.login)
                         switch result {
                         case .success(let user):
-                            contributorManager.contributors.append(user)
+                            contributorViewModel.contributors.append(user)
                         case .failure(let error):
                             print(error)
                         }
                     }
                     
                 case .failure(let error):
-                    print("왜 디코딩 에러가 날까")
                     print(error.localizedDescription)
                 }
                 
@@ -113,11 +113,11 @@ struct RepositoryDetailView: View {
 
 struct RepositoryInfoCard: View {
 
-    @ObservedObject var contributorManager: ContributorManager
+    @ObservedObject var contributorManager: ContributorViewModel
     let gitHubService: GitHubService
     let repository: Repository
     
-    init(service: GitHubService, repository: Repository, contributorManager: ContributorManager) {
+    init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
         self.gitHubService = service
         self.repository = repository
         self.contributorManager = contributorManager
@@ -150,7 +150,9 @@ struct RepositoryInfoCard: View {
                             AsyncImage(url: url) { image in
                                 image
                                     .resizable()
+                                    .scaledToFit()
                                     .frame(width: 40, height: 40)
+                                    .clipShape(Circle())
                             } placeholder: {
                                 Image("avatarImage")
                                     .resizable()
