@@ -80,116 +80,116 @@ extension URL {
 }
 
 // MARK: - 딥링크 뷰
-struct DeeplinkView: View {
-	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
-	@State private var selectedTab = TabIdentifier.star
-	
-	var body: some View {
-		VStack {
-			if let endpoint {
-				Text("https://\(endpoint)")
-			}
-			Button {
-				Task {
-					let instance = PushNotificationManager()
-					await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
-				}
-			} label: {
-				Text("Send")
-			}
-		}
-		
-		TabView(selection: $selectedTab) {
-			NavigationView {
-				VStack {
-					
-					if let endpoint {
-						Text("https://\(endpoint)")
-					}
-					Button {
-						Task {
-							let instance = PushNotificationManager()
-							await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
-						}
-					} label: {
-						Text("Send")
-					}
-				}
-			} // NaviView
-			.tabItem {
-				VStack {
-					Image(systemName: "star")
-					Text("STAR")
-				}
-			}
-			.tag(TabIdentifier.star)
-			
-			NavigationView {
-				List {
-					Section {
-						NavigationLink {
-							Text("page 1")
-						} label: {
-							Text("page 1")
-						}
-						
-						NavigationLink {
-							Text("page 2")
-						} label: {
-							Text("page 2")
-						}
-						
-						NavigationLink {
-							Text("page 3")
-						} label: {
-							Text("page 3")
-						}
-					}
-				}
-			} // NaviView
-			.tabItem {
-				VStack {
-					Image(systemName: "message")
-					Text("CHAT")
-				}
-			}
-			.tag(TabIdentifier.chat)
-			
-			NavigationView {
-				List {
-					Section {
-						NavigationLink {
-							Text("page 4")
-						} label: {
-							Text("page 4")
-						}
-						
-						NavigationLink {
-							Text("page 5")
-						} label: {
-							Text("page 5")
-						}
-						
-						NavigationLink {
-							Text("page 6")
-						} label: {
-							Text("page 6")
-						}
-					}
-				}
-			} // NaviView
-			.tabItem {
-				VStack {
-					Image(systemName: "hand.raised")
-					Text("KNOCK")
-				}
-			}
-			.tag(TabIdentifier.knock)
-		}
-		.onOpenURL(perform: { url in
-			// MARK: - 들어온 URL 처리
-			guard let tabId = url.tabIdentifier else { return }
-			selectedTab = tabId
-		})
-	}
-}
+//struct DeeplinkView: View {
+//	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
+//	@State private var selectedTab = TabIdentifier.star
+//	
+//	var body: some View {
+//		VStack {
+//			if let endpoint {
+//				Text("https://\(endpoint)")
+//			}
+//			Button {
+//				Task {
+//					let instance = PushNotificationManager()
+//					await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+//				}
+//			} label: {
+//				Text("Send")
+//			}
+//		}
+//		
+//		TabView(selection: $selectedTab) {
+//			NavigationView {
+//				VStack {
+//					
+//					if let endpoint {
+//						Text("https://\(endpoint)")
+//					}
+//					Button {
+//						Task {
+//							let instance = PushNotificationManager()
+//							await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+//						}
+//					} label: {
+//						Text("Send")
+//					}
+//				}
+//			} // NaviView
+//			.tabItem {
+//				VStack {
+//					Image(systemName: "star")
+//					Text("STAR")
+//				}
+//			}
+//			.tag(TabIdentifier.star)
+//			
+//			NavigationView {
+//				List {
+//					Section {
+//						NavigationLink {
+//							Text("page 1")
+//						} label: {
+//							Text("page 1")
+//						}
+//						
+//						NavigationLink {
+//							Text("page 2")
+//						} label: {
+//							Text("page 2")
+//						}
+//						
+//						NavigationLink {
+//							Text("page 3")
+//						} label: {
+//							Text("page 3")
+//						}
+//					}
+//				}
+//			} // NaviView
+//			.tabItem {
+//				VStack {
+//					Image(systemName: "message")
+//					Text("CHAT")
+//				}
+//			}
+//			.tag(TabIdentifier.chat)
+//			
+//			NavigationView {
+//				List {
+//					Section {
+//						NavigationLink {
+//							Text("page 4")
+//						} label: {
+//							Text("page 4")
+//						}
+//						
+//						NavigationLink {
+//							Text("page 5")
+//						} label: {
+//							Text("page 5")
+//						}
+//						
+//						NavigationLink {
+//							Text("page 6")
+//						} label: {
+//							Text("page 6")
+//						}
+//					}
+//				}
+//			} // NaviView
+//			.tabItem {
+//				VStack {
+//					Image(systemName: "hand.raised")
+//					Text("KNOCK")
+//				}
+//			}
+//			.tag(TabIdentifier.knock)
+//		}
+//		.onOpenURL(perform: { url in
+//			// MARK: - 들어온 URL 처리
+//			guard let tabId = url.tabIdentifier else { return }
+//			selectedTab = tabId
+//		})
+//	}
+//}

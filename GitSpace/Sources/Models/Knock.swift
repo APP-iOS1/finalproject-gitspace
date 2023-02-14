@@ -23,4 +23,18 @@ struct Knock: Codable, Hashable {
 			return diff.minute ?? 0
 		}
 	}
+	
+	init(date: Date, knockMessage: String, knockStatus: String, knockCategory: String, declineMessage: String? = nil, receivedUserName: String, sentUserName: String) {
+		self.date = date
+		self.knockMessage = knockMessage
+		self.knockStatus = knockStatus
+		self.knockCategory = knockCategory
+		self.declineMessage = declineMessage
+		self.receivedUserName = receivedUserName
+		self.sentUserName = sentUserName
+	}
+	
+	init(isFailedDummy: Bool) {
+		self.init(date: .now, knockMessage: "FAILED", knockStatus: "FAILED", knockCategory: "FAILED", receivedUserName: "FAILED", sentUserName: "FAILED")
+	}
 }

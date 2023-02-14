@@ -57,6 +57,7 @@
 		3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471460E2992217A00ED990C /* ReportGuideView.swift */; };
 		347146122992253600ED990C /* GuideBlockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146112992253600ED990C /* GuideBlockSection.swift */; };
 		347146142992254200ED990C /* BlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146132992254200ED990C /* BlockGuideView.swift */; };
+		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
@@ -97,12 +98,12 @@
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
-		700A11D029973675008C94C7 /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11CF29973675008C94C7 /* PushNotification.swift */; };
 		700A11D2299737F4008C94C7 /* AppDelegate+Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */; };
 		700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D5299771B5008C94C7 /* KnockViewManager.swift */; };
 		700A11D8299774A0008C94C7 /* Knock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D7299774A0008C94C7 /* Knock.swift */; };
 		7019EDBD2997EC7700135F26 /* PinnedViewHeaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */; };
 		704D160F29992FF9009206BD /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704D160E29992FF9009206BD /* String+.swift */; };
+		70528FBE299C022800E29316 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70528FBD299C022800E29316 /* PushNotificationManager.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
 		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
@@ -128,6 +129,7 @@
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
 		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
 		70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF3299B4301009948FC /* Assets.xcassets */; };
+		70BB6CF8299B753E009948FC /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -228,13 +230,12 @@
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
-		700A11CF29973675008C94C7 /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
 		700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Firebase.swift"; sourceTree = "<group>"; };
 		700A11D5299771B5008C94C7 /* KnockViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockViewManager.swift; sourceTree = "<group>"; };
 		700A11D7299774A0008C94C7 /* Knock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knock.swift; sourceTree = "<group>"; };
 		7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewHeaderModifier.swift; sourceTree = "<group>"; };
-		702C887F2993B82C00F2E979 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		704D160E29992FF9009206BD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		70528FBD299C022800E29316 /* PushNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
 		7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeModifiers.swift; sourceTree = "<group>"; };
 		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
@@ -259,8 +260,9 @@
 		70BB6CE1299B1DA7009948FC /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
-		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
 		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		70BB6CF7299B753E009948FC /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		70BB6CFA299B769D009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -513,7 +515,7 @@
 		700A11CD299735C1008C94C7 /* plist */ = {
 			isa = PBXGroup;
 			children = (
-				70BB6CED299B282B009948FC /* Info.plist */,
+				70BB6CFA299B769D009948FC /* Info.plist */,
 				70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */,
 			);
 			path = plist;
@@ -557,10 +559,10 @@
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
+				70BB6CF7299B753E009948FC /* Secrets.xcconfig */,
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
-				70BB6CDE299A7484009948FC /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -640,7 +642,7 @@
 		7068B6B8297694C2005D6B7B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				700A11CF29973675008C94C7 /* PushNotification.swift */,
+				70528FBD299C022800E29316 /* PushNotificationManager.swift */,
 				6E0840162983906F00F51169 /* Message.swift */,
 				700A11D7299774A0008C94C7 /* Knock.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
@@ -692,14 +694,6 @@
 				700A11D5299771B5008C94C7 /* KnockViewManager.swift */,
 			);
 			path = KnockHistory;
-			sourceTree = "<group>";
-		};
-		70BB6CDE299A7484009948FC /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				702C887F2993B82C00F2E979 /* Secrets.xcconfig */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		70BE63E3298CA4770060336F /* Extensions */ = {
@@ -821,6 +815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
+				70BB6CF8299B753E009948FC /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
@@ -872,6 +867,7 @@
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
+				70528FBE299C022800E29316 /* PushNotificationManager.swift in Sources */,
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
 				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
@@ -941,7 +937,7 @@
 				686CD902299B4952000FD0B6 /* TagViewModel.swift in Sources */,
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
-				700A11D029973675008C94C7 /* PushNotification.swift in Sources */,
+				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
@@ -971,6 +967,7 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1032,6 +1029,7 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1087,6 +1085,7 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1123,6 +1122,7 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

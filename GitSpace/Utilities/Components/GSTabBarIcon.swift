@@ -41,7 +41,7 @@ struct GSTabBarIcon: View {
         GeometryReader { geometry in
 
 //            withAnimation {
-                if tabBarRouter.currentPage == page {
+			if tabBarRouter.currentPage ?? GSTabBarRouter.Page.stars == page {
                     Rectangle()
                         .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
                         .frame(width: width / 2, height: 4)

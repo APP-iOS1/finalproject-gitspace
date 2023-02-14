@@ -9,28 +9,48 @@ import SwiftUI
 
 // TODO: 하위 인스턴스 분리 및 추상화 필요
 final class PushNotificationManager {
+	private let currentUserDeviceToken: String?
+	
 	/// 예시 코드에서 API 키와 테스트용 Device Token은 xcconfig 파일로 캡슐화 하여 사용했습니다.
 	private let serverKey = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
-	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
+	private let valseDevice = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
+	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
 	
 	/// Button을 탭할 때, 아래 메소드를 호출합니다.
-	public func sendPushNoti(url: String) async -> Void {
-		print(deviceToken)
-		
+	public func sendPushNotification(
+		with message: GSTabBarRouter.MessageType,
+		to userInfo: UserInfo
+	) async -> Void {
 		/// 이 url 에는 Legacy HTTP의 엔드포인트가 아규먼트로 전달됩니다.
-		/// url == https://fcm.googleapis.com/fcm/send
-		guard let url = URL(string: url) else {
+		
+		guard let url = URL(string: "https://\(endpoint)" ?? "") else {
+			print("Error: \(#file)-\(#function): NO URL FOR PUSH NOTIFICATION")
 			return
 		}
 		
-		let messageTitle = "Message Title Here"
-		let messageBody = "Message Body Text Here"
+		var messageTitle: String = ""
+		var messageBody: String = ""
+		var navigateTo: String = ""
+		var viewBuildID: String = ""
+		
+		switch message {
+		case let .knock(title, body, id):
+			messageTitle = title
+			messageBody = body
+			navigateTo = "knock"
+			viewBuildID = id
+		case let .chat(title, body, id):
+			messageTitle = title
+			messageBody = body
+			navigateTo = "chat"
+			viewBuildID = id
+		}
 		
 		/// HTTP Request의 body로 전달할 data를 딕셔너리로 선언한 후, JSON으로 변환합니다.
 		let json: [AnyHashable: Any] = [
 			/// 특정 기기에 알람을 보내기 위해 "to"를 사용합니다.
 			/// 경우에 따라 Topic 등 다른 용도로 활용할 수 있습니다.
-			"to": deviceToken,
+			"to": valseDevice,
 			
 			/// 알람의 내용을 구성하는 키-밸류 입니다.
 			"notification": [
@@ -41,11 +61,13 @@ final class PushNotificationManager {
 			
 			/// 알람을 보내며 함께 전달할 데이터를 삽입합니다.
 			"data": [
-				"userName": "Valselee",
-				"sentFrom": "senderID",
-				"navigateTo": "knock"
-				//				"viewInfo": "해당뷰를 그릴때 필요한 id",
-				//				"date": Date.now.description
+				"userName": "CurrentUserID",
+				"sentDeviceToken": currentUserDeviceToken ?? "보낸이의 디바이스토큰",
+				"sentUserName": userInfo.githubUserName,
+				"sentUserID": userInfo.id,
+				"navigateTo": navigateTo,
+				"viewBuildID": viewBuildID,
+				"date": Date.now.description
 			]
 		]
 		
@@ -54,7 +76,7 @@ final class PushNotificationManager {
 		
 		/// URLReqeust를 만들고 적절한 메소드와 헤더를 설정합니다.
 		var request = URLRequest(url: url)
-		request.httpMethod = "POST"
+		request.httpMethod = HTTPRequestMethod.post.rawValue
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		
 		/// serverKey 는 3번 과정에서 저장해둔 키를 사용합니다.
@@ -75,18 +97,24 @@ final class PushNotificationManager {
 		}
 		
 	}
+	
+	// MARK: LIFECYCLE
+	init(
+		currentUserDeviceToken: String?
+	) {
+		self.currentUserDeviceToken = currentUserDeviceToken
+	}
 }
 
 struct GSPushNotification: Codable {
 	let aps: GSAps
 	let googleCAE, googleCFid, gcmMessageID, googleCSenderID,
-		navigateTo, sentFrom, userName: String
+		userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date: String
 	
 	enum CodingKeys: String, CodingKey {
 		case aps
-		case navigateTo
-		case sentFrom
-		case userName
+		case userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date
+		
 		case googleCAE = "google.c.a.e"
 		case googleCFid = "google.c.fid"
 		case gcmMessageID = "gcm.message_id"
@@ -106,17 +134,19 @@ struct GSNotificationDetail: Codable {
 }
 
 struct PushNotificationTestView: View {
-	private let endpoint = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String
 	
 	var body: some View {
 		VStack {
-			if let endpoint {
-				Text("https://\(endpoint)")
-			}
 			Button {
 				Task {
-					let instance = PushNotificationManager()
-					await instance.sendPushNoti(url: "https://\(endpoint ?? "")")
+					let instance = PushNotificationManager(currentUserDeviceToken: "H")
+					let valseDevice = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
+					
+					dump("\(#function), \(instance)")
+					await instance.sendPushNotification(
+						with: .knock(title: "knockMessage", body: "Knock 내용", knockID: "jri5guzFI47hLmZjVFJU"),
+						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee", deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
+					)
 				}
 			} label: {
 				Text("Send")

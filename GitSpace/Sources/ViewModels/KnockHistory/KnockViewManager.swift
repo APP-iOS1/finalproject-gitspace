@@ -91,7 +91,7 @@ extension KnockViewManager {
 			.addSnapshotListener { snapshot, err in
 				// snapshot이 비어있으면 에러 출력 후 리턴
 				guard let eachSnap = snapshot else {
-					print("Error fetching documents: \(err!)")
+					print("No SnapShot-\(#file)-\(#function)")
 					return
 				}
 				
@@ -122,19 +122,19 @@ extension KnockViewManager {
 				await appendKnockElement(eachKnock: eachKnock)
 			}
 		} catch {
-			dump("DEBUG: REQUEST FALIED: \(error)")
+			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
 		}
 	}
 	
 	@MainActor
 	private func appendKnockElement(eachKnock: Knock) -> Void {
 		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
+		receivedKnockList.removeAll()
+		
 		if eachKnock.receivedUserName == currentUser {
 			receivedKnockList.append(eachKnock)
-			print(receivedKnockList, "RECEIVED")
 		} else {
 			sentKnockList.append(eachKnock)
-			print(sentKnockList, "SENT")
 		}
 	}
 	
@@ -144,11 +144,16 @@ extension KnockViewManager {
 		
 		do {
 			let requestKnock = try await document.getDocument(as: Knock.self)
-			return self.eachKnock
+			return requestKnock
 		} catch {
-			dump(error.localizedDescription)
+			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
+			return nil
 		}
-		return nil
+	}
+	
+	@MainActor
+	private func assignknock(knock: Knock) {
+		self.eachKnock = knock
 	}
 	
 	// Create
@@ -167,7 +172,7 @@ extension KnockViewManager {
 				"sentUserName": knock.sentUserName,
 			])
 		} catch {
-			dump(error.localizedDescription)
+			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
 		}
 	}
 }

@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct MainKnockView: View {
-	@ObservedObject var knockViewManager = KnockViewManager()
+	
     @StateObject private var keyboardHandler = KeyboardHandler()
+	@EnvironmentObject var tabBarRouter: GSTabBarRouter
+	@EnvironmentObject var knockViewManager: KnockViewManager
+	
+	@State public var knockID: String? = nil
+	@State public var pushedKnock: Knock? = nil
     
 	// !!!: TAB Branch
     @State private var userSelectedTab: String = Constant.KNOCK_RECEIVED
@@ -24,8 +29,8 @@ struct MainKnockView: View {
     @State private var searchText: String = ""
     
     @State private var isEdit: Bool = false
-    @State var isEditChecked: Bool = false
-    @State var isDisplayedKnockSettingView: Bool = false
+    @State private var isEditChecked: Bool = false
+    @State private var isDisplayedKnockSettingView: Bool = false
     
     var body: some View {
         VStack {
@@ -93,6 +98,15 @@ struct MainKnockView: View {
 							}
 						}
 						.transition(knockViewManager.leadingTransition)
+						.overlay {
+							NavigationLink(
+								destination: KnockHistoryView(
+									eachKnock: pushedKnock ?? Knock(isFailedDummy: true),
+								knockMessenger: $userSelectedTab
+							), isActive: $tabBarRouter.navigateToKnock) {
+								EmptyView()
+							}
+						}
 						.fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
 							SetKnockControlsView(
 								showingKnockControls: $isDisplayedKnockSettingView
@@ -131,11 +145,26 @@ struct MainKnockView: View {
 							}
 						}
 						.transition(knockViewManager.trailingTransition)
+						.overlay {
+							NavigationLink(
+								destination: KnockHistoryView(
+									eachKnock: pushedKnock ?? Knock(isFailedDummy: true),
+									knockMessenger: $userSelectedTab
+								), isActive: $tabBarRouter.navigateToKnock) {
+									EmptyView()
+								}
+						}
 					}
 			}
         } // VStack
 		.task {
+			if let knockID {
+				async let eachKnock = knockViewManager.requestKnockWithID(knockID: knockID)
+				pushedKnock = await eachKnock
+				tabBarRouter.navigateToKnock.toggle()
+			}
 			await knockViewManager.requestKnockList()
+			
 		}
         .onTapGesture {
             self.endTextEditing()
@@ -156,7 +185,7 @@ struct MainKnockView: View {
 			
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(isEdit ? "Cancel" : "Edit") {
-                    withAnimation(.easeIn(duration: 0.28)) {
+                    withAnimation {
                         isEdit.toggle()
                     }
                 }

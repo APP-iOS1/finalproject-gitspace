@@ -18,3 +18,8 @@ final class GSPushNotificationRouter: ObservableObject {
 		}
 	}
 }
+
+extension GSPushNotificationRouter {
+	// 메시지의 타입을 결정하고 메시지의 제목과 내용은 연관값으로 받아옵니다.
+	
+}

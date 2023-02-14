@@ -10,6 +10,8 @@ import SwiftUI
 struct KnockHistoryView: View {
 	@State var eachKnock: Knock
 	@Binding var knockMessenger: String
+	@EnvironmentObject var knockViewManager: KnockViewManager
+	@EnvironmentObject var tabBarRouter: GSTabBarRouter
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {
