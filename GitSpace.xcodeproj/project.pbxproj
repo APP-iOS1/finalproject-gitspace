@@ -57,7 +57,6 @@
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
-		680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 680C19A22993D332009AF5D5 /* GoogleService-Info.plist */; };
 		687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
@@ -94,6 +93,8 @@
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
 		6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC383A4298FE49000F209CF /* UIFont+.swift */; };
+		700A11D029973675008C94C7 /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11CF29973675008C94C7 /* PushNotification.swift */; };
+		700A11D2299737F4008C94C7 /* AppDelegate+Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
 		7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
@@ -101,8 +102,6 @@
 		7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */; };
 		7065B459297A1F51000B91D2 /* GSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7065B458297A1F51000B91D2 /* GSButton.swift */; };
 		7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A729769448005D6B7B /* GitSpaceApp.swift */; };
-		7068B6AA29769448005D6B7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6A929769448005D6B7B /* ContentView.swift */; };
-		7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AB29769449005D6B7B /* Assets.xcassets */; };
 		7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7068B6AE29769449005D6B7B /* Preview Assets.xcassets */; };
 		7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6BC29769517005D6B7B /* MainHomeView.swift */; };
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
@@ -110,10 +109,16 @@
 		706BDE452988E84700284F0F /* KnockHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE442988E84700284F0F /* KnockHistoryViewModel.swift */; };
 		706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE462988FBE000284F0F /* Date+DateDiff.swift */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
+		7085D9FC2994BCE100AC28AD /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 702C887F2993B82C00F2E979 /* Secrets.xcconfig */; };
+		7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */; };
 		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
 		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
 		70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */; };
 		70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C6298C07F90058467E /* View+DesignSystem.swift */; };
+		70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CDF299B105B009948FC /* URL+DeepLink.swift */; };
+		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
+		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
+		70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CEF299B2B5E009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -180,7 +185,6 @@
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
-		680C19A22993D332009AF5D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -209,8 +213,9 @@
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
 		6EC383A4298FE49000F209CF /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
-		701DA8AC298A7CA700FB0C18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
+		700A11CF29973675008C94C7 /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
+		700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Firebase.swift"; sourceTree = "<group>"; };
+		702C887F2993B82C00F2E979 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
 		7062E12E298CC82D00CCE946 /* ColorSchemeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeModifiers.swift; sourceTree = "<group>"; };
 		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
@@ -219,8 +224,6 @@
 		7065B458297A1F51000B91D2 /* GSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButton.swift; sourceTree = "<group>"; };
 		7068B6A429769448005D6B7B /* GitSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7068B6A729769448005D6B7B /* GitSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSpaceApp.swift; sourceTree = "<group>"; };
-		7068B6A929769448005D6B7B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		7068B6AB29769449005D6B7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7068B6AE29769449005D6B7B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7068B6BC29769517005D6B7B /* MainHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHomeView.swift; sourceTree = "<group>"; };
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
@@ -228,11 +231,18 @@
 		706BDE442988E84700284F0F /* KnockHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockHistoryViewModel.swift; sourceTree = "<group>"; };
 		706BDE462988FBE000284F0F /* Date+DateDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateDiff.swift"; sourceTree = "<group>"; };
 		707E58F529799449007F4ADF /* GSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextField.swift; sourceTree = "<group>"; };
+		7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSPushNotificationRouter.swift; sourceTree = "<group>"; };
 		7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ColorScheme.swift"; sourceTree = "<group>"; };
 		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSNavigationLink.swift; sourceTree = "<group>"; };
 		70ABF2C6298C07F90058467E /* View+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+DesignSystem.swift"; sourceTree = "<group>"; };
+		70BB6CDF299B105B009948FC /* URL+DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+DeepLink.swift"; sourceTree = "<group>"; };
+		70BB6CE1299B1DA7009948FC /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
+		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
+		70BB6CEF299B2B5E009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../Downloads/finalproject-gitspace-dev/GitSpace/Assets.xcassets"; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
@@ -324,7 +334,9 @@
 		22C54130298CE36F00CC89EC /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				70BB6CE1299B1DA7009948FC /* ContentView.swift */,
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
+				7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -365,12 +377,13 @@
 			isa = PBXGroup;
 			children = (
 				6E08402229839BD200F51169 /* Utility.swift */,
-				70BE63E4298CA5190060336F /* Constant.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
+				70BE63E4298CA5190060336F /* Constant.swift */,
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
+				70BE63E2298CA3B10060336F /* Temp */,
 				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
 			);
 			path = Utilities;
@@ -469,6 +482,40 @@
 			path = ChatRoom;
 			sourceTree = "<group>";
 		};
+		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ListenerTechResearch;
+			sourceTree = "<group>";
+		};
+		700A11CC29973584008C94C7 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				700A11CD299735C1008C94C7 /* plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		700A11CD299735C1008C94C7 /* plist */ = {
+			isa = PBXGroup;
+			children = (
+				70BB6CED299B282B009948FC /* Info.plist */,
+				70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */,
+			);
+			path = plist;
+			sourceTree = "<group>";
+		};
+		700A11CE2997364F008C94C7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				70BB6CEF299B2B5E009948FC /* Assets.xcassets */,
+				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
+				700A11CC29973584008C94C7 /* App */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		703C8449298CA60E00398F2C /* Knock */ = {
 			isa = PBXGroup;
 			children = (
@@ -499,6 +546,7 @@
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
+				70BB6CDE299A7484009948FC /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -513,16 +561,12 @@
 		7068B6A629769448005D6B7B /* GitSpace */ = {
 			isa = PBXGroup;
 			children = (
-				680C19A22993D332009AF5D5 /* GoogleService-Info.plist */,
-				701DA8AD298A7CBE00FB0C18 /* GitSpace.entitlements */,
-				701DA8AC298A7CA700FB0C18 /* Info.plist */,
+				700A11CE2997364F008C94C7 /* Resources */,
 				7068B6A729769448005D6B7B /* GitSpaceApp.swift */,
 				680C19A0299385A2009AF5D5 /* InitialView.swift */,
-				7068B6A929769448005D6B7B /* ContentView.swift */,
 				34582161298A49AD0058CA4C /* Utilities */,
 				7068B6B529769479005D6B7B /* Sources */,
 				3427735E2994244A00818816 /* Localizable.strings */,
-				7068B6AB29769449005D6B7B /* Assets.xcassets */,
 				7068B6AD29769449005D6B7B /* Preview Content */,
 			);
 			path = GitSpace;
@@ -580,6 +624,7 @@
 		7068B6B8297694C2005D6B7B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				700A11CF29973675008C94C7 /* PushNotification.swift */,
 				6E0840162983906F00F51169 /* Message.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
 				6E0840262983BB9A00F51169 /* UserInfo.swift */,
@@ -631,6 +676,22 @@
 			path = KnockHistory;
 			sourceTree = "<group>";
 		};
+		70BB6CDE299A7484009948FC /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				702C887F2993B82C00F2E979 /* Secrets.xcconfig */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		70BE63E2298CA3B10060336F /* Temp */ = {
+			isa = PBXGroup;
+			children = (
+				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
+			);
+			path = Temp;
+			sourceTree = "<group>";
+		};
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,6 +702,8 @@
 				22C5412C298CD22500CC89EC /* View+cornerRadius.swift */,
 				7095CFA3297EB913000F2BF6 /* Color+.swift */,
 				6EC383A4298FE49000F209CF /* UIFont+.swift */,
+				70BB6CDF299B105B009948FC /* URL+DeepLink.swift */,
+				700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -743,10 +806,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7085D9FC2994BCE100AC28AD /* Secrets.xcconfig in Resources */,
+				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
-				7068B6AC29769449005D6B7B /* Assets.xcassets in Resources */,
-				680C19A32993D332009AF5D5 /* GoogleService-Info.plist in Resources */,
+				70BB6CF0299B2B5E009948FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,6 +823,7 @@
 			files = (
 				6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
+				700A11D2299737F4008C94C7 /* AppDelegate+Firebase.swift in Sources */,
 				6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */,
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
@@ -769,6 +834,9 @@
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */,
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
+				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
+				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
+				7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
@@ -783,9 +851,9 @@
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
 				342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */,
 				225A22D3299778A900786B35 /* GitHubUser.swift in Sources */,
-				7068B6AA29769448005D6B7B /* ContentView.swift in Sources */,
 				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
+				70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
 				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
@@ -822,6 +890,7 @@
 				347146022990BC5200ED990C /* TopperProfileView.swift in Sources */,
 				6E000CB7298A67E800446C0D /* ProfileAsyncImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
+				70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */,
 				225A22D2299778A900786B35 /* Endpoint.swift in Sources */,
 				6E0840252983BAD700F51169 /* UserViewModel.swift in Sources */,
 				6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */,
@@ -856,6 +925,7 @@
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
+				700A11D029973675008C94C7 /* PushNotification.swift in Sources */,
 				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
@@ -1003,14 +1073,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GitSpace/GitSpace.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GitSpace/Resources/GitSpace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitSpace/Info.plist;
+				INFOPLIST_FILE = GitSpace/Resources/App/plist/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1038,14 +1109,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GitSpace/GitSpace.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GitSpace/Resources/GitSpace.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitSpace/Info.plist;
+				INFOPLIST_FILE = GitSpace/Resources/App/plist/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
