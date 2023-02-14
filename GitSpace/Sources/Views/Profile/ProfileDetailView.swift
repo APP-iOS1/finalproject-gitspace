@@ -99,7 +99,7 @@ struct ProfileSectionView: View {
             }
             
             // MARK: - 프로필 Bio
-            if GitHubAuthManager.authenticatedUser?.bio != "" {
+            if GitHubAuthManager.authenticatedUser?.bio != nil {
                 HStack {
                     GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
                     Spacer()
@@ -116,7 +116,7 @@ struct ProfileSectionView: View {
             }
             
             // MARK: - 소속
-            if GitHubAuthManager.authenticatedUser?.company != "" {
+            if GitHubAuthManager.authenticatedUser?.company != nil {
                 HStack {
                     Image(systemName: "building.2")
                         .resizable()

@@ -13,9 +13,9 @@ struct MainHomeView: View {
     private let starTab = "Starred"
     private let activityTab = "Activity"
     let gitHubAPIService = GitHubService()
-	
+    
     var body: some View {
-		VStack {
+        VStack {
             /* Starred, Activity Tab Button */
             HStack {
                 GSButton.CustomButtonView(
@@ -24,13 +24,11 @@ struct MainHomeView: View {
                         tabSelection: $selectedHomeTab
                     )
                 ) {
-                    withAnimation {
-                        selectedHomeTab = starTab
-                    }
+                    selectedHomeTab = starTab
                 } label: {
                     Text(starTab)
                         .font(.title3)
-                        .foregroundColor(.primary)
+                        .foregroundColor(selectedHomeTab == starTab ? .primary : .gsGray2)
                         .bold()
                         .padding(.bottom, 4)
                 }
@@ -46,13 +44,11 @@ struct MainHomeView: View {
                         tabSelection: $selectedHomeTab
                     )
                 ) {
-                    withAnimation {
-                        selectedHomeTab = activityTab
-                    }
+                    selectedHomeTab = activityTab
                 } label: {
                     Text(activityTab)
                         .font(.title3)
-                        .foregroundColor(.primary)
+                        .foregroundColor(selectedHomeTab == activityTab ? .primary : .gsGray2)
                         .bold()
                         .padding(.bottom, 4)
                 }
@@ -80,25 +76,25 @@ struct MainHomeView: View {
                 Text("네트워크 에러입니다.")
             }
             
-		}
+        }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
-		.toolbar {
-			ToolbarItem(placement: .navigationBarLeading) {
-				Text("GitSpace")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("GitSpace")
                     .font(.title2)
-					.bold()
-			}
-			
-			ToolbarItem(placement: .navigationBarTrailing) {
-				NavigationLink {
+                    .bold()
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
                     NotificationView()
-				} label: {
-					Image(systemName: "bell")
+                } label: {
+                    Image(systemName: "bell")
                         .foregroundColor(.black)
-				}
-			}
-		}
+                }
+            }
+        }
     }
 }
 

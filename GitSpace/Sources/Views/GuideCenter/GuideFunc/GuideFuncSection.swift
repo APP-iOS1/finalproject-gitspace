@@ -63,7 +63,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
 
-                            Image("GitSpace-Activity")
+                            Image("GitSpace-Activity-Guide")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
@@ -128,7 +128,7 @@ struct GuideFuncSection: View {
                     } label: {
                         HStack(spacing: 10) {
                             
-                            Image("GitSpace-Chat")
+                            Image("GitSpace-Chat-Guide")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 60)
