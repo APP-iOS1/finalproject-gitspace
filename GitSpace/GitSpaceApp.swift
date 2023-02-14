@@ -33,12 +33,12 @@ struct GitSpaceApp: App {
     
     var body: some Scene {
 		let tabBarRouter = delegate.tabBarRouter
-		let notificationRouter = delegate.pushNotificationRouter
 		let notificationManager = delegate.pushNotificationManager
 		
         WindowGroup {
 			VStack {
-				PushNotificationTestView()
+				// !!!: - FCM Test를 진행할 때만 각주를 해제합니다.
+				// PushNotificationTestView()
 				
 				InitialView(tabBarRouter: tabBarRouter)
 					.environmentObject(ChatStore())
