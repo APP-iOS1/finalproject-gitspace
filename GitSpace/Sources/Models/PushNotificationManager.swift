@@ -9,14 +9,14 @@ import SwiftUI
 
 // TODO: 하위 인스턴스 분리 및 추상화 필요
 final class PushNotificationManager {
+	static var userDeivceToken: [String: String] = [:]
+	
 	/// 예시 코드에서 API 키와 테스트용 Device Token은 xcconfig 파일로 캡슐화 하여 사용했습니다.
 	private let serverKey = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 	private let deviceToken = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
 	
 	/// Button을 탭할 때, 아래 메소드를 호출합니다.
 	public func sendPushNoti(url: String) async -> Void {
-		print(deviceToken)
-		
 		/// 이 url 에는 Legacy HTTP의 엔드포인트가 아규먼트로 전달됩니다.
 		/// url == https://fcm.googleapis.com/fcm/send
 		guard let url = URL(string: url) else {
