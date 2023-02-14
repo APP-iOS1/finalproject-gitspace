@@ -171,7 +171,7 @@ struct ChatRoomView: View {
                                         lastContent: chat.knockContent,
                                         lastContentDate: chat.knockContentDate,
                                         knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate)
+                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
                 await chatStore.updateChat(newChat)
                 
             } else {
@@ -184,7 +184,7 @@ struct ChatRoomView: View {
                                         lastContent: preLastMessage.textContent,
                                         lastContentDate: preLastMessage.sentDate,
                                         knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate)
+                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
                 await chatStore.updateChat(newChat)
             }
         }
