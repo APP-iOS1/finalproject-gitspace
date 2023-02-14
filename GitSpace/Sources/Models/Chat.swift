@@ -10,19 +10,19 @@ import Firebase
 import FirebaseFirestore
 
 // 채팅방 모델
-struct Chat : Identifiable, Codable {
-    let id : String // 채팅방 ID
-    let date : Date // 생성 날짜
-    let joinUserIDs: [String] // 채팅방에 참여한 유저 ID 리스트
-    let lastDate : Date // 마지막 메세지 날짜
-    let lastContent : String // 마지막 메세지 내용
+struct Chat: Identifiable, Codable {
+    let id: String // 채팅방 ID
+    let createdDate: Date // 생성 날짜
+    let joinedMemberIDs: [String] // 채팅방에 참여한 유저 ID 리스트
+    let lastContent: String // 마지막 메세지 내용
+    let lastContentDate: Date // 마지막 메세지 날짜
     let knockContent: String // 노크 메세지 내용
-    let knockDate: Date // 노크 메세지 날짜
+    let knockContentDate: Date // 노크 메세지 날짜
     
     // MARK: -Computed Properties
-    // 로그인 ID와 userIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
-    var targetID: String {
-        if let firstUser = joinUserIDs.first, let secondUser = joinUserIDs.last {
+    // 로그인 ID와 joinedMemberIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
+    var targetUserID: String {
+        if let firstUser = joinedMemberIDs.first, let secondUser = joinedMemberIDs.last {
             return firstUser == Utility.loginUserID
             ? secondUser
             : firstUser
@@ -34,15 +34,15 @@ struct Chat : Identifiable, Codable {
     var targetUserName: String {
         get async {
             let db = Firestore.firestore()
-            var returnUserName : String = ""
+            var returnUserName: String = ""
             
             do  {
                 let document = try await db
                     .collection("UserInfo")
-                    .document(targetID)
+                    .document(targetUserID)
                     .getDocument()
                 if let data = document.data() {
-                    let name = data["name"] as? String ?? ""
+                    let name = data["githubUserName"] as? String ?? ""
                     returnUserName = name
                 }
             } catch { }
@@ -51,35 +51,35 @@ struct Chat : Identifiable, Codable {
         }
     }
     
-    var stringDate: String {
+    var stringCreatedDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: createdDate)
     }
     
-    var stringLastDate: String {
+    var stringLastContentDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        return dateFormatter.string(from: lastDate)
+        return dateFormatter.string(from: lastContentDate)
     }
     
-    var stringLastTime: String {
+    var stringLastContentTime: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.string(from: lastDate)
+        return dateFormatter.string(from: lastContentDate)
     }
     
-    var stringKnockDate: String {
+    var stringKnockContentDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
-        return dateFormatter.string(from: knockDate) + " " + (dateFormatter.timeZone.abbreviation() ?? "")
+        return dateFormatter.string(from: knockContentDate) + " " + (dateFormatter.timeZone.abbreviation() ?? "")
     }
 }
