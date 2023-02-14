@@ -185,9 +185,7 @@ extension ChatStore {
                 }
             }
         }
-        
-        // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
-        // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
+
         await writeChats(chats: newChats)
     }
     
