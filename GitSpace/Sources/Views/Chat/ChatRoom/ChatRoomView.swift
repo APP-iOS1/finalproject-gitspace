@@ -82,12 +82,19 @@ struct ChatRoomView: View {
         .task {
             messageStore.addListener(chatID: chat.id)
             await messageStore.fetchMessages(chatID: chat.id)
-            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
+            let enteredChat = await makeChat(makeChatCase: .enterChatRoom,
                                              deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
         }
         .onDisappear {
-            messageStore.removeListener()
+            Task {
+                // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
+                let exitChat = await makeChat(makeChatCase: .enterChatRoom,
+                                              deletedMessage: nil)
+                await chatStore.updateChat(exitChat)
+                messageStore.removeListener()
+            }
+            
         }
     }
     
@@ -196,13 +203,21 @@ struct ChatRoomView: View {
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
     private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
         
+        // FIXME: 메세지 삭제 시 안 읽은 메세지면 unread 갯수를 지우는 코드 -> 삭제 순서에 따라 작동 여부가 달라서 디버깅 필요! By. 태영
         let newChat: Chat
+        // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
         var newDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
+        // 상대방의 안 읽은 메세지 갯수
         let unreadMessageCount = newDict[chat.targetUserID] ?? 1
-        let isContainUnreadMessages: Bool = chatStore.chats
-            .dropLast(unreadMessageCount)
+        // 메세지 배열의 마지막 인덱스 넘버
+        let endIndex = messageStore.messages.endIndex - 1
+        // 안 읽은 메세지의 index 범위 (시작, 종료)
+        let unreadMessagesIndex: (start: Int, end: Int) = (endIndex - unreadMessageCount, endIndex)
+        // 삭제 메세지가 상대방이 아직 안 읽은 메세지 범위에 포함되는 메세지인지 여부
+        let isContainUnreadMessages: Bool = messageStore.messages[unreadMessagesIndex.start...unreadMessagesIndex.end]
             .map{$0.id}
-            .contains(deletedMessage?.id ?? "")
+            .contains(deletedMessage?.id)
+        // 삭제 메세지가 상대방이 안 읽은 메세지에 포함되면 안 읽은 갯수 1 감소
         if isContainUnreadMessages {
             newDict[chat.targetUserID, default: 0] -= 1
         }
@@ -235,14 +250,14 @@ struct ChatRoomView: View {
                                 unreadMessageCount: newDict)
             
         case .remainMessageAfterDeleteLastMessage:
-            
-            let preLastMessage = messageStore.messages.dropLast(2).first
+            let endIndex = messageStore.messages.endIndex
+            let preLastMessage = messageStore.messages[endIndex-2]
             
             newChat = Chat.init(id: chat.id,
                                 createdDate: chat.createdDate,
                                 joinedMemberIDs: chat.joinedMemberIDs,
-                                lastContent: preLastMessage?.textContent ?? chat.lastContent,
-                                lastContentDate: preLastMessage?.sentDate ?? chat.lastContentDate,
+                                lastContent: preLastMessage.textContent,
+                                lastContentDate: preLastMessage.sentDate,
                                 knockContent: chat.knockContent,
                                 knockContentDate: chat.knockContentDate,
                                 unreadMessageCount: newDict)
