@@ -135,6 +135,7 @@ struct GitSpaceApp: App {
                 .environmentObject(UserStore())
                 .environmentObject(TabManager())
                 .environmentObject(RepositoryViewModel())
+                .environmentObject(TagViewModel())
                 .environmentObject(GitHubAuthManager())
                 .preferredColorScheme(selectedAppearance)
         }
