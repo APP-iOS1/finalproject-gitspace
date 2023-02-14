@@ -29,9 +29,10 @@ struct MainProfileView: View {
                 Button {
                     showGuideCenter.toggle()
                 } label: {
-                    Image(systemName: "questionmark.circle")
+                    Image(systemName: "info.circle")
                         .foregroundColor(.primary)
                 }
+                .padding(.trailing, -10)
 
                 NavigationLink {
                     SetMainView()

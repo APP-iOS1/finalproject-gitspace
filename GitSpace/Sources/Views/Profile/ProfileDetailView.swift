@@ -78,26 +78,27 @@ struct ProfileSectionView: View {
     @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8){
-            HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
-                Image(systemName: "person.crop.circle")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 60)
-                    .padding(.trailing, 8)
+        VStack(alignment: .leading, spacing: 10){
+            
+            // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
+            HStack(spacing: 20) {
+                ProfileAsyncImage(urlStr: "\(GitHubAuthManager.authenticatedUser?.avatar_url ?? "")", size: 70)
                 
-                VStack(alignment: .leading) { // 이름, 닉네임
+                VStack(alignment: .leading) {
+                    // 이름
                     GSText.CustomTextView(style: .title2, string: GitHubAuthManager.authenticatedUser?.name ?? "")
+                    
                     Spacer()
-                        .frame(height: 8)
+                        .frame(height: 1)
+                    
+                    // 닉네임
                     GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.login ?? "")
                 }
                 
                 Spacer()
             }
             
-            
-            // MARK: - 프로필 자기 ..설명..?
+            // MARK: - 프로필 Bio
             if GitHubAuthManager.authenticatedUser?.bio != "" {
                 HStack {
                     GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
@@ -111,16 +112,32 @@ struct ProfileSectionView: View {
                 .clipShape(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                 )
-                .padding(.vertical, 20)
+                .padding(.vertical, 10)
             }
             
+            // MARK: - 소속
+            if GitHubAuthManager.authenticatedUser?.company != "" {
+                HStack {
+                    Image(systemName: "building.2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
+                        .foregroundColor(.gsGray2)
+
+                    GSText.CustomTextView(style: .captionPrimary1, string: GitHubAuthManager.authenticatedUser?.company ?? "")
+                }
+            }
             
             // MARK: - 위치 이미지, 국가 및 위치
             if GitHubAuthManager.authenticatedUser?.location != "" {
                 HStack {
                     Image(systemName: "mappin.and.ellipse")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
-                    GSText.CustomTextView(style: .description, string: GitHubAuthManager.authenticatedUser?.location ?? "")
+                    
+                    GSText.CustomTextView(style: .description2, string: GitHubAuthManager.authenticatedUser?.location ?? "")
                 }
                 .foregroundColor(Color(.systemGray))
             }
@@ -129,13 +146,16 @@ struct ProfileSectionView: View {
             if GitHubAuthManager.authenticatedUser?.blog != "" {
                 HStack{
                     Image(systemName: "link")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
                     
                     Button {
                         
                     } label: {
                         Link(destination: URL(string: GitHubAuthManager.authenticatedUser?.blog ?? "")!) {
-                            GSText.CustomTextView(style: .body1, string: GitHubAuthManager.authenticatedUser?.blog ?? "")
+                            GSText.CustomTextView(style: .captionPrimary1, string: GitHubAuthManager.authenticatedUser?.blog ?? "")
                         }
                     }
                 }
@@ -144,29 +164,32 @@ struct ProfileSectionView: View {
             // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
             HStack {
                 Image(systemName: "person")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 15, height: 15)
                     .foregroundColor(.gsGray2)
                 
                 NavigationLink {
                     Text("This Page Will Shows Followers List.")
                 } label: {
                     HStack {
-                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.followers ?? 0))
-                        GSText.CustomTextView(style: .description, string: "followers")
+                        GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.followers ?? 0))
+                        GSText.CustomTextView(style: .sectionTitle, string: "followers")
                             .padding(.leading, -2)
                     }
                 }
-                .padding(.trailing, 5)
                 
-                Text("|")
-                    .foregroundColor(.gsGray3)
-                    .padding(.trailing, 5)
+                Text("･")
+                    .foregroundColor(.gsGray2)
+                    .padding(.leading, -3)
+                    .padding(.trailing, -9)
                 
                 NavigationLink {
                     Text("This Page Will Shows Following List.")
                 } label: {
                     HStack {
-                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.following ?? 0))
-                        GSText.CustomTextView(style: .description, string: "following")
+                        GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: GitHubAuthManager.authenticatedUser?.following ?? 0))
+                        GSText.CustomTextView(style: .sectionTitle, string: "following")
                             .padding(.leading, -2)
                     }
                 }
@@ -175,7 +198,7 @@ struct ProfileSectionView: View {
             Divider()
                 .frame(height: 1)
                 .overlay(Color.gsGray3)
-                .padding(.vertical, 20)
+                .padding(.vertical, 10)
             
             
             // MARK: - 유저의 README

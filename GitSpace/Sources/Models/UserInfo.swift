@@ -35,6 +35,7 @@ struct GitHubUser: Identifiable, Codable {
     let email : String? // email
     let avatar_url: String // profile image
     let bio: String? // bio, intro message
+    let company: String? // company
     let location: String? // location
     let blog: String? // blog url
     let followers: Int? // followers
