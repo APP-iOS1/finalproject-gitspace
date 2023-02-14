@@ -96,5 +96,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(MessageStore())
             .environmentObject(UserStore())
             .environmentObject(RepositoryViewModel())
+            .environmentObject(TagViewModel())
     }
 }

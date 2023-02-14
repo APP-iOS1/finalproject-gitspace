@@ -10,7 +10,7 @@ import MarkdownUI
 
 
 struct RepositoryDetailView: View {
-    
+    @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
     @StateObject var contributorViewModel = ContributorViewModel()
     
@@ -42,8 +42,8 @@ struct RepositoryDetailView: View {
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
-            RepositoryDetailViewTags()
-        
+            RepositoryDetailViewTags(selectedTags: $selectedTagList)
+
             Spacer()
             
             GSNavigationLink(style: .primary) {
@@ -176,9 +176,11 @@ struct RepositoryInfoCard: View {
 
 
 struct RepositoryDetailViewTags: View {
-    let tags: [String] = ["thisis", "my", "tags", "hehe"]
+//    let tags: [String] = ["thisis", "my", "tags", "hehe"]
+    @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
-    
+    @EnvironmentObject var tagViewModel: TagViewModel
+
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -200,15 +202,20 @@ struct RepositoryDetailViewTags: View {
             // 추가된 태그들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(tags, id: \.self) { tag in
+                    ForEach(selectedTags, id: \.self) { tag in
                         // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 태그버튼이 주황색으로 표시됨
-                        GSButton.CustomButtonView(style: .tag(isSelected: true, isEditing: false)) {
-                            
+                        GSButton.CustomButtonView(
+                            style: .tag(
+                                isSelected: true,
+                                isEditing: false)
+                        ) {
+
                         } label: {
                             // !!!: - 대응데이
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
-                            Text(tag)
-                                .padding(-10)
+                            Text(tag.tagName)
+                            .padding(-10)
+
                         }
                     }
                 }
@@ -218,15 +225,19 @@ struct RepositoryDetailViewTags: View {
         // FIXME: selectedTag의 값
         /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
-            AddTagSheetView(preSelectedTags: .constant([]), selectedTags: [])
+            AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView)
+        }
+        .onAppear {
+            Task {
+                selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: "wwdc/2022") ?? []
+                
+            }
         }
     }
 }
 
 
 
-
-//
 //struct RepositoryDetailView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        NavigationView {

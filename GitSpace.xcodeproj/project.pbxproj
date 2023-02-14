@@ -60,6 +60,7 @@
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
+		686CD902299B4952000FD0B6 /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686CD901299B4952000FD0B6 /* TagViewModel.swift */; };
 		687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
@@ -148,7 +149,6 @@
 		22016E8C299B11B000452428 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorProfile.swift; sourceTree = "<group>"; };
 		2204BD50299B288F00AA4725 /* ContributorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorViewModel.swift; sourceTree = "<group>"; };
-		2204BD52299B69BA00AA4725 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
 		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		225A22C6299778A900786B35 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -199,6 +199,7 @@
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		686CD901299B4952000FD0B6 /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
@@ -259,7 +260,6 @@
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		70BB6CED299B282B009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../../../../Downloads/finalproject-gitspace-Feat-134-fcm-DataTransmit-seungjun-yeni/GitSpace/Sources/App/plist/Info.plist"; sourceTree = "<group>"; };
-		70BB6CF1299B4240009948FC /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
@@ -557,8 +557,6 @@
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
-				70BB6CF1299B4240009948FC /* Secrets.xcconfig */,
-				2204BD52299B69BA00AA4725 /* Secrets.xcconfig */,
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
@@ -633,6 +631,7 @@
 				68D76D4B298712EC00C1EA88 /* GitHubAuthManager.swift */,
 				6E0840242983BAD700F51169 /* UserViewModel.swift */,
 				687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */,
+				686CD901299B4952000FD0B6 /* TagViewModel.swift */,
 				2204BD50299B288F00AA4725 /* ContributorViewModel.swift */,
 			);
 			path = ViewModels;
@@ -939,6 +938,7 @@
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				70BE63E5298CA5190060336F /* Constant.swift in Sources */,
 				7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */,
+				686CD902299B4952000FD0B6 /* TagViewModel.swift in Sources */,
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
 				700A11D029973675008C94C7 /* PushNotification.swift in Sources */,
