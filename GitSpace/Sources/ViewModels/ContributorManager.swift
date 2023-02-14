@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+final class ContributorManager: ObservableObject {
+    
+//    @Published var contributors: [ContributorProfile] = []
+    @Published var contributors: [GitHubUser] = []
+//    @Published var currentUser'
+
+
+}
