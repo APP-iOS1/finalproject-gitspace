@@ -10,6 +10,7 @@ import SwiftUI
 struct SigninView: View {
 //    @Environment(\.dismiss) var dismiss
     @StateObject var githubAuthManager: GitHubAuthManager
+    @StateObject var tabBarRouter: GSTabBarRouter
     
     var body: some View {
         VStack {
@@ -32,6 +33,7 @@ struct SigninView: View {
             ) {
                 print("signin button tapped")
                 githubAuthManager.signIn()
+                tabBarRouter.currentPage = .stars
 //                githubAuthManager.state = .signedIn
             } label: {
                 Text("**GitHub Signin**")
@@ -44,6 +46,6 @@ struct SigninView: View {
 
 struct SigninView_Previews: PreviewProvider {
     static var previews: some View {
-        SigninView(githubAuthManager: GitHubAuthManager())
+        SigninView(githubAuthManager: GitHubAuthManager(), tabBarRouter: GSTabBarRouter())
     }
 }

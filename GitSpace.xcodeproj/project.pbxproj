@@ -41,6 +41,7 @@
 		342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773662994AD1B00818816 /* SetTextMediaView.swift */; };
 		342773692994AD3100818816 /* SetNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342773682994AD3100818816 /* SetNotificationsView.swift */; };
 		3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */; };
+		344DB651299B1C9B00433339 /* SetKnockControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344DB650299B1C9B00433339 /* SetKnockControlsView.swift */; };
 		34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582162298A4A310058CA4C /* KeyboardHandler.swift */; };
 		34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34582166298E0ABD0058CA4C /* KnockGuideView.swift */; };
 		346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346EF6AB29923F6B00878949 /* ChatGuideView.swift */; };
@@ -53,7 +54,6 @@
 		347146122992253600ED990C /* GuideBlockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146112992253600ED990C /* GuideBlockSection.swift */; };
 		347146142992254200ED990C /* BlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146132992254200ED990C /* BlockGuideView.swift */; };
 		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
-		34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356C29778C43000DCBC7 /* KnockSettingView.swift */; };
 		34BC356F29779201000DCBC7 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
 		34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
@@ -89,6 +89,7 @@
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
 		6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D10092994D21700D43AB9 /* AddChatView.swift */; };
+		6E24BEB1299B2DEA007C554B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E24BEB0299B2DEA007C554B /* Assets.xcassets */; };
 		6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6032991EF380043A8BB /* ChatListCell.swift */; };
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
 		6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */; };
@@ -170,6 +171,7 @@
 		342773662994AD1B00818816 /* SetTextMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTextMediaView.swift; sourceTree = "<group>"; };
 		342773682994AD3100818816 /* SetNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNotificationsView.swift; sourceTree = "<group>"; };
 		3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWorkingHoursView.swift; sourceTree = "<group>"; };
+		344DB650299B1C9B00433339 /* SetKnockControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetKnockControlsView.swift; sourceTree = "<group>"; };
 		34582162298A4A310058CA4C /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		34582166298E0ABD0058CA4C /* KnockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockGuideView.swift; sourceTree = "<group>"; };
 		346EF6AB29923F6B00878949 /* ChatGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGuideView.swift; sourceTree = "<group>"; };
@@ -182,7 +184,6 @@
 		347146112992253600ED990C /* GuideBlockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideBlockSection.swift; sourceTree = "<group>"; };
 		347146132992254200ED990C /* BlockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockGuideView.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
-		34BC356C29778C43000DCBC7 /* KnockSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockSettingView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
@@ -210,6 +211,7 @@
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
 		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
+		6E24BEB0299B2DEA007C554B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				342773662994AD1B00818816 /* SetTextMediaView.swift */,
 				342773682994AD3100818816 /* SetNotificationsView.swift */,
 				3427736A2994BA1F00818816 /* SetWorkingHoursView.swift */,
+				344DB650299B1C9B00433339 /* SetKnockControlsView.swift */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -385,7 +388,6 @@
 				703C844A298CA83000398F2C /* Modifiers */,
 				70BE63E3298CA4770060336F /* Extensions */,
 				70F4BD0B29778E38005528A1 /* Components */,
-				70BE63E2298CA3B10060336F /* Temp */,
 				34582162298A4A310058CA4C /* KeyboardHandler.swift */,
 			);
 			path = Utilities;
@@ -447,7 +449,6 @@
 				34BC356E29779201000DCBC7 /* EachKnockCell.swift */,
 				34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */,
 				706BDE412988E2E800284F0F /* KnockHistoryView.swift */,
-				34BC356C29778C43000DCBC7 /* KnockSettingView.swift */,
 			);
 			path = KnockBox;
 			sourceTree = "<group>";
@@ -484,13 +485,6 @@
 			path = ChatRoom;
 			sourceTree = "<group>";
 		};
-		6E7278BF297E58C10014CA17 /* ListenerTechResearch */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ListenerTechResearch;
-			sourceTree = "<group>";
-		};
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,6 +506,7 @@
 			isa = PBXGroup;
 			children = (
 				0B9EF563299B2E4A007C2534 /* Assets.xcassets */,
+				6E24BEB0299B2DEA007C554B /* Assets.xcassets */,
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
 				700A11CC29973584008C94C7 /* App */,
 			);
@@ -687,14 +682,6 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		70BE63E2298CA3B10060336F /* Temp */ = {
-			isa = PBXGroup;
-			children = (
-				6E7278BF297E58C10014CA17 /* ListenerTechResearch */,
-			);
-			path = Temp;
-			sourceTree = "<group>";
-		};
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -815,6 +802,7 @@
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				0B9EF564299B2E4A007C2534 /* Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
+				6E24BEB1299B2DEA007C554B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -865,6 +853,7 @@
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
 				22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */,
+				344DB651299B1C9B00433339 /* SetKnockControlsView.swift in Sources */,
 				34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */,
 				EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */,
 				34BC357E2988EA4D000DCBC7 /* SendKnockView.swift in Sources */,
@@ -882,7 +871,6 @@
 				22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
-				34BC356D29778C43000DCBC7 /* KnockSettingView.swift in Sources */,
 				6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */,
 				347146142992254200ED990C /* BlockGuideView.swift in Sources */,
 				6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */,
