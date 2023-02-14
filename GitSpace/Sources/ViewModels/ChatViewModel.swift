@@ -54,6 +54,7 @@ final class ChatStore: ObservableObject {
         targetNameDict = [:]
         isDoneFetch = false
     }
+    
 }
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
@@ -69,7 +70,7 @@ extension ChatStore {
     // MARK: Method : 추가된 문서 필드에 접근하여 Chat 객체를 만들어 반환하는 메서드
     private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
         do {
-            var newChat = try change.data(as: Chat.self)
+            let newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
             print("Fetch New Chat in Chat Listener Error : \(error)")
@@ -206,7 +207,8 @@ extension ChatStore {
             try await db.collection("Chat")
                 .document(chat.id)
                 .updateData(["lastContentDate" : chat.lastContentDate,
-                             "lastContent" : chat.lastContent])
+                             "lastContent" : chat.lastContent,
+                             "unreadMessageCount" : chat.unreadMessageCount])
         } catch {
             print("Error-ChatViewModel-updateChat : \(error.localizedDescription)")
         }
