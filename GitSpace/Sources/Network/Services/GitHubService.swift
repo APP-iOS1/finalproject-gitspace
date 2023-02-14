@@ -35,7 +35,7 @@ protocol GitHubServiceProtocol {
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
     /// 특정 레포지토리의 정보를 요청하는 함수
-    func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<RepositoryResponse, GitHubAPIError>
+    func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
     
     /// 특정 레포지토리의 리드미를 요청하는 함수
     func requestRepositoryReadme(owner: String, repositoryName: String) async -> Result<RepositoryReadmeResponse, GitHubAPIError>
@@ -140,8 +140,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - repositoryName: 레포지토리의 이름
      - returns: 요청 성공시 레포지토리 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<RepositoryResponse, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryInformation(owner: owner, repositoryName: repositoryName), responseModel: RepositoryResponse.self)
+    func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryInformation(owner: owner, repositoryName: repositoryName), responseModel: Repository.self)
     }
     
     /**
