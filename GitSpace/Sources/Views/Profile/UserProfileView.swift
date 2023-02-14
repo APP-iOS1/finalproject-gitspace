@@ -7,14 +7,135 @@
 
 import SwiftUI
 
-struct UserProfileView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+// MARK: - gitHubUser객체 필요
 
-struct UserProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserProfileView()
+struct UserProfileView: View {
+    
+    let user: GitHubUser
+    let gitHubService: GitHubService
+    
+    init(service: GitHubService, user: GitHubUser) {
+        self.gitHubService = service
+        self.user = user
+    }
+    
+    
+    var body: some View {
+        
+        VStack(alignment: .leading, spacing: 8) {
+            
+            HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
+                Image(systemName: "person.crop.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 60)
+                    .padding(.trailing, 8)
+
+                VStack(alignment: .leading) { // 이름, 닉네임
+                    GSText.CustomTextView(style: .title2, string: user.name ?? "")
+                    Spacer()
+                        .frame(height: 8)
+                    GSText.CustomTextView(style: .description, string: user.login )
+                }
+                
+                Spacer()
+            }
+            
+            
+            
+            // MARK: - 프로필 자기 ..설명..?
+            HStack {
+                GSText.CustomTextView(style: .body1, string: "\(user.bio ?? "")")
+                Spacer()
+            }
+            .padding(15)
+            .font(.callout)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.leading)
+            .background(Color.gsGray3)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+            )
+            .padding(.vertical, 20)
+                
+            
+            HStack { // MARK: - 위치 이미지, 국가 및 위치
+                Image(systemName: "mappin.and.ellipse")
+                    .foregroundColor(.gsGray2)
+                GSText.CustomTextView(style: .description, string: user.location ?? "")
+            }
+            .foregroundColor(Color(.systemGray))
+            
+            HStack{ // MARK: - 링크 이미지, 블로그 및 기타 링크
+                Image(systemName: "link")
+                    .foregroundColor(.gsGray2)
+                Button {
+                    
+                } label: {
+                    HStack {
+                        
+                        if let blogURLString = user.blog {
+                            
+                            if let blogURL = URL(string: blogURLString) {
+                                
+                                Link(destination: blogURL) {
+                                    GSText.CustomTextView(style: .body1, string: blogURLString)
+                                }
+                                
+                                GSText.CustomTextView(style: .body1, string: blogURLString)
+                            }
+                        
+                        } else {
+                            GSText.CustomTextView(style: .body1, string: "-")
+                        }
+
+                    }
+                }
+            }
+            
+            HStack { // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+                Image(systemName: "person")
+                    .foregroundColor(.gsGray2)
+                
+                NavigationLink {
+                    Text("This Page Will Shows Followers List.")
+                } label: {
+                    HStack {
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.followers ?? 0))
+                        GSText.CustomTextView(style: .description, string: "followers")
+                            .padding(.leading, -2)
+                    }
+                }
+                .padding(.trailing, 5)
+                
+                Text("|")
+                    .foregroundColor(.gsGray3)
+                    .padding(.trailing, 5)
+                
+                NavigationLink {
+                    Text("This Page Will Shows Following List.")
+                } label: {
+                    HStack {
+                        GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.following ?? 0))
+                        GSText.CustomTextView(style: .description, string: "following")
+                            .padding(.leading, -2)
+                    }
+                }
+            }
+            
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
+                .padding(.vertical, 20)
+            
+            
+            // MARK: - 유저의 README
+            GSText.CustomTextView(style: .caption2, string: "README.md")
+            GSCanvas.CustomCanvasView(style: .primary) {
+                Text("리드미 내용")
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .padding(.horizontal, 20)
     }
 }
