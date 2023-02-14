@@ -29,7 +29,7 @@ protocol GitHubServiceProtocol {
     func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
     /// 특정 유저의 정보를 요청하는 함수
-    func requestUserInformation(userName: String) async -> Result<UserResponse, GitHubAPIError>
+    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError>
     
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -44,7 +44,7 @@ protocol GitHubServiceProtocol {
     func requestMarkdownToHTML(content: String) async -> Result<String, GitHubAPIError>
     
     /// 특정 레포지토리의 contributor 목록을 요청하는 함수
-    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError>
     
     // TODO: - 필요한 API 기능을 추가로 작성합니다.
 }
@@ -115,8 +115,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - userName: GitHub userName
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserInformation(userName: String) async -> Result<UserResponse, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: UserResponse.self)
+    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GitHubUser.self)
     }
     
     /**
@@ -176,8 +176,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 페이지 number
      - returns: 요청 성공시 성공했다는 Contributor의 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[UserResponse], GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [UserResponse].self)
+    func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [ContributorProfile].self)
     }
     
     
