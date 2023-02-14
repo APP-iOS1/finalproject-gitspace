@@ -16,7 +16,7 @@ struct MessageModifier: ViewModifier {
 //            .frame(maxWidth: Utility.MessageCellWidth)
             .padding(15)
             .background(
-                LinearGradient(colors: [.gsYellowPrimary, .gsGreenPrimary], startPoint: .top, endPoint: .center)
+                LinearGradient(colors: isMine ? [.gsYellowPrimary, .gsGreenPrimary] : [.gsGray3, .gsGray2], startPoint: .top, endPoint: .center)
             )
             .clipShape(ChatBubbleShape(direction: isMine ? .right : .left))
 

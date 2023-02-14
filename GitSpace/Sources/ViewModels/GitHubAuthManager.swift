@@ -213,7 +213,7 @@ final class GitHubAuthManager: ObservableObject {
     func deleteCurrentUser() async -> Void {
         do {
             try await database.collection("UserInfo")
-                .document("\(self.authenticatedUser!.id)")
+                .document(Auth.auth().currentUser?.uid ?? "")
                 .delete()
         } catch let deleteUserError as NSError {
             print(#function, "Error delete user: %@", deleteUserError)

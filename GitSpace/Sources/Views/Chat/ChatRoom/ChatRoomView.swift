@@ -50,14 +50,19 @@ struct ChatRoomView: View {
                     proxy.scrollTo("bottom", anchor: .bottomTrailing)
                 }
             }
+            
+            Divider()
+                .padding(.vertical, -8)
+            
             // 메세지 입력 필드
             typeContentField
-                .padding(20)
+                .padding(.vertical, -3)
+                .padding(.horizontal, 15)
         }
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
-                HStack(spacing: 10) {
-                    ProfileAsyncImage(size: 30)
+                HStack(spacing: 15) {
+                    ProfileAsyncImage(size: 25)
                     Text(targetUserName)
                         .bold()
                         .padding(.horizontal, -8)
@@ -85,6 +90,7 @@ struct ChatRoomView: View {
     private var messageCells: some View {
         ForEach(messageStore.messages) { message in
             MessageCell(message: message, targetName: targetUserName)
+                .padding(.vertical, -5)
                 .contextMenu {
                     Button {
                         Task {
@@ -104,16 +110,21 @@ struct ChatRoomView: View {
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
-                Image(systemName: "photo.tv")
+                Image(systemName: "photo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 30)
             }
             Button {
                 print("레포지토리 선택 버튼 탭")
             } label: {
                 Image("RepositoryIcon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 28, height: 23)
             }
             
-            TextField("Enter Message",text: $contentField)
-                .textFieldStyle(.roundedBorder)
+            GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
                 .onSubmit {
@@ -124,6 +135,19 @@ struct ChatRoomView: View {
                         await addContent()
                     }
                 }
+            
+//            TextField("Enter Message",text: $contentField)
+//                .textFieldStyle(.roundedBorder)
+//                .textInputAutocapitalization(.never)
+//                .disableAutocorrection(true)
+//                .onSubmit {
+//                    guard contentField.isEmpty == false else {
+//                        return
+//                    }
+//                    Task {
+//                        await addContent()
+//                    }
+//                }
             
             addContentButton
                 .disabled(contentField.isEmpty)
@@ -143,7 +167,11 @@ struct ChatRoomView: View {
                 await addContent()
             }
         } label: {
-            Image(systemName: "location")
+            Image(systemName: "paperplane")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 22, height: 22)
+                .foregroundColor(contentField.isEmpty ? .gsGray2 : .primary)
         }
     }
     
@@ -171,7 +199,9 @@ struct ChatRoomView: View {
                                         lastContent: chat.knockContent,
                                         lastContentDate: chat.knockContentDate,
                                         knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
+                                        knockContentDate: chat.knockContentDate,
+                                        unreadMessageCount: chat.unreadMessageCount)
+                                        
                 await chatStore.updateChat(newChat)
                 
             } else {
@@ -184,7 +214,9 @@ struct ChatRoomView: View {
                                         lastContent: preLastMessage.textContent,
                                         lastContentDate: preLastMessage.sentDate,
                                         knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate, unreadMessageCount: chat.unreadMessageCount)
+                                        knockContentDate: chat.knockContentDate,
+                                        unreadMessageCount: chat.unreadMessageCount)
+
                 await chatStore.updateChat(newChat)
             }
         }

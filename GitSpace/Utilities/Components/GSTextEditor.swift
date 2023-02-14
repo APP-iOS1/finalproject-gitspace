@@ -98,9 +98,11 @@ struct GSTextEditor {
                     .lineSpacing(lineSpace)
                     .frame(maxHeight: textEditorHeight)
                     .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
+                    .padding(.bottom, -3)
                     .overlay {
                         RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
                             .stroke()
+                            .foregroundColor(.gsGray2)
                     }
                     .onAppear {
                         setTextEditorStartHeight()

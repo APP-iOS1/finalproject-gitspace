@@ -236,7 +236,10 @@ struct SendKnockView: View {
                         Button {
                             print("이미지 첨부 버튼 탭")
                         } label: {
-                            Image(systemName: "photo.tv")
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 30)
                         }
                         //                        } // VStack: 이미지 첨부 버튼
                         
@@ -247,6 +250,9 @@ struct SendKnockView: View {
                             print("레포지토리 선택 버튼 탭")
                         } label: {
                             Image("RepositoryIcon")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 28, height: 23)
                         }
                         //                        } // VStack: 레포지토리 선택 버튼
                         
@@ -259,7 +265,11 @@ struct SendKnockView: View {
                         Button {
                             //sendKnock()
                         } label: {
-                            Image(systemName: "location")
+                            Image(systemName: "paperplane")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 22, height: 22)
+                                .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                         }
                         .disabled(knockMessage.isEmpty)
                         //                        } // VStakc: 노크 전송 버튼
@@ -313,7 +323,10 @@ struct SendKnockView: View {
                         Button {
                             print("이미지 첨부 버튼 탭")
                         } label: {
-                            Image(systemName: "photo.tv")
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 30)
                         }
                         //                        } // VStack: 이미지 첨부 버튼
                         
@@ -324,6 +337,9 @@ struct SendKnockView: View {
                             print("레포지토리 선택 버튼 탭")
                         } label: {
                             Image("RepositoryIcon")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 28, height: 23)
                         }
                         //                        } // VStack: 레포지토리 선택 버튼
                         
@@ -336,7 +352,11 @@ struct SendKnockView: View {
                         Button {
                             //sendKnock()
                         } label: {
-                            Image(systemName: "location")
+                            Image(systemName: "paperplane")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 22, height: 22)
+                                .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                         }
                         .disabled(knockMessage.isEmpty)
                         //                        } // VStack

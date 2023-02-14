@@ -31,7 +31,7 @@ struct StarredView: View {
         ),
         startPoint: .top, endPoint: .bottom
     )
-        
+    
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
 //        guard let tags = repositoryViewModel.tags else { return }
@@ -51,7 +51,7 @@ struct StarredView: View {
             VStack {
                 /* searchbar (custom) */
                 GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 20)
                 
                 /* Scroll Main Content */
                 
@@ -105,93 +105,94 @@ struct StarredView: View {
                 
                 /* repository list */
                 ScrollView {
-                    switch repositoryViewModel.repositories {
-                    case nil:
-                        Text("Empty")
-                    default:
-                        ForEach(repositoryViewModel.repositories!) { repository in
-                            ZStack {
-                                GSCanvas.CustomCanvasView(style: .primary) {
-                                    HStack {
-                                        NavigationLink {
-                                            /* Repository Detail View */
-                                            RepositoryDetailView(service: gitHubService, repository: repository)
-                                        } label: {
-                                            VStack(alignment: .leading) {
-                                                HStack(alignment: .top) {
-                                                    VStack(alignment: .leading) {
-                                                        GSText.CustomTextView(
-                                                            style: .body1,
-                                                            string: repository.owner.login)
-                                                        .multilineTextAlignment(.leading)
-                                                        GSText.CustomTextView(
-                                                            style: .title2,
-                                                            string: repository.name)
-                                                        .multilineTextAlignment(.leading)
-                                                    }
-                                                    Spacer()
-                                                }
-                                                .padding(.bottom, 5)
-                                                GSText.CustomTextView(
-                                                    style: .caption1,
-                                                    string: repository.description ?? "")
-                                                .multilineTextAlignment(.leading)
-                                            }
-                                            .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-                                        }
-                                    }
-                                }
-                                    
-                                VStack {
-                                    /* Penpal, Menu button */
-                                    HStack {
-                                        Spacer()
-                                        
-                                        NavigationLink(destination: {
-                                            /*
-                                             1. 우선 누구한테 챗 할지 레포기여자 목록 보여주기
-                                             2. 그 중에서 이미 챗하고 있는 사람은 조금 다르게 표기하기
-                                             */
-                                            ContributorListView()
-                                        }) {
-                                            Image(systemName: "message.circle.fill")
-                                        }
-                                        .foregroundColor(colorScheme == .light ? .black : .white)
-                                        
-                                        Menu {
-                                            Section {
-                                                Button(action: { print("Share") }) {
-                                                    Label("Share", systemImage: "square.and.arrow.up")
-                                                }
-                                                Button(action: { print("Chat") }) {
-                                                    Label("Chat", systemImage: "message")
-                                                }
-                                                //                                            Button(action: { print("Modify Tags") }) {
-                                                //                                                Label("Modify Tags", systemImage: "tag")
-                                                //                                            }
-                                            }
-                                            
-                                            Section {
-                                                Button(role: .destructive, action: { print("Unstar") }) {
-                                                    Label("Unstar", systemImage: "star")
-                                                }
-                                            }
-                                        } label: {
-                                            Image(systemName: "ellipsis")
-                                                .frame(height: 20)
-                                        }
-                                        .foregroundColor(colorScheme == .light ? .black : .white)
-                                        
-                                    }
-                                    Spacer()
-                                }
-                                .offset(x: -20, y: 20)
+                    
+                    if let repo = repositoryViewModel.repositories {
+                        if repo.isEmpty {
+                            VStack(spacing: 10) {
+                                Image("GitSpace-Star-Empty")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 300, height: 300)
+                                
+                                Text("There is no repository\nthat you starred!")
+                                    .font(.title3)
+                                    .foregroundColor(.gsGray1)
+                                    .multilineTextAlignment(.center)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 15)
-                        }
-                    }
-                }
+                        } else {
+                            ForEach(repositoryViewModel.repositories!) { repository in
+                                ZStack {
+                                    GSCanvas.CustomCanvasView(style: .primary) {
+                                        HStack {
+                                            NavigationLink {
+                                                /* Repository Detail View */
+                                                RepositoryDetailView(service: gitHubService, repository: repository)
+                                            } label: {
+                                                VStack(alignment: .leading) {
+                                                    HStack(alignment: .top) {
+                                                        VStack(alignment: .leading) {
+                                                            GSText.CustomTextView(
+                                                                style: .body1,
+                                                                string: repository.owner.login)
+                                                            .multilineTextAlignment(.leading)
+                                                            GSText.CustomTextView(
+                                                                style: .title2,
+                                                                string: repository.name)
+                                                            .multilineTextAlignment(.leading)
+                                                        }
+                                                        Spacer()
+                                                    }
+                                                    .padding(.bottom, 5)
+                                                    GSText.CustomTextView(
+                                                        style: .caption1,
+                                                        string: repository.description ?? "")
+                                                    .multilineTextAlignment(.leading)
+                                                }
+                                                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                                            }
+                                        }
+                                    }
+                                    
+                                    VStack {
+                                        /* Penpal, Menu button */
+                                        HStack {
+                                            Spacer()
+                                            
+                                            Menu {
+                                                Section {
+                                                    Button(action: { print("Share") }) {
+                                                        Label("Share", systemImage: "square.and.arrow.up")
+                                                    }
+                                                    Button(action: { print("Chat") }) {
+                                                        Label("Chat", systemImage: "message")
+                                                    }
+                                                    //                                            Button(action: { print("Modify Tags") }) {
+                                                    //                                                Label("Modify Tags", systemImage: "tag")
+                                                    //                                            }
+                                                }
+                                                
+                                                Section {
+                                                    Button(role: .destructive, action: { print("Unstar") }) {
+                                                        Label("Unstar", systemImage: "star")
+                                                    }
+                                                }
+                                            } label: {
+                                                Image(systemName: "ellipsis")
+                                                    .frame(height: 20)
+                                            }
+                                            .foregroundColor(colorScheme == .light ? .black : .white)
+                                            
+                                        }
+                                        Spacer()
+                                    }
+                                    .offset(x: -20, y: 20)
+                                } // ZStack
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 15)
+                            } // ForEach
+                        } // if-else repo.isEmpty
+                    } // if-let repo
+                } // ScrollView
             }
             .onAppear{
                 Task {
