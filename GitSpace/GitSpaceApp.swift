@@ -30,6 +30,9 @@ struct GitSpaceApp: App {
                 .environmentObject(KnockViewManager())
                 .environmentObject(tabBarRouter)
 				.environmentObject(notificationManager)
+				.onAppear {
+					UIApplication.shared.applicationIconBadgeNumber = 0
+				}
         }
     }
 }
