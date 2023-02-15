@@ -11,6 +11,7 @@ struct MainChatView: View {
     
     @EnvironmentObject var chatStore : ChatStore
     @State private var showGuideCenter: Bool = false
+	@State public var chatID: String? = nil
     
     var body: some View {
         
@@ -18,7 +19,7 @@ struct MainChatView: View {
             ChatUserRecommendationSection()
 				.padding()
             Divider()
-            ChatListSection()
+            ChatListSection(chatID: $chatID)
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
@@ -33,10 +34,18 @@ struct MainChatView: View {
                 Button {
                     showGuideCenter.toggle()
                 } label: {
-                    Image(systemName: "questionmark.circle")
+                    Image(systemName: "info.circle")
                         .foregroundColor(.primary)
                 }
 
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    AddChatView()
+                } label: {
+                    Text("채팅 추가하기")
+                }
             }
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {

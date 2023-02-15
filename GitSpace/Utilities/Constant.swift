@@ -18,9 +18,11 @@ public enum Constant {
 	static let KNOCK_SENT: String = "Sent"
     
 	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
-	enum AppStorage {
+	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
 		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+        static let CHATROOM_NOTIFICATION: String = "isChatRoomNotificationEnabled"
+        static let USER_CHAT_BLOCK: String = "isUserChatBlocked"
 	}
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
@@ -37,6 +39,10 @@ public enum Constant {
         static let TITLE3_FONT_WEIGHT: Font.Weight = .semibold
         static let TITLE3_COLOR: Color = Color.primary
         
+        static let TITLE4_SIZE: CGFloat = 13
+        static let TITLE4_FONT_WEIGHT: Font.Weight = .semibold
+        static let TITLE4_COLOR: Color = Color.primary
+        
         static let SECTION_TITLE_SIZE: CGFloat = 13
         static let SECTION_TITLE_FONT_WEIGHT: Font.Weight = .regular
         static let SECTION_TITLE_COLOR: Color = Color.gsGray2
@@ -52,14 +58,20 @@ public enum Constant {
         static let CAPTION1_SIZE: CGFloat = 13
         static let CAPTION1_FONT_WEIGHT: Font.Weight = .medium
         static let CAPTION1_COLOR: Color = Color.gsGray2
+        static let CAPTION_PRIMARY1_COLOR: Color = Color.primary
         
         static let CAPTION2_SIZE: CGFloat = 12
         static let CAPTION2_FONT_WEIGHT: Font.Weight = .regular
         static let CAPTION2_COLOR: Color = Color.gsGray2
+        static let CAPTION_PRIMARY2_COLOR: Color = Color.primary
         
         static let DESCRIPTION_SIZE: CGFloat = 16
         static let DESCRIPTION_FONT_WEIGHT: Font.Weight = .medium
         static let DESCRIPTION_COLOR: Color = Color.gsGray2
+        
+        static let DESCRIPTION2_SIZE: CGFloat = 13
+        static let DESCRIPTION2_FONT_WEIGHT: Font.Weight = .regular
+        static let DESCRIPTION2_COLOR: Color = Color.gsGray2
 
     }
 	/* EXAMPLE

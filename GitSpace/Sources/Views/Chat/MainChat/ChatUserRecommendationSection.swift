@@ -11,22 +11,22 @@ import SwiftUI
 struct DummyUserInfo: Hashable, Identifiable {
     var id: UUID = UUID()
     let userName: String
-    let followerCount: String
-    let repoCount: String
+    let followerCount: Int
+    let repoCount: Int
 }
 
 
 
 struct ChatUserRecommendationSection: View {
     
+    @Environment(\.colorScheme) var colorScheme
+
     @State var currentIndex: Int = 0
     
-    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: "2667", repoCount: "20")
-    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: "140", repoCount: "61")
-    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: "167479", repoCount: "1044")
     
-    @State var currentFollowerCount: String = ""
-    
+    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: 2667, repoCount: 20)
+    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: 140, repoCount: 61)
+    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: 167479, repoCount: 1044)
     
     
     var body: some View {
@@ -50,6 +50,7 @@ struct ChatUserRecommendationSection: View {
 
                     let size = proxy.size
 
+                    
                     VStack(alignment: .trailing) {
                         HStack {
                             // TODO: - [GITHUB API] 유저 프로필 내용으로 바꾸기
@@ -110,28 +111,26 @@ struct ChatUserRecommendationSection: View {
                             .frame(height: 20)
 
                         // MARK: - NewKnockView로 이동하는 챗 버튼
-                        // TODO: - 버튼 추상화 후 네비링크버튼 타입으로 바꾸기
-                        NavigationLink {
+                        GSNavigationLink(style: .secondary) {
                             SendKnockView()
                         } label: {
-                            Text("Let's Chat!")
-                                .font(.callout)
-                                .foregroundColor(.primary)
-                                .fontWeight(.semibold)
-                                .padding(.vertical, 12)
-                                .padding(.horizontal, 23)
-                                .background(Color.gsGreenPrimary)
-                                .cornerRadius(20)
+                            // TODO: - GSText로 바꿔주기 (색이 안입혀져서 일단 일반 텍스트로)
+//                            GSText.CustomTextView(style: .title3, string: "Let's chat!")
+                            Text("💬 Let's chat!")
+                                .font(.footnote)
+                                .bold()
+                                .foregroundColor(.black)
                         }
+
                     }
                     .padding(17)
                     
 
-                    // TODO: - 추상화 후 백그라운드를 캔버스 디자인시스템으로 바꾸기
+                    // TODO: - 캔버스 디자인시스템에 .secondary 스타일 속성으로 추가하기
                     .background(
                         RoundedRectangle(cornerRadius: 35, style: .continuous)
-                            .fill(.white)
-                            .shadow(color: Color(uiColor: UIColor.systemGray5), radius: 6, x: 0, y: 2)
+                            .fill(colorScheme == .light ? .white : .gsGray3)
+                            .shadow(color: .gsGray2.opacity(colorScheme == .dark ? 0.0 : 0.3), radius: 6, x: 0, y: 2)
                     )
 
                 }
@@ -162,23 +161,6 @@ struct ChatUserRecommendationSection: View {
             .padding(.vertical, 20)
 
         }
-    }
-    
-    
-    
-    // MARK: - 팔로워, 레포 숫자를 처리하는 함수
-    /* 예: 3300 -> 3.3k로 변환 */
-    func handleCountUnit(countInfo: String) -> String {
-        var handledCount: String
-        let convertedIntCount: Double = Double(countInfo) ?? 0
-        
-        if convertedIntCount > 999 {
-            handledCount = "\((convertedIntCount / 1000).rounded())k"
-        } else {
-            handledCount = countInfo
-        }
-        
-        return handledCount
     }
 
 }

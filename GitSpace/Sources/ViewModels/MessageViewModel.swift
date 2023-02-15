@@ -5,31 +5,39 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
+// TODO: 메세지 삭제 시 lastContent 업데이트 로직 체크 필요
+/// 메세지 추가 시 채팅 리스트에서 lastContent를 누가 업데이트해주는지 체크 필요
+/// 어느쪽 리스너 혹은 뷰모델에서 lastContent를 업데이트 하는 로직을 가져야하는지 고려 필요
+
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
-    @Published var messageAdded: Bool = false
+    @Published var isMessageAdded: Bool
     
-    private var startMessagesCounter: Int = 0
-    private var startMessagesRemoved: Bool = false
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
+    let chatStore: ChatStore = .init()
     
     init() {
         messages = []
+        isMessageAdded = false
     }
 }
-
 
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
     
     private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("Chat").document(chatID).collection("Message").order(by: "date").getDocuments()
+            let snapshot = try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .order(by: "sentDate")
+                .getDocuments()
             return snapshot
         } catch {
             print("Get Message Documents Error : \(error)")
@@ -38,6 +46,10 @@ extension MessageStore {
     }
     
     @MainActor
+    private func writeMessages(messages: [Message]) {
+        self.messages = messages
+    }
+    
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
     func fetchMessages(chatID: String) async {
         
@@ -54,7 +66,7 @@ extension MessageStore {
                 }
             }
         }
-        messages = newMessages
+        await writeMessages(messages: newMessages)
     }
     
     // MARK: - Message CRUD
@@ -71,40 +83,39 @@ extension MessageStore {
         }
     }
     
-    func updateMessage(_ message: Message, chatID: String) {
-        db
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .updateData(
-                ["content" : message.content,
-                         "date" : message.date]
-            )
+    func updateMessage(_ message: Message, chatID: String) async {
+        do {
+            try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .updateData(
+                    ["textContent" : message.textContent,
+                     "createdDate" : message.sentDate])
+        } catch {
+            print("Error-MessageViewModel-updateMessage : \(error.localizedDescription)")
+        }
     }
     
-    func removeMessage(_ message: Message, chatID: String) {
-        db
-            .collection("Chat")
-            .document(chatID)
-            .collection("Message")
-            .document(message.id)
-            .delete()
+    func removeMessage(_ message: Message, chatID: String) async {
+        do {
+            try await db
+                .collection("Chat")
+                .document(chatID)
+                .collection("Message")
+                .document(message.id)
+                .delete()
+        } catch {
+            print("Error-MessageViewModel-removeMessage : \(error.localizedDescription)")
+        }
+            
     }
     
 }
 
-
-
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
 extension MessageStore {
-    // MARK: Method : AddListener 호출 시 기존 메세지들이 한번씩 불러와지는 오류를 수정하는 함수
-    func removeListenerMessages() {
-        if !startMessagesRemoved {
-            messages.removeFirst(startMessagesCounter)
-            startMessagesRemoved = true
-        }
-    }
     
     // MARK: Method : 추가된 문서 필드에 접근하여 Message 객체를 만들어 반환하는 함수
     func fetchNewMessage(change : QueryDocumentSnapshot) -> Message? {
@@ -112,7 +123,7 @@ extension MessageStore {
             let newMessage = try change.data(as: Message.self)
             return newMessage
         } catch {
-            print("Fetch New Message in Message Listener Error : \(error)")
+            print("Error-MessageViewModel-fetchNewMessage : \(error.localizedDescription)")
         }
         return nil
     }
@@ -141,21 +152,16 @@ extension MessageStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("added")
-                        print(diff.document.documentID)
-                        let newMessage = self.fetchNewMessage(change: diff.document)
-                        if let newMessage {
+                        print("Message Added")
+                        if let newMessage = self.fetchNewMessage(change: diff.document) {
                             self.messages.append(newMessage)
-                            // AddListener로 인해 추가된 배열 길이를 지우기 위해 증가시키는 숫자
-                            self.startMessagesCounter += 1
-                            self.messageAdded.toggle()
+                            // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
+                            self.isMessageAdded.toggle()
                         }
-                        
                     case .modified:
-                        print("modified")
-                        print(diff.document.documentID)
+                        print("Message Modified")
                     case .removed:
-                        print("removed")
+                        print("Message Removed")
                         self.removeDeletedLocalMessage(change: diff.document)
                     }
                 }

@@ -13,41 +13,39 @@ struct MessageCell : View {
     let message: Message
     let targetName: String
     var isMine: Bool {
-        return Utility.loginUserID == message.userID
+        return Utility.loginUserID == message.senderID
     }
     
     var body: some View {
         
         switch isMine {
         case true:
-            HStack(alignment: .bottom) {
+            HStack(alignment: .bottom, spacing: 2) {
                 Spacer()
                 Text(message.stringDate)
                     .modifier(MessageTimeModifier())
-                Text(message.content)
+                Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
             }
-            .padding(.trailing, 20)
+            //.padding(.trailing, 10)
             
         case false:
-            
-            
             HStack {
                 // Profile Image 부분
                 VStack {
                     NavigationLink {
                         ProfileDetailView()
                     } label: {
-                        ProfileAsyncImage(size: 50)
+                        ProfileAsyncImage(size: 35)
                     }
                     Spacer()
                 }
                 
                 // UserName과 Message Bubble 부분
-                VStack (alignment: .leading) {
+                VStack (alignment: .leading, spacing: 6) {
                     Text(targetName)
-                    HStack(alignment: .bottom) {
-                        Text(message.content)
+                    HStack(alignment: .bottom, spacing: 2) {
+                        Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
                         Text(message.stringDate)
                             .modifier(MessageTimeModifier())
@@ -56,7 +54,6 @@ struct MessageCell : View {
                 }
             }
         }
-        
     }
 }
 
