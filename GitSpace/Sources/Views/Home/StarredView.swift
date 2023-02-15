@@ -87,7 +87,7 @@ struct StarredView: View {
                                 withAnimation {
                                     removeTag(at: index, tag: tag)
                                     if !selectedTagList.isEmpty {
-                                        filterRepository()
+                                        repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
                                     } else {
                                         repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                                     }
@@ -201,7 +201,7 @@ struct StarredView: View {
                     repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
                     repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                     if !selectedTagList.isEmpty {
-                        filterRepository()
+                        repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
                     }
                 }
             }
@@ -210,7 +210,7 @@ struct StarredView: View {
                     repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
                     repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                     if !selectedTagList.isEmpty {
-                        filterRepository()
+                        repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
                     }
                 }
             }
@@ -220,16 +220,6 @@ struct StarredView: View {
         }
         .onTapGesture {
             self.endTextEditing()
-        }
-    }
-    
-    func filterRepository() {
-        Task {
-            let filteredRepositoriesList = await repositoryViewModel.filterRepositories(by: selectedTagList)
-            let filteredRepositories = repositoryViewModel.repositories?.filter({ repo in
-                return filteredRepositoriesList!.contains(repo.fullName)
-            })
-            repositoryViewModel.filteredRepositories = filteredRepositories!
         }
     }
 }

@@ -179,7 +179,7 @@ struct AddTagSheetView: View {
                                 }
                             case .starredView:
                                 if !preSelectedTags.isEmpty {
-                                    filterRepository()
+                                    repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
                                 } else {
                                     repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                                 }
@@ -200,16 +200,6 @@ struct AddTagSheetView: View {
                     await tagViewModel.requestTags()
                 }
             }
-        }
-    }
-    
-    func filterRepository() {
-        Task {
-            let filteredRepositoriesList = await repositoryViewModel.filterRepositories(by: preSelectedTags)
-            let filteredRepositories = repositoryViewModel.repositories?.filter({ repo in
-                return filteredRepositoriesList!.contains(repo.fullName)
-            })
-            repositoryViewModel.filteredRepositories = filteredRepositories!
         }
     }
 }

@@ -44,7 +44,7 @@ final class RepositoryViewModel: ObservableObject {
         }
     }
     
-    func filterRepositories(by selectedTags: [Tag]) async -> [String]? {
+    func requestfilteredRepositories(by selectedTags: [Tag]) async -> [String]? {
         do {
             var filteredRepositoryList: [String] = []
             for tag in selectedTags {
@@ -59,6 +59,17 @@ final class RepositoryViewModel: ObservableObject {
         } catch {
             print("Error")
             return nil
+        }
+    }
+    
+    @MainActor
+    func filterRepository(selectedTagList: [Tag]) {
+        Task {
+            let filteredRepositoriesList = await self.requestfilteredRepositories(by: selectedTagList)
+            let filteredRepositories = self.repositories?.filter({ repo in
+                return filteredRepositoriesList!.contains(repo.fullName)
+            })
+            self.filteredRepositories = filteredRepositories!
         }
     }
 }
