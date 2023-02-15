@@ -53,11 +53,11 @@ struct ProfileDetailView: View {
                     GSText.CustomTextView(style: .title3, string: "Knock")
                         .frame(maxWidth: .infinity)
                 }
-                    .sheet(isPresented: $showKnockSheet) {
+                .sheet(isPresented: $showKnockSheet) {
                     SendKnockView()
                 }
             }
-                .padding(.vertical, 20)
+            .padding(.vertical, 20)
 
             Divider()
                 .frame(height: 1)
@@ -66,7 +66,7 @@ struct ProfileDetailView: View {
             Spacer()
 
         }
-            .padding(.horizontal, 20)
+        .padding(.horizontal, 20)
     }
 
 }
@@ -108,15 +108,15 @@ struct ProfileSectionView: View {
                         GSText.CustomTextView(style: .body1, string: "\(GitHubAuthManager.authenticatedUser?.bio ?? "")")
                         Spacer()
                     }
-                        .padding(15)
-                        .font(.callout)
-                        .frame(maxWidth: .infinity)
-                        .multilineTextAlignment(.leading)
-                        .background(Color.gsGray3)
-                        .clipShape(
+                    .padding(15)
+                    .font(.callout)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.leading)
+                    .background(Color.gsGray3)
+                    .clipShape(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                     )
-                        .padding(.vertical, 10)
+                    .padding(.vertical, 10)
                 }
 
                 // MARK: - 소속
@@ -143,7 +143,7 @@ struct ProfileSectionView: View {
 
                         GSText.CustomTextView(style: .description2, string: GitHubAuthManager.authenticatedUser?.location ?? "")
                     }
-                        .foregroundColor(Color(.systemGray))
+                    .foregroundColor(Color(.systemGray))
                 }
 
                 // MARK: - 링크 이미지, 블로그 및 기타 링크
@@ -204,7 +204,6 @@ struct ProfileSectionView: View {
                     .overlay(Color.gsGray3)
                     .padding(.vertical, 10)
 
-
                 // MARK: - 유저의 README
                 GSText.CustomTextView(style: .caption2, string: "README.md")
 
@@ -213,7 +212,7 @@ struct ProfileSectionView: View {
                         markdownString
                     }
                 }
-                    .onAppear {
+                .onAppear {
 
                     Task {
 
@@ -221,7 +220,7 @@ struct ProfileSectionView: View {
 
                         let result = await GitHubService().requestRepositoryReadme(owner: userName, repositoryName: userName)
 
-//                    let result = await GitHubService().requestRepositoryInformation(owner: userName, repositoryName: userName)
+                        //                    let result = await GitHubService().requestRepositoryInformation(owner: userName, repositoryName: userName)
 
                         switch result {
 
@@ -241,13 +240,9 @@ struct ProfileSectionView: View {
                             print(error)
 
                         }
-
-
                     }
                 }
-
             }
-
         }
     }
 }
