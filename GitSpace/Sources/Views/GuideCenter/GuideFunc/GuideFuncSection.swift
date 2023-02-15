@@ -19,6 +19,7 @@ struct GuideFuncSection: View {
                 Spacer()
             }
             .padding(.horizontal)
+            .padding(.bottom, 5)
             
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */

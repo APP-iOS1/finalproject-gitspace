@@ -18,7 +18,8 @@ struct GuideReportSection: View {
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.top)
+            .padding(.top, 20)
+            .padding(.bottom, 5)
             
             
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
