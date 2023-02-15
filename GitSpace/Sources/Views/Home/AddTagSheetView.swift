@@ -102,39 +102,51 @@ struct AddTagSheetView: View {
                     // MARK: - 태그 선택 섹션
                     // 기존 태그 선택 안내문
                     Group {
-                        // FIXME: StarredView, RepositoryDetailView switching
-                        Text("Select tags from your tag list 🙌")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.callout)
-                        
-                        /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                        FlowLayout(mode: .scrollable, items: Array(zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed()))) { index, tag in
-                            GSButton.CustomButtonView(
-                                style: .tag(
-                                    isSelected: selectedTags.contains(tag),
-                                    isEditing: false
-                                )
-                            ) {
-                                withAnimation {
-                                    selectTag(to: tag)
-                                }
-                            } label: {
-                                Text("\(tag.tagName)")
-                                    .font(.callout)
+                        if tagViewModel.tags.isEmpty {
+                            VStack(spacing: 10) {
+                                Image("GitSpace-Tag-Empty")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 300, height: 300)
+                                
+                                Text("There is no tag!")
+                                    .font(.title)
+                                    .foregroundColor(.gsGray2)
+                                    .multilineTextAlignment(.center)
                             }
-                            .tag("\(tag.tagName)")
-                            .contextMenu {
-                                Button {
-                                    print("삭제")
-                                    Task {
-                                        await tagViewModel.deleteTag(tag: tag)
-                                        tagViewModel.tags.remove(at: index)
+                        } else {
+                            Text(beforeView == .starredView ? "Select tags from your tag list 🙌" : "Select tags from your repository tag list 🙌" )
+                                .foregroundColor(Color(.systemGray))
+                                .font(.callout)
+                            /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
+                            FlowLayout(mode: .scrollable, items: Array(zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed()))) { index, tag in
+                                GSButton.CustomButtonView(
+                                    style: .tag(
+                                        isSelected: selectedTags.contains(tag),
+                                        isEditing: false
+                                    )
+                                ) {
+                                    withAnimation {
+                                        selectTag(to: tag)
                                     }
                                 } label: {
-                                    Label("태그 삭제하기", systemImage: "trash")
+                                    Text("\(tag.tagName)")
+                                        .font(.callout)
                                 }
+                                .tag("\(tag.tagName)")
+                                .contextMenu {
+                                    Button {
+                                        print("삭제")
+                                        Task {
+                                            await tagViewModel.deleteTag(tag: tag)
+                                            tagViewModel.tags.remove(at: index)
+                                        }
+                                    } label: {
+                                        Label("태그 삭제하기", systemImage: "trash")
+                                    }
+                                }
+                                .transition(.opacity.combined(with: .move(edge: .leading)))
                             }
-                            .transition(.opacity.combined(with: .move(edge: .leading)))
                         }
                         
                         Spacer()
