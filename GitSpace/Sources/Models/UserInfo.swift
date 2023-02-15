@@ -14,7 +14,8 @@ struct UserInfo : Identifiable, Codable {
     let id: String // 유저 ID
     let createdDate: Date // 유저 생성일시
     let githubUserName: String // 유저 깃허브 ID
-    let deviceToken: String // 유저 기기 토큰
+	let githubID: Int // 유저 깃허브 ID값, 받을 때 정수형으로 와서 타입 통일
+    var deviceToken: String // 유저 기기 토큰
     let emailTo: String? // 유저 이메일
     let blockedUserIDs: [String] // 차단한 유저 ID 리스트
     
