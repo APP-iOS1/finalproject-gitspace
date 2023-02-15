@@ -152,16 +152,14 @@ extension MessageStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("Message Added")
                         if let newMessage = self.fetchNewMessage(change: diff.document) {
                             self.messages.append(newMessage)
                             // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
                             self.isMessageAdded.toggle()
                         }
                     case .modified:
-                        print("Message Modified")
+                        let a = 1
                     case .removed:
-                        print("Message Removed")
                         self.removeDeletedLocalMessage(change: diff.document)
                     }
                 }
