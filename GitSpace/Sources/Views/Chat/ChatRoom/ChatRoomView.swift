@@ -208,41 +208,13 @@ struct ChatRoomView: View {
         if isLastMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
-<<<<<<< HEAD
                 let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
                                              deletedMessage: deletedMessage)
-=======
-                
-                // FIXME: makeChat의 파라미터로 enum 케이스를 받아서, 서로 다른 초기화가 필요한 경우 추상화가 가능하도록 변경 후 적용 필요 by.태영
-                let newChat = Chat.init(id: chat.id,
-                                        createdDate: chat.createdDate,
-                                        joinedMemberIDs: chat.joinedMemberIDs,
-                                        lastContent: chat.knockContent,
-                                        lastContentDate: chat.knockContentDate,
-                                        knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate,
-                                        unreadMessageCount: chat.unreadMessageCount)
-                                        
->>>>>>> dev
                 await chatStore.updateChat(newChat)
             } else {
                 // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
-<<<<<<< HEAD
                 let newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
                                              deletedMessage: deletedMessage)
-=======
-                // MEMO: preLastMessage가 index로 접근하는 방식이라서, 안전하게 접근하는 로직으로 변경해야할지 고려 필요 By. 태영
-                let preLastMessage = messageStore.messages[messageStore.messages.count-2]
-                let newChat = Chat.init(id: chat.id,
-                                        createdDate: chat.createdDate,
-                                        joinedMemberIDs: chat.joinedMemberIDs,
-                                        lastContent: preLastMessage.textContent,
-                                        lastContentDate: preLastMessage.sentDate,
-                                        knockContent: chat.knockContent,
-                                        knockContentDate: chat.knockContentDate,
-                                        unreadMessageCount: chat.unreadMessageCount)
-
->>>>>>> dev
                 await chatStore.updateChat(newChat)
             }
         }
