@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
+	@EnvironmentObject var notificationManager: PushNotificationManager
     
     enum MakeChatCase {
         case addContent
@@ -18,6 +19,8 @@ struct ChatRoomView: View {
     }
     
     let chat: Chat
+	
+	// 상대방의 이름
     let targetUserName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
@@ -149,7 +152,24 @@ struct ChatRoomView: View {
                         return
                     }
                     Task {
+						// Content를 푸쉬노티에 심어서 보내는 로직!
                         await addContent()
+						
+						// 상대방의 id로 유저를 가져옵니다.
+						await userStore.requestUser(userID: chat.targetUserID)
+						async let opponentUser = userStore.user
+						
+						// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
+						if let opponent = await opponentUser {
+							await notificationManager.sendPushNotification(
+								with: .chat(
+									title: "New Chat Message",
+									body: contentField,
+									chatID: chat.id
+								),
+								to: opponent
+							)
+						}
                     }
                 }
             

@@ -10,8 +10,9 @@ import FirebaseCore
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-	public var pushNotificationManager: PushNotificationManager? = nil
+	public var pushNotificationManager: PushNotificationManager = PushNotificationManager(currentUserDeviceToken: "Init")
 	public let tabBarRouter = GSTabBarRouter()
+	public var deviceToken = "??"
 	
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -62,6 +63,8 @@ extension AppDelegate: MessagingDelegate {
 		print(#function, "+++ didRegister Success", deviceToken)
 		//		Messaging.messaging().apnsToken = deviceToken
 		Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+		
+		print(#function, deviceToken)
 	}
 	
 	/* 메시지 토큰 등록 실패 */
@@ -74,11 +77,10 @@ extension AppDelegate: MessagingDelegate {
 	func messaging(_ messaging: Messaging,
 				   didReceiveRegistrationToken fcmToken: String?) {
 		guard let fcmToken else { return }
+		self.deviceToken = fcmToken
 		
 		// Save Device Token with Init PushNotificationManager
-		pushNotificationManager = PushNotificationManager(
-			currentUserDeviceToken: fcmToken
-		)
+		pushNotificationManager.setCurrentUserDeviceToken(token: fcmToken)
 	}
 }
 
