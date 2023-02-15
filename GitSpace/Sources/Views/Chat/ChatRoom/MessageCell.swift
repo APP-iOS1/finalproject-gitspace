@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: -View : 채팅 메세지 셀
 struct MessageCell : View {
     
+    @EnvironmentObject var messageStore: MessageStore
     let message: Message
     let targetName: String
     var isMine: Bool {
@@ -26,6 +27,13 @@ struct MessageCell : View {
                     .modifier(MessageTimeModifier())
                 Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
+                    .contextMenu {
+                        Button {
+                            messageStore.deletedMessage = message
+                        } label: {
+                            Text("Delete")
+                        }
+                    }
             }
             //.padding(.trailing, 10)
             
