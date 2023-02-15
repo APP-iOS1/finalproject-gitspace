@@ -254,16 +254,27 @@ struct ChatRoomView: View {
         let newChat: Chat
         // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
         var newDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
+        
+        // MARK: Variables - Delete Message 케이스에서만 사용하는 변수
         // 상대방의 안 읽은 메세지 갯수
-        let unreadMessageCount = newDict[chat.targetUserID] ?? 1
+        let unreadMessageCount: Int
         // 메세지 배열의 마지막 인덱스 넘버
-        let endIndex = messageStore.messages.endIndex - 1
+        let endIndex: Int
         // 안 읽은 메세지의 index 범위 (시작, 종료)
-        let unreadMessagesIndex: (start: Int, end: Int) = (endIndex - unreadMessageCount, endIndex)
+        let unreadMessagesIndex: (start: Int, end: Int)
         // 삭제 메세지가 상대방이 아직 안 읽은 메세지 범위에 포함되는 메세지인지 여부
-        let isContainUnreadMessages: Bool = messageStore.messages[unreadMessagesIndex.start...unreadMessagesIndex.end]
-            .map{$0.id}
-            .contains(deletedMessage?.id)
+        var isContainUnreadMessages: Bool = false
+        
+        if makeChatCase == .zeroMessageAfterDeleteLastMessage || makeChatCase == .remainMessageAfterDeleteLastMessage {
+            // MARK: delte case 프로퍼티 할당을 이 안에서 진행
+            unreadMessageCount = newDict[chat.targetUserID] ?? 1
+            endIndex = messageStore.messages.endIndex - 1
+            unreadMessagesIndex = (endIndex - unreadMessageCount, endIndex)
+            isContainUnreadMessages = messageStore.messages[unreadMessagesIndex.start...unreadMessagesIndex.end]
+                .map{$0.id}
+                .contains(deletedMessage?.id)
+        }
+        
         // 삭제 메세지가 상대방이 안 읽은 메세지에 포함되면 안 읽은 갯수 1 감소
         if isContainUnreadMessages {
             newDict[chat.targetUserID, default: 0] -= 1
