@@ -1,7 +1,6 @@
 import SwiftUI
 
-struct ChatListSection: View {
-    
+struct ChatListSection: View {    
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var userStore: UserStore
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
@@ -41,13 +40,15 @@ struct ChatListSection: View {
         }
 		.overlay {
 			NavigationLink(
-				destination: ChatRoomView(chat: pushedChat ?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserName: ""),
+				destination: ChatRoomView(
+					chat: pushedChat
+					?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserName: ""),
 				isActive: $tabBarRouter.navigateToChat) {
 					EmptyView()
 				}
 		}
-        .task{
-            if !chatStore.isDoneFetch {
+        .task {
+			if !chatStore.isDoneFetch {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
@@ -55,8 +56,8 @@ struct ChatListSection: View {
         }
 		.task {
 			// !!!: NAVIGATE TO PUSHED CHAT
-			if let chatID {
-				chatStore.addListener()
+			if let chatID,
+			   !tabBarRouter.navigateToChat {
 				async let fetchDone = chatStore.requestPushedChat(chatID: chatID)
 				pushedChat = await fetchDone
 				tabBarRouter.navigateToChat.toggle()

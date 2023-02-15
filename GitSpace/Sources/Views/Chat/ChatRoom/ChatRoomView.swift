@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
 	@EnvironmentObject var notificationManager: PushNotificationManager
+	@EnvironmentObject var tabBarRouter: GSTabBarRouter
     
     enum MakeChatCase {
         case addContent
@@ -108,6 +109,8 @@ struct ChatRoomView: View {
                 await chatStore.updateChat(exitChat)
                 messageStore.removeListener()
             }
+            
+			tabBarRouter.navigateToChat = false
         }
     }
     
@@ -147,12 +150,10 @@ struct ChatRoomView: View {
                         return
                     }
                     Task {
-						// Content를 푸쉬노티에 심어서 보내는 로직!
-                        await addContent()
-						
 						// 상대방의 id로 유저를 가져옵니다.
 						await userStore.requestUser(userID: chat.targetUserID)
 						async let opponentUser = userStore.user
+						print(await opponentUser?.githubUserName)
 						
 						// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
 						if let opponent = await opponentUser {
@@ -160,11 +161,14 @@ struct ChatRoomView: View {
 								with: .chat(
 									title: "New Chat Message",
 									body: contentField,
+									fromUser: "",
 									chatID: chat.id
 								),
 								to: opponent
 							)
 						}
+						// Content를 푸쉬노티에 심어서 보내는 로직!
+						await addContent()
                     }
                 }
             addContentButton
@@ -177,7 +181,25 @@ struct ChatRoomView: View {
     private var addContentButton : some View {
         Button {
             Task {
-                await addContent()
+				// 상대방의 id로 유저를 가져옵니다.
+				let sentFrom = userStore.user?.githubUserName
+				async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
+				
+				// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
+				if let opponent = await opponentUser {
+					await notificationManager.sendPushNotification(
+						with: .chat(
+							title: "New Chat Message",
+							body: contentField,
+							fromUser: sentFrom ?? "",
+							chatID: chat.id
+						),
+						to: opponent
+					)
+				}
+				
+				await addContent()
+				
             }
         } label: {
             Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
@@ -209,8 +231,10 @@ struct ChatRoomView: View {
         let newDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
         // 상대방의 안 읽은 메세지 갯수
         let unreadMessageCount: Int = newDict[chat.targetUserID] ?? 1
-        let isUnreadMessage = checkUnreadMessagesContainDeletedMessage(deletedMessage: deletedMessage,
-                                                                       unreadCount: unreadMessageCount)
+        let isUnreadMessage = checkUnreadMessagesContainDeletedMessage(
+			deletedMessage: deletedMessage,
+			unreadCount: unreadMessageCount
+		)
         if isUnreadMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
