@@ -49,6 +49,7 @@ struct ContentView: View {
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
             if let uid = githubAuthManager.authentification.currentUser?.uid {
+                Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
