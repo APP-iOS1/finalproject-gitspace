@@ -18,6 +18,7 @@ struct ContentView: View {
 	@EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
+	@EnvironmentObject var pushNotificationManager: PushNotificationManager
     
     var body: some View {
         /**
@@ -49,7 +50,14 @@ struct ContentView: View {
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
             if let uid = githubAuthManager.authentification.currentUser?.uid {
+				await userStore.updateUserDeviceToken(
+					userID: uid,
+					deviceToken: pushNotificationManager.currentUserDeviceToken
+					?? "PUSHNOTIFICATION NOT GRANTED"
+				)
+				// userInfo 할당
                 await userStore.requestUser(userID: uid)
+				
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
             }
@@ -69,7 +77,7 @@ struct ContentView: View {
 			case .chats:
 				chats
 			case let .pushChats(id):
-				chats
+				MainChatView(chatID: id)
 			case .knocks:
 				knocks
 			case let .pushKnocks(id):
