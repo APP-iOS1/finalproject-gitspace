@@ -29,33 +29,22 @@ struct GSTabBarIcon: View {
 
     /**
      탭바 아이콘의 높이
-     
      */
     private var height: CGFloat {
         geometry.size.height / 56
     }
 
-
     var body: some View {
 
         GeometryReader { geometry in
 
-//            withAnimation {
-			if tabBarRouter.currentPage ?? GSTabBarRouter.Page.stars == page {
-                    Rectangle()
-                        .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
-                        .frame(width: width / 2, height: 4)
-                        .padding(.leading, geometry.size.width / 4)
-                        .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
-                }
-                //                :
-                //                    Rectangle()
-                //                    .foregroundColor(.black)
-                //                    .frame(width: width / 2, height: 4)
-                //                    .padding(.leading, geometry.size.width/4)
-                //                    .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
-
-//            }
+            if tabBarRouter.currentPage ?? GSTabBarRouter.Page.stars == page {
+                Rectangle()
+                    .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
+                    .frame(width: width / 2, height: 4)
+                    .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
+                    .padding(.leading, geometry.size.width / 4.5)
+            }
 
             VStack(alignment: .center, spacing: 4) {
 
@@ -68,13 +57,11 @@ struct GSTabBarIcon: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: width, height: height)
 
-                Text(tabName)
-                    .font(.footnote)
+                GSText.CustomTextView(style: .caption2, string: tabName)
             }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
-//                .padding(.horizontal, -4)
-                .onTapGesture {
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
+            .onTapGesture {
                 tabBarRouter.currentPage = page
             }
         }
