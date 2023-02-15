@@ -23,6 +23,7 @@ struct AddTagSheetView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
+    let repositoryName: String?
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
@@ -116,7 +117,6 @@ struct AddTagSheetView: View {
                             ) {
                                 withAnimation {
                                     selectTag(to: tag)
-                                    print("detail view")
                                 }
                             } label: {
                                 Text("\(tag.tagName)")
@@ -158,9 +158,15 @@ struct AddTagSheetView: View {
                              preSelectedTag에 추가한다.
                              */
                             preSelectedTags = selectedTags
-                            Task {
-                                // FIXME: 실제 레포 이름 가져오기
-                                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: "wwdc/2022")
+                            switch beforeView {
+                            case .repositoryDetailView:
+                                Task {
+                                    // FIXME: 실제 레포 이름 가져오기
+                                    guard let repositoryName = repositoryName else { return }
+                                    await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
+                                }
+                            case .starredView:
+                                print("---")
                             }
                             dismiss()
                         } label: {
@@ -185,7 +191,7 @@ struct AddTagSheetView: View {
 struct AddTagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView)
+            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
                 .environmentObject(RepositoryViewModel())
         }
     }

@@ -42,7 +42,7 @@ struct RepositoryDetailView: View {
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
-            RepositoryDetailViewTags(selectedTags: $selectedTagList)
+            RepositoryDetailViewTags(selectedTags: $selectedTagList, repository: repository)
 
             Spacer()
             
@@ -180,6 +180,8 @@ struct RepositoryDetailViewTags: View {
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
+    
+    let repository: Repository
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -225,12 +227,12 @@ struct RepositoryDetailViewTags: View {
         // FIXME: selectedTag의 값
         /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
-            AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView)
+            AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView, repositoryName: repository.fullName)
         }
         .onAppear {
             Task {
-                selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: "wwdc/2022") ?? []
-                
+                selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: repository.fullName) ?? []
+                let _ = print("++++", selectedTags)
             }
         }
     }

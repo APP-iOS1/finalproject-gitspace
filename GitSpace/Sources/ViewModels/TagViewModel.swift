@@ -23,8 +23,8 @@ final class TagViewModel: ObservableObject {
         do {
             let snapshot = try await database.collection("UserInfo")
             // FIXME: 현재 유저 id로 변경
-                .document("50159740")
-//                .document(Auth.auth().currentUser?.uid ?? "")
+//                .document("50159740")
+                .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .getDocuments()
             self.tags.removeAll()
@@ -46,8 +46,8 @@ final class TagViewModel: ObservableObject {
             let tid = UUID().uuidString
             try await database.collection("UserInfo")
             // FIXME: 현재 유저 id로 변경
-                .document("50159740")
-//                .document(Auth.auth().currentUser?.uid ?? "")
+//                .document("50159740")
+                .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tid)
                 .setData([
@@ -65,9 +65,9 @@ final class TagViewModel: ObservableObject {
     func deleteTag(tag: Tag) async -> Void {
         do {
             try await database.collection("UserInfo")
-                .document("50159740")
+//                .document("50159740")
             // FIXME: 현재 유저 id로 변경
-//                .document(Auth.auth().currentUser?.uid ?? "")
+                .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tag.id)
                 .delete()
@@ -112,10 +112,11 @@ final class TagViewModel: ObservableObject {
     func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
         do {
             for tag in tags {
+                print(tag)
                 try await database.collection("UserInfo")
-                    .document("50159740")
+//                    .document("50159740")
                 // FIXME: 현재 유저 id로 변경
-    //                .document(Auth.auth().currentUser?.uid ?? "")
+                    .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
                     .document(tag.id)
                     .updateData([
