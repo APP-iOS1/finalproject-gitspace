@@ -35,16 +35,18 @@ struct ContentView: View {
                     }
                     .edgesIgnoringSafeArea(.horizontal)
                     .edgesIgnoringSafeArea(.bottom)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    // MARK: - DEVICE가 SE인 경우
                 } else {
                     VStack(spacing: -10) {
                         showCurrentTabPage()
                         showGSTabBar(geometry: geometry)
                     }
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
-                    
-                
-                
             }
+            
         }
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
