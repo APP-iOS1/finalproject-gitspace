@@ -29,6 +29,7 @@ struct GitSpaceApp: App {
                 .environmentObject(GitHubAuthManager())
                 .environmentObject(KnockViewManager())
                 .environmentObject(tabBarRouter)
+				.environmentObject(notificationManager)
         }
     }
 }
