@@ -108,32 +108,14 @@ struct ChatRoomView: View {
                 await chatStore.updateChat(exitChat)
                 messageStore.removeListener()
             }
-            
         }
     }
     
     // MARK: View : message cells ForEach문
     private var messageCells: some View {
         ForEach(messageStore.messages) { message in
-            let isMine = userStore.user?.id == message.senderID
-            
-            if isMine {
-                MessageCell(message: message, targetName: targetUserName)
-                    .padding(.vertical, -5)
-//                    .contextMenu {
-//                        Button {
-//                            Task {
-//                                await deleteContent(message: message)
-//                            }
-//                        } label: {
-//                            Text("Delete Message")
-//                            Image(systemName: "trash")
-//                        }
-//                    }
-            } else {
-                MessageCell(message: message, targetName: targetUserName)
-                    .padding(.vertical, -5)
-            }
+            MessageCell(message: message, targetName: targetUserName)
+                .padding(.vertical, -5)
         }
     }
     
