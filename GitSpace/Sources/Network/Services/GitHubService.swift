@@ -22,6 +22,9 @@ protocol GitHubServiceProtocol {
     /// 인증된 사용자가 액세스 권한을 가진 repository들을 요청하는 함수
     func requestAuthenticatedUserRepositories(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
+    /// 인증된 사용자의 follower 목록을 요청하는 함수
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError >
+    
     /// 인증된 사용자로 특정 레포지토리를 star할 때 사용하는 함수
     func starRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
@@ -51,6 +54,12 @@ protocol GitHubServiceProtocol {
 
 /// GitHubService 구현부
 struct GitHubService: HTTPClient, GitHubServiceProtocol {
+    
+    
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserFollowers(perPage: 100, page: 1), responseModel: [FollowersResponse].self)
+    }
+    
     
     
     /**
