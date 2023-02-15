@@ -47,14 +47,6 @@ struct MainChatView: View {
                     Text("채팅 추가하기")
                 }
             }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    ChatRoomScrollFeatView()
-                } label: {
-                    Text("Scroll")
-                }
-            }
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {
             GuideCenterView()
