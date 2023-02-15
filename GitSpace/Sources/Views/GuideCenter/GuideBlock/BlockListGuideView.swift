@@ -1,21 +1,20 @@
 //
-//  BlockGuideView.swift
+//  BlockListGuideView.swift
 //  GitSpace
 //
-//  Created by 최한호 on 2023/02/07.
+//  Created by 최한호 on 2023/02/16.
 //
 
 import SwiftUI
 
-struct BlockGuideView: View {
+struct BlockListGuideView: View {
     var body: some View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("사용자를 차단하거나 차단 해제하기")
+                        Text("See a list of people you've blocked")
                             .font(.system(size: 22, weight: .light))
-                        
-                        Spacer()  
+                        Spacer()
                     }
                     
                     Divider()
@@ -38,6 +37,7 @@ GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이�
 """
 1. 사용자를 차단합니다.
 """)
+                    
                     Text("차단 해제하기")
                         .font(.title2)
                         .bold()
@@ -47,15 +47,16 @@ GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이�
 """
 1. 사용자 차단을 해제합니다.
 """)
+                    
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Block")
+            .navigationBarTitle("Blocked List")
     } // body
 }
 
-struct BlockGuideView_Previews: PreviewProvider {
+struct BlockListGuideView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockGuideView()
+        BlockListGuideView()
     }
 }

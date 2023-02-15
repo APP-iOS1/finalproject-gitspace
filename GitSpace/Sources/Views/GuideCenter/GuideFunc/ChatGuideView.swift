@@ -12,12 +12,10 @@ struct ChatGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("정중한 대화의 시작, 노크에 대한 모든 것.")
+                        Text("Chat with the contributor of the Starred Repo!")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
-                        
-                        
                     }
                     
                     Divider()
@@ -54,11 +52,10 @@ struct ChatGuideView: View {
     - 괴롭힘 또는 협박
     - 스팸
 """)
-                    
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Knock")
+            .navigationBarTitle("Chat")
     } // body
 }
 
