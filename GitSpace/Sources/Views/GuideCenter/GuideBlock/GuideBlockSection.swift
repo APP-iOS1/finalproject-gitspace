@@ -14,13 +14,12 @@ struct GuideBlockSection: View {
             HStack {
                 GSText.CustomTextView(
                     style: .title2,
-                    string: "차단")
+                    string: "Block")
                 
                 Spacer()
             }
             .padding(.horizontal)
             .padding(.top)
-            
             
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
@@ -40,18 +39,14 @@ struct GuideBlockSection: View {
                             VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "차단하거나 차단 해제하기")
+                                    string: "Block or Unblock")
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "차단된 사람은 회원님이 차단했다는 알림을 받지 않습니다.")
+                                    string: "People aren't notified when you block them.")
                                 .multilineTextAlignment(.leading)
                             }
 
-                            VStack {
-                                Text("")
-                            }
-
                             Spacer()
 
                             Image(systemName: "chevron.right")
@@ -60,14 +55,14 @@ struct GuideBlockSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        BlockGuideView()
+                        BlockListGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "차단한 사람 리스트를 보는 법")
+                                    string: "See a list of people you've blocked")
                             }
                             
                             Spacer()
@@ -78,14 +73,14 @@ struct GuideBlockSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        BlockGuideView()
+                        AfterBlockGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "누군가를 차단했습니다. 이제 어떻게 되나요?")
+                                    string: "What Happens After I Block?")
                             }
                             
                             Spacer()
