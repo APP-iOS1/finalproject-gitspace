@@ -56,8 +56,17 @@ extension HTTPClient {
                 return .failure(GitHubAPIError.invalidResponse)
             }
             
+            print(String(data: data, encoding: .utf8))
+            
             switch response.statusCode {
             case 200...299:
+                
+                do {
+                    let response = try JSONDecoder().decode(responseModel, from: data)
+                } catch(let error) {
+                    print(error)
+                }
+                
                 guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
                     return .failure(.failToDecode)
                 }
@@ -66,7 +75,8 @@ extension HTTPClient {
                 return .failure(.unexpectedStatusCode)
             }
 
-        } catch {
+        } catch(let error) {
+            print(error.localizedDescription)
             return .failure(.unknown)
         }
     }
