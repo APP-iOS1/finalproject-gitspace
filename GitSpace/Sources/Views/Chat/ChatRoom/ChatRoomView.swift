@@ -180,7 +180,6 @@ struct ChatRoomView: View {
         if isLastMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
-                // TODO: message의 isRead가 사용되지 않은 로직 -> unreadCount를 받아와서 배열의 끝에서 이 범위안에 포함되어 있는지 체크 필요 with.뚜리
                 let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
                                              deletedMessage: deletedMessage)
                 await chatStore.updateChat(newChat)
