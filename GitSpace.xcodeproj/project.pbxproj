@@ -117,7 +117,6 @@
 		706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE412988E2E800284F0F /* KnockHistoryView.swift */; };
 		706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE462988FBE000284F0F /* Date+DateDiff.swift */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
-		7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */; };
 		708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
 		708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
@@ -250,7 +249,6 @@
 		706BDE412988E2E800284F0F /* KnockHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockHistoryView.swift; sourceTree = "<group>"; };
 		706BDE462988FBE000284F0F /* Date+DateDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateDiff.swift"; sourceTree = "<group>"; };
 		707E58F529799449007F4ADF /* GSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextField.swift; sourceTree = "<group>"; };
-		7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSPushNotificationRouter.swift; sourceTree = "<group>"; };
 		7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ColorScheme.swift"; sourceTree = "<group>"; };
 		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 			children = (
 				70BB6CE1299B1DA7009948FC /* ContentView.swift */,
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
-				7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -852,7 +849,6 @@
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
-				7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
 				225A22D7299778A900786B35 /* GitHubService.swift in Sources */,
