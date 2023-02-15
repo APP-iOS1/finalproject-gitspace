@@ -22,6 +22,9 @@ protocol GitHubServiceProtocol {
     /// 인증된 사용자가 액세스 권한을 가진 repository들을 요청하는 함수
     func requestAuthenticatedUserRepositories(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
+    /// 인증된 사용자로 받은 이벤트를 요청하는 함수
+    func requestAuthenticatedUserReceivedEvents(userName: String, page: Int) async -> Result<[Event],GitHubAPIError>
+    
     /// 인증된 사용자로 특정 레포지토리를 star할 때 사용하는 함수
     func starRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
@@ -51,8 +54,6 @@ protocol GitHubServiceProtocol {
 
 /// GitHubService 구현부
 struct GitHubService: HTTPClient, GitHubServiceProtocol {
-    
-    
     /**
      인증된 유저의 정보를 요청합니다.
      - Author: 제균
@@ -82,6 +83,17 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
      */
     func requestAuthenticatedUserStars(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserStarRepositories(page: page), responseModel: [RepositoryResponse].self)
+    }
+    
+    /**
+     인증된 유저의 received events를 요청합니다.
+     - Author: 제균
+     - parameters:
+        - page: 요청할 page number
+     - returns: 요청 성공시 유저가 받은 Event 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestAuthenticatedUserReceivedEvents(userName: String, page: Int) async -> Result<[Event], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserReceivedEvents(userName: userName, page: page), responseModel: [Event].self)
     }
     
     /**
