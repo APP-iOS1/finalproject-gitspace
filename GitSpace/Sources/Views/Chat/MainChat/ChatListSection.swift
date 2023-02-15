@@ -60,7 +60,7 @@ struct ChatListSection: View {
 			   !tabBarRouter.navigateToChat {
 				async let fetchDone = chatStore.requestPushedChat(chatID: chatID)
 				pushedChat = await fetchDone
-				tabBarRouter.navigateToChat = true
+				tabBarRouter.navigateToChat.toggle()
 			}
 		}
     }
