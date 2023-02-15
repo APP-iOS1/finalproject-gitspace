@@ -51,7 +51,7 @@ struct MessageCell : View {
                 
                 // UserName과 Message Bubble 부분
                 VStack (alignment: .leading, spacing: 6) {
-                    Text(targetName)
+                    GSText.CustomTextView(style: .caption1, string: targetName)
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
