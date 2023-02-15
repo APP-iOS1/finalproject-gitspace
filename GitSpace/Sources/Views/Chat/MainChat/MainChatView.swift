@@ -11,20 +11,15 @@ struct MainChatView: View {
     
     @EnvironmentObject var chatStore : ChatStore
     @State private var showGuideCenter: Bool = false
+	@State public var chatID: String? = nil
     
     var body: some View {
         
         ScrollView {
             ChatUserRecommendationSection()
 				.padding()
-            
             Divider()
-            
-            Text("채팅방 개수 : \(chatStore.chats.count)")
-            Text("로그인 유저 ID : \(Utility.loginUserID)")
-            
-            Divider()
-            ChatListSection()
+            ChatListSection(chatID: $chatID)
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")

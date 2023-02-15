@@ -158,7 +158,8 @@ struct MainKnockView: View {
 			}
         } // VStack
 		.task {
-			if let knockID {
+			if let knockID,
+			   !tabBarRouter.navigateToKnock {
 				async let eachKnock = knockViewManager.requestKnockWithID(knockID: knockID)
 				pushedKnock = await eachKnock
 				tabBarRouter.navigateToKnock.toggle()

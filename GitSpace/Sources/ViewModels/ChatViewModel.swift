@@ -120,16 +120,11 @@ extension ChatStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("Chat Added")
                         self.listenerAddChat(change: diff.document)
-                        
                     case .modified:
-                        print("Chat Modified")
                         self.listenerUpdateChat(change: diff.document)
-                        
                     case .removed:
-                        print("Chat Removed")
-                        
+                        let a = 1
                     }
                 }
             }
@@ -188,6 +183,20 @@ extension ChatStore {
 
         await writeChats(chats: newChats)
     }
+	
+	// MARK: - PUSHED CHAT GENERATOR
+	public func requestPushedChat(chatID: String) async -> Chat? {
+		let doc = db.collection("Chat").document(chatID)
+		do {
+			let pushedChat = try await doc.getDocument(as: Chat.self)
+			let targetUserName = await pushedChat.targetUserName
+			targetNameDict[pushedChat.id] = targetUserName
+			return pushedChat
+		} catch {
+			dump("DEBUG: \(#file)-\(#function): get pushed Chat FALIED")
+			return nil
+		}
+	}
     
     // MARK: -Chat CRUD
     func addChat(_ chat: Chat) {

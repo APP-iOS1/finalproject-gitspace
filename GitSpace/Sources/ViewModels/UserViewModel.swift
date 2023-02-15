@@ -48,6 +48,32 @@ class UserStore : ObservableObject {
             }
         }
     }
+	
+	// MARK: - PUSHED VIEW를 그릴 때 상대방의 정보를 가져오는 메소드
+	public func requestAnotherUserInfoWithID(userID: String) async -> UserInfo? {
+		let doc = db.collection("UserInfo").document(userID)
+		
+		do {
+			let userInfo = try await doc.getDocument(as: UserInfo.self)
+			return userInfo
+		} catch {
+			dump("\(#file), \(#function) - DEBUG \(error.localizedDescription)")
+			return nil
+		}
+	}
+	
+	// MARK: - User 의 device token을 서버에 업데이트 합니다.
+	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
+		do {
+			let document = db.collection("UserInfo").document(userID)
+			try await document.updateData([
+				"deviceToken": deviceToken
+			])
+		} catch {
+			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
+		}
+	
+	}
     
     private func getUserDocuments() async -> QuerySnapshot? {
         do {
@@ -123,7 +149,8 @@ class UserStore : ObservableObject {
         do {
             let newUser: UserInfo = .init(id: user.id,
                                           createdDate: user.createdDate,
-                                          githubUserName: user.githubUserName,
+										  githubUserName: user.githubUserName,
+										  githubID: user.githubID,
                                           deviceToken: user.deviceToken,
                                           emailTo: user.emailTo,
                                           blockedUserIDs: newBlockedUserIDs)

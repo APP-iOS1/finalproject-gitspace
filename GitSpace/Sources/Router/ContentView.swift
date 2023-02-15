@@ -18,6 +18,7 @@ struct ContentView: View {
 	@EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
+	@EnvironmentObject var pushNotificationManager: PushNotificationManager
     
     var body: some View {
         /**
@@ -35,21 +36,32 @@ struct ContentView: View {
                     }
                     .edgesIgnoringSafeArea(.horizontal)
                     .edgesIgnoringSafeArea(.bottom)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    
+                    // MARK: - DEVICE가 SE인 경우
                 } else {
                     VStack(spacing: -10) {
                         showCurrentTabPage()
                         showGSTabBar(geometry: geometry)
                     }
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
-                    
-                
-                
             }
+            
         }
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
             if let uid = githubAuthManager.authentification.currentUser?.uid {
+				await userStore.updateUserDeviceToken(
+					userID: uid,
+					deviceToken: pushNotificationManager.currentUserDeviceToken
+					?? "PUSHNOTIFICATION NOT GRANTED"
+				)
+                
+				// userInfo 할당
+                Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
+				
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
             }
@@ -69,7 +81,7 @@ struct ContentView: View {
 			case .chats:
 				chats
 			case let .pushChats(id):
-				chats
+				MainChatView(chatID: id)
 			case .knocks:
 				knocks
 			case let .pushKnocks(id):
@@ -89,10 +101,10 @@ struct ContentView: View {
         return GSTabBarBackGround.CustomTabBarBackgroundView(style: .rectangle(backGroundColor: .black)) {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .stars, geometry: geometry, isSystemImage: true, imageName: "sparkles", tabName: "Stars")
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .chats, geometry: geometry, isSystemImage: true, imageName: "bubble.left", tabName: "Chats")
-            GSTabBarIcon(tabBarRouter: tabBarRouter, page: .knocks, geometry: geometry, isSystemImage: true, imageName: "door.left.hand.closed", tabName: "Knocks")
+            GSTabBarIcon(tabBarRouter: tabBarRouter, page: .knocks, geometry: geometry, isSystemImage: false, imageName: "KnockTabBarIcon", tabName: "Knocks")
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .profile, geometry: geometry, isSystemImage: false, imageName: "avatarImage", tabName: "Profile")
         }
-        .frame(width: geometry.size.width, height: 60)
+        .frame(width: geometry.size.width, height: 48)
 //        .padding(.bottom, 20)
     }
     

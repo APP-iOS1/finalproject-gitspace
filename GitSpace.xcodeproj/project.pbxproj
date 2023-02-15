@@ -117,8 +117,8 @@
 		7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068B6C12976952B005D6B7B /* MainProfileView.swift */; };
 		706BDE422988E2E800284F0F /* KnockHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE412988E2E800284F0F /* KnockHistoryView.swift */; };
 		706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706BDE462988FBE000284F0F /* Date+DateDiff.swift */; };
+		70724EE9299C9CCF0067FEE7 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */; };
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
-		7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */; };
 		708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
 		708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
@@ -130,7 +130,6 @@
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
 		70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */; };
 		70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF3299B4301009948FC /* Assets.xcassets */; };
-		70BB6CF8299B753E009948FC /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -251,8 +250,8 @@
 		7068B6C12976952B005D6B7B /* MainProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProfileView.swift; sourceTree = "<group>"; };
 		706BDE412988E2E800284F0F /* KnockHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockHistoryView.swift; sourceTree = "<group>"; };
 		706BDE462988FBE000284F0F /* Date+DateDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateDiff.swift"; sourceTree = "<group>"; };
+		70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		707E58F529799449007F4ADF /* GSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextField.swift; sourceTree = "<group>"; };
-		7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSPushNotificationRouter.swift; sourceTree = "<group>"; };
 		7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+ColorScheme.swift"; sourceTree = "<group>"; };
 		7095265E297F8F4D00F97E27 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		7095CFA3297EB913000F2BF6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -263,7 +262,6 @@
 		70BB6CE3299B1DCD009948FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
 		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		70BB6CF7299B753E009948FC /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		70BB6CFA299B769D009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 			children = (
 				70BB6CE1299B1DA7009948FC /* ContentView.swift */,
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
-				7085D9FD2994D46400AC28AD /* GSPushNotificationRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -561,7 +558,7 @@
 		7068B69B29769448005D6B7B = {
 			isa = PBXGroup;
 			children = (
-				70BB6CF7299B753E009948FC /* Secrets.xcconfig */,
+				70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */,
 				7068B6A629769448005D6B7B /* GitSpace */,
 				7068B6A529769448005D6B7B /* Products */,
 				70D07379297D69CE0049A359 /* Frameworks */,
@@ -818,7 +815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
-				70BB6CF8299B753E009948FC /* Secrets.xcconfig in Resources */,
+				70724EE9299C9CCF0067FEE7 /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
@@ -855,7 +852,6 @@
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
-				7085D9FE2994D46400AC28AD /* GSPushNotificationRouter.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
 				225A22D7299778A900786B35 /* GitHubService.swift in Sources */,
@@ -971,7 +967,7 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
+			baseConfigurationReference = 70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1033,7 +1029,7 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
+			baseConfigurationReference = 70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1089,7 +1085,7 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
+			baseConfigurationReference = 70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1126,7 +1122,7 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70BB6CF7299B753E009948FC /* Secrets.xcconfig */;
+			baseConfigurationReference = 70724EE8299C9CCF0067FEE7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
