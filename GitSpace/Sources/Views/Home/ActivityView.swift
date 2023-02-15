@@ -22,6 +22,16 @@ struct ActivityView: View {
                     ActivityFeedView(service: gitHubService, number: number)
                     Divider()
                 }
-            } // vstack
+            } // ScrollView
+            .task {
+                let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: "jekyun-park", page: 1)
+                
+                switch activitiesResult {
+                case .success(let events):
+                    print(events)
+                case .failure(let error):
+                    print(error)
+                }
+            }
     } // body
 }
