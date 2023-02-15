@@ -149,7 +149,8 @@ final class GitHubAuthManager: ObservableObject {
                     guard let result, result.exists else {
                         let newUser: UserInfo = .init(id: uid,
                                                       createdDate: Date.now,
-                                                      githubUserName: githubUser.login,
+													  githubUserName: githubUser.login,
+													  githubID: githubUser.id,
                                                       deviceToken: "",
                                                       emailTo: githubUser.email,
                                                       blockedUserIDs: [])
