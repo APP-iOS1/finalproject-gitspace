@@ -35,7 +35,7 @@ struct StarredView: View {
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
 //        guard let tags = repositoryViewModel.tags else { return }
-        for (index, item) in Array(zip(tagViewModel.tags.indices, tagViewModel.tags ?? [])) {
+        for (index, item) in Array(zip(tagViewModel.tags.indices, tagViewModel.tags)) {
             if item.id == tag.id {
                 tagViewModel.tags[index].isSelected = false
             }
@@ -86,6 +86,11 @@ struct StarredView: View {
                             ) {
                                 withAnimation {
                                     removeTag(at: index, tag: tag)
+                                    if !selectedTagList.isEmpty {
+                                        filterRepository()
+                                    } else {
+                                        repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                                    }
                                 }
                             } label: {
                                 Text("\(tag.tagName)")
@@ -106,8 +111,8 @@ struct StarredView: View {
                 /* repository list */
                 ScrollView {
                     
-                    if let repo = repositoryViewModel.repositories {
-                        if repo.isEmpty {
+                    if let repositories = repositoryViewModel.filteredRepositories {
+                        if repositories.isEmpty {
                             VStack(spacing: 10) {
                                 Image("GitSpace-Star-Empty")
                                     .resizable()
@@ -120,7 +125,7 @@ struct StarredView: View {
                                     .multilineTextAlignment(.center)
                             }
                         } else {
-                            ForEach(repositoryViewModel.repositories!) { repository in
+                            ForEach(repositories) { repository in
                                 ZStack {
                                     GSCanvas.CustomCanvasView(style: .primary) {
                                         HStack {
@@ -166,9 +171,6 @@ struct StarredView: View {
                                                     Button(action: { print("Chat") }) {
                                                         Label("Chat", systemImage: "message")
                                                     }
-                                                    //                                            Button(action: { print("Modify Tags") }) {
-                                                    //                                                Label("Modify Tags", systemImage: "tag")
-                                                    //                                            }
                                                 }
                                                 
                                                 Section {
@@ -194,14 +196,22 @@ struct StarredView: View {
                     } // if-let repo
                 } // ScrollView
             }
-            .onAppear{
+            .onAppear {
                 Task {
-                    await repositoryViewModel.requestStarredRepositories(page: 1)
+                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
+                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                    if !selectedTagList.isEmpty {
+                        filterRepository()
+                    }
                 }
             }
             .refreshable {
                 Task {
-                    await repositoryViewModel.requestStarredRepositories(page: 2)
+                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
+                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                    if !selectedTagList.isEmpty {
+                        filterRepository()
+                    }
                 }
             }
         }
@@ -210,6 +220,16 @@ struct StarredView: View {
         }
         .onTapGesture {
             self.endTextEditing()
+        }
+    }
+    
+    func filterRepository() {
+        Task {
+            let filteredRepositoriesList = await repositoryViewModel.filterRepositories(by: selectedTagList)
+            let filteredRepositories = repositoryViewModel.repositories?.filter({ repo in
+                return filteredRepositoriesList!.contains(repo.fullName)
+            })
+            repositoryViewModel.filteredRepositories = filteredRepositories!
         }
     }
 }
