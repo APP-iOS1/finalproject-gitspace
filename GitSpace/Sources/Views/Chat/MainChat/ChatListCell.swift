@@ -38,12 +38,6 @@ struct ChatListCell : View {
                 
                 // MARK: - 안읽은 메시지 갯수 표시
                 if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
-//                    Capsule()
-//                            .fill(Color.unreadMessageCapsule)
-//                            .overlay(
-//                                Text("\(count)")
-//                                    .foregroundColor(Color.unreadMessageText)
-//                            )
                     Text("\(count)")
                         .foregroundColor(Color.unreadMessageText)
                         .padding(5)
