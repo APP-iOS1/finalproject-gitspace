@@ -47,7 +47,7 @@ struct RepositoryDetailView: View {
             Spacer()
             
             GSNavigationLink(style: .primary) {
-                ContributorListView()
+                ContributorListView(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")

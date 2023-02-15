@@ -44,6 +44,8 @@ final class GitHubAuthManager: ObservableObject {
         githubPermissionPreconfigure()
     }
     
+    static let sampleUser: GitHubUser = GitHubUser(id: 123, login: "octo", name: "cuty_octo", email: "gitspace.rbg@gmail.com", avatar_url: "https://avatars.githubusercontent.com/u/124763259?v=4", bio: "I'm Cuty Octo!", company: "GitSpace RBG", location: "Space", blog: "https://gitspace.tistory.com", public_repos: 0, followers: 7, following: 7)
+    
     // MARK: - GitHub OAuth 연결 설정
     /// GitHub OAuth를 사용하기 위해 필요한 설정들을 세팅합니다.
     func githubPermissionPreconfigure() {
