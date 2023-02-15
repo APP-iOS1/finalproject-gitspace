@@ -26,8 +26,8 @@ struct GSLabelModifier: ViewModifier {
 		case .secondary:
 			content
 				.foregroundColor(colorScheme == .light ? .black : .black)
-				.padding(.horizontal, 23)
-				.padding(.vertical, 8)
+				.padding(.horizontal, 20)
+				.padding(.vertical, 10)
 				.frame(minWidth: 80)
 				.frame(maxHeight: maxHeight)
 				
