@@ -93,6 +93,13 @@ struct ChatRoomView: View {
                                              deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
         }
+        .onChange(of: messageStore.deletedMessage?.id) { id in
+            if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
+                Task {
+                    await deleteContent(message: deletedMessage)
+                }
+            }
+        }
         .onDisappear {
             Task {
                 // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
@@ -113,16 +120,16 @@ struct ChatRoomView: View {
             if isMine {
                 MessageCell(message: message, targetName: targetUserName)
                     .padding(.vertical, -5)
-                    .contextMenu {
-                        Button {
-                            Task {
-                                await deleteContent(message: message)
-                            }
-                        } label: {
-                            Text("Delete Message")
-                            Image(systemName: "trash")
-                        }
-                    }
+//                    .contextMenu {
+//                        Button {
+//                            Task {
+//                                await deleteContent(message: message)
+//                            }
+//                        } label: {
+//                            Text("Delete Message")
+//                            Image(systemName: "trash")
+//                        }
+//                    }
             } else {
                 MessageCell(message: message, targetName: targetUserName)
                     .padding(.vertical, -5)
