@@ -19,6 +19,7 @@ final class MessageStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
+    let chatStore: ChatStore = .init()
     
     init() {
         messages = []
@@ -152,8 +153,7 @@ extension MessageStore {
                     switch diff.type {
                     case .added:
                         print("Message Added")
-                        let newMessage = self.fetchNewMessage(change: diff.document)
-                        if let newMessage {
+                        if let newMessage = self.fetchNewMessage(change: diff.document) {
                             self.messages.append(newMessage)
                             // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
                             self.isMessageAdded.toggle()

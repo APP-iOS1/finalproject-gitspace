@@ -54,6 +54,7 @@ final class ChatStore: ObservableObject {
         targetNameDict = [:]
         isDoneFetch = false
     }
+    
 }
 
 // MARK: -Extension : Chat Listener 관련 메서드를 모아둔 익스텐션
@@ -69,7 +70,7 @@ extension ChatStore {
     // MARK: Method : 추가된 문서 필드에 접근하여 Chat 객체를 만들어 반환하는 메서드
     private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
         do {
-            var newChat = try change.data(as: Chat.self)
+            let newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
             print("Fetch New Chat in Chat Listener Error : \(error)")
@@ -184,9 +185,7 @@ extension ChatStore {
                 }
             }
         }
-        
-        // MARK: Memo - Published에 관여하는 파트만 main thread를 사용하기 위해 @MainActor를 삭제하고 부분적으로 main thread 사용 by. 태영
-        // 230207 추가 : 동시성 코드에서 변경할 수 없는 프로퍼티 혹은 인스턴스를 변경하는 것은 불가. MainActor로 다시 교체
+
         await writeChats(chats: newChats)
     }
     
@@ -206,7 +205,8 @@ extension ChatStore {
             try await db.collection("Chat")
                 .document(chat.id)
                 .updateData(["lastContentDate" : chat.lastContentDate,
-                             "lastContent" : chat.lastContent])
+                             "lastContent" : chat.lastContent,
+                             "unreadMessageCount" : chat.unreadMessageCount])
         } catch {
             print("Error-ChatViewModel-updateChat : \(error.localizedDescription)")
         }
