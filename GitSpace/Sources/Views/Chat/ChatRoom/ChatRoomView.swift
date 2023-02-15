@@ -108,18 +108,25 @@ struct ChatRoomView: View {
     // MARK: View : message cells ForEach문
     private var messageCells: some View {
         ForEach(messageStore.messages) { message in
-            MessageCell(message: message, targetName: targetUserName)
-                .padding(.vertical, -5)
-                .contextMenu {
-                    Button {
-                        Task {
-                            await deleteContent(message: message)
+            let isMine = userStore.user?.id == message.senderID
+            
+            if isMine {
+                MessageCell(message: message, targetName: targetUserName)
+                    .padding(.vertical, -5)
+                    .contextMenu {
+                        Button {
+                            Task {
+                                await deleteContent(message: message)
+                            }
+                        } label: {
+                            Text("Delete Message")
+                            Image(systemName: "trash")
                         }
-                    } label: {
-                        Text("Delete Message")
-                        Image(systemName: "trash")
                     }
-                }
+            } else {
+                MessageCell(message: message, targetName: targetUserName)
+                    .padding(.vertical, -5)
+            }
         }
     }
     
