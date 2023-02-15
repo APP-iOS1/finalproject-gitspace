@@ -8,98 +8,107 @@
 import SwiftUI
 
 struct ContributorListView: View {
+    
+    @ObservedObject var contributorManager: ContributorViewModel
+    let gitHubService: GitHubService
+    let repository: Repository
+    
+    init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
+        self.gitHubService = service
+        self.repository = repository
+        self.contributorManager = contributorManager
+    }
+    
     @Environment(\.colorScheme) var colorScheme
     
     let contributors: [String] = ["contributor1", "contributor2", "contributor3"]
     
     var body: some View {
-        VStack(alignment: .leading) {
-            
+        
+        ScrollView {
             Spacer()
-                .frame(height: 30)
+                .frame(height: 20)
             
-            // MARK: - 안내 메시지 ( ~하세요 -> ~하시겠어요? 질문형으로 변경)
             GSText.CustomTextView(
                 style: .title2,
                 string: "Who do you want to chat with?")
-                .padding(.leading, 10)
-                .padding(.bottom, 5)
+            .padding(.leading, 10)
+            .padding(.bottom, -5)
             
+            // MARK: - 상황별 마스코트 이미지
+            /* 노트 시나리오의 시각적 힌트 제공 */
             HStack {
                 Spacer()
                 
-                // MARK: - 상황별 마스코트 이미지
-                /* 노트 시나리오의 시각적 힌트 제공 */
                 Image("GitSpace-ContributorListView")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: UIScreen.main.bounds.width - 250)
                     .padding(.vertical, 30)
-//                    .opacity(0.7)
                 
                 Spacer()
             }
             
-            
-            
             // MARK: - 컨트리뷰터 명단 스크롤 뷰
             /* 서브 캡션 */
-            GSText.CustomTextView(
-                style: .caption1,
-                string: "Choose a user to start your chat.")
-                .padding(.leading, 10)
+            HStack {
+                GSText.CustomTextView(
+                    style: .caption1,
+                    string: "Choose a user to start your chat.")
+                Spacer()
+            }
+            .padding(.leading, 20)
+            .padding(.bottom, 5)
             
-            ScrollView {
-                ForEach(contributors, id:\.self) { contributor in
-                    NavigationLink(destination: {
-                        SendKnockView()
-                    }, label: {
-                        HStack() {
+            ForEach(contributorManager.contributors) { user in
+                
+                NavigationLink(destination: SendKnockView()) {
+                    
+                    let url = URL(string: user.avatar_url)
+                    
+                    GSCanvas.CustomCanvasView.init(style: .primary, content: {
+                        
+                        HStack(spacing: 15) {
                             /* 유저 프로필 이미지 */
-                            Image("avatarImage")
-                                .frame(width: 40)
-                                .padding(.trailing, 10)
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 40, height: 40)
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                Image("avatarImage")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            } // AsyncImage
                             
-                            /* 유저네임 */
-                            GSText.CustomTextView(
-                                style: .title3,
-                                string: contributor)
+                            VStack(alignment: .leading) {
+                                /* 유저네임 */
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: user.name ?? user.login)
+                                
+                                /* 유저ID */
+                                GSText.CustomTextView(
+                                    style: .sectionTitle,
+                                    string: user.login)
+                            }
                             
                             Spacer()
-                        }
-                        .padding(.horizontal, 20)
-                    })
-                    .padding(.vertical, 25)
-                    .contentShape(Rectangle())
-                    
-                    // TODO: - 추상화 후 백그라운드를 캔버스 디자인시스템으로 바꾸기
-                    .background(
-                        RoundedRectangle(cornerRadius: 17)
-                            .fill(.white)
-                            .shadow(
-                                color: Color(.systemGray5),
-                                radius: 6,
-                                x: 0, y: 2)
-                            .padding(.vertical, 5)
-                    )
-                }
-
-                .padding(.horizontal, 10)
-                
-                
-
-            }
-            
-            Spacer()
-           
-        }
-        .padding(.horizontal, 10)
-       
-    }
+                            
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gsGray2)
+                        } // HStack
+                    }) // GSCanvas
+                } // NavigationLink
+                .padding(.horizontal, 20)
+            } // ForEach
+        } // ScrollView
+    } // body
 }
 
-struct ContributorListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContributorListView()
-    }
-}
+//struct ContributorListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContributorListView()
+//    }
+//}
