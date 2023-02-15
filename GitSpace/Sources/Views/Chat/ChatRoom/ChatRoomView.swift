@@ -32,12 +32,9 @@ struct ChatRoomView: View {
     var body: some View {
         
         VStack {
-            Text("messageCount : " + String(messageStore.messages.count))
-            Text("unreadMessageIndex : " + String(unreadMessageIndex ?? 0))
             // 채팅 메세지 스크롤 뷰
             ScrollViewReader { proxy in
                 ScrollView {
-                    
                     TopperProfileView()
                     
                     Divider()
@@ -55,7 +52,14 @@ struct ChatRoomView: View {
                     
                 }
                 .onChange(of: unreadMessageIndex) { state in
-                    proxy.scrollTo("Start", anchor: .top)
+                    Task {
+                        if await getUnreadCount() == 0 {
+                            proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                        } else {
+                            proxy.scrollTo("Start", anchor: .top)
+                        }
+                    }
+                    
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
                     if messageStore.isFetchMessagesDone {
