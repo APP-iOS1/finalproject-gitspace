@@ -25,9 +25,17 @@ struct ChatDetailKnockSection: View {
                 Spacer()
             }
             
+            GSCanvas.CustomCanvasView(style: .primary) {
+                HStack {
+                    Spacer()
+                    GSText.CustomTextView(style: .body1, string: chat.knockContent)
+                    Spacer()
+                }
+            }
+            .padding(.horizontal, 20)
             
-            Text(chat.knockContent)
-                .modifier(KnockMessageModifier())
+//            Text(chat.knockContent)
+//                .modifier(KnockMessageModifier())
            
         }
     }
