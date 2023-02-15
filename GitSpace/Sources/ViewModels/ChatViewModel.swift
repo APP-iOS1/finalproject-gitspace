@@ -120,16 +120,11 @@ extension ChatStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("Chat Added")
                         self.listenerAddChat(change: diff.document)
-                        
                     case .modified:
-                        print("Chat Modified")
                         self.listenerUpdateChat(change: diff.document)
-                        
                     case .removed:
-                        print("Chat Removed")
-                        
+                        let a = 1
                     }
                 }
             }
