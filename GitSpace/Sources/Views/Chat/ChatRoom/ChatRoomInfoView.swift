@@ -36,6 +36,7 @@ struct ChatRoomInfoView: View {
                     
                     // 알림 일시중지
                     Toggle("Notifications Receive Enable", isOn: $isNotificationReceiveEnable)
+                        .toggleStyle(SwitchToggleStyle(tint: .gsGreenPrimary))
                 }
                 
                 Divider()

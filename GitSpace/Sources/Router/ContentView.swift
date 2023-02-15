@@ -15,6 +15,7 @@ struct ContentView: View {
     let profile = MainProfileView()
     
     @StateObject var tabBarRouter: GSTabBarRouter
+	@EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
     
@@ -26,12 +27,23 @@ struct ContentView: View {
          */
         GeometryReader { geometry in
             NavigationView {
-                VStack(spacing: -10) {
-                    showCurrentTabPage()
-                    showGSTabBar(geometry: geometry)
+                
+                if UIScreen().isWiderThan375pt {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
+                    .edgesIgnoringSafeArea(.horizontal)
+                    .edgesIgnoringSafeArea(.bottom)
+                } else {
+                    VStack(spacing: -10) {
+                        showCurrentTabPage()
+                        showGSTabBar(geometry: geometry)
+                    }
                 }
-                .edgesIgnoringSafeArea(.horizontal)
-                .edgesIgnoringSafeArea(.bottom)
+                    
+                
+                
             }
         }
         .task {
@@ -50,16 +62,24 @@ struct ContentView: View {
      - Author: 제균
      */
     @ViewBuilder private func showCurrentTabPage() -> some View {
-        switch tabBarRouter.currentPage {
-        case .stars:
-            stars
-        case .chats:
-            chats
-        case .knocks:
-            knocks
-        case .profile:
-            profile
-        }
+		if let tabPagenation = tabBarRouter.currentPage {
+			switch tabPagenation {
+			case .stars:
+				stars
+			case .chats:
+				chats
+			case let .pushChats(id):
+				chats
+			case .knocks:
+				knocks
+			case let .pushKnocks(id):
+				MainKnockView(knockID: id)
+			case .profile:
+				profile
+			}
+		} else {
+			stars
+		}
     }
     
     /**
@@ -73,7 +93,7 @@ struct ContentView: View {
             GSTabBarIcon(tabBarRouter: tabBarRouter, page: .profile, geometry: geometry, isSystemImage: false, imageName: "avatarImage", tabName: "Profile")
         }
         .frame(width: geometry.size.width, height: 60)
-                .padding(.bottom, 20)
+//        .padding(.bottom, 20)
     }
     
 }
@@ -85,5 +105,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(MessageStore())
             .environmentObject(UserStore())
             .environmentObject(RepositoryViewModel())
+            .environmentObject(TagViewModel())
     }
 }

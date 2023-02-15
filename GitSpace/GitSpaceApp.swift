@@ -11,7 +11,6 @@ import SwiftUI
 struct GitSpaceApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    let tabBarRouter = GSTabBarRouter()
     
     // MARK: - 한호
     // TODO: - AppStorage 관련된 변수들 다른 곳에 옮기기 by.한호
@@ -34,15 +33,21 @@ struct GitSpaceApp: App {
     
     var body: some Scene {
 		let tabBarRouter = delegate.tabBarRouter
-		let notificationRouter = delegate.pushNotificationRouter
+		let notificationManager = delegate.pushNotificationManager
 		
         WindowGroup {
+            // !!!: - FCM Test를 진행할 때만 각주를 해제합니다.
+            // PushNotificationTestView()
+
             InitialView(tabBarRouter: tabBarRouter)
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
                 .environmentObject(UserStore())
                 .environmentObject(RepositoryViewModel())
+                .environmentObject(TagViewModel())
                 .environmentObject(GitHubAuthManager())
+                .environmentObject(KnockViewManager())
+                .environmentObject(tabBarRouter)
                 .preferredColorScheme(selectedAppearance)
         }
     }

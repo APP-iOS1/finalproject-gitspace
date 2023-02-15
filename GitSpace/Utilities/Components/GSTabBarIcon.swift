@@ -13,69 +13,75 @@ import SwiftUI
  - Author: 제균
  */
 struct GSTabBarIcon: View {
-    
+
     @Environment(\.colorScheme) var colorScheme
     @StateObject var tabBarRouter: GSTabBarRouter
-    
+
     let page: GSTabBarRouter.Page
     let geometry: GeometryProxy
     let isSystemImage: Bool
     let imageName: String
     let tabName: String
-    
+
     private var width: CGFloat {
-        geometry.size.width/4
+        geometry.size.width / 4
     }
-    
+
     /**
      탭바 아이콘의 높이
      
      */
     private var height: CGFloat {
-        geometry.size.height/56
+        geometry.size.height / 56
     }
-    
-    
+
+
     var body: some View {
-        VStack {
-            
-            withAnimation {
-                tabBarRouter.currentPage == page ?
-                
-                VStack {
+
+        GeometryReader { geometry in
+
+//            withAnimation {
+			if tabBarRouter.currentPage ?? GSTabBarRouter.Page.stars == page {
                     Rectangle()
                         .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
-                        .frame(width:width/2, height: 4)
+                        .frame(width: width / 2, height: 4)
+                        .padding(.leading, geometry.size.width / 4)
                         .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
                 }
-                : VStack {
-                    Rectangle()
-                        .foregroundColor(.black)
-                        .frame(height: 0)
-                        .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
-                }
+                //                :
+                //                    Rectangle()
+                //                    .foregroundColor(.black)
+                //                    .frame(width: width / 2, height: 4)
+                //                    .padding(.leading, geometry.size.width/4)
+                //                    .cornerRadius(5, corners: [.bottomLeft, .bottomRight])
+
+//            }
+
+            VStack(alignment: .center, spacing: 4) {
+
+                isSystemImage ? Image(systemName: imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: width, height: height)
+                : Image(imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: width, height: height)
+
+                Text(tabName)
+                    .font(.footnote)
             }
-            
-            isSystemImage ? Image(systemName: imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: width, height: height)
-            : Image(imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: width, height: height)
-            
-            Text(tabName)
-                .font(.footnote)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
+//                .padding(.horizontal, -4)
+                .onTapGesture {
+                tabBarRouter.currentPage = page
+            }
         }
-        .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
-        .padding(.horizontal, -4)
-        .onTapGesture {
-            tabBarRouter.currentPage = page
-        }
+
     }
-    
-    
+
+
 }
 
 struct GSTabBarIcon_Previews: PreviewProvider {
