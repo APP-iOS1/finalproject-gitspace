@@ -16,7 +16,8 @@ import FirebaseFirestore
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
-    @Published var deletedMessage: Message?
+    @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
+    @Published var isFetchMessagesDone: Bool = false
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -49,6 +50,7 @@ extension MessageStore {
     @MainActor
     private func writeMessages(messages: [Message]) {
         self.messages = messages
+        isFetchMessagesDone = true
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
