@@ -16,13 +16,75 @@
 ### 🙆🏻‍♂️ 페르소나
 1. 스타한 레포지토리와 관심 레포지토리에 태그를 달아 관리하고 싶은 사용자.
 2. 레포지토리의 기여자와 자유롭게 소통하고 싶은 사용자.
-3. (추가 작성중)
+3. 여러 사람들의 테크 질문이나 궁금증을 도와주고 더 많은 영향력을 행사하고 싶은 개발자.
 
 ---
 
 ### 🪢 앱 디자인 시스템
-```markdown
-- 공사중
+```Swift
+// MARK: - GitSpace 버튼
+let gsButton = GSButton.CustomButtonView(
+    style: GSButtonStyle,
+    action: @escaping () -> Void,
+    @ViewBuilder label: () -> CustomLabelType) {
+        self.style = style
+        self.action = action
+        self.label = label()
+}
+
+// MARK: - GitSpace 텍스트에디터
+let gsTextEditor = GSTextEditor.CustomTextEditorView(
+    style: GSTextEditorStyle,
+    text: Binding<String>,
+    font: Font = .body,
+    lineSpace: CGFloat = 2) {
+        self.style = style
+        self.text = text
+        self.font = font
+        self.lineSpace = lineSpace
+}
+
+// MARK: - GitSpace 텍스트필드
+let gsTextField = GSTextField.CustomTextFieldView(
+    style: GSTextFieldStyle,
+    text: Binding<String>) {
+        self.style = style
+        self.text = text
+}
+
+// MARK: - GitSpace 캔버스(도화지)
+let gsCanvas = GSCanvas.CustomCanvasViewinit(
+    style: GSCanvasStyle,
+    @ViewBuilder content: () -> Content) {
+        self.style = style
+        self.content = content()
+}
+
+// MARK: - GitSpace 네비게이션링크
+let gsNavigationLink = GSNavigationLink(
+    style: Constant.LabelHierarchy,
+    destination: @escaping () -> Destination,
+    label: @escaping () -> Label) {
+        self.style = style
+        self.destination = destination()
+        self.label = label()
+}
+
+// MARK: - GitSpace 텍스트
+let gsText = GStext.CustomTextView(
+    style: GSTextStyle,
+    string: String) {
+        self.style = style
+        self.string = string
+}
+
+// MARK: - GitSpace 커스텀탭바
+let gsTabBar = GSTabBarBackGround.CustomTabBarBackgroundView(
+    style: GSTabBarBackGroundStyle,
+    @ViewBuilder content: () -> Content) {
+        self.style = style
+        self.content = content()
+}
 ```
 
 ---
@@ -30,12 +92,13 @@
 
 - 사용자가 스타했던 레포지토리를 관리하고 기록할 수 있습니다.
 - 버전관리 온라인 서비스를 이용하는 사용자들의 자유로운 네트워킹을 가능하게 합니다.
-- 팔로우한 개발자의 활동 피드를 보고 자유롭게 채팅을 시작할 수 있습니다.
+- 팔로우하거나 사용자가 Star 한 다른 사용자에게 Knock Message를 발신하고, 대화를 시작할 수 있습니다.
+- 개발자의 활동 피드를 보고 자유롭게 대화를 시작할 수 있습니다.
 
 ---
 
 ## 👋🏻 팀원 소개
-| <img src = "https://emojis.slackmojis.com/emojis/images/1643514229/1971/coin.gif?1643514229" width=23>[ 이승준 ] <br/><img src="https://emojis.slackmojis.com/emojis/images/1643514058/149/sonic.gif?1643514058" width = 23>[@valselee](https://github.com/valselee)<br/> "GitSpace로 부자되기" | <img src = "https://emojis.slackmojis.com/emojis/images/1673874371/63572/lick.gif?1673874371" width=23>[ 이다혜 ]<br/> [@dahae0320](https://github.com/dahae0320)<br/> "음~ 맛있다~ <br> 마트, 다녀오셨어요?" | <img src = "https://emojis.slackmojis.com/emojis/images/1643514093/516/success.png?1643514093" width =23 > [ 박제균 ]<br/> [@jekyun-park](https://github.com/jekyun-park)<br/> "GitSpace는 *제굴맨*이 <br> 처리했으니 안심하라구!" | <img src="https://w.namu.la/s/fb074c9e538edb0b41d818df3cb7b5499a844aeb5e8becc3ce1664468c885d883e8a8243a33eefc11e107b8d7dbbf77a410d78675770117a6654984ebe73f2f2eb846d97e660cdc8ab76067ddad22f95014da9fa13849677dfabb3c8761f5798">[ 원태영 ]<img src="http://play.pokemonshowdown.com/sprites/xyani/emolga.gif" width=30><br/>[@wontaeyoung](https://github.com/wontaeyoung)<br/> "GitSpace 스크롤 담당일진(희망)"  |
+| <img src = "https://emojis.slackmojis.com/emojis/images/1643514229/1971/coin.gif?1643514229" width=23>[ 이승준 ] <br/><img src="https://emojis.slackmojis.com/emojis/images/1643514058/149/sonic.gif?1643514058" width = 23>[@valselee](https://github.com/valselee)<br/> "Router를 싫어하는 사람" | <img src = "https://emojis.slackmojis.com/emojis/images/1673874371/63572/lick.gif?1673874371" width=23>[ 이다혜 ]<br/> [@dahae0320](https://github.com/dahae0320)<br/> "음~ 맛있다~ <br> 마트, 다녀오셨어요?" | <img src = "https://emojis.slackmojis.com/emojis/images/1643514093/516/success.png?1643514093" width =23 > [ 박제균 ]<br/> [@jekyun-park](https://github.com/jekyun-park)<br/> "GitSpace는 *제굴맨*이 <br> 처리했으니 안심하라구!" | <img src="https://w.namu.la/s/fb074c9e538edb0b41d818df3cb7b5499a844aeb5e8becc3ce1664468c885d883e8a8243a33eefc11e107b8d7dbbf77a410d78675770117a6654984ebe73f2f2eb846d97e660cdc8ab76067ddad22f95014da9fa13849677dfabb3c8761f5798">[ 원태영 ]<img src="http://play.pokemonshowdown.com/sprites/xyani/emolga.gif" width=30><br/>[@wontaeyoung](https://github.com/wontaeyoung)<br/> "GitSpace 스크롤 담당일진(희망)"  |
 | :----------------------------------------------------------: | :---------------------------------------------: | :------: | :-------------------------------------------------: |
 |<img src="https://avatars.githubusercontent.com/u/82270058?s=400&u=d173a9de9f19095cfb073a24b62cdfc56154f39d&v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/50159740?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/19788294?v=4" width=200>  | <img src="https://avatars.githubusercontent.com/u/45925685?v=4" width=200> |
 
@@ -45,18 +108,23 @@
 
 ---
 ## 🎨 앱 이미지
-<details>
-<summary> 프로토타입 버전 </summary>
-<div markdown="1">
 
-준비중
-</div>
-</details>
+| Home(login) | Home(Star) | Home(Activity) |
+| :--------: | :--------: | :--------: |
+| ![](https://i.imgur.com/pKlkB7W.png)|![](https://i.imgur.com/YxedwZd.png) | ![](https://i.imgur.com/neCUJwj.png) |
 
-### ✨ 최종 프로젝트 이미지
-<hr>
+| Chat | Chat(A) | Chat(B) |
+| :--------: | :--------: | :--------: |
+| ![](https://i.imgur.com/KMGsYU6.png) | ![](https://i.imgur.com/fc0HfiZ.png) | ![](https://i.imgur.com/f8sDOY0.png) |
 
-- 준비중
+| Knock | Knock(A) | Knock(B) |
+| :--------: | :--------: | :--------: |
+| ![](https://i.imgur.com/XfaFmDV.png) | ![](https://i.imgur.com/bavYMqD.png)| ![](https://i.imgur.com/mKBhCHn.png) |
+
+
+| Profile | Push Notification(A) | Push Notification(B) |
+|  :--------: |  :--------: |  :--------: |
+| ![](https://i.imgur.com/Iz4QhT2.png) | ![](https://i.imgur.com/yJ0r5hO.jpg)  |![](https://i.imgur.com/eE75gG2.png) |
 
 
 ---
@@ -74,8 +142,9 @@
 - [Chore] 코드 수정, 내부 파일 수정, 주석
 - [Add] Feat 이외의 부수적인 코드 추가, 라이브러리 추가, 새로운 파일 생성 시, 에셋 추가
 - [Fix] 버그, 오류 해결
-- [Del] 쓸모없는 코드 삭제
+- [Delete] 쓸모없는 코드 삭제
 - [Move] 파일 이름/위치 변경
+- [Update] 버전 업데이트
 ```
 
 ---
