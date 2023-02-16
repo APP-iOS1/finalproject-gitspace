@@ -12,7 +12,7 @@ struct StarGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("다시 보고 싶은 레포지토리 Star 해봅시다!")
+                        Text("Star the repository you want to see again!")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()

@@ -9,8 +9,8 @@ import SwiftUI
 
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
-	@EnvironmentObject var notificationManager: PushNotificationManager
-	@EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var notificationManager: PushNotificationManager
+    @EnvironmentObject var tabBarRouter: GSTabBarRouter
     
     enum MakeChatCase {
         case addContent
@@ -20,14 +20,14 @@ struct ChatRoomView: View {
     }
     
     let chat: Chat
-	
-	// 상대방의 이름
+    
+    // 상대방의 이름
     let targetUserName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
-    @State var isShowingUpdateCell: Bool = false
     @State private var contentField: String = ""
+    @State private var unreadMessageIndex: Int?
     
     var body: some View {
         
@@ -35,29 +35,36 @@ struct ChatRoomView: View {
             // 채팅 메세지 스크롤 뷰
             ScrollViewReader { proxy in
                 ScrollView {
-                    
                     TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 20)
                     
                     ChatDetailKnockSection(chat: chat)
+                        .padding(.bottom, 20)
                     
                     messageCells
                         .padding(.top, 10)
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 20)
                     
                     Text("")
                         .id("bottom")
                     
                 }
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                .onChange(of: unreadMessageIndex) { state in
+                    Task {
+                        if await getUnreadCount() == 0 {
+                            proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                        } else {
+                            proxy.scrollTo("Start", anchor: .top)
+                        }
                     }
+                    
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
-                    proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    if messageStore.isFetchMessagesDone {
+                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    }
                 }
             }
             
@@ -89,9 +96,11 @@ struct ChatRoomView: View {
         .task {
             messageStore.addListener(chatID: chat.id)
             await messageStore.fetchMessages(chatID: chat.id)
-            let enteredChat = await makeChat(makeChatCase: .enterChatRoom,
+            unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
+            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
                                              deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
+            
         }
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
@@ -109,15 +118,18 @@ struct ChatRoomView: View {
                 messageStore.removeListener()
             }
             
-			tabBarRouter.navigateToChat = false
+            tabBarRouter.navigateToChat = false
         }
     }
     
     // MARK: View : message cells ForEach문
     private var messageCells: some View {
-        ForEach(messageStore.messages) { message in
-            MessageCell(message: message, targetName: targetUserName)
-//                .padding(.vertical, -5)
+        ForEach(messageStore.messages.indices, id: \.self) { index in
+            
+            MessageCell(message: messageStore.messages[index],
+                        targetName: targetUserName)
+                .padding(.vertical, -5)
+                .id(index == unreadMessageIndex ? "Start" : "")
         }
     }
     
@@ -155,25 +167,25 @@ struct ChatRoomView: View {
     private var addContentButton : some View {
         Button {
             Task {
-				// 상대방의 id로 유저를 가져옵니다.
-				let sentFrom = userStore.user?.githubUserName
-				async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
-				
-				// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
-				if let opponent = await opponentUser {
-					await notificationManager.sendPushNotification(
-						with: .chat(
-							title: "New Chat Message",
-							body: contentField,
-							fromUser: sentFrom ?? "",
-							chatID: chat.id
-						),
-						to: opponent
-					)
-				}
-				
-				await addContent()
-				
+                // 상대방의 id로 유저를 가져옵니다.
+                let sentFrom = userStore.user?.githubUserName
+                async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
+                
+                // 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
+                if let opponent = await opponentUser {
+                    await notificationManager.sendPushNotification(
+                        with: .chat(
+                            title: "New Chat Message",
+                            body: contentField,
+                            fromUser: sentFrom ?? "",
+                            chatID: chat.id
+                        ),
+                        to: opponent
+                    )
+                }
+                
+                await addContent()
+                
             }
         } label: {
             Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
@@ -206,9 +218,9 @@ struct ChatRoomView: View {
         // 상대방의 안 읽은 메세지 갯수
         let unreadMessageCount: Int = newDict[chat.targetUserID] ?? 1
         let isUnreadMessage = checkUnreadMessagesContainDeletedMessage(
-			deletedMessage: deletedMessage,
-			unreadCount: unreadMessageCount
-		)
+            deletedMessage: deletedMessage,
+            unreadCount: unreadMessageCount
+        )
         if isUnreadMessage {
             // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
             if messageStore.messages.count < 2 {
@@ -231,10 +243,16 @@ struct ChatRoomView: View {
                                          chatID: chat.id)
     }
     
-    // MARK: Method - 삭제 대상 메세지가 상대방이 안 읽은 메세지 범위에 포함되는지 여부를 체크해서 반환하는
-    private func checkUnreadMessagesContainDeletedMessage(deletedMessage: Message, unreadCount: Int) -> Bool {
+    private func getUnreadCount() async -> Int {
+        let dict = await chatStore.getUnreadMessageDictionary(chatID: chat.id)
+        let unreadCount = dict?[Utility.loginUserID] ?? 0
+        return unreadCount
+    }
+    
+    // MARK: Method - 삭제 대상 메세지가 상대방이 안 읽은 메세지 범위에 포함되는지 여부를 체크해서 반환하는 메서드
+    private func checkUnreadMessagesContainDeletedMessage(deletedMessage: Message,
+                                                          unreadCount: Int) -> Bool {
         // MARK: Variables - Delete Message 케이스에서만 사용하는 변수
-        
         // 메세지 배열의 마지막 인덱스 넘버
         let endIndex: Int = messageStore.messages.endIndex
         // 안 읽은 메세지의 index 범위 (시작, 종료)
@@ -285,7 +303,7 @@ struct ChatRoomView: View {
                            unreadMessageCount: newDict)
             
         case .zeroMessageAfterDeleteLastMessage:
-                        
+            
             // FIXME: 메세지 삭제 로직에도 안 읽은 메세지 -= 1 로직 구현 필요
             newChat = Chat.init(id: chat.id,
                                 createdDate: chat.createdDate,
@@ -383,5 +401,4 @@ struct ChatRoomView: View {
             }
         }
     }
-    
 }

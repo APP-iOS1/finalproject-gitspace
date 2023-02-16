@@ -58,6 +58,11 @@
 		3471460F2992217A00ED990C /* ReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3471460E2992217A00ED990C /* ReportGuideView.swift */; };
 		347146122992253600ED990C /* GuideBlockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146112992253600ED990C /* GuideBlockSection.swift */; };
 		347146142992254200ED990C /* BlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146132992254200ED990C /* BlockGuideView.swift */; };
+		348540EF299D5DFE00B738F9 /* TagGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540EE299D5DFE00B738F9 /* TagGuideView.swift */; };
+		348540F1299D5E7700B738F9 /* BlockListGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F0299D5E7700B738F9 /* BlockListGuideView.swift */; };
+		348540F3299D5E9E00B738F9 /* AfterBlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F2299D5E9E00B738F9 /* AfterBlockGuideView.swift */; };
+		348540F5299D5EF200B738F9 /* WhatToReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F4299D5EF200B738F9 /* WhatToReportGuideView.swift */; };
+		348540F7299D5F8600B738F9 /* AfterReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F6299D5F8600B738F9 /* AfterReportGuideView.swift */; };
 		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
@@ -133,7 +138,6 @@
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
-		70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0C29778E46005528A1 /* SendKnockModal.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
 		70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SetMainView.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
@@ -196,6 +200,11 @@
 		3471460E2992217A00ED990C /* ReportGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportGuideView.swift; sourceTree = "<group>"; };
 		347146112992253600ED990C /* GuideBlockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideBlockSection.swift; sourceTree = "<group>"; };
 		347146132992254200ED990C /* BlockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockGuideView.swift; sourceTree = "<group>"; };
+		348540EE299D5DFE00B738F9 /* TagGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGuideView.swift; sourceTree = "<group>"; };
+		348540F0299D5E7700B738F9 /* BlockListGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListGuideView.swift; sourceTree = "<group>"; };
+		348540F2299D5E9E00B738F9 /* AfterBlockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterBlockGuideView.swift; sourceTree = "<group>"; };
+		348540F4299D5EF200B738F9 /* WhatToReportGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatToReportGuideView.swift; sourceTree = "<group>"; };
+		348540F6299D5F8600B738F9 /* AfterReportGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterReportGuideView.swift; sourceTree = "<group>"; };
 		34BC356829777253000DCBC7 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
@@ -264,7 +273,6 @@
 		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70BB6CFA299B769D009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		70F4BD0C29778E46005528A1 /* SendKnockModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockModal.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
@@ -435,6 +443,7 @@
 			children = (
 				3471460629920F8500ED990C /* GuideFuncSection.swift */,
 				347146092992112000ED990C /* StarGuideView.swift */,
+				348540EE299D5DFE00B738F9 /* TagGuideView.swift */,
 				3427734D2992A78900818816 /* ActivityGuideView.swift */,
 				34582166298E0ABD0058CA4C /* KnockGuideView.swift */,
 				346EF6AB29923F6B00878949 /* ChatGuideView.swift */,
@@ -446,7 +455,9 @@
 			isa = PBXGroup;
 			children = (
 				3471460C2992211300ED990C /* GuideReportSection.swift */,
+				348540F4299D5EF200B738F9 /* WhatToReportGuideView.swift */,
 				3471460E2992217A00ED990C /* ReportGuideView.swift */,
+				348540F6299D5F8600B738F9 /* AfterReportGuideView.swift */,
 			);
 			path = GuideReport;
 			sourceTree = "<group>";
@@ -456,6 +467,8 @@
 			children = (
 				347146112992253600ED990C /* GuideBlockSection.swift */,
 				347146132992254200ED990C /* BlockGuideView.swift */,
+				348540F0299D5E7700B738F9 /* BlockListGuideView.swift */,
+				348540F2299D5E9E00B738F9 /* AfterBlockGuideView.swift */,
 			);
 			path = GuideBlock;
 			sourceTree = "<group>";
@@ -730,7 +743,6 @@
 				22C5412E298CE35300CC89EC /* GSTabBarIcon.swift */,
 				0B87BA51298CCD9E006B80D3 /* GSText.swift */,
 				707E58F529799449007F4ADF /* GSTextField.swift */,
-				70F4BD0C29778E46005528A1 /* SendKnockModal.swift */,
 				6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */,
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
 			);
@@ -844,7 +856,6 @@
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
-				70DB32B12989FA64004E82AD /* SendKnockModal.swift in Sources */,
 				700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
 				22016E8D299B11B000452428 /* UserProfileView.swift in Sources */,
@@ -852,6 +863,7 @@
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
+				348540EF299D5DFE00B738F9 /* TagGuideView.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
 				225A22D7299778A900786B35 /* GitHubService.swift in Sources */,
@@ -861,11 +873,13 @@
 				6E08401D2983961300F51169 /* MainChatView.swift in Sources */,
 				687AE552298FA23700113ABF /* Tag.swift in Sources */,
 				342773672994AD1B00818816 /* SetTextMediaView.swift in Sources */,
+				348540F7299D5F8600B738F9 /* AfterReportGuideView.swift in Sources */,
 				225A22D3299778A900786B35 /* GitHubUser.swift in Sources */,
 				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */,
 				3471460729920F8500ED990C /* GuideFuncSection.swift in Sources */,
+				348540F3299D5E9E00B738F9 /* AfterBlockGuideView.swift in Sources */,
 				70528FBE299C022800E29316 /* PushNotificationManager.swift in Sources */,
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
 				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
@@ -926,11 +940,13 @@
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GitHubAuthManager.swift in Sources */,
+				348540F1299D5E7700B738F9 /* BlockListGuideView.swift in Sources */,
 				687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */,
 				680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */,
 				22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */,
 				0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */,
 				2204BD51299B288F00AA4725 /* ContributorViewModel.swift in Sources */,
+				348540F5299D5EF200B738F9 /* WhatToReportGuideView.swift in Sources */,
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,
 				70BE63E5298CA5190060336F /* Constant.swift in Sources */,
 				7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */,

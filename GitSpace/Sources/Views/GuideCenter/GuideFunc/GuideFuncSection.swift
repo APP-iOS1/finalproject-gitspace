@@ -14,12 +14,12 @@ struct GuideFuncSection: View {
             HStack {
                 GSText.CustomTextView(
                     style: .title2,
-                    string: "기능")
+                    string: "Features")
                 
                 Spacer()
             }
             .padding(.horizontal)
-            
+            .padding(.bottom, 5)
             
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 /* 캔버스 내부: */
@@ -36,14 +36,14 @@ struct GuideFuncSection: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
 
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "Star")
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "다시 보고 싶은 레포지토리\nStar 해봅시다!")
+                                    string: "Star the repository\nyou want to see again!")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -59,7 +59,35 @@ struct GuideFuncSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        StarGuideView()
+                        TagGuideView()
+                    } label: {
+                        HStack(spacing: 10) {
+
+                            Image("GitSpace-Tag-Guide")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 50)
+
+                            VStack(alignment: .leading, spacing: 5) {
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "Tag")
+
+                                GSText.CustomTextView(
+                                    style: .caption1,
+                                    string: "Manage your star repo with tags.")
+                                .multilineTextAlignment(.leading)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gsGray2)
+                        } // HStack
+                    } // NavigationLink
+                    
+                    NavigationLink {
+                        ActivityGuideView()
                     } label: {
                         HStack(spacing: 10) {
 
@@ -68,14 +96,14 @@ struct GuideFuncSection: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 70, height: 50)
 
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "Activity")
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Follow한 유저들의 활동 보기")
+                                    string: "View the activities of the following users.")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -89,7 +117,6 @@ struct GuideFuncSection: View {
                                 .foregroundColor(.gsGray2)
                         } // HStack
                     } // NavigationLink
-                    
                     
                     NavigationLink {
                         KnockGuideView()
@@ -108,7 +135,7 @@ struct GuideFuncSection: View {
                                 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "정중한 대화의 시작,\n노크에 대한 모든 것")
+                                    string: "Knock, before the chat.")
                                 .multilineTextAlignment(.leading)
                             }
                             
@@ -124,7 +151,7 @@ struct GuideFuncSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        KnockGuideView()
+                        ChatGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
@@ -140,7 +167,7 @@ struct GuideFuncSection: View {
                                 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Star한 레포의 기여자들과 대화 나누기")
+                                    string: "Chat with the contributor of the Starred Repo!")
                                 .multilineTextAlignment(.leading)
                             }
                             
@@ -150,11 +177,7 @@ struct GuideFuncSection: View {
                                 .foregroundColor(.gsGray2)
                         } // HStack
                     } // NavigationLink
-                    
-                    
                 }
-                
-                
             }) // GSCanvas
             .padding(.horizontal)
         } // Group
