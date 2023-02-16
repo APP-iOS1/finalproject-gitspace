@@ -80,8 +80,7 @@ struct ChatRoomView: View {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 15) {
                     ProfileAsyncImage(size: 25)
-                    Text(targetUserName)
-                        .bold()
+                    GSText.CustomTextView(style: .title3, string: targetUserName)
                         .padding(.horizontal, -8)
                 }
             }

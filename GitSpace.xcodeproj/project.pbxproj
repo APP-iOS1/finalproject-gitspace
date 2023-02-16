@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
+		0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
 		22016E882999FB9B00452428 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 22016E872999FB9B00452428 /* MarkdownUI */; };
 		22016E8D299B11B000452428 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22016E8C299B11B000452428 /* UserProfileView.swift */; };
@@ -149,6 +150,7 @@
 /* Begin PBXFileReference section */
 		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
+		0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		22016E8C299B11B000452428 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
@@ -694,6 +696,7 @@
 				70F4BD102977D408005528A1 /* RepositoryDetailView.swift */,
 				68E95FC62976D48C002E65AD /* StarredView.swift */,
 				6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */,
+				0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */,
 				680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */,
 				22C5412B298CCAD200CC89EC /* TabBarBackgroundModifier.swift in Sources */,
+				0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */,
 				2204BD51299B288F00AA4725 /* ContributorViewModel.swift in Sources */,
 				348540F5299D5EF200B738F9 /* WhatToReportGuideView.swift in Sources */,
 				7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */,

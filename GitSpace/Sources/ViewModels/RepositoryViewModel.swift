@@ -28,7 +28,6 @@ final class RepositoryViewModel: ObservableObject {
         
         do {
             let (data, response) = try await session.data(for: request)
-            
             // FIXME: status code에 따라 네트워크 에러 처리하기
             /// 200이면 통과, 401이면 인증되지 않은 사용자 등 문제 해결하기
             /// let statusCode = (response as? HTTPURLResponse)?.statusCode
