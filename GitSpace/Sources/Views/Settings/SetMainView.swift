@@ -189,7 +189,7 @@ struct SetMainView: View {
                     // MARK: Terms of Service
                     /// 이용약관
                     NavigationLink {
-                        
+                        TermsOfServiceView(urlToLoad: "https://industrious-expansion-4bf.notion.site/1fe25eb31ca541f8b82a97f87bce81c0")
                     } label: {
                             Text("Terms of Service")
                     }
