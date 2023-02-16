@@ -14,6 +14,7 @@ enum GitHubAPIEndpoint {
     case authenticatedUserInformation
     case authenticatedUserStarRepositories(page: Int)
     case authenticatedUserRepositories(page: Int)
+    case authenticatedUserReceivedEvents(userName: String, page: Int)
     case userInformation(userName: String)
     case userStarRepositories(userName: String, page: Int)
     case repositoryInformation(owner: String, repositoryName: String)
@@ -34,6 +35,8 @@ extension GitHubAPIEndpoint: Endpoint {
             return "/user/repos"
         case .authenticatedUserStarRepositories:
             return "/user/starred"
+        case .authenticatedUserReceivedEvents(let userName, _ ):
+            return "/users/\(userName)/received_events"
         case .starRepository(let owner, let repositoryName):
             return "/user/starred/\(owner)/\(repositoryName)"
         case .unstarRepository(let owner, let repositoryName):
@@ -61,6 +64,8 @@ extension GitHubAPIEndpoint: Endpoint {
         case .authenticatedUserStarRepositories:
             return .get
         case .authenticatedUserRepositories:
+            return .get
+        case .authenticatedUserReceivedEvents:
             return .get
         case .starRepository:
             return .put
@@ -94,6 +99,12 @@ extension GitHubAPIEndpoint: Endpoint {
                 "X-GitHub-Api-Version": "2022-11-28"
             ]
         case .authenticatedUserStarRepositories:
+            return [
+                "Accept": "application/vnd.github+json",
+                "Authorization": "Bearer \(accessToken)",
+                "X-GitHub-Api-Version": "2022-11-28"
+            ]
+        case .authenticatedUserReceivedEvents:
             return [
                 "Accept": "application/vnd.github+json",
                 "Authorization": "Bearer \(accessToken)",
@@ -164,13 +175,15 @@ extension GitHubAPIEndpoint: Endpoint {
             return nil
         case .repositoryInformation:
             return nil
+        case .authenticatedUserRepositories:
+            return nil
+        case .authenticatedUserReceivedEvents:
+            return nil
         case .starRepository:
             return nil
         case .unstarRepository:
             return nil
         case .repositoryContributors:
-            return nil
-        case .authenticatedUserRepositories:
             return nil
         case .userInformation:
             return nil
@@ -191,6 +204,11 @@ extension GitHubAPIEndpoint: Endpoint {
             return []
         case .authenticatedUserStarRepositories(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
+            // defualt는 한 페이지당 30개의 repository 이며, pagenation을 위해 page를 연관값으로 가짐
+        case .authenticatedUserRepositories(let page):
+            return [URLQueryItem(name: "page", value: "\(page)")]
+        case .authenticatedUserReceivedEvents( _ , let page):
+            return [URLQueryItem(name: "page", value: "\(page)")]
         case .repositoryInformation:
             return []
         case .starRepository:
@@ -199,9 +217,6 @@ extension GitHubAPIEndpoint: Endpoint {
             return []
         // defualt는 한 페이지당 30명의 contributor이며, pagenation을 위해 page를 연관값으로 가짐
         case .repositoryContributors(_, _, let page):
-            return [URLQueryItem(name: "page", value: "\(page)")]
-        // defualt는 한 페이지당 30개의 repository 이며, pagenation을 위해 page를 연관값으로 가짐
-        case .authenticatedUserRepositories(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
         case .userInformation:
             return []

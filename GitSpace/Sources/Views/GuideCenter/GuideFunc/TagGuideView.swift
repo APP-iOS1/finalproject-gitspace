@@ -1,18 +1,18 @@
 //
-//  ActivityGuideView.swift
+//  TagGuideView.swift
 //  GitSpace
 //
-//  Created by 최한호 on 2023/02/08.
+//  Created by 최한호 on 2023/02/16.
 //
 
 import SwiftUI
 
-struct ActivityGuideView: View {
+struct TagGuideView: View {
     var body: some View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("View the activities of the following users.")
+                        Text("Manage your star repo with tags.")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
@@ -43,16 +43,17 @@ struct ActivityGuideView: View {
                     Text(
 """
 1. 레포지토리 우측 상단의 별 모양 아이콘을 눌러주세요.
-""")      
+""")
+                    
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Activity")
+            .navigationBarTitle("Tag")
     } // body
 }
 
-struct ActivityGuideView_Previews: PreviewProvider {
+struct TagGuideView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityGuideView()
+        TagGuideView()
     }
 }

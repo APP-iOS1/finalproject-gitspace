@@ -17,4 +17,13 @@ extension String {
 		? range(of: string, options: .caseInsensitive) != nil
 		: contains(string)
 	}
+    
+    public func stringToDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        guard let date = dateFormatter.date(from: self) else { return Date() }
+        return date
+    }
 }

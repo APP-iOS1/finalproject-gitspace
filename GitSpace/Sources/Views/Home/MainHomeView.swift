@@ -9,10 +9,12 @@ import SwiftUI
 
 struct MainHomeView: View {
     
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @State private var selectedHomeTab = "Starred"
+    @ObservedObject var eventViewModel = EventViewModel()
     private let starTab = "Starred"
     private let activityTab = "Activity"
-    let gitHubAPIService = GitHubService()
+    let gitHubService = GitHubService()
     
     var body: some View {
         VStack {
@@ -67,15 +69,33 @@ struct MainHomeView: View {
             /* Starred, Activity View */
             switch selectedHomeTab {
             case starTab:
-                StarredView(service: gitHubAPIService)
+                StarredView(service: gitHubService)
                     .ignoresSafeArea()
             case activityTab:
-                ActivityView(service: gitHubAPIService)
+                ActivityView(eventViewModel: eventViewModel)
                     .ignoresSafeArea()
             default:
                 Text("네트워크 에러입니다.")
             }
             
+        }
+        .task {
+            
+            guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
+            
+            let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
+            
+            eventViewModel.events.removeAll()
+            
+            switch activitiesResult {
+            case .success(let events):
+                eventViewModel.events = events.filter { $0.type == "PublicEvent" || $0.type == "WatchEvent" || $0.type == "ForkEvent" || $0.type == "CreateEvent" }
+            case .failure(let error):
+                print(error)
+            }
+            
+            await eventViewModel.fetchEventActors()
+            await eventViewModel.fetchEventRepositories()
         }
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")

@@ -28,7 +28,6 @@ struct ChatRoomInfoView: View {
             }
             
             Section {
-                
                 VStack(alignment: .leading) {
                     // 알림
                     GSText.CustomTextView(style: .title2,

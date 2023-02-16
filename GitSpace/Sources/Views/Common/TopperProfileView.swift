@@ -38,7 +38,7 @@ struct TopperProfileView: View {
             } label: {
                 Text("View Profile")
                     .font(.footnote)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .bold()
             }
             .padding(5)

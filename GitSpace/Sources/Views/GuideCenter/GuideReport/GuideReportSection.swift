@@ -14,12 +14,12 @@ struct GuideReportSection: View {
             HStack {
                 GSText.CustomTextView(
                     style: .title2,
-                    string: "신고")
-                
+                    string: "Report")
                 Spacer()
             }
             .padding(.horizontal)
-            .padding(.top)
+            .padding(.top, 20)
+            .padding(.bottom, 5)
             
             
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
@@ -28,7 +28,7 @@ struct GuideReportSection: View {
                 Group {
                     
                     NavigationLink {
-                        ReportGuideView()
+                        WhatToReportGuideView()
                     } label: {
                         HStack(spacing: 10) {
 
@@ -40,11 +40,11 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading, spacing: 5) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "신고 대상")
+                                    string: "What to Report")
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "신고해야할 때와 하지 말아야 할 때")
+                                    string: "When you should report\nand when you shouldn't.")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -67,7 +67,7 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "신고 방법")
+                                    string: "How to Report Someone")
                             }
                             
                             Spacer()
@@ -78,14 +78,14 @@ struct GuideReportSection: View {
                     } // NavigationLink
                     
                     NavigationLink {
-                        ReportGuideView()
+                        AfterReportGuideView()
                     } label: {
                         HStack(spacing: 10) {
                             
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "누군가를 신고했습니다. 이제 어떻게 되나요?")
+                                    string: "What Happens After I Report?")
                             }
                             
                             Spacer()
@@ -94,10 +94,7 @@ struct GuideReportSection: View {
                                 .foregroundColor(.gsGray2)
                         } // HStack
                     } // NavigationLink
-                    
                 }
-                
-                
             }) // GSCanvas
             .padding(.horizontal)
         } // Group

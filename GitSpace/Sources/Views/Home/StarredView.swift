@@ -34,7 +34,6 @@ struct StarredView: View {
     
     func removeTag(at index: Int, tag: Tag) {
         /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
-//        guard let tags = repositoryViewModel.tags else { return }
         for (index, item) in Array(zip(tagViewModel.tags.indices, tagViewModel.tags)) {
             if item.id == tag.id {
                 tagViewModel.tags[index].isSelected = false
@@ -193,6 +192,10 @@ struct StarredView: View {
                                 .padding(.bottom, 15)
                             } // ForEach
                         } // if-else repo.isEmpty
+                    } else {
+                        ForEach(0..<4, id: \.self) { i in
+                            HomeCardSkeletonCell()
+                        }
                     } // if-let repo
                 } // ScrollView
             }
