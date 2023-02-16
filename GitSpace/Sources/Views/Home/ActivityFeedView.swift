@@ -25,7 +25,6 @@ struct ActivityFeedView: View {
             // FIXME: - UserProfileView로 보내기 위해 GitHubUser 필요
             NavigationLink {
 //                UserProfileView(service: git, user: <#T##GitHubUser#>)
-//                ProfileDetailView()
             } label: {
                 if let url = URL(string: event.actor.avatarURL) {
                     AsyncImage(url: url) { image in
@@ -54,7 +53,8 @@ struct ActivityFeedView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     NavigationLink {
-                        ProfileDetailView()
+//                        UserProfileView(service: <#T##GitHubService#>, user: <#T##GitHubUser#>)
+//                        ProfileDetailView()
                     } label: {
                         GSText.CustomTextView(style: .title3, string: event.actor.login)
                     }
