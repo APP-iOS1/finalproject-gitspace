@@ -73,8 +73,7 @@ struct ChatRoomView: View {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 15) {
                     ProfileAsyncImage(size: 25)
-                    Text(targetUserName)
-                        .bold()
+                    GSText.CustomTextView(style: .title3, string: targetUserName)
                         .padding(.horizontal, -8)
                 }
             }
@@ -118,7 +117,7 @@ struct ChatRoomView: View {
     private var messageCells: some View {
         ForEach(messageStore.messages) { message in
             MessageCell(message: message, targetName: targetUserName)
-                .padding(.vertical, -5)
+//                .padding(.vertical, -5)
         }
     }
     
@@ -145,32 +144,7 @@ struct ChatRoomView: View {
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
-                .onSubmit {
-                    guard contentField.isEmpty == false else {
-                        return
-                    }
-                    Task {
-						// 상대방의 id로 유저를 가져옵니다.
-						await userStore.requestUser(userID: chat.targetUserID)
-						async let opponentUser = userStore.user
-						print(await opponentUser?.githubUserName)
-						
-						// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
-						if let opponent = await opponentUser {
-							await notificationManager.sendPushNotification(
-								with: .chat(
-									title: "New Chat Message",
-									body: contentField,
-									fromUser: "",
-									chatID: chat.id
-								),
-								to: opponent
-							)
-						}
-						// Content를 푸쉬노티에 심어서 보내는 로직!
-						await addContent()
-                    }
-                }
+            
             addContentButton
                 .disabled(contentField.isEmpty)
         }

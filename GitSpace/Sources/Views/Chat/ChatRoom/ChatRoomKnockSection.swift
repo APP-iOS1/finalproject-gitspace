@@ -13,13 +13,9 @@ struct ChatDetailKnockSection: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(chat.stringKnockContentDate)
-                .font(.caption)
-                .foregroundColor(.gsLightGray2)
+            GSText.CustomTextView(style: .sectionTitle, string: chat.stringKnockContentDate)
             HStack {
-                Text("**Knock Message**")
-                    .font(.caption)
-                    .foregroundColor(.gsLightGray2)
+                GSText.CustomTextView(style: .caption2, string: "**KnockMessage**")
                     .padding(.leading, 20)
                     
                 Spacer()

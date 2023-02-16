@@ -1,5 +1,11 @@
 import SwiftUI
 
+//TODO: -  으니의 피드백
+/// 1. GSText들 디자인 시스템으로 변경
+/// 2. 안읽은 메시지 띄워주는 캡슐 및 텍스트의 글씨가 조금 크다. 텍스트는 caption2의 크기로 맞추기 -> 완료
+/// 3. 메시지 셀의 크기가 좀 크다. 메시지 셀의 높이와 아이디-메시지 내용 사이의 간격 모두 90%정도로 줄여도 될 듯. -> 완료
+/// 4. 이미지 크기를 추천 카드의 이미지 크기에 맞춰서 조금 줄여도 될 듯. 
+
 struct ChatListSection: View {    
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var userStore: UserStore
@@ -11,10 +17,12 @@ struct ChatListSection: View {
     var body: some View {
         // MARK: -Constant : 채팅방 리스트를 최근순으로 정렬한 리스트
         VStack(alignment: .leading) {
-            Text("My Chats")
-                .font(.footnote)
-                .foregroundColor(Color.gray)
-            
+            HStack {
+                GSText.CustomTextView(style: .sectionTitle, string: "My Chats")
+                Spacer()
+            }
+            .padding(.top, 3)
+                
             if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
                 ForEach(chatStore.chats) { chat in
@@ -22,11 +30,9 @@ struct ChatListSection: View {
                     if let targetUserName = chatStore.targetNameDict[chat.id] {
                         
                         NavigationLink {
-                            ChatRoomView(chat: chat,
-                                         targetUserName: targetUserName)
+                            ChatRoomView(chat: chat, targetUserName: targetUserName)
                         } label: {
-                            ChatListCell(chat: chat,
-                                         targetUserName: targetUserName)
+                            ChatListCell(chat: chat, targetUserName: targetUserName)
                             .foregroundColor(.black)
                         }
                         
@@ -38,6 +44,7 @@ struct ChatListSection: View {
                 }
             }
         }
+        .padding(.horizontal, 20)
 		.overlay {
 			NavigationLink(
 				destination: ChatRoomView(
@@ -66,10 +73,11 @@ struct ChatListSection: View {
     }
 }
 
-struct ChatListSection_Previews: PreviewProvider {
-    static var previews: some View {
-		ChatListSection(chatID: .constant(""))
-            .environmentObject(ChatStore())
-            .environmentObject(UserStore())
-    }
-}
+//struct ChatListSection_Previews: PreviewProvider {
+//    static var previews: some View {
+//		ChatListSection(chatID: .constant(""))
+//            .environmentObject(ChatStore())
+//            .environmentObject(UserStore())
+//            .environmentObject(GSTabBarRouter())
+//    }
+//}
