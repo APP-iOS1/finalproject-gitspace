@@ -27,12 +27,14 @@ struct ReceivedKnockView: View {
             
             ScrollView {
                 // MARK: - 상단 프로필 정보 뷰
+                /*
                 TopperProfileView()
                 
                 Divider()
                     .padding(.vertical, 20)
                     .padding(.horizontal, 5)
-                
+                */
+                 
                 // MARK: - Knock Message
                 /// 1. 전송 시간
                 /// 2. 시스템 메세지: Knock Message
