@@ -1,4 +1,5 @@
-# 🌌 GitSpace
+# [🌌 GitSpace](https://gitspace.tistory.com/)
+
 ---
 
 <img src="https://img.shields.io/badge/Swift-F05138?style=flat&logo=swift&logoColor=white"/>
@@ -86,6 +87,8 @@ let gsTabBar = GSTabBarBackGround.CustomTabBarBackgroundView(
         self.content = content()
 }
 ```
+
+- [GitSpace 디자인 시스템 도입기 보러가기](https://github.com/APPSCHOOL1-REPO/finalproject-gitspace/blob/main/docs/tech/DesignSystem/DesignSystem.md)
 
 ---
 ## 😈 앱의 기능과 역할
