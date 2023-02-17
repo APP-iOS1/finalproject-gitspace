@@ -17,7 +17,7 @@ struct ChatListCell: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(alignment: .bottom) {
+            HStack() {
                 ProfileAsyncImage(size: 52)
                     .padding(.trailing)
                 
@@ -25,22 +25,23 @@ struct ChatListCell: View {
                 VStack(alignment: .leading) {
                     GSText.CustomTextView(style: .title2, string: "@\(targetUserName)")
                         .lineLimit(1)
-                        .padding(.bottom, 3)
+                        .padding(.bottom, 1)
                     
                     GSText.CustomTextView(style: .description, string: chat.lastContent)
                 }
                 
                 Spacer()
-                
-                // MARK: - 안읽은 메시지 갯수 표시
-                if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
-                    Text("\(count)")
-                        .font(.system(size: 12))
-                        .foregroundColor(Color.unreadMessageText)
-                        .padding(3)
-                        .padding(.horizontal, 5)
-                        .background(Color.unreadMessageCapsule)
-                        .clipShape(Capsule())
+                HStack(alignment: .bottom) {
+                    // MARK: - 안읽은 메시지 갯수 표시
+                    if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
+                        Text("\(count)")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color.unreadMessageText)
+                            .padding(3)
+                            .padding(.horizontal, 5)
+                            .background(Color.unreadMessageCapsule)
+                            .clipShape(Capsule())
+                    }
                 }
             }
             .frame(height: 90, alignment: .leading)
