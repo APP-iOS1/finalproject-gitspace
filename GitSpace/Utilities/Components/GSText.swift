@@ -109,6 +109,7 @@ public struct GSText {
                     .font(.system(size: Constant.GSTextConst.DESCRIPTION_SIZE))
                     .fontWeight(Constant.GSTextConst.DESCRIPTION_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.DESCRIPTION_COLOR)
+                    .multilineTextAlignment(.leading)
             case .description2:
                 Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.DESCRIPTION2_SIZE))
