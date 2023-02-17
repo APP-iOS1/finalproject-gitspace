@@ -11,6 +11,7 @@ import SwiftUI
 struct ChatRoomView: View {
     @EnvironmentObject var notificationManager: PushNotificationManager
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @StateObject private var keyboardHandler = KeyboardHandler()
     
     enum MakeChatCase {
         case addContent
@@ -41,6 +42,8 @@ struct ChatRoomView: View {
                     Divider()
                         .padding(.vertical, 20)
                      */
+                    Spacer()
+                        .frame(height: 50)
                     
                     ChatDetailKnockSection(chat: chat)
                         .padding(.bottom, 20)
@@ -52,6 +55,9 @@ struct ChatRoomView: View {
                     Text("")
                         .id("bottom")
                     
+                }
+                .onTapGesture {
+                    self.endTextEditing()
                 }
                 .onChange(of: unreadMessageIndex) { state in
                     Task {
@@ -86,6 +92,7 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
+            /* 시연 영상 제외
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -94,6 +101,7 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
+             */
         }
         .task {
             messageStore.addListener(chatID: chat.id)
@@ -138,6 +146,7 @@ struct ChatRoomView: View {
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack(spacing: 10) {
+            /* 시연 영상 제외
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
@@ -154,7 +163,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
-            
+            */
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
@@ -162,6 +171,7 @@ struct ChatRoomView: View {
             addContentButton
                 .disabled(contentField.isEmpty)
         }
+        .padding(.bottom, 15)
         .foregroundColor(.primary)
     }
     
