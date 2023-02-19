@@ -15,7 +15,7 @@ struct KnockHistoryView: View {
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			TopperProfileView()
+//			TopperProfileView()
 			
 			Text("Your Knock Message is \nsent to **guguhanogu**")
 				.multilineTextAlignment(.center)

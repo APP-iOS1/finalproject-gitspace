@@ -37,12 +37,14 @@ struct SendKnockView: View {
                     .id(topID)
                     
                     // MARK: - 상단 프로필 정보 뷰
+                    /*
                     TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 10)
                         .padding(.horizontal, 5)
-                    
+                    */
+                     
                     // MARK: - 안내 문구
                     /// userName님께 보내는 첫 메세지네요!
                     /// 노크를 해볼까요?
