@@ -27,5 +27,18 @@ struct UserInfo : Identifiable, Codable {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter.string(from: createdDate)
     }
+	
+	static func getFaliedUserInfo() -> Self {
+		let userinfo = UserInfo(
+			id: "FALIED",
+			createdDate: .now,
+			githubUserName: "FAILED",
+			githubID: 0,
+			deviceToken: "",
+			emailTo: "",
+			blockedUserIDs: [""]
+		)
+		return userinfo
+	}
 }
 
