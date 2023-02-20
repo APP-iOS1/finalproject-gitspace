@@ -10,7 +10,15 @@ import SwiftUI
 struct ReceivedKnockView: View {
     
     @Environment(\.dismiss) private var dismiss
-    
+	@EnvironmentObject var knockViewManager: KnockViewManager
+	@EnvironmentObject var pushNotificationManager: PushNotificationManager
+	@EnvironmentObject var userStore: UserStore
+	@EnvironmentObject var chatStore: ChatStore
+	@EnvironmentObject var tabBarRouter: GSTabBarRouter
+	
+	@State var knock: Knock
+	@State private var isAccepted: Bool = false
+	
     var body: some View {
         
         VStack {
@@ -27,7 +35,7 @@ struct ReceivedKnockView: View {
             
             ScrollView {
                 // MARK: - 상단 프로필 정보 뷰
-                TopperProfileView()
+//                TopperProfileView()
                 
                 Divider()
                     .padding(.vertical, 20)
@@ -40,7 +48,7 @@ struct ReceivedKnockView: View {
                 
                 VStack(spacing: 10) {
                     /// 1. 전송 시간
-                    Text("\("23/01/27 14:00 KST")")
+					Text("\(knock.date.formattedDateString())")
                         .font(.footnote)
                         .foregroundColor(.gsLightGray2)
                     
@@ -58,7 +66,7 @@ struct ReceivedKnockView: View {
                     /// 3. 메세지 내용
                     
                     
-                    Text("\("Hi! This is Gildong from South Korea who’s currently studying Web programming. Would you mind giving me some time and advising me on my future career path? \nThank you so much for your help!")")
+					Text("\(knock.knockMessage)")
                         .font(.system(size: 15, weight: .regular))
                         .padding(.horizontal, 30)
                         .padding(.vertical, 30)
@@ -74,96 +82,153 @@ struct ReceivedKnockView: View {
                 
             } // ScrollView
             
-            VStack(spacing: 10) {
-                
-                Divider()
-                    .padding(.top, -8)
-                
-                
-//                Text("\("guguhanogu")")
-//                    .bold()
-//                    .font(.title3)
-//                + Text(" knocked on you!")
-//
-                Text("Accept message request from \("guguhanogu")?")
-                    .font(.subheadline)
-                    .bold()
-                    .padding(.bottom, 10)
-                
-                Text("If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.")
-                    .multilineTextAlignment(.center)
-                    .font(.caption)
-                    .foregroundColor(.gsGray2)
-                    .padding(.top, -15)
-                    .padding(.bottom)
-                    .padding(.horizontal)
-                    
-                
-                
-                GSButton.CustomButtonView(style: .secondary(
-                    isDisabled: false)) {
-                        
-                        
-                    } label: {
-                        Text("Accept")
-                            .font(.body)
-                            .foregroundColor(.primary)
-                            .bold()
-                            .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
-                    } // button: Accept
-                
-                
-                
-                HStack(spacing: 60) {
-                    Button {
-                        
-                    } label: {
-                        Text("Block")
-                            .bold()
-                            .foregroundColor(.red)
-                    } // Button: Block
-                    
-                    Divider()
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Decline")
-                            .bold()
-                            .foregroundColor(.primary)
-                    } // Button: Decline
-                }
-                .frame(height: 30)
-                
-            } // VStack
+			if !isAccepted {
+				VStack(spacing: 10) {
+					
+					Divider()
+						.padding(.top, -8)
+					
+					
+					//                Text("\("guguhanogu")")
+					//                    .bold()
+					//                    .font(.title3)
+					//                + Text(" knocked on you!")
+					//
+					Text("Accept message request from \(knock.sentUserName)?")
+						.font(.subheadline)
+						.bold()
+						.padding(.bottom, 10)
+					
+					Text("If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.")
+						.multilineTextAlignment(.center)
+						.font(.caption)
+						.foregroundColor(.gsGray2)
+						.padding(.top, -15)
+						.padding(.bottom)
+						.padding(.horizontal)
+					
+					
+					
+					GSButton.CustomButtonView(style: .secondary(
+						isDisabled: false)) {
+							Task {
+								await pushKnockNotification(knock: knock)
+							}
+						} label: {
+							Text("Accept")
+								.font(.body)
+								.foregroundColor(.primary)
+								.bold()
+								.padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
+						} // button: Accept
+					
+					
+					
+					HStack(spacing: 60) {
+						Button {
+							
+						} label: {
+							Text("Block")
+								.bold()
+								.foregroundColor(.red)
+						} // Button: Block
+						
+						Divider()
+						
+						Button {
+							
+						} label: {
+							Text("Decline")
+								.bold()
+								.foregroundColor(.primary)
+						} // Button: Decline
+					}
+					.frame(height: 30)
+					
+				} // VStack
+			} else if isAccepted {
+				GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
+					// chat id 할당
+					pushNotificationManager.assignViewBuildID(chatStore.newChat.id)
+					
+					// tab 이동
+					tabBarRouter.currentPage = .chats
+					
+					print(#file, #function, "\(pushNotificationManager.viewBuildID ?? "NONONO")")
+				} label: {       
+					Text("Go chat with **\(knock.sentUserName)**")
+				}
+			}
         }
         .toolbar {
-            
             ToolbarItem(placement: .principal) {
                 HStack(spacing: 5) {
-                    AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(Circle())
-                            .frame(width: 30)
-                    } placeholder: {
-                        ProgressView()
-                    } // AsyncImage
+//                    AsyncImage(url: URL(string: "\("")")) { image in
+//                        image
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .clipShape(Circle())
+//                            .frame(width: 30)
+//                    } placeholder: {
+//                        ProgressView()
+//                    } // AsyncImage
                     
-                    Text("\("guguhanogu")")
+					Text("\(knock.sentUserName)")
                         .bold()
                 } // HStack
                 .foregroundColor(.black)
             } // ToolbarItemGroup
         } // toolbar
     }
+	
+	private func pushKnockNotification(knock: Knock) async -> Void {
+		@Sendable
+		func getSentToUser() async -> UserInfo {
+			await userStore.requestUserInfoWithID(
+				userID: knock.sentUserID
+			) ?? .getFaliedUserInfo()
+		}
+		
+		async let sentUser = getSentToUser()
+		await makeNewChat()
+		
+		print(await sentUser, chatStore.newChat.id)
+		
+		await pushNotificationManager.sendPushNotification(
+			with: .chat(
+				title: "Your Knock has been accepted!",
+				body: "",
+				fromUser: knock.receivedUserName,
+				chatID: chatStore.newChat.id
+			), to: await sentUser
+		)
+		
+		isAccepted.toggle()
+	}
+	
+	private func makeNewChat() async -> Void {
+		chatStore.newChat = .init(
+			id: UUID().uuidString,
+			createdDate: Date.now,
+			joinedMemberIDs: [knock.receivedUserID, knock.sentUserID],
+			lastContent: "",
+			lastContentDate: Date.now,
+			knockContent: knock.knockMessage,
+			knockContentDate: Date.now,
+			unreadMessageCount: [
+				knock.receivedUserID : 0,
+				knock.sentUserID : 0
+			]
+		)
+		
+		chatStore.addChat(chatStore.newChat)
+	}
 }
-
-struct ReceivedKnockView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            ReceivedKnockView()
-        }
-    }
-}
+//
+//struct ReceivedKnockView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            ReceivedKnockView()
+//        }
+//    }
+//}
