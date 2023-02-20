@@ -18,6 +18,12 @@ final class ImageCacheManager {
                                                object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: memoryWarningNotification,
+                                                  object: nil)
+    }
+    
     @objc
     private func removeAllImages() {
         ImageCacheManager.shared.removeAllObjects()
