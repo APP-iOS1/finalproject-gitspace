@@ -12,6 +12,7 @@ struct MainKnockView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
 	@EnvironmentObject var knockViewManager: KnockViewManager
+	@EnvironmentObject var userInfoManager: UserStore
 	
 	@State public var knockID: String? = nil
 	@State public var pushedKnock: Knock? = nil
@@ -100,18 +101,28 @@ struct MainKnockView: View {
 						.transition(knockViewManager.leadingTransition)
 						.overlay {
 							NavigationLink(
-								destination: KnockHistoryView(
-									eachKnock: pushedKnock ?? Knock(isFailedDummy: true),
-								knockMessenger: $userSelectedTab
-							), isActive: $tabBarRouter.navigateToKnock) {
-								EmptyView()
-							}
+								destination: destinationSwitchBuilder(),
+								isActive: $tabBarRouter.navigateToReceivedKnock) {
+									EmptyView()
+								}
 						}
 						.fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
-							SetKnockControlsView(
-								showingKnockControls: $isDisplayedKnockSettingView
-							)
-						}
+							
+							NavigationView {
+								SetKnockControlsView(
+									showingKnockControls: $isDisplayedKnockSettingView
+								)
+								.toolbar {
+									ToolbarItem(placement: .navigationBarTrailing) {
+										Button {
+											isDisplayedKnockSettingView.toggle()
+										} label: {
+											Text("Done")
+										} // Button
+									} // ToolbarItem
+								} // toolbar
+							} // NavigationView
+						} // fullScreenCover
 						
 					} else if userSelectedTab == Constant.KNOCK_SENT {
 						LazyVStack(pinnedViews: .sectionHeaders) {
@@ -144,28 +155,41 @@ struct MainKnockView: View {
 								)
 							}
 						}
-						.transition(knockViewManager.trailingTransition)
 						.overlay {
 							NavigationLink(
 								destination: KnockHistoryView(
 									eachKnock: pushedKnock ?? Knock(isFailedDummy: true),
-									knockMessenger: $userSelectedTab
-								), isActive: $tabBarRouter.navigateToKnock) {
+									userSelectedTab: $userSelectedTab
+								), isActive: $tabBarRouter.navigateToSentKnock) {
 									EmptyView()
 								}
 						}
+						.transition(knockViewManager.trailingTransition)
 					}
 			}
         } // VStack
 		.task {
+			await knockViewManager.addSnapshotToKnock(
+				currentUser: userInfoManager.currentUser ?? UserInfo.getFaliedUserInfo()
+			)
+			
 			if let knockID,
-			   !tabBarRouter.navigateToKnock {
+			   knockID != "DOCPATH",
+			   !tabBarRouter.navigateToReceivedKnock || !tabBarRouter.navigateToSentKnock {
 				async let eachKnock = knockViewManager.requestKnockWithID(knockID: knockID)
 				pushedKnock = await eachKnock
-				tabBarRouter.navigateToKnock.toggle()
+				
+				if pushedKnock?.receivedUserName != userInfoManager.currentUser?.githubUserName {
+					userSelectedTab = Constant.KNOCK_SENT
+					tabBarRouter.navigateToSentKnock.toggle()
+				} else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubUserName {
+					userSelectedTab = Constant.KNOCK_RECEIVED
+					tabBarRouter.navigateToReceivedKnock.toggle()
+				}
 			}
-			await knockViewManager.requestKnockList()
-			
+			await knockViewManager.requestKnockList(
+				currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
+			)
 		}
         .onTapGesture {
             self.endTextEditing()
@@ -358,11 +382,11 @@ struct MainKnockView: View {
 						NavigationLink {
 							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
 							   userSelectedTab == Constant.KNOCK_RECEIVED {
-								ReceivedKnockView()
+								ReceivedKnockView(knock: eachKnock)
 							} else {
 								KnockHistoryView(
 									eachKnock: eachKnock,
-									knockMessenger: $userSelectedTab
+									userSelectedTab: $userSelectedTab
 								)
 							}
 						} label: {
@@ -377,11 +401,11 @@ struct MainKnockView: View {
 						NavigationLink {
 							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
 							   userSelectedTab == Constant.KNOCK_RECEIVED {
-								ReceivedKnockView()
+								ReceivedKnockView(knock: eachKnock)
 							} else {
 								KnockHistoryView(
 									eachKnock: eachKnock,
-									knockMessenger: $userSelectedTab
+									userSelectedTab: $userSelectedTab
 								)
 							}
 						} label: {
@@ -440,6 +464,7 @@ struct MainKnockView: View {
 					HStack {
 						Text(eachFilteredState?.rawValue ?? "")
 							.bold()
+							.font(.headline)
 						
 						Spacer()
 						
@@ -458,6 +483,21 @@ struct MainKnockView: View {
 					.modifier(PinnedViewHeaderModifier())
 				}
 			}
+		}
+	}
+	
+	@ViewBuilder
+	private func destinationSwitchBuilder() -> some View {
+		if let pushedKnock {
+			if pushedKnock.knockStatus == Constant.KNOCK_WAITING {
+				ReceivedKnockView(knock: pushedKnock)
+			} else {
+				KnockHistoryView(
+					eachKnock: pushedKnock, userSelectedTab: $userSelectedTab
+				)
+			}
+		} else {
+			Text("FAILED")
 		}
 	}
 } // KnockBoxView()
