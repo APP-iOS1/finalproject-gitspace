@@ -35,7 +35,7 @@ final class ImageCacheManager {
      전달받은 Key를 NSString 타입으로 변환한 뒤, NSCache에 접근하여 저장된 UIImage 리소스를 반환합니다.
      - Author: 태영
      - Since: 2023.02.21
-     - parameters:
+     - Parameters:
         - forKey: NSCache에 저장된 UIImage에 접근하기 위한 String Key입니다.
      - Returns: Key에 해당하는 저장된 UIImage를 반환합니다. Dictionary에 접근하기 때문에 옵셔널로 반환됩니다.
      */
@@ -43,6 +43,19 @@ final class ImageCacheManager {
         let cacheKey = NSString(string: key)
         let cachedImage = shared.object(forKey: cacheKey)
         return cachedImage
+    }
+    
+    /**
+     전달받은 Key를 NSString 타입으로 변환한 뒤, NSCache에 forKey:setImage 형태로 저장합니다.
+     - Author: 태영
+     - Since: 2023.02.21
+     - Parameters:
+        - forKey: NSCache에 UIImage를 저장하기 위한 Key입니다.
+        - setImage: forKey에 해당하는 value로 저장될 UIImage입니다.
+     */
+    static func setObject(forKey key: String, setImage: UIImage) {
+        let cacheKey = NSString(string: key)
+        shared.setObject(setImage, forKey: cacheKey)
     }
     
     /**
