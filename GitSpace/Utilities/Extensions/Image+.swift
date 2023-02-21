@@ -18,6 +18,7 @@ extension Image {
         // MARK: key로 접근했을 때, 캐시 이미지가 존재하면 해당 이미지를 반환하고 메서드를 종료합니다.
         let cacheImage = ImageCacheManager.getObject(forKey: key)
         if let cacheImage {
+            print("캐시 이미지 적용!")
             let image = Image(uiImage: cacheImage)
             return image
         }
@@ -28,8 +29,10 @@ extension Image {
             let url = URL(string: key),
             var urlComponents = URLComponents(url: url,
                                               resolvingAgainstBaseURL: false)
-        else { return returnImage}
-        
+        else {
+            print("URL이 유효하지 않음 1")
+            return returnImage
+        }
         
         // MEMO: url scheme이 http인 경우 iOS에서 보안성 이슈로 이미지를 요청하지 않기 때문에, scheme을 강제로 https로 세팅
         urlComponents.scheme = "https"
@@ -39,7 +42,10 @@ extension Image {
             let imageURL = urlComponents.url,
             let imageData = try? Data(contentsOf: imageURL),
             let reponseUIImage = UIImage(data: imageData)
-        else { return returnImage}
+        else {
+            print("URL이 유효하지 않음 2")
+            return returnImage
+        }
         
         // 서버에 요청한 이미지를 NSCache에 저장합니다.
         ImageCacheManager.setObject(forKey: key, setImage: reponseUIImage)
@@ -47,6 +53,7 @@ extension Image {
         // 서버에서 불러온 이미지를 Image 타입으로 변환하고 return Image에 할당합니다.
         let reponseImage = Image(uiImage: reponseUIImage)
         returnImage = reponseImage
+        print("서버 요청 이미지 반환!")
         
         // 결과 이미지를 반환합니다.
         /// 1. 캐시 이미지가 있는 경우 -> 해당 캐시 이미지를 반환
