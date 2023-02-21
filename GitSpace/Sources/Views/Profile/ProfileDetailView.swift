@@ -87,7 +87,14 @@ struct ProfileSectionView: View {
                 // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
                 // FIXME: AsyncImage -> 캐시 이미지로 교체하면서 urlStr이 사용되지 않음, targetUserName을 실제로 호출받아서 넣어야 정상 작동함. By. 태영
                 HStack(spacing: 20) {
-                    ProfileAsyncImage(urlStr: "\(GitHubAuthManager.authenticatedUser?.avatar_url ?? "")", size: 70, targetUserName: "")
+                    Group {
+                        let size: CGFloat = 70
+                        if let avatarURL = GitHubAuthManager.authenticatedUser?.avatar_url {
+                            GithubProfileImage(urlStr: avatarURL, size: size)
+                        } else {
+                            DefaultProfileImage(size: size)
+                        }
+                    }
 
                     VStack(alignment: .leading) {
                         // 이름

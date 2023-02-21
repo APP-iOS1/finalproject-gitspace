@@ -63,24 +63,10 @@ struct ContributorListView: View {
             ForEach(contributorManager.contributors) { user in
                 
                 NavigationLink(destination: SendKnockView()) {
-                    
-                    let url = URL(string: user.avatar_url)
-                    
                     GSCanvas.CustomCanvasView.init(style: .primary, content: {
-                        
                         HStack(spacing: 15) {
                             /* 유저 프로필 이미지 */
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
-                            } placeholder: {
-                                Image("avatarImage")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                            } // AsyncImage
+                            GithubProfileImage(urlStr: user.avatar_url, size: 40)
                             
                             VStack(alignment: .leading) {
                                 /* 유저네임 */

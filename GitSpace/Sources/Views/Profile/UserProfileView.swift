@@ -31,16 +31,7 @@ struct UserProfileView: View {
 
                 HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
 
-                    AsyncImage(url: URL(string: user.avatar_url)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-
-                    } placeholder: {
-                        Image(systemName: "person.crop.circle")
-                    }
+                    GithubProfileImage(urlStr: user.avatar_url, size: 60)
 
                     VStack(alignment: .leading) { // 이름, 닉네임
                         GSText.CustomTextView(style: .title2, string: user.name ?? "")
