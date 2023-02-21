@@ -30,7 +30,20 @@ final class ImageCacheManager {
                                                   object: nil)
     }
     
-    
+    // MARK: - Methods
+    /**
+     전달받은 Key를 NSString 타입으로 변환한 뒤, NSCache에 접근하여 저장된 UIImage 리소스를 반환합니다.
+     - Author: 태영
+     - Since: 2023.02.21
+     - parameters:
+        - forKey: NSCache에 저장된 UIImage에 접근하기 위한 String Key입니다.
+     - Returns: Key에 해당하는 저장된 UIImage를 반환합니다. Dictionary에 접근하기 때문에 옵셔널로 반환됩니다.
+     */
+    static func getObject(forKey key: String) -> UIImage? {
+        let cacheKey = NSString(string: key)
+        let cachedImage = shared.object(forKey: cacheKey)
+        return cachedImage
+    }
     
     /**
      NSCache 싱글턴 인스턴스인 shared의 캐시 이미지를 모두 삭제합니다.
