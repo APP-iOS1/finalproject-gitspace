@@ -63,9 +63,10 @@
 
 ## 💸 주요 기능
 
-- 깃헙 스타 레포 관리
-- 스타 레포와 관련된 유저 목록을 펜팔 목록으로 추천(네트워킹)
-- 스타 레포 주인 혹은 스타 레포 기여자와 펜팔(채팅)
+- ` Star ` 깃헙 스타 레포 관리
+- ` Activity ` 팔로우한 유저들의 활동 보기
+- ` Knock `  Knock 하여 채팅 하고 싶은 유저에게 채팅 요청
+- ` Chat `  Star한 레포의 유저들, 추천 유저들과의 채팅
 
 ---
 ## ＞ Commit Convention
@@ -118,22 +119,22 @@ gitGraph
 **사용자 인증**
 
 1. 로그인/회원가입
-    - 현재 로그인 기능은 구현되어 있지 않습니다.
-    - 로그인이 되었다고 가정하고 사용해주세요.
+    - GitHub 계정을 통해 로그인이 가능합니다.
+    - GitHub 계정이 없다면, GitHub 회원가입 후 로그인을 진행해 주세요.
 
 **메인 기능**
 
 > 사용자 인증이 되고 나면 앱의 메인 화면으로 진입합니다.
 
-1. `Tab 1` 홈 (Starred, Following)
+1. `Tab 1` 스타 (Starred, Activity)
     - **Starred View** (Page 1, Main)
         - 사용자의 깃허브 Starred Repository 목록을 볼 수 있다.
-        - 사용자는 Starred Repository를 Tag로 관리할 수 있다.
+        - 사용자는 Starred Repository를 ` Tag `로 관리할 수 있다.
         - 상단의 “…” 버튼을 탭하여 필터링하고 싶은 Tag를 선택하거나, 새롭게 추가할 수 있다.
         - 원하는 Tag를 선택하면, Starred View에는 선택된 Tag를 가진 Starred Repository만 보여진다.
         - Starred Repository 리스트 셀에 있는 펜팔 버튼(메세지 아이콘)을 탭하면 해당 Repository의 Contributor들에게 노크 메세지를 보낼 수 있다.
         - Starred Repository 리스트 셀에 있는 “…” 버튼을 탭하면 해당 Repository에 관련된 작업(노크하기, 공유하기, 태그 수정)을 할 수 있다.
-    - **Following View** (Page 2, Main)
+    - **Activity View** (Page 2, Main)
         - 사용자가 팔로우중인 깃허브 유저들의 활동을 볼 수 있다.
         - 팔로우중인 깃허브 유저의 Circle Image를 탭하면 해당 유저의 프로필을 보여주는 화면으로 이동한다.
         - 팔로우중인 깃허브 유저의 starred 활동 텍스트를 탭하면 해당 레포지토리의 상세정보를 보여주는 화면으로 이동한다.
@@ -144,7 +145,7 @@ gitGraph
         - My Tags 아래엔 내가 해당 레포에 부여한 태그가 나타나는데, "+"버튼을 누르면 태그를 선택하고 새로운 태그를 추가할 수 있다
         - 우측 상단의 📮 이모지를 누르면 펜팔을 요청할 수 있는 현재 레포의 contributors 목록이 나타난다. 이 중 한 명을 선택해 탭하면 펜팔 요청 화면으로 넘어간다. 
 
-2. `Tab 2` 펜팔 (Penpal)
+2. `Tab 2` 채팅 (Chats)
     - **Penpal List View**
         - 사용자의 활성화된 펜팔 리스트와 펜팔 추천, KnockBox를 볼 수 있다.
         - 펜팔 리스트의 펜팔 셀을 탭하면 해당 펜팔의 채팅 내역을 볼 수 있다.
@@ -179,16 +180,29 @@ gitGraph
             - 승인됨: Accepted
             - 거절됨: Declined
         - 대기중인 Knock는 최상단으로 
+        
+3. `Tab 3` 노크 (Knocks)
+      - **Main Profile View**
+          - 로그인된 사용자 본인의 기본정보가 담긴 프로필을 볼 수 있다.
+          - 툴바에서 설정 버튼을 누르면 알림설정, 계정 설정 등을 할 수 있는 뷰로 이동한다.
+      - **Profile Setting View**
+          - 알림설정, 라이센스, 개발진, 계정설정(로그아웃, 연동 끊기), 개인정보보호법규 등의 정보를 확인할 수 있다.
     
-3. `Tab 3` 내 정보 (MyProfile)
+4. `Tab 3` 내 정보 (MyProfile)
       - **Main Profile View**
           - 로그인된 사용자 본인의 기본정보가 담긴 프로필을 볼 수 있다.
           - 툴바에서 설정 버튼을 누르면 알림설정, 계정 설정 등을 할 수 있는 뷰로 이동한다.
       - **Profile Setting View**
           - 알림설정, 라이센스, 개발진, 계정설정(로그아웃, 연동 끊기), 개인정보보호법규 등의 정보를 확인할 수 있다.
 
-4. `anywhere` 탭에 상관 없이 어디서나 접근하게 되는 뷰
+5. `anywhere` 탭에 상관 없이 어디서나 접근하게 되는 뷰
      - **Profile Detail View**
           - 다른 사람의 프로필을 확인 할 수 있다. 이미지, 이름, 아이디 와 그 외 계정주가 설정한 정보들 (깃헙 페이지에서 확인할 수 있는 정보들)을 볼 수 있다.
           - 프로필 정보 밑에 있는 팔로우 버튼을 클릭하면 상대방 계정을 팔로우 하는 상태로 바뀌고 이미 팔로우 중이라면 Unfollow 버튼으로 보인다.
           - Knock 버튼을 누르면 상대에게 채팅을 보내기 전 노크 메시지를 보낼 수 있는 Penpal Knock Fullscreen Cover로 이동한다.
+     - **Guide Center View**
+          - GitSpace의 여러 기능들에 대한 가이드 라인이 적혀있는 GitSpace를 여행하는 히치하이커들을 위한 안내서 일명, Guide Center다.
+          - 메인화면에서는 Star / Tagging / Knock / Chat / Block / Report 등 각 기능들이 리스트로 보여진다.
+          - 리스트의 목록을 탭하면, 해당하는 기능의 설명을 볼 수 있다.
+          - 각 기능들에 대한 설명은 필요한 뷰 어디서든 볼 수 있도록 구성되어있으며, 필요한 곳에서 fullScreenCover로 호출하면 된다.
+          - 현재 Knock Guide만 영문화가 진행되었고, 다른 가이드들도 영문화 작업을 진행할 예정.
