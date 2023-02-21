@@ -124,7 +124,7 @@ extension ChatStore {
                     case .modified:
                         self.listenerUpdateChat(change: diff.document)
                     case .removed:
-                        let a = 1
+                        let _ = 1
                     }
                 }
             }

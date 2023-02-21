@@ -161,7 +161,7 @@ extension MessageStore {
                             self.isMessageAdded.toggle()
                         }
                     case .modified:
-                        let a = 1
+                        let _ = 1
                     case .removed:
                         self.removeDeletedLocalMessage(change: diff.document)
                     }
