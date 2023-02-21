@@ -99,6 +99,7 @@
 		6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */; };
 		6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */; };
 		6E128D6529A3BDFF0004AEC8 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */; };
+		6E128D6729A498A50004AEC8 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E128D6629A498A50004AEC8 /* Image+.swift */; };
 		6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B06297A161000F88569 /* FirebaseAuth */; };
 		6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B08297A161000F88569 /* FirebaseFirestore */; };
 		6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */; };
@@ -242,6 +243,7 @@
 		6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextFieldLayoutModifier.swift; sourceTree = "<group>"; };
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
 		6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		6E128D6629A498A50004AEC8 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
@@ -724,6 +726,7 @@
 			isa = PBXGroup;
 			children = (
 				7095265E297F8F4D00F97E27 /* View+.swift */,
+				6E128D6629A498A50004AEC8 /* Image+.swift */,
 				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
 				22C5412C298CD22500CC89EC /* View+cornerRadius.swift */,
 				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
@@ -969,6 +972,7 @@
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
 				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
+				6E128D6729A498A50004AEC8 /* Image+.swift in Sources */,
 				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				2205F23D299C9F1400B2643D /* Event.swift in Sources */,
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
