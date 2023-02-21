@@ -44,7 +44,7 @@ struct MessageCell : View {
                     NavigationLink {
                         ProfileDetailView()
                     } label: {
-                        ProfileAsyncImage(size: 35)
+                        ProfileAsyncImage(size: 35, targetUserName: targetName)
                     }
                     Spacer()
                 }

@@ -18,7 +18,8 @@ struct ChatListCell: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack() {
-                ProfileAsyncImage(size: 52)
+                ProfileAsyncImage(size: 52,
+                                  targetUserName: targetUserName)
                     .padding(.trailing)
                 
                 
