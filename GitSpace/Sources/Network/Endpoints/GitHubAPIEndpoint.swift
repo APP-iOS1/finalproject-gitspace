@@ -14,6 +14,7 @@ enum GitHubAPIEndpoint {
     case authenticatedUserInformation
     case authenticatedUserStarRepositories(page: Int)
     case authenticatedUserRepositories(page: Int)
+    case authenticatedUserFollowers(perPage: Int, page: Int)
     case authenticatedUserReceivedEvents(userName: String, page: Int)
     case userInformation(userName: String)
     case userStarRepositories(userName: String, page: Int)
@@ -35,6 +36,8 @@ extension GitHubAPIEndpoint: Endpoint {
             return "/user/repos"
         case .authenticatedUserStarRepositories:
             return "/user/starred"
+        case .authenticatedUserFollowers:
+            return "/user/followers"
         case .authenticatedUserReceivedEvents(let userName, _ ):
             return "/users/\(userName)/received_events"
         case .starRepository(let owner, let repositoryName):
@@ -53,6 +56,7 @@ extension GitHubAPIEndpoint: Endpoint {
             return "/users/\(userName)"
         case .userStarRepositories(let userName, _ ):
             return "/users/\(userName)/starred"
+        
         }
         
     }
@@ -65,6 +69,7 @@ extension GitHubAPIEndpoint: Endpoint {
             return .get
         case .authenticatedUserRepositories:
             return .get
+        case .authenticatedUserFollowers:
         case .authenticatedUserReceivedEvents:
             return .get
         case .starRepository:
@@ -104,6 +109,7 @@ extension GitHubAPIEndpoint: Endpoint {
                 "Authorization": "Bearer \(accessToken)",
                 "X-GitHub-Api-Version": "2022-11-28"
             ]
+        case .authenticatedUserFollowers:
         case .authenticatedUserReceivedEvents:
             return [
                 "Accept": "application/vnd.github+json",
@@ -195,6 +201,8 @@ extension GitHubAPIEndpoint: Endpoint {
             return [
                 "text": markdownString
             ]
+        case .authenticatedUserFollowers:
+            return nil
         }
     }
 
@@ -226,6 +234,8 @@ extension GitHubAPIEndpoint: Endpoint {
             return []
         case .markdownToHTML:
             return []
+        case .authenticatedUserFollowers(let perPage, let page):
+            return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
         }
     }
 
