@@ -38,18 +38,7 @@ struct ChatUserRecommendationSection: View {
                         
                         HStack {
                             
-                            AsyncImage(url: URL(string: user.avatar_url)!) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
-                                
-                            } placeholder: {
-                                Image("avatarImage")
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
-                            }
+                            GithubProfileImage(urlStr: user.avatar_url, size: 40)
 
                             VStack(alignment: .leading, spacing: 8) {
                                 

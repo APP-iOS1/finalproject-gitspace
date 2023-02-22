@@ -112,7 +112,11 @@ extension GitHubAPIEndpoint: Endpoint {
             ]
         case .authenticatedUserFollowers:
             // FIXME: 유저 추천 카드 브랜치 머지 후 누락부분. 규니에게 체크 필요. By.태영
-            return [:]
+            return [
+                "Accept": "application/vnd.github+json",
+                "Authorization": "Bearer \(accessToken)",
+                "X-GitHub-Api-Version": "2022-11-28"
+            ]
         case .authenticatedUserReceivedEvents:
             return [
                 "Accept": "application/vnd.github+json",
