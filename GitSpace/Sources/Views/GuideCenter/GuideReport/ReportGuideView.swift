@@ -12,7 +12,7 @@ struct ReportGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("신고해야 할 때와 하지 말아야 할 때")
+                        Text("How to Report Someone")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
@@ -62,7 +62,7 @@ GitSpace는 괴롭힘과 관련된 모든 신고건을 엄중하게 인식하고
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Report")
+            .navigationBarTitle("How to Report")
     } // body
 }
 

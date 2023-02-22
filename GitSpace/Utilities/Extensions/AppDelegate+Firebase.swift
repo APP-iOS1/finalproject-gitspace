@@ -94,9 +94,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		
 		print(#function, "+++ willPresent: userInfo: ", userInfo)
 		
-		completionHandler([.banner, .sound, .badge])
+		do {
+			let pushNotificationData = try JSONSerialization.data(withJSONObject: userInfo)
+			let pushNotificationInfo = try JSONDecoder().decode(GSPushNotification.self, from: pushNotificationData)
+			
+			// 탭 이동 + 뷰 그릴 때 id 전달
+			if pushNotificationInfo.navigateTo == "knock" {
+				UIApplication.shared.applicationIconBadgeNumber += pushNotificationInfo.aps.badge
+				completionHandler([.banner, .sound, .badge])
+			} else if pushNotificationInfo.navigateTo == "chat" {
+				UIApplication.shared.applicationIconBadgeNumber += pushNotificationInfo.aps.badge
+				completionHandler([.banner, .sound, .badge])
+			}
+		} catch {
+			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
+		}
 	}
-	
+
 	/* 전달 알림에 대한 사용자 응답을 처리하도록 대리인에 요청 */
 	func userNotificationCenter(
 		_ center: UNUserNotificationCenter,
@@ -117,8 +131,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			// 탭 이동 + 뷰 그릴 때 id 전달
 			if pushNotificationInfo.navigateTo == "knock" {
 				tabBarRouter.currentPage = .pushKnocks(id: pushNotificationInfo.viewBuildID)
+				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 			} else if pushNotificationInfo.navigateTo == "chat" {
 				tabBarRouter.currentPage = .pushChats(id: pushNotificationInfo.viewBuildID)
+				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 			}
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")

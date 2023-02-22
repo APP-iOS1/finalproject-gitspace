@@ -56,6 +56,7 @@ struct MainChatView: View {
 
             }
             
+            /*
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     AddChatView()
@@ -63,6 +64,7 @@ struct MainChatView: View {
                     Text("채팅 추가하기")
                 }
             }
+             */
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {
             GuideCenterView()

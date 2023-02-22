@@ -11,10 +11,10 @@ import SwiftUI
 struct MessageCell : View {
     
     let message: Message
-    let targetName: String
-    var isMine: Bool {
-        return Utility.loginUserID == message.senderID
-    }
+    let targetUserName: String
+    var isMine: Bool { return Utility.loginUserID == message.senderID }
+    @EnvironmentObject var messageStore: MessageStore
+    @State private var avatarURL: String?
     
     var body: some View {
         
@@ -26,6 +26,13 @@ struct MessageCell : View {
                     .modifier(MessageTimeModifier())
                 Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
+                    .contextMenu {
+                        Button {
+                            messageStore.deletedMessage = message
+                        } label: {
+                            Text("Delete")
+                        }
+                    }
             }
             //.padding(.trailing, 10)
             
@@ -36,14 +43,21 @@ struct MessageCell : View {
                     NavigationLink {
                         ProfileDetailView()
                     } label: {
-                        ProfileAsyncImage(size: 35)
+                        Group {
+                            let size: CGFloat = 35
+                            if let avatarURL {
+                                GithubProfileImage(urlStr: avatarURL, size: size)
+                            } else {
+                                DefaultProfileImage(size: size)
+                            }
+                        }
                     }
                     Spacer()
                 }
                 
                 // UserName과 Message Bubble 부분
                 VStack (alignment: .leading, spacing: 6) {
-                    Text(targetName)
+                    GSText.CustomTextView(style: .caption1, string: targetUserName)
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
@@ -53,7 +67,21 @@ struct MessageCell : View {
                     }
                 }
             }
+            .task {
+                avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
+            }
         }
+    }
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
     }
 }
 

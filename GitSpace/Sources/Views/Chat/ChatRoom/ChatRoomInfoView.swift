@@ -20,15 +20,16 @@ struct ChatRoomInfoView: View {
     
     var body: some View {
         VStack {
+            /*
             Section{
                 TopperProfileView()
                 
                 Divider()
                     .padding(.horizontal, -10)
             }
+             */
             
             Section {
-                
                 VStack(alignment: .leading) {
                     // 알림
                     GSText.CustomTextView(style: .title2,

@@ -13,10 +13,11 @@ struct MessageModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.system(size: 16))
+            .foregroundColor( .black)
 //            .frame(maxWidth: Utility.MessageCellWidth)
             .padding(15)
             .background(
-                LinearGradient(colors: isMine ? [.gsYellowPrimary, .gsGreenPrimary] : [.gsGray3, .gsGray2], startPoint: .top, endPoint: .center)
+                LinearGradient(colors: isMine ? [.gsYellowPrimary, .gsGreenPrimary] : [.init(hex: "#EEF1F3"), .init(hex: "#E0E3E5")], startPoint: .top, endPoint: .center)
             )
             .clipShape(ChatBubbleShape(direction: isMine ? .right : .left))
 

@@ -18,16 +18,16 @@
 // TODO: 230210 기준 남은 작업 리스트
 /// 1. ChatRoomInfoView 구현 [완료]
 /// 2. Chat Listener 관련 메서드 구현 및 뷰 연결 [완료]
-/// 3. remove에 대한 lastContent 업데이트 분기 처리 [진행 중]
-/// 4. ScrollView Reader 완성 (개어려움)
+/// 3. remove에 대한 lastContent 업데이트 분기 처리 [완료]
+/// 4. ScrollView Reader 완성 (개어려움) [진행 중]
 ///     4-1 상단 끝에 닿았을 때 fetch
 ///     4-2 현재 위치 읽어서 자동 스크롤링 처리
 ///     4-3 이전 메세지 읽고 있으면 하단에 팝업 띄워주기
 ///     4-4 안 읽은 메세지에서 스크롤 위치 시작하게 하는 거
-/// 5. 메세지 인앱 알림 처리
+/// 5. 메세지 인앱 알림 처리 [승준 FCM 구현으로 완료]
 /// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
-/// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치)
-/// 8. Github API 프로필 Image 캐시 처리
+/// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치) [완료]
+/// 8. Github API 프로필 Image 캐시 처리 [스프린트 5 예정]
 /// 9. UserInfo 모델링 + Github OAuth 로직 연결 [완료]
 
 // TODO: 공통 작업
@@ -120,16 +120,11 @@ extension ChatStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("Chat Added")
                         self.listenerAddChat(change: diff.document)
-                        
                     case .modified:
-                        print("Chat Modified")
                         self.listenerUpdateChat(change: diff.document)
-                        
                     case .removed:
-                        print("Chat Removed")
-                        
+                        let _ = 1
                     }
                 }
             }

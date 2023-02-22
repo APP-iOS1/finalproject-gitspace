@@ -55,7 +55,7 @@ extension GSTabBarRouter {
 
 extension GSTabBarRouter {
 	enum MessageType {
-		case knock(title: String, body: String, knockID: String)
-		case chat(title: String, body: String, chatID: String)
+		case knock(title: String, body: String, fromUser: String, knockID: String)
+		case chat(title: String, body: String, fromUser: String, chatID: String)
 	}
 }

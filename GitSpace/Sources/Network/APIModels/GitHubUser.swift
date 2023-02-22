@@ -17,6 +17,7 @@ struct GitHubUser: Identifiable, Codable {
     let company: String? // company
     let location: String? // location
     let blog: String? // blog url
+    let public_repos: Int // public repos
     let followers: Int // followers
     let following: Int // following
     let public_repos: Int
