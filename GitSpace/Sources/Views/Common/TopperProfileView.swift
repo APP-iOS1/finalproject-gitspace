@@ -12,7 +12,7 @@ struct TopperProfileView: View {
         VStack(spacing: 8) {
             
             // MARK: - User Profice Pic
-            ProfileAsyncImage(urlStr: "https://avatars.githubusercontent.com/u/64696968?v=4", size: 100)
+            GithubProfileImage(urlStr: "https://avatars.githubusercontent.com/u/64696968?v=4", size: 100)
             
             
             // MARK: - User Name

@@ -9,18 +9,27 @@ import SwiftUI
 
 struct ChatListCell: View {
     
-    var chat: Chat
-    var targetUserName: String
+    let chat: Chat
+    let targetUserName: String
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatStore: ChatStore
     @State var opacity: Double = 0.4
+    @State private var avatarURL: String?
+    
     
     var body: some View {
+        
         VStack(alignment: .leading) {
-            HStack() {
-                ProfileAsyncImage(size: 52)
-                    .padding(.trailing)
-                
+            HStack {
+                Group {
+                    let size: CGFloat = 52
+                    if let avatarURL {
+                        GithubProfileImage(urlStr: avatarURL, size: size)
+                    } else {
+                        DefaultProfileImage(size: size)
+                    }
+                }
+                .padding(.trailing)
                 
                 VStack(alignment: .leading) {
                     GSText.CustomTextView(style: .title2, string: "@\(targetUserName)")
@@ -48,10 +57,23 @@ struct ChatListCell: View {
             Divider()
         }
         .task {
+            avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4
             }
         }
+    }
+    
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
     }
 }
 

@@ -9,9 +9,6 @@ import SwiftUI
 
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
-    @EnvironmentObject var notificationManager: PushNotificationManager
-    @EnvironmentObject var tabBarRouter: GSTabBarRouter
-    @StateObject private var keyboardHandler = KeyboardHandler()
     
     enum MakeChatCase {
         case addContent
@@ -19,16 +16,18 @@ struct ChatRoomView: View {
         case remainMessageAfterDeleteLastMessage
         case enterChatRoom
     }
-    
+
     let chat: Chat
-    
-    // 상대방의 이름
     let targetUserName: String
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var notificationManager: PushNotificationManager
+    @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
+    @State private var avatarURL: String?
     
     var body: some View {
         
@@ -87,9 +86,19 @@ struct ChatRoomView: View {
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 15) {
-                    ProfileAsyncImage(size: 25)
+                    Group {
+                        let size: CGFloat = 25
+                        if let avatarURL {
+                            GithubProfileImage(urlStr: avatarURL, size: size)
+                        } else {
+                            DefaultProfileImage(size: size)
+                        }
+                    }
                     GSText.CustomTextView(style: .title3, string: targetUserName)
                         .padding(.horizontal, -8)
+                }
+                .task {
+                    avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
                 }
             }
             /* 시연 영상 제외
@@ -137,7 +146,7 @@ struct ChatRoomView: View {
         ForEach(messageStore.messages.indices, id: \.self) { index in
             
             MessageCell(message: messageStore.messages[index],
-                        targetName: targetUserName)
+                        targetUserName: targetUserName)
                 .padding(.vertical, -5)
                 .id(index == unreadMessageIndex ? "Start" : "")
         }
@@ -209,6 +218,18 @@ struct ChatRoomView: View {
     }
     
     // MARK: -Methods
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
+    }
+    
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
         // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
@@ -296,8 +317,6 @@ struct ChatRoomView: View {
                 newDict[chat.targetUserID, default: 0] -= 1
             }
         }
-        
-        
         
         switch makeChatCase {
             
