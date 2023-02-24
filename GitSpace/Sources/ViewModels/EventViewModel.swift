@@ -10,7 +10,7 @@ import Foundation
 final class EventViewModel: ObservableObject {
     
     @Published var events: [Event] = []
-    @Published var eventActors: [GitHubUser] = []
+    @Published var eventActors: [GithubUser] = []
     @Published var eventRepositories: [Repository] = []
     
     @MainActor

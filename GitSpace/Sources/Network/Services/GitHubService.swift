@@ -14,7 +14,7 @@ import Foundation
 protocol GitHubServiceProtocol {
     
     /// 인증된 사용자의 정보를 요청하는 함수
-    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError>
+    func requestAuthenticatedUser() async -> Result<GithubUser, GitHubAPIError>
     
     /// 인증된 사용자의 starred repository들을 요청하는 함수
     func requestAuthenticatedUserStars(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -37,7 +37,7 @@ protocol GitHubServiceProtocol {
     func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
     /// 특정 유저의 정보를 요청하는 함수
-    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError>
+    func requestUserInformation(userName: String) async -> Result<GithubUser, GitHubAPIError>
     
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -71,8 +71,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
      - Author: 제균
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: GitHubUser.self)
+    func requestAuthenticatedUser() async -> Result<GithubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: GithubUser.self)
     }
     
     /**
@@ -139,8 +139,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - userName: GitHub userName
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GitHubUser.self)
+    func requestUserInformation(userName: String) async -> Result<GithubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GithubUser.self)
     }
     
     /**

@@ -9,7 +9,7 @@ import Foundation
 
 final class FollowerViewModel: ObservableObject {
     @Published var responses: [FollowersResponse] = []
-    @Published var followers: [GitHubUser] = []
+    @Published var followers: [GithubUser] = []
     
     @MainActor func requestUsers() async {
         followers.removeAll()
