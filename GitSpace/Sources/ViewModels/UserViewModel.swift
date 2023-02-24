@@ -29,9 +29,8 @@ class UserStore : ObservableObject {
             return snapshot
         } catch {
             print("Get User Document Error : \(error)")
-            
+            return nil
         }
-        return nil
     }
     
     func requestUser(userID: String) async {
@@ -42,8 +41,19 @@ class UserStore : ObservableObject {
                 let user: UserInfo = try document.data(as: UserInfo.self)
                 await writeUser(user: user)
             } catch {
-                print("Request User Error : \(error.localizedDescription)")
+                print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
             }
+        }
+    }
+    
+    static func requestAndReturnUser(userID: String) async -> UserInfo? {
+        let doc = Firestore.firestore().collection("UserInfo").document(userID)
+        do {
+            let userInfo = try await doc.getDocument(as: UserInfo.self)
+            return userInfo
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            return nil
         }
     }
 	
