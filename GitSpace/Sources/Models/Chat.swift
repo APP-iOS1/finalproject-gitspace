@@ -43,7 +43,7 @@ struct Chat: Identifiable, Codable {
                     .document(targetUserID)
                     .getDocument()
                 if let data = document.data() {
-                    let name = data["githubUserName"] as? String ?? ""
+                    let name = data["githubLogin"] as? String ?? ""
                     returnUserName = name
                 }
             } catch { }

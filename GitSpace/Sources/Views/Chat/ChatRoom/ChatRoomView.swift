@@ -189,7 +189,7 @@ struct ChatRoomView: View {
         Button {
             Task {
                 // 상대방의 id로 유저를 가져옵니다.
-                let sentFrom = userStore.user?.githubUserName
+                let sentFrom = userStore.user?.githubLogin
                 async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
                 
                 // 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
