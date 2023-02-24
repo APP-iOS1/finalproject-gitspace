@@ -19,7 +19,7 @@ struct UserInfo : Identifiable, Codable {
     let emailTo: String? // 유저 이메일
     let blockedUserIDs: [String] // 차단한 유저 ID 리스트
     
-    // MARK: -Func : Double 타입 Date를 문자열로 반환하는 함수
+    // MARK: Date를 문자열로 반환하는 연산 프로퍼티
     var stringDate : String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
