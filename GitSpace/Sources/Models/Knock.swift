@@ -6,23 +6,24 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct Knock: Codable, Hashable {
 	var id: String = UUID().uuidString
-	var date: Date
+	var knockedDate: Timestamp
 	var knockMessage: String
 	var knockStatus: String
 	var knockCategory: String
 	var declineMessage: String? = nil
 	var receivedUserName: String
 	var sentUserName: String
-	
 	var receivedUserID: String
 	var sentUserID: String
 	
 	var dateDiff: Int {
 		get {
-			let diff = Date.now - date
+			let diff = Date.now - knockedDate.dateValue()
 			return diff.minute ?? 0
 		}
 	}
@@ -41,7 +42,7 @@ struct Knock: Codable, Hashable {
 		sentUserID: String
 	) {
 		self.id = id
-		self.date = date
+		self.knockedDate = Timestamp(date: date)
 		self.knockMessage = knockMessage
 		self.knockStatus = knockStatus
 		self.knockCategory = knockCategory
