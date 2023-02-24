@@ -17,7 +17,6 @@ class UserStore : ObservableObject {
     
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    
     let db = Firestore.firestore()
     
     init(users: [UserInfo] = []) {
@@ -116,13 +115,14 @@ class UserStore : ObservableObject {
         return user.blockedUserIDs.firstIndex(of: targetUserID)
     }
     
+    // FIXME: 기존 updateIsTargetUserBlocked 메서드에서 사용되었으나 로직 변경으로 미사용, 사용 용도가 더 이상 없는 경우 삭제 예정 By. 태영 - 23.02.24
     @MainActor
     private func writeUser(user: UserInfo) {
         self.user = user
     }
     
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
-        guard let user else {
+        guard var user else {
             print("로그인 유저 정보가 nil입니다.")
             return
         }
@@ -147,14 +147,7 @@ class UserStore : ObservableObject {
         }
         
         do {
-            let newUser: UserInfo = .init(id: user.id,
-                                          createdDate: user.createdDate,
-										  githubUserName: user.githubUserName,
-										  githubID: user.githubID,
-                                          deviceToken: user.deviceToken,
-                                          emailTo: user.emailTo,
-                                          blockedUserIDs: newBlockedUserIDs)
-            await writeUser(user: newUser)
+            user.blockedUserIDs = newBlockedUserIDs
             try await db
                 .collection("UserInfo")
                 .document(user.id)

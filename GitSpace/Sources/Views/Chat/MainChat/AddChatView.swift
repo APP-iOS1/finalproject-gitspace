@@ -18,10 +18,10 @@ struct AddChatView: View {
     var body: some View {
         
         VStack {
-            Text("현재 로그인 유저 이름 : \(userStore.user?.githubUserName ?? "패치 실패")")
+            Text("현재 로그인 유저 이름 : \(userStore.user?.githubLogin ?? "패치 실패")")
             ForEach(userStore.users) { user in
                 HStack {
-                    Text(user.githubUserName)
+                    Text(user.githubLogin)
                     Spacer()
                     
                     Group {

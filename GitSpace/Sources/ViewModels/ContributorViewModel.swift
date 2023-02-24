@@ -9,5 +9,5 @@ import Foundation
 
 final class ContributorViewModel: ObservableObject {
     
-    @Published var contributors: [GitHubUser] = []
+    @Published var contributors: [GithubUser] = []
 }

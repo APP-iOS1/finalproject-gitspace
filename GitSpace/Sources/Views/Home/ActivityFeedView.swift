@@ -22,9 +22,9 @@ struct ActivityFeedView: View {
         // CreateEvent, ForkEvent, WatchEvent(star), PublicEvent 만을 보여줌
         
         HStack(spacing: 25) {
-            // FIXME: - UserProfileView로 보내기 위해 GitHubUser 필요
+            // FIXME: - UserProfileView로 보내기 위해 GithubUser 필요
             NavigationLink {
-//                UserProfileView(service: git, user: <#T##GitHubUser#>)
+//                UserProfileView(service: git, user: <#T##GithubUser#>)
             } label: {
                 if let url = URL(string: event.actor.avatarURL) {
                     AsyncImage(url: url) { image in
@@ -53,7 +53,7 @@ struct ActivityFeedView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     NavigationLink {
-//                        UserProfileView(service: <#T##GitHubService#>, user: <#T##GitHubUser#>)
+//                        UserProfileView(service: <#T##GitHubService#>, user: <#T##GithubUser#>)
 //                        ProfileDetailView()
                     } label: {
                         GSText.CustomTextView(style: .title3, string: event.actor.login)

@@ -73,7 +73,7 @@ final class PushNotificationManager: ObservableObject {
 			"data": [
 				"userName": "CurrentUserID",
 				"sentDeviceToken": currentUserDeviceToken ?? "보낸 이의 디바이스토큰",
-				"sentUserName": userInfo.githubUserName,
+				"sentUserName": userInfo.githubLogin,
 				"sentUserID": userInfo.id,
 				"navigateTo": navigateTo,
 				"viewBuildID": viewBuildID,
@@ -155,13 +155,13 @@ struct PushNotificationTestView: View {
 					dump("\(#function), \(instance)")
 //					await instance.sendPushNotification(
 //						with: .knock(title: "knockMessage", body: "Knock 내용", knockID: "jri5guzFI47hLmZjVFJU"),
-//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee", githubID: 000, deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
+//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubLogin: "Valselee", githubID: 000, deviceToken: valseDevice, githubEmail: "", blockedUserIDs: [""])
 //					)
 //					await instance.sendPushNotification(
 //						with: .chat(title: "chatMessage", body: "chat 내용", chatID: "6FBB214E-C5EE-46F6-9670-4DCA5B73AF17"),
-//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee",
+//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubLogin: "Valselee",
 //									 githubID: 000,
-//									 deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
+//									 deviceToken: valseDevice, githubEmail: "", blockedUserIDs: [""])
 //					)
 				}
 			} label: {

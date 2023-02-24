@@ -89,7 +89,7 @@ extension ChatStore {
     
     // MARK: 새로운 메시지가 추가되었을 때 lastContent 등 업데이트 시키고 채팅방 재정렬.
     /// 변경을 감지해서 lastContent를 뽑아서 로컬 배열에서 채팅방을 찾으러 감(채팅방 ID 필요)
-    ///  그 배열에서 해당 채팅방의 lastContent를 수정
+    /// 그 배열에서 해당 채팅방의 lastContent를 수정
     private func updateLocalChat(change: QueryDocumentSnapshot) {
         guard let index = chats.firstIndex(where: { $0.id == change.documentID}) else {
             return

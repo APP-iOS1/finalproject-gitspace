@@ -12,14 +12,14 @@ import MarkdownUI
 
 struct UserProfileView: View {
 
-    let user: GitHubUser
+    let user: GithubUser
     let gitHubService: GitHubService
 
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
 
     @State private var markdownString = ""
 
-    init(service: GitHubService, user: GitHubUser) {
+    init(service: GitHubService, user: GithubUser) {
         self.gitHubService = service
         self.user = user
     }
