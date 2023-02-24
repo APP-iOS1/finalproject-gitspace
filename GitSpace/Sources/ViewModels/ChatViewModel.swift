@@ -42,7 +42,7 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-    var targetNameDict: [String : String]
+    var targetNameDict: [String : UserInfo]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
     
@@ -50,8 +50,8 @@ final class ChatStore: ObservableObject {
     private let db = Firestore.firestore()
     
     init() {
-        chats = []
         targetNameDict = [:]
+        chats = []
         isDoneFetch = false
     }
     
@@ -172,9 +172,10 @@ extension ChatStore {
             for document in snapshot.documents {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
-                    let targetUserName: String = await chat.targetUserName
-                    newChats.append(chat)
-                    targetNameDict[chat.id] = targetUserName
+                    if let userInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
+                        newChats.append(chat)
+                        targetNameDict[chat.id] = userInfo
+                    }
                 } catch {
                     print("Fetch Chat Error : \(error)")
                 }
@@ -183,6 +184,8 @@ extension ChatStore {
 
         await writeChats(chats: newChats)
     }
+    
+    
 	
 	// MARK: - PUSHED CHAT GENERATOR
 	public func requestPushedChat(chatID: String) async -> Chat? {
