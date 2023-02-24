@@ -17,7 +17,6 @@ class UserStore : ObservableObject {
     
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    
     let db = Firestore.firestore()
     
     init(users: [UserInfo] = []) {
