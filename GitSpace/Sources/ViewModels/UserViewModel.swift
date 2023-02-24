@@ -34,14 +34,13 @@ class UserStore : ObservableObject {
         return nil
     }
     
-    @MainActor
     func requestUser(userID: String) async {
         let document = await getUserDocument(userID: userID)
         
         if let document {
             do {
                 let user: UserInfo = try document.data(as: UserInfo.self)
-                self.user = user
+                await writeUser(user: user)
             } catch {
                 print("Request User Error : \(error.localizedDescription)")
             }
@@ -115,7 +114,6 @@ class UserStore : ObservableObject {
         return user.blockedUserIDs.firstIndex(of: targetUserID)
     }
     
-    // FIXME: 기존 updateIsTargetUserBlocked 메서드에서 사용되었으나 로직 변경으로 미사용, 사용 용도가 더 이상 없는 경우 삭제 예정 By. 태영 - 23.02.24
     @MainActor
     private func writeUser(user: UserInfo) {
         self.user = user
