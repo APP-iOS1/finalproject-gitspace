@@ -95,7 +95,7 @@ final class GitHubAuthManager: ObservableObject {
                     self.githubAcessToken = oauthCredential.accessToken
                     tempoaryAccessToken = oauthCredential.accessToken
                     
-                    var session = URLSession(configuration: .default)
+                    let session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
                     githubRequest.httpMethod = "GET"
 //                    githubRequest.addValue("Bearer \(oauthCredential.accessToken!)", forHTTPHeaderField: "Authorization")
@@ -111,8 +111,6 @@ final class GitHubAuthManager: ObservableObject {
                             return
                         }
                         
-//                        print(String(data: data, encoding: <#T##String.Encoding#>))
-                        
                         self.authenticatedUser = DecodingManager.decodeData(userData, GitHubUser.self)
                         
                         guard self.authenticatedUser != nil else {
@@ -123,7 +121,6 @@ final class GitHubAuthManager: ObservableObject {
                         
                         DispatchQueue.main.async {
                             self.state = .signedIn
-                            
                         }
                     }
                     task.resume()
@@ -132,11 +129,9 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
-    // FIXME: requestExistUser -> registerNewUser순으로 Completion Handler { Completion Handler { } } 구조로 작업 필요
     // existUser에서 가입일시를 받아서 새 user 만들기 + Github API 닉네임과 UserInfo 닉네임이 일치하지 않으면 업데이트
     // MARK: Method - Auth의 currentUser를 통해 UserInfo에 이미 존재하는 유저인지 여부를 반환하는 메서드
     // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
-    
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
     private func registerNewUser(_ githubUser: GitHubUser) {
