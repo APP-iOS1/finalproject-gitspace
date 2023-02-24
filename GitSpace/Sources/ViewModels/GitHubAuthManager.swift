@@ -33,7 +33,7 @@ final class GitHubAuthManager: ObservableObject {
     let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
     private var githubCredential: OAuthCredential? = nil
-    var authenticatedUser: GitHubUser?
+    var authenticatedUser: GithubUser?
     
     enum SignInState {
         case signedIn
@@ -44,7 +44,7 @@ final class GitHubAuthManager: ObservableObject {
         githubPermissionPreconfigure()
     }
     
-    static let sampleUser: GitHubUser = GitHubUser(id: 123, login: "octo", name: "cuty_octo", email: "gitspace.rbg@gmail.com", avatar_url: "https://avatars.githubusercontent.com/u/124763259?v=4", bio: "I'm Cuty Octo!", company: "GitSpace RBG", location: "Space", blog: "https://gitspace.tistory.com", public_repos: 0, followers: 7, following: 7)
+    static let sampleUser: GithubUser = GithubUser(id: 123, login: "octo", name: "cuty_octo", email: "gitspace.rbg@gmail.com", avatar_url: "https://avatars.githubusercontent.com/u/124763259?v=4", bio: "I'm Cuty Octo!", company: "GitSpace RBG", location: "Space", blog: "https://gitspace.tistory.com", public_repos: 0, followers: 7, following: 7)
     
     // MARK: - GitHub OAuth 연결 설정
     /// GitHub OAuth를 사용하기 위해 필요한 설정들을 세팅합니다.
@@ -111,7 +111,7 @@ final class GitHubAuthManager: ObservableObject {
                             return
                         }
                         
-                        self.authenticatedUser = DecodingManager.decodeData(userData, GitHubUser.self)
+                        self.authenticatedUser = DecodingManager.decodeData(userData, GithubUser.self)
                         
                         guard self.authenticatedUser != nil else {
                             return
@@ -134,40 +134,104 @@ final class GitHubAuthManager: ObservableObject {
     // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    private func registerNewUser(_ githubUser: GitHubUser) {
+    private func registerNewUser(_ githubUser: GithubUser) {
         
-        if let uid = authentification.currentUser?.uid {
+        if let firebaseAuthUID = authentification.currentUser?.uid {
             // 현재 Auth 로그인 uid로 UserInfo에 접근
             database
                 .collection("UserInfo")
-                .document(uid)
+                .document(firebaseAuthUID)
                 .getDocument { result, error in
                     // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
                     guard let result, result.exists else {
-                        let newUser: UserInfo = .init(id: uid,
+                        
+                        let newUser: UserInfo = .init(id: firebaseAuthUID,
                                                       createdDate: Date.now,
-													  githubUserName: githubUser.login,
-													  githubID: githubUser.id,
                                                       deviceToken: "",
-                                                      emailTo: githubUser.email,
-                                                      blockedUserIDs: [])
+                                                      blockedUserIDs: [],
+                                                      githubID: githubUser.id,
+                                                      githubLogin: githubUser.login,
+                                                      githubName: githubUser.name,
+                                                      githubEmail: githubUser.email,
+                                                      avatar_url: githubUser.avatar_url,
+                                                      bio: githubUser.bio,
+                                                      company: githubUser.company,
+                                                      location: githubUser.location,
+                                                      blog: githubUser.blog,
+                                                      public_repos: githubUser.public_repos,
+                                                      followers: githubUser.followers,
+                                                      following: githubUser.following)
+                        
                         self.addUser(newUser)
                         return
                     }
-                    // 이미 존재하는 유저 && 깃허브 프로필과 아이디가 다르면 변경된 아이디로 업데이트
+                    // 기존 유저 정보와 깃허브 로그인 시 받은 정보의 필드가 불일치하면, 로그인 정보로 DB의 기존 유저 정보 업데이트
                     do {
                         let existUser: UserInfo = try result.data(as: UserInfo.self)
-                        if existUser.githubUserName != githubUser.login {
-                            self.database
+                        let existGithubUser: GithubUser = self.getGithubUser(FBUser: existUser)
+                        if existGithubUser != githubUser {
+                            let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
+                            try self.database
                                 .collection("UserInfo")
                                 .document(existUser.id)
-                                .updateData(["githubUserName" : githubUser.login])
+                                .setData(from: updatedUserInfo)
                         }
                     } catch {
-                        print("Decode User Error : \(error.localizedDescription)")
+                        print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                     }
                 }
         }
+    }
+    
+    /**
+     Firestore UserInfo에서 깃허브 유저 관련 프로퍼티를 받아서 GithubUser 인스턴스로 반환하는 메서드
+     
+     - parameters:
+     - FBUser: Firestore UserInfo 모델
+     
+     - Returns: FBUser의 프로퍼티를 통해 생성한 GithubUser 인스턴스
+     */
+    private func getGithubUser(FBUser: UserInfo) -> GithubUser {
+        return .init(id: FBUser.githubID,
+                     login: FBUser.githubLogin,
+                     name: FBUser.githubName,
+                     email: FBUser.githubEmail,
+                     avatar_url: FBUser.avatar_url,
+                     bio: FBUser.bio,
+                     company: FBUser.company,
+                     location: FBUser.location,
+                     blog: FBUser.blog,
+                     public_repos: FBUser.public_repos,
+                     followers: FBUser.followers,
+                     following: FBUser.following)
+    }
+    
+    /**
+     기존 Firestore UserInfo와 업데이트된 GithubUser를 통해서 업데이트된 Firestore UserInfo를 생성하는 메서드
+     
+     - parameters:
+        - FBUser: 기존 Firestore UserInfo
+        - githubUser: 새로 업데이트 된 GithubUser
+     
+     - Returns: 기존 Firestore 유저 정보와 업데이트 된 Github 유저 정보를 통해 생성된 Firestore 유저
+     */
+    private func getFBUserWithUpdatedGithubUser(FBUser: UserInfo, githubUser: GithubUser) -> UserInfo {
+        return .init(id: FBUser.id,
+                     createdDate: FBUser.createdDate,
+                     deviceToken: FBUser.deviceToken,
+                     blockedUserIDs: FBUser.blockedUserIDs,
+                     githubID: githubUser.id,
+                     githubLogin: githubUser.login,
+                     githubName: githubUser.name,
+                     githubEmail: githubUser.email,
+                     avatar_url: githubUser.avatar_url,
+                     bio: githubUser.bio,
+                     company: githubUser.company,
+                     location: githubUser.location,
+                     blog: githubUser.blog,
+                     public_repos: githubUser.public_repos,
+                     followers: githubUser.followers,
+                     following: githubUser.following)
     }
     
     // MARK: - Add User
@@ -259,7 +323,7 @@ final class GitHubAuthManager: ObservableObject {
     
     
     // MARK: - Get GitHub User Info
-    // GitHubUser 구조체의 데이터를 불러옵니다.
+    // GithubUser 구조체의 데이터를 불러옵니다.
     //    func getGitHubUserInfo() {
     //        guard let url = URL(string: "https://api.github.com/users/\(GitHubUserName)") else {
     //            print("Invalid url")
@@ -284,7 +348,7 @@ final class GitHubAuthManager: ObservableObject {
     //            decoder.keyDecodingStrategy = .convertFromSnakeCase
     //
     //            do {
-    //                let response = try decoder.decode([GitHubUser].self, from: data)
+    //                let response = try decoder.decode([GithubUser].self, from: data)
     //
     //                DispatchQueue.main.async {
     //                    self.result = response
