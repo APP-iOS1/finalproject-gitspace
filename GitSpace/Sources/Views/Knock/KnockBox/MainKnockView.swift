@@ -44,8 +44,7 @@ struct MainKnockView: View {
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 8)
+            .padding(8)
             .background(
                 Color(.systemGray4)
                     .cornerRadius(16)
@@ -173,20 +172,27 @@ struct MainKnockView: View {
 				currentUser: userInfoManager.currentUser ?? UserInfo.getFaliedUserInfo()
 			)
 			
+			// !!!: - When Pushed Notification tabbed To Navigate.
 			if let knockID,
-			   knockID != "DOCPATH",
-			   !tabBarRouter.navigateToReceivedKnock || !tabBarRouter.navigateToSentKnock {
+			   knockID != "DOCPATH" {
 				async let eachKnock = knockViewManager.requestKnockWithID(knockID: knockID)
 				pushedKnock = await eachKnock
 				
+				// 수신인의 이름과 현재 로그인한 사용자의 이름이 다르다면, 내가 보낸 노크함으로.
 				if pushedKnock?.receivedUserName != userInfoManager.currentUser?.githubUserName {
+					print("TO KNOCK SENT VIEW")
 					userSelectedTab = Constant.KNOCK_SENT
-					tabBarRouter.navigateToSentKnock.toggle()
-				} else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubUserName {
+					tabBarRouter.navigateToSentKnock = true
+				}
+				
+				// 수신인의 이름이 현재 로그인한 사용자의 이름과 같다면, 내가 받은 노크함으로.
+				else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubUserName {
+					print("TO KNOCK RECEIVED VIEW")
 					userSelectedTab = Constant.KNOCK_RECEIVED
-					tabBarRouter.navigateToReceivedKnock.toggle()
+					tabBarRouter.navigateToReceivedKnock = true
 				}
 			}
+			
 			await knockViewManager.requestKnockList(
 				currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
 			)
@@ -365,17 +371,19 @@ struct MainKnockView: View {
 	) -> some View {
 		Section {
 			ForEach(
-				!isSearching
+				isSearching
 				? knockList
-					.sorted { knockViewManager.compareTwoKnockWithStatus(lhs: $0, rhs: $1) }
-				
-				: knockList
 					.sorted { knockViewManager.compareTwoKnockWithStatus(lhs: $0, rhs: $1) }
 					.filter {
 						userSelectedTab == Constant.KNOCK_RECEIVED
 						? $0.sentUserName.contains(searchText, isCaseInsensitive: true)
 						: $0.receivedUserName.contains(searchText, isCaseInsensitive: true)
-					},
+					}
+				: knockList
+					.sorted {
+						knockViewManager.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
+					}
+				,
 				id: \.id) { eachKnock in
 					if let eachFilteredState,
 					   eachFilteredState.rawValue == eachKnock.knockStatus {
@@ -486,6 +494,7 @@ struct MainKnockView: View {
 		}
 	}
 	
+	// MARK: - Navigate To Speicific Cell When User Tabbed Notification
 	@ViewBuilder
 	private func destinationSwitchBuilder() -> some View {
 		if let pushedKnock {
@@ -516,17 +525,3 @@ enum KnockStateFilter: String {
     case declined = "Declined"
     case all = "All"
 }
-
-//                knockList
-//                    .sorted {
-//                        knockHistoryViewModel.compareTwoKnockWithStatus(lhs: $0, rhs: $1)
-//                    }
-//                    .filter {
-//                        knockHistoryViewModel.filterKnockListWithCondition(
-//                            eachKnock: $0,
-//                            eachFilterOption: filterState,
-//                            userFilteredKnockState: userFilteredKnockState,
-//                            searchWith: searchWith,
-//                            knockType: knockType
-//                        )
-//                    }
