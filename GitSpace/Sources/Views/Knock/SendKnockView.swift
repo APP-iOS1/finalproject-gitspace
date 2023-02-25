@@ -12,7 +12,6 @@ enum TextEditorFocustState {
     case done
 }
 
-
 struct SendKnockView: View {
     
     @Environment(\.dismiss) private var dismiss
@@ -29,7 +28,7 @@ struct SendKnockView: View {
     @State private var knockMessage: String = ""
     @State private var showKnockGuide: Bool = false
 	
-	@State var sentToUser: GitHubUser?
+	@State var sendKnockToGitHubUser: GitHubUser?
 	@State private var sentTo: UserInfo?
 	@State private var newKnock: Knock? = nil
 	@State private var isKnockSent: Bool = false
@@ -56,7 +55,7 @@ struct SendKnockView: View {
                     VStack(spacing: 5) {
                         HStack(spacing: 5) {
                             Text("It's the first message to")
-							Text("\(sentToUser?.login ?? "NONO")!")
+							Text("\(sendKnockToGitHubUser?.login ?? "NONO")!")
                                 .bold()
                         }
                         
@@ -128,7 +127,7 @@ struct SendKnockView: View {
                         VStack(alignment: .center, spacing: 10) {
                             VStack (alignment: .center) {
                                 Text("Send your Knock messages to")
-                                Text("\(sentToUser?.login ?? "NONO")!")
+                                Text("\(sendKnockToGitHubUser?.login ?? "NONO")!")
                                     .bold()
                             } // VStack
                             
@@ -179,14 +178,14 @@ struct SendKnockView: View {
                                     .padding(.horizontal, 15)
                                 
 								if isKnockSent {
-									Text("Your Knock Message has successfully been\ndelivered to **\(sentToUser?.login ?? "")**")
+									Text("Your Knock Message has successfully been\ndelivered to **\(sendKnockToGitHubUser?.login ?? "")**")
 										.font(.system(size: 10, weight: .regular))
 										.padding(.horizontal, 20)
 										.padding(.vertical, 20)
 										.fixedSize(horizontal: false, vertical: true)
 										.multilineTextAlignment(.center)
 									
-									Text("\(newKnock?.date.formattedDateString() ?? "")")
+									Text("\(newKnock?.knockedDate.dateValue().formattedDateString() ?? "")")
 										.font(.callout)
 										.foregroundColor(.gsGray1)
 										.padding(.vertical, 8)
@@ -282,7 +281,6 @@ struct SendKnockView: View {
                         GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                         
                         Button {
-							// TODO: 노크보내기(CREATE)
 							Task {
 								// 노크 보내기
 								await sendKnock()
@@ -368,7 +366,6 @@ struct SendKnockView: View {
                         
                         
                         Button {
-							// TODO: - knock(CREATE)
 							Task {
 								// 노크 보내기
 								await sendKnock()
@@ -396,13 +393,12 @@ struct SendKnockView: View {
         } // VStack
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
                     ProfileDetailView()
                 } label: {
                     HStack(spacing: 5) {
-						AsyncImage(url: URL(string: "\(sentToUser?.avatar_url ?? "")")) { image in
+						AsyncImage(url: URL(string: "\(sendKnockToGitHubUser?.avatar_url ?? "")")) { image in
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -412,7 +408,7 @@ struct SendKnockView: View {
                             ProgressView()
                         } // AsyncImage
                         
-						Text("\(sentToUser?.login ?? "NONO")")
+						Text("\(sendKnockToGitHubUser?.login ?? "NONO")")
                             .bold()
                     } // HStack
                     .foregroundColor(.black)
@@ -437,7 +433,7 @@ struct SendKnockView: View {
     }
 	
 	private func sendKnock() async -> Void {
-		guard let githubID = sentToUser?.id else { return }
+		guard let githubID = sendKnockToGitHubUser?.id else { return }
 		
 		@Sendable
 		func getSentToUser() async -> UserInfo {
@@ -453,7 +449,7 @@ struct SendKnockView: View {
 			knockMessage: knockMessage,
 			knockStatus: Constant.KNOCK_WAITING,
 			knockCategory: chatPurpose,
-			receivedUserName: sentToUser?.login ?? "",
+			receivedUserName: sendKnockToGitHubUser?.login ?? "",
 			sentUserName: userStore.currentUser?.githubUserName ?? "",
 			receivedUserID: sentTo?.id ?? "", // 받을 사람
 			sentUserID: userStore.currentUser?.id ?? "" // 보낸 사람
@@ -469,11 +465,11 @@ struct SendKnockView: View {
 	}
 	
 	private func pushKnockNotification() async -> Void {
-		await pushNotificationManager.sendPushNotification(
+		await pushNotificationManager.sendNotification(
 			with: .knock(
 				title: "New Knock Has Been Arrived!",
 				body: newKnock?.knockMessage ?? "",
-				fromUser: userStore.currentUser?.githubUserName ?? "",
+				nameOfKnockedPerson: userStore.currentUser?.githubUserName ?? "",
 				knockID: newKnock?.id ?? ""
 			),
 			to: sentTo ?? .getFaliedUserInfo()
