@@ -34,12 +34,12 @@ struct ChatRoomView: View {
             // 채팅 메세지 스크롤 뷰
             ScrollViewReader { proxy in
                 ScrollView {
-                    /*
-                    TopperProfileView()
+                    
+                    TopperProfileView(targetUserInfo: targetUserInfo)
                     
                     Divider()
                         .padding(.vertical, 20)
-                     */
+                     
                     Spacer()
                         .frame(height: 50)
                     

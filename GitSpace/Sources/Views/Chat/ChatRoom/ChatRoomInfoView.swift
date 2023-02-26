@@ -20,14 +20,14 @@ struct ChatRoomInfoView: View {
     
     var body: some View {
         VStack {
-            /*
+            
             Section{
-                TopperProfileView()
+                TopperProfileView(targetUserInfo: targetUserInfo)
                 
                 Divider()
                     .padding(.horizontal, -10)
             }
-             */
+            
             
             Section {
                 VStack(alignment: .leading) {
