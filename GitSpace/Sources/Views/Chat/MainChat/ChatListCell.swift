@@ -10,29 +10,20 @@ import SwiftUI
 struct ChatListCell: View {
     
     let chat: Chat
-    let targetUserName: String
+    let targetUserInfo: UserInfo
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatStore: ChatStore
     @State var opacity: Double = 0.4
-    @State private var avatarURL: String?
     
     
     var body: some View {
         
         VStack(alignment: .leading) {
             HStack {
-                Group {
-                    let size: CGFloat = 52
-                    if let avatarURL {
-                        GithubProfileImage(urlStr: avatarURL, size: size)
-                    } else {
-                        DefaultProfileImage(size: size)
-                    }
-                }
-                .padding(.trailing)
-                
+                GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 52)
+                    .padding(.trailing)
                 VStack(alignment: .leading) {
-                    GSText.CustomTextView(style: .title2, string: "@\(targetUserName)")
+                    GSText.CustomTextView(style: .title2, string: "@\(targetUserInfo.githubLogin)")
                         .lineLimit(1)
                         .padding(.bottom, 1)
                     
@@ -57,7 +48,6 @@ struct ChatListCell: View {
             Divider()
         }
         .task {
-            avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4
             }

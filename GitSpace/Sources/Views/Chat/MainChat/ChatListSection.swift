@@ -25,12 +25,11 @@ struct ChatListSection: View {
             if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
                 ForEach(chatStore.chats) { chat in
-                    
-                    if let targetUserName = chatStore.targetNameDict[chat.id] {
+                    if let targetUserInfo = chatStore.targetUserInfoDict[chat.id] {
                         NavigationLink {
-                            ChatRoomView(chat: chat, targetUserName: targetUserName)
+                            ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
                         } label: {
-                            ChatListCell(chat: chat, targetUserName: targetUserName)
+                            ChatListCell(chat: chat, targetUserInfo: targetUserInfo)
                                 .foregroundColor(.black)
                         }
                     }
@@ -43,13 +42,20 @@ struct ChatListSection: View {
         }
         .padding(.horizontal, 20)
         .overlay {
-            NavigationLink(
-                destination: ChatRoomView(
-                    chat: pushedChat
-                    ?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserName: ""),
-                isActive: $tabBarRouter.navigateToChat) {
-                    EmptyView()
-                }
+            /* FIXME: push 탭을 통해서 진입하는 ChatRoomView 로직에서 쥬니와 논의 필요 By. 태영 23.02.26 [논의 완료]
+             - targetUserName일 때 ""를 할당했었는데, 채팅방 안에서 상대방 이름을 표시하는데 문제가 없는지?
+             - targetUserName이 Chat의 연산프로퍼티 + DB Request 로직이라서 UserStore의 타입 메서드로 UserInfo를 요청하는 형태로 변경했는데 if let으로 적용해도 되는지?
+             - 빌드 에러 제거를 위해서 우선 if let 구문으로 변경
+             */
+            if let chatID, let targetUserInfo = chatStore.targetUserInfoDict[chatID] {
+                NavigationLink(
+                    destination: ChatRoomView(
+                        chat: pushedChat
+                        ?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserInfo: targetUserInfo ),
+                    isActive: $tabBarRouter.navigateToChat) {
+                        EmptyView()
+                    }
+            }
         }
         .task {
             if !chatStore.isDoneFetch {

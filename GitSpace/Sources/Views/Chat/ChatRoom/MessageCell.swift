@@ -11,10 +11,9 @@ import SwiftUI
 struct MessageCell : View {
     
     let message: Message
-    let targetUserName: String
+    let targetUserInfo: UserInfo
     var isMine: Bool { return Utility.loginUserID == message.senderID }
     @EnvironmentObject var messageStore: MessageStore
-    @State private var avatarURL: String?
     
     var body: some View {
         
@@ -43,21 +42,14 @@ struct MessageCell : View {
                     NavigationLink {
                         ProfileDetailView()
                     } label: {
-                        Group {
-                            let size: CGFloat = 35
-                            if let avatarURL {
-                                GithubProfileImage(urlStr: avatarURL, size: size)
-                            } else {
-                                DefaultProfileImage(size: size)
-                            }
-                        }
+                        GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 35)
                     }
                     Spacer()
                 }
                 
                 // UserName과 Message Bubble 부분
                 VStack (alignment: .leading, spacing: 6) {
-                    GSText.CustomTextView(style: .caption1, string: targetUserName)
+                    GSText.CustomTextView(style: .caption1, string: targetUserInfo.githubLogin)
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
@@ -66,9 +58,6 @@ struct MessageCell : View {
                         Spacer()
                     }
                 }
-            }
-            .task {
-                avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
             }
         }
     }

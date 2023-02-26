@@ -19,7 +19,7 @@
 /// 1. ChatRoomInfoView 구현 [완료]
 /// 2. Chat Listener 관련 메서드 구현 및 뷰 연결 [완료]
 /// 3. remove에 대한 lastContent 업데이트 분기 처리 [완료]
-/// 4. ScrollView Reader 완성 (개어려움) [진행 중]
+/// 4. ScrollView Reader 완성 [진행 중]
 ///     4-1 상단 끝에 닿았을 때 fetch
 ///     4-2 현재 위치 읽어서 자동 스크롤링 처리
 ///     4-3 이전 메세지 읽고 있으면 하단에 팝업 띄워주기
@@ -27,8 +27,9 @@
 /// 5. 메세지 인앱 알림 처리 [승준 FCM 구현으로 완료]
 /// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
 /// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치) [완료]
-/// 8. Github API 프로필 Image 캐시 처리 [스프린트 5 예정]
+/// 8. Github API 프로필 Image 캐시 처리 [완료]
 /// 9. UserInfo 모델링 + Github OAuth 로직 연결 [완료]
+/// 10. Github User - Firebase UserInfo 병합 [완료]
 
 // TODO: 공통 작업
 /// 1. 스유 컴포넌트 -> 디자인 시스템 적용
@@ -42,7 +43,7 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-    var targetNameDict: [String : String]
+    var targetUserInfoDict: [String : UserInfo]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
     
@@ -50,8 +51,8 @@ final class ChatStore: ObservableObject {
     private let db = Firestore.firestore()
     
     init() {
+        targetUserInfoDict = [:]
         chats = []
-        targetNameDict = [:]
         isDoneFetch = false
     }
     
@@ -73,7 +74,7 @@ extension ChatStore {
             let newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
-            print("Fetch New Chat in Chat Listener Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -152,7 +153,7 @@ extension ChatStore {
                 .getDocuments()
             return snapshot
         } catch {
-            print("Get Chat Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -172,11 +173,12 @@ extension ChatStore {
             for document in snapshot.documents {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
-                    let targetUserName: String = await chat.targetUserName
-                    newChats.append(chat)
-                    targetNameDict[chat.id] = targetUserName
+                    if let targetUserInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
+                        newChats.append(chat)
+                        targetUserInfoDict[chat.id] = targetUserInfo
+                    }
                 } catch {
-                    print("Fetch Chat Error : \(error)")
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
             }
         }
@@ -189,9 +191,17 @@ extension ChatStore {
 		let doc = db.collection("Chat").document(chatID)
 		do {
 			let pushedChat = try await doc.getDocument(as: Chat.self)
-			let targetUserName = await pushedChat.targetUserName
-			targetNameDict[pushedChat.id] = targetUserName
-			return pushedChat
+            // FIXME: Chat의 targetUserName을 사용하지 않기 위해 UserStore의 UserInfo 요청 메서드 구현. 해당 메서드로 로직 대체 By. 태영
+            /* 기존 코드
+             let targetUserName = await pushedChat.targetUserName
+             targetNameDict[pushedChat.id] = targetUserName
+             return pushedChat
+             */
+            if let targetUserInfo = await UserStore.requestAndReturnUser(userID: pushedChat.targetUserID) {
+                targetUserInfoDict[pushedChat.id] = targetUserInfo
+                return pushedChat
+            }
+            return nil
 		} catch {
 			dump("DEBUG: \(#file)-\(#function): get pushed Chat FALIED")
 			return nil
@@ -205,7 +215,7 @@ extension ChatStore {
                 .document(chat.id)
                 .setData(from: chat.self)
         } catch {
-            print("Error-ChatViewModel-addChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -217,7 +227,7 @@ extension ChatStore {
                              "lastContent" : chat.lastContent,
                              "unreadMessageCount" : chat.unreadMessageCount])
         } catch {
-            print("Error-ChatViewModel-updateChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         
     }
@@ -228,7 +238,7 @@ extension ChatStore {
                 .document(chat.id)
                 .delete()
         } catch {
-            print("Error-ChatViewModel-removeChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -243,7 +253,7 @@ extension ChatStore {
                 return dict
             }
         } catch {
-            print("Get Chat Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
