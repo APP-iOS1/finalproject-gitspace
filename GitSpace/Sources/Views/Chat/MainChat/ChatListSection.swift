@@ -26,11 +26,11 @@ struct ChatListSection: View {
                 // 채팅방 목록 리스트
                 ForEach(chatStore.chats) { chat in
                     
-                    if let targetUserName = chatStore.targetNameDict[chat.id] {
+                    if let targetUserInfo = chatStore.targetUserInfoDict[chat.id] {
                         NavigationLink {
-                            ChatRoomView(chat: chat, targetUserName: targetUserName)
+                            ChatRoomView(chat: chat, targetUserName: targetUserInfo.githubLogin)
                         } label: {
-                            ChatListCell(chat: chat, targetUserName: targetUserName)
+                            ChatListCell(chat: chat, targetUserName: targetUserInfo.githubLogin)
                                 .foregroundColor(.black)
                         }
                     }
