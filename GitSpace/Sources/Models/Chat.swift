@@ -18,7 +18,7 @@ struct Chat: Identifiable, Codable {
     var lastContentDate: Date // 마지막 메세지 날짜
     let knockContent: String // 노크 메세지 내용
     let knockContentDate: Date // 노크 메세지 날짜
-    var unreadMessageCount: [String : Int] // 안읽은 메시지 갯수 (userID : 안읽은 메시지 수)
+    var unreadMessageCount: [String : Int] // 읽지 않은 메시지 갯수 (userID : 읽지 않은 메시지 갯수)
     
     // MARK: -Computed Properties
     // 로그인 ID와 joinedMemberIDs를 비교해서 상대방 유저 ID를 반환하는 연산 프로퍼티
@@ -31,6 +31,9 @@ struct Chat: Identifiable, Codable {
         return ""
     }
     
+    /* Memo
+     - UserID를 통해 UserInfo를 Request하는 로직을 UserStore로 분리하기 위해 주석처리
+     - UserStore의 타입 메서드인 requestAndReturnUser를 통해 UserInfo를 리턴받을 수 있음. 23.02.26 태영
     // targetID 연산 프로퍼티를 활용해서 DB의 target User Name을 찾아서 반환하는 연산 프로퍼티
     var targetUserName: String {
         get async {
@@ -51,6 +54,7 @@ struct Chat: Identifiable, Codable {
             return returnUserName.isEmpty ? "이름 없음" : returnUserName
         }
     }
+     */
     
     var stringCreatedDate: String {
         let dateFormatter = DateFormatter()
