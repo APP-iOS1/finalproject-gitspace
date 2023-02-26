@@ -43,7 +43,7 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-    var targetNameDict: [String : UserInfo]
+    var targetUserInfoDict: [String : UserInfo]
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
     
@@ -51,7 +51,7 @@ final class ChatStore: ObservableObject {
     private let db = Firestore.firestore()
     
     init() {
-        targetNameDict = [:]
+        targetUserInfoDict = [:]
         chats = []
         isDoneFetch = false
     }
@@ -175,7 +175,7 @@ extension ChatStore {
                     let chat: Chat = try document.data(as: Chat.self)
                     if let userInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
                         newChats.append(chat)
-                        targetNameDict[chat.id] = userInfo
+                        targetUserInfoDict[chat.id] = userInfo
                     }
                 } catch {
                     print("Fetch Chat Error : \(error)")
