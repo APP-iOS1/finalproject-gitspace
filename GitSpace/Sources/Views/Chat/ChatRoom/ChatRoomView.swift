@@ -27,7 +27,6 @@ struct ChatRoomView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
-    @State private var avatarURL: String?
     
     var body: some View {
         
@@ -85,19 +84,9 @@ struct ChatRoomView: View {
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 15) {
-                    Group {
-                        let size: CGFloat = 25
-                        if let avatarURL {
-                            GithubProfileImage(urlStr: avatarURL, size: size)
-                        } else {
-                            DefaultProfileImage(size: size)
-                        }
-                    }
-                    GSText.CustomTextView(style: .title3, string: targetUserName)
+                    GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 25)
+                    GSText.CustomTextView(style: .title3, string: targetUserInfo.githubLogin)
                         .padding(.horizontal, -8)
-                }
-                .task {
-                    avatarURL = await getGithubProfileImageURL(targetUserName: targetUserName)
                 }
             }
             /* 시연 영상 제외
@@ -145,7 +134,7 @@ struct ChatRoomView: View {
         ForEach(messageStore.messages.indices, id: \.self) { index in
             
             MessageCell(message: messageStore.messages[index],
-                        targetUserName: targetUserName)
+                        targetUserInfo: targetUserInfo)
                 .padding(.vertical, -5)
                 .id(index == unreadMessageIndex ? "Start" : "")
         }
@@ -393,7 +382,7 @@ struct ChatRoomView: View {
                 let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetUserID)
                 // 5
                 ChatRoomInfoView(chat: chat,
-                                 targetUserName: targetUserName,
+                                 targetUserInfo: targetUserInfo,
                                  isBlocked: isChatBlocked,
                                  isNotificationReceiveEnable: isNotificationReceiveEnable ?? true)
             }
