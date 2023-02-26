@@ -18,7 +18,7 @@ struct ChatRoomView: View {
     }
 
     let chat: Chat
-    let targetUserName: String
+    let targetUserInfo: UserInfo
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore

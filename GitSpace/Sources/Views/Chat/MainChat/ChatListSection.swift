@@ -25,10 +25,9 @@ struct ChatListSection: View {
             if chatStore.isDoneFetch {
                 // 채팅방 목록 리스트
                 ForEach(chatStore.chats) { chat in
-                    
                     if let targetUserInfo = chatStore.targetUserInfoDict[chat.id] {
                         NavigationLink {
-                            ChatRoomView(chat: chat, targetUserName: targetUserInfo.githubLogin)
+                            ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
                         } label: {
                             ChatListCell(chat: chat, targetUserName: targetUserInfo.githubLogin)
                                 .foregroundColor(.black)
