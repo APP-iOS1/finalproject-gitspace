@@ -74,7 +74,7 @@ extension ChatStore {
             let newChat = try change.data(as: Chat.self)
             return newChat
         } catch {
-            print("Fetch New Chat in Chat Listener Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -153,7 +153,7 @@ extension ChatStore {
                 .getDocuments()
             return snapshot
         } catch {
-            print("Get Chat Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -178,7 +178,7 @@ extension ChatStore {
                         targetUserInfoDict[chat.id] = userInfo
                     }
                 } catch {
-                    print("Fetch Chat Error : \(error)")
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
             }
         }
@@ -207,7 +207,7 @@ extension ChatStore {
                 .document(chat.id)
                 .setData(from: chat.self)
         } catch {
-            print("Error-ChatViewModel-addChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -219,7 +219,7 @@ extension ChatStore {
                              "lastContent" : chat.lastContent,
                              "unreadMessageCount" : chat.unreadMessageCount])
         } catch {
-            print("Error-ChatViewModel-updateChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         
     }
@@ -230,7 +230,7 @@ extension ChatStore {
                 .document(chat.id)
                 .delete()
         } catch {
-            print("Error-ChatViewModel-removeChat : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -245,7 +245,7 @@ extension ChatStore {
                 return dict
             }
         } catch {
-            print("Get Chat Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
