@@ -173,9 +173,9 @@ extension ChatStore {
             for document in snapshot.documents {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
-                    if let userInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
+                    if let targetUserInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
                         newChats.append(chat)
-                        targetUserInfoDict[chat.id] = userInfo
+                        targetUserInfoDict[chat.id] = targetUserInfo
                     }
                 } catch {
                     print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
@@ -191,9 +191,17 @@ extension ChatStore {
 		let doc = db.collection("Chat").document(chatID)
 		do {
 			let pushedChat = try await doc.getDocument(as: Chat.self)
-			let targetUserName = await pushedChat.targetUserName
-			targetNameDict[pushedChat.id] = targetUserName
-			return pushedChat
+            // FIXME: Chat의 targetUserName을 사용하지 않기 위해 UserStore의 UserInfo 요청 메서드 구현. 해당 메서드로 로직 대체 By. 태영
+            /* 기존 코드
+             let targetUserName = await pushedChat.targetUserName
+             targetNameDict[pushedChat.id] = targetUserName
+             return pushedChat
+             */
+            if let targetUserInfo = await UserStore.requestAndReturnUser(userID: pushedChat.targetUserID) {
+                targetUserInfoDict[pushedChat.id] = targetUserInfo
+                return pushedChat
+            }
+            return nil
 		} catch {
 			dump("DEBUG: \(#file)-\(#function): get pushed Chat FALIED")
 			return nil
