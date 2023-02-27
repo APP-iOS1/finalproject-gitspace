@@ -22,7 +22,7 @@ struct StarredView: View {
     @State private var isShowingSelectTagView: Bool = false
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var currentPage: Int = 1
-    @State private var viewDidLoad: Bool = false
+//    @State private var viewDidLoad: Bool = false
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
     /// 현재 존재하는 gsGray 컬러가 너무 진해서 시스템 그레이로 설정해두었다.
@@ -215,15 +215,12 @@ struct StarredView: View {
                     } // if-let repo
                 } // ScrollView
             }
-            .onAppear {
-                if viewDidLoad == false {
-                    viewDidLoad = true
-                    Task {
-                        repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
-                        repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
-                        if !selectedTagList.isEmpty {
-                            repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
-                        }
+            .onViewDidLoad {
+                Task {
+                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
+                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                    if !selectedTagList.isEmpty {
+                        repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
                     }
                 }
             }
