@@ -22,6 +22,7 @@ struct StarredView: View {
     @State private var isShowingSelectTagView: Bool = false
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var currentPage: Int = 1
+    @State private var viewDidLoad: Bool = false
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
     /// 현재 존재하는 gsGray 컬러가 너무 진해서 시스템 그레이로 설정해두었다.
@@ -125,7 +126,7 @@ struct StarredView: View {
                                     .multilineTextAlignment(.center)
                             }
                         } else {
-                            ForEach(repositories) { repository in
+                            ForEach(Array(zip(repositories.indices, repositories)), id:\.0) { index, repository in
                                 LazyVStack {
                                     ZStack {
                                         GSCanvas.CustomCanvasView(style: .primary) {
@@ -158,7 +159,8 @@ struct StarredView: View {
                                                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                                                     .onAppear {
                                                         Task {
-                                                            if repositoryViewModel.repositories?.last == repository {
+                                                            if index % 25 == 23 {
+//                                                            if repositoryViewModel.repositories?.last == repository {
                                                                 print("Last: \(repository)")
                                                                 currentPage += 1
                                                                 repositoryViewModel.repositories! += await repositoryViewModel.requestStarredRepositories(page: currentPage) ?? []
@@ -214,11 +216,14 @@ struct StarredView: View {
                 } // ScrollView
             }
             .onAppear {
-                Task {
-                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
-                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
-                    if !selectedTagList.isEmpty {
-                        repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
+                if viewDidLoad == false {
+                    viewDidLoad = true
+                    Task {
+                        repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
+                        repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                        if !selectedTagList.isEmpty {
+                            repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
+                        }
                     }
                 }
             }
