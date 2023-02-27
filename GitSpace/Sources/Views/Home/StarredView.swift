@@ -21,6 +21,7 @@ struct StarredView: View {
     @State private var selectedTagList: [Tag] = []
     @State private var isShowingSelectTagView: Bool = false
     @StateObject private var keyboardHandler = KeyboardHandler()
+    @State private var currentPage: Int = 1
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
     /// 현재 존재하는 gsGray 컬러가 너무 진해서 시스템 그레이로 설정해두었다.
@@ -125,71 +126,84 @@ struct StarredView: View {
                             }
                         } else {
                             ForEach(repositories) { repository in
-                                ZStack {
-                                    GSCanvas.CustomCanvasView(style: .primary) {
-                                        HStack {
-                                            NavigationLink {
-                                                /* Repository Detail View */
-                                                RepositoryDetailView(service: gitHubService, repository: repository)
-                                            } label: {
-                                                VStack(alignment: .leading) {
-                                                    HStack(alignment: .top) {
-                                                        VStack(alignment: .leading) {
-                                                            GSText.CustomTextView(
-                                                                style: .body1,
-                                                                string: repository.owner.login)
-                                                            .multilineTextAlignment(.leading)
-                                                            GSText.CustomTextView(
-                                                                style: .title2,
-                                                                string: repository.name)
-                                                            .multilineTextAlignment(.leading)
+                                LazyVStack {
+                                    ZStack {
+                                        GSCanvas.CustomCanvasView(style: .primary) {
+                                            HStack {
+                                                NavigationLink {
+                                                    /* Repository Detail View */
+                                                    RepositoryDetailView(service: gitHubService, repository: repository)
+                                                } label: {
+                                                    /* Repository Row */
+                                                    VStack(alignment: .leading) {
+                                                        HStack(alignment: .top) {
+                                                            VStack(alignment: .leading) {
+                                                                GSText.CustomTextView(
+                                                                    style: .body1,
+                                                                    string: repository.owner.login)
+                                                                .multilineTextAlignment(.leading)
+                                                                GSText.CustomTextView(
+                                                                    style: .title2,
+                                                                    string: repository.name)
+                                                                .multilineTextAlignment(.leading)
+                                                            }
+                                                            Spacer()
                                                         }
-                                                        Spacer()
+                                                        .padding(.bottom, 5)
+                                                        GSText.CustomTextView(
+                                                            style: .caption1,
+                                                            string: repository.description ?? "")
+                                                        .multilineTextAlignment(.leading)
                                                     }
-                                                    .padding(.bottom, 5)
-                                                    GSText.CustomTextView(
-                                                        style: .caption1,
-                                                        string: repository.description ?? "")
-                                                    .multilineTextAlignment(.leading)
+                                                    .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+                                                    .onAppear {
+                                                        Task {
+                                                            if repositoryViewModel.repositories?.last == repository {
+                                                                print("Last: \(repository)")
+                                                                currentPage += 1
+                                                                repositoryViewModel.repositories! += await repositoryViewModel.requestStarredRepositories(page: currentPage) ?? []
+                                                                repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                                             }
                                         }
-                                    }
-                                    
-                                    VStack {
-                                        /* Penpal, Menu button */
-                                        HStack {
-                                            Spacer()
-                                            
-                                            Menu {
-                                                Section {
-                                                    Button(action: { print("Share") }) {
-                                                        Label("Share", systemImage: "square.and.arrow.up")
-                                                    }
-                                                    Button(action: { print("Chat") }) {
-                                                        Label("Chat", systemImage: "message")
-                                                    }
-                                                }
+                                        
+                                        VStack {
+                                            /* Penpal, Menu button */
+                                            HStack {
+                                                Spacer()
                                                 
-                                                Section {
-                                                    Button(role: .destructive, action: { print("Unstar") }) {
-                                                        Label("Unstar", systemImage: "star")
+                                                Menu {
+                                                    Section {
+                                                        Button(action: { print("Share") }) {
+                                                            Label("Share", systemImage: "square.and.arrow.up")
+                                                        }
+                                                        Button(action: { print("Chat") }) {
+                                                            Label("Chat", systemImage: "message")
+                                                        }
                                                     }
+                                                    
+                                                    Section {
+                                                        Button(role: .destructive, action: { print("Unstar") }) {
+                                                            Label("Unstar", systemImage: "star")
+                                                        }
+                                                    }
+                                                } label: {
+                                                    Image(systemName: "ellipsis")
+                                                        .frame(height: 20)
                                                 }
-                                            } label: {
-                                                Image(systemName: "ellipsis")
-                                                    .frame(height: 20)
+                                                .foregroundColor(colorScheme == .light ? .black : .white)
+                                                
                                             }
-                                            .foregroundColor(colorScheme == .light ? .black : .white)
-                                            
+                                            Spacer()
                                         }
-                                        Spacer()
-                                    }
-                                    .offset(x: -20, y: 20)
-                                } // ZStack
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 15)
+                                        .offset(x: -20, y: 20)
+                                    } // ZStack
+                                    .padding(.horizontal, 20)
+                                    .padding(.bottom, 15)
+                                }
                             } // ForEach
                         } // if-else repo.isEmpty
                     } else {
@@ -201,7 +215,7 @@ struct StarredView: View {
             }
             .onAppear {
                 Task {
-                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
+                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
                     repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                     if !selectedTagList.isEmpty {
                         repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
@@ -209,8 +223,9 @@ struct StarredView: View {
                 }
             }
             .refreshable {
+                currentPage = 1
                 Task {
-                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: 1)
+                    repositoryViewModel.repositories = await repositoryViewModel.requestStarredRepositories(page: currentPage)
                     repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
                     if !selectedTagList.isEmpty {
                         repositoryViewModel.filterRepository(selectedTagList: selectedTagList)
