@@ -63,6 +63,7 @@ struct GSTextEditor {
                     : currentNewLineCount) + 1
         }
         
+        // 현재 텍스트의 길이를 계산하는 프로퍼티
         private var textWidth: CGFloat {
             let lastLinetext = text.wrappedValue
             let label = UILabel()
@@ -70,20 +71,6 @@ struct GSTextEditor {
             label.text = lastLinetext
             label.sizeToFit()
             return label.frame.width
-        }
-        
-        // MARK: -Initializer
-        /// 파라미터 font = .body, lineSpace = 2 기본값 지정
-        init (
-            style: GSTextEditorStyle,
-            text: Binding<String>,
-            font: Font = .body,
-            lineSpace: CGFloat = 2
-        ) {
-            self.style = style
-            self.text = text
-            self.font = font
-            self.lineSpace = lineSpace
         }
         
         // MARK: -Methods
@@ -96,20 +83,27 @@ struct GSTextEditor {
         // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
         private func updateTextEditorCurrentHeight(textEditorWidth: CGFloat) {
             
-            let tempTextEditorHeight = (CGFloat(newLineCounter) * mainFontLineHeight)
-            + (CGFloat(newLineCounter) * lineSpace)
-            + (CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth)) * mainFontLineHeight)
+            let floatNewLineCounter = CGFloat(newLineCounter) // 개행문자 갯수
+            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth)) // 텍스트 길이에 의한 자동 줄바꿈 갯수
+            let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount // 총 라인 갯수
+            
+            // 라인 갯수로 계산한 현재 Editor 높이
+            let tempTextEditorHeight = (floatTotalLineCount * mainFontLineHeight)
+            + floatTotalLineCount * lineSpace
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
             
-            let maxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT)
+            let floatMaxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT) // 최대 줄 갯수
             
-            let maxHeight = mainFontLineHeight * maxLineCount
-            + lineSpace * maxLineCount
+            // 최대 줄 갯수 기준 Editor 높이
+            let maxHeight = mainFontLineHeight * floatMaxLineCount
+            + lineSpace * floatMaxLineCount
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
 
+            // 계산한 Editor 높이가 최대 Editor 높이보다 크면 최대 Editor 높이로 고정
             textEditorHeight = tempTextEditorHeight > maxHeight ? maxHeight : tempTextEditorHeight
         }
         
+        // MARK: Method - 개행 문자 기준으로 텍스트를 분리하고, 각 텍스트 길이가 Editor 길이를 초과하는지 계산하여 필요한 줄바꿈 수를 반환하는 메서드
         private func autoLineBreakCount(textEditorWidth: CGFloat) -> Int {
             var counter: Int = 0
             text.wrappedValue.components(separatedBy: "\n").forEach { line in
@@ -124,6 +118,22 @@ struct GSTextEditor {
             return counter
         }
 
+        // MARK: -Initializer
+        /// 파라미터 font = .body, lineSpace = 2 기본값 지정
+        init (
+            style: GSTextEditorStyle,
+            text: Binding<String>,
+            font: Font = .body,
+            lineSpace: CGFloat = 2
+        ) {
+            self.style = style
+            self.text = text
+            self.font = font
+            self.lineSpace = lineSpace
+        }
+        
+        
+        // MARK: -View
         var body: some View {
             switch style {
             case .message:
@@ -151,12 +161,12 @@ struct GSTextEditor {
                                 let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
                                 let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
                                 let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 6)
+                                
                                 updateTextEditorCurrentHeight(textEditorWidth: textEditorWidth)
                             }
                             .onChange(of: textWidth) { newValue in
                                 stateTextWidth = newValue
                             }
-                        
                     }
                 }
             }
