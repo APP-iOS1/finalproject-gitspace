@@ -152,7 +152,7 @@ struct AddTagSheetView: View {
                         Spacer()
                     }
                 }
-                .navigationBarTitle("Knock Knock!", displayMode: .inline)
+                .navigationBarTitle("Add Custom Tags", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
