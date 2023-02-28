@@ -95,11 +95,20 @@ struct GSTextEditor {
         // MARK: Method - line count를 통해 textEditor 현재 높이를 계산해서 업데이트하는 메서드
         // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
         private func updateTextEditorCurrentHeight(textEditorWidth: CGFloat) {
-            textEditorHeight = (CGFloat(newLineCounter) * mainFontLineHeight)
+            
+            let tempTextEditorHeight = (CGFloat(newLineCounter) * mainFontLineHeight)
             + (CGFloat(newLineCounter) * lineSpace)
+            + (CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth)) * mainFontLineHeight)
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
+            
+            let maxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT)
+            
+            let maxHeight = mainFontLineHeight * maxLineCount
+            + lineSpace * maxLineCount
+            + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
+
+            textEditorHeight = tempTextEditorHeight > maxHeight ? maxHeight : tempTextEditorHeight
         }
-        
         
         private func autoLineBreakCount(textEditorWidth: CGFloat) -> Int {
             var counter: Int = 0
@@ -115,8 +124,6 @@ struct GSTextEditor {
             return counter
         }
 
-
-        
         var body: some View {
             switch style {
             case .message:
