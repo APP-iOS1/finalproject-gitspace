@@ -32,6 +32,8 @@ struct GSTextEditor {
         let const = Constant.TextEditorConst.self
         @State private var textEditorHeight: CGFloat = 0
         
+        @State private var stateTextWidth: CGFloat = 0
+        
         // MARK: Computed Properties
         // font 사이즈 관련 프로퍼티를 활용하기 위해 Font -> UIFont로 변환
         private var mainUIFont: UIFont {
@@ -61,7 +63,18 @@ struct GSTextEditor {
                     : currentNewLineCount) + 1
         }
         
-        // MARK: Init
+        private var textWidth: CGFloat {
+            let lastLinetext = text.wrappedValue
+            let label = UILabel()
+            label.font = .fontToUIFont(from: font)
+            label.text = lastLinetext
+            label.sizeToFit()
+            return label.frame.width
+        }
+        
+
+        
+        // MARK: -Initializer
         /// 파라미터 font = .body, lineSpace = 2 기본값 지정
         init (
             style: GSTextEditorStyle,
@@ -83,39 +96,49 @@ struct GSTextEditor {
         
         // MARK: Method - line count를 통해 textEditor 현재 높이를 계산해서 업데이트하는 메서드
         // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
-        private func updateTextEditorCurrentHeight() {
-            textEditorHeight =
-            (CGFloat(newLineCounter) * mainFontLineHeight)
+        private func updateTextEditorCurrentHeight(textEditorWidth: CGFloat) {
+            textEditorHeight = (CGFloat(newLineCounter) * mainFontLineHeight)
             + (CGFloat(newLineCounter) * lineSpace)
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
         }
         
+
+        
         var body: some View {
             switch style {
             case .message:
-                TextEditor(text: text)
-                    .font(font)
-                    .lineSpacing(lineSpace)
-                    .frame(maxHeight: textEditorHeight)
-                    .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                    .padding(.bottom, -3)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                            .stroke()
-                            .foregroundColor(.gsGray2)
+                GeometryReader { proxy in
+                    VStack {
+                        Text(stateTextWidth.description)
+                            .font(.largeTitle)
+                            .tint(.blue)
+                        
+                        TextEditor(text: text)
+                            .font(font)
+                            .lineSpacing(lineSpace)
+                            .frame(maxHeight: textEditorHeight)
+                            .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
+                            .padding(.bottom, -3)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                                    .stroke()
+                                    .foregroundColor(.gsGray2)
+                            }
+                            .onAppear {
+                                setTextEditorStartHeight()
+                            }
+                            .onChange(of: text.wrappedValue) { n in
+                                let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+                                updateTextEditorCurrentHeight(textEditorWidth: textEditorWidth)
+                            }
+                            .onChange(of: textWidth) { newValue in
+                                stateTextWidth = newValue
+                            }
+                        
                     }
-                    .onAppear {
-                        setTextEditorStartHeight()
-                    }
-                    .onChange(of: newLineCounter) { n in
-                        updateTextEditorCurrentHeight()
-                    }
+                }
             }
         }
     }
-    
-    
-    
-    
 }
 
