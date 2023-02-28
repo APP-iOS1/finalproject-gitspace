@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct KnockNotificationCell: View {
+	@EnvironmentObject var knockViewModel: KnockViewManager
     
     var body: some View {
         HStack(spacing: 25) {
@@ -24,7 +25,7 @@ struct KnockNotificationCell: View {
                 .foregroundColor(.primary)
             
             NavigationLink {
-                ReceivedKnockView()
+//				ReceivedKnockView(knock: <#T##Knock#>)
             } label: {
                 knockNotificationLabel
             }

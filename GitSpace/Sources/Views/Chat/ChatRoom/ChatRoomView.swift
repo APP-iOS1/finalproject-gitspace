@@ -36,7 +36,7 @@ struct ChatRoomView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    TopperProfileView()
+//                    TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 20)
@@ -93,6 +93,7 @@ struct ChatRoomView: View {
             let enteredChat = await makeChat(makeChatCase: .enterChatRoom,
                                              deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
+			tabBarRouter.navigateToChat = false
         }
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
@@ -109,8 +110,6 @@ struct ChatRoomView: View {
                 await chatStore.updateChat(exitChat)
                 messageStore.removeListener()
             }
-            
-			tabBarRouter.navigateToChat = false
         }
     }
     
@@ -151,17 +150,15 @@ struct ChatRoomView: View {
                     }
                     Task {
 						// 상대방의 id로 유저를 가져옵니다.
-						await userStore.requestUser(userID: chat.targetUserID)
-						async let opponentUser = userStore.user
-						print(await opponentUser?.githubUserName)
+						async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
 						
 						// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
 						if let opponent = await opponentUser {
-							await notificationManager.sendPushNotification(
+							await notificationManager.sendNotification(
 								with: .chat(
 									title: "New Chat Message",
 									body: contentField,
-									fromUser: "",
+									nameOfChatter: "",
 									chatID: chat.id
 								),
 								to: opponent
@@ -183,15 +180,15 @@ struct ChatRoomView: View {
             Task {
 				// 상대방의 id로 유저를 가져옵니다.
 				let sentFrom = userStore.user?.githubUserName
-				async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
+				async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
 				
 				// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
 				if let opponent = await opponentUser {
-					await notificationManager.sendPushNotification(
+					await notificationManager.sendNotification(
 						with: .chat(
 							title: "New Chat Message",
 							body: contentField,
-							fromUser: sentFrom ?? "",
+							nameOfChatter: sentFrom ?? "",
 							chatID: chat.id
 						),
 						to: opponent

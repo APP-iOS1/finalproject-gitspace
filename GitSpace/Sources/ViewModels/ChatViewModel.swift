@@ -43,6 +43,7 @@ import FirebaseFirestoreSwift
 final class ChatStore: ObservableObject {
     
     var targetNameDict: [String : String]
+	@Published var newChat: Chat
     @Published var chats: [Chat]
     @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
     
@@ -53,6 +54,7 @@ final class ChatStore: ObservableObject {
         chats = []
         targetNameDict = [:]
         isDoneFetch = false
+		newChat = .init(id: "", createdDate: .now, joinedMemberIDs: [], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: [:])
     }
     
 }

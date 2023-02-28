@@ -11,7 +11,7 @@ struct MainChatView: View {
     
     @EnvironmentObject var chatStore : ChatStore
     @State private var showGuideCenter: Bool = false
-	@State public var chatID: String? = nil
+	@State public var chatID: String
     
     var body: some View {
         
@@ -40,13 +40,13 @@ struct MainChatView: View {
 
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    AddChatView()
-                } label: {
-                    Text("채팅 추가하기")
-                }
-            }
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                NavigationLink {
+//                    AddChatView()
+//                } label: {
+//                    Text("채팅 추가하기")
+//                }
+//            }
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {
             GuideCenterView()

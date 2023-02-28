@@ -6,23 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContributorListView: View {
-    
+	@Environment(\.colorScheme) var colorScheme
+	@EnvironmentObject var userInfoManager: UserStore
     @ObservedObject var contributorManager: ContributorViewModel
-    let gitHubService: GitHubService
-    let repository: Repository
+    public let gitHubService: GitHubService
+    public let repository: Repository
     
-    init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
-        self.gitHubService = service
-        self.repository = repository
-        self.contributorManager = contributorManager
-    }
-    
-    @Environment(\.colorScheme) var colorScheme
-    
-    let contributors: [String] = ["contributor1", "contributor2", "contributor3"]
-    
+    // MARK: - BODY
     var body: some View {
         
         ScrollView {
@@ -31,7 +24,8 @@ struct ContributorListView: View {
             
             GSText.CustomTextView(
                 style: .title2,
-                string: "Who do you want to chat with?")
+                string: "Who do you want to chat with?"
+			)
             .padding(.leading, 10)
             .padding(.bottom, -5)
             
@@ -62,8 +56,14 @@ struct ContributorListView: View {
             
             ForEach(contributorManager.contributors) { user in
                 
-                NavigationLink(destination: SendKnockView()) {
-                    
+				NavigationLink {
+					// 어떤 유저의 정보를 전달할 것인지만 정하면 된다.
+					// user.id == 내가 보낼 상대방의 id
+					// currentuserid == 내 id
+					SendKnockView(
+						sendKnockToGitHubUser: user
+					)
+				} label: {
                     let url = URL(string: user.avatar_url)
                     
                     GSCanvas.CustomCanvasView.init(style: .primary, content: {
@@ -105,6 +105,13 @@ struct ContributorListView: View {
             } // ForEach
         } // ScrollView
     } // body
+	
+	// MARK: - LIFECYCLE
+	init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
+		self.gitHubService = service
+		self.repository = repository
+		self.contributorManager = contributorManager
+	}
 }
 
 //struct ContributorListView_Previews: PreviewProvider {

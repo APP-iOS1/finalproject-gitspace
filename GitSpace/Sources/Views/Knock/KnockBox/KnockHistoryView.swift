@@ -26,7 +26,7 @@ struct KnockHistoryView: View {
 				.font(.footnote)
 				.padding(.bottom, 4)
 			
-			Text(eachKnock.date.formattedDateString())
+			Text(eachKnock.knockedDate.dateValue().formattedDateString())
 				.foregroundColor(.gray)
 				.font(.footnote)
 			
@@ -112,7 +112,7 @@ struct KnockHistoryView: View {
 							: "Knock Message sent to **\(eachKnock.receivedUserName)**."
 						)
 						
-						Text("\(eachKnock.date.formattedDateString())")
+						Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 							.foregroundColor(.gsLightGray2)
 							.font(.footnote)
 					}
@@ -132,7 +132,7 @@ struct KnockHistoryView: View {
 						VStack(alignment: .leading, spacing: 4) {
 							Text("Knock Message is Pending.")
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -152,7 +152,7 @@ struct KnockHistoryView: View {
 								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
 							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -172,7 +172,7 @@ struct KnockHistoryView: View {
 								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
 							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -199,7 +199,7 @@ struct KnockHistoryView: View {
 								: "**\(eachKnock.receivedUserName)** has Accepted your Knock Message."
 							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -218,7 +218,7 @@ struct KnockHistoryView: View {
 								: "**\(eachKnock.receivedUserName)** has Declined your Knock Message."
 							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 							

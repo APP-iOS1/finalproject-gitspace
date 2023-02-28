@@ -28,9 +28,6 @@ struct ReceivedKnockView: View {
                 } label: {
                     
                 }
-                
-                
-                
             } // VStack
             
             ScrollView {
@@ -48,7 +45,7 @@ struct ReceivedKnockView: View {
                 
                 VStack(spacing: 10) {
                     /// 1. 전송 시간
-					Text("\(knock.date.formattedDateString())")
+					Text("\(knock.knockedDate.dateValue().formattedDateString())")
                         .font(.footnote)
                         .foregroundColor(.gsLightGray2)
                     
@@ -64,8 +61,6 @@ struct ReceivedKnockView: View {
                     .padding(.leading, 15)
                     
                     /// 3. 메세지 내용
-                    
-                    
 					Text("\(knock.knockMessage)")
                         .font(.system(size: 15, weight: .regular))
                         .padding(.horizontal, 30)
@@ -79,7 +74,6 @@ struct ReceivedKnockView: View {
                         )
                         .padding(.horizontal, 15)
                 }
-                
             } // ScrollView
             
 			if !isAccepted {
@@ -88,12 +82,6 @@ struct ReceivedKnockView: View {
 					Divider()
 						.padding(.top, -8)
 					
-					
-					//                Text("\("guguhanogu")")
-					//                    .bold()
-					//                    .font(.title3)
-					//                + Text(" knocked on you!")
-					//
 					Text("Accept message request from \(knock.sentUserName)?")
 						.font(.subheadline)
 						.bold()
@@ -107,8 +95,6 @@ struct ReceivedKnockView: View {
 						.padding(.bottom)
 						.padding(.horizontal)
 					
-					
-					
 					GSButton.CustomButtonView(style: .secondary(
 						isDisabled: false)) {
 							Task {
@@ -121,8 +107,6 @@ struct ReceivedKnockView: View {
 								.bold()
 								.padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
 						} // button: Accept
-					
-					
 					
 					HStack(spacing: 60) {
 						Button {
@@ -194,11 +178,11 @@ struct ReceivedKnockView: View {
 		
 		print(await sentUser, chatStore.newChat.id)
 		
-		await pushNotificationManager.sendPushNotification(
+		await pushNotificationManager.sendNotification(
 			with: .chat(
 				title: "Your Knock has been accepted!",
 				body: "",
-				fromUser: knock.receivedUserName,
+				nameOfChatter: knock.receivedUserName,
 				chatID: chatStore.newChat.id
 			), to: await sentUser
 		)

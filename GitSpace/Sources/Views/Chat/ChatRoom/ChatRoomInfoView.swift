@@ -21,7 +21,7 @@ struct ChatRoomInfoView: View {
     var body: some View {
         VStack {
             Section{
-                TopperProfileView()
+				TopperProfileView(userID: chat.targetUserID)
                 
                 Divider()
                     .padding(.horizontal, -10)

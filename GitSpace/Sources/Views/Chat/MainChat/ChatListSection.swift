@@ -1,11 +1,12 @@
 import SwiftUI
+import FirebaseAuth
 
 struct ChatListSection: View {    
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var userStore: UserStore
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
 	
-	@Binding var chatID: String?
+	@Binding var chatID: String
 	@State private var pushedChat: Chat? = nil
     
     var body: some View {
@@ -42,7 +43,8 @@ struct ChatListSection: View {
 			NavigationLink(
 				destination: ChatRoomView(
 					chat: pushedChat
-					?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserName: ""),
+					?? .init(id: "", createdDate: .now, joinedMemberIDs: [""], lastContent: "", lastContentDate: .now, knockContent: "", knockContentDate: .now, unreadMessageCount: ["":0]), targetUserName: "")
+				,
 				isActive: $tabBarRouter.navigateToChat) {
 					EmptyView()
 				}
@@ -52,24 +54,26 @@ struct ChatListSection: View {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
+			print(#function, "++++++", Utility.loginUserID)
             await userStore.requestUser(userID: Utility.loginUserID)
         }
 		.task {
 			// !!!: NAVIGATE TO PUSHED CHAT
-			if let chatID,
-			   !tabBarRouter.navigateToChat {
+			if !tabBarRouter.navigateToChat {
+				print(#function, "+++++", chatID)
 				async let fetchDone = chatStore.requestPushedChat(chatID: chatID)
 				pushedChat = await fetchDone
+				print(#function, "+++++", pushedChat?.id ?? "")
 				tabBarRouter.navigateToChat.toggle()
 			}
 		}
     }
 }
-
-struct ChatListSection_Previews: PreviewProvider {
-    static var previews: some View {
-		ChatListSection(chatID: .constant(""))
-            .environmentObject(ChatStore())
-            .environmentObject(UserStore())
-    }
-}
+//
+//struct ChatListSection_Previews: PreviewProvider {
+//    static var previews: some View {
+//		ChatListSection(chatID: .constant(""))
+//            .environmentObject(ChatStore())
+//            .environmentObject(UserStore())
+//    }
+//}

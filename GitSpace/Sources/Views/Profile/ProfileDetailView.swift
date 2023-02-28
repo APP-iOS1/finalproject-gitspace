@@ -54,7 +54,7 @@ struct ProfileDetailView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .sheet(isPresented: $showKnockSheet) {
-                    SendKnockView()
+//                    SendKnockView()
                 }
             }
             .padding(.vertical, 20)
@@ -277,8 +277,8 @@ struct knockSheetView: View {
 
 
 
-struct ProfileDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileDetailView()
-    }
-}
+//struct ProfileDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileDetailView()
+//    }
+//}

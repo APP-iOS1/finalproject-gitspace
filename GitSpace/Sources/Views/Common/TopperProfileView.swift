@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct TopperProfileView: View {
+	@EnvironmentObject var userStore: UserStore
+	@State private var user: UserInfo? = nil
+	@State var userID: String
+	
     var body: some View {
         VStack(spacing: 8) {
             
@@ -17,7 +21,7 @@ struct TopperProfileView: View {
             
             // MARK: - User Name
             /// userName이 들어갈 자리
-            Text("\("guguhanogu")")
+            Text("\("user.")")
                 .bold()
                 .font(.title3)
                 .foregroundColor(Color(.black))
@@ -43,11 +47,14 @@ struct TopperProfileView: View {
             }
             .padding(5)
         }
+		.task {
+			user = await userStore.requestUserInfoWithID(userID: userID)
+		}
     }
 }
-
-struct TopperProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        TopperProfileView()
-    }
-}
+//
+//struct TopperProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TopperProfileView()
+//    }
+//}

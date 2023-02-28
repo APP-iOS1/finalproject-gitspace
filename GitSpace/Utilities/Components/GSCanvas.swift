@@ -170,7 +170,8 @@ struct TestCanvas: View {
                         .frame(height: 20)
 
                     NavigationLink {
-                        SendKnockView()
+//                        SendKnockView()
+						Text("SENDKNOCKVIEW")
                     } label: {
                         Text("Let's Chat!")
                             .font(.callout)

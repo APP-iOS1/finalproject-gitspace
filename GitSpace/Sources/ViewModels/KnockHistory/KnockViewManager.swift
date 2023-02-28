@@ -128,10 +128,15 @@ extension KnockViewManager {
 	// MARK: - In Normal Situation(foreground)
 	/// 한번에 리턴시켜야 뚜두둑 로딩되지 않음.
 	public func requestKnockList(currentUser: UserInfo) async -> Void {
+		receivedKnockList.removeAll()
+		sentKnockList.removeAll()
+		
 		do {
 			let snapshot = try await firebaseDatabase.getDocuments()
+			
 			for docs in snapshot.documents {
 				let eachKnock = try docs.data(as: Knock.self)
+				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
 				await appendKnockElement(
 					eachKnock: eachKnock,
 					currentUser: currentUser
@@ -162,7 +167,7 @@ extension KnockViewManager {
 		do {
 			try await document.setData([
 				"id": knock.id,
-				"date": Timestamp(date: knock.date),
+				"knockedDate": knock.knockedDate,
 				"declineMessage": knock.declineMessage ?? "",
 				"knockCategory": knock.knockCategory,
 				"knockStatus": Constant.KNOCK_WAITING,
@@ -186,13 +191,14 @@ extension KnockViewManager {
 		currentUser: UserInfo
 	) -> Void {
 		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
-		receivedKnockList.removeAll()
-		sentKnockList.removeAll()
+		// TODO: 메소드 내부에 로컬 리스트 만들고 리턴시켜.
 		
 		if eachKnock.receivedUserName == currentUser.githubUserName {
 			receivedKnockList.append(eachKnock)
+			print("+++ KNOCKLIST +++", receivedKnockList)
 		} else if eachKnock.receivedUserName != currentUser.githubUserName {
 			sentKnockList.append(eachKnock)
+			print("+++ KNOCKLIST +++", sentKnockList)
 		}
 	}
 	
