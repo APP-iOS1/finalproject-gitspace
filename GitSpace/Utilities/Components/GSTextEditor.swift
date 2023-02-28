@@ -158,6 +158,7 @@ struct GSTextEditor {
                                 setTextEditorStartHeight()
                             }
                             .onChange(of: text.wrappedValue) { n in
+                                // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 버퍼값에 대한 테스트 후 수정 필요 By. 태영
                                 let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
                                 let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
                                 let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 6)
