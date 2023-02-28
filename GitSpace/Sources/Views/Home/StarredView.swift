@@ -22,7 +22,6 @@ struct StarredView: View {
     @State private var isShowingSelectTagView: Bool = false
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var currentPage: Int = 1
-//    @State private var viewDidLoad: Bool = false
     
     // FIXME: systemGray6을 gsGray로 바꾸어야 한다.
     /// 현재 존재하는 gsGray 컬러가 너무 진해서 시스템 그레이로 설정해두었다.
@@ -35,7 +34,7 @@ struct StarredView: View {
     )
     
     func removeTag(at index: Int, tag: Tag) {
-        /* 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 되는데.. ¯\_( ͡° ͜ʖ ͡°)_/¯ */
+        /// 삭제되는 태그들의 인덱스를 알면 쉽게 삭제가 된다.
         for (index, item) in Array(zip(tagViewModel.tags.indices, tagViewModel.tags)) {
             if item.id == tag.id {
                 tagViewModel.tags[index].isSelected = false
@@ -111,7 +110,6 @@ struct StarredView: View {
                 
                 /* repository list */
                 ScrollView {
-                    
                     if let repositories = repositoryViewModel.filteredRepositories {
                         if repositories.isEmpty {
                             VStack(spacing: 10) {
@@ -159,9 +157,7 @@ struct StarredView: View {
                                                     .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                                                     .onAppear {
                                                         Task {
-                                                            if index % 25 == 23 {
-//                                                            if repositoryViewModel.repositories?.last == repository {
-                                                                print("Last: \(repository)")
+                                                            if index % 30 == 27 {
                                                                 currentPage += 1
                                                                 repositoryViewModel.repositories! += await repositoryViewModel.requestStarredRepositories(page: currentPage) ?? []
                                                                 repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
