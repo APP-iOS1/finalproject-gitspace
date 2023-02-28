@@ -72,8 +72,6 @@ struct GSTextEditor {
             return label.frame.width
         }
         
-
-        
         // MARK: -Initializer
         /// 파라미터 font = .body, lineSpace = 2 기본값 지정
         init (
@@ -102,6 +100,21 @@ struct GSTextEditor {
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
         }
         
+        
+        private func autoLineBreakCount(textEditorWidth: CGFloat) -> Int {
+            var counter: Int = 0
+            text.wrappedValue.components(separatedBy: "\n").forEach { line in
+                let label = UILabel()
+                label.font = .fontToUIFont(from: font)
+                label.text = line
+                label.sizeToFit()
+                if label.frame.width > textEditorWidth {
+                    counter = Int(label.frame.width / textEditorWidth)
+                }
+            }
+            return counter
+        }
+
 
         
         var body: some View {
@@ -129,6 +142,8 @@ struct GSTextEditor {
                             }
                             .onChange(of: text.wrappedValue) { n in
                                 let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+                                let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
+                                let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 6)
                                 updateTextEditorCurrentHeight(textEditorWidth: textEditorWidth)
                             }
                             .onChange(of: textWidth) { newValue in
