@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+// MARK: - GitSpaceUser Cell
+/// GitSpace를 사용하는 Contributor들을 보여주는 Cell 입니다.
 struct ContributorGitSpaceUserListCell: View {
 
     let targetUser: GithubUser
 
     var body: some View {
+        
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 HStack(spacing: 15) {
                     /* 유저 프로필 이미지 */
@@ -28,7 +31,7 @@ struct ContributorGitSpaceUserListCell: View {
                             style: .sectionTitle,
                             string: targetUser.login)
                     }
-
+                    
                     Spacer()
 
                     Image(systemName: "chevron.right")
@@ -38,11 +41,14 @@ struct ContributorGitSpaceUserListCell: View {
     }
 }
 
+// MARK: - Non-GitSpaceUser Cell
+/// GitSpace를 사용하지 않는 Contributor들을 보여주는 Cell 입니다.
 struct ContributorListCell: View {
 
     let targetUser: GithubUser
 
     var body: some View {
+        
             GSCanvas.CustomCanvasView.init(style: .primary, content: {
                 HStack(spacing: 15) {
                     /* 유저 프로필 이미지 */
@@ -59,13 +65,11 @@ struct ContributorListCell: View {
                             style: .sectionTitle,
                             string: targetUser.login)
                     }
-
                     Spacer()
                 } // HStack
             }) // GSCanvas
     }
 }
-
 
 
 struct ContributorListCell_Previews: PreviewProvider {
