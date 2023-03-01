@@ -12,7 +12,7 @@ struct ActivityGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Follow한 유저의 활동을 볼 수 있어요!")
+                        Text("View the activities of the following users.")
                             .font(.system(size: 22, weight: .light))
                         
                         Spacer()
@@ -43,12 +43,11 @@ struct ActivityGuideView: View {
                     Text(
 """
 1. 레포지토리 우측 상단의 별 모양 아이콘을 눌러주세요.
-""")
-                    
+""")      
                 } // VStack
                 .padding(.horizontal)
             } // ScrollView
-            .navigationBarTitle("Star")
+            .navigationBarTitle("Activity")
     } // body
 }
 

@@ -10,17 +10,28 @@
 import Foundation
 
 struct UserInfo : Identifiable, Codable {
-    // MARK: -Properties
-    let id: String // 유저 ID
-    let createdDate: Date // 유저 생성일시
-    let githubUserName: String // 유저 깃허브 ID
-	let githubID: Int // 유저 깃허브 ID값, 받을 때 정수형으로 와서 타입 통일
-    var deviceToken: String // 유저 기기 토큰
-    let emailTo: String? // 유저 이메일
-    let blockedUserIDs: [String] // 차단한 유저 ID 리스트
+    // MARK: -Firestore Properties
+    let id: String                  // 유저 ID (Firebase Auth UID)
+    let createdDate: Date           // 유저 생성일시
+    var deviceToken: String         // 유저 기기 토큰
+    var blockedUserIDs: [String]    // 차단한 유저 ID 리스트
     
-    // MARK: -Func : Double 타입 Date를 문자열로 반환하는 함수
-    var stringDate : String {
+    // MARK: -Github Properties
+    let githubID: Int               // 유저 깃허브 ID값, 받을 때 정수형으로 와서 타입 통일
+    let githubLogin: String         // 유저 깃허브 login (Repository 경로에 쓰는 이름)
+    let githubName: String?         // 유저 깃허브 이름
+    let githubEmail: String?        // 유저 이메일
+    let avatar_url: String          // profile image
+    let bio: String?                // bio, intro message
+    let company: String?            // company
+    let location: String?           // location
+    let blog: String?               // blog url
+    let public_repos: Int           // public repos
+    let followers: Int              // followers
+    let following: Int              // following
+    
+    // MARK: Date를 문자열로 반환하는 연산 프로퍼티
+    var stringDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -29,16 +40,7 @@ struct UserInfo : Identifiable, Codable {
     }
 	
 	static func getFaliedUserInfo() -> Self {
-		let userinfo = UserInfo(
-			id: "FALIED",
-			createdDate: .now,
-			githubUserName: "FAILED",
-			githubID: 0,
-			deviceToken: "",
-			emailTo: "",
-			blockedUserIDs: [""]
-		)
+		let userinfo = UserInfo(id: "FALIED", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
 		return userinfo
 	}
 }
-

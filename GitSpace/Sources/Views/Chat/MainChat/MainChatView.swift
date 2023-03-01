@@ -9,19 +9,35 @@ import SwiftUI
 
 struct MainChatView: View {
     
+    let gitHubService = GitHubService()
+    
     @EnvironmentObject var chatStore : ChatStore
+    @StateObject var followerViewModel = FollowerViewModel()
     @State private var showGuideCenter: Bool = false
-	@State public var chatID: String
+	@State public var chatID: String?
     
     var body: some View {
         
         ScrollView {
-            ChatUserRecommendationSection()
+            // FIXME: - 팔로워 0명일때 분기처리
+            ChatUserRecommendationSection(followerViewModel: followerViewModel)
 				.padding()
             Divider()
             ChatListSection(chatID: $chatID)
         }
-        // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
+        .onAppear {
+            Task {
+                let followerResult = await gitHubService.requestAuthenticatedUserFollowers(perPage: 100, page: 1)
+                switch followerResult {
+                case .success(let followers):
+                    followerViewModel.responses.removeAll()
+                    followerViewModel.responses = Array(followers.shuffled()[0...2])
+                    await followerViewModel.requestUsers()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
         .navigationTitle("")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
@@ -40,13 +56,15 @@ struct MainChatView: View {
 
             }
             
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                NavigationLink {
-//                    AddChatView()
-//                } label: {
-//                    Text("채팅 추가하기")
-//                }
-//            }
+            /*
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    AddChatView()
+                } label: {
+                    Text("채팅 추가하기")
+                }
+            }
+             */
 		}
         .fullScreenCover(isPresented: $showGuideCenter) {
             GuideCenterView()

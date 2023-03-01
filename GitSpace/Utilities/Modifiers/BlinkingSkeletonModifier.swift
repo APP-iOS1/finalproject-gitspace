@@ -31,6 +31,7 @@ struct BlinkingSkeletonModifier: Animatable, ViewModifier {
                     .opacity(self.opacity).zIndex(1)
             }.opacity(self.shouldShow ? 1 : 0)
         )
+            .cornerRadius(8)
     }
 }
 

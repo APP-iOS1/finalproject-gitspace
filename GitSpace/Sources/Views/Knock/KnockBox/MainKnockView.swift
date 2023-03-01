@@ -179,14 +179,14 @@ struct MainKnockView: View {
 				pushedKnock = await eachKnock
 				
 				// 수신인의 이름과 현재 로그인한 사용자의 이름이 다르다면, 내가 보낸 노크함으로.
-				if pushedKnock?.receivedUserName != userInfoManager.currentUser?.githubUserName {
+				if pushedKnock?.receivedUserName != userInfoManager.currentUser?.githubLogin {
 					print("TO KNOCK SENT VIEW")
 					userSelectedTab = Constant.KNOCK_SENT
 					tabBarRouter.navigateToSentKnock = true
 				}
 				
 				// 수신인의 이름이 현재 로그인한 사용자의 이름과 같다면, 내가 받은 노크함으로.
-				else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubUserName {
+				else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubLogin {
 					print("TO KNOCK RECEIVED VIEW")
 					userSelectedTab = Constant.KNOCK_RECEIVED
 					tabBarRouter.navigateToReceivedKnock = true

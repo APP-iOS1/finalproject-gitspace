@@ -28,7 +28,7 @@ struct SendKnockView: View {
     @State private var knockMessage: String = ""
     @State private var showKnockGuide: Bool = false
 	
-	@State var sendKnockToGitHubUser: GitHubUser?
+	@State var sendKnockToGitHubUser: GithubUser?
 	@State private var sentTo: UserInfo?
 	@State private var newKnock: Knock? = nil
 	@State private var isKnockSent: Bool = false
@@ -43,12 +43,14 @@ struct SendKnockView: View {
                     .id(topID)
                     
                     // MARK: - 상단 프로필 정보 뷰
-//                    TopperProfileView()
+                    /*
+                    TopperProfileView()
                     
                     Divider()
                         .padding(.vertical, 10)
                         .padding(.horizontal, 5)
-                    
+                    */
+                     
                     // MARK: - 안내 문구
                     /// userName님께 보내는 첫 메세지네요!
                     /// 노크를 해볼까요?
@@ -450,7 +452,7 @@ struct SendKnockView: View {
 			knockStatus: Constant.KNOCK_WAITING,
 			knockCategory: chatPurpose,
 			receivedUserName: sendKnockToGitHubUser?.login ?? "",
-			sentUserName: userStore.currentUser?.githubUserName ?? "",
+			sentUserName: userStore.currentUser?.githubLogin ?? "",
 			receivedUserID: sentTo?.id ?? "", // 받을 사람
 			sentUserID: userStore.currentUser?.id ?? "" // 보낸 사람
 		)
@@ -469,7 +471,7 @@ struct SendKnockView: View {
 			with: .knock(
 				title: "New Knock Has Been Arrived!",
 				body: newKnock?.knockMessage ?? "",
-				nameOfKnockedPerson: userStore.currentUser?.githubUserName ?? "",
+				nameOfKnockedPerson: userStore.currentUser?.githubLogin ?? "",
 				knockID: newKnock?.id ?? ""
 			),
 			to: sentTo ?? .getFaliedUserInfo()

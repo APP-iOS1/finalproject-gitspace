@@ -193,10 +193,10 @@ extension KnockViewManager {
 		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
 		// TODO: 메소드 내부에 로컬 리스트 만들고 리턴시켜.
 		
-		if eachKnock.receivedUserName == currentUser.githubUserName {
+		if eachKnock.receivedUserName == currentUser.githubLogin {
 			receivedKnockList.append(eachKnock)
 			print("+++ KNOCKLIST +++", receivedKnockList)
-		} else if eachKnock.receivedUserName != currentUser.githubUserName {
+		} else if eachKnock.receivedUserName != currentUser.githubLogin {
 			sentKnockList.append(eachKnock)
 			print("+++ KNOCKLIST +++", sentKnockList)
 		}

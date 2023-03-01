@@ -18,7 +18,6 @@ final class UserStore: ObservableObject {
 	@Published var currentUser: UserInfo?
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    
     let db = Firestore.firestore()
     
     init(
@@ -40,28 +39,34 @@ final class UserStore: ObservableObject {
             return snapshot
         } catch {
             print("Get User Document Error : \(error)")
-            
+            return nil
         }
-        return nil
     }
     
-	@MainActor
-	/// DEPRECATED: - requestUserInfoWithID 메소드를 호출하세요.
-    public func requestUser(userID: String) async -> UserInfo? {
+    func requestUser(userID: String) async {
         let document = await getUserDocument(userID: userID)
         
         if let document {
             do {
                 let user: UserInfo = try document.data(as: UserInfo.self)
-				self.user = user
-                return user
+                await writeUser(user: user)
             } catch {
-				dump("\(#file), \(#function) - DEBUG \(error.localizedDescription)")
-				return nil
+                print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
             }
 		} else {
-			return nil
+			return
 		}
+    }
+    
+    static func requestAndReturnUser(userID: String) async -> UserInfo? {
+        let doc = Firestore.firestore().collection("UserInfo").document(userID)
+        do {
+            let userInfo = try await doc.getDocument(as: UserInfo.self)
+            return userInfo
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            return nil
+        }
     }
 	
 	// MARK: - PUSHED VIEW를 그릴 때 상대방의 정보를 가져오는 메소드
@@ -174,7 +179,7 @@ final class UserStore: ObservableObject {
     }
     
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
-        guard let user else {
+        guard var user else {
             print("로그인 유저 정보가 nil입니다.")
             return
         }
@@ -199,14 +204,7 @@ final class UserStore: ObservableObject {
         }
         
         do {
-            let newUser: UserInfo = .init(id: user.id,
-                                          createdDate: user.createdDate,
-										  githubUserName: user.githubUserName,
-										  githubID: user.githubID,
-                                          deviceToken: user.deviceToken,
-                                          emailTo: user.emailTo,
-                                          blockedUserIDs: newBlockedUserIDs)
-            await writeUser(user: newUser)
+            user.blockedUserIDs = newBlockedUserIDs
             try await db
                 .collection("UserInfo")
                 .document(user.id)

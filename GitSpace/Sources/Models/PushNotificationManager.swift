@@ -113,7 +113,7 @@ extension PushNotificationManager: GSPushNotificationSendable {
 			"data": [
 				"userName": "CurrentUserID",
 				"sentDeviceToken": currentUserDeviceToken ?? "보낸 이의 디바이스토큰",
-				"sentUserName": userInfo.githubUserName,
+				"sentUserName": userInfo.githubLogin,
 				"sentUserID": userInfo.id,
 				"navigateTo": pushNotificationBody.navigateTo,
 				"viewBuildID": pushNotificationBody.viewBuildID,
@@ -184,16 +184,16 @@ struct PushNotificationTestView: View {
 //						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee", githubID: 000, deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
 //					)
 					
-					await instance.sendNotification(
-						with: .knock(title: "", body: "", nameOfKnockedPerson: "", knockID: ""),
-						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee", githubID: 000, deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
-						)
+//					await instance.sendNotification(
+//						with: .knock(title: "", body: "", nameOfKnockedPerson: "", knockID: ""),
+//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee", githubID: 000, deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
+//						)
 					
 //					await instance.sendPushNotification(
 //						with: .chat(title: "chatMessage", body: "chat 내용", chatID: "6FBB214E-C5EE-46F6-9670-4DCA5B73AF17"),
-//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubUserName: "Valselee",
+//						to: UserInfo(id: UUID().uuidString, createdDate: .now, githubLogin: "Valselee",
 //									 githubID: 000,
-//									 deviceToken: valseDevice, emailTo: "", blockedUserIDs: [""])
+//									 deviceToken: valseDevice, githubEmail: "", blockedUserIDs: [""])
 //					)
 				}
 			} label: {
