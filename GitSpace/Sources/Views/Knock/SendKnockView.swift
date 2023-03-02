@@ -284,13 +284,8 @@ struct SendKnockView: View {
                         
                         Button {
 							Task {
-								// 노크 보내기
-								await sendKnock()
-								
-								// 알람 보내기
-								await pushKnockNotification()
-								
-								isKnockSent = true
+								// TODO: SEND KNOCK, PUSH NOTIFICATION 수정 필요
+								// !!!: DUE TO USERINFO MODEL UPDATE
 							}
                         } label: {
                             Image(systemName: "paperplane")

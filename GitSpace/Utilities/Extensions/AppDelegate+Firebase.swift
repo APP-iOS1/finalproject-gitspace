@@ -138,14 +138,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			// 모델이 뷰를 그릴 ID 정보를 가져간 후, 탭을 이동시킨다.
 			// 동시에, 모델은 ID로 fetch를 진행하고,
 			// 뷰는 fetch 된 정보를 참조하여 뷰를 그린다.
+			// !!!: - TABBARROUTER 이동 + Navilink active가 동시 작동할 경우 에러 발생 수정 필요.
 			if pushNotificationInfo.navigateTo == "knock" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-				tabBarRouter.currentPage = .knocks
+//				tabBarRouter.currentPage = .knocks
 			} else if pushNotificationInfo.navigateTo == "chat" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-				tabBarRouter.currentPage = .chats
+//				tabBarRouter.currentPage = .chats
 			}
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
