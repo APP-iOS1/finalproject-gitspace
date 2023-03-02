@@ -81,6 +81,9 @@ struct AddTagSheetView: View {
                         HStack {
                             TextField("tag name", text: $tagInput)
                                 .textFieldStyle(.roundedBorder)
+                                .onSubmit {
+                                    addNewTag()
+                                }
                             
                             // 태그 추가 버튼
                             Button {
