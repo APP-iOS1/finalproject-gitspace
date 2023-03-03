@@ -50,9 +50,9 @@ struct AddTagSheetView: View {
                 withAnimation {
                     tagViewModel.tags.append( Tag(tagName: trimmedTagInput, repositories: []) )
                 }
+                tagInput = ""
             }
         }
-        
     }
     
     func selectTag(to tag: Tag) {
@@ -81,14 +81,15 @@ struct AddTagSheetView: View {
                         HStack {
                             TextField("tag name", text: $tagInput)
                                 .textFieldStyle(.roundedBorder)
+                                .onSubmit {
+                                    addNewTag()
+                                }
                             
                             // 태그 추가 버튼
                             Button {
                                 // FIXME: Animation이 너무 못생겼음.
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
-                                //                                withAnimation {
                                 addNewTag()
-                                //                                }
                             } label: {
                                 Image(systemName: "plus")
                                     .font(.title2)
@@ -152,7 +153,7 @@ struct AddTagSheetView: View {
                         Spacer()
                     }
                 }
-                .navigationBarTitle("Knock Knock!", displayMode: .inline)
+                .navigationBarTitle("Add Custom Tags", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {

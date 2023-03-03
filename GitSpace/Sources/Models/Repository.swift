@@ -8,7 +8,11 @@
 import Foundation
 
 // MARK: - Temporary Repository Sturct
-struct Repository: Identifiable, Codable {
+struct Repository: Identifiable, Codable, Equatable {
+    static func == (lhs: Repository, rhs: Repository) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     var id: Int
     var name: String
     var fullName: String

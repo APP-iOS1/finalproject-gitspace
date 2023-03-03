@@ -12,10 +12,12 @@ enum TextEditorFocustState {
     case done
 }
 
-
 struct SendKnockView: View {
     
     @Environment(\.dismiss) private var dismiss
+	@EnvironmentObject var userStore: UserStore
+	@EnvironmentObject var knockViewManager: KnockViewManager
+	@EnvironmentObject var pushNotificationManager: PushNotificationManager
     
     @Namespace var topID
     @Namespace var bottomID
@@ -24,9 +26,13 @@ struct SendKnockView: View {
     @FocusState private var isFocused: TextEditorFocustState?
     @State private var chatPurpose: String = ""
     @State private var knockMessage: String = ""
-    
     @State private var showKnockGuide: Bool = false
-    
+	
+	@State var sendKnockToGitHubUser: GithubUser?
+	@State private var sentTo: UserInfo?
+	@State private var newKnock: Knock? = nil
+	@State private var isKnockSent: Bool = false
+	
     var body: some View {
         VStack {
             ScrollViewReader { proxy in
@@ -51,7 +57,7 @@ struct SendKnockView: View {
                     VStack(spacing: 5) {
                         HStack(spacing: 5) {
                             Text("It's the first message to")
-                            Text("\("guguhanogu")!")
+							Text("\(sendKnockToGitHubUser?.login ?? "NONO")!")
                                 .bold()
                         }
                         
@@ -123,7 +129,7 @@ struct SendKnockView: View {
                         VStack(alignment: .center, spacing: 10) {
                             VStack (alignment: .center) {
                                 Text("Send your Knock messages to")
-                                Text("\("guguhanogu")!")
+                                Text("\(sendKnockToGitHubUser?.login ?? "NONO")!")
                                     .bold()
                             } // VStack
                             
@@ -143,7 +149,11 @@ struct SendKnockView: View {
                                     .frame(width: 3, height: 15)
                                     .foregroundColor(.gsGreenPrimary)
                                 
-                                Text("Example Knock Message")
+                                Text(
+									isKnockSent
+									? "Your Knock Message"
+									: "Example Knock Message"
+								)
                                     .font(.footnote)
                                     .foregroundColor(.gsLightGray1)
                                     .bold()
@@ -152,7 +162,11 @@ struct SendKnockView: View {
                             
                             VStack {
                                 
-                                Text("\("Hi! This is Gildong from South Korea who’s\ncurrently studying Web programming.\nWould you mind giving me some time and\nadvising me on my future career path?\nThank you so much for your help!")")
+                                Text(
+									isKnockSent
+									? "\(newKnock?.knockMessage ?? "")"
+									: "\("Hi! This is Gildong from South Korea who’s\ncurrently studying Web programming.\nWould you mind giving me some time and\nadvising me on my future career path?\nThank you so much for your help!")"
+								)
                                     .font(.system(size: 10, weight: .regular))
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 20)
@@ -165,6 +179,19 @@ struct SendKnockView: View {
                                     )
                                     .padding(.horizontal, 15)
                                 
+								if isKnockSent {
+									Text("Your Knock Message has successfully been\ndelivered to **\(sendKnockToGitHubUser?.login ?? "")**")
+										.font(.system(size: 10, weight: .regular))
+										.padding(.horizontal, 20)
+										.padding(.vertical, 20)
+										.fixedSize(horizontal: false, vertical: true)
+										.multilineTextAlignment(.center)
+									
+									Text("\(newKnock?.knockedDate.dateValue().formattedDateString() ?? "")")
+										.font(.callout)
+										.foregroundColor(.gsGray1)
+										.padding(.vertical, 8)
+								}
                             } // VStack
                             
                         } // VStack
@@ -243,11 +270,7 @@ struct SendKnockView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 30)
                         }
-                        //                        } // VStack: 이미지 첨부 버튼
-                        
-                        //                        VStack {
-                        //                            Spacer()
-                        
+
                         Button {
                             print("레포지토리 선택 버튼 탭")
                         } label: {
@@ -256,16 +279,14 @@ struct SendKnockView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 28, height: 23)
                         }
-                        //                        } // VStack: 레포지토리 선택 버튼
-                        
                         
                         GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                         
-                        //                        VStack {
-                        //                            Spacer()
-                        
                         Button {
-                            //sendKnock()
+							Task {
+								// TODO: SEND KNOCK, PUSH NOTIFICATION 수정 필요
+								// !!!: DUE TO USERINFO MODEL UPDATE
+							}
                         } label: {
                             Image(systemName: "paperplane")
                                 .resizable()
@@ -273,8 +294,7 @@ struct SendKnockView: View {
                                 .frame(width: 22, height: 22)
                                 .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                         }
-                        .disabled(knockMessage.isEmpty)
-                        //                        } // VStakc: 노크 전송 버튼
+                        .disabled(knockMessage.isEmpty || isKnockSent)
                         
                     } // HStack
                     .foregroundColor(.primary)
@@ -319,9 +339,6 @@ struct SendKnockView: View {
                     .padding(.horizontal)
                     
                     HStack(spacing: 10) {
-                        //                        VStack {
-                        //                            Spacer()
-                        
                         Button {
                             print("이미지 첨부 버튼 탭")
                         } label: {
@@ -331,9 +348,6 @@ struct SendKnockView: View {
                                 .frame(width: 20, height: 30)
                         }
                         //                        } // VStack: 이미지 첨부 버튼
-                        
-                        //                        VStack {
-                        //                            Spacer()
                         
                         Button {
                             print("레포지토리 선택 버튼 탭")
@@ -348,11 +362,15 @@ struct SendKnockView: View {
                         GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                         
                         
-                        //                        VStack {
-                        //                            Spacer()
-                        
                         Button {
-                            //sendKnock()
+							Task {
+								// 노크 보내기
+								await sendKnock()
+								// 알람 보내기
+								await pushKnockNotification()
+								
+								isKnockSent = true
+							}
                         } label: {
                             Image(systemName: "paperplane")
                                 .resizable()
@@ -360,7 +378,7 @@ struct SendKnockView: View {
                                 .frame(width: 22, height: 22)
                                 .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                         }
-                        .disabled(knockMessage.isEmpty)
+						.disabled(knockMessage.isEmpty || isKnockSent)
                         //                        } // VStack
                     } // HStack
                     .foregroundColor(.primary)
@@ -372,13 +390,12 @@ struct SendKnockView: View {
         } // VStack
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
                     ProfileDetailView()
                 } label: {
                     HStack(spacing: 5) {
-                        AsyncImage(url: URL(string: "https://avatars.githubusercontent.com/u/64696968?v=4")) { image in
+						AsyncImage(url: URL(string: "\(sendKnockToGitHubUser?.avatar_url ?? "")")) { image in
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -388,7 +405,7 @@ struct SendKnockView: View {
                             ProgressView()
                         } // AsyncImage
                         
-                        Text("\("guguhanogu")")
+						Text("\(sendKnockToGitHubUser?.login ?? "NONO")")
                             .bold()
                     } // HStack
                     .foregroundColor(.black)
@@ -411,12 +428,56 @@ struct SendKnockView: View {
             .navigationBarTitle("Knock")
         }
     }
+	
+	private func sendKnock() async -> Void {
+		guard let githubID = sendKnockToGitHubUser?.id else { return }
+		
+		@Sendable
+		func getSentToUser() async -> UserInfo {
+			await userStore.requestUserInfoWithGitHubID(
+				githubID: githubID
+			) ?? .getFaliedUserInfo()
+		}
+		
+		sentTo = await getSentToUser()
+		
+		self.newKnock = .init(
+			date: .now,
+			knockMessage: knockMessage,
+			knockStatus: Constant.KNOCK_WAITING,
+			knockCategory: chatPurpose,
+			receivedUserName: sendKnockToGitHubUser?.login ?? "",
+			sentUserName: userStore.currentUser?.githubLogin ?? "",
+			receivedUserID: sentTo?.id ?? "", // 받을 사람
+			sentUserID: userStore.currentUser?.id ?? "" // 보낸 사람
+		)
+		
+		knockMessage = ""
+		
+		if let newKnock {
+			await knockViewManager.createKnock(
+				knock: newKnock
+			)
+		}
+	}
+	
+	private func pushKnockNotification() async -> Void {
+		await pushNotificationManager.sendNotification(
+			with: .knock(
+				title: "New Knock Has Been Arrived!",
+				body: newKnock?.knockMessage ?? "",
+				nameOfKnockedPerson: userStore.currentUser?.githubLogin ?? "",
+				knockID: newKnock?.id ?? ""
+			),
+			to: sentTo ?? .getFaliedUserInfo()
+		)
+	}
 }
 
-struct SendKnockView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            SendKnockView()
-        }
-    }
-}
+//struct SendKnockView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            SendKnockView()
+//        }
+//    }
+//}

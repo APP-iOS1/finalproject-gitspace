@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContributorListView: View {
-    
+	@Environment(\.colorScheme) var colorScheme
+	@EnvironmentObject var userInfoManager: UserStore
     @ObservedObject var contributorManager: ContributorViewModel
-    let gitHubService: GitHubService
-    let repository: Repository
+
+    public let gitHubService: GitHubService
+    public let repository: Repository
     
     init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
         self.gitHubService = service
@@ -19,11 +22,20 @@ struct ContributorListView: View {
         self.contributorManager = contributorManager
     }
     
-    @Environment(\.colorScheme) var colorScheme
-    
+    // MARK: - BODY
     var body: some View {
         
         ScrollView {
+            Spacer()
+                .frame(height: 20)
+            
+            GSText.CustomTextView(
+                style: .title2,
+                string: "Who do you want to chat with?"
+			)
+            .padding(.leading, 10)
+            .padding(.bottom, -5)
+            
             // MARK: - 상황별 마스코트 이미지
             /* 노트 시나리오의 시각적 힌트 제공 */
             HStack {
@@ -80,7 +92,7 @@ Please select a User to start chatting with.
             
             ForEach(contributorManager.contributors) { user in
                 
-                NavigationLink(destination: SendKnockView()) {
+                NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
                     ContributorGitSpaceUserListCell(targetUser: user)
                 } // NavigationLink
                 .padding(.horizontal, 20)
@@ -108,6 +120,13 @@ Please select a User to start chatting with.
             
         } // ScrollView
     } // body
+	
+	// MARK: - LIFECYCLE
+	init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
+		self.gitHubService = service
+		self.repository = repository
+		self.contributorManager = contributorManager
+	}
 }
 
 //struct ContributorListView_Previews: PreviewProvider {

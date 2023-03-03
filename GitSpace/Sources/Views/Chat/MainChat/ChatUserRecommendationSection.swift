@@ -94,7 +94,8 @@ struct ChatUserRecommendationSection: View {
 
                         // MARK: - NewKnockView로 이동하는 챗 버튼
                         GSNavigationLink(style: .secondary) {
-                            SendKnockView()
+//                            SendKnockView()
+							Text("SENDKNOCKVIEW")
                         } label: {
                             // TODO: - GSText로 바꿔주기 (색이 안입혀져서 일단 일반 텍스트로)
 //                            GSText.CustomTextView(style: .title3, string: "Let's chat!")

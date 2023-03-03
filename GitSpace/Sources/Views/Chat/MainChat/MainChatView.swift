@@ -14,7 +14,7 @@ struct MainChatView: View {
     @EnvironmentObject var chatStore : ChatStore
     @StateObject var followerViewModel = FollowerViewModel()
     @State private var showGuideCenter: Bool = false
-	@State public var chatID: String? = nil
+	@State public var chatID: String?
     
     var body: some View {
         

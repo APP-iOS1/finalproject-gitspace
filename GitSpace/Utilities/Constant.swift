@@ -25,6 +25,11 @@ public enum Constant {
         static let USER_CHAT_BLOCK: String = "isUserChatBlocked"
 	}
 	
+	enum PushNotification {
+		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
+		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
+	}
+	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
         static let TITLE1_SIZE: CGFloat = 28

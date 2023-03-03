@@ -9,7 +9,7 @@ import SwiftUI
 
 struct KnockHistoryView: View {
 	@State var eachKnock: Knock
-	@Binding var knockMessenger: String
+	@Binding var userSelectedTab: String
 	@EnvironmentObject var knockViewManager: KnockViewManager
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
 	
@@ -17,12 +17,16 @@ struct KnockHistoryView: View {
 		ScrollView(showsIndicators: false) {
 //			TopperProfileView()
 			
-			Text("Your Knock Message is \nsent to **guguhanogu**")
+			Text(
+				userSelectedTab == Constant.KNOCK_RECEIVED
+				? "\(eachKnock.sentUserName) has sent \nnew Knock Message!"
+				: "Your Knock Message is \nsent to \(eachKnock.receivedUserName)"
+			)
 				.multilineTextAlignment(.center)
 				.font(.footnote)
 				.padding(.bottom, 4)
 			
-			Text(eachKnock.date.formattedDateString())
+			Text(eachKnock.knockedDate.dateValue().formattedDateString())
 				.foregroundColor(.gray)
 				.font(.footnote)
 			
@@ -102,9 +106,13 @@ struct KnockHistoryView: View {
 						.offset(y: 3)
 					
 					VStack(alignment: .leading, spacing: 4) {
-						Text("Knock Message sent to **\(eachKnock.receivedUserName)**.")
+						Text(
+							userSelectedTab == Constant.KNOCK_RECEIVED
+							? "**\(eachKnock.sentUserName)** has sent \n Knock Message."
+							: "Knock Message sent to **\(eachKnock.receivedUserName)**."
+						)
 						
-						Text("\(eachKnock.date.formattedDateString())")
+						Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 							.foregroundColor(.gsLightGray2)
 							.font(.footnote)
 					}
@@ -124,7 +132,7 @@ struct KnockHistoryView: View {
 						VStack(alignment: .leading, spacing: 4) {
 							Text("Knock Message is Pending.")
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -138,9 +146,13 @@ struct KnockHistoryView: View {
 							.offset(y: 3)
 						
 						VStack(alignment: .leading, spacing: 4) {
-							Text("**\(eachKnock.receivedUserName)** has Checked Your Knock Message.")
+							Text(
+								userSelectedTab == Constant.KNOCK_RECEIVED
+								? "You has Checked **\(eachKnock.sentUserName)**'s Knock Message."
+								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
+							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -154,9 +166,13 @@ struct KnockHistoryView: View {
 							.offset(y: 3)
 						
 						VStack(alignment: .leading, spacing: 4) {
-							Text("**\(eachKnock.receivedUserName)** has Checked Your Knock Message.")
+							Text(
+								userSelectedTab == Constant.KNOCK_RECEIVED
+								? "You has Checked **\(eachKnock.sentUserName)**'s Knock Message."
+								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
+							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -177,9 +193,13 @@ struct KnockHistoryView: View {
 							.foregroundColor(.green)
 						
 						VStack(alignment: .leading, spacing: 4) {
-							Text("**\(eachKnock.receivedUserName)** has Accepted your Knock Message.")
+							Text(
+								userSelectedTab == Constant.KNOCK_RECEIVED
+								? "You has Accepted **\(eachKnock.sentUserName)**'s Knock Message."
+								: "**\(eachKnock.receivedUserName)** has Accepted your Knock Message."
+							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 						}
@@ -193,10 +213,12 @@ struct KnockHistoryView: View {
 						
 						VStack(alignment: .leading, spacing: 4) {
 							Text(
-								"**\(eachKnock.receivedUserName)** has Declined your Knock Message."
+								userSelectedTab == Constant.KNOCK_RECEIVED
+								? "You has Declined **\(eachKnock.sentUserName)**'s Knock Message."
+								: "**\(eachKnock.receivedUserName)** has Declined your Knock Message."
 							)
 							
-							Text("\(eachKnock.date.formattedDateString())")
+							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
 								.foregroundColor(.gsLightGray2)
 								.font(.footnote)
 							
@@ -220,28 +242,32 @@ struct KnockHistoryView: View {
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {
-					Text("**\(eachKnock.receivedUserName)**")
+					Text(
+						userSelectedTab == Constant.KNOCK_RECEIVED
+						? "**\(eachKnock.sentUserName)**"
+						: "**\(eachKnock.receivedUserName)**"
+					)
 				}
 			}
 		}
 	}
 }
-
-struct KnockHistoryView_Previews: PreviewProvider {
-	static var previews: some View {
-		NavigationView {
-			KnockHistoryView(
-				eachKnock: Knock(
-					date: Date.now,
-					knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
-					knockStatus: "Accepted",
-					knockCategory: "Offer",
-					declineMessage: "I am Currently Employeed, sorry.",
-					receivedUserName: "HEYHEYHEYHEY",
-					sentUserName: "RandomBrazilGuy"
-				), knockMessenger: .constant("Sent")
-			)
-		}
-		
-	}
-}
+//
+//struct KnockHistoryView_Previews: PreviewProvider {
+//	static var previews: some View {
+//		NavigationView {
+//			KnockHistoryView(
+//				eachKnock: Knock(
+//					date: Date.now,
+//					knockMessage: "Lorem Ipsum is simply dummy text of the printin Lorem Ipsum Lorem",
+//					knockStatus: "Accepted",
+//					knockCategory: "Offer",
+//					declineMessage: "I am Currently Employeed, sorry.",
+//					receivedUserName: "HEYHEYHEYHEY",
+//					sentUserName: "RandomBrazilGuy"
+//				), userSelectedTab: .constant("Sent")
+//			)
+//		}
+//		
+//	}
+//}

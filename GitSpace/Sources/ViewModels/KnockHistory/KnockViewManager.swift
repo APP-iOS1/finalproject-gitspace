@@ -14,7 +14,7 @@ final class KnockViewManager: ObservableObject {
 	@Published var receivedKnockList: [Knock] = []
 	@Published var sentKnockList: [Knock] = []
 	
-	private let currentUser = "Valselee"
+	private var listener: ListenerRegistration?
 	private let firebaseDatabase = Firestore.firestore().collection("Knock")
 	
 	public let trailingTransition = AnyTransition
@@ -85,9 +85,11 @@ extension KnockViewManager {
 
 // MARK: - Network CRUD
 extension KnockViewManager {
-	// MARK: - METHODS
-	public func addSnapshotToKnock() async {
-		firebaseDatabase
+	public func addSnapshotToKnock(currentUser: UserInfo) async {
+		// !!!: 리스너 중복 주의
+		removeSnapshot()
+		
+		listener = firebaseDatabase
 			.addSnapshotListener { snapshot, err in
 				// snapshot이 비어있으면 에러 출력 후 리턴
 				guard let eachSnap = snapshot else {
@@ -98,43 +100,50 @@ extension KnockViewManager {
 				eachSnap.documentChanges.forEach { diff in
 					switch diff.type {
 					case .added:
-						print("added")
-						print(diff.document.documentID)
 						Task {
-							await self.requestKnockList()
+							print(#file, #function, "NEW KNOCK HAS BEEN ADDED: \(diff.document.documentID)")
+							await self.requestKnockList(currentUser: currentUser)
 						}
 					case .modified:
-						print("modified")
-						print(diff.document.documentID)
+						Task {
+							print(#file, #function, "KNOCK HAS BEEN MODIFIED: \(diff.document.documentID)")
+							await self.requestKnockList(currentUser: currentUser)
+						}
 					case .removed:
-						print("removed")
+						Task {
+							print(#file, #function, "KNOCK HAS BEEN MODIFIED: \(diff.document.documentID)")
+							await self.requestKnockList(currentUser: currentUser)
+						}
 					}
 				}
 			}
 	}
 	
-	// MARK: - In Normal Situation(foreground)
-	public func requestKnockList() async -> Void {
-		do {
-			let snapshot = try await firebaseDatabase.getDocuments()
-			for docs in snapshot.documents {
-				let eachKnock = try docs.data(as: Knock.self)
-				await appendKnockElement(eachKnock: eachKnock)
-			}
-		} catch {
-			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
+	private func removeSnapshot() {
+		if let listener {
+			listener.remove()
 		}
 	}
 	
-	@MainActor
-	private func appendKnockElement(eachKnock: Knock) -> Void {
-		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
+	// MARK: - In Normal Situation(foreground)
+	/// 한번에 리턴시켜야 뚜두둑 로딩되지 않음.
+	public func requestKnockList(currentUser: UserInfo) async -> Void {
 		receivedKnockList.removeAll()
+		sentKnockList.removeAll()
 		
-		if eachKnock.receivedUserName == currentUser {
-			receivedKnockList.append(eachKnock)
-		} else {
-			sentKnockList.append(eachKnock)
+		do {
+			let snapshot = try await firebaseDatabase.getDocuments()
+			
+			for docs in snapshot.documents {
+				let eachKnock = try docs.data(as: Knock.self)
+				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
+				await appendKnockElement(
+					eachKnock: eachKnock,
+					currentUser: currentUser
+				)
+			}
+		} catch {
+			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
 		}
 	}
 	
@@ -151,11 +160,6 @@ extension KnockViewManager {
 		}
 	}
 	
-	@MainActor
-	private func assignknock(knock: Knock) {
-		self.eachKnock = knock
-	}
-	
 	// Create
 	public func createKnock(knock: Knock) async -> Void {
 		let document = firebaseDatabase.document("\(knock.id)")
@@ -163,16 +167,43 @@ extension KnockViewManager {
 		do {
 			try await document.setData([
 				"id": knock.id,
-				"date": Timestamp(date: knock.date),
+				"knockedDate": knock.knockedDate,
 				"declineMessage": knock.declineMessage ?? "",
 				"knockCategory": knock.knockCategory,
 				"knockStatus": Constant.KNOCK_WAITING,
 				"knockMessage": knock.knockMessage,
 				"receivedUserName": knock.receivedUserName,
 				"sentUserName": knock.sentUserName,
+				"sentUserID": knock.sentUserID,
+				"receivedUserID": knock.receivedUserID
 			])
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
 		}
+	}
+}
+
+/// ASSIGN LOGICS
+extension KnockViewManager {
+	@MainActor
+	private func appendKnockElement(
+		eachKnock: Knock,
+		currentUser: UserInfo
+	) -> Void {
+		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
+		// TODO: 메소드 내부에 로컬 리스트 만들고 리턴시켜.
+		
+		if eachKnock.receivedUserName == currentUser.githubLogin {
+			receivedKnockList.append(eachKnock)
+			print("+++ KNOCKLIST +++", receivedKnockList)
+		} else if eachKnock.receivedUserName != currentUser.githubLogin {
+			sentKnockList.append(eachKnock)
+			print("+++ KNOCKLIST +++", sentKnockList)
+		}
+	}
+	
+	@MainActor
+	private func assignknock(knock: Knock) {
+		self.eachKnock = knock
 	}
 }

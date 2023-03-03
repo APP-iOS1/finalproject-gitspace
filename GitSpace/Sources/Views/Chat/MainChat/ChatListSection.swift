@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseAuth
 
 //TODO: -  으니의 피드백
 /// 1. GSText들 디자인 시스템으로 변경
@@ -62,6 +63,7 @@ struct ChatListSection: View {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
+			print(#function, "++++++", Utility.loginUserID)
             await userStore.requestUser(userID: Utility.loginUserID)
         }
         .task {
