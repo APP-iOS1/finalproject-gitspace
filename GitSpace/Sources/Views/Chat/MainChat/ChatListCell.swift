@@ -7,55 +7,45 @@
 
 import SwiftUI
 
-struct ChatListCell : View {
+struct ChatListCell: View {
     
-    var chat: Chat
-    var targetUserName: String
-    @EnvironmentObject var userStore : UserStore
+    let chat: Chat
+    let targetUserInfo: UserInfo
+    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatStore: ChatStore
     @State var opacity: Double = 0.4
     
+    
     var body: some View {
+        
         VStack(alignment: .leading) {
             HStack {
-                ProfileAsyncImage(size: 55)
+                GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 52)
                     .padding(.trailing)
-                
-                
                 VStack(alignment: .leading) {
-                    Text("@\(targetUserName)")
-                        .font(.title3)
-                        .bold()
-                        .padding(.bottom, 5)
+                    GSText.CustomTextView(style: .title2, string: "@\(targetUserInfo.githubLogin)")
                         .lineLimit(1)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isDoneFetch))
+                        .padding(.bottom, 1)
                     
-                    Text(chat.lastContent)
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: !chatStore.isDoneFetch))
+                    GSText.CustomTextView(style: .description, string: chat.lastContent)
                 }
                 
-                // MARK: - 안읽은 메시지 갯수 표시
-                if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
-//                    Capsule()
-//                            .fill(Color.unreadMessageCapsule)
-//                            .overlay(
-//                                Text("\(count)")
-//                                    .foregroundColor(Color.unreadMessageText)
-//                            )
-                    Text("\(count)")
-                        .foregroundColor(Color.unreadMessageText)
-                        .padding(5)
-                        .padding(.horizontal, 5)
-                        .background(Color.unreadMessageCapsule)
-                        .clipShape(Capsule())
-                        
+                Spacer()
+                HStack(alignment: .bottom) {
+                    // MARK: - 안읽은 메시지 갯수 표시
+                    if let count = chat.unreadMessageCount[Utility.loginUserID], count > 0 {
+                        Text("\(count)")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color.unreadMessageText)
+                            .padding(3)
+                            .padding(.horizontal, 5)
+                            .background(Color.unreadMessageCapsule)
+                            .clipShape(Capsule())
+                    }
                 }
             }
-            .frame(width: 330,height: 100, alignment: .leading)
+            .frame(height: 90, alignment: .leading)
             Divider()
-                .frame(width: 350)
         }
         .task {
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
@@ -63,6 +53,17 @@ struct ChatListCell : View {
             }
         }
     }
+    
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
+    }
 }
-
 

@@ -9,7 +9,6 @@ import SwiftUI
 
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
-	@EnvironmentObject var notificationManager: PushNotificationManager
     
     enum MakeChatCase {
         case addContent
@@ -17,16 +16,17 @@ struct ChatRoomView: View {
         case remainMessageAfterDeleteLastMessage
         case enterChatRoom
     }
-    
+
     let chat: Chat
-	
-	// 상대방의 이름
-    let targetUserName: String
+    let targetUserInfo: UserInfo
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
-    @State var isShowingUpdateCell: Bool = false
+    @EnvironmentObject var notificationManager: PushNotificationManager
+    @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
+    @State private var unreadMessageIndex: Int?
     
     var body: some View {
         
@@ -35,29 +35,41 @@ struct ChatRoomView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    TopperProfileView()
+                    TopperProfileView(targetUserInfo: targetUserInfo)
                     
                     Divider()
                         .padding(.vertical, 20)
+                     
+                    Spacer()
+                        .frame(height: 50)
                     
                     ChatDetailKnockSection(chat: chat)
+                        .padding(.bottom, 20)
                     
                     messageCells
                         .padding(.top, 10)
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 20)
                     
                     Text("")
                         .id("bottom")
                     
                 }
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
-                        print(chat.unreadMessageCount)
+                .onTapGesture {
+                    self.endTextEditing()
+                }
+                .onChange(of: unreadMessageIndex) { state in
+                    Task {
+                        if await getUnreadCount() == 0 {
+                            proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                        } else {
+                            proxy.scrollTo("Start", anchor: .top)
+                        }
                     }
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
-                    proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    if messageStore.isFetchMessagesDone {
+                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                    }
                 }
             }
             
@@ -72,12 +84,12 @@ struct ChatRoomView: View {
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
                 HStack(spacing: 15) {
-                    ProfileAsyncImage(size: 25)
-                    Text(targetUserName)
-                        .bold()
+                    GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 25)
+                    GSText.CustomTextView(style: .title3, string: targetUserInfo.githubLogin)
                         .padding(.horizontal, -8)
                 }
             }
+            /* 시연 영상 제외
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -86,13 +98,23 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
+             */
         }
         .task {
             messageStore.addListener(chatID: chat.id)
             await messageStore.fetchMessages(chatID: chat.id)
-            let enteredChat = await makeChat(makeChatCase: .enterChatRoom,
+            unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
+            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
                                              deletedMessage: nil)
             await chatStore.updateChat(enteredChat)
+            
+        }
+        .onChange(of: messageStore.deletedMessage?.id) { id in
+            if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
+                Task {
+                    await deleteContent(message: deletedMessage)
+                }
+            }
         }
         .onDisappear {
             Task {
@@ -103,30 +125,25 @@ struct ChatRoomView: View {
                 messageStore.removeListener()
             }
             
+            tabBarRouter.navigateToChat = false
         }
     }
     
     // MARK: View : message cells ForEach문
     private var messageCells: some View {
-        ForEach(messageStore.messages) { message in
-            MessageCell(message: message, targetName: targetUserName)
+        ForEach(messageStore.messages.indices, id: \.self) { index in
+            
+            MessageCell(message: messageStore.messages[index],
+                        targetUserInfo: targetUserInfo)
                 .padding(.vertical, -5)
-                .contextMenu {
-                    Button {
-                        Task {
-                            await deleteContent(message: message)
-                        }
-                    } label: {
-                        Text("Delete Message")
-                        Image(systemName: "trash")
-                    }
-                }
+                .id(index == unreadMessageIndex ? "Start" : "")
         }
     }
     
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack(spacing: 10) {
+            /* 시연 영상 제외
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
@@ -143,52 +160,15 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
-            
+            */
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
-                .onSubmit {
-                    guard contentField.isEmpty == false else {
-                        return
-                    }
-                    Task {
-						// Content를 푸쉬노티에 심어서 보내는 로직!
-                        await addContent()
-						
-						// 상대방의 id로 유저를 가져옵니다.
-						await userStore.requestUser(userID: chat.targetUserID)
-						async let opponentUser = userStore.user
-						
-						// 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
-						if let opponent = await opponentUser {
-							await notificationManager.sendPushNotification(
-								with: .chat(
-									title: "New Chat Message",
-									body: contentField,
-									chatID: chat.id
-								),
-								to: opponent
-							)
-						}
-                    }
-                }
-            
-//            TextField("Enter Message",text: $contentField)
-//                .textFieldStyle(.roundedBorder)
-//                .textInputAutocapitalization(.never)
-//                .disableAutocorrection(true)
-//                .onSubmit {
-//                    guard contentField.isEmpty == false else {
-//                        return
-//                    }
-//                    Task {
-//                        await addContent()
-//                    }
-//                }
             
             addContentButton
                 .disabled(contentField.isEmpty)
         }
+        .padding(.bottom, 15)
         .foregroundColor(.primary)
     }
     
@@ -196,7 +176,15 @@ struct ChatRoomView: View {
     private var addContentButton : some View {
         Button {
             Task {
+                // 상대방의 id로 유저를 가져옵니다.
+                let sentFrom = userStore.user?.githubLogin
+				async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
+                
+				// TODO: - PUSH NOTIFICATION 수정 필요
+				// !!!: DUE TO USERINFO MODEL UPDATE
+                
                 await addContent()
+                
             }
         } label: {
             Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
@@ -208,6 +196,18 @@ struct ChatRoomView: View {
     }
     
     // MARK: -Methods
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
+    }
+    
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
         // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
@@ -224,20 +224,19 @@ struct ChatRoomView: View {
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수
     private func updateChatWithLastMessage(deletedMessage: Message) async {
-        let isLastMessage = messageStore.messages.last?.id == deletedMessage.id
-        if isLastMessage {
-            // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
-            if messageStore.messages.count < 2 {
-                let newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
-                                             deletedMessage: deletedMessage)
-                await chatStore.updateChat(newChat)
-            } else {
-                // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
-                let newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
-                                             deletedMessage: deletedMessage)
-                await chatStore.updateChat(newChat)
-            }
+        let newChat: Chat
+        // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
+        if messageStore.messages.count < 2 {
+            newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
+                                         deletedMessage: deletedMessage)
         }
+        // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
+        else {
+            newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
+                                         deletedMessage: deletedMessage)
+        }
+        await chatStore.updateChat(newChat)
+        
     }
     
     // MARK: Method - 메세지 삭제에 대해 DB에 Chat과 Message를 반영하는 함수
@@ -247,94 +246,91 @@ struct ChatRoomView: View {
                                          chatID: chat.id)
     }
     
+    // MARK: Method - 상대방이 안 읽은 메세지 갯수를 반환하는 함수
+    private func getUnreadCount() async -> Int {
+        let dict = await chatStore.getUnreadMessageDictionary(chatID: chat.id)
+        let unreadCount = dict?[Utility.loginUserID] ?? 0
+        return unreadCount
+    }
+    
+    // MARK: Method - 삭제 대상 메세지가 상대방이 안 읽은 메세지 범위에 포함되는지 여부를 체크해서 반환하는 함수
+    private func checkUnreadMessagesContainDeletedMessage(deletedMessage: Message,
+                                                          unreadCount: Int) -> Bool {
+        // MARK: Variables - Delete Message 케이스에서만 사용하는 변수
+        // 메세지 배열의 마지막 인덱스 넘버
+        let endIndex: Int = messageStore.messages.endIndex
+        // 안 읽은 메세지의 index 범위 (시작, 종료)
+        let unreadMessagesIndex: (start: Int, end: Int) = (endIndex - unreadCount, endIndex)
+        // 삭제 메세지가 상대방이 아직 안 읽은 메세지 범위에 포함되는 메세지인지 여부
+        let isContainUnreadMessages: Bool = messageStore.messages[unreadMessagesIndex.start..<unreadMessagesIndex.end]
+            .map{$0.id}
+            .contains(deletedMessage.id)
+        return isContainUnreadMessages
+    }
+    
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
     private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
         
         // FIXME: 메세지 삭제 시 안 읽은 메세지면 unread 갯수를 지우는 코드 -> 삭제 순서에 따라 작동 여부가 달라서 디버깅 필요! By. 태영
-        let newChat: Chat
+        var newChat: Chat = chat
         // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
-        var newDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
-        
-        // MARK: Variables - Delete Message 케이스에서만 사용하는 변수
+        var newUnreadMessageCountDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
         // 상대방의 안 읽은 메세지 갯수
-        let unreadMessageCount: Int
-        // 메세지 배열의 마지막 인덱스 넘버
-        let endIndex: Int
-        // 안 읽은 메세지의 index 범위 (시작, 종료)
-        let unreadMessagesIndex: (start: Int, end: Int)
-        // 삭제 메세지가 상대방이 아직 안 읽은 메세지 범위에 포함되는 메세지인지 여부
-        var isContainUnreadMessages: Bool = false
+        let unreadMessageCount: Int = newUnreadMessageCountDict[chat.targetUserID] ?? 1
         
-        if makeChatCase == .zeroMessageAfterDeleteLastMessage || makeChatCase == .remainMessageAfterDeleteLastMessage {
-            // MARK: delte case 프로퍼티 할당을 이 안에서 진행
-            unreadMessageCount = newDict[chat.targetUserID] ?? 1
-            endIndex = messageStore.messages.endIndex - 1
-            unreadMessagesIndex = (endIndex - unreadMessageCount, endIndex)
-            isContainUnreadMessages = messageStore.messages[unreadMessagesIndex.start...unreadMessagesIndex.end]
-                .map{$0.id}
-                .contains(deletedMessage?.id)
-        }
-        
-        // 삭제 메세지가 상대방이 안 읽은 메세지에 포함되면 안 읽은 갯수 1 감소
-        if isContainUnreadMessages {
-            newDict[chat.targetUserID, default: 0] -= 1
+        // 메세지 삭제에 대해서 Chat을 업데이트하는 케이스인 경우
+        if let deletedMessage,
+           makeChatCase == .zeroMessageAfterDeleteLastMessage || makeChatCase == .remainMessageAfterDeleteLastMessage {
+            // 삭제 메세지가 상대방이 안 읽은 메세지에 포함되면 안 읽은 갯수 1 감소
+            if checkUnreadMessagesContainDeletedMessage(deletedMessage: deletedMessage,
+                                                        unreadCount: unreadMessageCount) {
+                newUnreadMessageCountDict[chat.targetUserID, default: 0] -= 1
+            }
         }
         
         switch makeChatCase {
             
+        // 채팅 메세지 보내는 케이스
+        // 안 읽은 메세지 갯수 + 1, 현재 텍스트필드 내용과 지금 시각으로 Chat 업데이트
         case .addContent:
-            
-            newDict[chat.targetUserID, default : 0] += 1
-            
-            newChat = Chat(id: chat.id,
-                           createdDate: chat.createdDate,
-                           joinedMemberIDs: chat.joinedMemberIDs,
-                           lastContent: contentField,
-                           lastContentDate: Date.now,
-                           knockContent: chat.knockContent,
-                           knockContentDate: chat.knockContentDate,
-                           unreadMessageCount: newDict)
-            
+            newUnreadMessageCountDict[chat.targetUserID, default : 0] += 1
+            newChat.lastContent = contentField
+            newChat.lastContentDate = .now
+            newChat.unreadMessageCount = newUnreadMessageCountDict
+
+        // 삭제 메세지가 채팅방의 첫 메세지인 케이스
+        // 마지막 메세지를 노크 컨텐츠로 업데이트
         case .zeroMessageAfterDeleteLastMessage:
-                        
-            // FIXME: 메세지 삭제 로직에도 안 읽은 메세지 -= 1 로직 구현 필요
-            newChat = Chat.init(id: chat.id,
-                                createdDate: chat.createdDate,
-                                joinedMemberIDs: chat.joinedMemberIDs,
-                                lastContent: chat.knockContent,
-                                lastContentDate: chat.knockContentDate,
-                                knockContent: chat.knockContent,
-                                knockContentDate: chat.knockContentDate,
-                                unreadMessageCount: newDict)
+            newChat.lastContent = chat.knockContent
+            newChat.lastContentDate = chat.knockContentDate
+            newChat.unreadMessageCount = newUnreadMessageCountDict
             
+            
+            // 삭제 메세지를 포함해서 메세지가 2개 이상인 케이스
         case .remainMessageAfterDeleteLastMessage:
             let endIndex = messageStore.messages.endIndex
             let preLastMessage = messageStore.messages[endIndex-2]
+            let isLastMessage = messageStore.messages.last?.id == deletedMessage?.id
             
-            newChat = Chat.init(id: chat.id,
-                                createdDate: chat.createdDate,
-                                joinedMemberIDs: chat.joinedMemberIDs,
-                                lastContent: preLastMessage.textContent,
-                                lastContentDate: preLastMessage.sentDate,
-                                knockContent: chat.knockContent,
-                                knockContentDate: chat.knockContentDate,
-                                unreadMessageCount: newDict)
-            
+            // 삭제 메세지가 마지막 메세지면, 이전 메세지를 Chat의 마지막 내용으로 업데이트 하고 안 읽은 메세지 갯수 업데이트
+            if isLastMessage {
+                newChat.lastContent = preLastMessage.textContent
+                newChat.lastContentDate = preLastMessage.sentDate
+                newChat.unreadMessageCount = newUnreadMessageCountDict
+            }
+            // 삭제 메세지가 마지막 메세지가 아니면, 기존 Chat을 유지하고 안 읽은 메세지 갯수만 업데이트
+            else {
+                newChat.unreadMessageCount = newUnreadMessageCountDict
+            }
+        
+        // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
         case .enterChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
             if let uid = userStore.user?.id {
                 newDict[uid] = 0
             }
-            newChat = Chat.init(id: chat.id,
-                                createdDate: chat.createdDate,
-                                joinedMemberIDs: chat.joinedMemberIDs,
-                                lastContent: chat.lastContent,
-                                lastContentDate: chat.lastContentDate,
-                                knockContent: chat.knockContent,
-                                knockContentDate: chat.knockContentDate,
-                                unreadMessageCount: newDict)
+            newChat.unreadMessageCount = newDict
         }
-        
         return newChat
     }
     
@@ -376,14 +372,10 @@ struct ChatRoomView: View {
                 let isChatBlocked: Bool = user.blockedUserIDs.contains(chat.targetUserID)
                 // 5
                 ChatRoomInfoView(chat: chat,
-                                 targetUserName: targetUserName,
+                                 targetUserInfo: targetUserInfo,
                                  isBlocked: isChatBlocked,
                                  isNotificationReceiveEnable: isNotificationReceiveEnable ?? true)
             }
         }
     }
-    
 }
-
-/// 챗을 만들어서 업데이트 챗을 하는데, 마지막 메세지 시간이랑 내용을 가져와야함
-/// 지우는 메세지가 마지막 메세지인지 분기처리를 해야함

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
@@ -32,6 +33,7 @@ struct InitialView: View {
         case .signedIn:
             ContentView(tabBarRouter: tabBarRouter)
                 .preferredColorScheme(selectedAppearance)
+				.environmentObject(UserStore(currentUserID: Auth.auth().currentUser?.uid ?? ""))
         case .signedOut:
             SigninView(githubAuthManager: githubAuthManager, tabBarRouter: tabBarRouter)
                 .preferredColorScheme(selectedAppearance)

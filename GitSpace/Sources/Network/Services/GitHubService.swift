@@ -14,13 +14,21 @@ import Foundation
 protocol GitHubServiceProtocol {
     
     /// 인증된 사용자의 정보를 요청하는 함수
-    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError>
+    func requestAuthenticatedUser() async -> Result<GithubUser, GitHubAPIError>
     
     /// 인증된 사용자의 starred repository들을 요청하는 함수
     func requestAuthenticatedUserStars(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
     /// 인증된 사용자가 액세스 권한을 가진 repository들을 요청하는 함수
     func requestAuthenticatedUserRepositories(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
+    
+
+    /// 인증된 사용자의 follower 목록을 요청하는 함수
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError >
+
+    /// 인증된 사용자로 받은 이벤트를 요청하는 함수
+    func requestAuthenticatedUserReceivedEvents(userName: String, page: Int) async -> Result<[Event],GitHubAPIError>
+
     
     /// 인증된 사용자로 특정 레포지토리를 star할 때 사용하는 함수
     func starRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
@@ -29,7 +37,7 @@ protocol GitHubServiceProtocol {
     func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
     
     /// 특정 유저의 정보를 요청하는 함수
-    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError>
+    func requestUserInformation(userName: String) async -> Result<GithubUser, GitHubAPIError>
     
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
@@ -51,15 +59,20 @@ protocol GitHubServiceProtocol {
 
 /// GitHubService 구현부
 struct GitHubService: HTTPClient, GitHubServiceProtocol {
+
     
+    
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserFollowers(perPage: 100, page: 1), responseModel: [FollowersResponse].self)
+    }
     
     /**
      인증된 유저의 정보를 요청합니다.
      - Author: 제균
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestAuthenticatedUser() async -> Result<GitHubUser, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: GitHubUser.self)
+    func requestAuthenticatedUser() async -> Result<GithubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserInformation, responseModel: GithubUser.self)
     }
     
     /**
@@ -82,6 +95,17 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
      */
     func requestAuthenticatedUserStars(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserStarRepositories(page: page), responseModel: [RepositoryResponse].self)
+    }
+    
+    /**
+     인증된 유저의 received events를 요청합니다.
+     - Author: 제균
+     - parameters:
+        - page: 요청할 page number
+     - returns: 요청 성공시 유저가 받은 Event 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestAuthenticatedUserReceivedEvents(userName: String, page: Int) async -> Result<[Event], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserReceivedEvents(userName: userName, page: page), responseModel: [Event].self)
     }
     
     /**
@@ -115,8 +139,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - userName: GitHub userName
      - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserInformation(userName: String) async -> Result<GitHubUser, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GitHubUser.self)
+    func requestUserInformation(userName: String) async -> Result<GithubUser, GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userInformation(userName: userName), responseModel: GithubUser.self)
     }
     
     /**

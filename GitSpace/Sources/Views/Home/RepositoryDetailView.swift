@@ -47,7 +47,7 @@ struct RepositoryDetailView: View {
             Spacer()
             
             GSNavigationLink(style: .primary) {
-                ContributorListView()
+                ContributorListView(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
@@ -143,21 +143,8 @@ struct RepositoryInfoCard: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(contributorManager.contributors) { user in
-                        
                         NavigationLink(destination: UserProfileView(service: gitHubService, user: user)) {
-                            
-                            let url = URL(string: user.avatar_url)
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                                    .clipShape(Circle())
-                            } placeholder: {
-                                Image("avatarImage")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                            }
+                            GithubProfileImage(urlStr: user.avatar_url, size: 40)
                         }
                     }
                 }

@@ -16,6 +16,8 @@ import FirebaseFirestore
 final class MessageStore: ObservableObject {
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
+    @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
+    @Published var isFetchMessagesDone: Bool = false
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
@@ -48,6 +50,7 @@ extension MessageStore {
     @MainActor
     private func writeMessages(messages: [Message]) {
         self.messages = messages
+        isFetchMessagesDone = true
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
@@ -152,16 +155,14 @@ extension MessageStore {
                 snp.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        print("Message Added")
                         if let newMessage = self.fetchNewMessage(change: diff.document) {
                             self.messages.append(newMessage)
                             // 메세지 추가 시 Chat Room View 스크롤을 최하단으로 내리기 위한 트리거
                             self.isMessageAdded.toggle()
                         }
                     case .modified:
-                        print("Message Modified")
+                        let _ = 1
                     case .removed:
-                        print("Message Removed")
                         self.removeDeletedLocalMessage(change: diff.document)
                     }
                 }

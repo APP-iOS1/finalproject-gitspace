@@ -7,31 +7,17 @@
 
 import SwiftUI
 
-
-struct DummyUserInfo: Hashable, Identifiable {
-    var id: UUID = UUID()
-    let userName: String
-    let followerCount: Int
-    let repoCount: Int
-}
-
-
-
 struct ChatUserRecommendationSection: View {
     
+    let gitHubService = GitHubService()
+    
     @Environment(\.colorScheme) var colorScheme
-
+    @StateObject var followerViewModel: FollowerViewModel
     @State var currentIndex: Int = 0
     
     
-    let userInfo1 = DummyUserInfo(userName: "yeeeunchoilianne", followerCount: 2667, repoCount: 20)
-    let userInfo2 = DummyUserInfo(userName: "randombrazilgirl19970227", followerCount: 140, repoCount: 61)
-    let userInfo3 = DummyUserInfo(userName: "randombrazilmama", followerCount: 167479, repoCount: 1044)
-    
     
     var body: some View {
-        
-        let users = [userInfo1, userInfo2, userInfo3]
         
         VStack(alignment: .leading) {
             
@@ -44,19 +30,15 @@ struct ChatUserRecommendationSection: View {
         
             
             // MARK: -  카드 페이지네이션 Carousel
-            Carousel(index: $currentIndex, items: users) { user in
+            Carousel(index: $currentIndex, items: followerViewModel.followers) { user in
 
                 GeometryReader { proxy in
-
-                    let size = proxy.size
-
                     
                     VStack(alignment: .trailing) {
+                        
                         HStack {
-                            // TODO: - [GITHUB API] 유저 프로필 내용으로 바꾸기
-                            Image("avatarImage")
-                                .frame(width: 64)
-
+                            
+                            GithubProfileImage(urlStr: user.avatar_url, size: 40)
 
                             VStack(alignment: .leading, spacing: 8) {
                                 
@@ -64,7 +46,7 @@ struct ChatUserRecommendationSection: View {
                                     /* 유저 깃헙아이디 (username) */
                                     GSText.CustomTextView(
                                         style: .title2,
-                                        string: ("@" + "\(user.userName)"))
+                                        string: ("@" + "\(user.login)"))
                                         .lineLimit(1)
                                     Spacer()
                                 }
@@ -75,7 +57,7 @@ struct ChatUserRecommendationSection: View {
                                         /// 팔로워 수 >= 1000 일 때, ~k 단위로 처리
                                         GSText.CustomTextView(
                                             style: .title3,
-                                            string: handleCountUnit(countInfo: user.followerCount))
+                                            string: handleCountUnit(countInfo: user.followers))
                                             .padding(.trailing, -5)
                                         
                                         GSText.CustomTextView(
@@ -94,7 +76,7 @@ struct ChatUserRecommendationSection: View {
                                         // TODO: 버튼 라벨 같은 것들 Constant로 다 빼기
                                         GSText.CustomTextView(
                                             style: .title3,
-                                            string: handleCountUnit(countInfo: user.repoCount))
+                                            string: handleCountUnit(countInfo: user.public_repos))
                                             .padding(.trailing, -5)
                                         
                                         GSText.CustomTextView(
@@ -112,7 +94,8 @@ struct ChatUserRecommendationSection: View {
 
                         // MARK: - NewKnockView로 이동하는 챗 버튼
                         GSNavigationLink(style: .secondary) {
-                            SendKnockView()
+//                            SendKnockView()
+							Text("SENDKNOCKVIEW")
                         } label: {
                             // TODO: - GSText로 바꿔주기 (색이 안입혀져서 일단 일반 텍스트로)
 //                            GSText.CustomTextView(style: .title3, string: "Let's chat!")
@@ -147,7 +130,7 @@ struct ChatUserRecommendationSection: View {
                 
                 Spacer()
                 
-                ForEach(users.indices,id: \.self) { index in
+                ForEach(followerViewModel.responses.indices,id: \.self) { index in
                     
                     Circle()
                         .fill(Color.gsGreenPrimary.opacity(currentIndex == index ? 1 : 0.3))
@@ -161,6 +144,7 @@ struct ChatUserRecommendationSection: View {
             .padding(.vertical, 20)
 
         }
+
     }
 
 }
@@ -169,14 +153,13 @@ struct ChatUserRecommendationSection: View {
 
 
 // MARK: -  카드 페이지네이션 Carousel 내부 코드
-struct Carousel<Content: View,T: Identifiable>: View {
+struct Carousel<Content: View, T: Identifiable>: View {
     var content: (T) -> Content
     var list: [T]
     
     var spacing: CGFloat
     var trailingSpace: CGFloat
     @Binding var index: Int
-
     
     init(spacing: CGFloat = 10,
          trailingSpace: CGFloat = 60,
@@ -244,6 +227,6 @@ struct Carousel<Content: View,T: Identifiable>: View {
 
 struct ChatRecommandCardSection_Previews: PreviewProvider {
     static var previews: some View {
-        ChatUserRecommendationSection()
+        ChatUserRecommendationSection(followerViewModel: FollowerViewModel())
     }
 }

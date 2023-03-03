@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
+import MarkdownUI
 
-// MARK: - gitHubUser객체 필요
+// MARK: - gitHubUser 필요
 
 struct UserProfileView: View {
 
-    let user: GitHubUser
+    let user: GithubUser
     let gitHubService: GitHubService
 
-    init(service: GitHubService, user: GitHubUser) {
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+
+    @State private var markdownString = ""
+
+    init(service: GitHubService, user: GithubUser) {
         self.gitHubService = service
         self.user = user
     }
@@ -26,16 +31,7 @@ struct UserProfileView: View {
 
                 HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
 
-                    AsyncImage(url: URL(string: user.avatar_url)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-
-                    } placeholder: {
-                        Image(systemName: "person.crop.circle")
-                    }
+                    GithubProfileImage(urlStr: user.avatar_url, size: 60)
 
                     VStack(alignment: .leading) { // 이름, 닉네임
                         GSText.CustomTextView(style: .title2, string: user.name ?? "")
@@ -83,7 +79,7 @@ struct UserProfileView: View {
                         Image(systemName: "link")
                             .foregroundColor(.gsGray2)
                         if let blogURL = URL(string: blogURLString) {
-                            Link(destination: blogURL) {    
+                            Link(destination: blogURL) {
                                 GSText.CustomTextView(style: .body1, string: blogURLString)
                             }
                         }
@@ -129,14 +125,57 @@ struct UserProfileView: View {
 
 
                 // MARK: - 유저의 README
-                GSText.CustomTextView(style: .caption2, string: "README.md")
-                GSCanvas.CustomCanvasView(style: .primary) {
-                    Text("리드미 내용")
+
+                if markdownString == "Fail to read README.md" {
+                    
+                    GSText.CustomTextView(style: .title2, string: markdownString)
                         .frame(maxWidth: .infinity)
+                    
+                    GSCanvas.CustomCanvasView(style: .primary) {
+                        Image("GitSpace-Block")
+                    }
+                        .frame(maxWidth: .infinity)
+                } else {
+                    GSText.CustomTextView(style: .caption2, string: "README.md")
+                    GSCanvas.CustomCanvasView(style: .primary) {
+                        Markdown {
+                            markdownString
+                        }
+                        .multilineTextAlignment(.center)
+                    }
                 }
+
+
                 Spacer()
             }
                 .padding(.horizontal, 20)
+        }
+            .onAppear {
+            Task {
+
+//                guard let userName = gitHubAuthManager.authenticatedUser?.login else { return }
+
+                let result = await gitHubService.requestRepositoryReadme(owner: user.login, repositoryName: user.login)
+
+                switch result {
+
+                case .success(let readme):
+                    guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
+                        markdownString = "Fail to read README.md"
+                        return
+                    }
+
+                    guard let decodeContent = String(data: content, encoding: .utf8) else {
+                        markdownString = "Fail to read README.md"
+                        return
+                    }
+
+                    markdownString = decodeContent
+                case .failure:
+                    markdownString = "Fail to read README.md"
+
+                }
+            }
         }
     }
 }

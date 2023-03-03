@@ -26,7 +26,7 @@ struct GuideCenterView: View {
                     VStack(alignment: .leading) {
                         GSText.CustomTextView(
                             style: .title3,
-                            string: "GitSpace를 여행하는\n탐험가를 위해 준비한 안내서에요!")
+                            string: "It's the GitSpacer's Guide\nto the GitSpace!")
                     }
                     
                     Spacer()
@@ -38,10 +38,6 @@ struct GuideCenterView: View {
                 GuideBlockSection()
                 
                 GuideReportSection()
-                
-                
-                
-                
                 
             } // ScrollView
             .navigationBarTitle("Guide Center"/*, displayMode: .inline*/)

@@ -11,10 +11,9 @@ import SwiftUI
 struct MessageCell : View {
     
     let message: Message
-    let targetName: String
-    var isMine: Bool {
-        return Utility.loginUserID == message.senderID
-    }
+    let targetUserInfo: UserInfo
+    var isMine: Bool { return Utility.loginUserID == message.senderID }
+    @EnvironmentObject var messageStore: MessageStore
     
     var body: some View {
         
@@ -26,6 +25,13 @@ struct MessageCell : View {
                     .modifier(MessageTimeModifier())
                 Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
+                    .contextMenu {
+                        Button {
+                            messageStore.deletedMessage = message
+                        } label: {
+                            Text("Delete")
+                        }
+                    }
             }
             //.padding(.trailing, 10)
             
@@ -36,14 +42,14 @@ struct MessageCell : View {
                     NavigationLink {
                         ProfileDetailView()
                     } label: {
-                        ProfileAsyncImage(size: 35)
+                        GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 35)
                     }
                     Spacer()
                 }
                 
                 // UserName과 Message Bubble 부분
                 VStack (alignment: .leading, spacing: 6) {
-                    Text(targetName)
+                    GSText.CustomTextView(style: .caption1, string: targetUserInfo.githubLogin)
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
@@ -54,6 +60,17 @@ struct MessageCell : View {
                 }
             }
         }
+    }
+    private func getGithubProfileImageURL(targetUserName: String) async -> String {
+        let githubService = GitHubService()
+        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
+        switch githubUserResult {
+        case .success(let githubUser):
+            return githubUser.avatar_url
+        case .failure(let error):
+            print(error)
+        }
+        return ""
     }
 }
 

@@ -15,7 +15,7 @@ enum BeforeView {
 
 struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var repositoryStore: RepositoryViewModel
+    @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @EnvironmentObject var tagViewModel: TagViewModel
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
@@ -50,9 +50,9 @@ struct AddTagSheetView: View {
                 withAnimation {
                     tagViewModel.tags.append( Tag(tagName: trimmedTagInput, repositories: []) )
                 }
+                tagInput = ""
             }
         }
-        
     }
     
     func selectTag(to tag: Tag) {
@@ -81,14 +81,15 @@ struct AddTagSheetView: View {
                         HStack {
                             TextField("tag name", text: $tagInput)
                                 .textFieldStyle(.roundedBorder)
+                                .onSubmit {
+                                    addNewTag()
+                                }
                             
                             // 태그 추가 버튼
                             Button {
                                 // FIXME: Animation이 너무 못생겼음.
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
-//                                withAnimation {
-                                    addNewTag()
-//                                }
+                                addNewTag()
                             } label: {
                                 Image(systemName: "plus")
                                     .font(.title2)
@@ -152,7 +153,7 @@ struct AddTagSheetView: View {
                         Spacer()
                     }
                 }
-                .navigationBarTitle("Knock Knock!", displayMode: .inline)
+                .navigationBarTitle("Add Custom Tags", displayMode: .inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button {
@@ -178,7 +179,11 @@ struct AddTagSheetView: View {
                                     await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
                                 }
                             case .starredView:
-                                print("---")
+                                if !preSelectedTags.isEmpty {
+                                    repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
+                                } else {
+                                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+                                }
                             }
                             dismiss()
                         } label: {
@@ -205,6 +210,7 @@ struct AddTagSheetView_Previews: PreviewProvider {
         NavigationView {
             AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
                 .environmentObject(RepositoryViewModel())
+                .environmentObject(TagViewModel())
         }
     }
 }

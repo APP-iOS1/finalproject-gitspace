@@ -23,13 +23,15 @@ struct GitSpaceApp: App {
             InitialView(tabBarRouter: tabBarRouter)
                 .environmentObject(ChatStore())
                 .environmentObject(MessageStore())
-                .environmentObject(UserStore())
                 .environmentObject(RepositoryViewModel())
                 .environmentObject(TagViewModel())
                 .environmentObject(GitHubAuthManager())
                 .environmentObject(KnockViewManager())
                 .environmentObject(tabBarRouter)
 				.environmentObject(notificationManager)
+				.onAppear {
+					UIApplication.shared.applicationIconBadgeNumber = 0
+				}
         }
     }
 }

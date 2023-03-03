@@ -8,16 +8,23 @@
 import SwiftUI
 
 struct TopperProfileView: View {
+	@EnvironmentObject var userStore: UserStore
+	@State private var user: UserInfo? = nil
+//	@State var userID: String
+	
+    let targetUserInfo: UserInfo
+    
     var body: some View {
         VStack(spacing: 8) {
             
             // MARK: - User Profice Pic
-            ProfileAsyncImage(urlStr: "https://avatars.githubusercontent.com/u/64696968?v=4", size: 100)
+            GithubProfileImage(urlStr: targetUserInfo.avatar_url
+                               , size: 100)
             
             
             // MARK: - User Name
             /// userName이 들어갈 자리
-            Text("\("guguhanogu")")
+            Text(targetUserInfo.githubLogin)
                 .bold()
                 .font(.title3)
                 .foregroundColor(Color(.black))
@@ -26,8 +33,8 @@ struct TopperProfileView: View {
             /// user의 레포 수, 팔로워 수,
             /// 대표 레포의 소유자 / 기여자 정보가 표시될 자리
             VStack(spacing: 3) {
-                Text("\("0") repositories﹒\("392") followers")
-                Text("Owner of ") + Text("\("Airbnb-swift")").bold()
+                Text("\(targetUserInfo.public_repos) repositories﹒\(targetUserInfo.followers) followers")
+//                Text("Owner of ") + Text("\("Airbnb-swift")").bold()
             }
             .font(.footnote)
             .foregroundColor(.gsLightGray2)
@@ -38,16 +45,13 @@ struct TopperProfileView: View {
             } label: {
                 Text("View Profile")
                     .font(.footnote)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .bold()
             }
             .padding(5)
         }
-    }
-}
-
-struct TopperProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        TopperProfileView()
+//		.task {
+//			user = await userStore.requestUserInfoWithID(userID: userID)
+//		}
     }
 }

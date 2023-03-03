@@ -9,16 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let stars = MainHomeView()
-    let chats = MainChatView()
-    let knocks = MainKnockView()
-    let profile = MainProfileView()
+    // let stars = MainHomeView()
+    // let chats = MainChatView()
+    // let knocks = MainKnockView()
+    // let profile = MainProfileView()
     
     @StateObject var tabBarRouter: GSTabBarRouter
 	@EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
 	@EnvironmentObject var pushNotificationManager: PushNotificationManager
+	@EnvironmentObject var chatStore: ChatStore
     
     var body: some View {
         /**
@@ -60,7 +61,7 @@ struct ContentView: View {
                 
 				// userInfo 할당
                 Utility.loginUserID = uid
-                await userStore.requestUser(userID: uid)
+                let _ = await userStore.requestUser(userID: uid)
 				
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
@@ -77,20 +78,16 @@ struct ContentView: View {
 		if let tabPagenation = tabBarRouter.currentPage {
 			switch tabPagenation {
 			case .stars:
-				stars
+				MainHomeView()
 			case .chats:
-				chats
-			case let .pushChats(id):
-				MainChatView(chatID: id)
+				MainChatView(chatID: pushNotificationManager.viewBuildID ?? chatStore.newChat.id)
 			case .knocks:
-				knocks
-			case let .pushKnocks(id):
-				MainKnockView(knockID: id)
+				MainKnockView(knockID: pushNotificationManager.viewBuildID ?? "DOCPATH")
 			case .profile:
-				profile
+				MainProfileView()
 			}
 		} else {
-			stars
+			MainHomeView()
 		}
     }
     
@@ -109,14 +106,14 @@ struct ContentView: View {
     }
     
 }
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(tabBarRouter: GSTabBarRouter())
-            .environmentObject(ChatStore())
-            .environmentObject(MessageStore())
-            .environmentObject(UserStore())
-            .environmentObject(RepositoryViewModel())
-            .environmentObject(TagViewModel())
-    }
-}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(tabBarRouter: GSTabBarRouter())
+//            .environmentObject(ChatStore())
+//            .environmentObject(MessageStore())
+//            .environmentObject(UserStore())
+//            .environmentObject(RepositoryViewModel())
+//            .environmentObject(TagViewModel())
+//    }
+//}

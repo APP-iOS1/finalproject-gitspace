@@ -10,38 +10,59 @@ import SwiftUI
 struct ActivityFeedView: View {
 
     let gitHubService: GitHubService
-    let userNumber: Int
+    let event: Event
     
-    init(service: GitHubService, number: Int) {
+    init(service: GitHubService, event: Event) {
         self.gitHubService = service
-        self.userNumber = number
+        self.event = event
     }
 
     var body: some View {
 
+        // CreateEvent, ForkEvent, WatchEvent(star), PublicEvent 만을 보여줌
+        
         HStack(spacing: 25) {
-            // FIXME: - Button Shape의 NavigationLink가 아님 -> GSNavigationLink 적용 불가
+            // FIXME: - UserProfileView로 보내기 위해 GithubUser 필요
             NavigationLink {
-                ProfileDetailView()
+//                UserProfileView(service: git, user: <#T##GithubUser#>)
             } label: {
-                Image("avatarImage")
-                    .resizable()
-                    .frame(width: 50, height: 50)
+                if let url = URL(string: event.actor.avatarURL) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                    } placeholder: {
+                        Image("avatarImage")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                    }
+                } else {
+                    Image("avatarImage")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                }
             }
                 .foregroundColor(.primary)
 
             HStack {
                 VStack(alignment: .leading, spacing: 10) {
                     NavigationLink {
-                        ProfileDetailView()
+//                        UserProfileView(service: <#T##GitHubService#>, user: <#T##GithubUser#>)
+//                        ProfileDetailView()
                     } label: {
-                        GSText.CustomTextView(style: .title3, string: "User \(userNumber)")
+                        GSText.CustomTextView(style: .title3, string: event.actor.login)
                     }
 
                     NavigationLink {
 //                        RepositoryDetailView(service: gitHubService, repository: <#Repository#>)
                     } label: {
-                        GSText.CustomTextView(style: .body1, string: "User \(userNumber) starred **APPSCHOOL1-REPO/finalproject-gitspace**")
+                        GSText.CustomTextView(style: .body1, string: "\(event.actor.login) \(makeFeedSentence(type: event.type, repository: event.repo.name))")
                             .multilineTextAlignment(.leading)
                     }
                 }
@@ -94,19 +115,32 @@ struct ActivityFeedView: View {
 
                     Spacer()
                     
-                    GSText.CustomTextView(style: .caption2, string: "\(userNumber) 시간 전")
+                    GSText.CustomTextView(style: .caption2, string: "\(event.createdAt.stringToDate().timeAgoDisplay())")
 
                 }
             } // vstack
         } // hstack
         .padding(.horizontal)
     } // body
-
+    
+    func makeFeedSentence(type: String?, repository: String) -> String {
+        switch type {
+        case "PublicEvent":
+            return "made **\(repository)** public"
+        case "CreateEvent":
+            return "created **\(repository)**"
+        case "WatchEvent":
+            return "starred **\(repository)**"
+        case "ForkEvent":
+            return "forked **\(repository)**"
+        default:
+            return ""
+        }
+    }
 }
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-//        FeedView(userNumber: 1)
-        ContentView(tabBarRouter: GSTabBarRouter())
+        ActivityFeedView(service: GitHubService(), event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
     }
 }
