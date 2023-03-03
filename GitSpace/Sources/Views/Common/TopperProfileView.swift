@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct TopperProfileView: View {
+	@EnvironmentObject var userStore: UserStore
+	@State private var user: UserInfo? = nil
+//	@State var userID: String
+	
     let targetUserInfo: UserInfo
     
     var body: some View {
@@ -46,5 +50,8 @@ struct TopperProfileView: View {
             }
             .padding(5)
         }
+//		.task {
+//			user = await userStore.requestUserInfoWithID(userID: userID)
+//		}
     }
 }

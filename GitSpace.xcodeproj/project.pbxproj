@@ -69,7 +69,6 @@
 		348540F5299D5EF200B738F9 /* WhatToReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F4299D5EF200B738F9 /* WhatToReportGuideView.swift */; };
 		348540F7299D5F8600B738F9 /* AfterReportGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F6299D5F8600B738F9 /* AfterReportGuideView.swift */; };
 		348540F9299DDC5500B738F9 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F8299DDC5500B738F9 /* TermsOfServiceView.swift */; };
-		34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
@@ -134,7 +133,6 @@
 		707E58F629799449007F4ADF /* GSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707E58F529799449007F4ADF /* GSTextField.swift */; };
 		708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */; };
 		708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356E29779201000DCBC7 /* EachKnockCell.swift */; };
-		708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		7095265F297F8F4D00F97E27 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265E297F8F4D00F97E27 /* View+.swift */; };
 		7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095CFA3297EB913000F2BF6 /* Color+.swift */; };
 		70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */; };
@@ -145,11 +143,13 @@
 		70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF3299B4301009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D0737B297D69CE0049A359 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 70D0737A297D69CE0049A359 /* FirebaseMessaging */; };
+		70D8DFDD29A4B3C70014AD5A /* PushNotificationMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
 		70DB32B22989FAB0004E82AD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840162983906F00F51169 /* Message.swift */; };
 		70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SetMainView.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
+		7E49C6CD29B220E300430224 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC356829777253000DCBC7 /* MainKnockView.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 		EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */; };
 		EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF740B298D784C00FABEA3 /* GSCanvas.swift */; };
@@ -289,6 +289,7 @@
 		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70BB6CFA299B769D009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationMessageBody.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
@@ -676,6 +677,7 @@
 			isa = PBXGroup;
 			children = (
 				70528FBD299C022800E29316 /* PushNotificationManager.swift */,
+				70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */,
 				6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */,
 				6E0840162983906F00F51169 /* Message.swift */,
 				700A11D7299774A0008C94C7 /* Knock.swift */,
@@ -734,6 +736,7 @@
 		70BE63E3298CA4770060336F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */,
 				7095265E297F8F4D00F97E27 /* View+.swift */,
 				6E128D6629A498A50004AEC8 /* Image+.swift */,
 				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
@@ -744,7 +747,6 @@
 				7095CFA3297EB913000F2BF6 /* Color+.swift */,
 				6EC383A4298FE49000F209CF /* UIFont+.swift */,
 				70BB6CDF299B105B009948FC /* URL+DeepLink.swift */,
-				700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */,
 				22E9ECF0299BA78400D5A9C6 /* UIScreen+.swift */,
 				2205F244299D2B2B00B2643D /* Date+.swift */,
 			);
@@ -864,7 +866,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				708E70EB2997E05C008BC975 /* MainKnockView.swift in Sources */,
+				7E49C6CD29B220E300430224 /* MainKnockView.swift in Sources */,
 				708E70EA2997E033008BC975 /* EachKnockCell.swift in Sources */,
 				708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */,
 				2205F241299CCBF900B2643D /* FollowerViewModel.swift in Sources */,
@@ -887,6 +889,7 @@
 				687AE550298FA22500113ABF /* Repository.swift in Sources */,
 				22DECDEA2976FEB5008A4405 /* ActivityFeedView.swift in Sources */,
 				22DECDE62976F78C008A4405 /* ActivityView.swift in Sources */,
+				70D8DFDD29A4B3C70014AD5A /* PushNotificationMessageBody.swift in Sources */,
 				348540EF299D5DFE00B738F9 /* TagGuideView.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
@@ -983,7 +986,6 @@
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				689A88B729ACED97006F177A /* ViewDidLoadModifier.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
-				34BC356929777253000DCBC7 /* MainKnockView.swift in Sources */,
 				6E128D6729A498A50004AEC8 /* Image+.swift in Sources */,
 				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				2205F23D299C9F1400B2643D /* Event.swift in Sources */,

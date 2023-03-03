@@ -178,20 +178,10 @@ struct ChatRoomView: View {
             Task {
                 // 상대방의 id로 유저를 가져옵니다.
                 let sentFrom = userStore.user?.githubLogin
-                async let opponentUser = userStore.requestAnotherUserInfoWithID(userID: chat.targetUserID)
+				async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
                 
-                // 유저 정보가 제대로 들어왔다면 알람을 보냅니다.
-                if let opponent = await opponentUser {
-                    await notificationManager.sendPushNotification(
-                        with: .chat(
-                            title: "New Chat Message",
-                            body: contentField,
-                            fromUser: sentFrom ?? "",
-                            chatID: chat.id
-                        ),
-                        to: opponent
-                    )
-                }
+				// TODO: - PUSH NOTIFICATION 수정 필요
+				// !!!: DUE TO USERINFO MODEL UPDATE
                 
                 await addContent()
                 
