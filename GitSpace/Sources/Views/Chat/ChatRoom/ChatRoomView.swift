@@ -14,7 +14,7 @@ struct ChatRoomView: View {
         case addContent
         case zeroMessageAfterDeleteLastMessage
         case remainMessageAfterDeleteLastMessage
-        case enterChatRoom
+        case enterOrQuitChatRoom
     }
 
     let chat: Chat
@@ -112,7 +112,7 @@ struct ChatRoomView: View {
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
             // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
-            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
+            async let enteredChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
                                              deletedMessage: nil,
                                              currentContent: nil)
             // 0으로 초기화된 Chat을 DB에 업데이트
@@ -129,10 +129,10 @@ struct ChatRoomView: View {
         .onDisappear {
             Task {
                 // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
-                let exitChat = await makeChat(makeChatCase: .enterChatRoom,
+                let quittedChat = await makeChat(makeChatCase: .enterOrQuitChatRoom,
                                               deletedMessage: nil,
                                               currentContent: nil)
-                await chatStore.updateChat(exitChat)
+                await chatStore.updateChat(quittedChat)
                 messageStore.removeListener()
             }
             
@@ -341,7 +341,7 @@ struct ChatRoomView: View {
             }
         
         // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
-        case .enterChatRoom:
+        case .enterOrQuitChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
             if let uid = userStore.user?.id {
                 newDict[uid] = 0
