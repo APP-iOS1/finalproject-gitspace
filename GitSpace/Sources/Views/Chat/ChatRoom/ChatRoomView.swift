@@ -67,6 +67,7 @@ struct ChatRoomView: View {
                     }
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
+                    // 채팅방 진입 시 진행하는 첫 Request가 수행된 이후에만 반응하도록 하는 조건
                     if messageStore.isFetchMessagesDone {
                         proxy.scrollTo("bottom", anchor: .bottomTrailing)
                     }
@@ -98,17 +99,20 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
-             
         }
         .task {
+            // 메세지 리스너 실행, 첫 Request가 이루어지기 전이기 때문에 .added에서 메세지를 추가하지 않음
             messageStore.addListener(chatID: chat.id)
+            // 해당 채팅방의 메세지를 날짜순으로 정렬해서 Request
             await messageStore.fetchMessages(chatID: chat.id)
+            // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
+            // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
             async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
                                              deletedMessage: nil,
                                              currentContent: nil)
+            // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
-            
         }
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
