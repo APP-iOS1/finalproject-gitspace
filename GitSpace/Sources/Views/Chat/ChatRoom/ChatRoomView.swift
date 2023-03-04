@@ -57,6 +57,7 @@ struct ChatRoomView: View {
                 .onTapGesture {
                     self.endTextEditing()
                 }
+                // MEMO : 채팅방 진입 시 수행해야하는 스크롤링이지만, proxy 값이 필요하기 때문에 task에서 unreadMessageIndex 변경 -> ScrollView Reader 내부 onChange에서 작업
                 .onChange(of: unreadMessageIndex) { state in
                     DispatchQueue.main.async {
                         Task {
