@@ -271,6 +271,8 @@ struct ChatRoomView: View {
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
     private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
         
+        // 현재 시점의 초기화된 chat을 복사
+        // switch문에서 Chat을 만드는 케이스에 따라 필요한 프로퍼티에 접근해서 수정 후 return
         var newChat: Chat = chat
         // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
         var newUnreadMessageCountDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
