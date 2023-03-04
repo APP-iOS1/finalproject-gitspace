@@ -96,7 +96,7 @@ struct UserProfileView: View {
                         Text("This Page Will Shows Followers List.")
                     } label: {
                         HStack {
-                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.followers ?? 0))
+                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.followers))
                             GSText.CustomTextView(style: .description, string: "followers")
                                 .padding(.leading, -2)
                         }
@@ -111,7 +111,7 @@ struct UserProfileView: View {
                         Text("This Page Will Shows Following List.")
                     } label: {
                         HStack {
-                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.following ?? 0))
+                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.following))
                             GSText.CustomTextView(style: .description, string: "following")
                                 .padding(.leading, -2)
                         }
