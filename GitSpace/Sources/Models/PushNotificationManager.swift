@@ -105,7 +105,7 @@ extension PushNotificationManager: GSPushNotificationSendable {
 			"notification": [
 				"title": pushNotificationBody.messageTitle,
 				"body": pushNotificationBody.messageBody,
-				"subtitle": pushNotificationBody.nameOfKnockedPerson,
+				"subtitle": pushNotificationBody.sentUserName,
 				"badge": "1"
 			],
 			

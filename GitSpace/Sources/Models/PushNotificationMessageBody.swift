@@ -16,29 +16,29 @@ import Foundation
 struct PushNotificationMessageBody {
 	let messageTitle: String
 	let messageBody: String
-	let nameOfKnockedPerson: String
+	let sentUserName: String
 	let navigateTo: String
 	let viewBuildID: String
 	
 	init(_ messageType: PushNotificationMessageType) {
 		switch messageType {
-		case let .knock(title, body, nameOfKnockedPerson, knockID):
+		case let .knock(title, body, knockSentFrom, knockID):
 			self.messageTitle = title
 			self.messageBody = body
 			self.navigateTo = "knock"
-			self.nameOfKnockedPerson = nameOfKnockedPerson
+			self.sentUserName = knockSentFrom
 			self.viewBuildID = knockID
-		case let .chat(title, body, nameOfKnockedPerson, chatID):
+		case let .chat(title, body, chatSentFrom, chatID):
 			self.messageTitle = title
 			self.messageBody = body
 			self.navigateTo = "chat"
-			self.nameOfKnockedPerson = nameOfKnockedPerson
+			self.sentUserName = chatSentFrom
 			self.viewBuildID = chatID
 		}
 	}
 }
 
 enum PushNotificationMessageType {
-	case knock(title: String, body: String, nameOfKnockedPerson: String, knockID: String)
-	case chat(title: String, body: String, nameOfChatter: String, chatID: String)
+	case knock(title: String, body: String, knockSentFrom: String, knockID: String)
+	case chat(title: String, body: String, chatSentFrom: String, chatID: String)
 }
