@@ -89,7 +89,7 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
-            /* 시연 영상 제외
+            
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -98,7 +98,7 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
-             */
+             
         }
         .task {
             messageStore.addListener(chatID: chat.id)
@@ -143,7 +143,7 @@ struct ChatRoomView: View {
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack(spacing: 10) {
-            /* 시연 영상 제외
+            
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
@@ -160,7 +160,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
-            */
+            
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
