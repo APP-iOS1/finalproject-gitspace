@@ -58,13 +58,16 @@ struct ChatRoomView: View {
                     self.endTextEditing()
                 }
                 .onChange(of: unreadMessageIndex) { state in
-                    Task {
-                        if await getUnreadCount() == 0 {
-                            proxy.scrollTo("bottom", anchor: .bottomTrailing)
-                        } else {
-                            proxy.scrollTo("Start", anchor: .top)
+                    DispatchQueue.main.async {
+                        Task {
+                            if await getUnreadCount() == 0 {
+                                proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                            } else {
+                                proxy.scrollTo("Start", anchor: .top)
+                            }
                         }
                     }
+                    
                 }
                 .onChange(of: messageStore.isMessageAdded) { state in
                     // 채팅방 진입 시 진행하는 첫 Request가 수행된 이후에만 반응하도록 하는 조건
@@ -114,6 +117,7 @@ struct ChatRoomView: View {
             // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
         }
+        // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
