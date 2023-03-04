@@ -271,7 +271,6 @@ struct ChatRoomView: View {
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
     private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
         
-        // FIXME: 메세지 삭제 시 안 읽은 메세지면 unread 갯수를 지우는 코드 -> 삭제 순서에 따라 작동 여부가 달라서 디버깅 필요! By. 태영
         var newChat: Chat = chat
         // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
         var newUnreadMessageCountDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
