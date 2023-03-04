@@ -129,7 +129,7 @@ struct ChatRoomView: View {
         .onDisappear {
             Task {
                 // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
-                let quittedChat = await makeChat(makeChatCase: .enterOrQuitChatRoom,
+                async let quittedChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
                                               deletedMessage: nil,
                                               currentContent: nil)
                 await chatStore.updateChat(quittedChat)
@@ -207,17 +207,6 @@ struct ChatRoomView: View {
     }
     
     // MARK: -Methods
-    private func getGithubProfileImageURL(targetUserName: String) async -> String {
-        let githubService = GitHubService()
-        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
-        switch githubUserResult {
-        case .success(let githubUser):
-            return githubUser.avatar_url
-        case .failure(let error):
-            print(error)
-        }
-        return ""
-    }
     
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
