@@ -212,9 +212,9 @@ struct ChatRoomView: View {
     private func addContent() async {
         // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
         /// 새 메세지 셀 생성
+        /// 메세지 입력 필드 공백으로 초기화
         /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
-        /// 메세지 입력 필드 공백으로 초기화
         let newMessage = makeMessage(currentContent: contentField)
         contentField = ""
         let newChat = await makeChat(makeChatCase: .addContent, deletedMessage: nil)
