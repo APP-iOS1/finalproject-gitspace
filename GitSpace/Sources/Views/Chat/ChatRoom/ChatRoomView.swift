@@ -215,11 +215,11 @@ struct ChatRoomView: View {
         /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
         /// 메세지 입력 필드 공백으로 초기화
-        let newMessage = makeMessage()
+        let newMessage = makeMessage(currentContent: contentField)
+        contentField = ""
         let newChat = await makeChat(makeChatCase: .addContent, deletedMessage: nil)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
-        contentField = ""
     }
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수
@@ -335,11 +335,11 @@ struct ChatRoomView: View {
     }
     
     // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
-    private func makeMessage() -> Message {
+    private func makeMessage(currentContent: String) -> Message {
         
         let newMessage = Message.init(id: UUID().uuidString,
                                       senderID: Utility.loginUserID,
-                                      textContent: contentField,
+                                      textContent: currentContent,
                                       imageContent: nil,
                                       sentDate: Date.now,
                                       isRead: false)
