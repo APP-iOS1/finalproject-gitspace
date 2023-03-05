@@ -113,12 +113,8 @@ struct ChatRoomView: View {
             await messageStore.fetchMessages(chatID: chat.id)
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
-            // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
-            async let enteredChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
-                                             deletedMessage: nil,
-                                             currentContent: nil)
-            // 0으로 초기화된 Chat을 DB에 업데이트
-            await chatStore.updateChat(enteredChat)
+            // 읽지 않은 메세지 갯수를 0으로 초기화
+            await clearUnreadMessageCount()
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
@@ -133,7 +129,6 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
                 messageStore.removeListener()
             }
-            
             tabBarRouter.navigateToChat = false
         }
     }
@@ -206,11 +201,14 @@ struct ChatRoomView: View {
     
     // MARK: -Methods
     
+    
     private func clearUnreadMessageCount() async {
-        async let quittedChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
+        // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
+        async let enterOrQuitChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
                                       deletedMessage: nil,
                                       currentContent: nil)
-        await chatStore.updateChat(quittedChat)
+        // 0으로 초기화된 Chat을 DB에 업데이트
+        await chatStore.updateChat(enterOrQuitChat)
     }
     
     
