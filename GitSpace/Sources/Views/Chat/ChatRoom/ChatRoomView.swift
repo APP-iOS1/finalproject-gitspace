@@ -7,8 +7,24 @@
 
 import SwiftUI
 
+
+
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
+    
+    
+    
+    final class BackgroundManager {
+        static var isQuit: Bool = false
+        
+        /// 매니저의 프로퍼티 하나를 수정하는 메서드를 만든다
+        /// onChange로 뷰에서 해당 프로퍼티를 감지해서 채팅방 이탈 시 수행되어야하는 로직을 수행한다.
+        @objc static func toggleIsQuit() {
+            print("objc 시작")
+            isQuit.toggle()
+            print("objc 종료")
+        }
+    }
     
     enum MakeChatCase {
         case addContent
@@ -29,7 +45,7 @@ struct ChatRoomView: View {
     @State private var unreadMessageIndex: Int?
     
     var body: some View {
-        
+
         VStack {
             // 채팅 메세지 스크롤 뷰
             ScrollViewReader { proxy in
@@ -117,6 +133,7 @@ struct ChatRoomView: View {
                                              currentContent: nil)
             // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
+
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
@@ -126,13 +143,10 @@ struct ChatRoomView: View {
                 }
             }
         }
+
         .onDisappear {
             Task {
-                // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
-                async let quittedChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
-                                              deletedMessage: nil,
-                                              currentContent: nil)
-                await chatStore.updateChat(quittedChat)
+                await clearUnreadMessageCount()
                 messageStore.removeListener()
             }
             
@@ -207,6 +221,14 @@ struct ChatRoomView: View {
     }
     
     // MARK: -Methods
+    
+    private func clearUnreadMessageCount() async {
+        async let quittedChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
+                                      deletedMessage: nil,
+                                      currentContent: nil)
+        await chatStore.updateChat(quittedChat)
+    }
+    
     
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
@@ -342,7 +364,6 @@ struct ChatRoomView: View {
     
     // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
     private func makeMessage(currentContent: String) -> Message {
-        
         let newMessage = Message.init(id: UUID().uuidString,
                                       senderID: Utility.loginUserID,
                                       textContent: currentContent,
