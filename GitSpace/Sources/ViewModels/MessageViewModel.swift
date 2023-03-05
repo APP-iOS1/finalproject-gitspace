@@ -42,7 +42,7 @@ extension MessageStore {
                 .getDocuments()
             return snapshot
         } catch {
-            print("Get Message Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -65,7 +65,7 @@ extension MessageStore {
                     let message: Message = try document.data(as: Message.self)
                     newMessages.append(message)
                 } catch {
-                    print("fetch Messages Error : \(error)")
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
             }
         }
@@ -82,7 +82,7 @@ extension MessageStore {
                 .document(message.id)
                 .setData(from: message.self)
         } catch {
-            print("Add Message Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -97,7 +97,7 @@ extension MessageStore {
                     ["textContent" : message.textContent,
                      "createdDate" : message.sentDate])
         } catch {
-            print("Error-MessageViewModel-updateMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -110,7 +110,7 @@ extension MessageStore {
                 .document(message.id)
                 .delete()
         } catch {
-            print("Error-MessageViewModel-removeMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
             
     }
@@ -126,7 +126,7 @@ extension MessageStore {
             let newMessage = try change.data(as: Message.self)
             return newMessage
         } catch {
-            print("Error-MessageViewModel-fetchNewMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -147,7 +147,7 @@ extension MessageStore {
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
-                    print("Error fetching documents: \(error!)")
+                    print("Error fetching documents: \(error!.localizedDescription)")
                     return
                 }
                 // document 변경 사항에 대해 감지해서 작업 수행
