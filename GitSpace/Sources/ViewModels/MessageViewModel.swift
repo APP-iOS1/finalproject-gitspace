@@ -96,7 +96,7 @@ extension MessageStore {
                 .document(message.id)
                 .updateData(
                     ["textContent" : message.textContent,
-                     "createdDate" : message.sentDate])
+                     "sentDate" : message.sentDate])
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
@@ -113,9 +113,7 @@ extension MessageStore {
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-            
     }
-    
 }
 
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
