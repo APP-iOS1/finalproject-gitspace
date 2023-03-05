@@ -25,7 +25,7 @@
 ///     4-3 이전 메세지 읽고 있으면 하단에 팝업 띄워주기
 ///     4-4 안 읽은 메세지에서 스크롤 위치 시작하게 하는 거
 /// 5. 메세지 인앱 알림 처리 [승준 FCM 구현으로 완료]
-/// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
+/// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼) [완료]
 /// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치) [완료]
 /// 8. Github API 프로필 Image 캐시 처리 [완료]
 /// 9. UserInfo 모델링 + Github OAuth 로직 연결 [완료]
@@ -51,6 +51,7 @@ final class ChatStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
+    private static let db = Firestore.firestore()
     
     init() {
         targetUserInfoDict = [:]
@@ -243,7 +244,6 @@ extension ChatStore {
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-        
     }
     
     func removeChat(_ chat: Chat) async {
