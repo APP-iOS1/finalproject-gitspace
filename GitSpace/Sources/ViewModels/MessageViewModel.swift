@@ -139,7 +139,6 @@ extension MessageStore {
         messages.remove(at: index)
     }
     
-    //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener(chatID: String) {
         listener = db
             .collection("Chat")
