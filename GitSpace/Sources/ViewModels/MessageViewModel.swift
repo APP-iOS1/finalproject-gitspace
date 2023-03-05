@@ -22,7 +22,7 @@ final class MessageStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
-    
+    var currentChat: Chat? // 채팅방 입장 시, 현재 입장한 Chat 인스턴스를 할당받음. MessageStore 내부에서 Chat DB에 접근하기 위한 변수
     
     init() {
         messages = []
