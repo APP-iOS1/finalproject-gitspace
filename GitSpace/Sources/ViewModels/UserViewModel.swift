@@ -10,12 +10,14 @@ import FirebaseFirestore
 
 final class UserStore: ObservableObject {
     
-    enum BlockCase {
-        case block
-        case unblock
-    }
-    
 	@Published var currentUser: UserInfo?
+    
+    /**
+     노크 혹은 채팅의 Push Notification을 수신할 사용자의 정보
+     모델에서 githubID를 기준으로 해당 유저의 정보를 할당할 수 있도록 한다.
+     */
+    @Published var opponentUser: UserInfo?
+    
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
     let db = Firestore.firestore()
@@ -88,9 +90,9 @@ final class UserStore: ObservableObject {
 	/**
 	 GITHUB ID로 유저 정보를 가져 옵니다.
 	 정수형 타입으로 저장되는 gitHubID로 GitSpace FirebaseDB에서 유저 정보를 파싱하여 가져옵니다.
+     nil 리턴의 경우, 우리 앱에 해당 유저가 없음을 UX 전달해야 합니다.
 	 
-	 - returns: UserInfo or nil
-	 nil 리턴의 경우, 우리 앱에 해당 유저가 없음을 UX 전달해야 합니다.
+	 - returns: UserInfo or nil // 먼 미래에는 결과타입으로 추상화.
 	 */
 	public func requestUserInfoWithGitHubID(githubID: Int) async -> UserInfo? {
 		let collection = db.collection("UserInfo")
@@ -105,9 +107,14 @@ final class UserStore: ObservableObject {
 				let userInfo = try doc.data(as: UserInfo.self)
 				userInformationList.append(userInfo)
 			}
-			return userInformationList.first
+            if let opponentUser = userInformationList.first {
+                await self.assignOpponentUser(with: opponentUser)
+                return opponentUser
+            } else {
+                return nil
+            }
 		} catch {
-			dump("\(#function) - DEBUG \(error.localizedDescription)")
+			dump("\(#function) - DEBUG \(error)")
 			return nil
 		}
 	}
@@ -147,6 +154,10 @@ final class UserStore: ObservableObject {
 		self.currentUser = userInfo
 	}
     
+    @MainActor
+    private func assignOpponentUser(with userInfo: UserInfo) {
+        self.opponentUser = userInfo
+    }
     
     func requestUsers() async {
         
@@ -215,4 +226,8 @@ final class UserStore: ObservableObject {
         
     }
     
+    enum BlockCase {
+        case block
+        case unblock
+    }
 }
