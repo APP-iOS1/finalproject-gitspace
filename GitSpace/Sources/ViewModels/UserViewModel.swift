@@ -38,7 +38,7 @@ final class UserStore: ObservableObject {
             let snapshot = try await db.collection("UserInfo").document(userID).getDocument()
             return snapshot
         } catch {
-            print("Get User Document Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
             return nil
         }
     }
@@ -159,7 +159,7 @@ final class UserStore: ObservableObject {
                     let user: UserInfo = try document.data(as: UserInfo.self)
                     users.append(user)
                 } catch {
-                    print("Request Users Error : \(error)")
+                    print("Request Users Error : \(error.localizedDescription)")
                 }
             }
         }
