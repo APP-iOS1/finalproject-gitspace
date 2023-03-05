@@ -21,6 +21,7 @@ struct ChatRoomView: View {
 
     let chat: Chat
     let targetUserInfo: UserInfo
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
