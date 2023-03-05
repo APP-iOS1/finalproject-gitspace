@@ -11,7 +11,6 @@
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
-		22016E882999FB9B00452428 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 22016E872999FB9B00452428 /* MarkdownUI */; };
 		22016E8D299B11B000452428 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22016E8C299B11B000452428 /* UserProfileView.swift */; };
 		2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */; };
 		2204BD51299B288F00AA4725 /* ContributorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD50299B288F00AA4725 /* ContributorViewModel.swift */; };
@@ -20,6 +19,7 @@
 		2205F241299CCBF900B2643D /* FollowerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F240299CCBF900B2643D /* FollowerViewModel.swift */; };
 		2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F242299D1B0B00B2643D /* EventViewModel.swift */; };
 		2205F245299D2B2B00B2643D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F244299D2B2B00B2643D /* Date+.swift */; };
+		2226AAC329B4E59C00F15BF0 /* RichText in Frameworks */ = {isa = PBXBuildFile; productRef = 2226AAC229B4E59C00F15BF0 /* RichText */; };
 		225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C4299778A900786B35 /* HTTPRequestMethod.swift */; };
 		225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C5299778A900786B35 /* GitHubAPIError.swift */; };
 		225A22D1299778A900786B35 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C6299778A900786B35 /* HTTPClient.swift */; };
@@ -306,8 +306,8 @@
 				68D76D55298713B900C1EA88 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				68D76D51298713B900C1EA88 /* FirebaseAuthCombine-Community in Frameworks */,
 				68D76D53298713B900C1EA88 /* FirebaseFirestore in Frameworks */,
+				2226AAC329B4E59C00F15BF0 /* RichText in Frameworks */,
 				6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */,
-				22016E882999FB9B00452428 /* MarkdownUI in Frameworks */,
 				6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */,
 				6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */,
 			);
@@ -796,7 +796,7 @@
 				6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */,
 				70D0737A297D69CE0049A359 /* FirebaseMessaging */,
 				688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */,
-				22016E872999FB9B00452428 /* MarkdownUI */,
+				2226AAC229B4E59C00F15BF0 /* RichText */,
 			);
 			productName = GitSpace;
 			productReference = 7068B6A429769448005D6B7B /* GitSpace.app */;
@@ -831,7 +831,7 @@
 				68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				688772D02990BBF900B3A0CD /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
-				22016E862999FB9B00452428 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */,
 			);
 			productRefGroup = 7068B6A529769448005D6B7B /* Products */;
 			projectDirPath = "";
@@ -1221,9 +1221,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		22016E862999FB9B00452428 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+		2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			repositoryURL = "https://github.com/NuPlay/RichText";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
@@ -1256,10 +1256,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		22016E872999FB9B00452428 /* MarkdownUI */ = {
+		2226AAC229B4E59C00F15BF0 /* RichText */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 22016E862999FB9B00452428 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
-			productName = MarkdownUI;
+			package = 2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */;
+			productName = RichText;
 		};
 		688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */ = {
 			isa = XCSwiftPackageProductDependency;
