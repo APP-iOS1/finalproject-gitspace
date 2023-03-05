@@ -10,9 +10,12 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 final class KnockViewManager: ObservableObject {
-	@Published var eachKnock: Knock?
 	@Published var receivedKnockList: [Knock] = []
 	@Published var sentKnockList: [Knock] = []
+    public var newKnock: Knock? = nil
+    
+    private var tempReceived: [Knock] = []
+    private var tempSent: [Knock] = []
 	
 	private var listener: ListenerRegistration?
 	private let firebaseDatabase = Firestore.firestore().collection("Knock")
@@ -88,34 +91,37 @@ extension KnockViewManager {
 	public func addSnapshotToKnock(currentUser: UserInfo) async {
 		// !!!: 리스너 중복 주의
 		removeSnapshot()
-		
+        await removeKnockList()
+        // TODO: 로딩중인 걸 보여주기 위한 로딩 전, 진행중, 완료 등의 상태를 담은 열거형 정의 후, 프로그레스뷰 이식하기
+        
 		listener = firebaseDatabase
 			.addSnapshotListener { snapshot, err in
-				// snapshot이 비어있으면 에러 출력 후 리턴
-				guard let eachSnap = snapshot else {
+				guard let snapshot else {
 					print("No SnapShot-\(#file)-\(#function)")
 					return
 				}
-				
-				eachSnap.documentChanges.forEach { diff in
-					switch diff.type {
-					case .added:
-						Task {
-							print(#file, #function, "NEW KNOCK HAS BEEN ADDED: \(diff.document.documentID)")
-							await self.requestKnockList(currentUser: currentUser)
-						}
-					case .modified:
-						Task {
-							print(#file, #function, "KNOCK HAS BEEN MODIFIED: \(diff.document.documentID)")
-							await self.requestKnockList(currentUser: currentUser)
-						}
-					case .removed:
-						Task {
-							print(#file, #function, "KNOCK HAS BEEN MODIFIED: \(diff.document.documentID)")
-							await self.requestKnockList(currentUser: currentUser)
-						}
-					}
-				}
+                
+                snapshot.documentChanges.forEach { docDiff in
+                    switch docDiff.type {
+                    case .added:
+                        print(#file, #function, "Added New Knock")
+                        if let newKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
+                            self.appendKnockElement(newKnock: newKnock, currentUser: currentUser)
+                        }
+                    case .modified:
+                        print(#file, #function, "Knock Has Been Modified")
+                        if let newKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
+                            self.appendKnockElement(newKnock: newKnock, currentUser: currentUser)
+                        }
+                    case .removed:
+                        print(#file, #function, "Knock Has Been Removed")
+                    }
+                }
+                
+                /**
+                 Temp 배열을 모델 배열로 할당
+                 */
+                self.assignKnockList()
 			}
 	}
 	
@@ -128,8 +134,7 @@ extension KnockViewManager {
 	// MARK: - In Normal Situation(foreground)
 	/// 한번에 리턴시켜야 뚜두둑 로딩되지 않음.
 	public func requestKnockList(currentUser: UserInfo) async -> Void {
-		receivedKnockList.removeAll()
-		sentKnockList.removeAll()
+		await removeKnockList()
 		
 		do {
 			let snapshot = try await firebaseDatabase.getDocuments()
@@ -137,11 +142,13 @@ extension KnockViewManager {
 			for docs in snapshot.documents {
 				let eachKnock = try docs.data(as: Knock.self)
 				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
-				await appendKnockElement(
-					eachKnock: eachKnock,
+				appendKnockElement(
+					newKnock: eachKnock,
 					currentUser: currentUser
 				)
 			}
+            
+            await assignKnockListConcurrently()
 		} catch {
 			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
 		}
@@ -160,8 +167,10 @@ extension KnockViewManager {
 		}
 	}
 	
-	// Create
-	public func createKnock(knock: Knock) async -> Void {
+	/**
+     1. 만들어진 노크를 DB에 등록합니다.
+     */
+	public func createKnockOnFirestore(knock: Knock) async -> Void {
 		let document = firebaseDatabase.document("\(knock.id)")
 		
 		do {
@@ -183,27 +192,58 @@ extension KnockViewManager {
 	}
 }
 
-/// ASSIGN LOGICS
+// MARK: - ASSIGN LOGICS
 extension KnockViewManager {
-	@MainActor
-	private func appendKnockElement(
-		eachKnock: Knock,
-		currentUser: UserInfo
-	) -> Void {
-		// block 했을 때 수신함에 쌓이지 않도록 확인하는 로직 필요
-		// TODO: 메소드 내부에 로컬 리스트 만들고 리턴시켜.
-		
-		if eachKnock.receivedUserName == currentUser.githubLogin {
-			receivedKnockList.append(eachKnock)
-			print("+++ KNOCKLIST +++", receivedKnockList)
-		} else if eachKnock.receivedUserName != currentUser.githubLogin {
-			sentKnockList.append(eachKnock)
-			print("+++ KNOCKLIST +++", sentKnockList)
-		}
-	}
+    /**
+     리스너에서 받아온 노크 doc을 디코드 합니다.
+     리스너 클로저 내부에서 활용하는 이유로 동시성 키워드는 제외합니다.
+     */
+    private func decodeKnockElementForListener(
+        with docDiff: DocumentChange,
+        currentUser: UserInfo
+    ) -> Knock? {
+        do {
+            let newKnock = try docDiff.document.data(as: Knock.self)
+            return newKnock
+        } catch {
+            print(#file, #function, error.localizedDescription)
+            return nil
+        }
+    }
+    
+    /**
+     아규먼트의 노크가 갖는 수신자 아이디와 현재 유저의 아이디를 비교하여 임시 배열에 어펜드 합니다.
+     뷰가 한 번에 그려질 수 있도록 조치하기 위해 임시 배열과 모델 배열을 분리합니다.
+     */
+    private func appendKnockElement(newKnock: Knock, currentUser: UserInfo) {
+        if newKnock.receivedUserName == currentUser.githubLogin {
+            self.tempReceived.append(newKnock)
+        } else {
+            self.tempSent.append(newKnock)
+        }
+    }
+    
+    private func assignKnockList() {
+        sentKnockList = tempSent
+        receivedKnockList = tempReceived
+        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
+    }
+    
+    @MainActor
+    private func assignKnockListConcurrently() {
+        sentKnockList = tempSent
+        receivedKnockList = tempReceived
+        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
+    }
 	
-	@MainActor
-	private func assignknock(knock: Knock) {
-		self.eachKnock = knock
-	}
+    @MainActor
+    private func removeKnockList() {
+        receivedKnockList.removeAll()
+        sentKnockList.removeAll()
+    }
+    
+    @MainActor
+    public func assignNewKnock(newKnock: Knock) {
+        self.newKnock = newKnock
+    }
 }
