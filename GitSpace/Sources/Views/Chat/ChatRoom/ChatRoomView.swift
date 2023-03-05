@@ -201,7 +201,7 @@ struct ChatRoomView: View {
     
     // MARK: -Methods
     
-    
+    // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
     private func clearUnreadMessageCount() async {
         // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
         async let enterOrQuitChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
