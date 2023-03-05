@@ -73,6 +73,7 @@ struct ChatRoomView: View {
                         }
                     }
                 }
+                // 메세지를 전송했을 때 or 받았을 때 스크롤을 최하단으로 이동
                 .onChange(of: messageStore.isMessageAdded) { state in
                     // 채팅방 진입 시 진행하는 첫 Request가 수행된 이후에만 반응하도록 하는 조건
                     if messageStore.isFetchMessagesDone {
