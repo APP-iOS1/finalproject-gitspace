@@ -133,7 +133,11 @@ struct ChatRoomView: View {
                                              currentContent: nil)
             // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
-
+            
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(BackgroundManager.toggleIsQuit),
+                                                   name: UIApplication.didEnterBackgroundNotification,
+                                                   object: nil)
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
@@ -143,7 +147,11 @@ struct ChatRoomView: View {
                 }
             }
         }
-
+        .task(id: BackgroundManager.isQuit) {
+            print("백그라운드 시작")
+            await clearUnreadMessageCount()
+            print("백그라운드 종료")
+        }
         .onDisappear {
             Task {
                 await clearUnreadMessageCount()
