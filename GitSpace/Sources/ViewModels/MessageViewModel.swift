@@ -14,6 +14,7 @@ import FirebaseCore
 import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
+    
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
@@ -21,7 +22,7 @@ final class MessageStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
-    let chatStore: ChatStore = .init()
+    var currentChat: Chat? // 채팅방 입장 시, 현재 입장한 Chat 인스턴스를 할당받음. MessageStore 내부에서 Chat DB에 접근하기 위한 변수
     
     init() {
         messages = []
@@ -42,7 +43,7 @@ extension MessageStore {
                 .getDocuments()
             return snapshot
         } catch {
-            print("Get Message Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -65,7 +66,7 @@ extension MessageStore {
                     let message: Message = try document.data(as: Message.self)
                     newMessages.append(message)
                 } catch {
-                    print("fetch Messages Error : \(error)")
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
             }
         }
@@ -82,7 +83,7 @@ extension MessageStore {
                 .document(message.id)
                 .setData(from: message.self)
         } catch {
-            print("Add Message Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -95,9 +96,9 @@ extension MessageStore {
                 .document(message.id)
                 .updateData(
                     ["textContent" : message.textContent,
-                     "createdDate" : message.sentDate])
+                     "sentDate" : message.sentDate])
         } catch {
-            print("Error-MessageViewModel-updateMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
@@ -110,11 +111,9 @@ extension MessageStore {
                 .document(message.id)
                 .delete()
         } catch {
-            print("Error-MessageViewModel-removeMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-            
     }
-    
 }
 
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
@@ -126,7 +125,7 @@ extension MessageStore {
             let newMessage = try change.data(as: Message.self)
             return newMessage
         } catch {
-            print("Error-MessageViewModel-fetchNewMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -139,7 +138,6 @@ extension MessageStore {
         messages.remove(at: index)
     }
     
-    //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener(chatID: String) {
         listener = db
             .collection("Chat")
@@ -148,7 +146,7 @@ extension MessageStore {
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
-                    print("Error fetching documents: \(error!)")
+                    print("Error fetching documents: \(error!.localizedDescription)")
                     return
                 }
                 // document 변경 사항에 대해 감지해서 작업 수행
