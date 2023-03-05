@@ -50,7 +50,6 @@ extension Image {
         // MARK: key로 접근했을 때, 캐시 이미지가 존재하면 해당 이미지를 반환하고 메서드를 종료합니다.
         let cacheImage = ImageCacheManager.getObject(forKey: key)
         if let cacheImage {
-            print("캐시 이미지 적용!")
             let image = Image(uiImage: cacheImage)
             return image
         }
