@@ -79,7 +79,13 @@ Please select a User to start chatting with.
             
             ForEach(contributorManager.contributors) { user in
                 
-                NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
+                NavigationLink {
+                    SendKnockView(sendKnockToGitHubUser: user)
+                        .task {
+                            // UserStore가 opponent를 가질 수 있도록 메소드 호출
+                            let _ = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
+                        }
+                } label: {
                     ContributorGitSpaceUserListCell(targetUser: user)
                 } // NavigationLink
                 .padding(.horizontal, 20)
