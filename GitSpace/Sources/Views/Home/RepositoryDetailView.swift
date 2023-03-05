@@ -177,7 +177,7 @@ struct RepositoryInfoCard: View {
 
 
 struct RepositoryDetailViewTags: View {
-//    let tags: [String] = ["thisis", "my", "tags", "hehe"]
+
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
