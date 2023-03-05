@@ -12,18 +12,6 @@ import SwiftUI
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
     
-    final class BackgroundManager {
-        static var isQuit: Bool = false
-        
-        /// 매니저의 프로퍼티 하나를 수정하는 메서드를 만든다
-        /// onChange로 뷰에서 해당 프로퍼티를 감지해서 채팅방 이탈 시 수행되어야하는 로직을 수행한다.
-        @objc static func toggleIsQuit() {
-            print("objc 시작")
-            isQuit.toggle()
-            print("objc 종료")
-        }
-    }
-    
     enum MakeChatCase {
         case addContent
         case zeroMessageAfterDeleteLastMessage
@@ -131,11 +119,6 @@ struct ChatRoomView: View {
                                              currentContent: nil)
             // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
-            // FIXME: 현재 기준으로 백그라운드 진입 시 해당 selector 메서드가 호출되지 않음. 직접 post 해도 호출되지 않는 부분까지 포함해서 수정 필요. By 태영
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(BackgroundManager.toggleIsQuit),
-                                                   name: UIApplication.didEnterBackgroundNotification,
-                                                   object: nil)
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
@@ -144,13 +127,6 @@ struct ChatRoomView: View {
                     await deleteContent(message: deletedMessage)
                 }
             }
-        }
-        .task(id: BackgroundManager.isQuit) {
-            print("백그라운드 시작")
-            NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification,
-                                            object: nil)
-            await clearUnreadMessageCount()
-            print("백그라운드 종료")
         }
         .onDisappear {
             Task {
