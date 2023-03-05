@@ -133,7 +133,7 @@ struct ChatRoomView: View {
                                              currentContent: nil)
             // 0으로 초기화된 Chat을 DB에 업데이트
             await chatStore.updateChat(enteredChat)
-            
+            // FIXME: 현재 기준으로 백그라운드 진입 시 해당 selector 메서드가 호출되지 않음. 직접 post 해도 호출되지 않는 부분까지 포함해서 수정 필요. By 태영
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(BackgroundManager.toggleIsQuit),
                                                    name: UIApplication.didEnterBackgroundNotification,
@@ -149,6 +149,7 @@ struct ChatRoomView: View {
         }
         .task(id: BackgroundManager.isQuit) {
             print("백그라운드 시작")
+            NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
             await clearUnreadMessageCount()
             print("백그라운드 종료")
         }
