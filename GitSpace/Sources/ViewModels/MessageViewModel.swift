@@ -14,6 +14,7 @@ import FirebaseCore
 import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
+    
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
@@ -21,7 +22,7 @@ final class MessageStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
-    let chatStore: ChatStore = .init()
+    
     
     init() {
         messages = []
