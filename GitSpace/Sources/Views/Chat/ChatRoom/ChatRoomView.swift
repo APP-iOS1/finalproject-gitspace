@@ -30,6 +30,7 @@ struct ChatRoomView: View {
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     
+    
     var body: some View {
 
         VStack {
@@ -155,6 +156,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 30)
             }
+            
             Button {
                 print("레포지토리 선택 버튼 탭")
             } label: {
@@ -174,7 +176,7 @@ struct ChatRoomView: View {
         .padding(.bottom, 15)
         .foregroundColor(.primary)
     }
-    
+
     // MARK: Button : 메세지 추가(보내기)
     private var addContentButton : some View {
         Button {
@@ -198,18 +200,18 @@ struct ChatRoomView: View {
         }
     }
     
-    // MARK: -Methods
     
+    
+    // MARK: -Methods
     // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
     private func clearUnreadMessageCount() async {
         // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
-        async let enterOrQuitChat = makeChat(makeChatCase: .enterOrQuitChatRoom,
+        async let enterOrQuitChat = makeChatInstance(makeChatCase: .enterOrQuitChatRoom,
                                       deletedMessage: nil,
                                       currentContent: nil)
         // 0으로 초기화된 Chat을 DB에 업데이트
         await chatStore.updateChat(enterOrQuitChat)
     }
-    
     
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
@@ -222,7 +224,7 @@ struct ChatRoomView: View {
         let tempContent = contentField
         contentField = ""
         let newMessage = makeMessage(currentContent: tempContent)
-        let newChat = await makeChat(makeChatCase: .addContent,
+        let newChat = await makeChatInstance(makeChatCase: .addContent,
                                      deletedMessage: nil,
                                      currentContent: tempContent)
         messageStore.addMessage(newMessage, chatID: chat.id)
@@ -234,13 +236,13 @@ struct ChatRoomView: View {
         let newChat: Chat
         // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
         if messageStore.messages.count < 2 {
-            newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
+            newChat = await makeChatInstance(makeChatCase: .zeroMessageAfterDeleteLastMessage,
                                      deletedMessage: deletedMessage,
                                      currentContent: nil)
         }
         // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
         else {
-            newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
+            newChat = await makeChatInstance(makeChatCase: .remainMessageAfterDeleteLastMessage,
                                      deletedMessage: deletedMessage,
                                      currentContent: nil)
         }
@@ -277,7 +279,7 @@ struct ChatRoomView: View {
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?, currentContent: String?) async -> Chat {
+    private func makeChatInstance(makeChatCase: MakeChatCase, deletedMessage: Message?, currentContent: String?) async -> Chat {
         
         // 현재 시점의 초기화된 chat을 복사
         // switch문에서 Chat을 만드는 케이스에 따라 필요한 프로퍼티에 접근해서 수정 후 return
@@ -298,7 +300,6 @@ struct ChatRoomView: View {
         }
         
         switch makeChatCase {
-            
         // 채팅 메세지 보내는 케이스
         // 안 읽은 메세지 갯수 + 1, 현재 텍스트필드 내용과 지금 시각으로 Chat 업데이트
         case .addContent:
@@ -313,7 +314,6 @@ struct ChatRoomView: View {
             newChat.lastContent = chat.knockContent
             newChat.lastContentDate = chat.knockContentDate
             newChat.unreadMessageCount = newUnreadMessageCountDict
-            
             
         // 삭제 메세지를 포함해서 메세지가 2개 이상인 케이스
         case .remainMessageAfterDeleteLastMessage:
@@ -388,9 +388,9 @@ struct ChatRoomView: View {
     }
 }
 
-/*
+
 // MARK: -NotificationCenter와 UIApplication 버전 코드 Archive
-struct ChatRoomView: View {
+struct ChatRoomViews: View {
     
     final class BackgroundManager {
         static var isQuit: Bool = false
@@ -794,4 +794,4 @@ struct ChatRoomView: View {
         }
     }
 }
-*/
+
