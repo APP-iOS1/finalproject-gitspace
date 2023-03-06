@@ -31,11 +31,14 @@ struct ContributorGitSpaceUserListCell: View {
                         style: .sectionTitle,
                         string: targetUser.login)
                 } // VStack
+                .multilineTextAlignment(.leading)
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gsGray2)
+                    .frame(width: 10)
+                    
             } // HStack
         }) // GSCanvas
     } // body
@@ -65,6 +68,7 @@ struct ContributorListCell: View {
                         style: .sectionTitle,
                         string: targetUser.login)
                 } // VStack
+                .multilineTextAlignment(.leading)
                 
                 Spacer()
             } // HStack
@@ -73,8 +77,8 @@ struct ContributorListCell: View {
 }
 
 
-struct ContributorListCell_Previews: PreviewProvider {
+struct ContributorGitSpaceUserListCell_Previews: PreviewProvider {
     static var previews: some View {
-        ContributorListCell(targetUser: GithubUser(id: 123, login: "asdf", name: "asdf", email: "asdf@mnawe.com", avatar_url: "asdf", bio: "asdf", company: "asdf", location: "asdf", blog: "asdf", public_repos: 123, followers: 123, following: 123))
+        ContributorGitSpaceUserListCell(targetUser: GithubUser(id: 123, login: "alexandrethsilva", name: "Alexandre Theodoro da Silva helaksdkfjslekfkfkfkllllllllkkkk", email: "asdf@mnawe.com", avatar_url: "asdf", bio: "asdf", company: "asdf", location: "asdf", blog: "asdf", public_repos: 123, followers: 123, following: 123))
     }
 }
