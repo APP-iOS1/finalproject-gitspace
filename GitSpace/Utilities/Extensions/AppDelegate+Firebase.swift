@@ -142,11 +142,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			if pushNotificationInfo.navigateTo == "knock" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-//				tabBarRouter.currentPage = .knocks
 			} else if pushNotificationInfo.navigateTo == "chat" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-//				tabBarRouter.currentPage = .chats
 			}
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
