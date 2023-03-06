@@ -100,7 +100,21 @@ struct ReceivedKnockView: View {
 					GSButton.CustomButtonView(style: .secondary(
 						isDisabled: false)) {
 							Task {
-								await pushKnockNotification(knock: knock)
+                                // TODO: PUSH NOTIFICATION
+                                async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
+                                
+                                if let knockSentUser = await knockSentUser {
+                                    await pushNotificationManager.sendNotification(
+                                        with: .knock(
+                                            title: "Your Knock has been Accepted!",
+                                            body: knock.knockMessage,
+                                            knockSentFrom: knock.sentUserName,
+                                            knockPurpose: "",
+                                            knockID: knock.id
+                                        ),
+                                        to: knockSentUser
+                                    )
+                                }
 							}
 						} label: {
 							Text("Accept")
@@ -167,48 +181,7 @@ struct ReceivedKnockView: View {
         } // toolbar
     }
 	
-	private func pushKnockNotification(knock: Knock) async -> Void {
-		@Sendable
-		func getSentToUser() async -> UserInfo {
-			await userStore.requestUserInfoWithID(
-				userID: knock.sentUserID
-			) ?? .getFaliedUserInfo()
-		}
-		
-		async let sentUser = getSentToUser()
-		await makeNewChat()
-		
-		print(await sentUser, chatStore.newChat.id)
-		
-		await pushNotificationManager.sendNotification(
-			with: .chat(
-				title: "Your Knock has been accepted!",
-				body: "",
-				nameOfChatter: knock.receivedUserName,
-				chatID: chatStore.newChat.id
-			), to: await sentUser
-		)
-		
-		isAccepted.toggle()
-	}
-	
-	private func makeNewChat() async -> Void {
-		chatStore.newChat = .init(
-			id: UUID().uuidString,
-			createdDate: Date.now,
-			joinedMemberIDs: [knock.receivedUserID, knock.sentUserID],
-			lastContent: "",
-			lastContentDate: Date.now,
-			knockContent: knock.knockMessage,
-			knockContentDate: Date.now,
-			unreadMessageCount: [
-				knock.receivedUserID : 0,
-				knock.sentUserID : 0
-			]
-		)
-		
-		chatStore.addChat(chatStore.newChat)
-	}
+    // TODO: - Push Notification, Make new Chat Implement
 }
 //
 //struct ReceivedKnockView_Previews: PreviewProvider {
