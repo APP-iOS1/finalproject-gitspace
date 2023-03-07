@@ -7,67 +7,35 @@
 
 import SwiftUI
 
-protocol GSPushNotificationSendable {
-	var url: URL? { get }
-	
-	/**
-        Notification을 생성하여 발송하는 동시성 메소드입니다.
-         - Parameters:
-            - with: PushNotificationMessageType 열거형 타입으로 knock, chat을 전달합니다. 해당 내용으로 Push Notification을 구성합니다.
-            - to: 어떤 유저에게 알람을 보낼지 UserInfo 타입으로 전달합니다.
-	 */
-	func sendNotification(
-		with message: PushNotificationMessageType,
-		to userInfo: UserInfo
-	) async -> Void
-	
-	/**
-         Notification의 payload 데이터를 생성합니다.
-        - Parameters:
-            - pushNotificationBody: PushNotificationMessageBody 열거형 타입으로 Data를 만들 때 필요한 데이터를 전달합니다.
-            - to: UserInfo 정보를 받아서 해당 유저의 기기 토큰과 아이디를 활용하여 필요한 Data 타입을 리턴합니다.
-         - Returns: Data?
+// MARK: - ObservableObeject, GSPushNotificationNavigatable 구현부
+final class PushNotificationManager: GSPushNotificationNavigatable, ObservableObject {
+    @Published var isNavigateToChat: Bool = false
+    @Published var isNavigateToSentKnock: Bool = false
+    @Published var isNavigateToReceivedKnock: Bool = false
+    
+    private(set) var currentUserDeviceToken: String?
+    private(set) var viewBuildID: String? = "DOCPATH"
+    
+    /// Test를 위한 개인 디바이스 키
+    private let valseDevice = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
 
-	 */
-	func makeNotificationData(
-		pushNotificationBody: PushNotificationMessageBody,
-		to userInfo: UserInfo
-	) -> Data?
-	
-	/**
-	 Notification의 HTTP Request를 생성합니다.
-	 - Returns: URLRequest
-	 */
-	func configureHTTPRequest(
-		url: URL
-	) -> URLRequest
-}
-
-// MARK: - ObservableObject 구현부
-final class PushNotificationManager: ObservableObject {
-	private(set) var currentUserDeviceToken: String?
-	private(set) var viewBuildID: String? = "DOCPATH"
-	
-	/// Test를 위한 개인 디바이스 키
-	private let valseDevice = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
-
-	// MARK: - Methods
-	/// private(set) 속성에 접근하여 DeviceToken을 할당합니다.
-	public func setCurrentUserDeviceToken(token: String) {
-		currentUserDeviceToken = token
-	}
-	
-	/// private(set) 속성에 접근하여 view를 그릴 때 필요한 데이터 ID를 할당합니다.
-	public func assignViewBuildID(_ id: String) {
-		self.viewBuildID = id
-	}
-	
-	// MARK: LIFECYCLE
-	init(
-		currentUserDeviceToken: String?
-	) {
-		self.currentUserDeviceToken = currentUserDeviceToken
-	}
+    // MARK: - Methods
+    /// private(set) 속성에 접근하여 DeviceToken을 할당합니다.
+    public func setCurrentUserDeviceToken(token: String) {
+        currentUserDeviceToken = token
+    }
+    
+    /// private(set) 속성에 접근하여 view를 그릴 때 필요한 데이터 ID를 할당합니다.
+    public func assignViewBuildID(_ id: String) {
+        self.viewBuildID = id
+    }
+    
+    // MARK: LIFECYCLE
+    init(
+        currentUserDeviceToken: String?
+    ) {
+        self.currentUserDeviceToken = currentUserDeviceToken
+    }
 }
 
 // MARK: - GSPushNotificationSendable 프로토콜 구현부
@@ -152,31 +120,6 @@ extension PushNotificationManager: GSPushNotificationSendable {
 	}
 }
 
-struct GSPushNotification: Codable {
-	let aps: GSAps
-	let googleCAE, googleCFid, gcmMessageID, googleCSenderID,
-		userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date: String
-	
-	enum CodingKeys: String, CodingKey {
-		case aps, userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date
-		
-		case googleCAE = "google.c.a.e"
-		case googleCFid = "google.c.fid"
-		case gcmMessageID = "gcm.message_id"
-		case googleCSenderID = "google.c.sender.id"
-	}
-}
-
-// MARK: - Aps
-struct GSAps: Codable {
-	let alert: GSNotificationDetail
-	let badge: Int
-}
-
-// MARK: - Alert
-struct GSNotificationDetail: Codable {
-	let body, title, subtitle: String
-}
 
 /// TEST할 때 사용하는 뷰
 struct PushNotificationTestView: View {
