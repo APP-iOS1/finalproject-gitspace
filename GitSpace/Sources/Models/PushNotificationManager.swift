@@ -11,7 +11,10 @@ protocol GSPushNotificationSendable {
 	var url: URL? { get }
 	
 	/**
-	Notification을 생성하여 발송하는 메소드입니다.
+        Notification을 생성하여 발송하는 동시성 메소드입니다.
+         - Parameters:
+            - with: PushNotificationMessageType 열거형 타입으로 knock, chat을 전달합니다. 해당 내용으로 Push Notification을 구성합니다.
+            - to: 어떤 유저에게 알람을 보낼지 UserInfo 타입으로 전달합니다.
 	 */
 	func sendNotification(
 		with message: PushNotificationMessageType,
@@ -19,8 +22,12 @@ protocol GSPushNotificationSendable {
 	) async -> Void
 	
 	/**
-	 Notification의 payload 데이터를 생성합니다.
-	 - Returns: Data?
+         Notification의 payload 데이터를 생성합니다.
+        - Parameters:
+            - pushNotificationBody: PushNotificationMessageBody 열거형 타입으로 Data를 만들 때 필요한 데이터를 전달합니다.
+            - to: UserInfo 정보를 받아서 해당 유저의 기기 토큰과 아이디를 활용하여 필요한 Data 타입을 리턴합니다.
+         - Returns: Data?
+
 	 */
 	func makeNotificationData(
 		pushNotificationBody: PushNotificationMessageBody,
@@ -36,6 +43,7 @@ protocol GSPushNotificationSendable {
 	) -> URLRequest
 }
 
+// MARK: - ObservableObject 구현부
 final class PushNotificationManager: ObservableObject {
 	private(set) var currentUserDeviceToken: String?
 	private(set) var viewBuildID: String? = "DOCPATH"
@@ -62,6 +70,7 @@ final class PushNotificationManager: ObservableObject {
 	}
 }
 
+// MARK: - GSPushNotificationSendable 프로토콜 구현부
 extension PushNotificationManager: GSPushNotificationSendable {
 	var url: URL? {
 		URL(string: "https://\(Constant.PushNotification.PUSH_NOTIFICATION_ENDPOINT)")
