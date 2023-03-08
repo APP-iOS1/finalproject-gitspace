@@ -13,7 +13,7 @@ struct TempMainKnockView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
     @EnvironmentObject var knockViewManager: KnockViewManager
-//    @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var userInfoManager: UserStore
     
     // !!!: TAB Branch
     @State private var userSelectedTab: String = Constant.KNOCK_RECEIVED
@@ -28,6 +28,18 @@ struct TempMainKnockView: View {
     @State private var isSearching: Bool = false
     
     @State private var isEditing: Bool = false
+    @State private var isDisplayedKnockSettingView: Bool = false
+    
+    // MARK: - LIFECYCLE
+    init() async {
+        await knockViewManager.addSnapshotToKnock(
+            currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
+        )
+        
+        await knockViewManager.requestKnockList(
+            currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
+        )
+    }
 
     var body: some View {
         VStack {
@@ -60,8 +72,14 @@ struct TempMainKnockView: View {
                 .padding(.horizontal, 20)
             
             ScrollView {
+                if !isSearching {
+                    subHeaderGuideMessageBuilder()
+                }
+                
                 if userSelectedTab == Constant.KNOCK_RECEIVED {
-                    ForEach(knockViewManager.receivedKnockList, id: \.id) { eachKnock in
+                    ForEach(knockViewManager.receivedKnockList.sorted {
+                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                    }, id: \.id) { eachKnock in
                         ReceivedKnockTabView(
                             eachKnock: eachKnock,
                             userSelectedTab: $userSelectedTab,
@@ -71,16 +89,19 @@ struct TempMainKnockView: View {
                             .transition(knockViewManager.leadingTransition)
                     }
                 } else if userSelectedTab == Constant.KNOCK_SENT {
-                    ForEach(knockViewManager.sentKnockList, id: \.id) { eachKnock in
-                        Text("\(eachKnock.id)")
+                    ForEach(knockViewManager.sentKnockList.sorted {
+                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                    }, id: \.id) { eachKnock in
+                        SentKnockTabView(
+                            eachKnock: eachKnock,
+                            userSelectedTab: $userSelectedTab,
+                            isEditing: $isEditing,
+                            userFileteredOption: $userFilteredKnockState
+                        )
                             .transition(knockViewManager.trailingTransition)
                     }
                 }
             }
-        }
-        .task {
-//            await knockViewManager.requestKnockList(currentUser: .getFaliedUserInfo())
-            await knockViewManager.addSnapshotToKnock(currentUser: .getFaliedUserInfo())
         }
     }
     
@@ -168,14 +189,44 @@ struct TempMainKnockView: View {
             }
         }
     }
-}
-
-struct TempMainKnockView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            TempMainKnockView()
-                .environmentObject(GSTabBarRouter())
-                .environmentObject(KnockViewManager())
+    
+    @ViewBuilder
+    private func subHeaderGuideMessageBuilder() -> some View {
+        switch userSelectedTab {
+        case receivedKnockTab:
+            VStack {
+                // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
+                Text("Check the message for information about who's Knocking on you.")
+                    .foregroundColor(Color(.systemGray))
+                
+                // 상대방은 응답할 때까지 회원님의 노크 확인 여부를 알 수 없습니다.
+                Text("They won't know you've seen it until you respond.")
+                    .foregroundColor(Color(.systemGray))
+                
+                Button {
+                    isDisplayedKnockSettingView.toggle()
+                } label: {
+                    // 나에게 노크 할 수 있는 사람 설정하기
+                    Text("Decide who can Knock on You.")
+                }
+            }
+            .font(.caption2)
+            .padding(.top, 8)
+        case sentKnockTab:
+            VStack {
+                // 노크를 한 사람에 대한 정보를 보려면 노크 메세지를 확인하세요.
+                Text("You can check your knock history.")
+                
+                // 상대방은 응답할 때까지 회원님의 노크 확인 여부를 알 수 없습니다.
+                Text("You can't send other messages until your receiver")
+                
+                Text("has approved your knock")
+            }
+            .foregroundColor(Color(.systemGray))
+            .font(.caption2)
+            .padding(.top, 8)
+        default:
+            EmptyView()
         }
     }
 }
