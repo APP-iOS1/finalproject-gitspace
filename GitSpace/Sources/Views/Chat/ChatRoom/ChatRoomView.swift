@@ -86,8 +86,7 @@ struct ChatRoomView: View {
             
             // 메세지 입력 필드
             typeContentField
-                .padding(.vertical, -3)
-                .padding(.horizontal, 15)
+                
         }
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
@@ -183,6 +182,8 @@ struct ChatRoomView: View {
                 .disabled(contentField.isEmpty)
         }
         .padding(.bottom, 15)
+        .padding(.vertical, -3)
+        .padding(.horizontal, 15)
         .foregroundColor(.primary)
     }
 
