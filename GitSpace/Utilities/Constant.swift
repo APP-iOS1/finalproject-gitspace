@@ -100,7 +100,6 @@ public enum Constant {
 
     
     enum TextFieldConst {
-        
         static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
         static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
         static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
@@ -112,12 +111,9 @@ public enum Constant {
         static let ADDTAG_INSET_VERTICAL: CGFloat = 10
         static let ADDTAG_CORNER_RADIUS: CGFloat = 10
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
-        
     }
     
     enum TextEditorConst {
-        
-        
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
