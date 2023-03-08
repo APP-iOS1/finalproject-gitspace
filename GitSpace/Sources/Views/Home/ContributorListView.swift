@@ -22,6 +22,17 @@ struct ContributorListView: View {
         self.contributorManager = contributorManager
     }
     
+    @State var gitSpaceUserList: [Int] = []
+    
+    func devideUser() async {
+        for someUser in contributorManager.contributors {
+            if await userInfoManager.requestUserInfoWithGitHubID(githubID: someUser.id) != nil {
+                gitSpaceUserList.append(someUser.id)
+            }
+        }
+    }
+    
+    
     // MARK: - BODY
     var body: some View {
         
@@ -72,17 +83,19 @@ Please select a User to start chatting with.
             HStack {
                 GSText.CustomTextView(
                     style: .caption1,
-                    string: "GitSpace User  ⎯  \(contributorManager.contributors.count)")
+                    string: "GitSpace User  ⎯  \(gitSpaceUserList.count)")
                 Spacer()
             }
             .padding(.leading, 20)
             
             ForEach(contributorManager.contributors) { user in
                 
-                NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
-                    ContributorGitSpaceUserListCell(targetUser: user)
-                } // NavigationLink
-                .padding(.horizontal, 20)
+                if gitSpaceUserList.contains(user.id) {
+                    NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
+                        ContributorGitSpaceUserListCell(targetUser: user)
+                    } // NavigationLink
+                    .padding(.horizontal, 20)
+                } // if
             } // ForEach
             
             Divider()
@@ -92,16 +105,24 @@ Please select a User to start chatting with.
             HStack {
                 GSText.CustomTextView(
                     style: .caption1,
-                    string: "Non-GitSpace User  ⎯  \(contributorManager.contributors.count)")
+                    string: "Non-GitSpace User  ⎯  \(contributorManager.contributors.count - gitSpaceUserList.count)")
                 Spacer()
-            }
+            } // HStack
             .padding(.leading, 20)
             
+            
             ForEach(contributorManager.contributors) { user in
-                ContributorListCell(targetUser: user)
-                    .padding(.horizontal, 20)
+                
+                if !gitSpaceUserList.contains(user.id) {
+                    ContributorListCell(targetUser: user)
+                        .padding(.horizontal, 20)
+                } // if
             } // ForEach
+            
         } // ScrollView
+        .task {
+            await devideUser()
+        }
     } // body
 }
 
