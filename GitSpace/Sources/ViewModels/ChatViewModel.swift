@@ -50,6 +50,7 @@ final class ChatStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     init() {
         targetUserInfoDict = [:]
