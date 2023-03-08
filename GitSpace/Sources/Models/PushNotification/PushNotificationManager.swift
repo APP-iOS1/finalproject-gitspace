@@ -9,15 +9,12 @@ import SwiftUI
 
 // MARK: - ObservableObeject, GSPushNotificationNavigatable 구현부
 final class PushNotificationManager: GSPushNotificationNavigatable, ObservableObject {
-    @Published var isNavigateToChat: Bool = false
-    @Published var isNavigateToSentKnock: Bool = false
-    @Published var isNavigateToReceivedKnock: Bool = false
+    @Published var isNavigatedToChat: Bool = false
+    @Published var isNavigatedToSentKnock: Bool = false
+    @Published var isNavigatedToReceivedKnock: Bool = false
     
     private(set) var currentUserDeviceToken: String?
-    private(set) var viewBuildID: String? = "DOCPATH"
-    
-    /// Test를 위한 개인 디바이스 키
-    private let valseDevice = Bundle.main.object(forInfoDictionaryKey: "VALSE_DEVICE_TOKEN") as? String ?? ""
+    private(set) var viewBuildID: String? = nil
 
     // MARK: - Methods
     /// private(set) 속성에 접근하여 DeviceToken을 할당합니다.

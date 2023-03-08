@@ -53,7 +53,7 @@ protocol GSPushNotificationSendable {
  Notification을 탭할 때 View를 Navigate할 수 있도록 합니다.
  */
 protocol GSPushNotificationNavigatable {
-    var isNavigateToReceivedKnock: Bool { get set }
-    var isNavigateToSentKnock: Bool { get set }
-    var isNavigateToChat: Bool { get set }
+    var isNavigatedToReceivedKnock: Bool { get set }
+    var isNavigatedToSentKnock: Bool { get set }
+    var isNavigatedToChat: Bool { get set }
 }
