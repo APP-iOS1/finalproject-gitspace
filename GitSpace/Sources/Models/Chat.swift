@@ -56,7 +56,7 @@ struct Chat: Identifiable, Codable {
     }
      */
     
-    var stringCreatedDate: String {
+    var createdDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -64,7 +64,7 @@ struct Chat: Identifiable, Codable {
         return dateFormatter.string(from: createdDate)
     }
     
-    var stringLastContentDate: String {
+    var lastContentDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -72,7 +72,7 @@ struct Chat: Identifiable, Codable {
         return dateFormatter.string(from: lastContentDate)
     }
     
-    var stringLastContentTime: String {
+    var lastContentTimeAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -80,7 +80,7 @@ struct Chat: Identifiable, Codable {
         return dateFormatter.string(from: lastContentDate)
     }
     
-    var stringKnockContentDate: String {
+    var knockContentDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
