@@ -29,6 +29,11 @@ public enum Constant {
 		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
 	}
+    
+    enum FirestorePath {
+        static let COLLECTION_CHAT: String = "Chat"
+        static let COLLECTION_MESSAGE: String = "Message"
+    }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
