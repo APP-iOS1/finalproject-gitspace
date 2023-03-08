@@ -30,7 +30,7 @@ public enum Constant {
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
 	}
     
-    enum FirestorePath {
+    enum FirestorePathConst {
         static let COLLECTION_CHAT: String = "Chat"
         static let COLLECTION_MESSAGE: String = "Message"
     }
