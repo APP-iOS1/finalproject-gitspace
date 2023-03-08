@@ -84,6 +84,10 @@ extension KnockViewManager {
 		}
 		return false
 	}
+    
+    public func sortedByDateValue(lhs: Knock, rhs: Knock) -> Bool {
+        lhs.knockedDate.dateValue() > rhs.knockedDate.dateValue()
+    }
 }
 
 // MARK: - Network CRUD
