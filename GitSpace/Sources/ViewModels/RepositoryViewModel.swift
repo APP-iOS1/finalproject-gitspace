@@ -20,6 +20,7 @@ final class RepositoryViewModel: ObservableObject {
     @MainActor
     func requestStarredRepositories(page: Int) async -> [Repository]? {
         let session = URLSession(configuration: .default)
+        let githubAccessToken = UserDefaults.standard.string(forKey: "AT")
         var gitHubComponent = URLComponents(string: GithubURL.baseURL.rawValue + GithubURL.userPath.rawValue + GithubURL.starredPath.rawValue + "?")
         gitHubComponent?.queryItems = [
             URLQueryItem(name: "per_page", value: "30"),
@@ -27,7 +28,7 @@ final class RepositoryViewModel: ObservableObject {
         ]
         var request = URLRequest(url: (gitHubComponent?.url)!)
         request.httpMethod = "GET"
-        request.addValue("Bearer \(String(describing: tempoaryAccessToken!))", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(String(describing: githubAccessToken!))", forHTTPHeaderField: "Authorization")
         request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         
         do {
