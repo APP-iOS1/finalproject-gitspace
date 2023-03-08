@@ -43,7 +43,6 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-    var targetNameDict: [String: String]
 	var targetUserInfoDict: [String: UserInfo]
 	@Published var newChat: Chat
     @Published var chats: [Chat]
@@ -67,7 +66,6 @@ final class ChatStore: ObservableObject {
 			knockContentDate: .now,
 			unreadMessageCount: [:]
 		)
-		targetNameDict = [:]
 		targetUserInfoDict = [:]
     }
     
@@ -207,11 +205,7 @@ extension ChatStore {
 		do {
 			let pushedChat = try await doc.getDocument(as: Chat.self)
             // FIXME: Chat의 targetUserName을 사용하지 않기 위해 UserStore의 UserInfo 요청 메서드 구현. 해당 메서드로 로직 대체 By. 태영
-            /* 기존 코드
-             let targetUserName = await pushedChat.targetUserName
-             targetNameDict[pushedChat.id] = targetUserName
-             return pushedChat
-             */
+
             if let targetUserInfo = await UserStore.requestAndReturnUser(userID: pushedChat.targetUserID) {
                 targetUserInfoDict[pushedChat.id] = targetUserInfo
                 return pushedChat
