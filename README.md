@@ -278,3 +278,9 @@ gitGraph
           - 리스트의 목록을 탭하면, 해당하는 기능의 설명을 볼 수 있다.
           - 각 기능들에 대한 설명은 필요한 뷰 어디서든 볼 수 있도록 구성되어있으며, 필요한 곳에서 fullScreenCover로 호출하면 된다.
           - 현재 Knock Guide만 영문화가 진행되었고, 다른 가이드들도 영문화 작업을 진행할 예정.
+
+## Libraries
+- [Firebase](https://github.com/firebase/firebase-ios-sdk/blob/master/LICENSE)
+- [SwiftUIFlowLayout](https://github.com/globulus/swiftui-flow-layout/blob/main/LICENSE)
+- [RichText](https://github.com/NuPlay/RichText/blob/main/LICENSE)
+- [Lottie-iOS](https://github.com/airbnb/lottie-ios/blob/master/LICENSE)
