@@ -30,7 +30,7 @@ struct SigninView: View {
                 style: .primary(isDisabled: false)
             ) {
                 print("signin button tapped")
-                githubAuthManager.signIn()
+                githubAuthManager.signin()
                 tabBarRouter.currentPage = .stars
             } label: {
                 Text("**GitHub Signin**")
