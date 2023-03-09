@@ -20,11 +20,12 @@ import FirebaseAuth
 /// AT도 KeyChain에 저장해야 하므로 KeyChain Manager를 Protocol로 구분할 필요가 있다.
 // MARK: KeyChain CRUD
 /// KeyChain을 사용하는 기능을 관리합니다.
-final class KeyChainManager: ObservableObject {
+final class KeyChainManager {
     
-    func create(authCredential: AuthCredential) -> Bool {
+    static func create(authCredential: AuthCredential) -> Bool {
         let query: [CFString: Any] = [
-            kSecClass : kSecClassCertificate, /*필수*/
+            kSecClass : kSecClassGenericPassword, /*필수*/
+            kSecAttrLabel : "credential",
             kSecAttrAccount : "credential", /*필수*/
             kSecValueData : authCredential  /*필수*/
         ]
@@ -32,7 +33,7 @@ final class KeyChainManager: ObservableObject {
         return status == errSecSuccess
     }
     
-    func read() -> AuthCredential? {
+    static func read() -> AuthCredential? {
         let query: [CFString: Any] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrAccount : "credential",
@@ -53,7 +54,7 @@ final class KeyChainManager: ObservableObject {
         return data
     }
     
-    func delete() -> Bool {
+    static func delete() -> Bool {
         let query: [CFString: Any] = [
             kSecClass : kSecClassGenericPassword,
             kSecAttrAccount : "credential",
