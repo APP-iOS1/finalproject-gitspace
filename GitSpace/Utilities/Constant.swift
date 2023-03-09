@@ -35,6 +35,9 @@ public enum Constant {
         static let COLLECTION_MESSAGE: String = "Message"
         static let FIELD_JOINED_MEMBER_IDS: String = "joinedMemberIDs"
         static let FIELD_LAST_CONTENT_DATE: String = "lastContentDate"
+        static let FIELD_LAST_CONTENT: String = "lastContent"
+        static let FIELD_UNREAD_MESSAGE_COUNT = "unreadMessageCount"
+        
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
