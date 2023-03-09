@@ -16,7 +16,7 @@ struct Message : Identifiable, Codable {
     let sentDate: Date // 메세지 작성 날짜
     let isRead: Bool // 수신 유저의 메세지 확인 여부
 
-    var stringDate : String {
+    var sentDateAsString : String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")

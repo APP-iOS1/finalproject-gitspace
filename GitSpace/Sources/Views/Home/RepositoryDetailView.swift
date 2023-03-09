@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MarkdownUI
+import RichText
 
 
 struct RepositoryDetailView: View {
@@ -23,7 +23,7 @@ struct RepositoryDetailView: View {
     }
     
     var body: some View {
-        // TODO: - 정보가 많아지면 ScrollView 로 변경 고려해볼것
+        
         ScrollView(showsIndicators: false) {
 //
 //            HStack {
@@ -53,11 +53,15 @@ struct RepositoryDetailView: View {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
             }
             
-            Markdown {
-                markdownString
-            }
-            .markdownTheme(.gitHub)
-            .padding(.vertical, 5)
+            
+            RichText(html: markdownString)
+                .colorScheme(.auto)
+                .fontType(.system)
+                .linkOpenType(.SFSafariView())
+                .placeholder {
+                    Image("GitSpace-Loading")
+                    GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+                }
             
         }
         .padding(.horizontal, 30)
@@ -79,10 +83,19 @@ struct RepositoryDetailView: View {
                         return
                     }
                     
-                    markdownString = decodeContent
+                    let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
                     
-                case .failure(let error):
-                    print(error)
+                    switch htmlResult {
+                        
+                    case .success(let result):
+                        markdownString = result
+                        
+                    case .failure:
+                        markdownString = "fail to load README.md"
+                    }
+                    
+                case .failure:
+                    markdownString = "fail to load README.md"
                 }
                 
                 let contributorsResult = await gitHubService.requestRepositoryContributors(owner: repository.owner.login, repositoryName: repository.name, page: 1)
@@ -101,6 +114,7 @@ struct RepositoryDetailView: View {
                     }
                     
                 case .failure(let error):
+                    // 컨트리뷰터 목록을 가져올 수 없다는 에러
                     print(error.localizedDescription)
                 }
                 
@@ -163,7 +177,7 @@ struct RepositoryInfoCard: View {
 
 
 struct RepositoryDetailViewTags: View {
-//    let tags: [String] = ["thisis", "my", "tags", "hehe"]
+
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
