@@ -31,8 +31,20 @@ final class KnockViewManager: ObservableObject {
 			insertion: .move(edge: .leading),
 			removal: .move(edge: .leading)
 		)
+    
+    /**
+     Listener가 있는지 체크하고 존재한다면 true, 없다면 false를 리턴합니다.
+     */
+    public func checkIfListenerExists() -> Bool {
+        if listener != nil {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
+// MARK: - Filter, Sort etc.
 extension KnockViewManager {
 	public func compareTwoKnockWithStatus(lhs: Knock, rhs: Knock) -> Bool {
 		if lhs.knockStatus == Constant.KNOCK_WAITING, rhs.knockStatus == Constant.KNOCK_DECLINED { return true }
@@ -194,6 +206,37 @@ extension KnockViewManager {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
 		}
 	}
+    
+    /**
+     knockStatus를 업데이트하고, Status가 업데이트 된 시간도 함께 set 합니다.
+     */
+    public func updateKnockOnFirestore(
+        knock: Knock,
+        knockStatus: String
+    ) async -> Void {
+        let document = firebaseDatabase.document(knock.id)
+        
+        do {
+            try await document.updateData([
+                "knockStatus": knockStatus
+            ])
+            
+            switch knockStatus {
+            case Constant.KNOCK_ACCEPTED:
+                try await document.setData([
+                    "acceptedDate": Timestamp(date: .now)
+                ], merge: true)
+            case Constant.KNOCK_DECLINED:
+                try await document.setData([
+                    "declinedDate": Timestamp(date: .now)
+                ], merge: true)
+            default:
+                break
+            }
+        } catch {
+            dump("\(#file)-\(#function), DEBUG: UPDATE Knock FAILED, \(error.localizedDescription)")
+        }
+    }
 }
 
 // MARK: - ASSIGN LOGICS
