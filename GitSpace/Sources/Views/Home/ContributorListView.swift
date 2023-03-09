@@ -67,6 +67,10 @@ struct ContributorListView: View {
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Oops!")
+                    } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
+                        GSText.CustomTextView(
+                            style: .title2,
+                            string: "Hello, \(userInfoManager.currentUser?.githubName ?? userInfoManager.currentUser!.githubLogin)!")
                     } else {
                         GSText.CustomTextView(
                             style: .title2,
@@ -84,15 +88,27 @@ struct ContributorListView: View {
                         GSText.CustomTextView(
                             style: .caption1,
                             string:
+// MARK: - 저장소의 기여자들 중 GitSpace User가 없을 경우
 """
 There are no GitSpace users
 among the contributors to this repository.
 """
                         )
+                    } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
+                        GSText.CustomTextView(
+                            style: .caption1,
+                            string:
+// MARK: - currentUser가 저장소의 유일한 기여자일 경우
+"""
+You're the only contributor to this repository!
+Unfortunately, you can't chat with yourself.
+"""
+                            )
                     } else {
                         GSText.CustomTextView(
                             style: .caption1,
                             string:
+// MARK: - 저장소의 기여자들 중 GitSpace User가 있을 경우
 """
 You can chat with GitSpace User.
 Please select a User to start chatting with.
@@ -120,13 +136,20 @@ Please select a User to start chatting with.
                     .padding(.leading, 20)
                     
                     ForEach(contributorManager.contributors) { user in
+                        if gitSpaceUserList.contains(user.id) &&
+                            user.id == userInfoManager.currentUser!.githubID {
+                            ContributorListCell(targetUser: user)
+                                .padding(.horizontal, 20)
+                        }
                         
                         if gitSpaceUserList.contains(user.id) {
-                            NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
-                                ContributorGitSpaceUserListCell(targetUser: user)
-                            } // NavigationLink
-                            .padding(.horizontal, 20)
-                        } // if
+                            if user.id != userInfoManager.currentUser!.githubID {
+                                NavigationLink(destination: Text("SendKnock View로 랜딩할 예정")) {
+                                    ContributorGitSpaceUserListCell(targetUser: user)
+                                } // NavigationLink
+                                .padding(.horizontal, 20)
+                            }
+                        }
                     } // ForEach
                 } // if
                 
@@ -144,7 +167,6 @@ Please select a User to start chatting with.
                     .padding(.leading, 20)
                     
                     ForEach(contributorManager.contributors) { user in
-                        
                         if !gitSpaceUserList.contains(user.id) {
                             ContributorListCell(targetUser: user)
                                 .padding(.horizontal, 20)
@@ -158,6 +180,8 @@ Please select a User to start chatting with.
         } // ScrollView
         .task {
             await devideUser()
+            
+            print(userInfoManager.currentUser?.githubID ?? "error!: currentUser 정보 없음")
         }
         
     } // body
