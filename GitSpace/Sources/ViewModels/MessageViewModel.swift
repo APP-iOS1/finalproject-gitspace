@@ -42,6 +42,7 @@ extension MessageStore {
                 .document(chatID)
                 .collection(const.COLLECTION_MESSAGE)
                 .order(by: const.FIELD_SENT_DATE)
+                .limit(toLast: 30 + unreadMessageCount)
                 .getDocuments()
             return snapshot
         } catch {
