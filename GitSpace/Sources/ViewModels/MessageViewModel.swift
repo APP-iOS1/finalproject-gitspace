@@ -35,6 +35,19 @@ final class MessageStore: ObservableObject {
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
     
+    /**
+     Firestore에 요청해서 메세지 컬렉션에서 문서들을 반환 받습니다.
+     
+     - Author: 태영
+     
+     - Since: 23.03.10
+     
+     - parameters:
+        - chatID: Message 문서들을 가지고 있는 Chat의 문서 ID
+        - unreadMessageCount: 사용자가 읽지 않은 해당 채팅방의 메세지 갯수
+     
+     - Returns: Chat 문서 ID 하위에 있는 Message 컬렉션의 문서들
+     */
     private func getMessageDocuments(_ chatID: String, unreadMessageCount: Int) async -> QuerySnapshot? {
         do {
             let snapshot = try await db
