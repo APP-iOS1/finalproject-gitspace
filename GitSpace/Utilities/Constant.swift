@@ -29,6 +29,16 @@ public enum Constant {
 		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
 	}
+    
+    enum FirestorePathConst {
+        static let COLLECTION_CHAT: String = "Chat"
+        static let COLLECTION_MESSAGE: String = "Message"
+        static let FIELD_JOINED_MEMBER_IDS: String = "joinedMemberIDs"
+        static let FIELD_LAST_CONTENT_DATE: String = "lastContentDate"
+        static let FIELD_LAST_CONTENT: String = "lastContent"
+        static let FIELD_UNREAD_MESSAGE_COUNT = "unreadMessageCount"
+        
+    }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
@@ -100,7 +110,6 @@ public enum Constant {
 
     
     enum TextFieldConst {
-        
         static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
         static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
         static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
@@ -112,12 +121,9 @@ public enum Constant {
         static let ADDTAG_INSET_VERTICAL: CGFloat = 10
         static let ADDTAG_CORNER_RADIUS: CGFloat = 10
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
-        
     }
     
     enum TextEditorConst {
-        
-        
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
