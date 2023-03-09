@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SigninView: View {
-    //    @Environment(\.dismiss) var dismiss
     @StateObject var githubAuthManager: GitHubAuthManager
     @StateObject var tabBarRouter: GSTabBarRouter
     @State var isSignedIn: Bool = false
@@ -19,7 +18,6 @@ struct SigninView: View {
                 Spacer()
                 VStack {
                     Image("GitSpace-Signin")
-                    //                    .padding(.top, 20)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 200)
@@ -34,10 +32,9 @@ struct SigninView: View {
                     style: .primary(isDisabled: false)
                 ) {
                     print("signin button tapped")
-                    githubAuthManager.signIn()
+                    githubAuthManager.signin()
                     isSignedIn = true
                     tabBarRouter.currentPage = .stars
-                    //                githubAuthManager.state = .signedIn
                 } label: {
                     Text("**GitHub Signin**")
                 }
