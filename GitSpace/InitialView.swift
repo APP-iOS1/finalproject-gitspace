@@ -51,9 +51,9 @@ struct InitialView: View {
     }
 }
 
-struct InitialView_Previews: PreviewProvider {
-    static let tabBarRouter = GSTabBarRouter()
-    static var previews: some View {
-        InitialView(tabBarRouter: tabBarRouter)
-    }
-}
+//struct InitialView_Previews: PreviewProvider {
+//    static let tabBarRouter = GSTabBarRouter()
+//    static var previews: some View {
+//        InitialView(tabBarRouter: tabBarRouter)
+//    }
+//}
