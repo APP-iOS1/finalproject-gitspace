@@ -311,21 +311,35 @@ final class GitHubAuthManager: ObservableObject {
     
     // MARK: - Reauthenticate
     /// Reauthenticate User.
-    func reauthenticateUser() {
-        if let githubCredential {
-            self.authentification.currentUser?.reauthenticate(with: githubCredential) { authResult, error in
-                if error != nil {
-                    // Handle error.
-                }
-                // User is re-authenticated with fresh tokens minted and
-                // should be able to perform sensitive operations like account
-                // deletion and email or password update.
-                // IdP data available in result.additionalUserInfo.profile.
-                // Additional OAuth access token is can also be retrieved by:
-                // (authResult.credential as? OAuthCredential)?.accessToken
-                // GitHub OAuth ID token can be retrieved by calling:
-                // (authResult.credential as? OAuthCredential)?.idToken
+    func reauthenticateUser() async -> Void {
+        guard let githubAccessToken = UserDefaults.standard.string(forKey: "AT") else {
+            fatalError("Failed To Get Access Token.")
+        }
+        let authCredential = GitHubAuthProvider.credential(withToken: githubAccessToken)
+        await withCheckedContinuation({ continuation in
+            self.authentification.currentUser?.reauthenticate(with: authCredential) { authResult, error in
+                continuation.resume()
             }
+        })
+        // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
+        guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
+            return
+        }
+        let session = URLSession(configuration: .default)
+        var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
+        githubRequest.httpMethod = "GET"
+        githubRequest.addValue("Bearer \(githubAccessToken)", forHTTPHeaderField: "Authorization")
+        do {
+            let (data, _) = try await session.data(for: githubRequest)
+            self.authenticatedUser = DecodingManager.decodeData(data, GithubUser.self)
+            guard self.authenticatedUser != nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.state = .signedIn
+            }
+        } catch {
+            print("")
         }
     }
     
