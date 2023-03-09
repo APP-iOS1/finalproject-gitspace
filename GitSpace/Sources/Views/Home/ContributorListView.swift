@@ -59,23 +59,24 @@ struct ContributorListView: View {
                         .padding(.vertical, 25)
                     
                     Spacer()
-                }
-                
+                } // HStack
                 
                 HStack {
                     if gitSpaceUserList.isEmpty && isDevided == true {
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Oops!")
+                    // if
                     } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Hello, \(userInfoManager.currentUser?.githubName ?? userInfoManager.currentUser!.githubLogin)!")
+                    // else if
                     } else {
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Who do you want to chat with?")
-                    }
+                    } // else
                     Spacer()
                 }
                 .padding(.leading, 20)
@@ -94,6 +95,7 @@ There are no GitSpace users
 among the contributors to this repository.
 """
                         )
+                        // if
                     } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
                         GSText.CustomTextView(
                             style: .caption1,
@@ -104,6 +106,7 @@ You're the only contributor to this repository!
 Unfortunately, you can't chat with yourself.
 """
                             )
+                        // else if
                     } else {
                         GSText.CustomTextView(
                             style: .caption1,
@@ -114,10 +117,10 @@ You can chat with GitSpace User.
 Please select a User to start chatting with.
 """
                         )
-                    }
+                    } // else
                     
                     Spacer()
-                }
+                } // HStack
                 .padding(.leading, 20)
                 .padding(.top, -10)
                 .padding(.bottom, -10)
@@ -132,7 +135,7 @@ Please select a User to start chatting with.
                             style: .caption1,
                             string: "GitSpace User  ⎯  \(gitSpaceUserList.count)")
                         Spacer()
-                    }
+                    } // HStack
                     .padding(.leading, 20)
                     
                     ForEach(contributorManager.contributors) { user in
@@ -140,7 +143,7 @@ Please select a User to start chatting with.
                             user.id == userInfoManager.currentUser!.githubID {
                             ContributorListCell(targetUser: user)
                                 .padding(.horizontal, 20)
-                        }
+                        } // if
                         
                         if gitSpaceUserList.contains(user.id) {
                             if user.id != userInfoManager.currentUser!.githubID {
@@ -148,11 +151,12 @@ Please select a User to start chatting with.
                                     ContributorGitSpaceUserListCell(targetUser: user)
                                 } // NavigationLink
                                 .padding(.horizontal, 20)
-                            }
-                        }
+                            } // if
+                        } // if
                     } // ForEach
                 } // if
                 
+                // MARK: - GitSpace User가 아닌 유저의 리스트
                 if contributorManager.contributors.count - gitSpaceUserList.count != 0 {
                     Divider()
                         .padding([.top, .horizontal], 20)
@@ -175,7 +179,7 @@ Please select a User to start chatting with.
                 } // if
             } else {
                 ContributorListSkeletonView()
-            }
+            } // else
             
         } // ScrollView
         .task {
