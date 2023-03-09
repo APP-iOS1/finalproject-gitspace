@@ -73,6 +73,7 @@
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
+		680C944529B9F2A300720718 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C944429B9F2A300720718 /* KeyChainManager.swift */; };
 		686CD902299B4952000FD0B6 /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686CD901299B4952000FD0B6 /* TagViewModel.swift */; };
 		687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
@@ -227,6 +228,7 @@
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		680C944429B9F2A300720718 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		686CD901299B4952000FD0B6 /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 				2204BD50299B288F00AA4725 /* ContributorViewModel.swift */,
 				2205F240299CCBF900B2643D /* FollowerViewModel.swift */,
 				2205F242299D1B0B00B2643D /* EventViewModel.swift */,
+				680C944429B9F2A300720718 /* KeyChainManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -944,6 +947,7 @@
 				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
 				0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */,
 				6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */,
+				680C944529B9F2A300720718 /* KeyChainManager.swift in Sources */,
 				347146022990BC5200ED990C /* TopperProfileView.swift in Sources */,
 				6E000CB7298A67E800446C0D /* GithubProfileImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
