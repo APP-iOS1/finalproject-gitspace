@@ -21,7 +21,7 @@ struct MessageCell : View {
         case true:
             HStack(alignment: .bottom, spacing: 2) {
                 Spacer()
-                Text(message.stringDate)
+                Text(message.sentDateAsString)
                     .modifier(MessageTimeModifier())
                 Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
@@ -53,7 +53,7 @@ struct MessageCell : View {
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
-                        Text(message.stringDate)
+                        Text(message.sentDateAsString)
                             .modifier(MessageTimeModifier())
                         Spacer()
                     }

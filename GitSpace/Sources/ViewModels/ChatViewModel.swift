@@ -25,7 +25,7 @@
 ///     4-3 이전 메세지 읽고 있으면 하단에 팝업 띄워주기
 ///     4-4 안 읽은 메세지에서 스크롤 위치 시작하게 하는 거
 /// 5. 메세지 인앱 알림 처리 [승준 FCM 구현으로 완료]
-/// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼)
+/// 6. TextEditor 로직 구현 + 이미지 디자인 시스템 구현 (영이꺼) [완료]
 /// 7. 안읽은 메시지 (리스트에선 갯수, chat room에선 스크롤 시작 위치) [완료]
 /// 8. Github API 프로필 Image 캐시 처리 [완료]
 /// 9. UserInfo 모델링 + Github OAuth 로직 연결 [완료]
@@ -43,7 +43,6 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-    var targetNameDict: [String: String]
 	var targetUserInfoDict: [String: UserInfo]
 	@Published var newChat: Chat
     @Published var chats: [Chat]
@@ -51,6 +50,7 @@ final class ChatStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     init() {
         targetUserInfoDict = [:]
@@ -66,7 +66,6 @@ final class ChatStore: ObservableObject {
 			knockContentDate: .now,
 			unreadMessageCount: [:]
 		)
-		targetNameDict = [:]
 		targetUserInfoDict = [:]
     }
     
@@ -123,8 +122,8 @@ extension ChatStore {
     //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener() {
         listener = db
-            .collection("Chat")
-            .whereField("joinedMemberIDs", arrayContains: Utility.loginUserID)
+            .collection(const.COLLECTION_CHAT)
+            .whereField(const.FIELD_JOINED_MEMBER_IDS, arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
@@ -161,9 +160,11 @@ extension ChatStore {
     private func getChatDocuments() async -> QuerySnapshot? {
         do {
             let snapshot = try await db
-                .collection("Chat")
-                .whereField("joinedMemberIDs", arrayContains: Utility.loginUserID)
-                .order(by: "lastContentDate", descending: true)
+                .collection(const.COLLECTION_CHAT)
+                .whereField(const.FIELD_JOINED_MEMBER_IDS,
+                            arrayContains: Utility.loginUserID)
+                .order(by: const.FIELD_LAST_CONTENT_DATE,
+                       descending: true)
                 .getDocuments()
             return snapshot
         } catch {
@@ -202,15 +203,11 @@ extension ChatStore {
 	
 	// MARK: - PUSHED CHAT GENERATOR
 	public func requestPushedChat(chatID: String) async -> Chat? {
-		let doc = db.collection("Chat").document(chatID)
+        let doc = db.collection(const.COLLECTION_CHAT).document(chatID)
 		do {
 			let pushedChat = try await doc.getDocument(as: Chat.self)
             // FIXME: Chat의 targetUserName을 사용하지 않기 위해 UserStore의 UserInfo 요청 메서드 구현. 해당 메서드로 로직 대체 By. 태영
-            /* 기존 코드
-             let targetUserName = await pushedChat.targetUserName
-             targetNameDict[pushedChat.id] = targetUserName
-             return pushedChat
-             */
+
             if let targetUserInfo = await UserStore.requestAndReturnUser(userID: pushedChat.targetUserID) {
                 targetUserInfoDict[pushedChat.id] = targetUserInfo
                 return pushedChat
@@ -225,7 +222,7 @@ extension ChatStore {
     // MARK: -Chat CRUD
     func addChat(_ chat: Chat) {
         do {
-            try db.collection("Chat")
+            try db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
                 .setData(from: chat.self)
         } catch {
@@ -235,20 +232,19 @@ extension ChatStore {
     
     func updateChat(_ chat: Chat) async {
         do {
-            try await db.collection("Chat")
+            try await db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
-                .updateData(["lastContentDate" : chat.lastContentDate,
-                             "lastContent" : chat.lastContent,
-                             "unreadMessageCount" : chat.unreadMessageCount])
+                .updateData([const.FIELD_LAST_CONTENT_DATE : chat.lastContentDate,
+                             const.FIELD_LAST_CONTENT : chat.lastContent,
+                             const.FIELD_UNREAD_MESSAGE_COUNT : chat.unreadMessageCount])
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-        
     }
     
     func removeChat(_ chat: Chat) async {
         do {
-            try await db.collection("Chat")
+            try await db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
                 .delete()
         } catch {
@@ -258,12 +254,12 @@ extension ChatStore {
     
     func getUnreadMessageDictionary(chatID: String) async -> [String : Int]? {
         do {
-            let snapshot = try await db.collection("Chat")
+            let snapshot = try await db.collection(const.COLLECTION_CHAT)
                 .document(chatID)
                 .getDocument()
             
             if let data = snapshot.data() {
-                let dict = data["unreadMessageCount"] as? [String : Int] ?? ["no one" : 0]
+                let dict = data[const.FIELD_UNREAD_MESSAGE_COUNT] as? [String : Int] ?? ["no one" : 0]
                 return dict
             }
         } catch {
