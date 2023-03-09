@@ -12,6 +12,7 @@ enum GitHubAPIError: Error {
     case invalidURL
     case invalidResponse
     case failToDecode
+    case failToLoadREADME
     case unauthorized
     case unexpectedStatusCode
     case notModified
@@ -31,6 +32,7 @@ enum GitHubAPIError: Error {
             case .requiresAuthentification: return "Authentication is required. Please try again"
             case .forbidden: return "This is an invalid permission. Please Try Again"
             case .notFound: return "Resources are not found. Please Try Again"
+            case .failToLoadREADME: return "Fail to load README.md from Server. Please Try Again"
             default: return "Unknown Error. Please try Again"
         }
     }
