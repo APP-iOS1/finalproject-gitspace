@@ -298,6 +298,17 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
+    // MARK: Reqeust Firebase Credential
+    ///
+    func requestCredential() async -> Void {
+        let credential = await withCheckedContinuation { continuation in
+            provider.getCredentialWith(nil) { credential, error in
+                continuation.resume(returning: credential)
+            }
+        }
+        authCredential = credential
+    }
+    
     // MARK: - Reauthenticate
     /// Reauthenticate User.
     func reauthenticateUser() {
