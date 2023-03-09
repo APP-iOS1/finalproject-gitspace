@@ -30,17 +30,6 @@ struct TempMainKnockView: View {
     @State private var isEditing: Bool = false
     @State private var isDisplayedKnockSettingView: Bool = false
     
-    // MARK: - LIFECYCLE
-    init() async {
-        await knockViewManager.addSnapshotToKnock(
-            currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
-        )
-        
-        await knockViewManager.requestKnockList(
-            currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
-        )
-    }
-
     var body: some View {
         VStack {
             // MARK: - Tab Buttons
@@ -72,33 +61,184 @@ struct TempMainKnockView: View {
                 .padding(.horizontal, 20)
             
             ScrollView {
-                if !isSearching {
-                    subHeaderGuideMessageBuilder()
-                }
-                
-                if userSelectedTab == Constant.KNOCK_RECEIVED {
-                    ForEach(knockViewManager.receivedKnockList.sorted {
-                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
-                    }, id: \.id) { eachKnock in
-                        ReceivedKnockTabView(
-                            eachKnock: eachKnock,
-                            userSelectedTab: $userSelectedTab,
-                            isEditing: $isEditing,
-                            userFileteredOption: $userFilteredKnockState
-                        )
-                            .transition(knockViewManager.leadingTransition)
+                LazyVStack(pinnedViews: .sectionHeaders) {
+                    if !isSearching {
+                        subHeaderGuideMessageBuilder()
                     }
-                } else if userSelectedTab == Constant.KNOCK_SENT {
-                    ForEach(knockViewManager.sentKnockList.sorted {
-                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
-                    }, id: \.id) { eachKnock in
-                        SentKnockTabView(
-                            eachKnock: eachKnock,
-                            userSelectedTab: $userSelectedTab,
-                            isEditing: $isEditing,
-                            userFileteredOption: $userFilteredKnockState
-                        )
-                            .transition(knockViewManager.trailingTransition)
+                    
+                    if userSelectedTab == Constant.KNOCK_RECEIVED {
+                        Section {
+                            ForEach(
+                                knockViewManager.receivedKnockList
+                                    .sorted {
+                                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                                    }
+                                    .filter {
+                                        // 수신함에서는 발신자의 이름(githubName)을 검색하도록 한다.
+                                        if isSearching { // 검색 필터링
+                                            switch userFilteredKnockState {
+                                            case .waiting:
+                                                return $0.sentUserName.contains(
+                                                    searchText, isCaseInsensitive: true
+                                                ) && $0.knockStatus == Constant.KNOCK_WAITING
+                                            case .accepted:
+                                                return $0.sentUserName.contains(
+                                                    searchText, isCaseInsensitive: true
+                                                ) && $0.knockStatus == Constant.KNOCK_ACCEPTED
+                                            case .declined:
+                                                return $0.sentUserName.contains(
+                                                    searchText, isCaseInsensitive: true
+                                                ) && $0.knockStatus == Constant.KNOCK_DECLINED
+                                            case .all:
+                                                return $0.sentUserName.contains(
+                                                    searchText, isCaseInsensitive: true
+                                                )
+                                            }
+                                        } else { // 비검색 필터링
+                                            switch userFilteredKnockState {
+                                            case .waiting:
+                                                return $0.knockStatus == Constant.KNOCK_WAITING
+                                            case .accepted:
+                                                return $0.knockStatus == Constant.KNOCK_ACCEPTED
+                                            case .declined:
+                                                return $0.knockStatus == Constant.KNOCK_DECLINED
+                                            case .all:
+                                                return true
+                                            }
+                                        }
+                                    }
+                            ) { eachKnock in
+                                NavigationLink {
+                                    ReceivedKnockDetailView(knock: eachKnock)
+                                } label: {
+                                    // Label
+                                    ReceivedKnockTabView(
+                                        eachKnock: eachKnock,
+                                        isEditing: $isEditing,
+                                        userFileteredOption: $userFilteredKnockState
+                                    )
+                                    .foregroundColor(.primary)
+                                }
+//                                .transition(knockViewManager.leadingTransition)
+                                .id(eachKnock.id)
+                            }
+                        }
+                    } else if userSelectedTab == Constant.KNOCK_SENT {
+                        Section {
+                            ForEach(knockViewManager.sentKnockList
+                                .sorted {
+                                    knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                                }
+                                .filter {
+                                    // 발신함에서는 수신자의 이름(githubName)을 검색하도록 한다.
+                                    if isSearching { // 검색 필터링
+                                        switch userFilteredKnockState {
+                                        case .waiting:
+                                            return $0.receivedUserName.contains(
+                                                searchText, isCaseInsensitive: true
+                                            ) && $0.knockStatus == Constant.KNOCK_WAITING
+                                        case .accepted:
+                                            return $0.receivedUserName.contains(
+                                                searchText, isCaseInsensitive: true
+                                            ) && $0.knockStatus == Constant.KNOCK_ACCEPTED
+                                        case .declined:
+                                            return $0.receivedUserName.contains(
+                                                searchText, isCaseInsensitive: true
+                                            ) && $0.knockStatus == Constant.KNOCK_DECLINED
+                                        case .all:
+                                            return $0.receivedUserName.contains(
+                                                searchText, isCaseInsensitive: true
+                                            )
+                                        }
+                                    } else { // 비검색 필터링
+                                        switch userFilteredKnockState {
+                                        case .waiting:
+                                            return $0.knockStatus == Constant.KNOCK_WAITING
+                                        case .accepted:
+                                            return $0.knockStatus == Constant.KNOCK_ACCEPTED
+                                        case .declined:
+                                            return $0.knockStatus == Constant.KNOCK_DECLINED
+                                        case .all:
+                                            return true
+                                        }
+                                    }
+                                }
+                            ) { eachKnock in
+                                NavigationLink {
+                                    Text("?")
+                                } label: {
+                                    // Label
+                                    SentKnockTabView(
+                                        eachKnock: eachKnock,
+                                        isEditing: $isEditing,
+                                        userFileteredOption: $userFilteredKnockState
+                                    )
+                                    .foregroundColor(.primary)
+                                }
+//                                .transition(knockViewManager.trailingTransition)
+                                .id(eachKnock.id)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .task {
+            if !knockViewManager.checkIfListenerExists() {
+                await knockViewManager.addSnapshotToKnock(
+                    currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
+                )
+            }
+        }
+        .onTapGesture {
+            self.endTextEditing()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("\(userSelectedTab) Knock")
+        .fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
+            NavigationView {
+                SetKnockControlsView(
+                    showingKnockControls: $isDisplayedKnockSettingView
+                )
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            isDisplayedKnockSettingView.toggle()
+                        } label: {
+                            Text("Done")
+                        } // Button
+                    } // ToolbarItem
+                } // toolbar
+            } // NavigationView
+        } // fullScreenCover
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    withAnimation(.linear(duration: 0.3)) {
+                        isSearching.toggle()
+                    }
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.primary)
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(isEditing ? "Cancel" : "Edit") {
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                }
+            }
+            
+            ToolbarItem(placement: .navigationBarLeading) {
+                if isSearching {
+                    Button {
+                        withAnimation {
+                            isSearching.toggle()
+                        }
+                    } label: {
+                        Text("Cancel")
                     }
                 }
             }

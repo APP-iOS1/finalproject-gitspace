@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct SentKnockTabView: View {
+    @State var eachKnock: Knock
+    @Binding var isEditing: Bool
+    @Binding var userFileteredOption: KnockStateFilter
+    
     var body: some View {
-        Text("Hello, Sent")
-    }
-}
-
-struct SentKnockTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        SentKnockTabView()
+        EachKnockCell(
+            userNameText: eachKnock.receivedUserName,
+            eachKnock: $eachKnock,
+            isEdit: $isEditing
+        )
     }
 }

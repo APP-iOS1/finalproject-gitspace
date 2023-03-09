@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct EachKnockCell: View {
-	let userSelectedTab: String
-	@State var eachKnock: Knock
+    public let userNameText: String
+	@Binding var eachKnock: Knock
     @Binding var isEdit: Bool
     @State private var isChecked: Bool = false
 	
@@ -35,12 +35,8 @@ struct EachKnockCell: View {
 				
 				VStack {
 					HStack {
-						Text(
-							userSelectedTab == Constant.KNOCK_RECEIVED
-							? "from: **\(eachKnock.sentUserName)**"
-							: "to: **\(eachKnock.receivedUserName)**"
-						)
-                        .font(.body)
+						Text(userNameText)
+							.font(.body)
 						
 						Spacer()
 						
