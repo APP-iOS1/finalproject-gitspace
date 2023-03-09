@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReceivedKnockView: View {
+struct ReceivedKnockDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
 	@EnvironmentObject var knockViewManager: KnockViewManager
@@ -97,33 +97,39 @@ struct ReceivedKnockView: View {
 						.padding(.bottom)
 						.padding(.horizontal)
 					
-					GSButton.CustomButtonView(style: .secondary(
-						isDisabled: false)) {
-							Task {
-                                // TODO: PUSH NOTIFICATION
-                                async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                                
-                                if let knockSentUser = await knockSentUser {
-                                    await pushNotificationManager.sendNotification(
-                                        with: .knock(
-                                            title: "Your Knock has been Accepted!",
-                                            body: knock.knockMessage,
-                                            knockSentFrom: knock.sentUserName,
-                                            knockPurpose: "",
-                                            knockID: knock.id
-                                        ),
-                                        to: knockSentUser
-                                    )
-                                }
-							}
-						} label: {
-							Text("Accept")
-								.font(.body)
-								.foregroundColor(.primary)
-								.bold()
-								.padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
-						} // button: Accept
-					
+					GSButton.CustomButtonView(
+                        style: .secondary(isDisabled: false)
+                    ) {
+                        Task {
+                            // TODO: PUSH NOTIFICATION
+                            async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
+                            
+                            if let knockSentUser = await knockSentUser {
+                                await pushNotificationManager.sendNotification(
+                                    with: .knock(
+                                        title: "Your Knock has been Accepted!",
+                                        body: knock.knockMessage,
+                                        knockSentFrom: knock.sentUserName,
+                                        knockPurpose: "",
+                                        knockID: knock.id
+                                    ),
+                                    to: knockSentUser
+                                )
+                            }
+                            
+                            // TODO: Update Knock Status
+                            await knockViewManager.updateKnockOnFirestore(
+                                knock: knock, knockStatus: Constant.KNOCK_ACCEPTED
+                            )
+                        }
+                    } label: {
+                        Text("Accept")
+                            .font(.body)
+                            .foregroundColor(.primary)
+                            .bold()
+                            .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
+                    } // button: Accept
+                    
 					HStack(spacing: 60) {
 						Button {
 							

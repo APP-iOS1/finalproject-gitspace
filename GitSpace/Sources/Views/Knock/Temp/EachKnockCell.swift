@@ -40,7 +40,7 @@ struct EachKnockCell: View {
 							? "from: **\(eachKnock.sentUserName)**"
 							: "to: **\(eachKnock.receivedUserName)**"
 						)
-							.font(.body)
+                        .font(.body)
 						
 						Spacer()
 						
@@ -92,10 +92,4 @@ struct EachKnockCell: View {
 		}
     }
 	
-}
-
-struct MyKnockCell_Previews: PreviewProvider {
-    static var previews: some View {
-        MainKnockView()
-    }
 }
