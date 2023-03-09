@@ -35,7 +35,7 @@ final class MessageStore: ObservableObject {
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
     
-    private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
+    private func getMessageDocuments(_ chatID: String, unreadMessageCount: Int) async -> QuerySnapshot? {
         do {
             let snapshot = try await db
                 .collection(const.COLLECTION_CHAT)
@@ -57,9 +57,9 @@ extension MessageStore {
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
-    func fetchMessages(chatID: String) async {
+    func fetchMessages(chatID: String, unreadMessageCount: Int) async {
         
-        let snapshot = await getMessageDocuments(chatID)
+        let snapshot = await getMessageDocuments(chatID, unreadMessageCount: unreadMessageCount)
         var newMessages: [Message] = []
         
         if let snapshot {
