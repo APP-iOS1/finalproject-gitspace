@@ -29,8 +29,9 @@ final class GitHubAuthManager: ObservableObject {
     
     //    var result: GitHubUser? = nil
     
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     var authentification = Auth.auth()
-    let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
     private var githubCredential: OAuthCredential? = nil
     var authenticatedUser: GithubUser?
@@ -139,7 +140,7 @@ final class GitHubAuthManager: ObservableObject {
         if let firebaseAuthUID = authentification.currentUser?.uid {
             // 현재 Auth 로그인 uid로 UserInfo에 접근
             database
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(firebaseAuthUID)
                 .getDocument { result, error in
                     // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
@@ -172,7 +173,7 @@ final class GitHubAuthManager: ObservableObject {
                         if existGithubUser != githubUser {
                             let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
                             try self.database
-                                .collection("UserInfo")
+                                .collection(const.COLLECTION_USER_INFO)
                                 .document(existUser.id)
                                 .setData(from: updatedUserInfo)
                         }
@@ -239,7 +240,7 @@ final class GitHubAuthManager: ObservableObject {
     private func addUser(_ user: UserInfo) {
         do {
             try database
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(user.id)
                 .setData(from: user.self)
         } catch {
@@ -274,7 +275,7 @@ final class GitHubAuthManager: ObservableObject {
     // MARK: - Delete User at Firestore
     func deleteCurrentUser() async -> Void {
         do {
-            try await database.collection("UserInfo")
+            try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .delete()
         } catch let deleteUserError as NSError {

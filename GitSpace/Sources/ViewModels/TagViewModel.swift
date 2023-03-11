@@ -14,14 +14,15 @@ import FirebaseFirestoreSwift
 final class TagViewModel: ObservableObject {
     @Published var tags: [Tag] = []
     
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     // MARK: Request Custom tags
     /// 사용자가 등록한 모든 사용자 정의 태그를 불러옵니다.
     @MainActor
     func requestTags() async -> Void {
         do {
-            let snapshot = try await database.collection("UserInfo")
+            let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
             // FIXME: 현재 유저 id로 변경
 //                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
@@ -44,7 +45,7 @@ final class TagViewModel: ObservableObject {
     func registerTag(tagName: String) async -> Void {
         do {
             let tid = UUID().uuidString
-            try await database.collection("UserInfo")
+            try await database.collection(const.COLLECTION_USER_INFO)
             // FIXME: 현재 유저 id로 변경
 //                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
@@ -64,7 +65,7 @@ final class TagViewModel: ObservableObject {
     /// 특정 사용자 태그를 삭제합니다.
     func deleteTag(tag: Tag) async -> Void {
         do {
-            try await database.collection("UserInfo")
+            try await database.collection(const.COLLECTION_USER_INFO)
 //                .document("50159740")
             // FIXME: 현재 유저 id로 변경
                 .document(Auth.auth().currentUser?.uid ?? "")
@@ -113,7 +114,7 @@ final class TagViewModel: ObservableObject {
         do {
             for tag in tags {
                 print(tag)
-                try await database.collection("UserInfo")
+                try await database.collection(const.COLLECTION_USER_INFO)
 //                    .document("50159740")
                 // FIXME: 현재 유저 id로 변경
                     .document(Auth.auth().currentUser?.uid ?? "")
