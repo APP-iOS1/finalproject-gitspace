@@ -19,6 +19,8 @@ final class UserStore: ObservableObject {
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
     private let db = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
+    private static let const = Constant.FirestorePathConst.self
     
     init(
 		users: [UserInfo] = [],
