@@ -18,7 +18,7 @@ final class UserStore: ObservableObject {
 	@Published var currentUser: UserInfo?
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    let db = Firestore.firestore()
+    private let db = Firestore.firestore()
     
     init(
 		users: [UserInfo] = [],
