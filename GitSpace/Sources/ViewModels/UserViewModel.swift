@@ -37,7 +37,7 @@ final class UserStore: ObservableObject {
     
     private func getUserDocument(userID: String) async -> DocumentSnapshot? {
         do {
-            let snapshot = try await db.collection("UserInfo").document(userID).getDocument()
+            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).document(userID).getDocument()
             return snapshot
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
@@ -61,7 +61,7 @@ final class UserStore: ObservableObject {
     }
     
     static func requestAndReturnUser(userID: String) async -> UserInfo? {
-        let doc = Firestore.firestore().collection("UserInfo").document(userID)
+        let doc = Firestore.firestore().collection(const.COLLECTION_USER_INFO).document(userID)
         do {
             let userInfo = try await doc.getDocument(as: UserInfo.self)
             return userInfo
@@ -75,7 +75,7 @@ final class UserStore: ObservableObject {
 	/// USERINFO를 가져오기 위해 호출하는 메소드 입니다.
 	/// userID로 가져온 userInfo를 리턴합니다.
 	public func requestUserInfoWithID(userID: String) async -> UserInfo? {
-		let doc = db.collection("UserInfo").document(userID)
+		let doc = db.collection(const.COLLECTION_USER_INFO).document(userID)
 		
 		do {
 			print(userID)
@@ -95,7 +95,7 @@ final class UserStore: ObservableObject {
 	 nil 리턴의 경우, 우리 앱에 해당 유저가 없음을 UX 전달해야 합니다.
 	 */
 	public func requestUserInfoWithGitHubID(githubID: Int) async -> UserInfo? {
-		let collection = db.collection("UserInfo")
+		let collection = db.collection(const.COLLECTION_USER_INFO)
 		
 		do {
 			// GITHUB ID 필드에 저장된 것과 같은 유저 정보를 가져 오도록 쿼링
@@ -119,7 +119,7 @@ final class UserStore: ObservableObject {
 	 */
 	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
 		do {
-			let document = db.collection("UserInfo").document(userID)
+			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
 			try await document.updateData([
 				"deviceToken": deviceToken
 			])
@@ -131,7 +131,7 @@ final class UserStore: ObservableObject {
     
     private func getUserDocuments() async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("UserInfo").getDocuments()
+            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).getDocuments()
             return snapshot
         } catch {
             print("Get User Document Error : \(error)")
@@ -208,7 +208,7 @@ final class UserStore: ObservableObject {
         do {
             user.blockedUserIDs = newBlockedUserIDs
             try await db
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(user.id)
                 .updateData(["blockedUserIDs" : newBlockedUserIDs])
         } catch {
