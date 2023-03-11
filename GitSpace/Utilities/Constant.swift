@@ -44,7 +44,7 @@ public enum Constant {
         static let COLLECTION_USER_INFO: String = "UserInfo"
         static let FIELD_GITHUB_ID: String = "githubID"
         static let FIELD_DEVICE_TOKEN: String = "deviceToken"
-        static let FIELD_BLOCK_USER_IDS: String = "blockUserIDs"
+        static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
