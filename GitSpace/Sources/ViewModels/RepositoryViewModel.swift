@@ -13,7 +13,8 @@ final class RepositoryViewModel: ObservableObject {
 //    @Published var tags: [Tag] = []
     @Published var repositories: [Repository]?
     @Published var filteredRepositories: [Repository]?
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     // MARK: - Request Starred Repositories
     /// 인증된 사용자가 Star로 지정한 Repository의 목록을 요청합니다.
@@ -48,7 +49,7 @@ final class RepositoryViewModel: ObservableObject {
         do {
             var filteredRepositoryList: [String] = []
             for tag in selectedTags {
-                let tagInfo = try await database.collection("UserInfo")
+                let tagInfo = try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
                     .document(tag.id)

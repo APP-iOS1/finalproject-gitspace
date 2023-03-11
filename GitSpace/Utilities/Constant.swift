@@ -32,12 +32,19 @@ public enum Constant {
     
     enum FirestorePathConst {
         static let COLLECTION_CHAT: String = "Chat"
-        static let COLLECTION_MESSAGE: String = "Message"
         static let FIELD_JOINED_MEMBER_IDS: String = "joinedMemberIDs"
         static let FIELD_LAST_CONTENT_DATE: String = "lastContentDate"
         static let FIELD_LAST_CONTENT: String = "lastContent"
-        static let FIELD_UNREAD_MESSAGE_COUNT = "unreadMessageCount"
+        static let FIELD_UNREAD_MESSAGE_COUNT: String = "unreadMessageCount"
         
+        static let COLLECTION_MESSAGE: String = "Message"
+        static let FIELD_SENT_DATE: String = "sentDate"
+        static let FIELD_TEXT_CONTENT: String = "textContent"
+        
+        static let COLLECTION_USER_INFO: String = "UserInfo"
+        static let FIELD_GITHUB_ID: String = "githubID"
+        static let FIELD_DEVICE_TOKEN: String = "deviceToken"
+        static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들

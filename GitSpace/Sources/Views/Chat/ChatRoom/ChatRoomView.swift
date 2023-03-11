@@ -107,12 +107,14 @@ struct ChatRoomView: View {
             }
         }
         .task {
+            // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
+            let unreadMessageCount: Int = await getUnreadCount()
             // 메세지 리스너 실행, 첫 Request가 이루어지기 전이기 때문에 .added에서 메세지를 추가하지 않음
             messageStore.addListener(chatID: chat.id)
             // 해당 채팅방의 메세지를 날짜순으로 정렬해서 Request
-            await messageStore.fetchMessages(chatID: chat.id)
+            await messageStore.fetchMessages(chatID: chat.id, unreadMessageCount: unreadMessageCount)
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
-            unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
+            unreadMessageIndex = messageStore.messages.count - unreadMessageCount
             // 읽지 않은 메세지 갯수를 0으로 초기화
             await clearUnreadMessageCount()
         }
