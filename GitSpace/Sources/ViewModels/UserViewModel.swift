@@ -99,7 +99,7 @@ final class UserStore: ObservableObject {
 		
 		do {
 			// GITHUB ID 필드에 저장된 것과 같은 유저 정보를 가져 오도록 쿼링
-			let query = collection.whereField("githubID", isEqualTo: githubID)
+			let query = collection.whereField(const.FIELD_GITHUB_ID, isEqualTo: githubID)
 			let data = try await query.getDocuments().documents
 			var userInformationList: [UserInfo] = []
 			
@@ -121,7 +121,7 @@ final class UserStore: ObservableObject {
 		do {
 			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
 			try await document.updateData([
-				"deviceToken": deviceToken
+				const.FIELD_DEVICE_TOKEN: deviceToken
 			])
 		} catch {
 			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
@@ -210,7 +210,7 @@ final class UserStore: ObservableObject {
             try await db
                 .collection(const.COLLECTION_USER_INFO)
                 .document(user.id)
-                .updateData(["blockedUserIDs" : newBlockedUserIDs])
+                .updateData([const.FIELD_BLOCKED_USER_IDS : newBlockedUserIDs])
         } catch {
             print("Block/Unblock User Update Error : \(error.localizedDescription)")
         }
