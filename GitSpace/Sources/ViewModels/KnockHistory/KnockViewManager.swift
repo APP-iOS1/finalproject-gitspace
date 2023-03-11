@@ -56,6 +56,114 @@ extension KnockViewManager {
 		
 		return true
 	}
+    
+    /**
+     검색 상태와 검색어, 유저의 메뉴 선택 옵션에 따라 노크리스트를 필터링하는 메소드입니다.
+     list의 .filter 클로저에서 호출합니다.
+     수신한 노크리스트일 경우, 발신자를 검색해야 하기 때문에 Bool 값으로 아규먼트를 전달하여 분기처리합니다.
+     - returns: Bool
+     */
+    public func filterKnockList(
+        isReceivedKnockList: Bool,
+        isSearching: Bool,
+        searchText: String,
+        userFilteredKnockState: KnockStateFilter,
+        eachKnock: Knock
+    ) -> Bool {
+        if isSearching { // 검색 필터링
+            switch userFilteredKnockState {
+            case .waiting:
+                if isReceivedKnockList {
+                    return eachKnock.sentUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_WAITING
+                } else {
+                    return eachKnock.receivedUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_WAITING
+                }
+            case .accepted:
+                if isReceivedKnockList {
+                    return eachKnock.sentUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_ACCEPTED
+                } else {
+                    return eachKnock.receivedUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_ACCEPTED
+                }
+            case .declined:
+                if isReceivedKnockList {
+                    return eachKnock.sentUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_DECLINED
+                } else {
+                    return eachKnock.receivedUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    ) && eachKnock.knockStatus == Constant.KNOCK_DECLINED
+                }
+            case .all:
+                if isReceivedKnockList {
+                    return eachKnock.sentUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    )
+                } else {
+                    return eachKnock.receivedUserName.contains(
+                        searchText, isCaseInsensitive: true
+                    )
+                }
+            }
+        } else { // 비검색 필터링
+            switch userFilteredKnockState {
+            case .waiting:
+                return eachKnock.knockStatus == Constant.KNOCK_WAITING
+            case .accepted:
+                return eachKnock.knockStatus == Constant.KNOCK_ACCEPTED
+            case .declined:
+                return eachKnock.knockStatus == Constant.KNOCK_DECLINED
+            case .all:
+                return true
+            }
+        }
+    }
+    
+    /**
+     필터링 된 특정 노크 리스트의 갯수를 반환하는 메소드입니다.
+     MainKnockView에서 header를 그릴 때 활용합니다.
+     */
+    public func getFilteredKnockCountInKnockList(
+        isReceivedKnockList: Bool,
+        isSearching: Bool,
+        searchText: String,
+        userFilteredKnockState: KnockStateFilter
+    ) -> Int {
+        if isReceivedKnockList {
+            return receivedKnockList
+                .filter {
+                    filterKnockList(
+                        isReceivedKnockList: isReceivedKnockList,
+                        isSearching: isSearching,
+                        searchText: searchText,
+                        userFilteredKnockState: userFilteredKnockState,
+                        eachKnock: $0
+                    )
+                }
+                .count
+        } else {
+            return sentKnockList
+                .filter {
+                    filterKnockList(
+                        isReceivedKnockList: isReceivedKnockList,
+                        isSearching: isSearching,
+                        searchText: searchText,
+                        userFilteredKnockState: userFilteredKnockState,
+                        eachKnock: $0
+                    )
+                }
+                .count
+        }
+        
+    }
 	
 	public func getKnockCountInKnockList(
 		knockList: [Knock],
