@@ -58,7 +58,6 @@ extension HTTPClient {
             
             switch response.statusCode {
             case 200...299:
-                
                 guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
                     return .failure(.failToDecode)
                 }
