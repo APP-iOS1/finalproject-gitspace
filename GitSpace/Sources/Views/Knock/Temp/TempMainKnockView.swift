@@ -74,38 +74,13 @@ struct TempMainKnockView: View {
                                         knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
                                     }
                                     .filter {
-                                        // 수신함에서는 발신자의 이름(githubName)을 검색하도록 한다.
-                                        if isSearching { // 검색 필터링
-                                            switch userFilteredKnockState {
-                                            case .waiting:
-                                                return $0.sentUserName.contains(
-                                                    searchText, isCaseInsensitive: true
-                                                ) && $0.knockStatus == Constant.KNOCK_WAITING
-                                            case .accepted:
-                                                return $0.sentUserName.contains(
-                                                    searchText, isCaseInsensitive: true
-                                                ) && $0.knockStatus == Constant.KNOCK_ACCEPTED
-                                            case .declined:
-                                                return $0.sentUserName.contains(
-                                                    searchText, isCaseInsensitive: true
-                                                ) && $0.knockStatus == Constant.KNOCK_DECLINED
-                                            case .all:
-                                                return $0.sentUserName.contains(
-                                                    searchText, isCaseInsensitive: true
-                                                )
-                                            }
-                                        } else { // 비검색 필터링
-                                            switch userFilteredKnockState {
-                                            case .waiting:
-                                                return $0.knockStatus == Constant.KNOCK_WAITING
-                                            case .accepted:
-                                                return $0.knockStatus == Constant.KNOCK_ACCEPTED
-                                            case .declined:
-                                                return $0.knockStatus == Constant.KNOCK_DECLINED
-                                            case .all:
-                                                return true
-                                            }
-                                        }
+                                        knockViewManager.filterKnockList(
+                                            isReceivedKnockList: true,
+                                            isSearching: isSearching,
+                                            searchText: searchText,
+                                            userFilteredKnockState: userFilteredKnockState,
+                                            eachKnock: $0
+                                        )
                                     }
                             ) { eachKnock in
                                 NavigationLink {
@@ -122,6 +97,25 @@ struct TempMainKnockView: View {
 //                                .transition(knockViewManager.leadingTransition)
                                 .id(eachKnock.id)
                             }
+                        } header: {
+                            let num = knockViewManager.getFilteredKnockCountInKnockList(
+                                isReceivedKnockList: true,
+                                isSearching: isSearching,
+                                searchText: searchText,
+                                userFilteredKnockState: userFilteredKnockState
+                            )
+                            
+                            HStack {
+                                Text(userFilteredKnockState.rawValue)
+                                    .bold()
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Text(num.description)
+                                .bold()
+                            }
+                            .modifier(PinnedViewHeaderModifier())
                         }
                     } else if userSelectedTab == Constant.KNOCK_SENT {
                         Section {
@@ -130,38 +124,13 @@ struct TempMainKnockView: View {
                                     knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
                                 }
                                 .filter {
-                                    // 발신함에서는 수신자의 이름(githubName)을 검색하도록 한다.
-                                    if isSearching { // 검색 필터링
-                                        switch userFilteredKnockState {
-                                        case .waiting:
-                                            return $0.receivedUserName.contains(
-                                                searchText, isCaseInsensitive: true
-                                            ) && $0.knockStatus == Constant.KNOCK_WAITING
-                                        case .accepted:
-                                            return $0.receivedUserName.contains(
-                                                searchText, isCaseInsensitive: true
-                                            ) && $0.knockStatus == Constant.KNOCK_ACCEPTED
-                                        case .declined:
-                                            return $0.receivedUserName.contains(
-                                                searchText, isCaseInsensitive: true
-                                            ) && $0.knockStatus == Constant.KNOCK_DECLINED
-                                        case .all:
-                                            return $0.receivedUserName.contains(
-                                                searchText, isCaseInsensitive: true
-                                            )
-                                        }
-                                    } else { // 비검색 필터링
-                                        switch userFilteredKnockState {
-                                        case .waiting:
-                                            return $0.knockStatus == Constant.KNOCK_WAITING
-                                        case .accepted:
-                                            return $0.knockStatus == Constant.KNOCK_ACCEPTED
-                                        case .declined:
-                                            return $0.knockStatus == Constant.KNOCK_DECLINED
-                                        case .all:
-                                            return true
-                                        }
-                                    }
+                                    knockViewManager.filterKnockList(
+                                        isReceivedKnockList: false,
+                                        isSearching: isSearching,
+                                        searchText: searchText,
+                                        userFilteredKnockState: userFilteredKnockState,
+                                        eachKnock: $0
+                                    )
                                 }
                             ) { eachKnock in
                                 NavigationLink {
@@ -178,6 +147,25 @@ struct TempMainKnockView: View {
 //                                .transition(knockViewManager.trailingTransition)
                                 .id(eachKnock.id)
                             }
+                        } header: {
+                            let num = knockViewManager.getFilteredKnockCountInKnockList(
+                                isReceivedKnockList: false,
+                                isSearching: isSearching,
+                                searchText: searchText,
+                                userFilteredKnockState: userFilteredKnockState
+                            )
+                            
+                            HStack {
+                                Text(userFilteredKnockState.rawValue)
+                                    .bold()
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Text(num.description)
+                                .bold()
+                            }
+                            .modifier(PinnedViewHeaderModifier())
                         }
                     }
                 }
