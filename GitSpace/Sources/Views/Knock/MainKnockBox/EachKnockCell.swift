@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct EachKnockCell: View {
-    public let userNameText: String
+    @EnvironmentObject var knockViewManager: KnockViewManager
 	@Binding var eachKnock: Knock
-    @Binding var isEdit: Bool
+    @Binding var isEditing: Bool
+    @Binding var userSelectedTab: String
     @State private var isChecked: Bool = false
 	
 	// MARK: - body
     var body: some View {
 		VStack {
 			HStack(alignment: .center) {
-				if isEdit {
+				if isEditing {
 					Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
@@ -35,12 +36,15 @@ struct EachKnockCell: View {
 				
 				VStack {
 					HStack {
-						Text(userNameText)
+                        Text(userSelectedTab == Constant.KNOCK_WAITING
+                             ? eachKnock.sentUserName
+                             : eachKnock.receivedUserName
+                        )
 							.font(.body)
 						
 						Spacer()
 						
-						Text("\(eachKnock.dateDiff)m")
+                        Text("\(eachKnock.dateDiff)")
 							.font(.subheadline)
 							.foregroundColor(Color(.systemGray))
 							.padding(.leading, -10)
@@ -61,21 +65,17 @@ struct EachKnockCell: View {
 						
 						if eachKnock.knockStatus == Constant.KNOCK_WAITING {
 							Text(eachKnock.knockStatus)
-							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemBlue))
 						} else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
 							Text(eachKnock.knockStatus)
-							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemGreen))
 						} else {
 							Text("\(eachKnock.knockStatus)")
-							//.padding(.trailing, 0)
 								.foregroundColor(Color(.systemRed))
 						}
 					} // HStack
 					.font(.subheadline)
 					.foregroundColor(Color(.systemGray))
-					
 					
 				} // VStack
 				
@@ -86,6 +86,7 @@ struct EachKnockCell: View {
 			Divider()
 				.padding(.horizontal, 20)
 		}
+        
     }
 	
 }

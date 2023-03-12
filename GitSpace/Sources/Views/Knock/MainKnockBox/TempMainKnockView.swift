@@ -69,9 +69,9 @@ struct TempMainKnockView: View {
                     if userSelectedTab == Constant.KNOCK_RECEIVED {
                         Section {
                             ForEach(
-                                knockViewManager.receivedKnockList
+                                $knockViewManager.receivedKnockList
                                     .sorted {
-                                        knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                                        knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
                                     }
                                     .filter {
                                         knockViewManager.filterKnockList(
@@ -79,23 +79,30 @@ struct TempMainKnockView: View {
                                             isSearching: isSearching,
                                             searchText: searchText,
                                             userFilteredKnockState: userFilteredKnockState,
-                                            eachKnock: $0
+                                            eachKnock: $0.wrappedValue
+                                        )
+                                    }, id: \.wrappedValue.id
+                            ) { $eachKnock in
+                                NavigationLink {
+                                    if eachKnock.knockStatus == Constant.KNOCK_WAITING {
+                                        ReceivedKnockDetailView(knock: $eachKnock.wrappedValue)
+                                    } else {
+                                        KnockHistoryView(
+                                            eachKnock: $eachKnock.wrappedValue,
+                                            userSelectedTab: $userSelectedTab
                                         )
                                     }
-                            ) { eachKnock in
-                                NavigationLink {
-                                    ReceivedKnockDetailView(knock: eachKnock)
                                 } label: {
                                     // Label
-                                    ReceivedKnockTabView(
-                                        eachKnock: eachKnock,
+                                    EachKnockCell(
+                                        eachKnock: $eachKnock,
                                         isEditing: $isEditing,
-                                        userFileteredOption: $userFilteredKnockState
+                                        userSelectedTab: $userSelectedTab
                                     )
                                     .foregroundColor(.primary)
                                 }
-//                                .transition(knockViewManager.leadingTransition)
-                                .id(eachKnock.id)
+                                .transition(knockViewManager.leadingTransition)
+                                .id($eachKnock.wrappedValue.id)
                             }
                         } header: {
                             let num = knockViewManager.getFilteredKnockCountInKnockList(
@@ -119,9 +126,9 @@ struct TempMainKnockView: View {
                         }
                     } else if userSelectedTab == Constant.KNOCK_SENT {
                         Section {
-                            ForEach(knockViewManager.sentKnockList
+                            ForEach($knockViewManager.sentKnockList
                                 .sorted {
-                                    knockViewManager.sortedByDateValue(lhs: $0, rhs: $1)
+                                    knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
                                 }
                                 .filter {
                                     knockViewManager.filterKnockList(
@@ -129,23 +136,22 @@ struct TempMainKnockView: View {
                                         isSearching: isSearching,
                                         searchText: searchText,
                                         userFilteredKnockState: userFilteredKnockState,
-                                        eachKnock: $0
+                                        eachKnock: $0.wrappedValue
                                     )
-                                }
-                            ) { eachKnock in
+                                }, id: \.wrappedValue.id
+                            ) { $eachKnock in
                                 NavigationLink {
                                     Text("?")
                                 } label: {
-                                    // Label
-                                    SentKnockTabView(
-                                        eachKnock: eachKnock,
+                                    EachKnockCell(
+                                        eachKnock: $eachKnock,
                                         isEditing: $isEditing,
-                                        userFileteredOption: $userFilteredKnockState
+                                        userSelectedTab: $userSelectedTab
                                     )
                                     .foregroundColor(.primary)
                                 }
-//                                .transition(knockViewManager.trailingTransition)
-                                .id(eachKnock.id)
+                                .id($eachKnock.wrappedValue.id)
+                                .transition(knockViewManager.trailingTransition)
                             }
                         } header: {
                             let num = knockViewManager.getFilteredKnockCountInKnockList(

@@ -10,7 +10,8 @@ import SwiftUI
 struct MainKnockView: View {
 	
     @StateObject private var keyboardHandler = KeyboardHandler()
-	@EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var appDelegate: AppDelegate
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
 	@EnvironmentObject var knockViewManager: KnockViewManager
 	@EnvironmentObject var userInfoManager: UserStore
 	
@@ -33,6 +34,7 @@ struct MainKnockView: View {
     @State private var isEditChecked: Bool = false
     @State private var isDisplayedKnockSettingView: Bool = false
     
+    // MARK: - BODY
     var body: some View {
         VStack {
             // MARK: - Tab Buttons
@@ -98,15 +100,15 @@ struct MainKnockView: View {
 							}
 						}
 						.transition(knockViewManager.leadingTransition)
+                        // MARK: - PUSH NOTIFICATION ROUTER
 						.overlay {
 							NavigationLink(
 								destination: destinationSwitchBuilder(),
-								isActive: $tabBarRouter.navigateToReceivedKnock) {
+								isActive: $pushNotificationManager.isNavigatedToReceivedKnock) {
 									EmptyView()
 								}
 						}
 						.fullScreenCover(isPresented: $isDisplayedKnockSettingView) {
-							
 							NavigationView {
 								SetKnockControlsView(
 									showingKnockControls: $isDisplayedKnockSettingView
@@ -154,12 +156,13 @@ struct MainKnockView: View {
 								)
 							}
 						}
+                        // MARK: - PUSH NOTIFICATION ROUTER
 						.overlay {
 							NavigationLink(
 								destination: KnockHistoryView(
 									eachKnock: pushedKnock ?? Knock(isFailedDummy: true),
 									userSelectedTab: $userSelectedTab
-								), isActive: $tabBarRouter.navigateToSentKnock) {
+                                ), isActive: $appDelegate.isSentKnockView) {
 									EmptyView()
 								}
 						}
@@ -169,33 +172,12 @@ struct MainKnockView: View {
         } // VStack
 		.task {
 			await knockViewManager.addSnapshotToKnock(
-				currentUser: userInfoManager.currentUser ?? UserInfo.getFaliedUserInfo()
-			)
-			
-			// !!!: - When Pushed Notification tabbed To Navigate.
-			if let knockID,
-			   knockID != "DOCPATH" {
-				async let eachKnock = knockViewManager.requestKnockWithID(knockID: knockID)
-				pushedKnock = await eachKnock
-				
-				// 수신인의 이름과 현재 로그인한 사용자의 이름이 다르다면, 내가 보낸 노크함으로.
-				if pushedKnock?.receivedUserName != userInfoManager.currentUser?.githubLogin {
-					print("TO KNOCK SENT VIEW")
-					userSelectedTab = Constant.KNOCK_SENT
-					tabBarRouter.navigateToSentKnock = true
-				}
-				
-				// 수신인의 이름이 현재 로그인한 사용자의 이름과 같다면, 내가 받은 노크함으로.
-				else if pushedKnock?.receivedUserName == userInfoManager.currentUser?.githubLogin {
-					print("TO KNOCK RECEIVED VIEW")
-					userSelectedTab = Constant.KNOCK_RECEIVED
-					tabBarRouter.navigateToReceivedKnock = true
-				}
-			}
-			
-			await knockViewManager.requestKnockList(
 				currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
 			)
+			
+//			await knockViewManager.requestKnockList(
+//				currentUser: userInfoManager.currentUser ?? .getFaliedUserInfo()
+//			)
 		}
         .onTapGesture {
             self.endTextEditing()
@@ -390,7 +372,7 @@ struct MainKnockView: View {
 						NavigationLink {
 							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
 							   userSelectedTab == Constant.KNOCK_RECEIVED {
-								ReceivedKnockView(knock: eachKnock)
+								ReceivedKnockDetailView(knock: eachKnock)
 							} else {
 								KnockHistoryView(
 									eachKnock: eachKnock,
@@ -398,18 +380,19 @@ struct MainKnockView: View {
 								)
 							}
 						} label: {
-							EachKnockCell(
-								userSelectedTab: userSelectedTab,
-								eachKnock: eachKnock,
-								isEdit: $isEdit
-							)
+//							EachKnockCell(
+//								userSelectedTab: userSelectedTab,
+//								eachKnock: eachKnock,
+//								isEdit: $isEdit
+//							)
+                            Text("?")
 							.foregroundColor(.primary)
 						}
 					} else if userFilteredKnockState.rawValue == eachKnock.knockStatus {
 						NavigationLink {
 							if eachKnock.knockStatus == Constant.KNOCK_WAITING,
 							   userSelectedTab == Constant.KNOCK_RECEIVED {
-								ReceivedKnockView(knock: eachKnock)
+								ReceivedKnockDetailView(knock: eachKnock)
 							} else {
 								KnockHistoryView(
 									eachKnock: eachKnock,
@@ -417,11 +400,12 @@ struct MainKnockView: View {
 								)
 							}
 						} label: {
-							EachKnockCell(
-								userSelectedTab: userSelectedTab,
-								eachKnock: eachKnock,
-								isEdit: $isEdit
-							)
+//							EachKnockCell(
+//								userSelectedTab: userSelectedTab,
+//								eachKnock: eachKnock,
+//								isEdit: $isEdit
+//							)
+                            Text("?")
 							.foregroundColor(.primary)
 						}
 					}
@@ -499,7 +483,7 @@ struct MainKnockView: View {
 	private func destinationSwitchBuilder() -> some View {
 		if let pushedKnock {
 			if pushedKnock.knockStatus == Constant.KNOCK_WAITING {
-				ReceivedKnockView(knock: pushedKnock)
+				ReceivedKnockDetailView(knock: pushedKnock)
 			} else {
 				KnockHistoryView(
 					eachKnock: pushedKnock, userSelectedTab: $userSelectedTab
@@ -510,18 +494,3 @@ struct MainKnockView: View {
 		}
 	}
 } // KnockBoxView()
-
-struct KnockBoxView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            MainKnockView()
-        }
-    }
-}
-
-enum KnockStateFilter: String {
-    case waiting = "Waiting"
-    case accepted = "Accepted"
-    case declined = "Declined"
-    case all = "All"
-}

@@ -78,26 +78,26 @@ struct ReceivedKnockDetailView: View {
                 }
             } // ScrollView
             
-			if !isAccepted {
-				VStack(spacing: 10) {
-					
-					Divider()
-						.padding(.top, -8)
-					
-					Text("Accept message request from \(knock.sentUserName)?")
-						.font(.subheadline)
-						.bold()
-						.padding(.bottom, 10)
-					
-					Text("If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.")
-						.multilineTextAlignment(.center)
-						.font(.caption)
-						.foregroundColor(.gsGray2)
-						.padding(.top, -15)
-						.padding(.bottom)
-						.padding(.horizontal)
-					
-					GSButton.CustomButtonView(
+            if knock.knockStatus == Constant.KNOCK_WAITING {
+                VStack(spacing: 10) {
+                    
+                    Divider()
+                        .padding(.top, -8)
+                    
+                    Text("Accept knock request from \(knock.sentUserName)?")
+                        .font(.subheadline)
+                        .bold()
+                        .padding(.bottom, 10)
+                    
+                    Text("If you accept, they will also be able to call you and see info such as your activity status and when you've read messages.")
+                        .multilineTextAlignment(.center)
+                        .font(.caption)
+                        .foregroundColor(.gsGray2)
+                        .padding(.top, -15)
+                        .padding(.bottom)
+                        .padding(.horizontal)
+                    
+                    GSButton.CustomButtonView(
                         style: .secondary(isDisabled: false)
                     ) {
                         Task {
@@ -130,41 +130,64 @@ struct ReceivedKnockDetailView: View {
                             .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
                     } // button: Accept
                     
-					HStack(spacing: 60) {
-						Button {
-							
-						} label: {
-							Text("Block")
-								.bold()
-								.foregroundColor(.red)
-						} // Button: Block
-						
-						Divider()
-						
-						Button {
-							
-						} label: {
-							Text("Decline")
-								.bold()
-								.foregroundColor(.primary)
-						} // Button: Decline
-					}
-					.frame(height: 30)
-					
-				} // VStack
-			} else if isAccepted {
-				GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-					// chat id 할당
-					pushNotificationManager.assignViewBuildID(chatStore.newChat.id)
-					
-					// tab 이동
-					tabBarRouter.currentPage = .chats
-					
-					print(#file, #function, "\(pushNotificationManager.viewBuildID ?? "NONONO")")
-				} label: {       
-					Text("Go chat with **\(knock.sentUserName)**")
-				}
-			}
+                    HStack(spacing: 60) {
+                        Button {
+                            
+                        } label: {
+                            Text("Block")
+                                .bold()
+                                .foregroundColor(.red)
+                        } // Button: Block
+                        
+                        Divider()
+                        
+                        Button {
+                            Task {
+                                // TODO: PUSH NOTIFICATION
+                                async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
+                                
+                                if let knockSentUser = await knockSentUser {
+                                    await pushNotificationManager.sendNotification(
+                                        with: .knock(
+                                            title: "Your Knock has been Declined.",
+                                            body: knock.knockMessage,
+                                            knockSentFrom: knock.sentUserName,
+                                            knockPurpose: "",
+                                            knockID: knock.id
+                                        ),
+                                        to: knockSentUser
+                                    )
+                                }
+                                
+                                // TODO: Update Knock Status
+                                await knockViewManager.updateKnockOnFirestore(
+                                    knock: knock, knockStatus: Constant.KNOCK_DECLINED
+                                )
+                            }
+                        } label: {
+                            Text("Decline")
+                                .bold()
+                                .foregroundColor(.primary)
+                        } // Button: Decline
+                    }
+                    .frame(height: 30)
+                    
+                } // VStack
+            } else if knock.knockStatus == Constant.KNOCK_ACCEPTED {
+                GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
+                    // chat id 할당
+                    pushNotificationManager.assignViewBuildID(chatStore.newChat.id)
+                    
+                    // tab 이동
+                    tabBarRouter.currentPage = .chats
+                    
+                    print(#file, #function, "\(pushNotificationManager.viewBuildID ?? "NONONO")")
+                } label: {
+                    Text("Go chat with **\(knock.sentUserName)**")
+                }
+            } else if knock.knockStatus == Constant.KNOCK_DECLINED {
+                Text("You Delined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
+            }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
