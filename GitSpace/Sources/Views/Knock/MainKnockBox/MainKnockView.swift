@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-struct TempMainKnockView: View {
+struct MainKnockView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
     @EnvironmentObject var knockViewManager: KnockViewManager
@@ -141,7 +141,10 @@ struct TempMainKnockView: View {
                                 }, id: \.wrappedValue.id
                             ) { $eachKnock in
                                 NavigationLink {
-                                    Text("?")
+                                    KnockHistoryView(
+                                        eachKnock: $eachKnock.wrappedValue,
+                                        userSelectedTab: $userSelectedTab
+                                    )
                                 } label: {
                                     EachKnockCell(
                                         eachKnock: $eachKnock,
