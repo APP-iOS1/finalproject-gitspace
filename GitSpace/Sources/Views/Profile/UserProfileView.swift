@@ -13,14 +13,13 @@ import RichText
 struct UserProfileView: View {
     
     let user: GithubUser
-    let gitHubService: GitHubService
     
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @StateObject var userProfileViewModel = UserProfileViewModel(service: GitHubService())
     
     @State private var markdownString = ""
     
-    init(service: GitHubService, user: GithubUser) {
-        self.gitHubService = service
+    init(user: GithubUser) {
         self.user = user
     }
     
@@ -151,41 +150,13 @@ struct UserProfileView: View {
             }
             .padding(.horizontal, 20)
         }
-        .onAppear {
-            
-            Task {
-                let result = await gitHubService.requestRepositoryReadme(owner: user.login, repositoryName: user.login)
-                
-                switch result {
-                    
-                case .success(let readme):
-                    guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    guard let decodeContent = String(data: content, encoding: .utf8) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
-                    
-                    switch htmlResult {
-                        
-                    case .success(let result):
-                        markdownString = result
-                        
-                    // markdown을 html로 변환 실패
-                    case .failure:
-                        markdownString = "fail to load README.md"
-                    }
-                    
-                    // repository의 markdown을 요청 실패
-                case .failure:
-                    markdownString = "Fail to load README.md"
-                    
-                }
+        .task {
+            let readmeResult = await userProfileViewModel.requestUserReadMe(user: user)
+            switch readmeResult {
+            case .success(let result):
+                markdownString = result
+            case .failure(let error):
+                markdownString = error.errorDescription
             }
         }
     }
