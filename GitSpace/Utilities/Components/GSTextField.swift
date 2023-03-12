@@ -28,6 +28,7 @@ struct GSTextField {
         public let const = Constant.TextFieldConst.self
         public let style: GSTextFieldStyle
         public let text: Binding<String>
+        @Environment(\.colorScheme) var colorScheme
         
         init(style: GSTextFieldStyle, text: Binding<String>) {
             self.style = style
