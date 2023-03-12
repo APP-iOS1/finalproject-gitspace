@@ -213,13 +213,10 @@ extension KnockViewManager {
 // MARK: - Network CRUD
 extension KnockViewManager {
 	public func addSnapshotToKnock(currentUser: UserInfo) async {
-		// !!!: 리스너 중복 주의
-		removeSnapshot()
-        await removeKnockList()
         // TODO: 로딩중인 걸 보여주기 위한 로딩 전, 진행중, 완료 등의 상태를 담은 열거형 정의 후, 프로그레스뷰 이식하기
         
 		listener = firebaseDatabase
-			.addSnapshotListener { snapshot, err in
+            .addSnapshotListener(includeMetadataChanges: true) { [self] snapshot, err in
 				guard let snapshot else {
 					print("No SnapShot-\(#file)-\(#function)")
 					return
@@ -228,24 +225,25 @@ extension KnockViewManager {
                 snapshot.documentChanges.forEach { docDiff in
                     switch docDiff.type {
                     case .added:
-                        print(#file, #function, "Added New Knock")
                         if let newKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
-                            self.appendKnockElement(newKnock: newKnock, currentUser: currentUser)
+                            self.appendKnockElementInTempList(newKnock: newKnock, currentUser: currentUser)
                         }
                     case .modified:
-                        print(#file, #function, "Knock Has Been Modified")
-                        if let newKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
-                            self.appendKnockElement(newKnock: newKnock, currentUser: currentUser)
+                        if let diffKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
+                            self.updateTempKnockList(diffKnock: diffKnock, currentUser: currentUser)
                         }
                     case .removed:
-                        print(#file, #function, "Knock Has Been Removed")
+                        if let removedKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
+                            self.removeKnocksInTempKnockList(removedKnock: removedKnock, currentUser: currentUser)
+                        }
                     }
                 }
                 
                 /**
                  Temp 배열을 모델 배열로 할당
+                 할당한 이후, 임시 배열 초기화
                  */
-                self.assignKnockList()
+                self.assignTempKnockListToPublishedList()
 			}
 	}
 	
@@ -257,26 +255,26 @@ extension KnockViewManager {
 	
 	// MARK: - In Normal Situation(foreground)
 	/// 한번에 리턴시켜야 뚜두둑 로딩되지 않음.
-	public func requestKnockList(currentUser: UserInfo) async -> Void {
-		await removeKnockList()
-		
-		do {
-			let snapshot = try await firebaseDatabase.getDocuments()
-			
-			for docs in snapshot.documents {
-				let eachKnock = try docs.data(as: Knock.self)
-				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
-				appendKnockElement(
-					newKnock: eachKnock,
-					currentUser: currentUser
-				)
-			}
-            
-            await assignKnockListConcurrently()
-		} catch {
-			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
-		}
-	}
+//	public func requestKnockList(currentUser: UserInfo) async -> Void {
+//		await removeKnockList()
+//
+//		do {
+//			let snapshot = try await firebaseDatabase.getDocuments()
+//
+//			for docs in snapshot.documents {
+//				let eachKnock = try docs.data(as: Knock.self)
+//				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
+//				appendKnockElementInTempList(
+//					newKnock: eachKnock,
+//					currentUser: currentUser
+//				)
+//			}
+//
+//            await assignKnockListConcurrently()
+//		} catch {
+//			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
+//		}
+//	}
 	
 	// MARK: - In Push Notification(Background, foreground)
 	public func requestKnockWithID(knockID: String) async -> Knock? {
@@ -320,7 +318,8 @@ extension KnockViewManager {
      */
     public func updateKnockOnFirestore(
         knock: Knock,
-        knockStatus: String
+        knockStatus: String,
+        declineMessage: String? = nil
     ) async -> Void {
         let document = firebaseDatabase.document(knock.id)
         
@@ -336,7 +335,8 @@ extension KnockViewManager {
                 ], merge: true)
             case Constant.KNOCK_DECLINED:
                 try await document.setData([
-                    "declinedDate": Timestamp(date: .now)
+                    "declinedDate": Timestamp(date: .now),
+                    "declineMessage": declineMessage ?? "\(knock.receivedUserName) decided not to give you a decline message."
                 ], merge: true)
             default:
                 break
@@ -370,31 +370,73 @@ extension KnockViewManager {
      아규먼트의 노크가 갖는 수신자 아이디와 현재 유저의 아이디를 비교하여 임시 배열에 어펜드 합니다.
      뷰가 한 번에 그려질 수 있도록 조치하기 위해 임시 배열과 모델 배열을 분리합니다.
      */
-    private func appendKnockElement(newKnock: Knock, currentUser: UserInfo) {
-        if newKnock.receivedUserName == currentUser.githubLogin {
+    private func appendKnockElementInTempList(newKnock: Knock, currentUser: UserInfo) {
+        if newKnock.receivedUserID == currentUser.id {
             self.tempReceived.append(newKnock)
         } else {
             self.tempSent.append(newKnock)
         }
     }
     
-    private func assignKnockList() {
+    private func assignTempKnockListToPublishedList() {
         sentKnockList = tempSent
         receivedKnockList = tempReceived
         print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
     }
     
-    @MainActor
-    private func assignKnockListConcurrently() {
-        sentKnockList = tempSent
-        receivedKnockList = tempReceived
-        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
+//    @MainActor
+//    private func assignKnockListConcurrently() {
+//        sentKnockList = tempSent
+//        receivedKnockList = tempReceived
+//        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
+//    }
+    
+    private func updateTempKnockList(
+        diffKnock: Knock,
+        currentUser: UserInfo
+    ) {
+        if diffKnock.receivedUserID == currentUser.id {
+            if let knockIndex = tempReceived.firstIndex(where: { knock in
+                knock.id == diffKnock.id
+            }) {
+                tempReceived[knockIndex] = diffKnock
+            }
+        } else {
+            if let knockIndex = tempSent.firstIndex(where: { knock in
+                knock.id == diffKnock.id
+            }) {
+                tempSent[knockIndex] = diffKnock
+            }
+        }
     }
-	
+    
     @MainActor
     private func removeKnockList() {
         receivedKnockList.removeAll()
         sentKnockList.removeAll()
+    }
+    
+    private func removeTempKnockList() {
+        tempSent = []
+        tempReceived = []
+    }
+    
+    /**
+    리스너에서 받아온 제거 노크의 id를 임시배열의 노크 요소 id와 비교하여 제거합니다.
+     */
+    private func removeKnocksInTempKnockList(
+        removedKnock: Knock,
+        currentUser: UserInfo
+    ) {
+        if removedKnock.receivedUserID == currentUser.id {
+            tempReceived.removeAll { knock in
+                knock.id == removedKnock.id
+            }
+        } else {
+            tempSent.removeAll { knock in
+                knock.id == removedKnock.id
+            }
+        }
     }
     
     @MainActor
