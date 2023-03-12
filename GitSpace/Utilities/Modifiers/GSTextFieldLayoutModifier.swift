@@ -17,6 +17,7 @@ struct GSTextFieldLayoutModifier: ViewModifier {
         switch style {
         case .searchBarField:
             content
+                .foregroundColor(.primary)
                 .padding(EdgeInsets(top: const.SEARCHBAR_INSET_VERTICAL,
                                     leading: const.SEARCHBAR_INSET_HORIZONTAL,
                                     bottom: const.SEARCHBAR_INSET_VERTICAL,

@@ -42,9 +42,7 @@ struct GSTextField {
             case .searchBarField:
                 HStack(spacing: const.SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE) {
                     Image(systemName: const.SEARCHBAR_FIELD_SYMBOL_NAME)
-                        .foregroundColor(.black)
                     TextField(const.SEARCHBAR_FIELD_PLACEHOLDER, text: text)
-                        .foregroundColor(.primary)
                 }
                 .modifier(GSTextFieldLayoutModifier(style: style))
                 
