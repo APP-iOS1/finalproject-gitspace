@@ -8,17 +8,15 @@
 import SwiftUI
 import RichText
 
-
 struct RepositoryDetailView: View {
     @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
-    @StateObject var contributorViewModel = ContributorViewModel()
+    @StateObject var contributorViewModel = ContributorViewModel(service: GitHubService())
+    @StateObject var repositoryDetailViewModel = RepositoryDetailViewModel(service: GitHubService())
     
-    let gitHubService: GitHubService
     let repository: Repository
     
-    init(service: GitHubService, repository: Repository) {
-        self.gitHubService = service
+    init(repository: Repository) {
         self.repository = repository
     }
     
@@ -38,7 +36,7 @@ struct RepositoryDetailView: View {
             
             
             // MARK: - 레포 디테일 정보 섹션
-            RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
+            RepositoryInfoCard(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
@@ -47,7 +45,7 @@ struct RepositoryDetailView: View {
             Spacer()
             
             GSNavigationLink(style: .primary) {
-                ContributorListView(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
+                ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
@@ -59,65 +57,27 @@ struct RepositoryDetailView: View {
                 .fontType(.system)
                 .linkOpenType(.SFSafariView())
                 .placeholder {
-                    Image("GitSpace-Loading")
-                    GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+                    VStack {
+                        Image("GitSpace-Loading")
+                        GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+                    }
                 }
             
         }
         .padding(.horizontal, 30)
-        .onAppear {
-            
-            Task {
-                let readMeResult = await gitHubService.requestRepositoryReadme(owner: repository.owner.login, repositoryName: repository.name)
-                
-                switch readMeResult {
-                    
-                case .success(let response):
-                    guard let content = Data(base64Encoded: response.content, options: .ignoreUnknownCharacters) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    guard let decodeContent = String(data: content, encoding: .utf8) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
-                    
-                    switch htmlResult {
-                        
-                    case .success(let result):
-                        markdownString = result
-                        
-                    case .failure:
-                        markdownString = "fail to load README.md"
-                    }
-                    
-                case .failure:
-                    markdownString = "fail to load README.md"
-                }
-                
-                let contributorsResult = await gitHubService.requestRepositoryContributors(owner: repository.owner.login, repositoryName: repository.name, page: 1)
-                
-                switch contributorsResult {
-                case .success(let users):
-                    contributorViewModel.contributors.removeAll()
-                    for user in users {
-                        let result = await gitHubService.requestUserInformation(userName: user.login)
-                        switch result {
-                        case .success(let user):
-                            contributorViewModel.contributors.append(user)
-                        case .failure(let error):
-                            print(error)
-                        }
-                    }
-                    
-                case .failure(let error):
-                    // 컨트리뷰터 목록을 가져올 수 없다는 에러
-                    print(error.localizedDescription)
-                }
-                
+        .task {
+            markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
+            contributorViewModel.contributors.removeAll()
+            contributorViewModel.temporaryContributors.removeAll()
+            // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
+            // For-Loop (contributor pagination, infinite scroll)
+            let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
+            switch contributorListResult {
+            case .success():
+                contributorViewModel.contributors = contributorViewModel.temporaryContributors
+            case .failure(let error):
+                // contributor 목록을 가져오는데 실패했다는 에러
+                print(error)
             }
         }
         .navigationBarTitle(repository.name, displayMode: .inline)
@@ -157,7 +117,7 @@ struct RepositoryInfoCard: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(contributorManager.contributors) { user in
-                        NavigationLink(destination: UserProfileView(service: gitHubService, user: user)) {
+                        NavigationLink(destination: UserProfileView(user: user)) {
                             GithubProfileImage(urlStr: user.avatar_url, size: 40)
                         }
                     }
