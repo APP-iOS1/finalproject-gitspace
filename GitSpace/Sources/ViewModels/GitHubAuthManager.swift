@@ -37,6 +37,7 @@ final class GitHubAuthManager: ObservableObject {
     
     enum SignInState {
         case signedIn
+        case pending
         case signedOut
     }
     
@@ -73,14 +74,18 @@ final class GitHubAuthManager: ObservableObject {
             }
             
             if let credential {
+                self.state = .pending
                 self.authentification.signIn(with: credential) { authResult, error in
                     if error != nil {
                         print("SignIn Error: \(String(describing: error?.localizedDescription))")
                     }
                     // User is signed in.
-                    guard let oauthCredential = authResult?.credential as? OAuthCredential else { return }
-                    guard KeyChainManager.create(authCredential: credential) == true else { return }
-                    print(KeyChainManager.read())
+                    guard let oauthCredential = authResult?.credential as? OAuthCredential else {
+                        return
+                    }
+                    // 아래 guard문을 삭제하지 않으면 로그인 시 무한 로딩에 걸림.
+//                    guard KeyChainManager.create(authCredential: credential) == true else { return }
+//                    print(KeyChainManager.read())
                     
                     // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
@@ -313,6 +318,12 @@ final class GitHubAuthManager: ObservableObject {
     // MARK: - Reauthenticate
     /// Reauthenticate User.
     func reauthenticateUser() async -> Void {
+        
+        // 자동 로그인 시 로그인뷰가 아닌 로딩뷰를 띄워주기 위한 상태 변경 (written by 예슬)
+        DispatchQueue.main.async {
+            self.state = .pending
+        }
+        
         guard let githubAccessToken = UserDefaults.standard.string(forKey: "AT") else {
             fatalError("Failed To Get Access Token.")
         }

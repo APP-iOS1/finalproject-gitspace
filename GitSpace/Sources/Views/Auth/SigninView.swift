@@ -41,9 +41,6 @@ struct SigninView: View {
                 .padding(.bottom, 30)
                 
             }
-            if isSignedIn {
-                LoadingProgressView()
-            }
         }
     }
 }
