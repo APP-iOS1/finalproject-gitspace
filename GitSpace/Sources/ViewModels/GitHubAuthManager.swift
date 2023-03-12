@@ -176,7 +176,7 @@ final class GitHubAuthManager: ObservableObject {
                         if existGithubUser != githubUser {
                             let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
                             try self.database
-                                .collection(const.COLLECTION_USER_INFO)
+                                .collection(self.const.COLLECTION_USER_INFO)
                                 .document(existUser.id)
                                 .setData(from: updatedUserInfo)
                         }
