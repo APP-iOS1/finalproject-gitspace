@@ -11,7 +11,6 @@ struct GSTextFieldLayoutModifier: ViewModifier {
     
     public let style: GSTextField.GSTextFieldStyle
     public let const = Constant.TextFieldConst.self
-    @Environment(\.colorScheme) var colorScheme
     
     func body(content: Content) -> some View {
         switch style {
