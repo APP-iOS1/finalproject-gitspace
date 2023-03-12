@@ -75,7 +75,6 @@ final class GitHubAuthManager: ObservableObject {
             if let credential {
                 self.state = .pending
                 self.authentification.signIn(with: credential) { authResult, error in
-                    
                     if error != nil {
                         print("SignIn Error: \(String(describing: error?.localizedDescription))")
                     }
@@ -318,6 +317,12 @@ final class GitHubAuthManager: ObservableObject {
     // MARK: - Reauthenticate
     /// Reauthenticate User.
     func reauthenticateUser() async -> Void {
+        
+        // 자동 로그인 시 로그인뷰가 아닌 로딩뷰를 띄워주기 위한 상태 변경 (written by 예슬)
+        DispatchQueue.main.async {
+            self.state = .pending
+        }
+        
         guard let githubAccessToken = UserDefaults.standard.string(forKey: "AT") else {
             fatalError("Failed To Get Access Token.")
         }
