@@ -56,8 +56,8 @@ struct GSTextField {
 
 
 struct Test: View {
-    @State var text1: String = ""
-    @State var text2: String = ""
+    @State var text1: String = "안녕하세요 반갑습니다"
+    @State var text2: String = "안녕하세요 반갑습니다"
 	
 	var body: some View {
 		VStack {
