@@ -82,7 +82,6 @@ final class GitHubAuthManager: ObservableObject {
                     // User is signed in.
                     guard let oauthCredential = authResult?.credential as? OAuthCredential else {
                         return
-                        
                     }
                     // 아래 guard문을 삭제하지 않으면 로그인 시 무한 로딩에 걸림.
 //                    guard KeyChainManager.create(authCredential: credential) == true else { return }

@@ -37,6 +37,7 @@ struct InitialView: View {
                     .environmentObject(UserStore(currentUserID: Auth.auth().currentUser?.uid ?? ""))
             case .pending:
                 LoadingProgressView()
+                    .preferredColorScheme(selectedAppearance)
             case .signedOut:
                 SigninView(githubAuthManager: githubAuthManager, tabBarRouter: tabBarRouter)
                     .preferredColorScheme(selectedAppearance)
