@@ -62,10 +62,10 @@ struct Test: View {
 	var body: some View {
 		VStack {
             GSTextField.CustomTextFieldView.init(style: .searchBarField,
-                                         text: $text1)
+                                                 text: $text1)
             
             GSTextField.CustomTextFieldView.init(style: .addTagField,
-                                         text: $text2)
+                                                 text: $text2)
 		}
 	}
 }
