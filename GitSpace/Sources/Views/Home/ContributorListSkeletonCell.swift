@@ -8,10 +8,27 @@
 import SwiftUI
 
 struct ContributorListSkeletonCell: View {
+
+    @State var opacity: CGFloat = 0.4
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image("ProfilePlaceholder")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(Circle())
+                .frame(width: 50, height: 50)
+                .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
+        }
+            .task {
+            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
+                self.opacity = opacity == 0.4 ? 0.8 : 0.4
+            }
+        }
+
     }
 }
+
 
 struct ContributorListSkeletonCell_Previews: PreviewProvider {
     static var previews: some View {
