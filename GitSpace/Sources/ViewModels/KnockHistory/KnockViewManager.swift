@@ -253,29 +253,6 @@ extension KnockViewManager {
 		}
 	}
 	
-	// MARK: - In Normal Situation(foreground)
-	/// 한번에 리턴시켜야 뚜두둑 로딩되지 않음.
-//	public func requestKnockList(currentUser: UserInfo) async -> Void {
-//		await removeKnockList()
-//
-//		do {
-//			let snapshot = try await firebaseDatabase.getDocuments()
-//
-//			for docs in snapshot.documents {
-//				let eachKnock = try docs.data(as: Knock.self)
-//				print("+++KNOCK MESSAGE+++", eachKnock.knockMessage)
-//				appendKnockElementInTempList(
-//					newKnock: eachKnock,
-//					currentUser: currentUser
-//				)
-//			}
-//
-//            await assignKnockListConcurrently()
-//		} catch {
-//			print("Request Failed-\(#file)-\(#function): \(error.localizedDescription)")
-//		}
-//	}
-	
 	// MARK: - In Push Notification(Background, foreground)
 	public func requestKnockWithID(knockID: String) async -> Knock? {
 		let document = firebaseDatabase.document("\(knockID)")
@@ -381,15 +358,7 @@ extension KnockViewManager {
     private func assignTempKnockListToPublishedList() {
         sentKnockList = tempSent
         receivedKnockList = tempReceived
-        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
     }
-    
-//    @MainActor
-//    private func assignKnockListConcurrently() {
-//        sentKnockList = tempSent
-//        receivedKnockList = tempReceived
-//        print(#function, "ASSIGN DONE +++: ", sentKnockList, receivedKnockList)
-//    }
     
     private func updateTempKnockList(
         diffKnock: Knock,
