@@ -31,6 +31,8 @@ struct ContributorListView: View {
             isDevided = false
         }
         
+        gitSpaceUserList.removeAll()
+        
         for someUser in contributorManager.contributors {
             if await userInfoManager.requestUserInfoWithGitHubID(githubID: someUser.id) != nil {
                 gitSpaceUserList.append(someUser.id)
@@ -63,11 +65,14 @@ struct ContributorListView: View {
                 
                 HStack {
                     if gitSpaceUserList.isEmpty && isDevided == true {
+                        // MARK: - 저장소의 기여자들 중 GitSpace User가 없을 경우
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Oops!")
                     // if
-                    } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
+                    } else if contributorManager.contributors.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
+                        
+                        // MARK: - currentUser가 저장소의 유일한 기여자일 경우
                         GSText.CustomTextView(
                             style: .title2,
                             string: "Hello, \(userInfoManager.currentUser?.githubName ?? userInfoManager.currentUser!.githubLogin)!")
@@ -96,7 +101,7 @@ among the contributors to this repository.
 """
                         )
                         // if
-                    } else if gitSpaceUserList.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
+                    } else if contributorManager.contributors.count == 1 && gitSpaceUserList.contains(userInfoManager.currentUser?.githubID ?? 0) {
                         GSText.CustomTextView(
                             style: .caption1,
                             string:
@@ -183,9 +188,10 @@ Please select a User to start chatting with.
             
         } // ScrollView
         .task {
+            await devideUser()            
+        }
+        .refreshable {
             await devideUser()
-            
-            print(userInfoManager.currentUser?.githubID ?? "error!: currentUser 정보 없음")
         }
         
     } // body
