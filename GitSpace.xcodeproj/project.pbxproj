@@ -22,6 +22,7 @@
 		2205F245299D2B2B00B2643D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F244299D2B2B00B2643D /* Date+.swift */; };
 		2226AAC329B4E59C00F15BF0 /* RichText in Frameworks */ = {isa = PBXBuildFile; productRef = 2226AAC229B4E59C00F15BF0 /* RichText */; };
 		22390DF329B84EBD00A0D49D /* RepositoryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22390DF229B84EBD00A0D49D /* RepositoryDetailViewModel.swift */; };
+		224F610429BDEE5B00BBD300 /* ContributorListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F610329BDEE5B00BBD300 /* ContributorListSkeletonCell.swift */; };
 		225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C4299778A900786B35 /* HTTPRequestMethod.swift */; };
 		225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C5299778A900786B35 /* GitHubAPIError.swift */; };
 		225A22D1299778A900786B35 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C6299778A900786B35 /* HTTPClient.swift */; };
@@ -174,6 +175,7 @@
 		2205F242299D1B0B00B2643D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		2205F244299D2B2B00B2643D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		22390DF229B84EBD00A0D49D /* RepositoryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDetailViewModel.swift; sourceTree = "<group>"; };
+		224F610329BDEE5B00BBD300 /* ContributorListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListSkeletonCell.swift; sourceTree = "<group>"; };
 		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
 		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		225A22C6299778A900786B35 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				68E95FC62976D48C002E65AD /* StarredView.swift */,
 				6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */,
 				0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */,
+				224F610329BDEE5B00BBD300 /* ContributorListSkeletonCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -922,6 +925,7 @@
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
 				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
+				224F610429BDEE5B00BBD300 /* ContributorListSkeletonCell.swift in Sources */,
 				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
 				22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */,

@@ -59,7 +59,7 @@ extension HTTPClient {
             switch response.statusCode {
             case 200...299:
                 guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
-                    return .failure(.failToDecode)
+                    return .failure(.failToDecoding)
                 }
                 return .success(decodedResponse)
             default:
@@ -102,7 +102,7 @@ extension HTTPClient {
                 
             case 200:
                 guard let resultString = String(data: data, encoding: .utf8) else {
-                    return .failure(GitHubAPIError.unknown)
+                    return .failure(.failToEncoding)
                 }
                 return .success(resultString)
             case 204:
@@ -113,13 +113,11 @@ extension HTTPClient {
                 return .failure(.requiresAuthentification)
             case 403:
                 return .failure(.forbidden)
-                
             default:
                 return .failure(.unexpectedStatusCode)
             }
-
         } catch {
-            return .failure(.unknown)
+            return .failure(.failToRequest)
         }
     }
 }
