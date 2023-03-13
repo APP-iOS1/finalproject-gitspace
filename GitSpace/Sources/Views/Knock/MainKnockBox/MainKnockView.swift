@@ -68,41 +68,49 @@ struct MainKnockView: View {
                     
                     if userSelectedTab == Constant.KNOCK_RECEIVED {
                         Section {
-                            ForEach(
-                                $knockViewManager.receivedKnockList
-                                    .sorted {
-                                        knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
-                                    }
-                                    .filter {
-                                        knockViewManager.filterKnockList(
-                                            isReceivedKnockList: true,
-                                            isSearching: isSearching,
-                                            searchText: searchText,
-                                            userFilteredKnockState: userFilteredKnockState,
-                                            eachKnock: $0.wrappedValue
-                                        )
-                                    }, id: \.wrappedValue.id
-                            ) { $eachKnock in
-                                NavigationLink {
-                                    if eachKnock.knockStatus == Constant.KNOCK_WAITING {
-                                        ReceivedKnockDetailView(knock: $eachKnock.wrappedValue)
-                                    } else {
-                                        KnockHistoryView(
+                            if knockViewManager.receivedKnockList.isEmpty {
+                                Image("GitSpace-Knock-Empty")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 300, height: 300)
+                                    .transition(knockViewManager.leadingTransition)
+                            } else {
+                                ForEach(
+                                    $knockViewManager.receivedKnockList
+                                        .sorted {
+                                            knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
+                                        }
+                                        .filter {
+                                            knockViewManager.filterKnockList(
+                                                isReceivedKnockList: true,
+                                                isSearching: isSearching,
+                                                searchText: searchText,
+                                                userFilteredKnockState: userFilteredKnockState,
+                                                eachKnock: $0.wrappedValue
+                                            )
+                                        }, id: \.wrappedValue.id
+                                ) { $eachKnock in
+                                    NavigationLink {
+                                        if eachKnock.knockStatus == Constant.KNOCK_WAITING {
+                                            ReceivedKnockDetailView(knock: $eachKnock.wrappedValue)
+                                        } else {
+                                            KnockHistoryView(
+                                                eachKnock: $eachKnock,
+                                                userSelectedTab: $userSelectedTab
+                                            )
+                                        }
+                                    } label: {
+                                        // Label
+                                        EachKnockCell(
                                             eachKnock: $eachKnock,
-                                            userSelectedTab: $userSelectedTab
+                                            isEditing: $isEditing,
+                                            userSelectedTab: userSelectedTab
                                         )
+                                        .foregroundColor(.primary)
                                     }
-                                } label: {
-                                    // Label
-                                    EachKnockCell(
-                                        eachKnock: $eachKnock,
-                                        isEditing: $isEditing,
-                                        userSelectedTab: userSelectedTab
-                                    )
-                                    .foregroundColor(.primary)
+                                    .transition(knockViewManager.leadingTransition)
+                                    .id($eachKnock.wrappedValue.id)
                                 }
-                                .transition(knockViewManager.leadingTransition)
-                                .id($eachKnock.wrappedValue.id)
                             }
                         } header: {
                             let num = knockViewManager.getFilteredKnockCountInKnockList(
@@ -112,49 +120,59 @@ struct MainKnockView: View {
                                 userFilteredKnockState: userFilteredKnockState
                             )
                             
-                            HStack {
-                                Text(userFilteredKnockState.rawValue)
+                            if num != 0 {
+                                HStack {
+                                    Text(userFilteredKnockState.rawValue)
+                                        .bold()
+                                        .font(.headline)
+                                    
+                                    Spacer()
+                                    
+                                    Text(num.description)
                                     .bold()
-                                    .font(.headline)
-                                
-                                Spacer()
-                                
-                                Text(num.description)
-                                .bold()
+                                }
+                                .modifier(PinnedViewHeaderModifier())
                             }
-                            .modifier(PinnedViewHeaderModifier())
                         }
                     } else if userSelectedTab == Constant.KNOCK_SENT {
                         Section {
-                            ForEach($knockViewManager.sentKnockList
-                                .sorted {
-                                    knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
+                            if knockViewManager.sentKnockList.isEmpty {
+                                Image("GitSpace-Knock-Empty")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 300, height: 300)
+                                    .transition(knockViewManager.trailingTransition)
+                            } else {
+                                ForEach($knockViewManager.sentKnockList
+                                    .sorted {
+                                        knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
+                                    }
+                                    .filter {
+                                        knockViewManager.filterKnockList(
+                                            isReceivedKnockList: false,
+                                            isSearching: isSearching,
+                                            searchText: searchText,
+                                            userFilteredKnockState: userFilteredKnockState,
+                                            eachKnock: $0.wrappedValue
+                                        )
+                                    }, id: \.wrappedValue.id
+                                ) { $eachKnock in
+                                    NavigationLink {
+                                        KnockHistoryView(
+                                            eachKnock: $eachKnock,
+                                            userSelectedTab: $userSelectedTab
+                                        )
+                                    } label: {
+                                        EachKnockCell(
+                                            eachKnock: $eachKnock,
+                                            isEditing: $isEditing,
+                                            userSelectedTab: userSelectedTab
+                                        )
+                                        .foregroundColor(.primary)
+                                    }
+                                    .id($eachKnock.wrappedValue.id)
+                                    .transition(knockViewManager.trailingTransition)
                                 }
-                                .filter {
-                                    knockViewManager.filterKnockList(
-                                        isReceivedKnockList: false,
-                                        isSearching: isSearching,
-                                        searchText: searchText,
-                                        userFilteredKnockState: userFilteredKnockState,
-                                        eachKnock: $0.wrappedValue
-                                    )
-                                }, id: \.wrappedValue.id
-                            ) { $eachKnock in
-                                NavigationLink {
-                                    KnockHistoryView(
-                                        eachKnock: $eachKnock,
-                                        userSelectedTab: $userSelectedTab
-                                    )
-                                } label: {
-                                    EachKnockCell(
-                                        eachKnock: $eachKnock,
-                                        isEditing: $isEditing,
-                                        userSelectedTab: userSelectedTab
-                                    )
-                                    .foregroundColor(.primary)
-                                }
-                                .id($eachKnock.wrappedValue.id)
-                                .transition(knockViewManager.trailingTransition)
                             }
                         } header: {
                             let num = knockViewManager.getFilteredKnockCountInKnockList(
