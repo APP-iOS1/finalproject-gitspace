@@ -16,9 +16,9 @@ final class ContributorViewModel: ObservableObject {
     }
     
     @Published var contributors: [GithubUser] = []
+    @Published var isLoading: Bool = true
     var temporaryContributors: [GithubUser] = []
     
-	
 	/// FirebaseUserID로 GitHub Contributor 를 가져오는 메소드.
 	public func getContributor(with userID: Int) -> GithubUser? {
 		
@@ -33,7 +33,6 @@ final class ContributorViewModel: ObservableObject {
         let contributorsResult = await service.requestRepositoryContributors(owner: repository.owner.login, repositoryName: repository.name, page: page)
         
         switch contributorsResult {
-            
         case .success(let users):
             for user in users {
                 let result = await service.requestUserInformation(userName: user.login)
@@ -44,6 +43,7 @@ final class ContributorViewModel: ObservableObject {
                     return .failure(error)
                 }
             }
+            self.isLoading = false
             return .success(())
         case .failure(let error):
             // 컨트리뷰터 목록을 가져올 수 없다는 에러
