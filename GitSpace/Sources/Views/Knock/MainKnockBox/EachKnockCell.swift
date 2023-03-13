@@ -9,10 +9,14 @@ import SwiftUI
 
 struct EachKnockCell: View {
     @EnvironmentObject var knockViewManager: KnockViewManager
+    @EnvironmentObject var userInfoManager: UserStore
 	@Binding var eachKnock: Knock
     @Binding var isEditing: Bool
-    @Binding var userSelectedTab: String
     @State private var isChecked: Bool = false
+    @State private var targetUserInfo: UserInfo? = nil
+    
+    // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
+    @State var userSelectedTab: String
 	
 	// MARK: - body
     var body: some View {
@@ -29,18 +33,22 @@ struct EachKnockCell: View {
 						}
 				}
 				
-				Image(systemName: "person.crop.circle.fill")
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: 50, height: 50)
+                if let targetUserInfo {
+                    GithubProfileImage(
+                        urlStr: targetUserInfo.avatar_url,
+                        size: 50
+                    )
+                }
 				
 				VStack {
 					HStack {
-                        Text(userSelectedTab == Constant.KNOCK_WAITING
-                             ? eachKnock.sentUserName
-                             : eachKnock.receivedUserName
-                        )
-							.font(.body)
+                        if userSelectedTab == Constant.KNOCK_RECEIVED {
+                            Text("from: **\(eachKnock.sentUserName)**")
+                                .font(.body)
+                        } else {
+                            Text("to: **\(eachKnock.receivedUserName)**")
+                                .font(.body)
+                        }
 						
 						Spacer()
 						
@@ -86,7 +94,13 @@ struct EachKnockCell: View {
 			Divider()
 				.padding(.horizontal, 20)
 		}
-        
+        .task {
+            // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
+            if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
+            } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+            }
+        }
     }
-	
 }

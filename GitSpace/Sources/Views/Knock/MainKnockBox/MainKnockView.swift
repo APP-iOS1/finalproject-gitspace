@@ -88,7 +88,7 @@ struct MainKnockView: View {
                                         ReceivedKnockDetailView(knock: $eachKnock.wrappedValue)
                                     } else {
                                         KnockHistoryView(
-                                            eachKnock: $eachKnock.wrappedValue,
+                                            eachKnock: $eachKnock,
                                             userSelectedTab: $userSelectedTab
                                         )
                                     }
@@ -97,7 +97,7 @@ struct MainKnockView: View {
                                     EachKnockCell(
                                         eachKnock: $eachKnock,
                                         isEditing: $isEditing,
-                                        userSelectedTab: $userSelectedTab
+                                        userSelectedTab: userSelectedTab
                                     )
                                     .foregroundColor(.primary)
                                 }
@@ -142,14 +142,14 @@ struct MainKnockView: View {
                             ) { $eachKnock in
                                 NavigationLink {
                                     KnockHistoryView(
-                                        eachKnock: $eachKnock.wrappedValue,
+                                        eachKnock: $eachKnock,
                                         userSelectedTab: $userSelectedTab
                                     )
                                 } label: {
                                     EachKnockCell(
                                         eachKnock: $eachKnock,
                                         isEditing: $isEditing,
-                                        userSelectedTab: $userSelectedTab
+                                        userSelectedTab: userSelectedTab
                                     )
                                     .foregroundColor(.primary)
                                 }

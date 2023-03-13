@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct KnockHistoryView: View {
-	@State var eachKnock: Knock
+	@Binding var eachKnock: Knock
 	@Binding var userSelectedTab: String
 	@EnvironmentObject var knockViewManager: KnockViewManager
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
-	
+    @EnvironmentObject var userInfoManager: UserStore
+    @State private var targetUserInfo: UserInfo? = nil
+    
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-//			TopperProfileView()
+            if let targetUserInfo {
+                TopperProfileView(targetUserInfo: targetUserInfo)
+            }
 			
 			Text(
 				userSelectedTab == Constant.KNOCK_RECEIVED
@@ -202,6 +206,14 @@ struct KnockHistoryView: View {
 			}
 			.padding(.horizontal, 20)
 		}
+        .task {
+            // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
+            if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
+            } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+            }
+        }
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {
