@@ -24,10 +24,10 @@ struct Knock: Codable, Hashable, Identifiable {
     var acceptedDate: Timestamp? = nil
     var declinedDate: Timestamp? = nil
 	
-	var dateDiff: Int {
+	var dateDiff: String {
 		get {
-			let diff = Date.now - knockedDate.dateValue()
-			return diff.minute ?? 0
+			let diff = knockedDate.dateValue()
+			return diff.timeAgoDisplay()
 		}
 	}
 	
