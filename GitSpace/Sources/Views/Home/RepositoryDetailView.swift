@@ -36,7 +36,7 @@ struct RepositoryDetailView: View {
             
             
             // MARK: - 레포 디테일 정보 섹션
-            RepositoryInfoCard(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
+            RepositoryInfoCard(repository: repository, contributorViewModel: contributorViewModel)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
@@ -50,7 +50,6 @@ struct RepositoryDetailView: View {
             } label: {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
             }
-            
             
             RichText(html: markdownString)
                 .colorScheme(.auto)
@@ -87,14 +86,12 @@ struct RepositoryDetailView: View {
 
 struct RepositoryInfoCard: View {
 
-    @ObservedObject var contributorManager: ContributorViewModel
-    let gitHubService: GitHubService
+    @ObservedObject var contributorViewModel: ContributorViewModel
     let repository: Repository
     
-    init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
-        self.gitHubService = service
+    init(repository: Repository, contributorViewModel: ContributorViewModel) {
         self.repository = repository
-        self.contributorManager = contributorManager
+        self.contributorViewModel = contributorViewModel
     }
     
     var body: some View {
@@ -116,9 +113,15 @@ struct RepositoryInfoCard: View {
             // Contributors 유저 프로필들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(contributorManager.contributors) { user in
-                        NavigationLink(destination: UserProfileView(user: user)) {
-                            GithubProfileImage(urlStr: user.avatar_url, size: 40)
+                    if contributorViewModel.isLoading {
+                        ForEach(0..<10) { _ in
+                            ContributorListSkeletonCell()
+                        }
+                    } else {
+                        ForEach(contributorViewModel.contributors) { user in
+                            NavigationLink(destination: UserProfileView(user: user)) {
+                                GithubProfileImage(urlStr: user.avatar_url, size: 40)
+                            }
                         }
                     }
                 }
