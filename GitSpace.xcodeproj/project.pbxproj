@@ -11,6 +11,11 @@
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
+		0BDBDD3029B9DA0C00F0D3FD /* LoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDBDD2F29B9DA0C00F0D3FD /* LoadingProgressView.swift */; };
+		0BDBDD3529B9E7F000F0D3FD /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDBDD3429B9E7F000F0D3FD /* LottieView.swift */; };
+		0BDBDD3729B9F06200F0D3FD /* LoadingDots.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */; };
+		0BDBDD3A29B9F1E300F0D3FD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0BDBDD3929B9F1E300F0D3FD /* Lottie */; };
+		0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */; };
 		22016E8D299B11B000452428 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22016E8C299B11B000452428 /* UserProfileView.swift */; };
 		2201724029B9E122006C34D3 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */; };
 		2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */; };
@@ -74,8 +79,10 @@
 		348540F9299DDC5500B738F9 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F8299DDC5500B738F9 /* TermsOfServiceView.swift */; };
 		348AB2B829ACE5C200F2D465 /* ContributorListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348AB2B729ACE5C200F2D465 /* ContributorListCell.swift */; };
 		34BC35822988EABD000DCBC7 /* ReceivedKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */; };
+		34F44F2829B9E32500A5D5A1 /* ContributorListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
+		680C944529B9F2A300720718 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C944429B9F2A300720718 /* KeyChainManager.swift */; };
 		686CD902299B4952000FD0B6 /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686CD901299B4952000FD0B6 /* TagViewModel.swift */; };
 		687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */; };
 		687AE550298FA22500113ABF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE54F298FA22500113ABF /* Repository.swift */; };
@@ -164,6 +171,10 @@
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
+		0BDBDD2F29B9DA0C00F0D3FD /* LoadingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingProgressView.swift; sourceTree = "<group>"; };
+		0BDBDD3429B9E7F000F0D3FD /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoadingDots.json; sourceTree = "<group>"; };
+		0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LoadingDotsDark.json; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		22016E8C299B11B000452428 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
@@ -231,8 +242,10 @@
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BC35812988EABD000DCBC7 /* ReceivedKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedKnockView.swift; sourceTree = "<group>"; };
+		34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListSkeletonView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		680C944429B9F2A300720718 /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		686CD901299B4952000FD0B6 /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
 		687AE54D298FA1E800113ABF /* RepositoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryViewModel.swift; sourceTree = "<group>"; };
 		687AE54F298FA22500113ABF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -321,6 +334,7 @@
 				6E199B07297A161000F88569 /* FirebaseAuth in Frameworks */,
 				6E199B09297A161000F88569 /* FirebaseFirestore in Frameworks */,
 				6E199B0B297A161000F88569 /* FirebaseFirestoreSwift in Frameworks */,
+				0BDBDD3A29B9F1E300F0D3FD /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +530,8 @@
 			isa = PBXGroup;
 			children = (
 				680C199E29937CAD009AF5D5 /* SigninView.swift */,
+				0BDBDD2F29B9DA0C00F0D3FD /* LoadingProgressView.swift */,
+				0BDBDD3429B9E7F000F0D3FD /* LottieView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -567,6 +583,8 @@
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
 				70BB6CF3299B4301009948FC /* Assets.xcassets */,
 				700A11CC29973584008C94C7 /* App */,
+				0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */,
+				0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -679,6 +697,7 @@
 				2205F240299CCBF900B2643D /* FollowerViewModel.swift */,
 				2205F242299D1B0B00B2643D /* EventViewModel.swift */,
 				2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */,
+				680C944429B9F2A300720718 /* KeyChainManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -726,6 +745,7 @@
 				70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */,
 				EE0CC79A2976F2160096A873 /* ContributorListView.swift */,
 				348AB2B729ACE5C200F2D465 /* ContributorListCell.swift */,
+				34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */,
 				22DECDE52976F78C008A4405 /* ActivityView.swift */,
 				22DECDE92976FEB5008A4405 /* ActivityFeedView.swift */,
 				70F4BD102977D408005528A1 /* RepositoryDetailView.swift */,
@@ -813,6 +833,7 @@
 				6E199B0A297A161000F88569 /* FirebaseFirestoreSwift */,
 				70D0737A297D69CE0049A359 /* FirebaseMessaging */,
 				688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */,
+				0BDBDD3929B9F1E300F0D3FD /* Lottie */,
 				2226AAC229B4E59C00F15BF0 /* RichText */,
 			);
 			productName = GitSpace;
@@ -848,6 +869,7 @@
 				68D76D4D298713B900C1EA88 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6E199B05297A161000F88569 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				688772D02990BBF900B3A0CD /* XCRemoteSwiftPackageReference "swiftui-flow-layout" */,
+				0BDBDD3829B9F1E300F0D3FD /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */,
 			);
 			productRefGroup = 7068B6A529769448005D6B7B /* Products */;
@@ -866,7 +888,9 @@
 			files = (
 				70BB6CE4299B1DCD009948FC /* GoogleService-Info.plist in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
+				0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */,
 				70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */,
+				0BDBDD3729B9F06200F0D3FD /* LoadingDots.json in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -894,6 +918,7 @@
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
 				2201724029B9E122006C34D3 /* UserProfileViewModel.swift in Sources */,
+				0BDBDD3529B9E7F000F0D3FD /* LottieView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
 				22390DF329B84EBD00A0D49D /* RepositoryDetailViewModel.swift in Sources */,
 				700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */,
@@ -944,6 +969,7 @@
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
 				22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */,
+				0BDBDD3029B9DA0C00F0D3FD /* LoadingProgressView.swift in Sources */,
 				7068B6BD29769517005D6B7B /* MainHomeView.swift in Sources */,
 				6E0840152983902800F51169 /* Chat.swift in Sources */,
 				6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */,
@@ -956,6 +982,7 @@
 				7095CFA4297EB913000F2BF6 /* Color+.swift in Sources */,
 				0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */,
 				6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */,
+				680C944529B9F2A300720718 /* KeyChainManager.swift in Sources */,
 				347146022990BC5200ED990C /* TopperProfileView.swift in Sources */,
 				6E000CB7298A67E800446C0D /* GithubProfileImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
@@ -1007,6 +1034,7 @@
 				6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */,
 				348AB2B829ACE5C200F2D465 /* ContributorListCell.swift in Sources */,
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
+				34F44F2829B9E32500A5D5A1 /* ContributorListSkeletonView.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
 				0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
@@ -1157,7 +1185,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = QY2NR7SV42;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Resources/App/plist/Info.plist;
@@ -1195,7 +1223,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitSpace/Preview Content\"";
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = QY2NR7SV42;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitSpace/Resources/App/plist/Info.plist;
@@ -1247,6 +1275,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0BDBDD3829B9F1E300F0D3FD /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/NuPlay/RichText";
@@ -1282,6 +1318,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0BDBDD3929B9F1E300F0D3FD /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BDBDD3829B9F1E300F0D3FD /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		2226AAC229B4E59C00F15BF0 /* RichText */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2226AAC129B4E59C00F15BF0 /* XCRemoteSwiftPackageReference "RichText" */;
