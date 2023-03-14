@@ -1,5 +1,5 @@
 //
-//  UserProfileView.swift
+//  TargetUserProfileView.swift
 //  GitSpace
 //
 //  Created by 박제균 on 2023/02/14.
@@ -63,13 +63,30 @@ struct TargetUserProfileView: View {
                     EmptyView()
                 }
                 
+                if let company =  user.company {
+                    HStack {
+                        Image(systemName: "building.2")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.gsGray2)
+                        
+                        GSText.CustomTextView(style: .captionPrimary1, string: company)
+                    }
+                } else {
+                    EmptyView()
+                }
+                
                 if let location = user.location {
                     HStack { // MARK: - 위치 이미지, 국가 및 위치
                         Image(systemName: "mappin.and.ellipse")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
                             .foregroundColor(.gsGray2)
-                        GSText.CustomTextView(style: .description, string: location)
+                        
+                        GSText.CustomTextView(style: .captionPrimary1, string: location)
                     }
-                    //                        .foregroundColor(Color(.systemGray))
                 } else {
                     EmptyView()
                 }
@@ -77,10 +94,14 @@ struct TargetUserProfileView: View {
                 if let blogURLString = user.blog, blogURLString != "" {
                     HStack { // MARK: - 링크 이미지, 블로그 및 기타 링크
                         Image(systemName: "link")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15, height: 15)
                             .foregroundColor(.gsGray2)
+                        
                         if let blogURL = URL(string: blogURLString) {
                             Link(destination: blogURL) {
-                                GSText.CustomTextView(style: .body1, string: blogURLString)
+                                GSText.CustomTextView(style: .captionPrimary1, string: blogURLString)
                             }
                         }
                     }
@@ -88,30 +109,35 @@ struct TargetUserProfileView: View {
                     EmptyView()
                 }
                 
-                HStack { // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+                // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
+                HStack {
                     Image(systemName: "person")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
                     
                     NavigationLink {
                         Text("This Page Will Shows Followers List.")
                     } label: {
                         HStack {
-                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.followers))
+                            GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.followers))
                             GSText.CustomTextView(style: .description, string: "followers")
                                 .padding(.leading, -2)
                         }
                     }
-                    .padding(.trailing, 5)
+//                    .padding(.trailing, 5)
                     
-                    Text("|")
-                        .foregroundColor(.gsGray3)
-                        .padding(.trailing, 5)
+                    Text("･")
+                        .foregroundColor(.gsGray2)
+                        .padding(.leading, -3)
+                        .padding(.trailing, -9)
                     
                     NavigationLink {
                         Text("This Page Will Shows Following List.")
                     } label: {
                         HStack {
-                            GSText.CustomTextView(style: .title3, string: handleCountUnit(countInfo: user.following))
+                            GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.following))
                             GSText.CustomTextView(style: .description, string: "following")
                                 .padding(.leading, -2)
                         }
@@ -121,7 +147,7 @@ struct TargetUserProfileView: View {
                 Divider()
                     .frame(height: 1)
                     .overlay(Color.gsGray3)
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 10)
                 
                 // 내 프로필이 아니라 타인의 프로필에 뜨는 버튼
                 HStack { // MARK: - follow, knock 버튼을 위한 stack
@@ -182,8 +208,6 @@ struct TargetUserProfileView: View {
                             }
                     }
                 }
-                
-                Spacer()
             }
             .padding(.horizontal, 20)
         }
@@ -220,9 +244,9 @@ struct TargetUserProfileView: View {
                     // repository의 markdown을 요청 실패
                 case .failure:
                     markdownString = "Fail to load README.md"
-                    
                 }
             }
         }
-    }
+        
+    } //  body
 }
