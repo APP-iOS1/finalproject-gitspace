@@ -5,8 +5,6 @@
 //  Created by Celan on 2023/03/04.
 //
 
-// !!!: - DEPRECATED
-
 import SwiftUI
 
 struct MainKnockView: View {
@@ -78,7 +76,10 @@ struct MainKnockView: View {
                                 ForEach(
                                     $knockViewManager.receivedKnockList
                                         .sorted {
-                                            knockViewManager.sortedByDateValue(lhs: $0.wrappedValue, rhs: $1.wrappedValue)
+                                            knockViewManager.sortedByDateValue(
+                                                lhs: $0.wrappedValue,
+                                                rhs: $1.wrappedValue
+                                            )
                                         }
                                         .filter {
                                             knockViewManager.filterKnockList(
@@ -88,11 +89,14 @@ struct MainKnockView: View {
                                                 userFilteredKnockState: userFilteredKnockState,
                                                 eachKnock: $0.wrappedValue
                                             )
-                                        }, id: \.wrappedValue.id
+                                        },
+                                    id: \.wrappedValue.id
                                 ) { $eachKnock in
                                     NavigationLink {
                                         if eachKnock.knockStatus == Constant.KNOCK_WAITING {
-                                            ReceivedKnockDetailView(knock: $eachKnock.wrappedValue)
+                                            ReceivedKnockDetailView(
+                                                knock: $eachKnock.wrappedValue
+                                            )
                                         } else {
                                             KnockHistoryView(
                                                 eachKnock: $eachKnock,
