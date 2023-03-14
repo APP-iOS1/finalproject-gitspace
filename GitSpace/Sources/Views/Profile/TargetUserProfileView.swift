@@ -10,23 +10,25 @@ import RichText
 
 // MARK: - gitHubUser 필요
 
-struct UserProfileView: View {
+struct TargetUserProfileView: View {
     
     let user: GithubUser
     let gitHubService: GitHubService
     
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
-    
     @State private var markdownString = ""
+    //follow/unfollow 버튼 lable(누를 시 텍스트 변환을 위해 state 변수로 선언)
+    @State var followButtonLable: String = "+ Follow"
+    //knock 버튼 눌렀을 때 sheet view 띄우는 것에 대한 Bool state var.
+    @State var showKnockSheet: Bool = false
     
     init(service: GitHubService, user: GithubUser) {
         self.gitHubService = service
         self.user = user
     }
     
-    
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 8) {
                 
                 HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
@@ -121,6 +123,40 @@ struct UserProfileView: View {
                     .overlay(Color.gsGray3)
                     .padding(.vertical, 20)
                 
+                // 내 프로필이 아니라 타인의 프로필에 뜨는 버튼
+                HStack { // MARK: - follow, knock 버튼을 위한 stack
+                    
+                    // 누르면 follow, unfollow로 전환
+                    GSButton.CustomButtonView(
+                        style: .secondary(isDisabled: false)
+                    ) {
+                        withAnimation {
+                            followButtonLable == "Unfollow" ? (followButtonLable = "+ Follow") : (followButtonLable = "Unfollow")
+                        }
+                    } label: {
+                        GSText.CustomTextView(style: .title3, string: self.followButtonLable)
+                            .frame(maxWidth: .infinity)
+                    }
+                    
+                    Spacer()
+                        .frame(width: 10)
+                    
+                    // 누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
+                    GSButton.CustomButtonView(
+                        style: .secondary(isDisabled: false)
+                    ) {
+                        withAnimation {
+                            showKnockSheet.toggle()
+                        }
+                    } label: {
+                        GSText.CustomTextView(style: .title3, string: "Knock")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .sheet(isPresented: $showKnockSheet) {
+    //                    SendKnockView()
+                    }
+                }
+                .padding(.vertical, 20)
                 
                 // MARK: - 유저의 README
                 
