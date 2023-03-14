@@ -58,6 +58,14 @@ struct ChatListSection: View {
             }
         }
         .padding(.horizontal, 20)
+        .task {
+            if !chatStore.isDoneFetch {
+                chatStore.addListener()
+                await chatStore.fetchChats()
+            }
+            print(#function, "++++++", Utility.loginUserID)
+            await userStore.requestUser(userID: Utility.loginUserID)
+        }
 //        .overlay {
 //            /* FIXME: push 탭을 통해서 진입하는 ChatRoomView 로직에서 쥬니와 논의 필요 By. 태영 23.02.26 [논의 완료]
 //             - targetUserName일 때 ""를 할당했었는데, 채팅방 안에서 상대방 이름을 표시하는데 문제가 없는지?
@@ -74,14 +82,7 @@ struct ChatListSection: View {
 //                    }
 //            }
 //        }
-        .task {
-            if !chatStore.isDoneFetch {
-                chatStore.addListener()
-                await chatStore.fetchChats()
-            }
-			print(#function, "++++++", Utility.loginUserID)
-            await userStore.requestUser(userID: Utility.loginUserID)
-        }
+        
 //        .task {
 //            // !!!: NAVIGATE TO PUSHED CHAT
 //            if let chatID,
