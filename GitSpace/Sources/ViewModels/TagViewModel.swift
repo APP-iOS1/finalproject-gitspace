@@ -23,8 +23,6 @@ final class TagViewModel: ObservableObject {
     func requestTags() async -> Void {
         do {
             let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .getDocuments()
@@ -46,8 +44,6 @@ final class TagViewModel: ObservableObject {
         do {
             let tid = UUID().uuidString
             try await database.collection(const.COLLECTION_USER_INFO)
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tid)
@@ -66,8 +62,6 @@ final class TagViewModel: ObservableObject {
     func deleteTag(tag: Tag) async -> Void {
         do {
             try await database.collection(const.COLLECTION_USER_INFO)
-//                .document("50159740")
-            // FIXME: 현재 유저 id로 변경
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tag.id)
@@ -115,8 +109,6 @@ final class TagViewModel: ObservableObject {
             for tag in tags {
                 print(tag)
                 try await database.collection(const.COLLECTION_USER_INFO)
-//                    .document("50159740")
-                // FIXME: 현재 유저 id로 변경
                     .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
                     .document(tag.id)

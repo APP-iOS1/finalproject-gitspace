@@ -137,7 +137,6 @@ struct AddTagSheetView: View {
                                 .tag("\(tag.tagName)")
                                 .contextMenu {
                                     Button {
-                                        print("삭제")
                                         Task {
                                             await tagViewModel.deleteTag(tag: tag)
                                             tagViewModel.tags.remove(at: index)
