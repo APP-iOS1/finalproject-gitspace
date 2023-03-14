@@ -393,7 +393,7 @@ struct SendKnockView: View {
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
                     if let sendKnockToGitHubUser {
-                        UserProfileView(service: GitHubService(), user: sendKnockToGitHubUser)
+                        TargetUserProfileView(service: GitHubService(), user: sendKnockToGitHubUser)
                     } else {
                         GSText.CustomTextView(style: .body1, string: "Cannot Find User")
                     }
