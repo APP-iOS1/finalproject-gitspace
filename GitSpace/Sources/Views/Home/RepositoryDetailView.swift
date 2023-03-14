@@ -25,17 +25,6 @@ struct RepositoryDetailView: View {
     var body: some View {
         
         ScrollView(showsIndicators: false) {
-//
-//            HStack {
-//                Image("GuideImage")
-//                // FIXME: - star를 누른 사람의 이름 주입
-//                Text("Check out what **Random Brazil Guy** just starred!")
-//                    .font(.footnote)
-//                    .foregroundColor(.secondary)
-//                Spacer()
-//            }
-//            .padding(.bottom, 10)
-            
             
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
@@ -157,7 +146,7 @@ struct RepositoryInfoCard: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(contributorManager.contributors) { user in
-                        NavigationLink(destination: UserProfileView(service: gitHubService, user: user)) {
+                        NavigationLink(destination: TargetUserProfileView(service: gitHubService, user: user)) {
                             GithubProfileImage(urlStr: user.avatar_url, size: 40)
                         }
                     }
