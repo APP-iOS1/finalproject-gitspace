@@ -23,8 +23,6 @@ final class TagViewModel: ObservableObject {
     func requestTags() async -> Void {
         do {
             let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .getDocuments()
@@ -42,12 +40,10 @@ final class TagViewModel: ObservableObject {
     
     // MARK: Register New Custom Tag
     /// 새로운 사용자 정의 태그를 등록합니다.
-    func registerTag(tagName: String) async -> Void {
+    func registerTag(tagName: String) async -> Tag? {
         do {
             let tid = UUID().uuidString
             try await database.collection(const.COLLECTION_USER_INFO)
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tid)
@@ -56,8 +52,10 @@ final class TagViewModel: ObservableObject {
                     "tagName": tagName,
                     "repositories": []
                 ])
+            return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
             print("Register Tag Error")
+            return nil
         }
     }
     
@@ -66,8 +64,6 @@ final class TagViewModel: ObservableObject {
     func deleteTag(tag: Tag) async -> Void {
         do {
             try await database.collection(const.COLLECTION_USER_INFO)
-//                .document("50159740")
-            // FIXME: 현재 유저 id로 변경
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tag.id)
@@ -113,10 +109,7 @@ final class TagViewModel: ObservableObject {
     func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
         do {
             for tag in tags {
-                print(tag)
                 try await database.collection(const.COLLECTION_USER_INFO)
-//                    .document("50159740")
-                // FIXME: 현재 유저 id로 변경
                     .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
                     .document(tag.id)
