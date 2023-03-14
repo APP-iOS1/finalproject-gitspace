@@ -12,8 +12,8 @@ struct EachKnockCell: View {
     @EnvironmentObject var userInfoManager: UserStore
 	@Binding var eachKnock: Knock
     @Binding var isEditing: Bool
-    @State private var isChecked: Bool = false
     @State private var targetUserInfo: UserInfo? = nil
+    @State private var isChecked: Bool = false
     
     // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
     @State var userSelectedTab: String
@@ -33,12 +33,10 @@ struct EachKnockCell: View {
 						}
 				}
 				
-                if let targetUserInfo {
-                    GithubProfileImage(
-                        urlStr: targetUserInfo.avatar_url,
-                        size: 50
-                    )
-                }
+                GithubProfileImage(
+                    urlStr: targetUserInfo?.avatar_url ?? "",
+                    size: 50
+                )
 				
 				VStack {
 					HStack {
