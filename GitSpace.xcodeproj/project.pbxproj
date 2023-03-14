@@ -107,6 +107,7 @@
 		6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */; };
 		6E128D6529A3BDFF0004AEC8 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */; };
 		6E128D6729A498A50004AEC8 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E128D6629A498A50004AEC8 /* Image+.swift */; };
+		6E19F1DB29C0CCDC0046BC31 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6E19F1DA29C0CCDC0046BC31 /* Secrets.xcconfig */; };
 		6E1D100A2994D21700D43AB9 /* AddChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D10092994D21700D43AB9 /* AddChatView.swift */; };
 		6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6032991EF380043A8BB /* ChatListCell.swift */; };
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
@@ -157,7 +158,6 @@
 		7E1474C529C0C62800D2E011 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7E1474C429C0C62800D2E011 /* FirebaseFirestoreSwift */; };
 		7E1474C729C0C62800D2E011 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7E1474C629C0C62800D2E011 /* FirebaseMessaging */; };
 		7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */; };
-		7E7D612129B6F0C7005963F7 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */; };
 		7E94D4EF29B2F517006A6B34 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */; };
 		7EC80F4629B789C400D4D870 /* PushNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
@@ -268,6 +268,7 @@
 		6E0F9594298CF5F8000FE529 /* GSTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditor.swift; sourceTree = "<group>"; };
 		6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		6E128D6629A498A50004AEC8 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
+		6E19F1DA29C0CCDC0046BC31 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		6E1D10092994D21700D43AB9 /* AddChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatView.swift; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
@@ -311,7 +312,6 @@
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
 		7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceivedKnockDetailView.swift; sourceTree = "<group>"; };
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
 		7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationProtocol.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
@@ -550,7 +550,7 @@
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */,
+				6E19F1DA29C0CCDC0046BC31 /* Secrets.xcconfig */,
 				700A11CD299735C1008C94C7 /* plist */,
 			);
 			path = App;
@@ -891,8 +891,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E19F1DB29C0CCDC0046BC31 /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
-				7E7D612129B6F0C7005963F7 /* Secrets.xcconfig in Resources */,
 				7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */,
 				0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */,
 				70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */,
@@ -1068,7 +1068,6 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1130,7 +1129,6 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1186,7 +1184,6 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1225,7 +1222,6 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E7D612029B6F0C7005963F7 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
