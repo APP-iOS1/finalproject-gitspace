@@ -109,7 +109,6 @@ final class TagViewModel: ObservableObject {
     func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
         do {
             for tag in tags {
-                print(tag)
                 try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
