@@ -50,6 +50,7 @@ struct RepositoryDetailView: View {
             } label: {
                 GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
             }
+            .disabled(contributorViewModel.isLoading)
             
             RichText(html: markdownString)
                 .colorScheme(.auto)
