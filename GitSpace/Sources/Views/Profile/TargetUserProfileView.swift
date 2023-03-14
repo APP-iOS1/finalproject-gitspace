@@ -182,7 +182,7 @@ struct TargetUserProfileView: View {
     //                    SendKnockView()
                     }
                 }
-                .padding(.vertical, 20)
+                .padding(.vertical, 10)
                 
                 // MARK: - 유저의 README
                 
