@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
     let tabBarRouter: GSTabBarRouter
     
     // MARK: - 한호

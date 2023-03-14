@@ -33,7 +33,6 @@ struct ContentView: View {
              뷰의 이동은 탭으로 조정한다.
              */
             NavigationView {
-                
                 if UIScreen().isWiderThan375pt {
                     VStack(spacing: -10) {
                         showCurrentTabPage()
@@ -86,7 +85,7 @@ struct ContentView: View {
 			case .chats:
 				MainChatView(chatID: pushNotificationManager.viewBuildID ?? chatStore.newChat.id)
 			case .knocks:
-				MainKnockView(knockID: pushNotificationManager.viewBuildID ?? "DOCPATH")
+                MainKnockView()
 			case .profile:
 				MainProfileView()
 			}

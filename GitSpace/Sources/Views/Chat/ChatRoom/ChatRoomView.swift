@@ -125,7 +125,7 @@ struct ChatRoomView: View {
                 messageStore.removeListener()
             }
             
-            tabBarRouter.navigateToChat = false
+//            tabBarRouter.navigateToChat = false
         }
     }
     

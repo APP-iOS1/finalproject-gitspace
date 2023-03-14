@@ -78,7 +78,7 @@ final class UserStore: ObservableObject {
 		let doc = db.collection("UserInfo").document(userID)
 		
 		do {
-			print(userID)
+            print(#file, #function, "USERID:", userID)
 			let userInfo = try await doc.getDocument(as: UserInfo.self)
 			return userInfo
 		} catch {
