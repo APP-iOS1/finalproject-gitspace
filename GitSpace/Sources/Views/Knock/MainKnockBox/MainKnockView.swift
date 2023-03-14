@@ -95,7 +95,7 @@ struct MainKnockView: View {
                                     NavigationLink {
                                         if eachKnock.knockStatus == Constant.KNOCK_WAITING {
                                             ReceivedKnockDetailView(
-                                                knock: $eachKnock.wrappedValue
+                                                knock: $eachKnock
                                             )
                                         } else {
                                             KnockHistoryView(
