@@ -40,7 +40,7 @@ final class TagViewModel: ObservableObject {
     
     // MARK: Register New Custom Tag
     /// 새로운 사용자 정의 태그를 등록합니다.
-    func registerTag(tagName: String) async -> Void {
+    func registerTag(tagName: String) async -> Tag? {
         do {
             let tid = UUID().uuidString
             try await database.collection(const.COLLECTION_USER_INFO)
@@ -52,8 +52,10 @@ final class TagViewModel: ObservableObject {
                     "tagName": tagName,
                     "repositories": []
                 ])
+            return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
             print("Register Tag Error")
+            return nil
         }
     }
     

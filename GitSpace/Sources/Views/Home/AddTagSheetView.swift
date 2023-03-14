@@ -46,9 +46,12 @@ struct AddTagSheetView: View {
     func addNewTag() {
         if shouldBlankTag && shouldExistTag {
             Task {
-                await tagViewModel.registerTag(tagName: trimmedTagInput)
+                guard let newTag = await tagViewModel.registerTag(tagName: trimmedTagInput) else {
+                    print(#function, "Failed Add New Tag.")
+                    return
+                }
                 withAnimation {
-                    tagViewModel.tags.append( Tag(tagName: trimmedTagInput, repositories: []) )
+                    tagViewModel.tags.append( newTag )
                 }
                 tagInput = ""
             }
