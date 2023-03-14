@@ -121,6 +121,11 @@ struct ReceivedKnockDetailView: View {
                             await knockViewManager.updateKnockOnFirestore(
                                 knock: knock, knockStatus: Constant.KNOCK_ACCEPTED
                             )
+                            
+                            let newChat: Chat = makeNewChat()
+                            await chatStore.addChat(newChat)
+                            
+                            tabBarRouter.currentPage = .chats
                         }
                     } label: {
                         Text("Accept")
