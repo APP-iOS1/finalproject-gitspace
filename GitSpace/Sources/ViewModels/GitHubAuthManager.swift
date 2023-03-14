@@ -20,23 +20,24 @@ enum GithubURL: String {
 
 // FIXME: AccessToken은 안전하게 보관할 것.
 /// keychain에 저장하도록 하자.
-var tempoaryAccessToken: String?
+//var tempoaryAccessToken: String?
 
 final class GitHubAuthManager: ObservableObject {
-    
     @Published var state: SignInState = .signedOut
-    @Published var githubAcessToken: String?
+//    @Published var githubAcessToken: String?
     
     //    var result: GitHubUser? = nil
     
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     var authentification = Auth.auth()
-    let database = Firestore.firestore()
     var provider = OAuthProvider(providerID: "github.com")
-    private var githubCredential: OAuthCredential? = nil
+    private var authCredential: AuthCredential? = nil
     var authenticatedUser: GithubUser?
     
     enum SignInState {
         case signedIn
+        case pending
         case signedOut
     }
     
@@ -65,21 +66,26 @@ final class GitHubAuthManager: ObservableObject {
     /// Authenticate User.
     /// Authenticate with Firebase using the OAuth provider object.
     /// 사용자의 깃허브 로그인을 진행합니다.
-    func signIn() {
+    func signin() {
         provider.getCredentialWith(nil) { credential, error in
             if let error {
                 // Handle error
-                print("here")
                 print(error)
             }
             
             if let credential {
+                self.state = .pending
                 self.authentification.signIn(with: credential) { authResult, error in
                     if error != nil {
                         print("SignIn Error: \(String(describing: error?.localizedDescription))")
                     }
                     // User is signed in.
-                    guard let oauthCredential = authResult?.credential as? OAuthCredential else { return }
+                    guard let oauthCredential = authResult?.credential as? OAuthCredential else {
+                        return
+                    }
+                    // 아래 guard문을 삭제하지 않으면 로그인 시 무한 로딩에 걸림.
+//                    guard KeyChainManager.create(authCredential: credential) == true else { return }
+//                    print(KeyChainManager.read())
                     
                     // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
@@ -91,9 +97,7 @@ final class GitHubAuthManager: ObservableObject {
                     UserDefaults.standard.set(at, forKey: "AT")
                     
                     // FIXME: Keychain에 accesstoken 저장하기
-                    print(oauthCredential.accessToken!)
-                    self.githubAcessToken = oauthCredential.accessToken
-                    tempoaryAccessToken = oauthCredential.accessToken
+//                    self.githubAcessToken = oauthCredential.accessToken
                     
                     let session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
@@ -139,7 +143,7 @@ final class GitHubAuthManager: ObservableObject {
         if let firebaseAuthUID = authentification.currentUser?.uid {
             // 현재 Auth 로그인 uid로 UserInfo에 접근
             database
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(firebaseAuthUID)
                 .getDocument { result, error in
                     // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
@@ -172,7 +176,7 @@ final class GitHubAuthManager: ObservableObject {
                         if existGithubUser != githubUser {
                             let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
                             try self.database
-                                .collection("UserInfo")
+                                .collection(self.const.COLLECTION_USER_INFO)
                                 .document(existUser.id)
                                 .setData(from: updatedUserInfo)
                         }
@@ -239,7 +243,7 @@ final class GitHubAuthManager: ObservableObject {
     private func addUser(_ user: UserInfo) {
         do {
             try database
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(user.id)
                 .setData(from: user.self)
         } catch {
@@ -274,7 +278,7 @@ final class GitHubAuthManager: ObservableObject {
     // MARK: - Delete User at Firestore
     func deleteCurrentUser() async -> Void {
         do {
-            try await database.collection("UserInfo")
+            try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .delete()
         } catch let deleteUserError as NSError {
@@ -285,8 +289,8 @@ final class GitHubAuthManager: ObservableObject {
     // MARK: - Link Existing User
     /// 이미 Firebase Authenticate에 존재하는 유저를 연결합니다.
     func linkGitHubProviderToExistingUser() {
-        if let githubCredential {
-            self.authentification.currentUser?.link(with: githubCredential) { authResult, error in
+        if let authCredential {
+            self.authentification.currentUser?.link(with: authCredential) { authResult, error in
                 if error != nil {
                     // Handle Error.
                 }
@@ -300,23 +304,54 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
+    // MARK: Reqeust Firebase Credential
+    ///
+    func requestCredential() async -> Void {
+        let credential = await withCheckedContinuation { continuation in
+            provider.getCredentialWith(nil) { credential, error in
+                continuation.resume(returning: credential)
+            }
+        }
+        authCredential = credential
+    }
+    
     // MARK: - Reauthenticate
     /// Reauthenticate User.
-    func reauthenticateUser() {
-        if let githubCredential {
-            self.authentification.currentUser?.reauthenticate(with: githubCredential) { authResult, error in
-                if error != nil {
-                    // Handle error.
-                }
-                // User is re-authenticated with fresh tokens minted and
-                // should be able to perform sensitive operations like account
-                // deletion and email or password update.
-                // IdP data available in result.additionalUserInfo.profile.
-                // Additional OAuth access token is can also be retrieved by:
-                // (authResult.credential as? OAuthCredential)?.accessToken
-                // GitHub OAuth ID token can be retrieved by calling:
-                // (authResult.credential as? OAuthCredential)?.idToken
+    func reauthenticateUser() async -> Void {
+        
+        // 자동 로그인 시 로그인뷰가 아닌 로딩뷰를 띄워주기 위한 상태 변경 (written by 예슬)
+        DispatchQueue.main.async {
+            self.state = .pending
+        }
+        
+        guard let githubAccessToken = UserDefaults.standard.string(forKey: "AT") else {
+            fatalError("Failed To Get Access Token.")
+        }
+        let authCredential = GitHubAuthProvider.credential(withToken: githubAccessToken)
+        await withCheckedContinuation({ continuation in
+            self.authentification.currentUser?.reauthenticate(with: authCredential) { authResult, error in
+                continuation.resume()
             }
+        })
+        // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
+        guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
+            return
+        }
+        let session = URLSession(configuration: .default)
+        var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
+        githubRequest.httpMethod = "GET"
+        githubRequest.addValue("Bearer \(githubAccessToken)", forHTTPHeaderField: "Authorization")
+        do {
+            let (data, _) = try await session.data(for: githubRequest)
+            self.authenticatedUser = DecodingManager.decodeData(data, GithubUser.self)
+            guard self.authenticatedUser != nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.state = .signedIn
+            }
+        } catch {
+            print("")
         }
     }
     

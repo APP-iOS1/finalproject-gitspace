@@ -82,6 +82,15 @@
       }
     },
     {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "8bf6161d81354b5fa231d0340f4e819f26b0153f"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -100,12 +109,12 @@
       }
     },
     {
-      "identity" : "swift-markdown-ui",
+      "identity" : "richtext",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
+      "location" : "https://github.com/NuPlay/RichText",
       "state" : {
-        "revision" : "5e15c0d75e42b9840301503e0df681027d4bea05",
-        "version" : "2.0.1"
+        "revision" : "b104bcf390c645dba74597d69f34205c57638ee8",
+        "version" : "2.2.0"
       }
     },
     {

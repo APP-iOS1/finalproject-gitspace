@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 // MARK: -View : 채팅방 뷰
 struct ChatRoomView: View {
     
@@ -14,11 +16,12 @@ struct ChatRoomView: View {
         case addContent
         case zeroMessageAfterDeleteLastMessage
         case remainMessageAfterDeleteLastMessage
-        case enterChatRoom
+        case enterOrQuitChatRoom
     }
 
     let chat: Chat
     let targetUserInfo: UserInfo
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
@@ -28,8 +31,8 @@ struct ChatRoomView: View {
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     
+    
     var body: some View {
-        
         VStack {
             // 채팅 메세지 스크롤 뷰
             ScrollViewReader { proxy in
@@ -57,16 +60,21 @@ struct ChatRoomView: View {
                 .onTapGesture {
                     self.endTextEditing()
                 }
+                // MEMO : 채팅방 진입 시 수행해야하는 스크롤링이지만, proxy 값이 필요하기 때문에 task에서 unreadMessageIndex 변경 -> ScrollView Reader 내부 onChange에서 작업
                 .onChange(of: unreadMessageIndex) { state in
-                    Task {
-                        if await getUnreadCount() == 0 {
-                            proxy.scrollTo("bottom", anchor: .bottomTrailing)
-                        } else {
-                            proxy.scrollTo("Start", anchor: .top)
+                    DispatchQueue.main.async {
+                        Task {
+                            if await getUnreadCount() == 0 {
+                                proxy.scrollTo("bottom", anchor: .bottomTrailing)
+                            } else {
+                                proxy.scrollTo("Start", anchor: .top)
+                            }
                         }
                     }
                 }
+                // 메세지를 전송했을 때 or 받았을 때 스크롤을 최하단으로 이동
                 .onChange(of: messageStore.isMessageAdded) { state in
+                    // 채팅방 진입 시 진행하는 첫 Request가 수행된 이후에만 반응하도록 하는 조건
                     if messageStore.isFetchMessagesDone {
                         proxy.scrollTo("bottom", anchor: .bottomTrailing)
                     }
@@ -78,8 +86,7 @@ struct ChatRoomView: View {
             
             // 메세지 입력 필드
             typeContentField
-                .padding(.vertical, -3)
-                .padding(.horizontal, 15)
+                
         }
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
@@ -89,7 +96,7 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
-            /* 시연 영상 제외
+            
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -98,17 +105,20 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
-             */
         }
         .task {
+            // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
+            let unreadMessageCount: Int = await getUnreadCount()
+            // 메세지 리스너 실행, 첫 Request가 이루어지기 전이기 때문에 .added에서 메세지를 추가하지 않음
             messageStore.addListener(chatID: chat.id)
-            await messageStore.fetchMessages(chatID: chat.id)
-            unreadMessageIndex = await messageStore.messages.count - getUnreadCount()
-            async let enteredChat = makeChat(makeChatCase: .enterChatRoom,
-                                             deletedMessage: nil)
-            await chatStore.updateChat(enteredChat)
-            
+            // 해당 채팅방의 메세지를 날짜순으로 정렬해서 Request
+            await messageStore.fetchMessages(chatID: chat.id, unreadMessageCount: unreadMessageCount)
+            // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
+            unreadMessageIndex = messageStore.messages.count - unreadMessageCount
+            // 읽지 않은 메세지 갯수를 0으로 초기화
+            await clearUnreadMessageCount()
         }
+        // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
@@ -116,12 +126,17 @@ struct ChatRoomView: View {
                 }
             }
         }
+        .onChange(of: scenePhase) { currentPhase in
+            // FIXME: inActive 혹은 backGround에 가는 것을 채팅방을 나가는것처럼 처리해줄지, 돌아올 때 채팅방에 입장한 것처럼 처리해줄지 고려 필요. By 태영
+            if currentPhase == .inactive {
+                Task {
+                    await clearUnreadMessageCount()
+                }
+            }
+        }
         .onDisappear {
             Task {
-                // FIXME: 채팅방에 있는 상태에서 신규 메세지를 받았을 때, ChatList에서 이미 읽어진 것으로 처리하기 위한 임시 코드 -> 최종적으로는 Message Listener에 구현해서 실제로 채팅방 안에서 메세지를 받을 때를 인식해야 함 By. 태영
-                let exitChat = await makeChat(makeChatCase: .enterChatRoom,
-                                              deletedMessage: nil)
-                await chatStore.updateChat(exitChat)
+                await clearUnreadMessageCount()
                 messageStore.removeListener()
             }
             
@@ -143,7 +158,7 @@ struct ChatRoomView: View {
     // MARK: Section : 메세지 입력
     private var typeContentField : some View {
         HStack(spacing: 10) {
-            /* 시연 영상 제외
+            
             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
@@ -152,6 +167,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 30)
             }
+            
             Button {
                 print("레포지토리 선택 버튼 탭")
             } label: {
@@ -160,7 +176,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
-            */
+            
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
@@ -169,9 +185,11 @@ struct ChatRoomView: View {
                 .disabled(contentField.isEmpty)
         }
         .padding(.bottom, 15)
+        .padding(.vertical, -3)
+        .padding(.horizontal, 15)
         .foregroundColor(.primary)
     }
-    
+
     // MARK: Button : 메세지 추가(보내기)
     private var addContentButton : some View {
         Button {
@@ -195,31 +213,35 @@ struct ChatRoomView: View {
         }
     }
     
+    
+    
     // MARK: -Methods
-    private func getGithubProfileImageURL(targetUserName: String) async -> String {
-        let githubService = GitHubService()
-        let githubUserResult = await githubService.requestUserInformation(userName: targetUserName)
-        switch githubUserResult {
-        case .success(let githubUser):
-            return githubUser.avatar_url
-        case .failure(let error):
-            print(error)
-        }
-        return ""
+    // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
+    private func clearUnreadMessageCount() async {
+        // 채팅방에 진입한 시점까지 받은 메세지를 모두 읽음 처리한 Chat을 새로 생성 (unreadCount 딕셔너리를 0으로 초기화)
+        async let enterOrQuitChat = makeChatInstance(makeChatCase: .enterOrQuitChatRoom,
+                                      deletedMessage: nil,
+                                      currentContent: nil)
+        // 0으로 초기화된 Chat을 DB에 업데이트
+        await chatStore.updateChat(enterOrQuitChat)
     }
     
     // MARK: Method - 메세지 전송에 대한 DB Create와 Update를 처리하는 함수
     private func addContent() async {
         // MARK: Logic : 메세지 전송 버튼 입력 시 일련의 로직 수행
+        /// 임시 변수에 현재 메세지 입력 내용 저장
+        /// 메세지 입력 필드 공백으로 초기화
         /// 새 메세지 셀 생성
         /// 채팅방 입장 시 가져온 Chat으로 새 Chat 생성 + 이번에 입력한 메세지 내용과 입력 시간으로 업데이트
         /// DB 메세지 Collection에 추가, Chat Collection에서 기존 Chat 업데이트
-        /// 메세지 입력 필드 공백으로 초기화
-        let newMessage = makeMessage()
-        let newChat = await makeChat(makeChatCase: .addContent, deletedMessage: nil)
+        let tempContent = contentField
+        contentField = ""
+        let newMessage = makeMessage(currentContent: tempContent)
+        let newChat = await makeChatInstance(makeChatCase: .addContent,
+                                     deletedMessage: nil,
+                                     currentContent: tempContent)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
-        contentField = ""
     }
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수
@@ -227,16 +249,17 @@ struct ChatRoomView: View {
         let newChat: Chat
         // 삭제 메세지가 유일한 메세지였으면, Chat의 lastContent를 노크 메세지로 변경
         if messageStore.messages.count < 2 {
-            newChat = await makeChat(makeChatCase: .zeroMessageAfterDeleteLastMessage,
-                                         deletedMessage: deletedMessage)
+            newChat = await makeChatInstance(makeChatCase: .zeroMessageAfterDeleteLastMessage,
+                                     deletedMessage: deletedMessage,
+                                     currentContent: nil)
         }
         // 삭제 후에도 메세지가 있으면, 마지막 메세지 직전 메세지의 내용을 Chat의 lastContent로 업데이트
         else {
-            newChat = await makeChat(makeChatCase: .remainMessageAfterDeleteLastMessage,
-                                         deletedMessage: deletedMessage)
+            newChat = await makeChatInstance(makeChatCase: .remainMessageAfterDeleteLastMessage,
+                                     deletedMessage: deletedMessage,
+                                     currentContent: nil)
         }
         await chatStore.updateChat(newChat)
-        
     }
     
     // MARK: Method - 메세지 삭제에 대해 DB에 Chat과 Message를 반영하는 함수
@@ -269,9 +292,10 @@ struct ChatRoomView: View {
     }
     
     // MARK: Method : Chat 인스턴스를 만들어서 반환하는 함수
-    private func makeChat(makeChatCase: MakeChatCase, deletedMessage: Message?) async -> Chat {
+    private func makeChatInstance(makeChatCase: MakeChatCase, deletedMessage: Message?, currentContent: String?) async -> Chat {
         
-        // FIXME: 메세지 삭제 시 안 읽은 메세지면 unread 갯수를 지우는 코드 -> 삭제 순서에 따라 작동 여부가 달라서 디버깅 필요! By. 태영
+        // 현재 시점의 초기화된 chat을 복사
+        // switch문에서 Chat을 만드는 케이스에 따라 필요한 프로퍼티에 접근해서 수정 후 return
         var newChat: Chat = chat
         // 현재 기준으로 DB에서 안 읽은 메세지 갯수 dictionary를 가져옴
         var newUnreadMessageCountDict: [String : Int] = await chatStore.getUnreadMessageDictionary(chatID: chat.id) ?? [:]
@@ -289,12 +313,11 @@ struct ChatRoomView: View {
         }
         
         switch makeChatCase {
-            
         // 채팅 메세지 보내는 케이스
         // 안 읽은 메세지 갯수 + 1, 현재 텍스트필드 내용과 지금 시각으로 Chat 업데이트
         case .addContent:
             newUnreadMessageCountDict[chat.targetUserID, default : 0] += 1
-            newChat.lastContent = contentField
+            newChat.lastContent = currentContent ?? ""
             newChat.lastContentDate = .now
             newChat.unreadMessageCount = newUnreadMessageCountDict
 
@@ -305,8 +328,7 @@ struct ChatRoomView: View {
             newChat.lastContentDate = chat.knockContentDate
             newChat.unreadMessageCount = newUnreadMessageCountDict
             
-            
-            // 삭제 메세지를 포함해서 메세지가 2개 이상인 케이스
+        // 삭제 메세지를 포함해서 메세지가 2개 이상인 케이스
         case .remainMessageAfterDeleteLastMessage:
             let endIndex = messageStore.messages.endIndex
             let preLastMessage = messageStore.messages[endIndex-2]
@@ -324,7 +346,7 @@ struct ChatRoomView: View {
             }
         
         // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
-        case .enterChatRoom:
+        case .enterOrQuitChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
             if let uid = userStore.user?.id {
                 newDict[uid] = 0
@@ -335,11 +357,10 @@ struct ChatRoomView: View {
     }
     
     // MARK: Method : Message 인스턴스를 만들어서 반환하는 함수
-    private func makeMessage() -> Message {
-        
+    private func makeMessage(currentContent: String) -> Message {
         let newMessage = Message.init(id: UUID().uuidString,
                                       senderID: Utility.loginUserID,
-                                      textContent: contentField,
+                                      textContent: currentContent,
                                       imageContent: nil,
                                       sentDate: Date.now,
                                       isRead: false)

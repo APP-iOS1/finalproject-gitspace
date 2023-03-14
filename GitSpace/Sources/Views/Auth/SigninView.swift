@@ -8,38 +8,39 @@
 import SwiftUI
 
 struct SigninView: View {
-//    @Environment(\.dismiss) var dismiss
     @StateObject var githubAuthManager: GitHubAuthManager
     @StateObject var tabBarRouter: GSTabBarRouter
+    @State var isSignedIn: Bool = false
     
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack{
             VStack {
-                Image("GitSpace-Signin")
-//                    .padding(.top, 20)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200)
-                GSText.CustomTextView(style: .title1, string: "Hello, GitSpacer!")
-                GSText.CustomTextView(style: .body1, string: "Welcome to GitSpace.")
-                    .padding(5)
+                Spacer()
+                VStack {
+                    Image("GitSpace-Signin")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 200)
+                    GSText.CustomTextView(style: .title1, string: "Hello, GitSpacer!")
+                    GSText.CustomTextView(style: .body1, string: "Welcome to GitSpace.")
+                        .padding(5)
+                }
+                
+                Spacer()
+                
+                GSButton.CustomButtonView(
+                    style: .primary(isDisabled: false)
+                ) {
+                    print("signin button tapped")
+                    githubAuthManager.signin()
+                    isSignedIn = true
+                    tabBarRouter.currentPage = .stars
+                } label: {
+                    Text("**GitHub Signin**")
+                }
+                .padding(.bottom, 30)
+                
             }
-            
-            Spacer()
-            
-            GSButton.CustomButtonView(
-                style: .primary(isDisabled: false)
-            ) {
-                print("signin button tapped")
-                githubAuthManager.signIn()
-                tabBarRouter.currentPage = .stars
-//                githubAuthManager.state = .signedIn
-            } label: {
-                Text("**GitHub Signin**")
-            }
-            .padding(.bottom, 30)
-
         }
     }
 }

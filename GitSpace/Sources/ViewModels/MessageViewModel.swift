@@ -14,6 +14,8 @@ import FirebaseCore
 import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
+    
+    
     @Published var messages: [Message]
     @Published var isMessageAdded: Bool
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
@@ -21,7 +23,8 @@ final class MessageStore: ObservableObject {
     
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
-    let chatStore: ChatStore = .init()
+    private let const = Constant.FirestorePathConst.self
+    var currentChat: Chat? // 채팅방 입장 시, 현재 입장한 Chat 인스턴스를 할당받음. MessageStore 내부에서 Chat DB에 접근하기 위한 변수
     
     init() {
         messages = []
@@ -32,17 +35,31 @@ final class MessageStore: ObservableObject {
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
     
-    private func getMessageDocuments(_ chatID: String) async -> QuerySnapshot? {
+    /**
+     Firestore에 요청해서 메세지 컬렉션에서 문서들을 반환 받습니다.
+     
+     - Author: 태영
+     
+     - Since: 23.03.10
+     
+     - parameters:
+        - chatID: Message 문서들을 가지고 있는 Chat의 문서 ID
+        - unreadMessageCount: 사용자가 읽지 않은 해당 채팅방의 메세지 갯수
+     
+     - Returns: Chat 문서 ID 하위에 있는 Message 컬렉션의 문서들
+     */
+    private func getMessageDocuments(_ chatID: String, unreadMessageCount: Int) async -> QuerySnapshot? {
         do {
             let snapshot = try await db
-                .collection("Chat")
+                .collection(const.COLLECTION_CHAT)
                 .document(chatID)
-                .collection("Message")
-                .order(by: "sentDate")
+                .collection(const.COLLECTION_MESSAGE)
+                .order(by: const.FIELD_SENT_DATE)
+                .limit(toLast: 30 + unreadMessageCount)
                 .getDocuments()
             return snapshot
         } catch {
-            print("Get Message Documents Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -54,9 +71,9 @@ extension MessageStore {
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
-    func fetchMessages(chatID: String) async {
+    func fetchMessages(chatID: String, unreadMessageCount: Int) async {
         
-        let snapshot = await getMessageDocuments(chatID)
+        let snapshot = await getMessageDocuments(chatID, unreadMessageCount: unreadMessageCount)
         var newMessages: [Message] = []
         
         if let snapshot {
@@ -65,7 +82,7 @@ extension MessageStore {
                     let message: Message = try document.data(as: Message.self)
                     newMessages.append(message)
                 } catch {
-                    print("fetch Messages Error : \(error)")
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
             }
         }
@@ -76,45 +93,43 @@ extension MessageStore {
     func addMessage(_ message: Message, chatID: String) {
         do {
             try db
-                .collection("Chat")
+                .collection(const.COLLECTION_CHAT)
                 .document(chatID)
-                .collection("Message")
+                .collection(const.COLLECTION_MESSAGE)
                 .document(message.id)
                 .setData(from: message.self)
         } catch {
-            print("Add Message Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
     func updateMessage(_ message: Message, chatID: String) async {
         do {
             try await db
-                .collection("Chat")
+                .collection(const.COLLECTION_CHAT)
                 .document(chatID)
-                .collection("Message")
+                .collection(const.COLLECTION_MESSAGE)
                 .document(message.id)
                 .updateData(
-                    ["textContent" : message.textContent,
-                     "createdDate" : message.sentDate])
+                    [const.FIELD_TEXT_CONTENT : message.textContent,
+                     const.FIELD_SENT_DATE : message.sentDate])
         } catch {
-            print("Error-MessageViewModel-updateMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
     func removeMessage(_ message: Message, chatID: String) async {
         do {
             try await db
-                .collection("Chat")
+                .collection(const.COLLECTION_CHAT)
                 .document(chatID)
-                .collection("Message")
+                .collection(const.COLLECTION_MESSAGE)
                 .document(message.id)
                 .delete()
         } catch {
-            print("Error-MessageViewModel-removeMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-            
     }
-    
 }
 
 // MARK: -Extension : Listener 관련 함수를 모아둔 익스텐션
@@ -126,7 +141,7 @@ extension MessageStore {
             let newMessage = try change.data(as: Message.self)
             return newMessage
         } catch {
-            print("Error-MessageViewModel-fetchNewMessage : \(error.localizedDescription)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
         return nil
     }
@@ -139,16 +154,15 @@ extension MessageStore {
         messages.remove(at: index)
     }
     
-    //TODO: API에서 async await concurrency 지원하는지 여부 파악
     func addListener(chatID: String) {
         listener = db
-            .collection("Chat")
+            .collection(const.COLLECTION_CHAT)
             .document(chatID)
-            .collection("Message")
+            .collection(const.COLLECTION_MESSAGE)
             .addSnapshotListener { snapshot, error in
                 // snapshot이 비어있으면 에러 출력 후 리턴
                 guard let snp = snapshot else {
-                    print("Error fetching documents: \(error!)")
+                    print("Error fetching documents: \(error!.localizedDescription)")
                     return
                 }
                 // document 변경 사항에 대해 감지해서 작업 수행

@@ -46,9 +46,12 @@ struct AddTagSheetView: View {
     func addNewTag() {
         if shouldBlankTag && shouldExistTag {
             Task {
-                await tagViewModel.registerTag(tagName: trimmedTagInput)
+                guard let newTag = await tagViewModel.registerTag(tagName: trimmedTagInput) else {
+                    print(#function, "Failed Add New Tag.")
+                    return
+                }
                 withAnimation {
-                    tagViewModel.tags.append( Tag(tagName: trimmedTagInput, repositories: []) )
+                    tagViewModel.tags.append( newTag )
                 }
                 tagInput = ""
             }
@@ -67,13 +70,13 @@ struct AddTagSheetView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack {
                     Spacer()
                         .frame(height: 30)
                     
                     // MARK: - 새 태그 추가 섹션
                     // 새 태그 추가 안내문
-                    Group {
+                    VStack(alignment: .leading) {
                         Text("Add if you want new tags 💬")
                             .foregroundColor(Color(.systemGray))
                             .font(.callout)
@@ -102,7 +105,7 @@ struct AddTagSheetView: View {
                     
                     // MARK: - 태그 선택 섹션
                     // 기존 태그 선택 안내문
-                    Group {
+                    VStack(alignment: .leading) {
                         if tagViewModel.tags.isEmpty {
                             VStack(spacing: 10) {
                                 Image("GitSpace-Tag-Empty")
@@ -137,7 +140,6 @@ struct AddTagSheetView: View {
                                 .tag("\(tag.tagName)")
                                 .contextMenu {
                                     Button {
-                                        print("삭제")
                                         Task {
                                             await tagViewModel.deleteTag(tag: tag)
                                             tagViewModel.tags.remove(at: index)
@@ -205,12 +207,12 @@ struct AddTagSheetView: View {
     }
 }
 
-struct AddTagSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
-                .environmentObject(RepositoryViewModel())
-                .environmentObject(TagViewModel())
-        }
-    }
-}
+//struct AddTagSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
+//                .environmentObject(RepositoryViewModel())
+//                .environmentObject(TagViewModel())
+//        }
+//    }
+//}

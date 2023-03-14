@@ -31,7 +31,7 @@ struct UserInfo : Identifiable, Codable {
     let following: Int              // following
     
     // MARK: Date를 문자열로 반환하는 연산 프로퍼티
-    var stringDate: String {
+    var createdDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")

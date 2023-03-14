@@ -69,7 +69,7 @@ struct MainHomeView: View {
             /* Starred, Activity View */
             switch selectedHomeTab {
             case starTab:
-                StarredView(service: gitHubService)
+                StarredView()
                     .ignoresSafeArea()
             case activityTab:
                 ActivityView(eventViewModel: eventViewModel)
@@ -80,9 +80,7 @@ struct MainHomeView: View {
             
         }
         .task {
-            
             guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
-            
             let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
             
             eventViewModel.events.removeAll()

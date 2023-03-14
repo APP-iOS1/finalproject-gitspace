@@ -24,14 +24,30 @@ struct ChatListSection: View {
             .padding(.top, 3)
             
             if chatStore.isDoneFetch {
+                //채팅 갯수가 0일 때 
+                if chatStore.chats.count == 0 {
+                    VStack {
+                        Image("GitSpace-Chat-Empty")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 230)
+                        Text("There is no chat!")
+                            .font(.title)
+                            .foregroundColor(.gsGray2)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
                 // 채팅방 목록 리스트
-                ForEach(chatStore.chats) { chat in
-                    if let targetUserInfo = chatStore.targetUserInfoDict[chat.id] {
-                        NavigationLink {
-                            ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
-                        } label: {
-                            ChatListCell(chat: chat, targetUserInfo: targetUserInfo)
-                                .foregroundColor(.black)
+                else {
+                    ForEach(chatStore.chats) { chat in
+                        if let targetUserInfo = chatStore.targetUserInfoDict[chat.id] {
+                            NavigationLink {
+                                ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
+                            } label: {
+                                ChatListCell(chat: chat, targetUserInfo: targetUserInfo)
+                                    .foregroundColor(.black)
+                            }
                         }
                     }
                 }
