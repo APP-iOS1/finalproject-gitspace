@@ -222,7 +222,7 @@ extension ChatStore {
 	}
     
     // MARK: -Chat CRUD
-    func addChat(_ chat: Chat) {
+    func addChat(_ chat: Chat) async {
         do {
             try db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
