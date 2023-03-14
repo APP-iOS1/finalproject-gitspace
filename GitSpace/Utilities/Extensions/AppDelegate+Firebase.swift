@@ -9,10 +9,12 @@ import SwiftUI
 import FirebaseCore
 import FirebaseMessaging
 
-final class AppDelegate: NSObject, UIApplicationDelegate {
+final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 	public let tabBarRouter = GSTabBarRouter()
-	public var pushNotificationManager: PushNotificationManager = PushNotificationManager(currentUserDeviceToken: "Init")
-	public var deviceToken = "NULL"
+    
+    @Published var isSentKnockView: Bool = false
+    
+    @ObservedObject public var pushNotificationManager: PushNotificationManager = PushNotificationManager(currentUserDeviceToken: UserDefaults.standard.string(forKey: Constant.PushNotification.USER_DEVICE_TOKEN))
 	
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -30,7 +32,13 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 			
 			UNUserNotificationCenter.current().requestAuthorization(
 				options: authOptions,
-				completionHandler: { _, _ in }
+				completionHandler: { didAllow, error in
+                    if didAllow {
+                        print("PUSHNOTIFICATION: ALLOWED")
+                    } else {
+                        print("PUSHNOTIFICATION: DECLINED")
+                    }
+                }
 			)
 		} else {
 			let settings: UIUserNotificationSettings =
@@ -39,15 +47,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		
 		application.registerForRemoteNotifications()
-		
-		//		/*
-		//		 1. Launch Option을 제공
-		//		 */
-		//		let notificationOption = launchOptions?[.remoteNotification]
-		//		if let notification = notificationOption as? [String: AnyObject],
-		//		   let aps = notification["aps"] as? [String: AnyObject] {
-		//			print(#function, "+++++++", aps)
-		//		}
 		
 		// 푸시 포그라운드 설정
 		UNUserNotificationCenter.current().delegate = self
@@ -61,10 +60,8 @@ extension AppDelegate: MessagingDelegate {
 	func application(_ application: UIApplication,
 					 didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		print(#function, "+++ didRegister Success", deviceToken)
-		//		Messaging.messaging().apnsToken = deviceToken
+        
 		Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
-		
-		print(#function, deviceToken)
 	}
 	
 	/* 메시지 토큰 등록 실패 */
@@ -73,13 +70,11 @@ extension AppDelegate: MessagingDelegate {
 		print("DEBUG: register Error -\(#file)-\(#function): \(error.localizedDescription)")
 	}
 	
-	/* 메시지 토큰 등록 성공 */
+	/* 메시지 FCM Device Token 등록 성공 */
 	func messaging(_ messaging: Messaging,
 				   didReceiveRegistrationToken fcmToken: String?) {
 		guard let fcmToken else { return }
-		self.deviceToken = fcmToken
-		
-		// Save Device Token with Init PushNotificationManager
+        UserDefaults.standard.set(fcmToken, forKey: Constant.PushNotification.USER_DEVICE_TOKEN)
 		pushNotificationManager.setCurrentUserDeviceToken(token: fcmToken)
 	}
 }
@@ -123,30 +118,28 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		didReceive response: UNNotificationResponse,
 		withCompletionHandler completionHandler: @escaping () -> Void
 	) {
-		/*
-		 1. 유저가 백그라운드, 포어그라운드 환경에서 알람을 탭하면 이 메소드가 호출된다.
-		 2. Notification에 심어둔 data를 꺼내서 decode 한다.
-		 3. data의 navigateTo 에 따라 해당 뷰로 Route 한다.
-		 */
 		let userInfo = response.notification.request.content.userInfo
 		
 		do {
 			let pushNotificationData = try JSONSerialization.data(withJSONObject: userInfo)
 			let pushNotificationInfo = try JSONDecoder().decode(GSPushNotification.self, from: pushNotificationData)
 			
-			// 탭 이동 + 뷰 그릴 때 id 전달
-			// 모델이 뷰를 그릴 ID 정보를 가져간 후, 탭을 이동시킨다.
-			// 동시에, 모델은 ID로 fetch를 진행하고,
-			// 뷰는 fetch 된 정보를 참조하여 뷰를 그린다.
-			// !!!: - TABBARROUTER 이동 + Navilink active가 동시 작동할 경우 에러 발생 수정 필요.
 			if pushNotificationInfo.navigateTo == "knock" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-//				tabBarRouter.currentPage = .knocks
+                if let currentUserDeviceToken = pushNotificationManager.currentUserDeviceToken {
+                    if currentUserDeviceToken == pushNotificationInfo.sentDeviceToken {
+                        tabBarRouter.currentPage = .knocks
+                        pushNotificationManager.isNavigatedToSentKnock.toggle()
+                        isSentKnockView.toggle()
+                        print("didReceive ++ ", pushNotificationManager.isNavigatedToSentKnock, isSentKnockView)
+                    } else if currentUserDeviceToken != pushNotificationInfo.sentDeviceToken {
+                        pushNotificationManager.isNavigatedToReceivedKnock.toggle()
+                    }
+                }
 			} else if pushNotificationInfo.navigateTo == "chat" {
 				UIApplication.shared.applicationIconBadgeNumber -= pushNotificationInfo.aps.badge
 				pushNotificationManager.assignViewBuildID(pushNotificationInfo.viewBuildID)
-//				tabBarRouter.currentPage = .chats
 			}
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")
@@ -154,15 +147,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		
 		completionHandler()
 	}
-	
-	//	/* Push Notification의 data Field를 받아오는 메소드 */
-	//	func application(
-	//		_ application: UIApplication,
-	//		didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-	//		fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-	//	) {
-	//		print(userInfo)
-	//
-	//		completionHandler(UIBackgroundFetchResult.newData)
-	//	}
 }

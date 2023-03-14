@@ -139,7 +139,8 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
                 messageStore.removeListener()
             }
-            tabBarRouter.navigateToChat = false
+            
+//            tabBarRouter.navigateToChat = false
         }
     }
     
