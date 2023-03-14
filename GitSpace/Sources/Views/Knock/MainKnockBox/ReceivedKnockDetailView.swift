@@ -214,6 +214,17 @@ struct ReceivedKnockDetailView: View {
             } // ToolbarItemGroup
         } // toolbar
     }
+    
+    private func makeNewChat() -> Chat {
+        return Chat.init(id: UUID().uuidString,
+                         createdDate: .now,
+                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
+                         lastContent: "",
+                         lastContentDate: .now,
+                         knockContent: knock.knockMessage,
+                         knockContentDate: knock.knockedDate.dateValue(),
+                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
+    }
 	
     // TODO: - Push Notification, Make new Chat Implement
 }
