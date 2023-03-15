@@ -12,43 +12,47 @@ import RichText
 
 struct TargetUserProfileView: View {
     
-    let user: GithubUser
-    let gitHubService: GitHubService
-    
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
-    @State private var markdownString = ""
-    //follow/unfollow 버튼 lable(누를 시 텍스트 변환을 위해 state 변수로 선언)
-    @State var followButtonLable: String = "+ Follow"
-    //knock 버튼 눌렀을 때 sheet view 띄우는 것에 대한 Bool state var.
-    @State var showKnockSheet: Bool = false
+    @EnvironmentObject var userInfoManager: UserStore
+    @ObservedObject var viewModel = TargetUserProfileViewModel(gitHubService: GitHubService())
     
-    init(service: GitHubService, user: GithubUser) {
-        self.gitHubService = service
+    @State private var markdownString = ""
+    @State private var followButtonLable: String = "➕ Follow"
+    @State private var isShowingKnockSheet: Bool = false
+    
+    let user: GithubUser
+    
+    init(user: GithubUser) {
         self.user = user
     }
     
     var body: some View {
+        
         ScrollView(showsIndicators: false) {
+            
             VStack(alignment: .leading, spacing: 8) {
-                
-                HStack { // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
-                    
+                // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
+                HStack(spacing: 10) {
                     GithubProfileImage(urlStr: user.avatar_url, size: 60)
-                    
-                    VStack(alignment: .leading) { // 이름, 닉네임
-                        GSText.CustomTextView(style: .title2, string: user.name ?? "")
-                        Spacer()
-                            .frame(height: 8)
-                        GSText.CustomTextView(style: .description, string: user.login)
+                    VStack(alignment: .leading) {
+                        // 유저가 설정한 이름이 존재하는 경우
+                        if let name = user.name {
+                            GSText.CustomTextView(style: .title2, string: name)
+                            Spacer()
+                                .frame(height: 8)
+                            // 유저의 깃허브 아이디
+                            GSText.CustomTextView(style: .description, string: user.login)
+                        } else { // 유저가 설정한 이름이 존재하지 않는 경우, 유저의 깃허브 아이디만 보여준다.
+                            GSText.CustomTextView(style: .title2, string: user.login)
+                        }
                     }
-                    
                     Spacer()
                 }
-                
-                // bio
+                .padding(.bottom, 5)
                 
                 if let bio = user.bio {
-                    VStack {
+                    // MARK: - bio
+                    VStack(alignment: .leading) {
                         GSText.CustomTextView(style: .body1, string: bio)
                     }
                     .padding(15)
@@ -58,12 +62,11 @@ struct TargetUserProfileView: View {
                     .clipShape(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                     )
-                    .padding(.vertical, 20)
-                } else {
-                    EmptyView()
+                    .padding(.vertical, 10)
                 }
                 
                 if let company =  user.company {
+                    // MARK: - 소속
                     HStack {
                         Image(systemName: "building.2")
                             .resizable()
@@ -73,12 +76,11 @@ struct TargetUserProfileView: View {
                         
                         GSText.CustomTextView(style: .captionPrimary1, string: company)
                     }
-                } else {
-                    EmptyView()
                 }
                 
                 if let location = user.location {
-                    HStack { // MARK: - 위치 이미지, 국가 및 위치
+                    // MARK: - 위치 이미지, 국가 및 위치
+                    HStack {
                         Image(systemName: "mappin.and.ellipse")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -87,12 +89,11 @@ struct TargetUserProfileView: View {
                         
                         GSText.CustomTextView(style: .captionPrimary1, string: location)
                     }
-                } else {
-                    EmptyView()
                 }
                 
                 if let blogURLString = user.blog, blogURLString != "" {
-                    HStack { // MARK: - 링크 이미지, 블로그 및 기타 링크
+                    // MARK: - 링크 이미지, 블로그 및 기타 링크
+                    HStack {
                         Image(systemName: "link")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -105,8 +106,6 @@ struct TargetUserProfileView: View {
                             }
                         }
                     }
-                } else {
-                    EmptyView()
                 }
                 
                 // MARK: - 사람 심볼, 팔로워 및 팔로잉 수
@@ -117,75 +116,95 @@ struct TargetUserProfileView: View {
                         .frame(width: 15, height: 15)
                         .foregroundColor(.gsGray2)
                     
-                    NavigationLink {
-                        Text("This Page Will Shows Followers List.")
-                    } label: {
+                    // TODO: - NavigationLink: 팔로워 리스트
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.followers))
                             GSText.CustomTextView(style: .description, string: "followers")
                                 .padding(.leading, -2)
                         }
-                    }
-//                    .padding(.trailing, 5)
                     
                     Text("･")
                         .foregroundColor(.gsGray2)
                         .padding(.leading, -3)
                         .padding(.trailing, -9)
                     
-                    NavigationLink {
-                        Text("This Page Will Shows Following List.")
-                    } label: {
+                    // TODO: - NavigationLink: 팔로잉 리스트
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.following))
                             GSText.CustomTextView(style: .description, string: "following")
                                 .padding(.leading, -2)
                         }
+                }
+                
+                // 내 프로필인지 아닌지에 따라 분기처리
+                if user.login != gitHubAuthManager.authenticatedUser?.login {
+                    // MARK: - follow, knock 버튼을 위한 stack
+                    // 내 프로필이 아니라 타인의 프로필에 뜨는 버튼
+                    HStack {
+                        // 누르면 follow, unfollow로 전환
+                        GSButton.CustomButtonView(
+                            style: .secondary(isDisabled: false)
+                        ) {
+                            withAnimation {
+                                
+                            }
+                            
+                            Task {
+                                
+                                if viewModel.isFollowingUser {
+                                    // TODO: - 경고: 정말 unfollow 하시겠습니까?
+                                    do {
+                                        try await viewModel.requestToUnfollowUser(who: user.login)
+                                        viewModel.isFollowingUser = false
+                                    } catch(let error) {
+                                        print(error)
+                                    }
+                                } else {
+                                    do {
+                                        try await viewModel.requestToFollowUser(who: user.login)
+                                        viewModel.isFollowingUser = true
+                                    } catch(let error) {
+                                        print(error)
+                                    }
+                                }
+                            }
+                            
+                        } label: {
+                            viewModel.isFollowingUser ?
+                            GSText.CustomTextView(style: .title3, string: "✅ Following")
+                                .frame(maxWidth: .infinity)
+                            :
+                            GSText.CustomTextView(style: .title3, string: "➕ Follow")
+                                .frame(maxWidth: .infinity)
+                        }
+                        
+                        Spacer()
+                            .frame(width: 10)
+                        
+                        // 누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
+                        GSButton.CustomButtonView(
+                            style: .secondary(isDisabled: false)
+                        ) {
+                            withAnimation {
+                                isShowingKnockSheet.toggle()
+                            }
+                        } label: {
+                            GSText.CustomTextView(style: .title3, string: "Knock")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .sheet(isPresented: $isShowingKnockSheet) {
+        //                    SendKnockView()
+                        }
                     }
+                    .padding(.vertical, 10)
                 }
                 
                 Divider()
                     .frame(height: 1)
                     .overlay(Color.gsGray3)
                     .padding(.vertical, 10)
-                
-                // 내 프로필이 아니라 타인의 프로필에 뜨는 버튼
-                HStack { // MARK: - follow, knock 버튼을 위한 stack
-                    
-                    // 누르면 follow, unfollow로 전환
-                    GSButton.CustomButtonView(
-                        style: .secondary(isDisabled: false)
-                    ) {
-                        withAnimation {
-                            followButtonLable == "Unfollow" ? (followButtonLable = "+ Follow") : (followButtonLable = "Unfollow")
-                        }
-                    } label: {
-                        GSText.CustomTextView(style: .title3, string: self.followButtonLable)
-                            .frame(maxWidth: .infinity)
-                    }
-                    
-                    Spacer()
-                        .frame(width: 10)
-                    
-                    // 누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
-                    GSButton.CustomButtonView(
-                        style: .secondary(isDisabled: false)
-                    ) {
-                        withAnimation {
-                            showKnockSheet.toggle()
-                        }
-                    } label: {
-                        GSText.CustomTextView(style: .title3, string: "Knock")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .sheet(isPresented: $showKnockSheet) {
-    //                    SendKnockView()
-                    }
-                }
-                .padding(.vertical, 10)
-                
+
                 // MARK: - 유저의 README
-                
                 if markdownString == "Fail to read README.md" {
                     
                     GSText.CustomTextView(style: .title2, string: markdownString)
@@ -211,40 +230,24 @@ struct TargetUserProfileView: View {
             }
             .padding(.horizontal, 20)
         }
-        .onAppear {
+        .task {
+            let readMeRequestResult = await viewModel.requestUserReadme(user: user.login)
+            let isFollowingTargetUser = await viewModel.checkAuthenticatedUserIsFollowing(who: user.login)
             
-            Task {
-                let result = await gitHubService.requestRepositoryReadme(owner: user.login, repositoryName: user.login)
-                
-                switch result {
-                    
-                case .success(let readme):
-                    guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    guard let decodeContent = String(data: content, encoding: .utf8) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
-                    
-                    let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
-                    
-                    switch htmlResult {
-                        
-                    case .success(let result):
-                        markdownString = result
-                        
-                    // markdown을 html로 변환 실패
-                    case .failure:
-                        markdownString = "fail to load README.md"
-                    }
-                    
-                    // repository의 markdown을 요청 실패
-                case .failure:
-                    markdownString = "Fail to load README.md"
-                }
+            if isFollowingTargetUser {
+                followButtonLable = "✅ Following"
+                viewModel.isFollowingUser = true
+            } else {
+                followButtonLable = "➕ Follow"
+                viewModel.isFollowingUser = false
+            }
+            
+            switch readMeRequestResult {
+            case .success(let readmeString):
+                markdownString = readmeString
+            case .failure(let error):
+                // TODO: - "README.md를 불러올 수 없습니다"에 해당하는 뷰를 보여주기 위하여 트리거 설정
+                print(error)
             }
         }
         
