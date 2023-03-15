@@ -146,7 +146,7 @@ struct RepositoryInfoCard: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(contributorManager.contributors) { user in
-                        NavigationLink(destination: TargetUserProfileView(service: gitHubService, user: user)) {
+                        NavigationLink(destination: TargetUserProfileView(user: user)) {
                             GithubProfileImage(urlStr: user.avatar_url, size: 40)
                         }
                     }
