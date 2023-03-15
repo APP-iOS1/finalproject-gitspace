@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */; };
+		0B2B2BFB2976D72B00EB11BC /* CurrentUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B2BFA2976D72B00EB11BC /* CurrentUserProfileView.swift */; };
 		0B87BA52298CCD9E006B80D3 /* GSText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B87BA51298CCD9E006B80D3 /* GSText.swift */; };
 		0B93BBD5299C72770006B8A7 /* HomeCardSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */; };
 		0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */; };
 		22016E8D299B11B000452428 /* TargetUserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22016E8C299B11B000452428 /* TargetUserProfileView.swift */; };
+		2204B6E329C1A5500030E9E4 /* TargetUserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204B6E229C1A5500030E9E4 /* TargetUserProfileViewModel.swift */; };
 		2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */; };
 		2204BD51299B288F00AA4725 /* ContributorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD50299B288F00AA4725 /* ContributorViewModel.swift */; };
 		2205F23D299C9F1400B2643D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F23C299C9F1400B2643D /* Event.swift */; };
-		2205F23F299CC04400B2643D /* FollowersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F23E299CC04400B2643D /* FollowersResponse.swift */; };
+		2205F23F299CC04400B2643D /* FollowerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F23E299CC04400B2643D /* FollowerResponse.swift */; };
 		2205F241299CCBF900B2643D /* FollowerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F240299CCBF900B2643D /* FollowerViewModel.swift */; };
 		2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F242299D1B0B00B2643D /* EventViewModel.swift */; };
 		2205F245299D2B2B00B2643D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F244299D2B2B00B2643D /* Date+.swift */; };
@@ -157,16 +158,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		0B2B2BFA2976D72B00EB11BC /* CurrentUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserProfileView.swift; sourceTree = "<group>"; };
 		0B87BA51298CCD9E006B80D3 /* GSText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSText.swift; sourceTree = "<group>"; };
 		0B93BBD4299C72770006B8A7 /* HomeCardSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardSkeletonCell.swift; sourceTree = "<group>"; };
 		0B9585922990BD1A00655427 /* BlinkingSkeletonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkingSkeletonModifier.swift; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
 		22016E8C299B11B000452428 /* TargetUserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetUserProfileView.swift; sourceTree = "<group>"; };
+		2204B6E229C1A5500030E9E4 /* TargetUserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetUserProfileViewModel.swift; sourceTree = "<group>"; };
 		2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorProfile.swift; sourceTree = "<group>"; };
 		2204BD50299B288F00AA4725 /* ContributorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorViewModel.swift; sourceTree = "<group>"; };
 		2205F23C299C9F1400B2643D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		2205F23E299CC04400B2643D /* FollowersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersResponse.swift; sourceTree = "<group>"; };
+		2205F23E299CC04400B2643D /* FollowerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerResponse.swift; sourceTree = "<group>"; };
 		2205F240299CCBF900B2643D /* FollowerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewModel.swift; sourceTree = "<group>"; };
 		2205F242299D1B0B00B2643D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		2205F244299D2B2B00B2643D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -351,7 +353,7 @@
 				225A22CB299778A900786B35 /* RepositoryResponse.swift */,
 				2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */,
 				22E9ECF2299BB92100D5A9C6 /* Owner.swift */,
-				2205F23E299CC04400B2643D /* FollowersResponse.swift */,
+				2205F23E299CC04400B2643D /* FollowerResponse.swift */,
 				2205F23C299C9F1400B2643D /* Event.swift */,
 			);
 			path = APIModels;
@@ -671,6 +673,7 @@
 				2204BD50299B288F00AA4725 /* ContributorViewModel.swift */,
 				2205F240299CCBF900B2643D /* FollowerViewModel.swift */,
 				2205F242299D1B0B00B2643D /* EventViewModel.swift */,
+				2204B6E229C1A5500030E9E4 /* TargetUserProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -695,7 +698,7 @@
 			isa = PBXGroup;
 			children = (
 				7068B6C12976952B005D6B7B /* MainProfileView.swift */,
-				0B2B2BFA2976D72B00EB11BC /* ProfileDetailView.swift */,
+				0B2B2BFA2976D72B00EB11BC /* CurrentUserProfileView.swift */,
 				22016E8C299B11B000452428 /* TargetUserProfileView.swift */,
 			);
 			path = Profile;
@@ -914,7 +917,7 @@
 				346EF6AC29923F6B00878949 /* ChatGuideView.swift in Sources */,
 				3427734E2992A78900818816 /* ActivityGuideView.swift in Sources */,
 				6E0840192983948300F51169 /* ChatViewModel.swift in Sources */,
-				0B2B2BFB2976D72B00EB11BC /* ProfileDetailView.swift in Sources */,
+				0B2B2BFB2976D72B00EB11BC /* CurrentUserProfileView.swift in Sources */,
 				706BDE472988FBE000284F0F /* Date+DateDiff.swift in Sources */,
 				22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */,
 				344DB651299B1C9B00433339 /* SetKnockControlsView.swift in Sources */,
@@ -958,7 +961,7 @@
 				225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */,
 				7065B459297A1F51000B91D2 /* GSButton.swift in Sources */,
 				22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */,
-				2205F23F299CC04400B2643D /* FollowersResponse.swift in Sources */,
+				2205F23F299CC04400B2643D /* FollowerResponse.swift in Sources */,
 				6E0840272983BB9A00F51169 /* UserInfo.swift in Sources */,
 				22C5412D298CD22500CC89EC /* View+cornerRadius.swift in Sources */,
 				707E58F629799449007F4ADF /* GSTextField.swift in Sources */,
@@ -998,6 +1001,7 @@
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
 				0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
+				2204B6E329C1A5500030E9E4 /* TargetUserProfileViewModel.swift in Sources */,
 				6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */,
 				7062E12F298CC82D00CCE946 /* ColorSchemeModifiers.swift in Sources */,
 				2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */,

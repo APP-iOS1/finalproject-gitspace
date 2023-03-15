@@ -191,6 +191,7 @@ struct CurrentUserProfileView: View {
                     }
 
                 case .failure(let error):
+                    // TODO: - "README.md를 불러올 수 없습니다"에 해당하는 뷰를 보여주기 위하여 트리거 설정
                     print(error)
                 }
             }
