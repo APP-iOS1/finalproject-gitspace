@@ -103,24 +103,22 @@ struct ReceivedKnockDetailView: View {
                         Task {
                             // TODO: PUSH NOTIFICATION
                             async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                            
                             if let knockSentUser = await knockSentUser {
-                                await pushNotificationManager.sendNotification(
-                                    with: .knock(
-                                        title: "Your Knock has been Accepted!",
-                                        body: knock.knockMessage,
-                                        knockSentFrom: knock.sentUserName,
-                                        knockPurpose: "",
-                                        knockID: knock.id
-                                    ),
+                                async let newChat = makeNewChat(with: knockSentUser)
+                                
+                                await chatStore.addChat(await newChat)
+                                
+                                await knockViewManager.updateKnockOnFirestore(
+                                    knock: knock,
+                                    knockStatus: Constant.KNOCK_ACCEPTED,
+                                    newChatID: await newChat.id
+                                )
+                                
+                                await sendPushNotification(
+                                    pushNotificationTitle: "Your Knock has been Accepted!",
                                     to: knockSentUser
                                 )
                             }
-                            
-                            // TODO: Update Knock Status
-                            await knockViewManager.updateKnockOnFirestore(
-                                knock: knock, knockStatus: Constant.KNOCK_ACCEPTED
-                            )
                         }
                     } label: {
                         Text("Accept")
@@ -147,22 +145,19 @@ struct ReceivedKnockDetailView: View {
                                 async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
                                 
                                 if let knockSentUser = await knockSentUser {
-                                    await pushNotificationManager.sendNotification(
-                                        with: .knock(
-                                            title: "Your Knock has been Declined.",
-                                            body: knock.knockMessage,
-                                            knockSentFrom: knock.sentUserName,
-                                            knockPurpose: "",
-                                            knockID: knock.id
-                                        ),
+                                    
+                                    // TODO: Update Knock decline Message.
+                                    // TODO: Decline 메시지를 작성할 뷰 구현
+                                    await knockViewManager.updateKnockOnFirestore(
+                                        knock: knock,
+                                        knockStatus: Constant.KNOCK_DECLINED
+                                    )
+                                    
+                                    await self.sendPushNotification(
+                                        pushNotificationTitle: "Your Knock has been declined",
                                         to: knockSentUser
                                     )
                                 }
-                                
-                                // TODO: Update Knock Status
-                                await knockViewManager.updateKnockOnFirestore(
-                                    knock: knock, knockStatus: Constant.KNOCK_DECLINED
-                                )
                             }
                         } label: {
                             Text("Decline")
@@ -175,18 +170,12 @@ struct ReceivedKnockDetailView: View {
                 } // VStack
             } else if knock.knockStatus == Constant.KNOCK_ACCEPTED {
                 GSButton.CustomButtonView(style: .primary(isDisabled: false)) {
-                    // chat id 할당
-                    pushNotificationManager.assignViewBuildID(chatStore.newChat.id)
-                    
-                    // tab 이동
-                    tabBarRouter.currentPage = .chats
-                    
-                    print(#file, #function, "\(pushNotificationManager.viewBuildID ?? "NONONO")")
+                    print("TODO: Navigate To Chat")
                 } label: {
                     Text("Go chat with **\(knock.sentUserName)**")
                 }
             } else if knock.knockStatus == Constant.KNOCK_DECLINED {
-                Text("You Delined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
+                Text("You Declined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
             }
         }
         .toolbar {
@@ -211,6 +200,42 @@ struct ReceivedKnockDetailView: View {
     }
 	
     // TODO: - Push Notification, Make new Chat Implement
+    private func sendPushNotification(
+        pushNotificationTitle: String,
+        to knockSentUser: UserInfo
+    ) async {
+        await pushNotificationManager.sendNotification(
+            with: .knock(
+                title: pushNotificationTitle,
+                body: knock.knockMessage,
+                knockSentFrom: knock.sentUserName,
+                knockPurpose: "",
+                knockID: knock.id
+            ),
+            to: knockSentUser
+        )
+    }
+    
+    private func makeNewChat(
+        with knockSentUser: UserInfo
+    ) async -> Chat {
+        Chat(
+            id: UUID().uuidString,
+            createdDate: .now,
+            joinedMemberIDs: [
+                userStore.currentUser?.id ?? "",
+                knockSentUser.id
+            ],
+            lastContent: "",
+            lastContentDate: .now,
+            knockContent: knock.knockMessage,
+            knockContentDate: knock.knockedDate.dateValue(),
+            unreadMessageCount: [
+                userStore.currentUser?.id ?? "": 0,
+                knockSentUser.id: 0
+            ]
+        )
+    }
 }
 //
 //struct ReceivedKnockView_Previews: PreviewProvider {
