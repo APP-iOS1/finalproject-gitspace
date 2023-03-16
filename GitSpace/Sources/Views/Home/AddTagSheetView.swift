@@ -67,6 +67,24 @@ struct AddTagSheetView: View {
         }
     }
     
+    func addSelectedTagToPreSelectedTags() {
+        preSelectedTags = selectedTags
+        switch beforeView {
+        case .repositoryDetailView:
+            Task {
+                // FIXME: 실제 레포 이름 가져오기
+                guard let repositoryName = repositoryName else { return }
+                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
+            }
+        case .starredView:
+            if !preSelectedTags.isEmpty {
+                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
+            } else {
+                repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -180,21 +198,7 @@ struct AddTagSheetView: View {
                              사용자가 선택한 태그들(selectedTags)를
                              preSelectedTag에 추가한다.
                              */
-                            preSelectedTags = selectedTags
-                            switch beforeView {
-                            case .repositoryDetailView:
-                                Task {
-                                    // FIXME: 실제 레포 이름 가져오기
-                                    guard let repositoryName = repositoryName else { return }
-                                    await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
-                                }
-                            case .starredView:
-                                if !preSelectedTags.isEmpty {
-                                    repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
-                                } else {
-                                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
-                                }
-                            }
+                            addSelectedTagToPreSelectedTags()
                             dismiss()
                         } label: {
                             Text("Done")
