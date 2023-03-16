@@ -31,7 +31,6 @@ struct SigninView: View {
                 GSButton.CustomButtonView(
                     style: .primary(isDisabled: false)
                 ) {
-                    print("signin button tapped")
                     githubAuthManager.signin()
                     isSignedIn = true
                     tabBarRouter.currentPage = .stars
