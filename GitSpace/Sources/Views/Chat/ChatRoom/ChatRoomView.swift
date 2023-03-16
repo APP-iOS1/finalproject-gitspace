@@ -96,7 +96,9 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
-            
+            /*
+             v1.0.0 버전에서 사용하지 않는 툴바 아이템으로 주석 처리
+             
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -105,6 +107,7 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
+             */
         }
         .task {
             // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
