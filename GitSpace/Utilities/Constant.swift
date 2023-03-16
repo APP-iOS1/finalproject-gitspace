@@ -65,6 +65,10 @@ public enum Constant {
         static let TITLE4_FONT_WEIGHT: Font.Weight = .semibold
         static let TITLE4_COLOR: Color = Color.primary
         
+        static let TITLE5_SIZE: CGFloat = 16
+        static let TITLE5_FONT_WEIGHT: Font.Weight = .semibold
+        static let TITLE5_COLOR: Color = Color.black
+        
         static let SECTION_TITLE_SIZE: CGFloat = 13
         static let SECTION_TITLE_FONT_WEIGHT: Font.Weight = .regular
         static let SECTION_TITLE_COLOR: Color = Color.gsGray2

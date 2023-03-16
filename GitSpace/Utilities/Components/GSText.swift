@@ -24,6 +24,7 @@ public struct GSText {
         case title2
         case title3
         case title4
+        case title5
         case sectionTitle
         case body1
         case body2
@@ -65,6 +66,11 @@ public struct GSText {
                     .font(.system(size: Constant.GSTextConst.TITLE4_SIZE))
                     .fontWeight(Constant.GSTextConst.TITLE4_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.TITLE4_COLOR)
+            case .title5:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.TITLE5_SIZE))
+                    .fontWeight(Constant.GSTextConst.TITLE5_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.TITLE5_COLOR)
             case .sectionTitle:
                 Text(.init(string))
                     .font(.system(size: Constant.GSTextConst.SECTION_TITLE_SIZE))
