@@ -263,23 +263,24 @@ struct SendKnockView: View {
                         .padding(.horizontal)
                         
                         HStack(spacing: 10) {
-                            Button {
-                                print("이미지 첨부 버튼 탭")
-                            } label: {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 30)
-                            }
-
-                            Button {
-                                print("레포지토리 선택 버튼 탭")
-                            } label: {
-                                Image("RepositoryIcon")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 28, height: 23)
-                            }
+                            // MARK: 최초 릴리즈 버튼에서는 사용하지 않습니다.
+//                            Button {
+//                                print("이미지 첨부 버튼 탭")
+//                            } label: {
+//                                Image(systemName: "photo")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 30)
+//                            }
+//
+//                            Button {
+//                                print("레포지토리 선택 버튼 탭")
+//                            } label: {
+//                                Image("RepositoryIcon")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 28, height: 23)
+//                            }
                             
                             GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                             
@@ -369,23 +370,24 @@ struct SendKnockView: View {
                         .padding(.horizontal)
                         
                         HStack(spacing: 10) {
-                            Button {
-                                print("이미지 첨부 버튼 탭")
-                            } label: {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 30)
-                            }
-                            
-                            Button {
-                                print("레포지토리 선택 버튼 탭")
-                            } label: {
-                                Image("RepositoryIcon")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 28, height: 23)
-                            }
+                            // MARK: 최초 릴리즈 버튼에서는 사용하지 않습니다.
+//                            Button {
+//                                print("이미지 첨부 버튼 탭")
+//                            } label: {
+//                                Image(systemName: "photo")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 30)
+//                            }
+//
+//                            Button {
+//                                print("레포지토리 선택 버튼 탭")
+//                            } label: {
+//                                Image("RepositoryIcon")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 28, height: 23)
+//                            }
                             
                             GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                             
