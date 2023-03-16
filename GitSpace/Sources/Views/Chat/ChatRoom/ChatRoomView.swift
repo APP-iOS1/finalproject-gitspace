@@ -162,7 +162,10 @@ struct ChatRoomView: View {
     private var typeContentField : some View {
         HStack(spacing: 10) {
             
-            Button {
+            /*
+             v1.0.0 버전에서 사용하지 않는 버튼으로 주석 처리
+            
+             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
                 Image(systemName: "photo")
@@ -179,6 +182,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
+             */
             
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
