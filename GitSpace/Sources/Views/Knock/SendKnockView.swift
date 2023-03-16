@@ -253,10 +253,10 @@ struct SendKnockView: View {
                             Button {
                                 self.endTextEditing()
                             } label: {
-                                Image(systemName: keyboardHandler.keyboardHeight > 0
-                                      ? "keyboard.chevron.compact.down"
-                                      : "")
-                                .foregroundColor(.gsLightGray1)
+                                if keyboardHandler.keyboardHeight > 0 {
+                                    Image(systemName: "keyboard.chevron.compact.down")
+                                        .foregroundColor(.gsLightGray1)
+                                }
                             }
                             
                         } // HStack
@@ -359,10 +359,10 @@ struct SendKnockView: View {
                             Button {
                                 self.endTextEditing()
                             } label: {
-                                Image(systemName: keyboardHandler.keyboardHeight > 0
-                                      ? "keyboard.chevron.compact.down"
-                                      : "")
-                                .foregroundColor(.gsLightGray1)
+                                if keyboardHandler.keyboardHeight > 0 {
+                                    Image(systemName: "keyboard.chevron.compact.down")
+                                        .foregroundColor(.gsLightGray1)
+                                }
                             } // Button
                             
                         } // HStack
