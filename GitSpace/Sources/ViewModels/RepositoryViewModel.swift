@@ -51,10 +51,10 @@ final class RepositoryViewModel: ObservableObject {
             for tag in selectedTags {
                 let tagInfo = try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
-                    .collection("Tag")
+                    .collection(const.COLLECTION_TAG)
                     .document(tag.id)
                     .getDocument()
-                filteredRepositoryList.append( contentsOf: Array(Set(tagInfo["repositories"] as? [String] ?? [])) )
+                filteredRepositoryList.append( contentsOf: Array(Set(tagInfo[const.FIELD_REPOSITORIES] as? [String] ?? [])) )
             }
             return filteredRepositoryList
         } catch {

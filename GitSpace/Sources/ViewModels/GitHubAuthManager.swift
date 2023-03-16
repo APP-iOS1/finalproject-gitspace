@@ -18,21 +18,15 @@ enum GithubURL: String {
     case bearer = "Bearer"
 }
 
-// FIXME: AccessToken은 안전하게 보관할 것.
-/// keychain에 저장하도록 하자.
-//var tempoaryAccessToken: String?
-
 final class GitHubAuthManager: ObservableObject {
     @Published var state: SignInState = .signedOut
-//    @Published var githubAcessToken: String?
-    
-    //    var result: GitHubUser? = nil
     
     private let database = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
-    var authentification = Auth.auth()
-    var provider = OAuthProvider(providerID: "github.com")
     private var authCredential: AuthCredential? = nil
+    
+    var provider = OAuthProvider(providerID: "github.com")
+    var authentification = Auth.auth()
     var authenticatedUser: GithubUser?
     
     enum SignInState {
@@ -96,13 +90,9 @@ final class GitHubAuthManager: ObservableObject {
                     
                     UserDefaults.standard.set(at, forKey: "AT")
                     
-                    // FIXME: Keychain에 accesstoken 저장하기
-//                    self.githubAcessToken = oauthCredential.accessToken
-                    
                     let session = URLSession(configuration: .default)
                     var githubRequest = URLRequest(url: githubAuthenticatedUserURL)
                     githubRequest.httpMethod = "GET"
-//                    githubRequest.addValue("Bearer \(oauthCredential.accessToken!)", forHTTPHeaderField: "Authorization")
                     githubRequest.addValue("Bearer \(at)", forHTTPHeaderField: "Authorization")
                     
                     let task = session.dataTask(with: githubRequest) { data, response, error in
