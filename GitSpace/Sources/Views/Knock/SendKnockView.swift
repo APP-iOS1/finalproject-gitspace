@@ -14,6 +14,7 @@ enum TextEditorFocustState {
 
 struct SendKnockView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) private var dismiss
 	@EnvironmentObject var userStore: UserStore
 	@EnvironmentObject var knockViewManager: KnockViewManager
@@ -44,7 +45,6 @@ struct SendKnockView: View {
             if let targetUserInfo {
                 ScrollViewReader { proxy in
                     ScrollView {
-                        
                         HStack {
                         }
                         .id(topID)
@@ -80,7 +80,6 @@ struct SendKnockView: View {
                         }
                         .padding(.vertical, 15)
                         
-                        
                         // MARK: - 안내 문구
                         /// 상대방에게 알려줄 채팅 목적을 선택해주세요.
                         VStack(alignment: .center) {
@@ -91,7 +90,6 @@ struct SendKnockView: View {
                         .foregroundColor(.gsLightGray1)
                         .padding(.bottom, 10)
                         
-                        
                         // MARK: - 채팅 목적 버튼
                         HStack(spacing: 30) {
                             GSButton.CustomButtonView(style: .secondary(
@@ -99,15 +97,13 @@ struct SendKnockView: View {
                                     withAnimation(.easeInOut.speed(1.5)) {
                                         chatPurpose = "offer"
                                     }
-                                    
                                     withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
-    //                                    .becomeFirstResponder()
                                 } label: {
                                     Text("🚀 Offer")
                                         .font(.subheadline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(.black)
                                         .bold()
-                                        .padding(EdgeInsets(top: 0, leading: 13, bottom: 0, trailing: 13))
+                                        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
                                 } // button: Offer
                             
                             GSButton.CustomButtonView(style: .secondary(
@@ -115,12 +111,11 @@ struct SendKnockView: View {
                                     withAnimation(.easeInOut.speed(1.5)) {
                                         chatPurpose = "question"
                                     }
-                                    
                                     withAnimation(.easeInOut.speed(1.5)) { proxy.scrollTo(bottomID) }
                                 } label: {
                                     Text("💡 Question")
                                         .font(.subheadline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(.black)
                                         .bold()
                                 } // button: Question
                         } // HStack
@@ -130,7 +125,6 @@ struct SendKnockView: View {
                         /// 상대방이 Knock message를 확인하기 전까지 수정할 수 있습니다.
                         /// Knock message는 전송 이후에 삭제하거나 취소할 수 없습니다.
                         if !chatPurpose.isEmpty {
-                            
                             VStack(alignment: .center, spacing: 10) {
                                 VStack (alignment: .center) {
                                     Text("Send your Knock messages to")
@@ -152,8 +146,9 @@ struct SendKnockView: View {
                                 HStack {
                                     RoundedRectangle(cornerRadius: 10)
                                         .frame(width: 3, height: 15)
-                                        .foregroundColor(.gsGreenPrimary)
-                                    
+                                        .foregroundColor(colorScheme == .light
+                                                         ? .gsGreenPrimary
+                                                         : .gsYellowPrimary)
                                     Text(
                                         isKnockSent
                                         ? "Your Knock Message"
@@ -162,17 +157,19 @@ struct SendKnockView: View {
                                         .font(.footnote)
                                         .foregroundColor(.gsLightGray1)
                                         .bold()
+                                    
+                                    Spacer()
                                 } // HStack
-                                .padding(.leading, -75)
+                                .padding(.leading, 20)
                                 
                                 VStack {
-                                    
                                     Text(
                                         isKnockSent
                                         ? "\(knockViewManager.newKnock?.knockMessage ?? "")"
                                         : "\("Hi! This is Gildong from South Korea who’s\ncurrently studying Web programming.\nWould you mind giving me some time and\nadvising me on my future career path?\nThank you so much for your help!")"
                                     )
-                                        .font(.system(size: 10, weight: .regular))
+                                        .font(.system(size: 13, weight: .regular))
+                                        .foregroundColor(.black)
                                         .padding(.horizontal, 20)
                                         .padding(.vertical, 20)
                                         .fixedSize(horizontal: false, vertical: true)
@@ -180,7 +177,6 @@ struct SendKnockView: View {
                                             RoundedRectangle(cornerRadius: 17)
                                                 .fill(.white)
                                                 .shadow(color: Color(.systemGray5), radius: 8, x: 0, y: 2)
-                                            
                                         )
                                         .padding(.horizontal, 15)
                                     
@@ -235,6 +231,8 @@ struct SendKnockView: View {
                                 .foregroundColor(.gsLightGray1)
                                 .bold()
                             
+                            Spacer()
+                            
                             // MARK: 메세지 작성 취소 버튼
                             /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
                             Button {
@@ -246,24 +244,11 @@ struct SendKnockView: View {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(.gsLightGray1)
                             }
-                            
-                            Spacer()
-                            
-                            // MARK: 키보드 내리기 버튼
-                            Button {
-                                self.endTextEditing()
-                            } label: {
-                                if keyboardHandler.keyboardHeight > 0 {
-                                    Image(systemName: "keyboard.chevron.compact.down")
-                                        .foregroundColor(.gsLightGray1)
-                                }
-                            }
-                            
                         } // HStack
                         .padding(.horizontal)
                         
                         HStack(spacing: 10) {
-                            // MARK: 최초 릴리즈 버튼에서는 사용하지 않습니다.
+                            // MARK: 최초 릴리즈 버전에서는 사용하지 않습니다.
 //                            Button {
 //                                print("이미지 첨부 버튼 탭")
 //                            } label: {
@@ -342,6 +327,8 @@ struct SendKnockView: View {
                                 .foregroundColor(.gsLightGray1)
                                 .bold()
                             
+                            Spacer()
+                            
                             // MARK: 메세지 작성 취소 버튼
                             /// chatPurpose가 없어지면서, 하단의 설명이 사라지게 된다.
                             Button {
@@ -353,24 +340,11 @@ struct SendKnockView: View {
                                 Image(systemName: "xmark.circle.fill")
                                     .foregroundColor(.gsLightGray1)
                             }
-                            
-                            Spacer()
-                            
-                            // MARK: 키보드 내리기 버튼
-                            Button {
-                                self.endTextEditing()
-                            } label: {
-                                if keyboardHandler.keyboardHeight > 0 {
-                                    Image(systemName: "keyboard.chevron.compact.down")
-                                        .foregroundColor(.gsLightGray1)
-                                }
-                            } // Button
-                            
                         } // HStack
                         .padding(.horizontal)
                         
                         HStack(spacing: 10) {
-                            // MARK: 최초 릴리즈 버튼에서는 사용하지 않습니다.
+                            // MARK: 최초 릴리즈 버전에서는 사용하지 않습니다.
 //                            Button {
 //                                print("이미지 첨부 버튼 탭")
 //                            } label: {
@@ -468,7 +442,7 @@ struct SendKnockView: View {
 						Text("\(sendKnockToGitHubUser?.login ?? "NONO")")
                             .bold()
                     } // HStack
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 } // NavigationLink
             } // ToolbarItemGroup
         } // toolbar
