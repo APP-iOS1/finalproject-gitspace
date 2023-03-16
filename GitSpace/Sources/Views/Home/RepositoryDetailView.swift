@@ -48,7 +48,7 @@ struct RepositoryDetailView: View {
                 ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .title5, string:"✊🏻  Knock Knock!")
             }
             
             RichText(html: markdownString)
