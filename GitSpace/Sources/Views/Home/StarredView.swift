@@ -116,10 +116,10 @@ struct StarredView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 300, height: 300)
                                 
-                                Text("There is no repository\nthat you starred!")
-                                    .font(.title3)
-                                    .foregroundColor(.gsGray1)
-                                    .multilineTextAlignment(.center)
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "There is no repository\nthat you starred!")
+                                .multilineTextAlignment(.center)
                             }
                         } else {
                             ForEach(Array(zip(repositories.indices, repositories)), id:\.0) { index, repository in
