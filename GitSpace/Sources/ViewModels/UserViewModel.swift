@@ -28,6 +28,7 @@ final class UserStore: ObservableObject {
     static var completionTargetUser: UserInfo?
     
     private let db = Firestore.firestore()
+    private static let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
     private static let const = Constant.FirestorePathConst.self
     
