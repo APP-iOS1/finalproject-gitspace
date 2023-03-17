@@ -80,6 +80,22 @@ final class UserStore: ObservableObject {
             return nil
         }
     }
+    
+    static func requestTargetUserInfo(userID: String) {
+        db
+            .collection(const.COLLECTION_USER_INFO)
+            .document(userID)
+            .getDocument { snapshot, error in
+                
+                guard let snapshot else { return }
+                
+                do {
+                    completionTargetUser = try snapshot.data(as: UserInfo.self)
+                } catch {
+                    print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+                }
+        }
+    }
 	
 	// MARK: - PUSHED VIEW를 그릴 때 상대방의 정보를 가져오는 메소드
 	/// USERINFO를 가져오기 위해 호출하는 메소드 입니다.
