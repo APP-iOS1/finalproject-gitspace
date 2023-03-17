@@ -44,7 +44,7 @@ final class TargetUserProfileViewModel: ObservableObject {
                 return .failure(.failToDecode)
             }
             
-            // repository의 markdown을 요청 실패
+            // repository의 readme markdown을 요청 실패
         case .failure:
             // TODO: - error case 수정
             return .failure(.failToDecode)
