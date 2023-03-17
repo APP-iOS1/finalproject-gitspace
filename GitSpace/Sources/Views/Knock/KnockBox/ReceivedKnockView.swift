@@ -65,6 +65,7 @@ struct ReceivedKnockView: View {
                     /// 3. 메세지 내용
 					Text("\(knock.knockMessage)")
                         .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(Color.black)
                         .padding(.horizontal, 30)
                         .padding(.vertical, 30)
                         .fixedSize(horizontal: false, vertical: true)
@@ -103,10 +104,7 @@ struct ReceivedKnockView: View {
 								await pushKnockNotification(knock: knock)
 							}
 						} label: {
-							Text("Accept")
-								.font(.body)
-								.foregroundColor(.primary)
-								.bold()
+                            GSText.CustomTextView(style: .buttonTitle1, string: "Accept")
 								.padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
 						} // button: Accept
 					
