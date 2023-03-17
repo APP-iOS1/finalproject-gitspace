@@ -171,6 +171,11 @@ final class UserStore: ObservableObject {
     }
     
     @MainActor
+    private func writeUser(user: UserInfo) {
+        self.user = user
+    }
+    
+    @MainActor
     private func writeUsers(users: [UserInfo]) {
         self.users = users
     }
@@ -208,11 +213,6 @@ final class UserStore: ObservableObject {
             return nil
         }
         return user.blockedUserIDs.firstIndex(of: targetUserID)
-    }
-    
-    @MainActor
-    private func writeUser(user: UserInfo) {
-        self.user = user
     }
     
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
