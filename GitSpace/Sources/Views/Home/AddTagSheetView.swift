@@ -93,7 +93,7 @@ struct AddTagSheetView: View {
                             } label: {
                                 Image(systemName: "plus")
                                     .font(.title2)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                                     .padding(5)
                             }
                         }
