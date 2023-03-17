@@ -452,7 +452,7 @@ extension KnockViewManager {
                     return .knockHasBeenSent(
                         knockStatus: .accepted,
                         withKnock: knock,
-                        toChatID: knock.chatID ?? "" // chat 뷰를 그리기 위한 id 등 전달 필요
+                        toChatID: knock.chatID ?? "CHAT ID IS NIL" // chat 뷰를 그리기 위한 id 등 전달 필요
                     )
                 case Constant.KNOCK_DECLINED:
                     return .knockHasBeenSent(
@@ -477,7 +477,7 @@ extension KnockViewManager {
                     return .knockHasBeenSent(
                         knockStatus: .accepted,
                         withKnock: knock,
-                        toChatID: knock.chatID ?? "" // chat 뷰를 그리기 위한 id 등 전달 필요
+                        toChatID: knock.chatID ?? "CHAT ID IS NIL" // chat 뷰를 그리기 위한 id 등 전달 필요
                     )
                 case Constant.KNOCK_DECLINED:
                     return .knockHasBeenSent(
