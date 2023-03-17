@@ -9,7 +9,12 @@ import SwiftUI
 
 struct FailToLoadReadmeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Image("GitSpace-Star-Empty")
+                .resizable()
+            GSText.CustomTextView(style: .title3, string: "Fail to Load README.md")
+        }
+        .frame(width: 200, height: 200)
     }
 }
 
