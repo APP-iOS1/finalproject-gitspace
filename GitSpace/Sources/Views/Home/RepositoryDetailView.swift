@@ -48,7 +48,7 @@ struct RepositoryDetailView: View {
                 ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title5, string:"✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .buttonTitle1, string:"✊🏻  Knock Knock!")
             }
             
             RichText(html: markdownString)
@@ -61,6 +61,7 @@ struct RepositoryDetailView: View {
                         GSText.CustomTextView(style: .body1, string: "Loading README.md...")
                     }
                 }
+                .padding(.top, 15)
             
         }
         .padding(.horizontal, 30)
@@ -161,7 +162,7 @@ struct RepositoryDetailViewTags: View {
                     isTagSheetShowed = true
                 } label: {
                     Image(systemName: "plus")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
             }
             
