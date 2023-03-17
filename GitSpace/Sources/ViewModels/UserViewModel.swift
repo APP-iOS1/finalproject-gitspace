@@ -20,6 +20,13 @@ final class UserStore: ObservableObject {
     
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
+    
+    /**
+     Listener에서 Async 구문을 사용할 수 없는 문제로 인해 직접 Return 받을 수 없는 상황을 해결하기 위한 변수
+     requestAndReturnUserWithCompletionHandler 메서드에서 할당받아서 사용하는 유저 정보
+     */
+    static var completionTargetUser: UserInfo?
+    
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
     private static let const = Constant.FirestorePathConst.self
