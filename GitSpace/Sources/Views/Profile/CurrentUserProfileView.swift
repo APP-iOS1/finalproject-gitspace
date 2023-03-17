@@ -11,9 +11,11 @@ import RichText
 // MARK: - 자기자신의 정보를 나타내는 프로필 뷰 (Profile 탭)
 struct CurrentUserProfileView: View {
 
-    let gitHubService = GitHubService()
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @State private var markdownString = ""
+    @State private var isFailedToLoadReadme = false
+
+    let gitHubService = GitHubService()
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -31,7 +33,7 @@ struct CurrentUserProfileView: View {
                     }
 
                     VStack(alignment: .leading) {
-                        
+
                         if let name = gitHubAuthManager.authenticatedUser?.name {
                             // 내가 설정한 이름
                             GSText.CustomTextView(style: .title2, string: name)
@@ -45,7 +47,7 @@ struct CurrentUserProfileView: View {
                     }
                     Spacer()
                 }
-                .padding(.bottom, 5)
+                    .padding(.bottom, 5)
 
                 // MARK: - 프로필 Bio
                 if let bio = gitHubAuthManager.authenticatedUser?.bio {
@@ -146,55 +148,60 @@ struct CurrentUserProfileView: View {
                     .overlay(Color.gsGray3)
                     .padding(.vertical, 10)
 
-                // MARK: - 유저의 README
-                GSText.CustomTextView(style: .caption2, string: "README.md")
+                if isFailedToLoadReadme {
+                    FailToLoadReadmeView()
+                } else {
+                    // MARK: - 유저의 README
+                    VStack {
+                        HStack {
+                            GSText.CustomTextView(style: .caption2, string: "README.md")
+                            Spacer()
+                        }
 
-                GSCanvas.CustomCanvasView(style: .primary) {
-                    RichText(html: markdownString)
-                        .colorScheme(.auto)
-                        .fontType(.system)
-                        .linkOpenType(.SFSafariView())
-                        .placeholder {
-                        Image("GitSpace-Loading")
-                        GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+                        RichText(html: markdownString)
+                            .colorScheme(.auto)
+                            .fontType(.system)
+                            .linkOpenType(.SFSafariView())
+                            .placeholder {
+                            ReadmeLoadingView()
+                        }
                     }
                 }
+
             } // vstack
             .padding(.horizontal, 20)
         }
             .onAppear {
-            Task {
-                guard let userName = gitHubAuthManager.authenticatedUser?.login else { return }
+                Task {
+                    guard let userName = gitHubAuthManager.authenticatedUser?.login else { return }
+                    let result = await gitHubService.requestRepositoryReadme(owner: userName, repositoryName: userName)
 
-                let result = await gitHubService.requestRepositoryReadme(owner: userName, repositoryName: userName)
+                    switch result {
 
-                switch result {
+                    case .success(let readme):
+                        guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
+                            isFailedToLoadReadme = true
+                            return
+                        }
 
-                case .success(let readme):
-                    guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
+                        guard let decodeContent = String(data: content, encoding: .utf8) else {
+                            isFailedToLoadReadme = true
+                            return
+                        }
 
-                    guard let decodeContent = String(data: content, encoding: .utf8) else {
-                        markdownString = "Fail to read README.md"
-                        return
-                    }
+                        let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
 
-                    let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
+                        switch htmlResult {
+                        case .success(let result):
+                            markdownString = result
+                        case .failure:
+                            isFailedToLoadReadme = true
+                        }
 
-                    switch htmlResult {
-                    case .success(let result):
-                        markdownString = result
                     case .failure:
-                        markdownString = "fail to load README.md"
+                        isFailedToLoadReadme = true
                     }
-
-                case .failure(let error):
-                    // TODO: - "README.md를 불러올 수 없습니다"에 해당하는 뷰를 보여주기 위하여 트리거 설정
-                    print(error)
                 }
-            }
         }
     }
 }
