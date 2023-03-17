@@ -71,7 +71,7 @@ final class UserStore: ObservableObject {
     }
     
     static func requestAndReturnUser(userID: String) async -> UserInfo? {
-        let doc = Firestore.firestore().collection(const.COLLECTION_USER_INFO).document(userID)
+        let doc = db.collection(const.COLLECTION_USER_INFO).document(userID)
         do {
             let userInfo = try await doc.getDocument(as: UserInfo.self)
             return userInfo
