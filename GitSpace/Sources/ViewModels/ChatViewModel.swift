@@ -96,7 +96,11 @@ extension ChatStore {
     private func listenerAddChat(change: QueryDocumentSnapshot) {
         let newChat = decodeNewChat(change: change)
         
-        if let newChat, let targetUserInfo = await UserStore.requestAndReturnUser(userID: newChat.targetUserID) {
+        guard let newChat else { return }
+        
+        UserStore.requestTargetUserInfo(userID: newChat.targetUserID)
+        
+        if let targetUserInfo = UserStore.completionTargetUser {
             chats.append(newChat)
             targetUserInfoDict[newChat.id] = targetUserInfo
             sortChats()
