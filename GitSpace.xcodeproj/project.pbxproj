@@ -21,6 +21,8 @@
 		2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F242299D1B0B00B2643D /* EventViewModel.swift */; };
 		2205F245299D2B2B00B2643D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F244299D2B2B00B2643D /* Date+.swift */; };
 		2226AAC329B4E59C00F15BF0 /* RichText in Frameworks */ = {isa = PBXBuildFile; productRef = 2226AAC229B4E59C00F15BF0 /* RichText */; };
+		224731A629C35AD1003D7DFF /* ReadmeLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224731A529C35AD1003D7DFF /* ReadmeLoadingView.swift */; };
+		224731A829C4443F003D7DFF /* FailToLoadReadmeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224731A729C4443F003D7DFF /* FailToLoadReadmeView.swift */; };
 		225A22CF299778A900786B35 /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C4299778A900786B35 /* HTTPRequestMethod.swift */; };
 		225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C5299778A900786B35 /* GitHubAPIError.swift */; };
 		225A22D1299778A900786B35 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A22C6299778A900786B35 /* HTTPClient.swift */; };
@@ -172,6 +174,8 @@
 		2205F240299CCBF900B2643D /* FollowerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewModel.swift; sourceTree = "<group>"; };
 		2205F242299D1B0B00B2643D /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		2205F244299D2B2B00B2643D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		224731A529C35AD1003D7DFF /* ReadmeLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadmeLoadingView.swift; sourceTree = "<group>"; };
+		224731A729C4443F003D7DFF /* FailToLoadReadmeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailToLoadReadmeView.swift; sourceTree = "<group>"; };
 		225A22C4299778A900786B35 /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
 		225A22C5299778A900786B35 /* GitHubAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		225A22C6299778A900786B35 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 			isa = PBXGroup;
 			children = (
 				347146012990BC5200ED990C /* TopperProfileView.swift */,
+				224731A529C35AD1003D7DFF /* ReadmeLoadingView.swift */,
+				224731A729C4443F003D7DFF /* FailToLoadReadmeView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -927,9 +933,11 @@
 				225A22D4299778A900786B35 /* UserResponse.swift in Sources */,
 				225A22D1299778A900786B35 /* HTTPClient.swift in Sources */,
 				34277363299495EC00818816 /* SetPrivacySafetyView.swift in Sources */,
+				224731A629C35AD1003D7DFF /* ReadmeLoadingView.swift in Sources */,
 				342773572993E1BE00818816 /* SetLicensesView.swift in Sources */,
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				34277361299495C000818816 /* SetAccountView.swift in Sources */,
+				224731A829C4443F003D7DFF /* FailToLoadReadmeView.swift in Sources */,
 				2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
