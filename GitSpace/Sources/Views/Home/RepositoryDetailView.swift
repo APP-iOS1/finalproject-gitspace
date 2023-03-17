@@ -10,85 +10,102 @@ import RichText
 
 
 struct RepositoryDetailView: View {
+    @StateObject var contributorViewModel = ContributorViewModel()
     @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
-    @StateObject var contributorViewModel = ContributorViewModel()
-    
+    @State private var isFailedToLoadReadme = false
+
     let gitHubService: GitHubService
     let repository: Repository
-    
+
     init(service: GitHubService, repository: Repository) {
         self.gitHubService = service
         self.repository = repository
     }
-    
+
     var body: some View {
-        
+
         ScrollView(showsIndicators: false) {
-            
+
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
                 .padding(.bottom, 20)
-            
+
             // MARK: - 레포에 부여된 태그 섹션
             RepositoryDetailViewTags(selectedTags: $selectedTagList, repository: repository)
 
             Spacer()
-            
+
             GSNavigationLink(style: .primary) {
                 ContributorListView(service: gitHubService, repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .title3, string: "✊🏻  Knock Knock!")
             }
-            
-            
-            RichText(html: markdownString)
-                .colorScheme(.auto)
-                .fontType(.system)
-                .linkOpenType(.SFSafariView())
-                .placeholder {
-                    Image("GitSpace-Loading")
-                    GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
+                .padding(.vertical, 10)
+
+            if isFailedToLoadReadme {
+                FailToLoadReadmeView()
+            } else {
+                VStack {
+                    HStack {
+                        GSText.CustomTextView(style: .caption2, string: "README.md")
+                        Spacer()
+                    }
+
+                    RichText(html: markdownString)
+                        .colorScheme(.auto)
+                        .fontType(.system)
+                        .linkOpenType(.SFSafariView())
+                        .placeholder {
+                        ReadmeLoadingView()
+                    }
                 }
-            
+            }
+
+
+
         }
-        .padding(.horizontal, 30)
-        .onAppear {
-            
+            .padding(.horizontal, 30)
+            .onAppear {
+
             Task {
                 let readMeResult = await gitHubService.requestRepositoryReadme(owner: repository.owner.login, repositoryName: repository.name)
-                
+
                 switch readMeResult {
-                    
+
                 case .success(let response):
                     guard let content = Data(base64Encoded: response.content, options: .ignoreUnknownCharacters) else {
-                        markdownString = "Fail to read README.md"
+                        isFailedToLoadReadme = true
                         return
                     }
-                    
+
                     guard let decodeContent = String(data: content, encoding: .utf8) else {
-                        markdownString = "Fail to read README.md"
+                        isFailedToLoadReadme = true
                         return
                     }
-                    
+
                     let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
-                    
+
                     switch htmlResult {
-                        
+
                     case .success(let result):
                         markdownString = result
-                        
+
                     case .failure:
-                        markdownString = "fail to load README.md"
+                        isFailedToLoadReadme = true
                     }
-                    
+
                 case .failure:
-                    markdownString = "fail to load README.md"
+                    isFailedToLoadReadme = true
                 }
-                
+
                 let contributorsResult = await gitHubService.requestRepositoryContributors(owner: repository.owner.login, repositoryName: repository.name, page: 1)
-                
+
                 switch contributorsResult {
                 case .success(let users):
                     contributorViewModel.contributors.removeAll()
@@ -101,15 +118,15 @@ struct RepositoryDetailView: View {
                             print(error)
                         }
                     }
-                    
+
                 case .failure(let error):
                     // 컨트리뷰터 목록을 가져올 수 없다는 에러
                     print(error.localizedDescription)
                 }
-                
+
             }
         }
-        .navigationBarTitle(repository.name, displayMode: .inline)
+            .navigationBarTitle(repository.name, displayMode: .inline)
     }
 }
 
@@ -119,29 +136,29 @@ struct RepositoryInfoCard: View {
     @ObservedObject var contributorManager: ContributorViewModel
     let gitHubService: GitHubService
     let repository: Repository
-    
+
     init(service: GitHubService, repository: Repository, contributorManager: ContributorViewModel) {
         self.gitHubService = service
         self.repository = repository
         self.contributorManager = contributorManager
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            
+
             // 레포 타이틀
             GSText.CustomTextView(style: .title1, string: repository.name)
-            
+
             // 레포 설명글
             GSText.CustomTextView(style: .body1, string: repository.description ?? "This Repository has no description")
-            
+
             GSText.CustomTextView(style: .body2, string: "⭐️ \(repository.stargazersCount) stars")
-            
+
             Divider()
-            
+
             // Contributors 섹션 타이틀
             GSText.CustomTextView(style: .title3, string: "Contributors")
-            
+
             // Contributors 유저 프로필들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -153,8 +170,8 @@ struct RepositoryInfoCard: View {
                 }
             }
         }
-        .padding(20)
-        .background(
+            .padding(20)
+            .background(
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.white)
                 .shadow(color: .gray, radius: 3, x: 1, y: 2)
@@ -170,17 +187,17 @@ struct RepositoryDetailViewTags: View {
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
-    
+
     let repository: Repository
 
     var body: some View {
         VStack(alignment: .leading) {
-            
+
             // 태그 섹션 타이틀
             HStack {
                 Text("**My Tags**")
                     .font(.title2)
-                
+
                 // 태그 추가 버튼
                 Button {
                     // MainHomeView 코드 붙붙
@@ -190,7 +207,7 @@ struct RepositoryDetailViewTags: View {
                         .foregroundColor(.black)
                 }
             }
-            
+
             // 추가된 태그들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -206,20 +223,20 @@ struct RepositoryDetailViewTags: View {
                             // !!!: - 대응데이
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
                             Text(tag.tagName)
-                            .padding(-10)
+                                .padding(-10)
 
                         }
                     }
                 }
             }
-            
+
         }
         // FIXME: selectedTag의 값
         /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
             AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView, repositoryName: repository.fullName)
         }
-        .onAppear {
+            .onAppear {
             Task {
                 selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: repository.fullName) ?? []
                 let _ = print("++++", selectedTags)
