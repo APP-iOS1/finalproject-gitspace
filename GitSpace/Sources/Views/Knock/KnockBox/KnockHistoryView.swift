@@ -52,6 +52,7 @@ struct KnockHistoryView: View {
 				HStack {
 					Text("**\(eachKnock.knockMessage)**")
 						.font(.callout)
+                        .foregroundColor(Color.black)
 				}
 				.frame(maxWidth: UIScreen.main.bounds.width)
 				.padding(.vertical, 36)
