@@ -43,7 +43,7 @@ struct GuideFuncSection: View {
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Star the repository\nyou want to see again!")
+                                    string: "Star repositories you want to see again")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -75,7 +75,7 @@ struct GuideFuncSection: View {
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Manage your star repo with tags.")
+                                    string: "Organize your starred repositories using tags")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -103,7 +103,7 @@ struct GuideFuncSection: View {
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "View the activities of the following users.")
+                                    string: "Catch up with your friends' latest Git activities")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -135,7 +135,7 @@ struct GuideFuncSection: View {
                                 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Knock, before the chat.")
+                                    string: "Knock, before your chat")
                                 .multilineTextAlignment(.leading)
                             }
                             
@@ -167,7 +167,7 @@ struct GuideFuncSection: View {
                                 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "Chat with the contributor of the Starred Repo!")
+                                    string: "Connect with contributors of your starred repositories")
                                 .multilineTextAlignment(.leading)
                             }
                             
