@@ -443,11 +443,7 @@ Please write a message carefully.
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
-                    if let sendKnockToGitHubUser {
-                        TargetUserProfileView(user: sendKnockToGitHubUser)
-                    } else {
-                        GSText.CustomTextView(style: .body1, string: "Cannot Find User")
-                    }
+                    ProfileDetailView()
                 } label: {
                     HStack(spacing: 5) {
                         AsyncImage(url: URL(string: "\(sendKnockToGitHubUser?.avatar_url ?? "")")) { image in
