@@ -14,16 +14,15 @@ import FirebaseFirestoreSwift
 final class TagViewModel: ObservableObject {
     @Published var tags: [Tag] = []
     
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     // MARK: Request Custom tags
     /// 사용자가 등록한 모든 사용자 정의 태그를 불러옵니다.
     @MainActor
     func requestTags() async -> Void {
         do {
-            let snapshot = try await database.collection("UserInfo")
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
+            let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .getDocuments()
@@ -41,12 +40,10 @@ final class TagViewModel: ObservableObject {
     
     // MARK: Register New Custom Tag
     /// 새로운 사용자 정의 태그를 등록합니다.
-    func registerTag(tagName: String) async -> Void {
+    func registerTag(tagName: String) async -> Tag? {
         do {
             let tid = UUID().uuidString
-            try await database.collection("UserInfo")
-            // FIXME: 현재 유저 id로 변경
-//                .document("50159740")
+            try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tid)
@@ -55,8 +52,10 @@ final class TagViewModel: ObservableObject {
                     "tagName": tagName,
                     "repositories": []
                 ])
+            return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
             print("Register Tag Error")
+            return nil
         }
     }
     
@@ -64,9 +63,7 @@ final class TagViewModel: ObservableObject {
     /// 특정 사용자 태그를 삭제합니다.
     func deleteTag(tag: Tag) async -> Void {
         do {
-            try await database.collection("UserInfo")
-//                .document("50159740")
-            // FIXME: 현재 유저 id로 변경
+            try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection("Tag")
                 .document(tag.id)
@@ -112,10 +109,7 @@ final class TagViewModel: ObservableObject {
     func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
         do {
             for tag in tags {
-                print(tag)
-                try await database.collection("UserInfo")
-//                    .document("50159740")
-                // FIXME: 현재 유저 id로 변경
+                try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
                     .collection("Tag")
                     .document(tag.id)

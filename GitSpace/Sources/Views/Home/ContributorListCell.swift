@@ -17,8 +17,11 @@ struct ContributorGitSpaceUserListCell: View {
         
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
             HStack(spacing: 15) {
-                /* 유저 프로필 이미지 */
-                GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
+                
+                NavigationLink(destination: UserProfileView(user: targetUser)) {
+                    /* 유저 프로필 이미지 */
+                    GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
+                }
                 
                 VStack(alignment: .leading) {
                     /* 유저네임 */
@@ -54,21 +57,24 @@ struct ContributorListCell: View {
         
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
             HStack(spacing: 15) {
-                /* 유저 프로필 이미지 */
-                GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
                 
-                VStack(alignment: .leading) {
-                    /* 유저네임 */
-                    GSText.CustomTextView(
-                        style: .title3,
-                        string: targetUser.name ?? targetUser.login)
+                NavigationLink(destination: UserProfileView(user: targetUser)) {
+                    /* 유저 프로필 이미지 */
+                    GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
                     
-                    /* 유저ID */
-                    GSText.CustomTextView(
-                        style: .sectionTitle,
-                        string: targetUser.login)
-                } // VStack
-                .multilineTextAlignment(.leading)
+                    VStack(alignment: .leading) {
+                        /* 유저네임 */
+                        GSText.CustomTextView(
+                            style: .title3,
+                            string: targetUser.name ?? targetUser.login)
+                        
+                        /* 유저ID */
+                        GSText.CustomTextView(
+                            style: .sectionTitle,
+                            string: targetUser.login)
+                    } // VStack
+                    .multilineTextAlignment(.leading)
+                }
                 
                 Spacer()
             } // HStack
