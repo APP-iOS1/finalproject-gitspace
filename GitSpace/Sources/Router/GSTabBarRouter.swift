@@ -15,23 +15,6 @@ import SwiftUI
 
 final class GSTabBarRouter: ObservableObject {
     @Published var currentPage: Page?
-	@Published var navigateToReceivedKnock: Bool = false
-	@Published var navigateToSentKnock: Bool = false
-	@Published var navigateToChat: Bool = false
-	
-	init() {
-		currentPage = nil
-		
-		$navigateToSentKnock
-			.sink { newValue in
-				print("$navigateToSentKnock", newValue)
-			}
-		
-		$navigateToReceivedKnock
-			.sink { newValue in
-				print("$navigateToReceivedKnock", newValue)
-			}
-	}
 }
 
 extension GSTabBarRouter {

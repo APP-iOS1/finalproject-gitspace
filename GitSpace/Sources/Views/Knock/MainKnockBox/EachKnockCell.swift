@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct EachKnockCell: View {
-	let userSelectedTab: String
-	@State var eachKnock: Knock
-    @Binding var isEdit: Bool
+    @EnvironmentObject var knockViewManager: KnockViewManager
+    @EnvironmentObject var userInfoManager: UserStore
+	@Binding var eachKnock: Knock
+    @Binding var isEditing: Bool
+    @State private var targetUserInfo: UserInfo? = nil
     @State private var isChecked: Bool = false
+    
+    // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
+    @State var userSelectedTab: String
 	
 	// MARK: - body
     var body: some View {
 		VStack {
 			HStack(alignment: .center) {
-				if isEdit {
+				if isEditing {
 					Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
@@ -28,23 +33,24 @@ struct EachKnockCell: View {
 						}
 				}
 				
-				Image(systemName: "person.crop.circle.fill")
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.frame(width: 50, height: 50)
+                GithubProfileImage(
+                    urlStr: targetUserInfo?.avatar_url ?? "",
+                    size: 50
+                )
 				
 				VStack {
 					HStack {
-						Text(
-							userSelectedTab == Constant.KNOCK_RECEIVED
-							? "from: **\(eachKnock.sentUserName)**"
-							: "to: **\(eachKnock.receivedUserName)**"
-						)
-							.font(.body)
+                        if userSelectedTab == Constant.KNOCK_RECEIVED {
+                            Text("from: **\(eachKnock.sentUserName)**")
+                                .font(.body)
+                        } else {
+                            Text("to: **\(eachKnock.receivedUserName)**")
+                                .font(.body)
+                        }
 						
 						Spacer()
 						
-						Text("\(eachKnock.dateDiff)m")
+                        Text("\(eachKnock.dateDiff)")
 							.font(.subheadline)
 							.foregroundColor(Color(.systemGray))
 							.padding(.leading, -10)
@@ -65,21 +71,17 @@ struct EachKnockCell: View {
 						
 						if eachKnock.knockStatus == Constant.KNOCK_WAITING {
 							Text(eachKnock.knockStatus)
-							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemBlue))
 						} else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
 							Text(eachKnock.knockStatus)
-							//.padding(.trailing, 5)
 								.foregroundColor(Color(.systemGreen))
 						} else {
 							Text("\(eachKnock.knockStatus)")
-							//.padding(.trailing, 0)
 								.foregroundColor(Color(.systemRed))
 						}
 					} // HStack
 					.font(.subheadline)
 					.foregroundColor(Color(.systemGray))
-					
 					
 				} // VStack
 				
@@ -90,12 +92,13 @@ struct EachKnockCell: View {
 			Divider()
 				.padding(.horizontal, 20)
 		}
-    }
-	
-}
-
-struct MyKnockCell_Previews: PreviewProvider {
-    static var previews: some View {
-        MainKnockView()
+        .task {
+            // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
+            if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
+            } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+            }
+        }
     }
 }

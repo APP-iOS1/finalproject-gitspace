@@ -8,24 +8,24 @@
 import Foundation
 
 /**
- Client측에서 채택해야 할 프로토콜, requset를 보내는 sendRequest 함수가 있다.
- - Author: 제균
+Client측에서 채택해야 할 프로토콜, requset를 보내는 sendRequest 함수가 있다.
+- Author: 제균
  */
 protocol HTTPClient {
     /**
-     HTTP request를 보내고, 성공시 지정한 model을 돌려받을 수 있다.
-     실패시 error를 받는다.
+    HTTP request를 보내고, 성공시 지정한 model을 돌려받을 수 있다.
+    실패시 error를 받는다.
      */
     func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, GitHubAPIError>
 
     /**
-     response로 status code와 함께 string을 받는 경우(Markdown)
+    response로 status code와 함께 string을 받는 경우(Markdown)
      */
     func sendRequest(endpoint: Endpoint) async -> Result<String, GitHubAPIError>
 
     /**
-     response로 status code만 받는 경우 (star, unstar, follow, unfollow)
-     status code만 받기 때문에, 204를 만나면 break, 나머지 코드를 받으면 error를 throw한다.
+    response로 status code만 받는 경우 (star, unstar, follow, unfollow)
+    status code만 받기 때문에, 204를 만나면 break, 나머지 코드를 받으면 error를 throw한다.
      */
     func sendRequest(endpoint: Endpoint) async throws
 }
@@ -65,9 +65,8 @@ extension HTTPClient {
 
             switch response.statusCode {
             case 200...299:
-
                 guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
-                    return .failure(.failToDecode)
+                    return .failure(.failToDecoding)
                 }
                 return .success(decodedResponse)
             default:
@@ -109,7 +108,7 @@ extension HTTPClient {
             switch response.statusCode {
             case 200:
                 guard let resultString = String(data: data, encoding: .utf8) else {
-                    return .failure(GitHubAPIError.unknown)
+                    return .failure(.failToEncoding)
                 }
                 return .success(resultString)
             case 204:
@@ -120,16 +119,14 @@ extension HTTPClient {
                 return .failure(.requiresAuthentification)
             case 403:
                 return .failure(.forbidden)
-            case 404:
-                return .failure(.notFound)
             default:
                 return .failure(.unexpectedStatusCode)
             }
         } catch {
-            return .failure(.unknown)
+            return .failure(.failToRequest)
         }
     }
-    
+
     func sendRequest(endpoint: Endpoint) async throws {
         var components = URLComponents()
         components.scheme = endpoint.scheme
@@ -171,12 +168,10 @@ extension HTTPClient {
             default:
                 throw GitHubAPIError.unexpectedStatusCode
             }
-
         } catch {
             throw GitHubAPIError.unknown
         }
     }
-
 }
 
 
