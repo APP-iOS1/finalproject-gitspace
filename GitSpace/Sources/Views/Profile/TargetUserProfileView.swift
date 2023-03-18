@@ -253,7 +253,7 @@ struct TargetUserProfileView: View {
                             .fontType(.system)
                             .linkOpenType(.SFSafariView())
                             .placeholder {
-                            ReadmeLoadingView()
+                                ReadmeLoadingView()
                         }
                     }
                 }
