@@ -9,60 +9,63 @@ import SwiftUI
 import RichText
 
 struct RepositoryDetailView: View {
-    @State private var selectedTagList: [Tag] = []
-    @State private var markdownString: String = ""
+
     @StateObject var contributorViewModel = ContributorViewModel(service: GitHubService())
     @StateObject var repositoryDetailViewModel = RepositoryDetailViewModel(service: GitHubService())
-    
+    @State private var selectedTagList: [Tag] = []
+    @State private var markdownString: String = ""
+    @State private var isFailedToLoadReadme = false
+
     let repository: Repository
-    
+
     init(repository: Repository) {
         self.repository = repository
     }
-    
+
     var body: some View {
-        
+
         ScrollView(showsIndicators: false) {
-//
-//            HStack {
-//                Image("GuideImage")
-//                // FIXME: - star를 누른 사람의 이름 주입
-//                Text("Check out what **Random Brazil Guy** just starred!")
-//                    .font(.footnote)
-//                    .foregroundColor(.secondary)
-//                Spacer()
-//            }
-//            .padding(.bottom, 10)
-            
-            
+
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard(repository: repository, contributorViewModel: contributorViewModel)
                 .padding(.bottom, 20)
-            
+
             // MARK: - 레포에 부여된 태그 섹션
             RepositoryDetailViewTags(selectedTags: $selectedTagList, repository: repository)
 
             Spacer()
-            
+
             GSNavigationLink(style: .primary) {
                 ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .title3, string: "✊🏻  Knock Knock!")
             }
             .disabled(contributorViewModel.isLoading)
-            
-            RichText(html: markdownString)
-                .colorScheme(.auto)
-                .fontType(.system)
-                .linkOpenType(.SFSafariView())
-                .placeholder {
-                    VStack {
-                        Image("GitSpace-Loading")
-                        GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
+                .padding(.vertical, 10)
+
+            if isFailedToLoadReadme {
+                FailToLoadReadmeView()
+            } else {
+                VStack {
+                    HStack {
+                        GSText.CustomTextView(style: .caption2, string: "README.md")
+                        Spacer()
+                    }
+
+                    RichText(html: markdownString)
+                        .colorScheme(.auto)
+                        .fontType(.system)
+                        .linkOpenType(.SFSafariView())
+                        .placeholder {
+                        ReadmeLoadingView()
                     }
                 }
-            
+            }
         }
         .padding(.horizontal, 30)
         .task {
@@ -94,23 +97,23 @@ struct RepositoryInfoCard: View {
         self.repository = repository
         self.contributorViewModel = contributorViewModel
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            
+
             // 레포 타이틀
             GSText.CustomTextView(style: .title1, string: repository.name)
-            
+
             // 레포 설명글
             GSText.CustomTextView(style: .body1, string: repository.description ?? "This Repository has no description")
-            
+
             GSText.CustomTextView(style: .body2, string: "⭐️ \(repository.stargazersCount) stars")
-            
+
             Divider()
-            
+
             // Contributors 섹션 타이틀
             GSText.CustomTextView(style: .title3, string: "Contributors")
-            
+
             // Contributors 유저 프로필들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -145,17 +148,17 @@ struct RepositoryDetailViewTags: View {
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
-    
+
     let repository: Repository
 
     var body: some View {
         VStack(alignment: .leading) {
-            
+
             // 태그 섹션 타이틀
             HStack {
                 Text("**My Tags**")
                     .font(.title2)
-                
+
                 // 태그 추가 버튼
                 Button {
                     // MainHomeView 코드 붙붙
@@ -165,7 +168,7 @@ struct RepositoryDetailViewTags: View {
                         .foregroundColor(.black)
                 }
             }
-            
+
             // 추가된 태그들
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -181,20 +184,20 @@ struct RepositoryDetailViewTags: View {
                             // !!!: - 대응데이
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
                             Text(tag.tagName)
-                            .padding(-10)
+                                .padding(-10)
 
                         }
                     }
                 }
             }
-            
+
         }
         // FIXME: selectedTag의 값
         /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
             AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView, repositoryName: repository.fullName)
         }
-        .onAppear {
+            .onAppear {
             Task {
                 selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: repository.fullName) ?? []
                 let _ = print("++++", selectedTags)

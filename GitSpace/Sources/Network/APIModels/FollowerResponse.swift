@@ -1,5 +1,5 @@
 //
-//  Follower.swift
+//  FollowerResponse.swift
 //  GitSpace
 //
 //  Created by 박제균 on 2023/02/15.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FollowersResponse: Codable, Identifiable, Equatable {
+struct FollowerResponse: Codable, Identifiable, Equatable {
     
     let id: Int
     let name: String?
