@@ -41,7 +41,7 @@ struct TopperProfileView: View {
             
             // MARK: - 프로필 이동 버튼
             GSNavigationLink(style: .secondary) {
-                TargetUserProfileView(user: GithubUser(id: targetUserInfo.githubID, login: targetUserInfo.githubLogin, name: targetUserInfo.githubName, email: targetUserInfo.githubEmail, avatar_url: targetUserInfo.avatar_url, bio: targetUserInfo.bio, company: targetUserInfo.company, location: targetUserInfo.location, blog: targetUserInfo.blog, public_repos: targetUserInfo.public_repos, followers: targetUserInfo.followers, following: targetUserInfo.following))
+                ProfileDetailView()
             } label: {
                 Text("View Profile")
                     .font(.footnote)

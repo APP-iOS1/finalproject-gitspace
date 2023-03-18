@@ -28,6 +28,7 @@ struct GSTextField {
         public let const = Constant.TextFieldConst.self
         public let style: GSTextFieldStyle
         public let text: Binding<String>
+        @Environment(\.colorScheme) var colorScheme
         
         init(style: GSTextFieldStyle, text: Binding<String>) {
             self.style = style
@@ -41,9 +42,7 @@ struct GSTextField {
             case .searchBarField:
                 HStack(spacing: const.SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE) {
                     Image(systemName: const.SEARCHBAR_FIELD_SYMBOL_NAME)
-                        .foregroundColor(.black)
                     TextField(const.SEARCHBAR_FIELD_PLACEHOLDER, text: text)
-                        .foregroundColor(.primary)
                 }
                 .modifier(GSTextFieldLayoutModifier(style: style))
                 
@@ -57,16 +56,16 @@ struct GSTextField {
 
 
 struct Test: View {
-    @State var text1: String = ""
-    @State var text2: String = ""
+    @State var text1: String = "안녕하세요 반갑습니다"
+    @State var text2: String = "안녕하세요 반갑습니다"
 	
 	var body: some View {
 		VStack {
             GSTextField.CustomTextFieldView.init(style: .searchBarField,
-                                         text: $text1)
+                                                 text: $text1)
             
             GSTextField.CustomTextFieldView.init(style: .addTagField,
-                                         text: $text2)
+                                                 text: $text2)
 		}
 	}
 }
