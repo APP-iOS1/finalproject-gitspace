@@ -15,7 +15,7 @@ struct KnockNotificationCell: View {
             // FIXME: - Button Shape의 NavigationLink가 아님 -> GSNavigationLink 적용 불가
             NavigationLink {
                 // 노크를 보낸 유저의 프로필 사진
-//                ProfileDetailView()
+                ProfileDetailView()
             } label: {
                 // FIXME: - Default Image 회색으로 변경
                 Image("avatarImage")
