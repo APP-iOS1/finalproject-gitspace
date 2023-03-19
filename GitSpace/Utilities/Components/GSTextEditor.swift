@@ -83,16 +83,22 @@ struct GSTextEditor {
         // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
         private func updateTextEditorCurrentHeight(textEditorWidth: CGFloat) {
             
-            let floatNewLineCounter = CGFloat(newLineCounter) // 개행문자 갯수
-            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth)) // 텍스트 길이에 의한 자동 줄바꿈 갯수
-            let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount // 총 라인 갯수
+            // 개행문자 갯수
+            let floatNewLineCounter = CGFloat(newLineCounter)
+            
+            // 텍스트 길이에 의한 자동 줄바꿈 갯수
+            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth))
+            
+            // 총 라인 갯수
+            let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount
             
             // 라인 갯수로 계산한 현재 Editor 높이
             let tempTextEditorHeight = (floatTotalLineCount * mainFontLineHeight)
             + floatTotalLineCount * lineSpace
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
             
-            let floatMaxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT) // 최대 줄 갯수
+            // 최대 줄 갯수
+            let floatMaxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT)
             
             // 최대 줄 갯수 기준 Editor 높이
             let maxHeight = mainFontLineHeight * floatMaxLineCount
