@@ -201,15 +201,7 @@ struct ChatRoomView: View {
     private var addContentButton : some View {
         Button {
             Task {
-                // 상대방의 id로 유저를 가져옵니다.
-                let sentFrom = userStore.user?.githubLogin
-				async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
-                
-				// TODO: - PUSH NOTIFICATION 수정 필요
-				// !!!: DUE TO USERINFO MODEL UPDATE
-                
                 await addContent()
-                
             }
         } label: {
             Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")

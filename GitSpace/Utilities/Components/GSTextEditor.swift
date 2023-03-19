@@ -73,6 +73,8 @@ struct GSTextEditor {
             return label.frame.width
         }
         
+        private var 
+        
         // MARK: -Methods
         // MARK: Method - 시작 textEditor 높이를 세팅해주는 메서드
         private func setTextEditorStartHeight() {
