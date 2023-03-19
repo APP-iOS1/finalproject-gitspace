@@ -57,16 +57,7 @@ final class ChatStore: ObservableObject {
         targetUserInfoDict = [:]
         chats = []
         isDoneFetch = false
-		newChat = .init(
-			id: "",
-			createdDate: .now,
-			joinedMemberIDs: [],
-			lastContent: "",
-			lastContentDate: .now,
-			knockContent: "",
-			knockContentDate: .now,
-			unreadMessageCount: [:]
-		)
+        newChat = Chat.emptyChat()
 		targetUserInfoDict = [:]
     }
     
