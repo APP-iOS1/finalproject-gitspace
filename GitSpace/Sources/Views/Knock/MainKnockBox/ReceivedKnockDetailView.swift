@@ -124,7 +124,6 @@ struct ReceivedKnockDetailView: View {
                             
                             let newChat: Chat = makeNewChat()
                             await chatStore.addChat(newChat)
-                            
                             tabBarRouter.currentPage = .chats
                         }
                     } label: {
