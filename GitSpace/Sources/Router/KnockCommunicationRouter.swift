@@ -11,39 +11,78 @@ struct KnockCommunicationRouter: View {
     @EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatViewManager: ChatStore
-    @State private var isFetchDone: Bool = false
+    @State private var isFetchDone: Bool = false // 왜 필요함?
     @State private var isKnockSendable: Bool = false
     
     @State private var knockStateFilter: KnockStateFilter? = nil
-    @State private var knock: Knock? = nil
     @State private var chat: Chat? = nil
+    @State private var targetUserInfo: UserInfo? = nil
+    @State private var knock: Knock = .init(isFailedDummy: true)
     
     let targetGithubUser: GithubUser
     
     var body: some View {
         VStack {
-            
+            if isFetchDone {
+                if isKnockSendable {
+                    // MARK: - Success
+                    SendKnockView(sendKnockToGitHubUser: targetGithubUser)
+                } else if let knockStateFilter {
+                    switch knockStateFilter {
+                    case .waiting: // !!!: If CurrentUser Received, go to ReceivedKnockDetailView
+                        if knock.receivedUserID == userStore.currentUser?.id ?? "" {
+                            // MARK: - Success
+                            ReceivedKnockDetailView(knock: $knock)
+                        } else if knock.sentUserID == userStore.currentUser?.id ?? "" {
+                            // MARK: - Success
+                            KnockHistoryView(
+                                eachKnock: $knock,
+                                userSelectedTab: .constant(Constant.KNOCK_SENT)
+                            )
+                        }
+                    case .accepted: // !!!: Chat Exists
+                        // MARK: - Success
+                        if let chat,
+                           let targetUserInfo {
+                            ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
+                        }
+                    case .declined: // !!!: -> KnockHistoryView
+                        // MARK: - Success
+                        KnockHistoryView(
+                            eachKnock: $knock,
+                            userSelectedTab: .constant(Constant.KNOCK_RECEIVED)
+                        )
+                    default:
+                        if isKnockSendable {
+                            SendKnockView()
+                        } else {
+                            Text("Default")
+                        }
+                    }
+                }
+            } else {
+                // MARK: - Success
+                LoadingProgressView()
+            }
         }
         .task {
-            if let targetUser = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser.id){
+            if let targetUserInfo = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser.id) {
+                self.targetUserInfo = targetUserInfo
                 let result = await knockViewManager.checkIfKnockHasBeenSent(
                     currentUser: userStore.currentUser ?? .getFaliedUserInfo(),
-                    targetUser: targetUser
+                    targetUser: targetUserInfo
                 )
                 
                 switch result {
                 case let .knockHasBeenSent(knockStatus, withKnock, toChatID):
-                    switch knockStatus {
-                    case .accepted:
-                        self.chat = await chatViewManager.requestPushedChat(chatID: toChatID ?? "")
-                        fallthrough
-                    case .declined:
-                        fallthrough
-                    case .waiting:
-                        fallthrough
-                    default:
-                        if let withKnock {
-                            self.knock = withKnock
+                    if let withKnock {
+                        self.knock = withKnock
+                        self.knockStateFilter = knockStatus
+                        
+                        if knockStatus == .accepted,
+                           let toChatID {
+                            self.chat = await chatViewManager.requestPushedChat(chatID: toChatID)
+                            print("CHAT ADDED?", toChatID, chat?.id)
                         }
                     }
                 case let .ableToSentNewKnock(KnockFlag):
@@ -52,6 +91,7 @@ struct KnockCommunicationRouter: View {
                         self.isKnockSendable = KnockFlag
                     }
                 }
+                self.isFetchDone.toggle()
             }
         }
     }
