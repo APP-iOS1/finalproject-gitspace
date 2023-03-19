@@ -45,7 +45,8 @@ struct ChatListSection: View {
                             NavigationLink {
                                 ChatRoomView(chat: chat, targetUserInfo: targetUserInfo)
                             } label: {
-                                ChatListCell(chat: chat, targetUserInfo: targetUserInfo)
+                                ChatListCell(chat: chat,
+                                             targetUserInfo: targetUserInfo)
                                     .foregroundColor(.black)
                             }
                         }
