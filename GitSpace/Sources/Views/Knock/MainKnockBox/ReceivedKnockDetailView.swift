@@ -119,6 +119,8 @@ struct ReceivedKnockDetailView: View {
                                     // TODO: 현재 푸쉬알람에 이름 이상하게 뜨니까 확인하고 수정해라
                                     to: knockSentUser
                                 )
+
+                                tabBarRouter.currentPage = .chats
                             }
                         }
                     } label: {
@@ -198,6 +200,17 @@ struct ReceivedKnockDetailView: View {
                 .foregroundColor(.black)
             } // ToolbarItemGroup
         } // toolbar
+    }
+    
+    private func makeNewChat() -> Chat {
+        return Chat.init(id: UUID().uuidString,
+                         createdDate: .now,
+                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
+                         lastContent: "",
+                         lastContentDate: .now,
+                         knockContent: knock.knockMessage,
+                         knockContentDate: knock.knockedDate.dateValue(),
+                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
     }
 	
     // TODO: - Push Notification, Make new Chat Implement

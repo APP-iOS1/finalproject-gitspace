@@ -27,7 +27,10 @@ struct ChatListCell: View {
                         .lineLimit(1)
                         .padding(.bottom, 1)
                     
-                    GSText.CustomTextView(style: .description, string: chat.lastContent)
+                    GSText.CustomTextView(style: .description,
+                                          string: chat.lastContent.isEmpty
+                                          ? chat.knockContent
+                                          : chat.lastContent)
                 }
                 
                 Spacer()

@@ -25,7 +25,7 @@ struct ContributorListView: View {
     @State var gitSpaceUserList: [Int] = []
     @State var isDevided: Bool = false
     
-    func devideUser() async {
+    func divideUser() async {
         
         withAnimation(.easeInOut) {
             isDevided = false
@@ -192,10 +192,10 @@ Please select a User to start chatting with.
             
         } // ScrollView
         .task {
-            await devideUser()            
+            await divideUser()
         }
         .refreshable {
-            await devideUser()
+            await divideUser()
         }
         
     } // body

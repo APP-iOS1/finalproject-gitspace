@@ -9,20 +9,20 @@ import Foundation
 import FirebaseFirestore
 
 final class UserStore: ObservableObject {
-    
-	@Published var currentUser: UserInfo?
+
+    private let db = Firestore.firestore()
+    private static let db = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
+    private static let const = Constant.FirestorePathConst.self
     
     /**
      노크 혹은 채팅의 Push Notification을 수신할 사용자의 정보
      모델에서 githubID를 기준으로 해당 유저의 정보를 할당할 수 있도록 한다.
      */
     @Published var opponentUser: UserInfo?
-    
+	@Published var currentUser: UserInfo?
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    private let db = Firestore.firestore()
-    private let const = Constant.FirestorePathConst.self
-    private static let const = Constant.FirestorePathConst.self
     
     init(
 		users: [UserInfo] = [],
@@ -63,7 +63,7 @@ final class UserStore: ObservableObject {
     }
     
     static func requestAndReturnUser(userID: String) async -> UserInfo? {
-        let doc = Firestore.firestore().collection(const.COLLECTION_USER_INFO).document(userID)
+        let doc = db.collection(const.COLLECTION_USER_INFO).document(userID)
         do {
             let userInfo = try await doc.getDocument(as: UserInfo.self)
             return userInfo
@@ -147,6 +147,11 @@ final class UserStore: ObservableObject {
     }
     
     @MainActor
+    private func writeUser(user: UserInfo) {
+        self.user = user
+    }
+    
+    @MainActor
     private func writeUsers(users: [UserInfo]) {
         self.users = users
     }
@@ -184,11 +189,6 @@ final class UserStore: ObservableObject {
             return nil
         }
         return user.blockedUserIDs.firstIndex(of: targetUserID)
-    }
-    
-    @MainActor
-    private func writeUser(user: UserInfo) {
-        self.user = user
     }
     
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {

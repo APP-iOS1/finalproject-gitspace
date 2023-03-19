@@ -45,8 +45,7 @@ struct InitialView: View {
             }
         }
         .onViewDidLoad {
-            if githubAuthManager.authentification.currentUser != nil
-                && UserDefaults.standard.string(forKey: "AT") != nil {
+            if githubAuthManager.authentification.currentUser != nil && UserDefaults.standard.string(forKey: "AT") != nil {
                 Task {
                     await githubAuthManager.reauthenticateUser()
                     githubAuthManager.state = .signedIn
