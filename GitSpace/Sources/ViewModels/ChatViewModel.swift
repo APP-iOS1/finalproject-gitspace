@@ -85,7 +85,7 @@ extension ChatStore {
     }
     
     // MARK: Chat Listener에서 Added가 감지되었을 때, Chat을 로컬 Chat 리스트에 추가하고 재정렬하는 메서드
-    private func listenerAddChat(change: QueryDocumentSnapshot) {
+    private func listenerAddChat(change: QueryDocumentSnapshot) async {
         let newChat = decodeNewChat(change: change)
         
         guard let newChat else { return }
