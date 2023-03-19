@@ -43,29 +43,21 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-	var targetUserInfoDict: [String: UserInfo]
-	@Published var newChat: Chat
-    @Published var chats: [Chat]
-    @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
-    
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
+	
+    var targetUserInfoDict: [String: UserInfo]
+    
+	@Published var newChat: Chat
+    @Published var chats: [Chat]
+    @Published var isDoneFetch: Bool // 스켈레톤 UI 종료 + 패치를 한 번만 수행하기 위한 변수
     
     init() {
         targetUserInfoDict = [:]
         chats = []
         isDoneFetch = false
-		newChat = .init(
-			id: "",
-			createdDate: .now,
-			joinedMemberIDs: [],
-			lastContent: "",
-			lastContentDate: .now,
-			knockContent: "",
-			knockContentDate: .now,
-			unreadMessageCount: [:]
-		)
+        newChat = Chat.emptyChat()
 		targetUserInfoDict = [:]
     }
     
@@ -93,12 +85,21 @@ extension ChatStore {
     }
     
     // MARK: Chat Listener에서 Added가 감지되었을 때, Chat을 로컬 Chat 리스트에 추가하고 재정렬하는 메서드
-    private func listenerAddChat(change: QueryDocumentSnapshot) {
+    private func listenerAddChat(change: QueryDocumentSnapshot) async {
         let newChat = decodeNewChat(change: change)
-        if let newChat {
-            chats.append(newChat)
-            sortChats()
+        
+        if
+            let newChat,
+            let targetUserInfo = await UserStore.requestAndReturnUser(userID: newChat.targetUserID) {
+            targetUserInfoDict[newChat.id] = targetUserInfo
+            await appendAndSortChats(newChat: newChat)
         }
+    }
+    
+    @MainActor
+    private func appendAndSortChats(newChat: Chat) {
+        chats.append(newChat)
+        sortChats()
     }
     
     // MARK: 새로운 메시지가 추가되었을 때 lastContent 등 업데이트 시키고 채팅방 재정렬.
@@ -125,16 +126,17 @@ extension ChatStore {
             .collection(const.COLLECTION_CHAT)
             .whereField(const.FIELD_JOINED_MEMBER_IDS, arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
-                // snapshot이 비어있으면 에러 출력 후 리턴
-                guard let snp = snapshot else {
-                    print("Error fetching documents: \(error!)")
-                    return
-                }
-                // document 변경 사항에 대해 감지해서 작업 수행
-                snp.documentChanges.forEach { diff in
+                
+                guard let snapshot else { return }
+                
+                snapshot.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        self.listenerAddChat(change: diff.document)
+                        if self.isDoneFetch {
+                            Task {
+                                await self.listenerAddChat(change: diff.document)
+                            }
+                        }
                     case .modified:
                         self.listenerUpdateChat(change: diff.document)
                     case .removed:
@@ -220,7 +222,7 @@ extension ChatStore {
 	}
     
     // MARK: -Chat CRUD
-    func addChat(_ chat: Chat) {
+    func addChat(_ chat: Chat) async {
         do {
             try db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)

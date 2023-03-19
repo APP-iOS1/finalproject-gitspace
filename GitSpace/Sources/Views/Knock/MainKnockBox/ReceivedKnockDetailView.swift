@@ -121,6 +121,10 @@ struct ReceivedKnockDetailView: View {
                             await knockViewManager.updateKnockOnFirestore(
                                 knock: knock, knockStatus: Constant.KNOCK_ACCEPTED
                             )
+                            
+                            let newChat: Chat = makeNewChat()
+                            await chatStore.addChat(newChat)
+                            tabBarRouter.currentPage = .chats
                         }
                     } label: {
                         Text("Accept")
@@ -208,6 +212,17 @@ struct ReceivedKnockDetailView: View {
                 .foregroundColor(.black)
             } // ToolbarItemGroup
         } // toolbar
+    }
+    
+    private func makeNewChat() -> Chat {
+        return Chat.init(id: UUID().uuidString,
+                         createdDate: .now,
+                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
+                         lastContent: "",
+                         lastContentDate: .now,
+                         knockContent: knock.knockMessage,
+                         knockContentDate: knock.knockedDate.dateValue(),
+                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
     }
 	
     // TODO: - Push Notification, Make new Chat Implement
