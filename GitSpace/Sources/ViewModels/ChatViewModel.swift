@@ -92,8 +92,14 @@ extension ChatStore {
             let newChat,
             let targetUserInfo = await UserStore.requestAndReturnUser(userID: newChat.targetUserID) {
             targetUserInfoDict[newChat.id] = targetUserInfo
-            sortChats()
+            await appendAndSortChats(newChat: newChat)
         }
+    }
+    
+    @MainActor
+    private func appendAndSortChats(newChat: Chat) {
+        chats.append(newChat)
+        sortChats()
     }
     
     // MARK: 새로운 메시지가 추가되었을 때 lastContent 등 업데이트 시키고 채팅방 재정렬.
