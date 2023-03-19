@@ -64,8 +64,6 @@ struct ChatListSection: View {
                 chatStore.addListener()
                 await chatStore.fetchChats()
             }
-            print(#function, "++++++", Utility.loginUserID)
-            await userStore.requestUser(userID: Utility.loginUserID)
         }
 //        .overlay {
 //            /* FIXME: push 탭을 통해서 진입하는 ChatRoomView 로직에서 쥬니와 논의 필요 By. 태영 23.02.26 [논의 완료]
