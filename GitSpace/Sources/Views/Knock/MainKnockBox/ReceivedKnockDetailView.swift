@@ -116,6 +116,7 @@ struct ReceivedKnockDetailView: View {
                                 
                                 await sendPushNotification(
                                     pushNotificationTitle: "Your Knock has been Accepted!",
+                                    // TODO: 현재 푸쉬알람에 이름 이상하게 뜨니까 확인하고 수정해라
                                     to: knockSentUser
                                 )
                             }
