@@ -129,10 +129,13 @@ extension ChatStore {
                 
                 guard let snapshot else { return }
                 
+                snapshot.documentChanges.forEach { diff in
                     switch diff.type {
                     case .added:
-                        self.listenerAddChat(change: diff.document)
                         if self.isDoneFetch {
+                            Task {
+                                await self.listenerAddChat(change: diff.document)
+                            }
                         }
                     case .modified:
                         self.listenerUpdateChat(change: diff.document)
