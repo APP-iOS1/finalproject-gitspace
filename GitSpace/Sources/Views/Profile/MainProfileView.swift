@@ -20,7 +20,6 @@ struct MainProfileView: View {
         .navigationTitle("")
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing){
-                 
                 Button {
                     showGuideCenter.toggle()
                 } label: {
