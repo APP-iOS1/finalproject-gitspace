@@ -65,7 +65,7 @@ struct AddChatView: View {
                                           knockContentDate: Date.now,
                                           unreadMessageCount: [user1 : 0, user2 : 0])
                 Task {
-                    await chatStore.addChat(newChat)
+//                    chatStore.addChat(newChat)
                 }
             } label: {
                 Text("채팅방 추가하기")

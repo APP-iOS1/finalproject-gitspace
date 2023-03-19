@@ -23,6 +23,8 @@ struct Knock: Codable, Hashable, Identifiable {
     
     var acceptedDate: Timestamp? = nil
     var declinedDate: Timestamp? = nil
+    
+    var chatID: String? = nil
 	
 	var dateDiff: String {
 		get {

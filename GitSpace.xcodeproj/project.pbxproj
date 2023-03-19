@@ -160,6 +160,7 @@
 		7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */; };
 		7E94D4EF29B2F517006A6B34 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */; };
 		7EC80F4629B789C400D4D870 /* PushNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */; };
+		7EF6279529C2B4A200F0B6B0 /* KnockCommunicationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6279429C2B4A200F0B6B0 /* KnockCommunicationRouter.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 		EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */; };
 		EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF740B298D784C00FABEA3 /* GSCanvas.swift */; };
@@ -314,6 +315,7 @@
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
 		7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationProtocol.swift; sourceTree = "<group>"; };
+		7EF6279429C2B4A200F0B6B0 /* KnockCommunicationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockCommunicationRouter.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
 		EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvasModifier.swift; sourceTree = "<group>"; };
 		EEEF740B298D784C00FABEA3 /* GSCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvas.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			children = (
 				70BB6CE1299B1DA7009948FC /* ContentView.swift */,
 				22C54131298CE38300CC89EC /* GSTabBarRouter.swift */,
+				7EF6279429C2B4A200F0B6B0 /* KnockCommunicationRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -1035,6 +1038,7 @@
 				6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */,
 				689A88B729ACED97006F177A /* ViewDidLoadModifier.swift in Sources */,
 				342773552993E19700818816 /* SetAppearanceView.swift in Sources */,
+				7EF6279529C2B4A200F0B6B0 /* KnockCommunicationRouter.swift in Sources */,
 				6E128D6729A498A50004AEC8 /* Image+.swift in Sources */,
 				342773652994A98400818816 /* SetLanguageView.swift in Sources */,
 				2205F23D299C9F1400B2643D /* Event.swift in Sources */,
