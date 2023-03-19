@@ -25,12 +25,12 @@ final class TargetUserProfileViewModel: ObservableObject {
         case .success(let readme):
             guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
                 // TODO: - error case 수정
-                return .failure(.failToDecode)
+                return .failure(.failToDecoding)
             }
             
             guard let decodeContent = String(data: content, encoding: .utf8) else {
                 // TODO: - error case 수정
-                return .failure(.failToDecode)
+                return .failure(.failToDecoding)
             }
             
             let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
@@ -41,13 +41,13 @@ final class TargetUserProfileViewModel: ObservableObject {
             // markdown을 html로 변환 실패
             case .failure:
                 // TODO: - error case 수정
-                return .failure(.failToDecode)
+                return .failure(.failToDecoding)
             }
             
             // repository의 readme markdown을 요청 실패
         case .failure:
             // TODO: - error case 수정
-            return .failure(.failToDecode)
+            return .failure(.failToDecoding)
         }
     }
     

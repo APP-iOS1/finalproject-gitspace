@@ -9,16 +9,20 @@ import Foundation
 import FirebaseFirestore
 
 final class UserStore: ObservableObject {
+
+    private let db = Firestore.firestore()
+    private static let db = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
+    private static let const = Constant.FirestorePathConst.self
     
-    enum BlockCase {
-        case block
-        case unblock
-    }
-    
+    /**
+     노크 혹은 채팅의 Push Notification을 수신할 사용자의 정보
+     모델에서 githubID를 기준으로 해당 유저의 정보를 할당할 수 있도록 한다.
+     */
+    @Published var opponentUser: UserInfo?
 	@Published var currentUser: UserInfo?
     @Published var user: UserInfo?
     @Published var users: [UserInfo]
-    let db = Firestore.firestore()
     
     init(
 		users: [UserInfo] = [],
@@ -35,10 +39,10 @@ final class UserStore: ObservableObject {
     
     private func getUserDocument(userID: String) async -> DocumentSnapshot? {
         do {
-            let snapshot = try await db.collection("UserInfo").document(userID).getDocument()
+            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).document(userID).getDocument()
             return snapshot
         } catch {
-            print("Get User Document Error : \(error)")
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
             return nil
         }
     }
@@ -59,7 +63,7 @@ final class UserStore: ObservableObject {
     }
     
     static func requestAndReturnUser(userID: String) async -> UserInfo? {
-        let doc = Firestore.firestore().collection("UserInfo").document(userID)
+        let doc = db.collection(const.COLLECTION_USER_INFO).document(userID)
         do {
             let userInfo = try await doc.getDocument(as: UserInfo.self)
             return userInfo
@@ -73,10 +77,10 @@ final class UserStore: ObservableObject {
 	/// USERINFO를 가져오기 위해 호출하는 메소드 입니다.
 	/// userID로 가져온 userInfo를 리턴합니다.
 	public func requestUserInfoWithID(userID: String) async -> UserInfo? {
-		let doc = db.collection("UserInfo").document(userID)
+		let doc = db.collection(const.COLLECTION_USER_INFO).document(userID)
 		
 		do {
-			print(userID)
+            print(#file, #function, "USERID:", userID)
 			let userInfo = try await doc.getDocument(as: UserInfo.self)
 			return userInfo
 		} catch {
@@ -88,16 +92,16 @@ final class UserStore: ObservableObject {
 	/**
 	 GITHUB ID로 유저 정보를 가져 옵니다.
 	 정수형 타입으로 저장되는 gitHubID로 GitSpace FirebaseDB에서 유저 정보를 파싱하여 가져옵니다.
+     nil 리턴의 경우, 우리 앱에 해당 유저가 없음을 UX 전달해야 합니다.
 	 
-	 - returns: UserInfo or nil
-	 nil 리턴의 경우, 우리 앱에 해당 유저가 없음을 UX 전달해야 합니다.
+	 - returns: UserInfo or nil // 먼 미래에는 결과타입으로 추상화.
 	 */
 	public func requestUserInfoWithGitHubID(githubID: Int) async -> UserInfo? {
-		let collection = db.collection("UserInfo")
+		let collection = db.collection(const.COLLECTION_USER_INFO)
 		
 		do {
 			// GITHUB ID 필드에 저장된 것과 같은 유저 정보를 가져 오도록 쿼링
-			let query = collection.whereField("githubID", isEqualTo: githubID)
+			let query = collection.whereField(const.FIELD_GITHUB_ID, isEqualTo: githubID)
 			let data = try await query.getDocuments().documents
 			var userInformationList: [UserInfo] = []
 			
@@ -105,9 +109,14 @@ final class UserStore: ObservableObject {
 				let userInfo = try doc.data(as: UserInfo.self)
 				userInformationList.append(userInfo)
 			}
-			return userInformationList.first
+            if let opponentUser = userInformationList.first {
+                await self.assignOpponentUser(with: opponentUser)
+                return opponentUser
+            } else {
+                return nil
+            }
 		} catch {
-			dump("\(#function) - DEBUG \(error.localizedDescription)")
+			dump("\(#function) - DEBUG \(error)")
 			return nil
 		}
 	}
@@ -117,9 +126,9 @@ final class UserStore: ObservableObject {
 	 */
 	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
 		do {
-			let document = db.collection("UserInfo").document(userID)
+			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
 			try await document.updateData([
-				"deviceToken": deviceToken
+				const.FIELD_DEVICE_TOKEN: deviceToken
 			])
 		} catch {
 			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
@@ -129,12 +138,17 @@ final class UserStore: ObservableObject {
     
     private func getUserDocuments() async -> QuerySnapshot? {
         do {
-            let snapshot = try await db.collection("UserInfo").getDocuments()
+            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).getDocuments()
             return snapshot
         } catch {
             print("Get User Document Error : \(error)")
         }
         return nil
+    }
+    
+    @MainActor
+    private func writeUser(user: UserInfo) {
+        self.user = user
     }
     
     @MainActor
@@ -147,6 +161,10 @@ final class UserStore: ObservableObject {
 		self.currentUser = userInfo
 	}
     
+    @MainActor
+    private func assignOpponentUser(with userInfo: UserInfo) {
+        self.opponentUser = userInfo
+    }
     
     func requestUsers() async {
         
@@ -159,7 +177,7 @@ final class UserStore: ObservableObject {
                     let user: UserInfo = try document.data(as: UserInfo.self)
                     users.append(user)
                 } catch {
-                    print("Request Users Error : \(error)")
+                    print("Request Users Error : \(error.localizedDescription)")
                 }
             }
         }
@@ -171,11 +189,6 @@ final class UserStore: ObservableObject {
             return nil
         }
         return user.blockedUserIDs.firstIndex(of: targetUserID)
-    }
-    
-    @MainActor
-    private func writeUser(user: UserInfo) {
-        self.user = user
     }
     
     func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
@@ -206,13 +219,17 @@ final class UserStore: ObservableObject {
         do {
             user.blockedUserIDs = newBlockedUserIDs
             try await db
-                .collection("UserInfo")
+                .collection(const.COLLECTION_USER_INFO)
                 .document(user.id)
-                .updateData(["blockedUserIDs" : newBlockedUserIDs])
+                .updateData([const.FIELD_BLOCKED_USER_IDS : newBlockedUserIDs])
         } catch {
             print("Block/Unblock User Update Error : \(error.localizedDescription)")
         }
         
     }
     
+    enum BlockCase {
+        case block
+        case unblock
+    }
 }

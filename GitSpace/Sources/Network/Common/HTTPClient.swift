@@ -17,7 +17,6 @@ protocol HTTPClient {
      실패시 error를 받는다.
      */
     func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, GitHubAPIError>
-
     /**
      response로 status code와 함께 string을 받는 경우(Markdown)
      */
@@ -62,12 +61,11 @@ extension HTTPClient {
             guard let response = response as? HTTPURLResponse else {
                 return .failure(GitHubAPIError.invalidResponse)
             }
-
+            
             switch response.statusCode {
             case 200...299:
-
                 guard let decodedResponse = try? JSONDecoder().decode(responseModel, from: data) else {
-                    return .failure(.failToDecode)
+                    return .failure(.failToDecoding)
                 }
                 return .success(decodedResponse)
             default:
@@ -107,9 +105,10 @@ extension HTTPClient {
             }
 
             switch response.statusCode {
+                
             case 200:
                 guard let resultString = String(data: data, encoding: .utf8) else {
-                    return .failure(GitHubAPIError.unknown)
+                    return .failure(.failToEncoding)
                 }
                 return .success(resultString)
             case 204:

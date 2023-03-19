@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct Knock: Codable, Hashable {
+struct Knock: Codable, Hashable, Identifiable {
 	var id: String = UUID().uuidString
 	var knockedDate: Timestamp
 	var knockMessage: String
@@ -20,17 +20,21 @@ struct Knock: Codable, Hashable {
 	var sentUserName: String
 	var receivedUserID: String
 	var sentUserID: String
+    
+    var acceptedDate: Timestamp? = nil
+    var declinedDate: Timestamp? = nil
+    
+    var chatID: String? = nil
 	
-	var dateDiff: Int {
+	var dateDiff: String {
 		get {
-			let diff = Date.now - knockedDate.dateValue()
-			return diff.minute ?? 0
+			let diff = knockedDate.dateValue()
+			return diff.timeAgoDisplay()
 		}
 	}
 	
 	/// 기본 생성자
 	init(
-		id: String = UUID().uuidString,
 		date: Date,
 		knockMessage: String,
 		knockStatus: String,
@@ -41,7 +45,6 @@ struct Knock: Codable, Hashable {
 		receivedUserID: String,
 		sentUserID: String
 	) {
-		self.id = id
 		self.knockedDate = Timestamp(date: date)
 		self.knockMessage = knockMessage
 		self.knockStatus = knockStatus

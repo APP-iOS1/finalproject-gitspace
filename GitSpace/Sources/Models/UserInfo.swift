@@ -31,7 +31,7 @@ struct UserInfo : Identifiable, Codable {
     let following: Int              // following
     
     // MARK: Date를 문자열로 반환하는 연산 프로퍼티
-    var stringDate: String {
+    var createdDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -40,7 +40,7 @@ struct UserInfo : Identifiable, Codable {
     }
 	
 	static func getFaliedUserInfo() -> Self {
-		let userinfo = UserInfo(id: "FALIED", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
+		let userinfo = UserInfo(id: "PJjxY5xHGZXXsMGqpyWExd50iDP2", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
 		return userinfo
 	}
 }

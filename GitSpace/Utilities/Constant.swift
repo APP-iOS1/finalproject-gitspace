@@ -28,7 +28,28 @@ public enum Constant {
 	enum PushNotification {
 		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
+        static let USER_DEVICE_TOKEN: String = "userDeviceToken"
 	}
+    
+    enum FirestorePathConst {
+        static let COLLECTION_CHAT: String = "Chat"
+        static let FIELD_JOINED_MEMBER_IDS: String = "joinedMemberIDs"
+        static let FIELD_LAST_CONTENT_DATE: String = "lastContentDate"
+        static let FIELD_LAST_CONTENT: String = "lastContent"
+        static let FIELD_UNREAD_MESSAGE_COUNT: String = "unreadMessageCount"
+        
+        static let COLLECTION_MESSAGE: String = "Message"
+        static let FIELD_SENT_DATE: String = "sentDate"
+        static let FIELD_TEXT_CONTENT: String = "textContent"
+        
+        static let COLLECTION_USER_INFO: String = "UserInfo"
+        static let FIELD_GITHUB_ID: String = "githubID"
+        static let FIELD_DEVICE_TOKEN: String = "deviceToken"
+        static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        
+        static let COLLECTION_TAG: String = "Tag"
+        static let FIELD_REPOSITORIES: String = "repositories"
+    }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
@@ -100,7 +121,6 @@ public enum Constant {
 
     
     enum TextFieldConst {
-        
         static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
         static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
         static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
@@ -112,12 +132,9 @@ public enum Constant {
         static let ADDTAG_INSET_VERTICAL: CGFloat = 10
         static let ADDTAG_CORNER_RADIUS: CGFloat = 10
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
-        
     }
     
     enum TextEditorConst {
-        
-        
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10

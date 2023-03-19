@@ -14,7 +14,7 @@ struct GitSpaceApp: App {
         
     var body: some Scene {
 		let tabBarRouter = delegate.tabBarRouter
-		let notificationManager = delegate.pushNotificationManager
+		let pushNotificationManager = delegate.pushNotificationManager
 		
         WindowGroup {
             // !!!: - FCM Test를 진행할 때만 각주를 해제합니다.
@@ -28,7 +28,7 @@ struct GitSpaceApp: App {
                 .environmentObject(GitHubAuthManager())
                 .environmentObject(KnockViewManager())
                 .environmentObject(tabBarRouter)
-				.environmentObject(notificationManager)
+				.environmentObject(pushNotificationManager)
 				.onAppear {
 					UIApplication.shared.applicationIconBadgeNumber = 0
 				}

@@ -28,8 +28,11 @@ struct ContentView: View {
          하단에는 tabBar를 보여준다.
          */
         GeometryReader { geometry in
+            /**
+             모든 뷰는 하나의 네비게이션 스택에서 계층 구조를 갖는다.
+             뷰의 이동은 탭으로 조정한다.
+             */
             NavigationView {
-                
                 if UIScreen().isWiderThan375pt {
                     VStack(spacing: -10) {
                         showCurrentTabPage()
@@ -61,9 +64,7 @@ struct ContentView: View {
                 
 				// userInfo 할당
                 Utility.loginUserID = uid
-                let _ = await userStore.requestUser(userID: uid)
-                
-                await userStore.requestUsers()
+                await userStore.requestUser(userID: uid)
 				
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
@@ -84,7 +85,7 @@ struct ContentView: View {
 			case .chats:
 				MainChatView(chatID: pushNotificationManager.viewBuildID ?? chatStore.newChat.id)
 			case .knocks:
-				MainKnockView(knockID: pushNotificationManager.viewBuildID ?? "DOCPATH")
+                MainKnockView()
 			case .profile:
 				MainProfileView()
 			}

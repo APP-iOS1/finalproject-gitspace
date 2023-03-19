@@ -13,13 +13,15 @@ final class RepositoryViewModel: ObservableObject {
 //    @Published var tags: [Tag] = []
     @Published var repositories: [Repository]?
     @Published var filteredRepositories: [Repository]?
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
+    private let const = Constant.FirestorePathConst.self
     
     // MARK: - Request Starred Repositories
     /// 인증된 사용자가 Star로 지정한 Repository의 목록을 요청합니다.
     @MainActor
     func requestStarredRepositories(page: Int) async -> [Repository]? {
         let session = URLSession(configuration: .default)
+        let githubAccessToken = UserDefaults.standard.string(forKey: "AT")
         var gitHubComponent = URLComponents(string: GithubURL.baseURL.rawValue + GithubURL.userPath.rawValue + GithubURL.starredPath.rawValue + "?")
         gitHubComponent?.queryItems = [
             URLQueryItem(name: "per_page", value: "30"),
@@ -27,7 +29,7 @@ final class RepositoryViewModel: ObservableObject {
         ]
         var request = URLRequest(url: (gitHubComponent?.url)!)
         request.httpMethod = "GET"
-        request.addValue("Bearer \(String(describing: tempoaryAccessToken!))", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(String(describing: githubAccessToken!))", forHTTPHeaderField: "Authorization")
         request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         
         do {
@@ -47,12 +49,12 @@ final class RepositoryViewModel: ObservableObject {
         do {
             var filteredRepositoryList: [String] = []
             for tag in selectedTags {
-                let tagInfo = try await database.collection("UserInfo")
+                let tagInfo = try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
-                    .collection("Tag")
+                    .collection(const.COLLECTION_TAG)
                     .document(tag.id)
                     .getDocument()
-                filteredRepositoryList.append( contentsOf: Array(Set(tagInfo["repositories"] as? [String] ?? [])) )
+                filteredRepositoryList.append( contentsOf: Array(Set(tagInfo[const.FIELD_REPOSITORIES] as? [String] ?? [])) )
             }
             return filteredRepositoryList
         } catch {
