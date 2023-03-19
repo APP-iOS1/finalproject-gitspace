@@ -43,14 +43,15 @@ import FirebaseFirestoreSwift
 
 final class ChatStore: ObservableObject {
     
-	var targetUserInfoDict: [String: UserInfo]
-	@Published var newChat: Chat
-    @Published var chats: [Chat]
-    @Published var isDoneFetch: Bool // 스켈레톤 UI를 종료하기 위한 변수
-    
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
+	
+    var targetUserInfoDict: [String: UserInfo]
+    
+	@Published var newChat: Chat
+    @Published var chats: [Chat]
+    @Published var isDoneFetch: Bool // 스켈레톤 UI 종료 + 패치를 한 번만 수행하기 위한 변수
     
     init() {
         targetUserInfoDict = [:]
