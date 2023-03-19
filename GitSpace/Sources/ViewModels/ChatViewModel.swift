@@ -126,13 +126,9 @@ extension ChatStore {
             .collection(const.COLLECTION_CHAT)
             .whereField(const.FIELD_JOINED_MEMBER_IDS, arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
-                // snapshot이 비어있으면 에러 출력 후 리턴
-                guard let snp = snapshot else {
-                    print("Error fetching documents: \(error!)")
-                    return
-                }
-                // document 변경 사항에 대해 감지해서 작업 수행
-                snp.documentChanges.forEach { diff in
+                
+                guard let snapshot else { return }
+                
                     switch diff.type {
                     case .added:
                         self.listenerAddChat(change: diff.document)
