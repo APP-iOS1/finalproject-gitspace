@@ -132,6 +132,8 @@ extension ChatStore {
                     switch diff.type {
                     case .added:
                         self.listenerAddChat(change: diff.document)
+                        if self.isDoneFetch {
+                        }
                     case .modified:
                         self.listenerUpdateChat(change: diff.document)
                     case .removed:
