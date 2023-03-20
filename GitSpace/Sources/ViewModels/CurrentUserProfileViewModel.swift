@@ -1,5 +1,5 @@
 //
-//  UserProfileViewModel.swift
+//  CurrentUserProfileViewModel.swift
 //  GitSpace
 //
 //  Created by 박제균 on 2023/03/09.
@@ -9,15 +9,15 @@ import Foundation
 
 final class CurrentUserProfileViewModel: ObservableObject {
     
-    private let service: GitHubService
+    let gitHubService: GitHubService
     
     init(service: GitHubService) {
-        self.service = service
+        self.gitHubService = service
     }
     
     @MainActor
     func requestUserReadMe(user: GithubUser) async -> Result<String, GitHubAPIError> {
-        let result = await service.requestRepositoryReadme(owner: user.login, repositoryName: user.login)
+        let result = await gitHubService.requestRepositoryReadme(owner: user.login, repositoryName: user.login)
         
         switch result {
             
@@ -30,7 +30,7 @@ final class CurrentUserProfileViewModel: ObservableObject {
                 return .failure(.failToDecoding)
             }
             
-            let htmlResult = await service.requestMarkdownToHTML(content: decodeContent)
+            let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
             
             switch htmlResult {
                 
