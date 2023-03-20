@@ -208,7 +208,9 @@ struct ChatRoomView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 22, height: 22)
-                .foregroundColor(contentField.isEmpty ? .gsGray2 : .primary)
+                .foregroundColor(contentField.isEmpty
+                                 ? .gsGray2
+                                 : .primary)
         }
     }
     
