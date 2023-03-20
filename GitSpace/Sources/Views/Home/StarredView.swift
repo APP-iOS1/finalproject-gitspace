@@ -45,8 +45,11 @@ struct StarredView: View {
             
             VStack {
                 /* searchbar (custom) */
-                GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
-                    .padding(.horizontal, 20)
+                // FIXME: v1.0.0 출시를 위해 잠시 주석 처리함.
+                /// 출시 기한을 맞추기 위해 부득이 검색창을 숨김처리합니다.
+                /// 이후 다음 버전에 검색 기능을 넣을 예정입니다.
+//                GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
+//                    .padding(.horizontal, 20)
                 
                 /* Scroll Main Content */
                 
@@ -113,10 +116,10 @@ struct StarredView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 300, height: 300)
                                 
-                                Text("There is no repository\nthat you starred!")
-                                    .font(.title3)
-                                    .foregroundColor(.gsGray1)
-                                    .multilineTextAlignment(.center)
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "There is no repository\nthat you starred!")
+                                .multilineTextAlignment(.center)
                             }
                         } else {
                             ForEach(Array(zip(repositories.indices, repositories)), id:\.0) { index, repository in

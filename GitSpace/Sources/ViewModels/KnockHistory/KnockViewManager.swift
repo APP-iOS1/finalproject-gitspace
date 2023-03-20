@@ -296,6 +296,7 @@ extension KnockViewManager {
     public func updateKnockOnFirestore(
         knock: Knock,
         knockStatus: String,
+        newChatID: String? = nil,
         declineMessage: String? = nil
     ) async -> Void {
         let document = firebaseDatabase.document(knock.id)
@@ -308,7 +309,8 @@ extension KnockViewManager {
             switch knockStatus {
             case Constant.KNOCK_ACCEPTED:
                 try await document.setData([
-                    "acceptedDate": Timestamp(date: .now)
+                    "acceptedDate": Timestamp(date: .now),
+                    "chatID": newChatID ?? "CHAT ID IS NIL"
                 ], merge: true)
             case Constant.KNOCK_DECLINED:
                 try await document.setData([
@@ -350,7 +352,7 @@ extension KnockViewManager {
     private func appendKnockElementInTempList(newKnock: Knock, currentUser: UserInfo) {
         if newKnock.receivedUserID == currentUser.id {
             self.tempReceived.append(newKnock)
-        } else {
+        } else if newKnock.sentUserID == currentUser.id {
             self.tempSent.append(newKnock)
         }
     }
@@ -370,7 +372,7 @@ extension KnockViewManager {
             }) {
                 tempReceived[knockIndex] = diffKnock
             }
-        } else {
+        } else if diffKnock.sentUserID == currentUser.id  {
             if let knockIndex = tempSent.firstIndex(where: { knock in
                 knock.id == diffKnock.id
             }) {
@@ -401,7 +403,7 @@ extension KnockViewManager {
             tempReceived.removeAll { knock in
                 knock.id == removedKnock.id
             }
-        } else {
+        } else if removedKnock.sentUserID == currentUser.id {
             tempSent.removeAll { knock in
                 knock.id == removedKnock.id
             }
@@ -413,3 +415,102 @@ extension KnockViewManager {
         self.newKnock = newKnock
     }
 }
+
+extension KnockViewManager {
+    /**
+     노크가 보내진 적이 있는지 체크하는 메소드입니다.
+     나 혹은 상대에 의해 노크가 보내진 적이 있고 현재 승인되었다면 .accepted를 반환합니다.
+     나 혹은 상대에 의해 노크가 보내진 적이 있고 현재 대기중이라면 .waiting을 반환합니다.
+     나 혹은 상대에 의해 노크가 보내진 적이 있고 현재 거절되었다면 .declined를 반환합니다.
+     노크가 보내진 적이 없다면 true를 반환합니다.
+     */
+    public func checkIfKnockHasBeenSent(
+        currentUser: UserInfo,
+        targetUser: UserInfo
+    ) async -> KnockCommunicateResult<KnockStateFilter, Bool> {
+        // 내가 발신자, 상대방이 수신자인 경우
+        let knockQueryWhenCurrentUserSentKnock = firebaseDatabase
+            .whereField("sentUserID", isEqualTo: currentUser.id)
+            .whereField("receivedUserID", isEqualTo: targetUser.id)
+        
+        // 내가 수신자, 상대방이 발신자인 경우
+        let knockQueryWhenCurrentUserReceivedKnock = firebaseDatabase
+            .whereField("sentUserID", isEqualTo: targetUser.id)
+            .whereField("receivedUserID", isEqualTo: currentUser.id)
+        
+        do {
+            let snapshot = try await knockQueryWhenCurrentUserSentKnock.getDocuments()
+            for doc in snapshot.documents {
+                let knock = try doc.data(as: Knock.self)
+                switch knock.knockStatus {
+                case Constant.KNOCK_WAITING:
+                    return .knockHasBeenSent(
+                        knockStatus: .waiting,
+                        withKnock: knock
+                    )
+                case Constant.KNOCK_ACCEPTED:
+                    return .knockHasBeenSent(
+                        knockStatus: .accepted,
+                        withKnock: knock,
+                        toChatID: knock.chatID ?? "CHAT ID IS NIL" // chat 뷰를 그리기 위한 id 등 전달 필요
+                    )
+                case Constant.KNOCK_DECLINED:
+                    return .knockHasBeenSent(
+                        knockStatus: .declined,
+                        withKnock: knock
+                    )
+                default:
+                    break
+                }
+            }
+            
+            let snapshot2 = try await knockQueryWhenCurrentUserReceivedKnock.getDocuments()
+            for doc in snapshot2.documents {
+                let knock = try doc.data(as: Knock.self)
+                switch knock.knockStatus {
+                case Constant.KNOCK_WAITING:
+                    return .knockHasBeenSent(
+                        knockStatus: .waiting,
+                        withKnock: knock
+                    )
+                case Constant.KNOCK_ACCEPTED:
+                    return .knockHasBeenSent(
+                        knockStatus: .accepted,
+                        withKnock: knock,
+                        toChatID: knock.chatID ?? "CHAT ID IS NIL" // chat 뷰를 그리기 위한 id 등 전달 필요
+                    )
+                case Constant.KNOCK_DECLINED:
+                    return .knockHasBeenSent(
+                        knockStatus: .declined,
+                        withKnock: knock
+                    )
+                default:
+                    break
+                }
+            }
+            
+            return .ableToSentNewKnock(KnockFlag: true)
+        } catch {
+            print(#file, #function, error.localizedDescription)
+        }
+        
+        return .ableToSentNewKnock(KnockFlag: false)
+    }
+    
+    /**
+     결과 타입을 커스터마이징하여 노크가 보내졌는지 여부를 판단하고,
+     knockFlag 연관값을 리턴 및 전달하여 새로운 노크를 보낼 수 있는지 체크합니다.
+     
+     - Author:  ValseLee(Celan)
+     */
+    enum KnockCommunicateResult<KnockState, KnockFlag> {
+        case knockHasBeenSent(
+            knockStatus: KnockStateFilter,
+            withKnock: Knock? = nil,
+            toChatID: String? = nil
+        )
+        case ableToSentNewKnock(KnockFlag: Bool)
+    }
+}
+
+

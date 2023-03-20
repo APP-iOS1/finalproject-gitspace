@@ -62,4 +62,17 @@ struct Chat: Identifiable, Codable {
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm"
         return dateFormatter.string(from: knockContentDate) + " " + (dateFormatter.timeZone.abbreviation() ?? "")
     }
+    
+    static func emptyChat() -> Chat {
+        return Chat.init(
+            id: "",
+            createdDate: .now,
+            joinedMemberIDs: [],
+            lastContent: "",
+            lastContentDate: .now,
+            knockContent: "",
+            knockContentDate: .now,
+            unreadMessageCount: [:]
+        )
+    }
 }
