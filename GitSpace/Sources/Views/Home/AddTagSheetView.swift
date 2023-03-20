@@ -48,7 +48,7 @@ struct AddTagSheetView: View {
         if shouldBlankTag && shouldExistTag {
             Task {
                 guard let newTag = await tagViewModel.registerTag(tagName: trimmedTagInput) else {
-                    print(#function, "Failed Add New Tag.")
+                    print("Error-\(#file)-\(#function): Failed Add New Tag.")
                     return
                 }
                 withAnimation {
@@ -85,8 +85,10 @@ struct AddTagSheetView: View {
         switch beforeView {
         case .repositoryDetailView:
             Task {
-                // FIXME: 실제 레포 이름 가져오기
-                guard let repository = selectedRepository else { return }
+                guard let repository = selectedRepository else {
+                    print("Error-\(#file)-\(#function): Failed Optional unwrapping.")
+                    return
+                }
                 await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repository.fullName)
             }
         case .starredView:
