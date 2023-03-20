@@ -12,6 +12,7 @@ import RichText
 struct CurrentUserProfileView: View {
 
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @ObservedObject var viewModel = CurrentUserProfileViewModel(service: GitHubService())
     @State private var markdownString = ""
     @State private var isFailedToLoadReadme = false
 
@@ -171,37 +172,16 @@ struct CurrentUserProfileView: View {
             } // vstack
             .padding(.horizontal, 20)
         }
-            .onAppear {
-                Task {
-                    guard let userName = gitHubAuthManager.authenticatedUser?.login else { return }
-                    let result = await gitHubService.requestRepositoryReadme(owner: userName, repositoryName: userName)
-
-                    switch result {
-
-                    case .success(let readme):
-                        guard let content = Data(base64Encoded: readme.content, options: .ignoreUnknownCharacters) else {
-                            isFailedToLoadReadme = true
-                            return
-                        }
-
-                        guard let decodeContent = String(data: content, encoding: .utf8) else {
-                            isFailedToLoadReadme = true
-                            return
-                        }
-
-                        let htmlResult = await gitHubService.requestMarkdownToHTML(content: decodeContent)
-
-                        switch htmlResult {
-                        case .success(let result):
-                            markdownString = result
-                        case .failure:
-                            isFailedToLoadReadme = true
-                        }
-
-                    case .failure:
-                        isFailedToLoadReadme = true
-                    }
-                }
+        .task {
+            guard let user = gitHubAuthManager.authenticatedUser else { return }
+            let result = await viewModel.requestUserReadMe(user: user)
+            
+            switch result {
+            case .success(let result):
+                markdownString = result
+            case .failure:
+                isFailedToLoadReadme = true
+            }
         }
     }
 }
