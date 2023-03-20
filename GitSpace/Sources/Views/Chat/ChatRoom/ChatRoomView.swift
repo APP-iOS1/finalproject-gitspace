@@ -185,8 +185,6 @@ struct ChatRoomView: View {
              */
             
             contentTextEditor
-            
-            addContentButton
                 
         }
         .padding(.bottom, 15)
@@ -202,20 +200,9 @@ struct ChatRoomView: View {
             .disableAutocorrection(true)
     }
 
-    // MARK: Button : 메세지 추가(보내기)
-    private var addContentButton : some View {
-        Button {
             Task {
                 await addContent()
             }
-        } label: {
-            Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 22, height: 22)
-                .foregroundColor(contentField.isEmpty
-                                 ? .gsGray2
-                                 : .primary)
         }
     }
     
