@@ -129,11 +129,11 @@ final class TagViewModel: ObservableObject {
     func updateRepositoryTag() {
         
     }
+    */
     
     // MARK: Delete Repository Tag
     /// 선택된 레포지토리의 태그를 삭제합니다.
-    func deleteRepositoryTag() {
+    func deleteRepositoryTag(_ tags: [Tag], to selectedRepositoryName: String) async -> Void {
         
     }
-    */
 }
