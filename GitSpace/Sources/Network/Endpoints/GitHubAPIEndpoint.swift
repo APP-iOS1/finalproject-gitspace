@@ -67,6 +67,11 @@ extension GitHubAPIEndpoint: Endpoint {
             return "/user/following/\(userName)"
         case .unfollowUser(let userName):
             return "/user/following/\(userName)"
+        case .userFollowingList(let userName, _, _ ):
+            return "/users/\(userName)/following"
+        case .userFollowerList(let userName, _, _ ):
+            return "/users/\(userName)/followers"
+            
         }
         
     }
