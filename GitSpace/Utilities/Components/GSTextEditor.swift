@@ -81,6 +81,7 @@ struct GSTextEditor {
             return label.frame.width
         }
         
+        // 메세지 문자열이 비어있는지, 공백으로만 이루어져있는지를 체크해서 메시지 전송 가능 여부를 반환하는 연산 프로퍼티
         private var isMessageSendable: Bool {
             let messageText = text.wrappedValue
             guard messageText.isEmpty == false else { return false }
