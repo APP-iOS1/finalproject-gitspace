@@ -171,34 +171,51 @@ struct GSTextEditor {
         var body: some View {
             switch style {
             case .message:
-                GeometryReader { proxy in
-                    TextEditor(text: text)
-                        .font(font)
-                        .lineSpacing(lineSpace)
-                        .frame(maxHeight: textEditorHeight)
-                        .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                        .padding(.bottom, -3)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                                .stroke()
-                                .foregroundColor(.gsGray2)
-                        }
-                        .onAppear {
-                            setTextEditorStartHeight()
-                        }
-                        .onChange(of: text.wrappedValue) { n in
-                            // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
-                            let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
-                            let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
-                            let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
-                            
-                            updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
-                        }
-                        .onChange(of: textWidth) { newValue in
-                            stateTextWidth = newValue
-                        }
+                HStack {
+                    GeometryReader { proxy in
+                        TextEditor(text: text)
+                            .font(font)
+                            .lineSpacing(lineSpace)
+                            .frame(maxHeight: textEditorHeight)
+                            .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
+                            .padding(.bottom, -3)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                                    .stroke()
+                                    .foregroundColor(.gsGray2)
+                            }
+                            .onAppear {
+                                setTextEditorStartHeight()
+                            }
+                            .onChange(of: text.wrappedValue) { n in
+                                // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
+                                let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+                                let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
+                                let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
+                                
+                                updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
+                            }
+                            .onChange(of: textWidth) { newValue in
+                                stateTextWidth = newValue
+                            }
+                    }
+                    .frame(maxHeight: textEditorHeight)
+                    
+                    Button {
+                        action()
+                    } label: {
+                        Image(systemName: isMessageSendable
+                              ? sendableImage
+                              : unSendableImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 22, height: 22)
+                            .foregroundColor(isMessageSendable
+                                             ? .gsGray2
+                                             : .primary)
+                    }
+                    .disabled(!isMessageSendable)
                 }
-                .frame(maxHeight: textEditorHeight)
             }
         }
     }
