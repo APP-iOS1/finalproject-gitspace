@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
     let tabBarRouter: GSTabBarRouter
     
     // MARK: - 한호
@@ -44,7 +45,7 @@ struct InitialView: View {
             }
         }
         .onViewDidLoad {
-            if githubAuthManager.authentification.currentUser != nil {
+            if githubAuthManager.authentification.currentUser != nil && UserDefaults.standard.string(forKey: "AT") != nil {
                 Task {
                     await githubAuthManager.reauthenticateUser()
                     githubAuthManager.state = .signedIn

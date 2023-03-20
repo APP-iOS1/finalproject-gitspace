@@ -28,6 +28,7 @@ public enum Constant {
 	enum PushNotification {
 		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
+        static let USER_DEVICE_TOKEN: String = "userDeviceToken"
 	}
     
     enum FirestorePathConst {
@@ -45,6 +46,9 @@ public enum Constant {
         static let FIELD_GITHUB_ID: String = "githubID"
         static let FIELD_DEVICE_TOKEN: String = "deviceToken"
         static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        
+        static let COLLECTION_TAG: String = "Tag"
+        static let FIELD_REPOSITORIES: String = "repositories"
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들

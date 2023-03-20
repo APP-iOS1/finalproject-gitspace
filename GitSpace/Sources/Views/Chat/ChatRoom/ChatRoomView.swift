@@ -96,7 +96,9 @@ struct ChatRoomView: View {
                         .padding(.horizontal, -8)
                 }
             }
-            
+            /*
+             v1.0.0 버전에서 사용하지 않는 툴바 아이템으로 주석 처리
+             
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     makeChatRoomInfoViewToolbarItem()
@@ -105,6 +107,7 @@ struct ChatRoomView: View {
                         .foregroundColor(.primary)
                 }
             }
+             */
         }
         .task {
             // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
@@ -139,7 +142,8 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
                 messageStore.removeListener()
             }
-            tabBarRouter.navigateToChat = false
+            
+//            tabBarRouter.navigateToChat = false
         }
     }
     
@@ -158,7 +162,10 @@ struct ChatRoomView: View {
     private var typeContentField : some View {
         HStack(spacing: 10) {
             
-            Button {
+            /*
+             v1.0.0 버전에서 사용하지 않는 버튼으로 주석 처리
+            
+             Button {
                 print("이미지 첨부 버튼 탭")
             } label: {
                 Image(systemName: "photo")
@@ -175,6 +182,7 @@ struct ChatRoomView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 28, height: 23)
             }
+             */
             
             GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
                 .textInputAutocapitalization(.never)
