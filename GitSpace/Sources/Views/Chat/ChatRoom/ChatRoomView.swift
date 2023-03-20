@@ -184,9 +184,7 @@ struct ChatRoomView: View {
             }
              */
             
-            GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
-                .textInputAutocapitalization(.never)
-                .disableAutocorrection(true)
+            contentTextEditor
             
             addContentButton
                 
@@ -195,6 +193,13 @@ struct ChatRoomView: View {
         .padding(.vertical, -3)
         .padding(.horizontal, 15)
         .foregroundColor(.primary)
+    }
+    
+    private var contentTextEditor: some View {
+        GSTextEditor.CustomTextEditorView(style: .message,
+                                          text: $contentField)
+            .textInputAutocapitalization(.never)
+            .disableAutocorrection(true)
     }
 
     // MARK: Button : 메세지 추가(보내기)
@@ -213,8 +218,6 @@ struct ChatRoomView: View {
                                  : .primary)
         }
     }
-    
-    
     
     // MARK: -Methods
     // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
