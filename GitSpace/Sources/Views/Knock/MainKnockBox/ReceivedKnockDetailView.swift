@@ -114,9 +114,8 @@ struct ReceivedKnockDetailView: View {
                                     newChatID: await newChat.id
                                 )
                                 
-                                await sendPushNotification(
+                                await self.sendPushNotification(
                                     pushNotificationTitle: "Your Knock has been Accepted!",
-                                    // TODO: 현재 푸쉬알람에 이름 이상하게 뜨니까 확인하고 수정해라
                                     to: knockSentUser
                                 )
 
@@ -133,7 +132,7 @@ struct ReceivedKnockDetailView: View {
                     
                     HStack(spacing: 60) {
                         Button {
-                            
+                            // TODO: - 언젠가 블록도 해야지? 지금 못할 거면 빼던가.
                         } label: {
                             Text("Block")
                                 .bold()
@@ -153,9 +152,11 @@ struct ReceivedKnockDetailView: View {
                                     // TODO: Decline 메시지를 작성할 뷰 구현
                                     await knockViewManager.updateKnockOnFirestore(
                                         knock: knock,
-                                        knockStatus: Constant.KNOCK_DECLINED
+                                        knockStatus: Constant.KNOCK_DECLINED,
+                                        declineMessage: ""
                                     )
                                     
+                                    // TODO: - decline Message를 Push에 보낼거?
                                     await self.sendPushNotification(
                                         pushNotificationTitle: "Your Knock has been declined",
                                         to: knockSentUser
@@ -201,19 +202,11 @@ struct ReceivedKnockDetailView: View {
             } // ToolbarItemGroup
         } // toolbar
     }
-    
-    private func makeNewChat() -> Chat {
-        return Chat.init(id: UUID().uuidString,
-                         createdDate: .now,
-                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
-                         lastContent: "",
-                         lastContentDate: .now,
-                         knockContent: knock.knockMessage,
-                         knockContentDate: knock.knockedDate.dateValue(),
-                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
-    }
 	
-    // TODO: - Push Notification, Make new Chat Implement
+    /**
+     푸쉬 알람을 보내는 메소드.
+     최초 Knock가 보내지는 SendKnockView를 제외한 곳에서는 노크를 수신한 사람의 응답을 알람으로 발신한다.
+     */
     private func sendPushNotification(
         pushNotificationTitle: String,
         to knockSentUser: UserInfo
@@ -221,8 +214,8 @@ struct ReceivedKnockDetailView: View {
         await pushNotificationManager.sendNotification(
             with: .knock(
                 title: pushNotificationTitle,
-                body: knock.knockMessage,
-                knockSentFrom: knock.sentUserName,
+                body: knock.declineMessage != nil ? knock.declineMessage : "",
+                pushSentFrom: knock.receivedUserName,
                 knockPurpose: "",
                 knockID: knock.id
             ),
@@ -249,6 +242,17 @@ struct ReceivedKnockDetailView: View {
                 knockSentUser.id: 0
             ]
         )
+    }
+    
+    private func makeNewChat() -> Chat {
+        return Chat.init(id: UUID().uuidString,
+                         createdDate: .now,
+                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
+                         lastContent: "",
+                         lastContentDate: .now,
+                         knockContent: knock.knockMessage,
+                         knockContentDate: knock.knockedDate.dateValue(),
+                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
     }
 }
 //
