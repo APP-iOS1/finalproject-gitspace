@@ -24,7 +24,7 @@ struct AddTagSheetView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
-    let repositoryName: String?
+    let selectedRepository: Repository?
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
@@ -86,8 +86,8 @@ struct AddTagSheetView: View {
         case .repositoryDetailView:
             Task {
                 // FIXME: 실제 레포 이름 가져오기
-                guard let repositoryName = repositoryName else { return }
-                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
+                guard let repository = selectedRepository else { return }
+                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repository.fullName)
             }
         case .starredView:
             if !preSelectedTags.isEmpty {
