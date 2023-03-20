@@ -25,13 +25,15 @@ struct GSTextEditor {
         
         // MARK: -Properties
         // MARK: Stored Properties
+        let const = Constant.TextEditorConst.self
+        
+        // MARK: TextEditor 관련 프로퍼티
         let style: GSTextEditorStyle
         let text: Binding<String>
         let font: Font
         let lineSpace: CGFloat
-        let const = Constant.TextEditorConst.self
-        @State private var textEditorHeight: CGFloat = 0
         
+        @State private var textEditorHeight: CGFloat = 0
         @State private var stateTextWidth: CGFloat = 0
         
         // MARK: Computed Properties
