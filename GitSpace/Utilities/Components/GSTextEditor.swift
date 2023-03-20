@@ -21,7 +21,7 @@ struct GSTextEditor {
     }
     
     // MARK: -View
-    struct CustomTextEditorView: View {
+    struct CustomTextEditorView : View {
         
         // MARK: -Properties
         // MARK: Stored Properties
@@ -83,6 +83,7 @@ struct GSTextEditor {
         
         private var isMessageSendable: Bool {
             let messageText = text.wrappedValue
+            
             guard messageText.isEmpty == false else { return false }
             
             let pattern: String = "^[ \n]*$"
