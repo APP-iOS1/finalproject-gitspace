@@ -189,7 +189,7 @@ struct ChatRoomView: View {
                 .disableAutocorrection(true)
             
             addContentButton
-                .disabled(contentField.isEmpty)
+                
         }
         .padding(.bottom, 15)
         .padding(.vertical, -3)
