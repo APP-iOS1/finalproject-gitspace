@@ -209,8 +209,8 @@ struct GSTextEditor {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 22, height: 22)
                             .foregroundColor(isMessageSendable
-                                             ? .gsGray2
-                                             : .primary)
+                                             ? .primary
+                                             : .gsGray2)
                     }
                     .disabled(!isMessageSendable)
                 }
