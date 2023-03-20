@@ -129,7 +129,7 @@ struct StarredView: View {
                                             HStack {
                                                 NavigationLink {
                                                     /* Repository Detail View */
-                                                    RepositoryDetailView(repository: repository)
+                                                    RepositoryDetailView(service: GitHubService(), repository: repository)
                                                 } label: {
                                                     /* Repository Row */
                                                     VStack(alignment: .leading) {

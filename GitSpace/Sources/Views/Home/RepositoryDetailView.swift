@@ -9,34 +9,27 @@ import SwiftUI
 import RichText
 
 struct RepositoryDetailView: View {
+    
+    @StateObject var repositoryDetailViewModel = RepositoryDetailViewModel(service: GitHubService())
+    @StateObject var contributorViewModel = ContributorViewModel(service: GitHubService())
     @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
-    @StateObject var contributorViewModel = ContributorViewModel(service: GitHubService())
-    @StateObject var repositoryDetailViewModel = RepositoryDetailViewModel(service: GitHubService())
-    
+    @State private var isFailedToLoadReadme = false
+
+    let gitHubService: GitHubService
     let repository: Repository
-    
-    init(repository: Repository) {
+
+    init(service: GitHubService, repository: Repository) {
+        self.gitHubService = service
         self.repository = repository
     }
     
     var body: some View {
         
         ScrollView(showsIndicators: false) {
-//
-//            HStack {
-//                Image("GuideImage")
-//                // FIXME: - star를 누른 사람의 이름 주입
-//                Text("Check out what **Random Brazil Guy** just starred!")
-//                    .font(.footnote)
-//                    .foregroundColor(.secondary)
-//                Spacer()
-//            }
-//            .padding(.bottom, 10)
-            
-            
+
             // MARK: - 레포 디테일 정보 섹션
-            RepositoryInfoCard(repository: repository, contributorViewModel: contributorViewModel)
+            RepositoryInfoCard(service: GitHubService(), repository: repository, contributorViewModel: contributorViewModel)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
@@ -48,38 +41,53 @@ struct RepositoryDetailView: View {
                 ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title3, string:"✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .title3, string: "✊🏻  Knock Knock!")
             }
             .disabled(contributorViewModel.isLoading)
-            
-            RichText(html: markdownString)
-                .colorScheme(.auto)
-                .fontType(.system)
-                .linkOpenType(.SFSafariView())
-                .placeholder {
-                    VStack {
-                        Image("GitSpace-Loading")
-                        GSText.CustomTextView(style: .body1, string: "Loading README.md...")
+
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.gsGray3)
+                .padding(.vertical, 10)
+
+            if isFailedToLoadReadme {
+                FailToLoadReadmeView()
+            } else {
+                VStack {
+                    HStack {
+                        GSText.CustomTextView(style: .caption2, string: "README.md")
+                        Spacer()
+                    }
+
+                    RichText(html: markdownString)
+                        .colorScheme(.auto)
+                        .fontType(.system)
+                        .linkOpenType(.SFSafariView())
+                        .placeholder {
+                        ReadmeLoadingView()
                     }
                 }
-            
-        }
-        .padding(.horizontal, 30)
-        .task {
-            markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
-            contributorViewModel.contributors.removeAll()
-            contributorViewModel.temporaryContributors.removeAll()
-            // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
-            // For-Loop (contributor pagination, infinite scroll)
-            let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
-            switch contributorListResult {
-            case .success():
-                contributorViewModel.contributors = contributorViewModel.temporaryContributors
-            case .failure(let error):
-                // contributor 목록을 가져오는데 실패했다는 에러
-                print(error)
             }
+
+
+
         }
+            .padding(.horizontal, 30)
+            .task {
+                    markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
+                    contributorViewModel.contributors.removeAll()
+                    contributorViewModel.temporaryContributors.removeAll()
+                    // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
+                    // For-Loop (contributor pagination, infinite scroll)
+                    let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
+                    switch contributorListResult {
+                    case .success():
+                        contributorViewModel.contributors = contributorViewModel.temporaryContributors
+                    case .failure(let error):
+                        // contributor 목록을 가져오는데 실패했다는 에러
+                        print(error)
+                    }
+            }
         .navigationBarTitle(repository.name, displayMode: .inline)
     }
 }
@@ -88,9 +96,11 @@ struct RepositoryDetailView: View {
 struct RepositoryInfoCard: View {
 
     @ObservedObject var contributorViewModel: ContributorViewModel
+    let gitHubService: GitHubService
     let repository: Repository
-    
-    init(repository: Repository, contributorViewModel: ContributorViewModel) {
+
+    init(service: GitHubService, repository: Repository, contributorViewModel: ContributorViewModel) {
+        self.gitHubService = service
         self.repository = repository
         self.contributorViewModel = contributorViewModel
     }
@@ -120,7 +130,7 @@ struct RepositoryInfoCard: View {
                         }
                     } else {
                         ForEach(contributorViewModel.contributors) { user in
-                            NavigationLink(destination: UserProfileView(user: user)) {
+                            NavigationLink(destination: TargetUserProfileView(user: user)) {
                                 GithubProfileImage(urlStr: user.avatar_url, size: 40)
                             }
                         }

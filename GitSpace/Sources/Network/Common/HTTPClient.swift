@@ -18,9 +18,15 @@ protocol HTTPClient {
      */
     func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, GitHubAPIError>
     /**
-     response로 status code만 받는 경우
+     response로 status code와 함께 string을 받는 경우(Markdown)
      */
     func sendRequest(endpoint: Endpoint) async -> Result<String, GitHubAPIError>
+
+    /**
+     response로 status code만 받는 경우 (star, unstar, follow, unfollow)
+     status code만 받기 때문에, 204를 만나면 break, 나머지 코드를 받으면 error를 throw한다.
+     */
+    func sendRequest(endpoint: Endpoint) async throws
 }
 
 // MARK: - sendRequest의 구현부
@@ -113,13 +119,65 @@ extension HTTPClient {
                 return .failure(.requiresAuthentification)
             case 403:
                 return .failure(.forbidden)
+            case 404:
+                return .failure(.notFound)
             default:
                 return .failure(.unexpectedStatusCode)
             }
         } catch {
-            return .failure(.failToRequest)
+            return .failure(.unknown)
         }
     }
+    
+    func sendRequest(endpoint: Endpoint) async throws {
+        var components = URLComponents()
+        components.scheme = endpoint.scheme
+        components.host = endpoint.host
+        components.path = endpoint.path
+        components.queryItems = endpoint.queryItems
+
+        guard let url = components.url else {
+            throw GitHubAPIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.method.rawValue
+        request.allHTTPHeaderFields = endpoint.header
+
+        if let body = endpoint.body {
+            request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        }
+
+        do {
+            let ( _, response) = try await URLSession.shared.data(for: request)
+
+            guard let response = response as? HTTPURLResponse else {
+                throw GitHubAPIError.invalidResponse
+            }
+
+            switch response.statusCode {
+                // 204를 만나면 에러 없이 종료
+            case 204:
+                break
+            case 304:
+                throw GitHubAPIError.notModified
+            case 401:
+                throw GitHubAPIError.requiresAuthentification
+            case 403:
+                throw GitHubAPIError.forbidden
+            case 404:
+                throw GitHubAPIError.notFound
+            default:
+                throw GitHubAPIError.unexpectedStatusCode
+            }
+
+        } catch {
+            throw GitHubAPIError.unknown
+        }
+    }
+
 }
+
+
 
 

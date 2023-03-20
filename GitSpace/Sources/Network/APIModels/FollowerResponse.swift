@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FollowersResponse: Codable, Identifiable, Equatable {
+struct FollowerResponse: Codable, Identifiable, Equatable {
     
     let id: Int
     let name: String?
