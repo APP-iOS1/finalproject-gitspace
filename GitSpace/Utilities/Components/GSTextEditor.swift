@@ -75,7 +75,19 @@ struct GSTextEditor {
             return label.frame.width
         }
         
-        private var 
+        private var isMessageSendable: Bool {
+            let messageText = text.wrappedValue
+            guard messageText.isEmpty == false else { return false }
+            
+            let pattern: String = "^[ \n]*$"
+            
+            if messageText.range(of: pattern,
+                                 options: .regularExpression) != nil {
+                return false
+            }
+            
+            return true
+        }
         
         // MARK: -Methods
         // MARK: Method - 시작 textEditor 높이를 세팅해주는 메서드
@@ -179,4 +191,5 @@ struct GSTextEditor {
         }
     }
 }
+
 
