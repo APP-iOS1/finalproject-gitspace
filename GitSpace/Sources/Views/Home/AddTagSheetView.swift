@@ -19,6 +19,7 @@ struct AddTagSheetView: View {
     @EnvironmentObject var tagViewModel: TagViewModel
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
+    @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
     @StateObject private var keyboardHandler = KeyboardHandler()
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
@@ -58,12 +59,24 @@ struct AddTagSheetView: View {
         }
     }
     
+    // MARK: Selection Tag Method
+    /// - Parameter tag: selected tag
+    /// - Description
+    /// 태그를 선택할 경우 발생하는 로직을 수행하는 메서드입니다.
+    /// 선택되지 않은 태그를 선택할 경우와 이미 선택된 태그를 선택할 경우로 분기처리된다.
     func selectTag(to tag: Tag) {
         if selectedTags.contains(tag) {
-            let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
+            deselectedTags.append(tag)
+            guard let selectedIndex: Int = selectedTags.firstIndex(of: tag) else {
+                return
+            }
             selectedTags.remove(at: selectedIndex)
         } else {
             selectedTags.append(tag)
+            guard let deselectedIndex: Int = deselectedTags.firstIndex(of: tag) else {
+                return
+            }
+            deselectedTags.remove(at: deselectedIndex)
         }
     }
     
