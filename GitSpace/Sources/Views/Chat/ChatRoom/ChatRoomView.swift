@@ -193,17 +193,18 @@ struct ChatRoomView: View {
         .foregroundColor(.primary)
     }
     
+    // MARK: GSTextEditor - 메세지 입력 필드와 전송 버튼
     private var contentTextEditor: some View {
         GSTextEditor.CustomTextEditorView(style: .message,
-                                          text: $contentField)
-            .textInputAutocapitalization(.never)
-            .disableAutocorrection(true)
-    }
-
+                                          text: $contentField,
+                                          sendableImage: "paperplane.fill",
+                                          unSendableImage: "paperplane") {
             Task {
                 await addContent()
             }
         }
+                                          .textInputAutocapitalization(.never)
+                                          .disableAutocorrection(true)
     }
     
     // MARK: -Methods
