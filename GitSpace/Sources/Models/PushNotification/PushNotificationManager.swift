@@ -41,6 +41,14 @@ extension PushNotificationManager: GSPushNotificationSendable {
 		URL(string: "https://\(Constant.PushNotification.PUSH_NOTIFICATION_ENDPOINT)")
 	}
 	
+    /**
+     노티피케이션을 발송하는 메소드 입니다.
+     전해야 하는 메세지를 밖에서 전달하여 발송합니다.
+     - Parameters:
+        - with message: PushNotificationMessageType 으로 필요한 정보들을 전달하며, subtitle은 경우에 따라 생략할 수 있습니다.
+            - subtitle: 알람의 "발신자" 위치
+        - to userInfo: UserInfo
+     */
 	public func sendNotification(
 		with message: PushNotificationMessageType,
 		to userInfo: UserInfo
@@ -79,7 +87,7 @@ extension PushNotificationManager: GSPushNotificationSendable {
 			"notification": [
 				"title": pushNotificationBody.messageTitle,
 				"body": pushNotificationBody.messageBody,
-				"subtitle": pushNotificationBody.sentUserName,
+                "subtitle": pushNotificationBody.sentUserName != nil ? pushNotificationBody.sentUserName : "",
 				"badge": "1"
 			],
 			
