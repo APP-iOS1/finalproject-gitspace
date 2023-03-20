@@ -41,7 +41,7 @@ struct RepositoryDetailView: View {
                 ContributorListView(service: GitHubService(), repository: repository, contributorManager: contributorViewModel)
                     .navigationTitle("Contributors")
             } label: {
-                GSText.CustomTextView(style: .title3, string: "✊🏻  Knock Knock!")
+                GSText.CustomTextView(style: .buttonTitle1, string:"✊🏻  Knock Knock!")
             }
             .disabled(contributorViewModel.isLoading)
 
@@ -67,10 +67,23 @@ struct RepositoryDetailView: View {
                         ReadmeLoadingView()
                     }
                 }
+                .padding(.top, 15)
+        }
+        .padding(.horizontal, 30)
+        .task {
+            markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
+            contributorViewModel.contributors.removeAll()
+            contributorViewModel.temporaryContributors.removeAll()
+            // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
+            // For-Loop (contributor pagination, infinite scroll)
+            let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
+            switch contributorListResult {
+            case .success():
+                contributorViewModel.contributors = contributorViewModel.temporaryContributors
+            case .failure(let error):
+                // contributor 목록을 가져오는데 실패했다는 에러
+                print(error)
             }
-
-
-
         }
             .padding(.horizontal, 30)
             .task {
@@ -172,7 +185,7 @@ struct RepositoryDetailViewTags: View {
                     isTagSheetShowed = true
                 } label: {
                     Image(systemName: "plus")
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
             }
             

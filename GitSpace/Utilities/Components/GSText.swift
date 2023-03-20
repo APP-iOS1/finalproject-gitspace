@@ -33,6 +33,7 @@ public struct GSText {
         case captionPrimary2
         case description
         case description2
+        case buttonTitle1
     }
     
     struct CustomTextView: View {
@@ -115,6 +116,11 @@ public struct GSText {
                     .font(.system(size: Constant.GSTextConst.DESCRIPTION2_SIZE))
                     .fontWeight(Constant.GSTextConst.DESCRIPTION2_FONT_WEIGHT)
                     .foregroundColor(Constant.GSTextConst.DESCRIPTION2_COLOR)
+            case .buttonTitle1:
+                Text(.init(string))
+                    .font(.system(size: Constant.GSTextConst.BUTTON_TITLE1_SIZE))
+                    .fontWeight(Constant.GSTextConst.BUTTON_TITLE1_FONT_WEIGHT)
+                    .foregroundColor(Constant.GSTextConst.BUTTON_TITLE1_COLOR)
             }
         }
         

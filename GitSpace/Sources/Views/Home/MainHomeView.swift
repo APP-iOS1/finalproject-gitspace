@@ -104,14 +104,16 @@ struct MainHomeView: View {
                     .bold()
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    NotificationView()
-                } label: {
-                    Image(systemName: "bell")
-                        .foregroundColor(.black)
-                }
-            }
+//TODO: - 이후 push notication 기능이 완전히 구현되었을 때 다시 넣을 예정
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                NavigationLink {
+//                    NotificationView()
+//                } label: {
+//                    Image(systemName: "bell")
+//                        .foregroundColor(.primary)
+//                }
+//            }
+            
         }
     }
 }
