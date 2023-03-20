@@ -184,43 +184,28 @@ struct ChatRoomView: View {
             }
              */
             
-            GSTextEditor.CustomTextEditorView(style: .message, text: $contentField)
-                .textInputAutocapitalization(.never)
-                .disableAutocorrection(true)
-            
-            addContentButton
-                .disabled(contentField.isEmpty)
+            contentTextEditor
+                
         }
         .padding(.bottom, 15)
         .padding(.vertical, -3)
         .padding(.horizontal, 15)
         .foregroundColor(.primary)
     }
-
-    // MARK: Button : 메세지 추가(보내기)
-    private var addContentButton : some View {
-        Button {
+    
+    // MARK: GSTextEditor - 메세지 입력 필드와 전송 버튼
+    private var contentTextEditor: some View {
+        GSTextEditor.CustomTextEditorView(style: .message,
+                                          text: $contentField,
+                                          sendableImage: "paperplane.fill",
+                                          unSendableImage: "paperplane") {
             Task {
-                // 상대방의 id로 유저를 가져옵니다.
-                let sentFrom = userStore.user?.githubLogin
-				async let opponentUser = userStore.requestUserInfoWithID(userID: chat.targetUserID)
-                
-				// TODO: - PUSH NOTIFICATION 수정 필요
-				// !!!: DUE TO USERINFO MODEL UPDATE
-                
                 await addContent()
-                
             }
-        } label: {
-            Image(systemName: contentField.isEmpty ? "paperplane" : "paperplane.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 22, height: 22)
-                .foregroundColor(contentField.isEmpty ? .gsGray2 : .primary)
         }
+                                          .textInputAutocapitalization(.never)
+                                          .disableAutocorrection(true)
     }
-    
-    
     
     // MARK: -Methods
     // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
