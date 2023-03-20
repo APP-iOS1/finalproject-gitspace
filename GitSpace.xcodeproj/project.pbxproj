@@ -15,7 +15,7 @@
 		0BDBDD3729B9F06200F0D3FD /* LoadingDots.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */; };
 		0BDBDD3A29B9F1E300F0D3FD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 0BDBDD3929B9F1E300F0D3FD /* Lottie */; };
 		0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */; };
-		2201724029B9E122006C34D3 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */; };
+		2201724029B9E122006C34D3 /* CurrentUserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2201723F29B9E122006C34D3 /* CurrentUserProfileViewModel.swift */; };
 		2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */; };
 		2204BD51299B288F00AA4725 /* ContributorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204BD50299B288F00AA4725 /* ContributorViewModel.swift */; };
 		2205F23D299C9F1400B2643D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2205F23C299C9F1400B2643D /* Event.swift */; };
@@ -40,7 +40,6 @@
 		22958CAD29C752B000786357 /* ReadmeLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22958CAB29C752AF00786357 /* ReadmeLoadingView.swift */; };
 		22958CAE29C752B000786357 /* FailToLoadReadmeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22958CAC29C752AF00786357 /* FailToLoadReadmeView.swift */; };
 		22958CB029C7548100786357 /* TargetUserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22958CAF29C7548000786357 /* TargetUserProfileViewModel.swift */; };
-		22958CB229C75BE400786357 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 22958CB129C75BE400786357 /* Secrets.xcconfig */; };
 		22B1F2A6299231B60010FD15 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A5299231B60010FD15 /* NotificationView.swift */; };
 		22B1F2A8299235460010FD15 /* SystemNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */; };
 		22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */; };
@@ -179,7 +178,7 @@
 		0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoadingDots.json; sourceTree = "<group>"; };
 		0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LoadingDotsDark.json; sourceTree = "<group>"; };
 		0BF5E35D2977AD5600F3673C /* SetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMainView.swift; sourceTree = "<group>"; };
-		2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		2201723F29B9E122006C34D3 /* CurrentUserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserProfileViewModel.swift; sourceTree = "<group>"; };
 		2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorProfile.swift; sourceTree = "<group>"; };
 		2204BD50299B288F00AA4725 /* ContributorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorViewModel.swift; sourceTree = "<group>"; };
 		2205F23C299C9F1400B2643D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -203,7 +202,6 @@
 		22958CAB29C752AF00786357 /* ReadmeLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadmeLoadingView.swift; sourceTree = "<group>"; };
 		22958CAC29C752AF00786357 /* FailToLoadReadmeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailToLoadReadmeView.swift; sourceTree = "<group>"; };
 		22958CAF29C7548000786357 /* TargetUserProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetUserProfileViewModel.swift; sourceTree = "<group>"; };
-		22958CB129C75BE400786357 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		22B1F2A5299231B60010FD15 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		22B1F2A7299235460010FD15 /* SystemNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemNotificationCell.swift; sourceTree = "<group>"; };
 		22B1F2A9299235520010FD15 /* KnockNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockNotificationCell.swift; sourceTree = "<group>"; };
@@ -697,7 +695,7 @@
 				2204BD50299B288F00AA4725 /* ContributorViewModel.swift */,
 				2205F240299CCBF900B2643D /* FollowerViewModel.swift */,
 				2205F242299D1B0B00B2643D /* EventViewModel.swift */,
-				2201723F29B9E122006C34D3 /* UserProfileViewModel.swift */,
+				2201723F29B9E122006C34D3 /* CurrentUserProfileViewModel.swift */,
 				680C944429B9F2A300720718 /* KeyChainManager.swift */,
 				22958CAF29C7548000786357 /* TargetUserProfileViewModel.swift */,
 			);
@@ -937,7 +935,7 @@
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
-				2201724029B9E122006C34D3 /* UserProfileViewModel.swift in Sources */,
+				2201724029B9E122006C34D3 /* CurrentUserProfileViewModel.swift in Sources */,
 				0BDBDD3529B9E7F000F0D3FD /* LottieView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
 				22390DF329B84EBD00A0D49D /* RepositoryDetailViewModel.swift in Sources */,

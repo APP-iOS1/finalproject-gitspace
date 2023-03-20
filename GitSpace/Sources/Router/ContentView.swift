@@ -65,7 +65,8 @@ struct ContentView: View {
 				// userInfo 할당
                 Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
-				
+                
+                await userStore.requestUsers()
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
             }
