@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class UserProfileViewModel: ObservableObject {
+final class CurrentUserProfileViewModel: ObservableObject {
     
     private let service: GitHubService
     
