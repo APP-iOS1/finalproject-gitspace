@@ -153,11 +153,9 @@ Please select a User to start chatting with.
                         if gitSpaceUserList.contains(user.id) {
                             if user.id != userInfoManager.currentUser!.githubID {
                                 NavigationLink {
-                                    SendKnockView(sendKnockToGitHubUser: user)
-                                        .task {
-                                            // UserStore가 opponent를 가질 수 있도록 메소드 호출
-                                            let _ = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
-                                        }
+                                    KnockCommunicationRouter(
+                                        targetGithubUser: user
+                                    )
                                 } label: {
                                     ContributorGitSpaceUserListCell(targetUser: user)
                                 } // NavigationLink

@@ -18,7 +18,7 @@ struct ContributorGitSpaceUserListCell: View {
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
             HStack(spacing: 15) {
                 
-                NavigationLink(destination: UserProfileView(user: targetUser)) {
+                NavigationLink(destination: TargetUserProfileView(user: targetUser)) {
                     /* 유저 프로필 이미지 */
                     GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
                 }
@@ -58,7 +58,7 @@ struct ContributorListCell: View {
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
             HStack(spacing: 15) {
                 
-                NavigationLink(destination: UserProfileView(user: targetUser)) {
+                NavigationLink(destination: TargetUserProfileView(user: targetUser)) {
                     /* 유저 프로필 이미지 */
                     GithubProfileImage(urlStr: targetUser.avatar_url, size: 40)
                     

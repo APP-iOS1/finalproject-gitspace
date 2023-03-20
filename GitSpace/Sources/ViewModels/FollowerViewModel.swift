@@ -8,7 +8,7 @@
 import Foundation
 
 final class FollowerViewModel: ObservableObject {
-    @Published var responses: [FollowersResponse] = []
+    @Published var responses: [FollowerResponse] = []
     @Published var followers: [GithubUser] = []
     
     @MainActor func requestUsers() async {

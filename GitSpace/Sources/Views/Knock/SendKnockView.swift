@@ -443,7 +443,9 @@ Please write a message carefully.
         .toolbar {
             ToolbarItemGroup(placement: .principal) {
                 NavigationLink {
-                    ProfileDetailView()
+                    if let sendKnockToGitHubUser {
+                        TargetUserProfileView(user: sendKnockToGitHubUser)
+                    }
                 } label: {
                     HStack(spacing: 5) {
                         AsyncImage(url: URL(string: "\(sendKnockToGitHubUser?.avatar_url ?? "")")) { image in
