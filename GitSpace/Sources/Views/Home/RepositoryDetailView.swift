@@ -15,10 +15,10 @@ struct RepositoryDetailView: View {
     @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
     @State private var isFailedToLoadReadme = false
-
+    
     let gitHubService: GitHubService
     let repository: Repository
-
+    
     init(service: GitHubService, repository: Repository) {
         self.gitHubService = service
         self.repository = repository
@@ -27,14 +27,14 @@ struct RepositoryDetailView: View {
     var body: some View {
         
         ScrollView(showsIndicators: false) {
-
+            
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard(service: GitHubService(), repository: repository, contributorViewModel: contributorViewModel)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
             RepositoryDetailViewTags(selectedTags: $selectedTagList, repository: repository)
-
+            
             Spacer()
             
             GSNavigationLink(style: .primary) {
@@ -44,12 +44,12 @@ struct RepositoryDetailView: View {
                 GSText.CustomTextView(style: .buttonTitle1, string:"✊🏻  Knock Knock!")
             }
             .disabled(contributorViewModel.isLoading)
-
+            
             Divider()
                 .frame(height: 1)
                 .overlay(Color.gsGray3)
                 .padding(.vertical, 10)
-
+            
             if isFailedToLoadReadme {
                 FailToLoadReadmeView()
             } else {
@@ -58,16 +58,17 @@ struct RepositoryDetailView: View {
                         GSText.CustomTextView(style: .caption2, string: "README.md")
                         Spacer()
                     }
-
+                    
                     RichText(html: markdownString)
                         .colorScheme(.auto)
                         .fontType(.system)
                         .linkOpenType(.SFSafariView())
                         .placeholder {
-                        ReadmeLoadingView()
-                    }
+                            ReadmeLoadingView()
+                        }
                 }
                 .padding(.top, 15)
+            }
         }
         .padding(.horizontal, 30)
         .task {
@@ -85,33 +86,17 @@ struct RepositoryDetailView: View {
                 print(error)
             }
         }
-            .padding(.horizontal, 30)
-            .task {
-                    markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
-                    contributorViewModel.contributors.removeAll()
-                    contributorViewModel.temporaryContributors.removeAll()
-                    // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
-                    // For-Loop (contributor pagination, infinite scroll)
-                    let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
-                    switch contributorListResult {
-                    case .success():
-                        contributorViewModel.contributors = contributorViewModel.temporaryContributors
-                    case .failure(let error):
-                        // contributor 목록을 가져오는데 실패했다는 에러
-                        print(error)
-                    }
-            }
         .navigationBarTitle(repository.name, displayMode: .inline)
     }
 }
 
 
 struct RepositoryInfoCard: View {
-
+    
     @ObservedObject var contributorViewModel: ContributorViewModel
     let gitHubService: GitHubService
     let repository: Repository
-
+    
     init(service: GitHubService, repository: Repository, contributorViewModel: ContributorViewModel) {
         self.gitHubService = service
         self.repository = repository
@@ -164,13 +149,13 @@ struct RepositoryInfoCard: View {
 
 
 struct RepositoryDetailViewTags: View {
-
+    
     @Binding var selectedTags: [Tag]
     @State var isTagSheetShowed: Bool = false
     @EnvironmentObject var tagViewModel: TagViewModel
     
     let repository: Repository
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -199,13 +184,13 @@ struct RepositoryDetailViewTags: View {
                                 isSelected: true,
                                 isEditing: false)
                         ) {
-
+                            
                         } label: {
                             // !!!: - 대응데이
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
                             Text(tag.tagName)
-                            .padding(-10)
-
+                                .padding(-10)
+                            
                         }
                     }
                 }
