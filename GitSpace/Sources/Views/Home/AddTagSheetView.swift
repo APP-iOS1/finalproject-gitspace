@@ -80,7 +80,16 @@ struct AddTagSheetView: View {
         }
     }
     
-    func addSelectedTagToPreSelectedTags() {
+    // MARK: Register Selected Tags
+    /// - Description
+    /// 선택한 태그들을 실제로 등록합니다.
+    /// 이전 뷰가 StarredView이면 Selected Tags 기능에 등록하고, RepositoryDetailView이면 Repository에 적용합니다.
+    func registerSelectedTags() {
+        /*
+         모달을 내리기 전에
+         사용자가 선택한 태그들(selectedTags)를
+         preSelectedTag(Binding Property)에 추가한다.
+        */
         preSelectedTags = selectedTags
         switch beforeView {
         case .repositoryDetailView:
@@ -208,12 +217,7 @@ struct AddTagSheetView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            /*
-                             모달을 내리기 전에
-                             사용자가 선택한 태그들(selectedTags)를
-                             preSelectedTag에 추가한다.
-                             */
-                            addSelectedTagToPreSelectedTags()
+                            registerSelectedTags()
                             dismiss()
                         } label: {
                             Text("Done")
