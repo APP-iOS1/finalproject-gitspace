@@ -110,6 +110,10 @@ extension GitHubAPIEndpoint: Endpoint {
             return .put
         case .unfollowUser:
             return .delete
+        case .userFollowingList:
+            return .get
+        case .userFollowerList:
+            return .get
         }
     }
 
