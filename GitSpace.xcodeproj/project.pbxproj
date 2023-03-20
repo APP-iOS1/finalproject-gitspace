@@ -145,7 +145,6 @@
 		70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ABF2C6298C07F90058467E /* View+DesignSystem.swift */; };
 		70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CDF299B105B009948FC /* URL+DeepLink.swift */; };
 		70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BB6CE1299B1DA7009948FC /* ContentView.swift */; };
-		70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70BB6CF3299B4301009948FC /* Assets.xcassets */; };
 		70BE63E5298CA5190060336F /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BE63E4298CA5190060336F /* Constant.swift */; };
 		70D8DFDD29A4B3C70014AD5A /* PushNotificationMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */; };
 		70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */; };
@@ -167,6 +166,8 @@
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 		EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */; };
 		EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF740B298D784C00FABEA3 /* GSCanvas.swift */; };
+		EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */; };
+		EFDBD95229C58D7B006FC628 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFDBD95129C58D7B006FC628 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -311,7 +312,6 @@
 		70BB6CDF299B105B009948FC /* URL+DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+DeepLink.swift"; sourceTree = "<group>"; };
 		70BB6CE1299B1DA7009948FC /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitSpace.entitlements; sourceTree = "<group>"; };
-		70BB6CF3299B4301009948FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70BB6CFA299B769D009948FC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BE63E4298CA5190060336F /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationMessageBody.swift; sourceTree = "<group>"; };
@@ -325,6 +325,8 @@
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
 		EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvasModifier.swift; sourceTree = "<group>"; };
 		EEEF740B298D784C00FABEA3 /* GSCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvas.swift; sourceTree = "<group>"; };
+		EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		EFDBD95129C58D7B006FC628 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = GitSpace/Resources/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -561,7 +563,8 @@
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				22958CB129C75BE400786357 /* Secrets.xcconfig */,
+				EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */,
+				EFDBD95129C58D7B006FC628 /* Assets.xcassets */,
 				700A11CD299735C1008C94C7 /* plist */,
 			);
 			path = App;
@@ -580,7 +583,6 @@
 			isa = PBXGroup;
 			children = (
 				70BB6CE5299B1DDE009948FC /* GitSpace.entitlements */,
-				70BB6CF3299B4301009948FC /* Assets.xcassets */,
 				700A11CC29973584008C94C7 /* App */,
 				0BDBDD3629B9F06200F0D3FD /* LoadingDots.json */,
 				0BDBDD3B29BA006900F0D3FD /* LoadingDotsDark.json */,
@@ -903,11 +905,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22958CB229C75BE400786357 /* Secrets.xcconfig in Resources */,
+				EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */,
 				0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */,
-				70BB6CF4299B4301009948FC /* Assets.xcassets in Resources */,
+				EFDBD95229C58D7B006FC628 /* Assets.xcassets in Resources */,
 				0BDBDD3729B9F06200F0D3FD /* LoadingDots.json in Resources */,
 				3427735C2994244A00818816 /* Localizable.strings in Resources */,
 			);
