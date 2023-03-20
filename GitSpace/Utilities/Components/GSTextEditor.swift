@@ -83,16 +83,12 @@ struct GSTextEditor {
         
         private var isMessageSendable: Bool {
             let messageText = text.wrappedValue
-            
             guard messageText.isEmpty == false else { return false }
-            
             let pattern: String = "^[ \n]*$"
-            
             if messageText.range(of: pattern,
                                  options: .regularExpression) != nil {
                 return false
             }
-            
             return true
         }
         
