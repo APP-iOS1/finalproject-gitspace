@@ -206,6 +206,19 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
     }
     
     /**
+     특정 유저의 Following List 정보를 요청합니다.
+     - Author: 한호
+     - parameters:
+        - userName: GitHub userName
+        - perPage: page 당 요청할 개수(default: 30, max: 100)
+        - page: 요청할 page numbe
+     - returns: 요청 성공시 특정 유저의 Follower 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowerList(userName: userName, perPage: perPage, page: page), responseModel: [UserResponse].self)
+    }
+    
+    /**
      특정 레포지토리의 정보를 요청합니다.
      - Author: 제균
      - parameters:
