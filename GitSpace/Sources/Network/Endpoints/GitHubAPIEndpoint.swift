@@ -153,7 +153,7 @@ extension GitHubAPIEndpoint: Endpoint {
         case .authenticatedUserRepositories(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
             
-        case .authenticatedUserReceivedEvents( _ , let page):
+        case .authenticatedUserReceivedEvents(_, let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
         
         // defualt는 한 페이지당 30명의 contributor이며, pagenation을 위해 page를 연관값으로 가짐
@@ -164,6 +164,14 @@ extension GitHubAPIEndpoint: Endpoint {
             return [URLQueryItem(name: "page", value: "\(page)")]
 
         case .authenticatedUserFollowers(let perPage, let page):
+            return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
+        
+        // default는 한 페이지당 30명의 Following User이며, pagenation을 위해 page를 연관값으로 가짐
+        case .userFollowingList(_, let perPage, let page):
+            return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
+        
+        // default는 한 페이지당 30명의 Follower이며, pagenation을 위해 page를 연관값으로 가짐
+        case .userFollowerList(_, let perPage, let page):
             return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
             
         default:
