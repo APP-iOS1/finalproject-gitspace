@@ -304,7 +304,7 @@ Please write a message carefully.
                                         with: .knock(
                                             title: "New Knock has been Arrived.",
                                             body: knockMessage,
-                                            knockSentFrom: userStore.currentUser?.githubLogin ?? "",
+                                            pushSentFrom: userStore.currentUser?.githubLogin ?? "",
                                             knockPurpose: chatPurpose,
                                             knockID: newKnock.id
                                         ),
@@ -404,7 +404,7 @@ Please write a message carefully.
                                         with: .knock(
                                             title: "New Knock has been Arrived.",
                                             body: knockMessage,
-                                            knockSentFrom: userStore.currentUser?.githubLogin ?? "",
+                                            pushSentFrom: userStore.currentUser?.githubLogin ?? "",
                                             knockPurpose: chatPurpose,
                                             knockID: newKnock.id
                                         ),
