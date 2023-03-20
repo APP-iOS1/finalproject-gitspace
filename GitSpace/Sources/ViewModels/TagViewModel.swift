@@ -106,7 +106,7 @@ final class TagViewModel: ObservableObject {
     
     // MARK: Register Repository Tag
     /// 선택된 레포지토리에 새로운 태그를 추가합니다.
-    func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
+    func addRepositoryTag(_ tags: [Tag], to selectedRepositoryName: String) async -> Void {
         do {
             for tag in tags {
                 try await database.collection(const.COLLECTION_USER_INFO)
@@ -114,7 +114,7 @@ final class TagViewModel: ObservableObject {
                     .collection("Tag")
                     .document(tag.id)
                     .updateData([
-                        "repositories": FieldValue.arrayUnion([repositoryFullname])
+                        "repositories": FieldValue.arrayUnion([selectedRepositoryName])
                     ])
             }
         } catch {
