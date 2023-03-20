@@ -19,11 +19,12 @@ struct AddTagSheetView: View {
     @EnvironmentObject var tagViewModel: TagViewModel
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
+    @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
     @StateObject private var keyboardHandler = KeyboardHandler()
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
-    let repositoryName: String?
+    let selectedRepository: Repository?
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
@@ -47,7 +48,7 @@ struct AddTagSheetView: View {
         if shouldBlankTag && shouldExistTag {
             Task {
                 guard let newTag = await tagViewModel.registerTag(tagName: trimmedTagInput) else {
-                    print(#function, "Failed Add New Tag.")
+                    print("Error-\(#file)-\(#function): Failed Add New Tag.")
                     return
                 }
                 withAnimation {
@@ -58,26 +59,54 @@ struct AddTagSheetView: View {
         }
     }
     
+    // MARK: Selection Tag Method
+    /// - Parameter tag: selected tag
+    /// - Description
+    /// 태그를 선택할 경우 발생하는 로직을 수행하는 메서드입니다.
+    /// 선택되지 않은 태그를 선택할 경우와 이미 선택된 태그를 선택할 경우로 분기처리된다.
     func selectTag(to tag: Tag) {
         if selectedTags.contains(tag) {
-            let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
+            deselectedTags.append(tag)
+            guard let selectedIndex: Int = selectedTags.firstIndex(of: tag) else {
+                return
+            }
             selectedTags.remove(at: selectedIndex)
         } else {
             selectedTags.append(tag)
+            guard let deselectedIndex: Int = deselectedTags.firstIndex(of: tag) else {
+                return
+            }
+            deselectedTags.remove(at: deselectedIndex)
         }
     }
     
-    func addSelectedTagToPreSelectedTags() {
+    // MARK: Register Selected Tags
+    /// - Description
+    /// 선택한 태그들을 실제로 등록합니다.
+    /// 이전 뷰가 StarredView이면 Selected Tags 기능에 등록하고, RepositoryDetailView이면 Repository에 적용합니다.
+    func registerSelectedTags() {
+        /*
+         모달을 내리기 전에
+         사용자가 선택한 태그들(selectedTags)를
+         preSelectedTag(Binding Property)에 추가한다.
+        */
         preSelectedTags = selectedTags
         switch beforeView {
         case .repositoryDetailView:
             Task {
-                // FIXME: 실제 레포 이름 가져오기
-                guard let repositoryName = repositoryName else { return }
-                await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
+                guard let repository = selectedRepository else {
+                    print("Error-\(#file)-\(#function): Failed Optional unwrapping.")
+                    return
+                }
+                if !selectedTags.isEmpty {
+                    await tagViewModel.addRepositoryTag(preSelectedTags, to: repository.fullName)
+                }
+                if !deselectedTags.isEmpty {
+                    await tagViewModel.deleteRepositoryTag(deselectedTags, to: repository.fullName)
+                }
             }
         case .starredView:
-            if !preSelectedTags.isEmpty {
+            if !selectedTags.isEmpty {
                 repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
             } else {
                 repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
@@ -193,12 +222,7 @@ struct AddTagSheetView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            /*
-                             모달을 내리기 전에
-                             사용자가 선택한 태그들(selectedTags)를
-                             preSelectedTag에 추가한다.
-                             */
-                            addSelectedTagToPreSelectedTags()
+                            registerSelectedTags()
                             dismiss()
                         } label: {
                             Text("Done")

@@ -230,7 +230,7 @@ struct StarredView: View {
             }
         }
         .sheet(isPresented: $isShowingSelectTagView) {
-            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView, repositoryName: nil)
+            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView, selectedRepository: nil)
         }
         .onTapGesture {
             self.endTextEditing()

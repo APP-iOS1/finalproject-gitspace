@@ -106,19 +106,19 @@ final class TagViewModel: ObservableObject {
     
     // MARK: Register Repository Tag
     /// 선택된 레포지토리에 새로운 태그를 추가합니다.
-    func addRepositoryTag(_ tags: [Tag], repositoryFullname: String) async -> Void {
+    func addRepositoryTag(_ tags: [Tag], to selectedRepositoryName: String) async -> Void {
         do {
             for tag in tags {
                 try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
-                    .collection("Tag")
+                    .collection(const.COLLECTION_TAG)
                     .document(tag.id)
                     .updateData([
-                        "repositories": FieldValue.arrayUnion([repositoryFullname])
+                        const.FIELD_REPOSITORIES: FieldValue.arrayUnion([selectedRepositoryName])
                     ])
             }
         } catch {
-            print("Error")
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
         }
     }
     
@@ -129,11 +129,23 @@ final class TagViewModel: ObservableObject {
     func updateRepositoryTag() {
         
     }
+    */
     
     // MARK: Delete Repository Tag
     /// 선택된 레포지토리의 태그를 삭제합니다.
-    func deleteRepositoryTag() {
-        
+    func deleteRepositoryTag(_ tags: [Tag], to selectedRepositoryName: String) async -> Void {
+        do {
+            for tag in tags {
+                try await database.collection(const.COLLECTION_USER_INFO)
+                    .document(Auth.auth().currentUser?.uid ?? "")
+                    .collection(const.COLLECTION_TAG)
+                    .document(tag.id)
+                    .updateData([
+                        const.FIELD_REPOSITORIES: FieldValue.arrayRemove([selectedRepositoryName])
+                    ])
+            }
+        } catch {
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
+        }
     }
-    */
 }
