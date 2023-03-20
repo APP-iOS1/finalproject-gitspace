@@ -279,10 +279,10 @@ Please write a message carefully.
                             //                            }
                             
                             
-                                GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
-                            
-                            
-                            Button {
+                            GSTextEditor.CustomTextEditorView(style: .message,
+                                                              text: $knockMessage,
+                                                              sendableImage: "paperplane.fill",
+                                                              unSendableImage: "paperplane") {
                                 Task {
                                     let newKnock = Knock(
                                         date: .now,
@@ -316,15 +316,7 @@ Please write a message carefully.
                                     withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
                                     knockMessage = ""
                                 }
-                            } label: {
-                                Image(systemName: "paperplane")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 22, height: 22)
-                                    .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                             }
-                            .disabled(knockMessage.isEmpty || isKnockSent)
-                            
                         } // HStack
                         .foregroundColor(.primary)
                         .padding(.horizontal)
@@ -379,10 +371,11 @@ Please write a message carefully.
                             //                            }
                             
                             
-                                GSTextEditor.CustomTextEditorView(style: .message, text: $knockMessage)
                             
-                            
-                            Button {
+                            GSTextEditor.CustomTextEditorView(style: .message,
+                                                              text: $knockMessage,
+                                                              sendableImage: "paperplane.fill",
+                                                              unSendableImage: "paperplane") {
                                 Task {
                                     let newKnock = Knock(
                                         date: .now,
@@ -416,14 +409,7 @@ Please write a message carefully.
                                     withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
                                     knockMessage = ""
                                 }
-                            } label: {
-                                Image(systemName: "paperplane")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 22, height: 22)
-                                    .foregroundColor(knockMessage.isEmpty ? .gsGray2 : .primary)
                             }
-                            .disabled(knockMessage.isEmpty || isKnockSent)
                         } // HStack
                         .foregroundColor(.primary)
                         .padding(.horizontal)
