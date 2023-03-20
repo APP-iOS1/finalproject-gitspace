@@ -33,6 +33,12 @@ struct GSTextEditor {
         let font: Font
         let lineSpace: CGFloat
         
+        // MARK: SendButton 관련 프로퍼티
+        let sendableImage: String
+        let unSendableImage: String
+        let action: () -> Void
+        
+        
         @State private var textEditorHeight: CGFloat = 0
         @State private var stateTextWidth: CGFloat = 0
         
