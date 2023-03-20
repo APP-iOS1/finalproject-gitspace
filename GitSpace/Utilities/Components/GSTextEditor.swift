@@ -152,12 +152,18 @@ struct GSTextEditor {
             style: GSTextEditorStyle,
             text: Binding<String>,
             font: Font = .body,
-            lineSpace: CGFloat = 2
+            lineSpace: CGFloat = 2,
+            sendableImage: String,
+            unSendableImage: String,
+            action: @escaping () -> Void
         ) {
             self.style = style
             self.text = text
             self.font = font
             self.lineSpace = lineSpace
+            self.sendableImage = sendableImage
+            self.unSendableImage = unSendableImage
+            self.action = action
         }
         
         
