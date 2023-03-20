@@ -98,10 +98,15 @@ struct AddTagSheetView: View {
                     print("Error-\(#file)-\(#function): Failed Optional unwrapping.")
                     return
                 }
-                await tagViewModel.addRepositoryTag(preSelectedTags, to: repository.fullName)
+                if !selectedTags.isEmpty {
+                    await tagViewModel.addRepositoryTag(preSelectedTags, to: repository.fullName)
+                }
+                if !deselectedTags.isEmpty {
+                    await tagViewModel.deleteRepositoryTag(deselectedTags, to: repository.fullName)
+                }
             }
         case .starredView:
-            if !preSelectedTags.isEmpty {
+            if !selectedTags.isEmpty {
                 repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
             } else {
                 repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
