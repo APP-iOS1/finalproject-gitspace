@@ -279,6 +279,7 @@ Please write a message carefully.
                             //                            }
                             
                             
+                            // FIXME: 노크 전송 버튼 disabled 조건에 isKnockSent 추가 필요함! From. 영이 -> To. 노이
                             GSTextEditor.CustomTextEditorView(style: .message,
                                                               text: $knockMessage,
                                                               sendableImage: "paperplane.fill",
