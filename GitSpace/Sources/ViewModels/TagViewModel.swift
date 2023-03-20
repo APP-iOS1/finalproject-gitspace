@@ -134,6 +134,18 @@ final class TagViewModel: ObservableObject {
     // MARK: Delete Repository Tag
     /// 선택된 레포지토리의 태그를 삭제합니다.
     func deleteRepositoryTag(_ tags: [Tag], to selectedRepositoryName: String) async -> Void {
-        
+        do {
+            for tag in tags {
+                try await database.collection(const.COLLECTION_USER_INFO)
+                    .document(Auth.auth().currentUser?.uid ?? "")
+                    .collection(const.COLLECTION_TAG)
+                    .document(tag.id)
+                    .updateData([
+                        const.FIELD_REPOSITORIES: FieldValue.arrayRemove([selectedRepositoryName])
+                    ])
+            }
+        } catch {
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
+        }
     }
 }
