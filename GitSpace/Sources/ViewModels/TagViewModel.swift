@@ -111,14 +111,14 @@ final class TagViewModel: ObservableObject {
             for tag in tags {
                 try await database.collection(const.COLLECTION_USER_INFO)
                     .document(Auth.auth().currentUser?.uid ?? "")
-                    .collection("Tag")
+                    .collection(const.COLLECTION_TAG)
                     .document(tag.id)
                     .updateData([
-                        "repositories": FieldValue.arrayUnion([selectedRepositoryName])
+                        const.FIELD_REPOSITORIES: FieldValue.arrayUnion([selectedRepositoryName])
                     ])
             }
         } catch {
-            print("Error")
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
         }
     }
     
