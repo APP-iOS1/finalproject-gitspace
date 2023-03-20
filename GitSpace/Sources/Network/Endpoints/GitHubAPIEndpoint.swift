@@ -19,6 +19,8 @@ enum GitHubAPIEndpoint {
     case authenticatedUserFollowsPerson(userName: String)
     case userInformation(userName: String)
     case userStarRepositories(userName: String, page: Int)
+    case userFollowingList(userName: String, perPage: Int, page: Int)
+    case userFollowerList(userName: String, perPage: Int, page: Int)
     case repositoryInformation(owner: String, repositoryName: String)
     case repositoryREADME(owner: String, repositoryName: String)
     case markdownToHTML(markdownString: String)
