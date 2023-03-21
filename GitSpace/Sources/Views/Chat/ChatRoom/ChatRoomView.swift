@@ -265,7 +265,7 @@ struct ChatRoomView: View {
                                          chatID: chat.id)
     }
     
-    // MARK: Method - 상대방이 안 읽은 메세지 갯수를 반환하는 함수
+    // MARK: Method - 내가 읽지않은 메세지 갯수를 반환하는 함수
     private func getUnreadCount() async -> Int {
         let dict = await chatStore.getUnreadMessageDictionary(chatID: chat.id)
         let unreadCount = dict?[Utility.loginUserID] ?? 0
