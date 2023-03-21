@@ -133,7 +133,7 @@ struct CurrentUserProfileView: View {
                         .padding(.trailing, -9)
 
                     NavigationLink {
-                        Text("This Page Will Shows Following List.")
+                        TargetUserFollowingListView(service: gitHubService, targetUser: gitHubAuthManager.authenticatedUser!)
                     } label: {
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: gitHubAuthManager.authenticatedUser?.following ?? 0))
