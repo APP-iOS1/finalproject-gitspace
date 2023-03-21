@@ -45,12 +45,12 @@ final class TagViewModel: ObservableObject {
             let tid = UUID().uuidString
             try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("Tag")
+                .collection(const.COLLECTION_TAG)
                 .document(tid)
                 .setData([
-                    "id": tid,
-                    "tagName": tagName,
-                    "repositories": []
+                    const.FIELD_ID: tid,
+                    const.FIELD_TAGNAME: tagName,
+                    const.FIELD_REPOSITORIES: []
                 ])
             return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
@@ -65,7 +65,7 @@ final class TagViewModel: ObservableObject {
         do {
             try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("Tag")
+                .collection(const.COLLECTION_TAG)
                 .document(tag.id)
                 .delete()
         } catch {
@@ -88,13 +88,20 @@ final class TagViewModel: ObservableObject {
     func requestRepositoryTags(repositoryName: String) async -> [Tag]? {
         do {
             var tagNameList: [Tag] = []
-            let snapshot = try await database.collectionGroup("Tag")
-                .whereField("repositories", arrayContains: "\(repositoryName)")
+//            let snapshot = try await database
+//                .collectionGroup(const.COLLECTION_TAG)
+//                .whereField(const.FIELD_REPOSITORIES, arrayContains: "\(repositoryName)")
+//                .getDocuments()
+            let snapshot = try await database
+                .collection(const.COLLECTION_USER_INFO)
+                .document(Auth.auth().currentUser?.uid ?? "")
+                .collection(const.COLLECTION_TAG)
+                .whereField(const.FIELD_REPOSITORIES, arrayContains: "\(repositoryName)")
                 .getDocuments()
             for document in snapshot.documents {
-                let id = document.data()["id"] as? String ?? ""
-                let name = document.data()["tagName"] as? String ?? ""
-                let repositories = document.data()["repositories"] as? [String] ?? []
+                let id = document.data()[const.FIELD_ID] as? String ?? ""
+                let name = document.data()[const.FIELD_TAGNAME] as? String ?? ""
+                let repositories = document.data()[const.FIELD_REPOSITORIES] as? [String] ?? []
                 tagNameList.append(Tag(id: id, tagName: name, repositories: repositories))
             }
             return tagNameList
