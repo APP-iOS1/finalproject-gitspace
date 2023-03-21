@@ -10,25 +10,8 @@ import Foundation
 final class EventViewModel: ObservableObject {
     
     @Published var events: [Event] = []
-    @Published var eventActors: [GithubUser] = []
     @Published var eventRepositories: [Repository] = []
     
-    @MainActor
-    public func fetchEventActors() async {
-        
-        eventActors.removeAll()
-        
-        for event in events {
-            let result = await GitHubService().requestUserInformation(userName: event.actor.login)
-            
-            switch result {
-            case .success(let actor):
-                eventActors.append(actor)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
     
     @MainActor
     public func fetchEventRepositories() async {
@@ -37,16 +20,18 @@ final class EventViewModel: ObservableObject {
         
         for event in events {
             
-            let name = String(event.repo.name.split(separator: "/")[0])
-            let repositoryName = String(event.repo.name.split(separator: "/")[1])
+            let splitted = event.repo.name.split(separator: "/")
+            let name = String(splitted[0])
+            let repositoryName = String(splitted[1])
             
             let result = await GitHubService().requestRepositoryInformation(owner: name, repositoryName: repositoryName)
             
             switch result {
             case .success(let repository):
                 eventRepositories.append(repository)
-            case .failure(let error):
-                print(error)
+            // 레포지토리의 정보를 불러올 수 없는 경우 해당 이벤트는 건너뛴다.
+            case .failure:
+                continue
             }
         }
     }
