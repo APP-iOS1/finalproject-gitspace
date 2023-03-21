@@ -130,14 +130,14 @@ struct ChatUserRecommendationSection: View {
                 
                 Spacer()
                 
-                ForEach(followerViewModel.responses.indices,id: \.self) { index in
-                    
-                    Circle()
-                        .fill(Color.gsGreenPrimary.opacity(currentIndex == index ? 1 : 0.3))
-                        .frame(width: 7, height: 7)
-                        .scaleEffect(currentIndex == index ? 1.4 : 1)
-                        .animation(.spring(), value: currentIndex == index)
-                }
+//                ForEach(followerViewModel.responses.indices,id: \.self) { index in
+//
+//                    Circle()
+//                        .fill(Color.gsGreenPrimary.opacity(currentIndex == index ? 1 : 0.3))
+//                        .frame(width: 7, height: 7)
+//                        .scaleEffect(currentIndex == index ? 1.4 : 1)
+//                        .animation(.spring(), value: currentIndex == index)
+//                }
                 
                 Spacer()
             }
@@ -225,8 +225,8 @@ struct Carousel<Content: View, T: Identifiable>: View {
 
 
 
-struct ChatRecommandCardSection_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatUserRecommendationSection(followerViewModel: FollowerViewModel())
-    }
-}
+//struct ChatRecommandCardSection_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChatUserRecommendationSection(followerViewModel: FollowerViewModel())
+//    }
+//}
