@@ -67,11 +67,18 @@ struct MainKnockView: View {
                     if userSelectedTab == Constant.KNOCK_RECEIVED {
                         Section {
                             if knockViewManager.receivedKnockList.isEmpty {
-                                Image("GitSpace-Knock-Empty")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 300, height: 300)
-                                    .transition(knockViewManager.leadingTransition)
+                                VStack {
+                                    Image("GitSpace-Knock-Empty")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 300, height: 300)
+                                        .transition(knockViewManager.trailingTransition)
+                                    
+                                    GSText.CustomTextView(
+                                        style: .title1,
+                                        string: "There are no Knocks!")
+                                    .multilineTextAlignment(.center)
+                                }
                             } else {
                                 ForEach(
                                     $knockViewManager.receivedKnockList
@@ -141,11 +148,18 @@ struct MainKnockView: View {
                     } else if userSelectedTab == Constant.KNOCK_SENT {
                         Section {
                             if knockViewManager.sentKnockList.isEmpty {
-                                Image("GitSpace-Knock-Empty")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 300, height: 300)
-                                    .transition(knockViewManager.trailingTransition)
+                                VStack {
+                                    Image("GitSpace-Knock-Empty")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 300, height: 300)
+                                        .transition(knockViewManager.trailingTransition)
+                                    
+                                    GSText.CustomTextView(
+                                        style: .title1,
+                                        string: "There are no Knocks!")
+                                    .multilineTextAlignment(.center)
+                                }
                             } else {
                                 ForEach($knockViewManager.sentKnockList
                                     .sorted {
