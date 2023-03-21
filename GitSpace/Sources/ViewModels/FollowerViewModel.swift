@@ -9,19 +9,45 @@ import Foundation
 import SwiftUI
 
 final class FollowerViewModel: ObservableObject {
-    @Published var responses: [FollowerResponse] = []
-    @Published var followers: [GithubUser] = []
+    private let service: GitHubService
     
-    @MainActor func requestUsers() async {
-        followers.removeAll()
-        for response in responses {
-            let result = await GitHubService().requestUserInformation(userName: response.login)
-            switch result {
-            case .success(let user):
-                followers.append(user)
-            case .failure(let error):
-                print(error)
+    init(service: GitHubService) {
+        self.service = service
+    }
+    
+    @Published var followers: [GithubUser] = []
+    @Published var isLoading: Bool = true
+    var temporaryFollowers: [GithubUser] = []
+    
+    public func getFollower(with userID: Int) -> GithubUser? {
+        let result = followers.filter { $0.id == userID }.first
+        print(#file, #function, result?.name ?? "FAILED: getFollower")
+        return result
+    }
+    
+    @MainActor
+    func requestFollowers(user: String, perPage: Int, page: Int) async -> Result<Void, GitHubAPIError> {
+        
+        let followersResult = await service.requestUserFollowerList(userName: user, perPage: perPage, page: page)
+        
+        switch followersResult {
+        case .success(let users):
+            for user in users {
+                let result = await service.requestUserInformation(userName: user.login)
+                
+                switch result {
+                case .success(let user):
+                    temporaryFollowers.append(user)
+                case .failure(let error):
+                    return .failure(error)
+                }
             }
+            withAnimation(.easeInOut) {
+                self.isLoading = false
+            }
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
         }
     }
 }
