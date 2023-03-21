@@ -88,10 +88,6 @@ final class TagViewModel: ObservableObject {
     func requestRepositoryTags(repositoryName: String) async -> [Tag]? {
         do {
             var tagNameList: [Tag] = []
-//            let snapshot = try await database
-//                .collectionGroup(const.COLLECTION_TAG)
-//                .whereField(const.FIELD_REPOSITORIES, arrayContains: "\(repositoryName)")
-//                .getDocuments()
             let snapshot = try await database
                 .collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
