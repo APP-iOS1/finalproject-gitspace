@@ -50,10 +50,10 @@ protocol GitHubServiceProtocol {
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
     /// 특정 유저의 Following List를 요청하는 함수
-    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
     
     /// 특정 유저의 Follower List를 요청하는 함수
-    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
     
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
@@ -207,8 +207,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 page number
      - returns: 요청 성공시 특정 유저의 Following 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowingList(userName: userName, perPage: perPage, page: page), responseModel: [UserResponse].self)
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowingList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
     }
     
     /**
@@ -220,8 +220,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 page numbe
      - returns: 요청 성공시 특정 유저의 Follower 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowerList(userName: userName, perPage: perPage, page: page), responseModel: [UserResponse].self)
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowerList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
     }
     
     /**
