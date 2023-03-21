@@ -48,6 +48,8 @@ public enum Constant {
         static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
         
         static let COLLECTION_TAG: String = "Tag"
+        static let FIELD_ID: String = "id"
+        static let FIELD_TAGNAME: String = "tagName"
         static let FIELD_REPOSITORIES: String = "repositories"
     }
 	
