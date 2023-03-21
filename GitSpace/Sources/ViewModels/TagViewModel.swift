@@ -24,13 +24,13 @@ final class TagViewModel: ObservableObject {
         do {
             let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
-                .collection("Tag")
+                .collection(const.COLLECTION_TAG)
                 .getDocuments()
             self.tags.removeAll()
             for document in snapshot.documents {
-                let id = document["id"] as? String ?? ""
-                let tagName = document["tagName"] as? String ?? ""
-                let repositories = document["repositories"] as? [String] ?? []
+                let id = document[const.FIELD_ID] as? String ?? ""
+                let tagName = document[const.FIELD_TAGNAME] as? String ?? ""
+                let repositories = document[const.FIELD_REPOSITORIES] as? [String] ?? []
                 self.tags.append( Tag(id: id, tagName: tagName, repositories: repositories) )
             }
         } catch {
