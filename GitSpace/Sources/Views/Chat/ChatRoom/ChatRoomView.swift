@@ -349,6 +349,7 @@ struct ChatRoomView: View {
         
         // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
         case .enterOrQuitChatRoom:
+            // FIXME: userStore.user? 대신에 Utility.loginUserID를 사용하면 해결은 됨, 근데 앱 실행 시 writeUser가 잘 되었는데 채팅방 안에서만 user?가 nil인 이유를 찾아봐야함
             var newDict: [String : Int] = chat.unreadMessageCount
             if let uid = userStore.user?.id {
                 newDict[uid] = 0
