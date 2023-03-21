@@ -30,6 +30,7 @@ struct ChatRoomView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
+    @State private var preMessageIDs: [String] = []
     
     
     var body: some View {
