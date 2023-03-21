@@ -118,7 +118,7 @@ struct CurrentUserProfileView: View {
                         .foregroundColor(.gsGray2)
 
                     NavigationLink {
-                        Text("This Page Will Shows Followers List.")
+                        TargetUserFollowerListView(service: gitHubService, targetUserLogin: gitHubAuthManager.authenticatedUser?.login ?? "")
                     } label: {
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: gitHubAuthManager.authenticatedUser?.followers ?? 0))
