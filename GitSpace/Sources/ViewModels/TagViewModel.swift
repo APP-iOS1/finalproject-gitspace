@@ -34,7 +34,7 @@ final class TagViewModel: ObservableObject {
                 self.tags.append( Tag(id: id, tagName: tagName, repositories: repositories) )
             }
         } catch {
-            print("Error")
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
         }
     }
     
@@ -54,7 +54,7 @@ final class TagViewModel: ObservableObject {
                 ])
             return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
-            print("Register Tag Error")
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
             return nil
         }
     }
@@ -69,7 +69,7 @@ final class TagViewModel: ObservableObject {
                 .document(tag.id)
                 .delete()
         } catch {
-            print("Delete Tag")
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
         }
     }
     
@@ -99,7 +99,7 @@ final class TagViewModel: ObservableObject {
             }
             return tagNameList
         } catch {
-            print(error.localizedDescription)
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
             return nil
         }
     }
