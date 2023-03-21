@@ -8,14 +8,8 @@
 import SwiftUI
 
 struct ActivityFeedView: View {
-
-    let gitHubService: GitHubService
-    let event: Event
     
-    init(service: GitHubService, event: Event) {
-        self.gitHubService = service
-        self.event = event
-    }
+    let event: Event
 
     var body: some View {
 
@@ -123,7 +117,7 @@ struct ActivityFeedView: View {
         .padding(.horizontal)
     } // body
     
-    func makeFeedSentence(type: String?, repository: String) -> String {
+    private func makeFeedSentence(type: String?, repository: String) -> String {
         switch type {
         case "PublicEvent":
             return "made **\(repository)** public"
@@ -141,6 +135,6 @@ struct ActivityFeedView: View {
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityFeedView(service: GitHubService(), event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
+        ActivityFeedView(event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
     }
 }
