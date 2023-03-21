@@ -8,8 +8,50 @@
 import SwiftUI
 
 struct FollowingSkeletonView: View {
+    
+    @State var opacity: CGFloat = 0.4
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            ForEach(0..<11) { _ in
+                
+                HStack(spacing: 20) {
+                    
+                    /* 유저 프로필 이미지 */
+                    Image("ProfilePlaceholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .frame(width: 40)
+                    
+                    VStack(alignment: .leading, spacing: 3) {
+                        /* 유저네임 */
+                        GSText.CustomTextView(
+                            style: .caption1,
+                            string: "User Name Skeleton")
+                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
+                        
+                        /* 유저ID */
+                        GSText.CustomTextView(
+                            style: .caption1,
+                            string: "User    Login")
+                        .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
+                    } // VStack
+                    .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                
+                Divider()
+            } // ForEach
+        } // VStack
+        .task {
+            withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)){
+                self.opacity = opacity == 0.4 ? 0.8 : 0.4
+            }
+        }
     }
 }
 
