@@ -18,6 +18,7 @@ struct ReceivedKnockDetailView: View {
 	
 	@Binding var knock: Knock
 	@State private var isAccepted: Bool = false
+    @State private var targetUser: UserInfo? = nil
 	
     var body: some View {
         
@@ -32,13 +33,14 @@ struct ReceivedKnockDetailView: View {
             
             ScrollView {
                 // MARK: - 상단 프로필 정보 뷰
-                /*
-                TopperProfileView()
+                if let targetUser {
+                    TopperProfileView(targetUserInfo: targetUser)
+                    
+                    Divider()
+                        .padding(.vertical, 20)
+                        .padding(.horizontal, 5)
+                }
                 
-                Divider()
-                    .padding(.vertical, 20)
-                    .padding(.horizontal, 5)
-                */
                  
                 // MARK: - Knock Message
                 /// 1. 전송 시간
@@ -102,9 +104,9 @@ struct ReceivedKnockDetailView: View {
                     ) {
                         Task {
                             // TODO: PUSH NOTIFICATION
-                            async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                            if let knockSentUser = await knockSentUser {
-                                async let newChat = makeNewChat(with: knockSentUser)
+                            self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
+                            if let targetUser {
+                                async let newChat = makeNewChat(with: targetUser)
                                 
                                 await chatStore.addChat(await newChat)
                                 
@@ -116,7 +118,7 @@ struct ReceivedKnockDetailView: View {
                                 
                                 await self.sendPushNotification(
                                     pushNotificationTitle: "Your Knock has been Accepted!",
-                                    to: knockSentUser
+                                    to: targetUser
                                 )
 
                                 tabBarRouter.currentPage = .chats
@@ -144,9 +146,8 @@ struct ReceivedKnockDetailView: View {
                         Button {
                             Task {
                                 // TODO: PUSH NOTIFICATION
-                                async let knockSentUser = userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                                
-                                if let knockSentUser = await knockSentUser {
+                                self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
+                                if let targetUser {
                                     
                                     // TODO: Update Knock decline Message.
                                     // TODO: Decline 메시지를 작성할 뷰 구현
@@ -159,7 +160,7 @@ struct ReceivedKnockDetailView: View {
                                     // TODO: - decline Message를 Push에 보낼거?
                                     await self.sendPushNotification(
                                         pushNotificationTitle: "Your Knock has been declined",
-                                        to: knockSentUser
+                                        to: targetUser
                                     )
                                 }
                             }
@@ -184,22 +185,16 @@ struct ReceivedKnockDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                HStack(spacing: 5) {
-//                    AsyncImage(url: URL(string: "\("")")) { image in
-//                        image
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .clipShape(Circle())
-//                            .frame(width: 30)
-//                    } placeholder: {
-//                        ProgressView()
-//                    } // AsyncImage
-                    
-					Text("\(knock.sentUserName)")
-                        .bold()
-                } // HStack
-                .foregroundColor(.black)
-            } // ToolbarItemGroup
+                if let targetUser {
+                    HStack(spacing: 5) {
+                        GithubProfileImage(urlStr: targetUser.avatar_url, size: 25)
+                        
+                        Text("\(knock.sentUserName)")
+                            .bold()
+                    } // HStack
+                    .foregroundColor(.black)
+                }
+            } // ToolbarItem
         } // toolbar
     }
 	
@@ -209,7 +204,7 @@ struct ReceivedKnockDetailView: View {
      */
     private func sendPushNotification(
         pushNotificationTitle: String,
-        to knockSentUser: UserInfo
+        to targetUser: UserInfo
     ) async {
         await pushNotificationManager.sendNotification(
             with: .knock(
@@ -219,19 +214,19 @@ struct ReceivedKnockDetailView: View {
                 knockPurpose: "",
                 knockID: knock.id
             ),
-            to: knockSentUser
+            to: targetUser
         )
     }
     
     private func makeNewChat(
-        with knockSentUser: UserInfo
+        with targetUser: UserInfo
     ) async -> Chat {
         Chat(
             id: UUID().uuidString,
             createdDate: .now,
             joinedMemberIDs: [
                 userStore.currentUser?.id ?? "",
-                knockSentUser.id
+                targetUser.id
             ],
             lastContent: "",
             lastContentDate: .now,
@@ -239,7 +234,7 @@ struct ReceivedKnockDetailView: View {
             knockContentDate: knock.knockedDate.dateValue(),
             unreadMessageCount: [
                 userStore.currentUser?.id ?? "": 0,
-                knockSentUser.id: 0
+                targetUser.id: 0
             ]
         )
     }
