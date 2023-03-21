@@ -40,8 +40,15 @@ struct TargetUserFollowerListView: View {
                                     
                                     /* 유저ID */
                                     GSText.CustomTextView(
-                                        style: .sectionTitle,
+                                        style: .caption1,
                                         string: user.login)
+                                    
+                                    /* 유저 Bio */
+                                    if user.bio != nil {
+                                        Text("\(user.bio!)")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(.primary)
+                                    }
                                 } // VStack
                                 .multilineTextAlignment(.leading)
                                 
@@ -124,8 +131,15 @@ struct TargetUserFollowingListView: View {
                                     
                                     /* 유저ID */
                                     GSText.CustomTextView(
-                                        style: .sectionTitle,
+                                        style: .caption1,
                                         string: user.login)
+                                    
+                                    /* 유저 Bio */
+                                    if user.bio != nil {
+                                        Text("\(user.bio!)")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(.primary)
+                                    }
                                 } // VStack
                                 .multilineTextAlignment(.leading)
                                 
