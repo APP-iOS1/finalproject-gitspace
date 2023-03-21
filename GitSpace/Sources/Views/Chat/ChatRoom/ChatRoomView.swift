@@ -119,6 +119,8 @@ struct ChatRoomView: View {
             await messageStore.fetchMessages(chatID: chat.id, unreadMessageCount: unreadMessageCount)
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = messageStore.messages.count - unreadMessageCount
+            // 채팅방 입장 기준으로 메세지들의 ID를 저장 (disAppear 시 체크하는 용도로 사용)
+            preMessageIDs = messageStore.messages.map{$0.id}
             
             // 읽지 않은 메세지가 있으면
             if unreadMessageCount > 0 {
