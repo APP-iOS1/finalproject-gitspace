@@ -212,7 +212,7 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
     }
     
     /**
-     특정 유저의 Following List 정보를 요청합니다.
+     특정 유저의 Follower List 정보를 요청합니다.
      - Author: 한호
      - parameters:
         - userName: GitHub userName
@@ -271,10 +271,5 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
     func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [ContributorProfile].self)
     }
-    
-    
-    
-    
-    
     
 }
