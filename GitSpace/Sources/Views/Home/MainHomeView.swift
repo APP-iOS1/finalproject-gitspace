@@ -9,12 +9,14 @@ import SwiftUI
 
 struct MainHomeView: View {
     
+    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @ObservedObject var eventViewModel = EventViewModel(gitHubService: GitHubService())
     @State private var selectedHomeTab = "Starred"
-    @ObservedObject var eventViewModel = EventViewModel()
+    
     private let starTab = "Starred"
     private let activityTab = "Activity"
-    let gitHubService = GitHubService()
+    private let service = GitHubService()
     
     var body: some View {
         VStack {
@@ -71,12 +73,15 @@ struct MainHomeView: View {
             case starTab:
                 StarredView()
                     .ignoresSafeArea()
+                    .task {
+                        await userStore.requestUsers()
+                    }
             case activityTab:
                 ActivityView(eventViewModel: eventViewModel)
                     .ignoresSafeArea()
                     .task {
                         guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
-                        let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
+                        let activitiesResult = await service.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
                         
                         eventViewModel.events.removeAll()
                         
