@@ -133,6 +133,7 @@ struct ChatRoomView: View {
                 }
             }
         }
+        // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
         .onChange(of: scenePhase) { currentPhase in
             // FIXME: inActive 혹은 backGround에 가는 것을 채팅방을 나가는것처럼 처리해줄지, 돌아올 때 채팅방에 입장한 것처럼 처리해줄지 고려 필요. By 태영
             if currentPhase == .inactive {
@@ -141,6 +142,7 @@ struct ChatRoomView: View {
                 }
             }
         }
+        // 채팅방에서 벗어날 때 수행되는 로직
         .onDisappear {
             Task {
                 await clearUnreadMessageCount()
