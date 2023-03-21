@@ -52,6 +52,9 @@ protocol GitHubServiceProtocol {
     /// 특정 유저의 Following List를 요청하는 함수
     func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError>
     
+    /// 특정 유저의 Follower List를 요청하는 함수
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
     
