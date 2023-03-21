@@ -9,12 +9,27 @@ import Foundation
 
 final class EventViewModel: ObservableObject {
     
+    let gitHubService: GitHubService
+    
+    init(gitHubService: GitHubService) {
+        self.gitHubService = gitHubService
+    }
+    
     @Published var events: [Event] = []
     @Published var eventRepositories: [Repository] = []
     
+    @MainActor
+    func requestToUnfollowUser(who name: String) async throws {
+        do {
+            try await gitHubService.requestToUnfollowUser(userName: name)
+        } catch(let error) {
+            print(error)
+        }
+        
+    }
     
     @MainActor
-    public func fetchEventRepositories() async {
+    func fetchEventRepositories() async {
         
         eventRepositories.removeAll()
         
