@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ActivityFeedView: View {
     
+    @ObservedObject var eventViewModel: EventViewModel
+    
     let event: Event
 
     var body: some View {
-
-        // CreateEvent, ForkEvent, WatchEvent(star), PublicEvent 만을 보여줌
         
         HStack(spacing: 25) {
             // FIXME: - UserProfileView로 보내기 위해 GithubUser 필요
@@ -67,36 +67,33 @@ struct ActivityFeedView: View {
                     // FIXME: - 이벤트 종류에 따른 메뉴 분기처리하기
                     Menu {
                         
-                        // FIXME: - GSButton으로 수정필요, role을 연관값으로 가진 style이 아직 없어서 중단
-                        Button(role: .none) {
-                            // action
-                        } label: {
-                            Text("Chat")
-                            Image(systemName: "bubble.left")
-                                .renderingMode(.original)
-                        }
-
-                        Button(role: .none) {
-                            // action
-                        } label: {
-                            Text("Star")
-                                .foregroundColor(.red)
-                            Image(systemName: "star")
-                                .renderingMode(.original)
-                        }
+//                        Button(role: .none) {
+//                            // action
+//                        } label: {
+//                            Text("Star")
+//                                .foregroundColor(.red)
+//                            Image(systemName: "star")
+//                                .renderingMode(.original)
+//                        }
                         
-                        Divider()
+//                        Divider()
+//
+//                        Button(role: .destructive) {
+//                            // action
+//                        } label: {
+//                            Text("Unstar")
+//                            Image(systemName: "star.slash")
+//                                .renderingMode(.original)
+//                        }
 
                         Button(role: .destructive) {
-                            // action
-                        } label: {
-                            Text("Unstar")
-                            Image(systemName: "star.slash")
-                                .renderingMode(.original)
-                        }
-
-                        Button(role: .destructive) {
-
+                            Task {
+                                do {
+                                    try await eventViewModel.requestToUnfollowUser(who:event.actor.login)
+                                } catch(let error) {
+                                    print("unfollow 실패: \(error)")
+                                }
+                            }
                         } label: {
                             Text("Unfollow User")
                             Image(systemName: "person.badge.minus")
@@ -135,6 +132,6 @@ struct ActivityFeedView: View {
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityFeedView(event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
+        ActivityFeedView(eventViewModel: EventViewModel(gitHubService: GitHubService()), event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
     }
 }
