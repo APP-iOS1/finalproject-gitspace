@@ -74,27 +74,27 @@ struct MainHomeView: View {
             case activityTab:
                 ActivityView(eventViewModel: eventViewModel)
                     .ignoresSafeArea()
+                    .task {
+                        guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
+                        let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
+                        
+                        eventViewModel.events.removeAll()
+                        
+                        switch activitiesResult {
+                        case .success(let events):
+                            eventViewModel.events = events.filter { $0.type == "PublicEvent" || $0.type == "WatchEvent" || $0.type == "ForkEvent" || $0.type == "CreateEvent" }
+                        case .failure(let error):
+                            print("이벤트 불러오기 실패: \(error)")
+                        }
+                        
+                        await eventViewModel.fetchEventRepositories()
+                    }
             default:
                 Text("네트워크 에러입니다.")
             }
             
         }
-        .task {
-            guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
-            let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
-            
-            eventViewModel.events.removeAll()
-            
-            switch activitiesResult {
-            case .success(let events):
-                eventViewModel.events = events.filter { $0.type == "PublicEvent" || $0.type == "WatchEvent" || $0.type == "ForkEvent" || $0.type == "CreateEvent" }
-            case .failure(let error):
-                print(error)
-            }
-            
-            await eventViewModel.fetchEventActors()
-            await eventViewModel.fetchEventRepositories()
-        }
+        
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
         .toolbar {
@@ -104,7 +104,7 @@ struct MainHomeView: View {
                     .bold()
             }
             
-//TODO: - 이후 push notication 기능이 완전히 구현되었을 때 다시 넣을 예정
+            //TODO: - 이후 push notication 기능이 완전히 구현되었을 때 다시 넣을 예정
 //            ToolbarItem(placement: .navigationBarTrailing) {
 //                NavigationLink {
 //                    NotificationView()
