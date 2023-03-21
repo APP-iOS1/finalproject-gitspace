@@ -22,7 +22,7 @@ struct FollowingSkeletonView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Circle())
-                        .frame(width: 40)
+                        .frame(width: 50)
                     
                     VStack(alignment: .leading, spacing: 3) {
                         /* 유저네임 */

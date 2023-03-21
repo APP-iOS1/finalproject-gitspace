@@ -23,6 +23,7 @@ struct TargetUserProfileView: View {
     @State private var isFailedToLoadReadme = false
 
     let user: GithubUser
+    let gitHubService = GitHubService()
 
     init(user: GithubUser) {
         self.user = user
@@ -56,10 +57,12 @@ struct TargetUserProfileView: View {
 
                     if let bio = user.bio {
                         // MARK: - bio
-                        VStack(alignment: .leading) {
+                        HStack() {
                             GSText.CustomTextView(style: .body1, string: bio)
+                            Spacer()
                         }
                             .padding(15)
+                            .font(.callout)
                             .frame(maxWidth: .infinity)
                             .multilineTextAlignment(.leading)
                             .background(Color.gsGray3)
@@ -120,26 +123,31 @@ struct TargetUserProfileView: View {
                             .frame(width: 15, height: 15)
                             .foregroundColor(.gsGray2)
 
-                        // TODO: - NavigationLink: 팔로워 리스트
-                        HStack {
-                            GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.followers))
-                            GSText.CustomTextView(style: .description, string: "followers")
-                                .padding(.leading, -2)
-                        }
-
+                        NavigationLink {
+                            TargetUserFollowerListView(service: gitHubService, targetUserLogin: user.login, followers: user.followers)
+                        } label: {
+                            HStack {
+                                GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.followers))
+                                GSText.CustomTextView(style: .sectionTitle, string: "followers")
+                                    .padding(.leading, -2)
+                            }
+                        } // NavigationLink
+                        
                         Text("･")
                             .foregroundColor(.gsGray2)
                             .padding(.leading, -3)
                             .padding(.trailing, -9)
-
-                        // TODO: - NavigationLink: 팔로잉 리스트
-                        HStack {
-                            GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.following))
-                            GSText.CustomTextView(style: .description, string: "following")
-                                .padding(.leading, -2)
-                        }
+                        
+                        NavigationLink {
+                            TargetUserFollowingListView(service: gitHubService, targetUserLogin: user.login, following: user.following)
+                        } label: {
+                            HStack {
+                                GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.following))
+                                GSText.CustomTextView(style: .sectionTitle, string: "following")
+                                    .padding(.leading, -2)
+                            }
+                        } // NavigationLink
                     }
-
                 }
 
                 // 내 프로필인지 아닌지에 따라 분기처리
