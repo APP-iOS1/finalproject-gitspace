@@ -45,7 +45,7 @@ final class FollowingViewModel: ObservableObject {
     }
     
     @MainActor
-    func requestFollowings(user: GithubUser, perPage: Int, page: Int) async -> Result<Void, GitHubAPIError> {
+    func requestFollowings(user: String, perPage: Int, page: Int) async -> Result<Void, GitHubAPIError> {
         
         let followingsResult = await service.requestUserFollowingList(userName: user, perPage: perPage, page: page)
         
