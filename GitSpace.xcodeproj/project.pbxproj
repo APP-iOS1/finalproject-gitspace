@@ -82,6 +82,7 @@
 		348540F9299DDC5500B738F9 /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F8299DDC5500B738F9 /* TermsOfServiceView.swift */; };
 		348AB2B829ACE5C200F2D465 /* ContributorListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348AB2B729ACE5C200F2D465 /* ContributorListCell.swift */; };
 		34BF6A6629C8ABBE00D15DFE /* TargetUserFollowingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BF6A6529C8ABBE00D15DFE /* TargetUserFollowingListView.swift */; };
+		34BF6A6829C9F04700D15DFE /* FollowingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */; };
 		34F44F2829B9E32500A5D5A1 /* ContributorListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
@@ -248,6 +249,7 @@
 		34BC356E29779201000DCBC7 /* EachKnockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachKnockCell.swift; sourceTree = "<group>"; };
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BF6A6529C8ABBE00D15DFE /* TargetUserFollowingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetUserFollowingListView.swift; sourceTree = "<group>"; };
+		34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingResponse.swift; sourceTree = "<group>"; };
 		34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListSkeletonView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				2204BD4E299B1BD200AA4725 /* ContributorProfile.swift */,
 				22E9ECF2299BB92100D5A9C6 /* Owner.swift */,
 				2205F23E299CC04400B2643D /* FollowerResponse.swift */,
+				34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */,
 				2205F23C299C9F1400B2643D /* Event.swift */,
 			);
 			path = APIModels;
@@ -1007,6 +1010,7 @@
 				6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */,
 				680C944529B9F2A300720718 /* KeyChainManager.swift in Sources */,
 				347146022990BC5200ED990C /* TopperProfileView.swift in Sources */,
+				34BF6A6829C9F04700D15DFE /* FollowingResponse.swift in Sources */,
 				6E000CB7298A67E800446C0D /* GithubProfileImage.swift in Sources */,
 				7068B6A829769448005D6B7B /* GitSpaceApp.swift in Sources */,
 				70BB6CE0299B105B009948FC /* URL+DeepLink.swift in Sources */,
