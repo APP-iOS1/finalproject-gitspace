@@ -118,8 +118,12 @@ struct ChatRoomView: View {
             await messageStore.fetchMessages(chatID: chat.id, unreadMessageCount: unreadMessageCount)
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = messageStore.messages.count - unreadMessageCount
-            // 읽지 않은 메세지 갯수를 0으로 초기화
-            await clearUnreadMessageCount()
+            
+            // 읽지 않은 메세지가 있으면
+            if unreadMessageCount > 0 {
+                // 읽지 않은 메세지 갯수를 0으로 초기화
+                await clearUnreadMessageCount()
+            }
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
