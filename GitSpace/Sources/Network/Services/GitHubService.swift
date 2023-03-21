@@ -49,6 +49,9 @@ protocol GitHubServiceProtocol {
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
+    /// 특정 유저의 Following List를 요청하는 함수
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[UserResponse], GitHubAPIError>
+    
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
     
