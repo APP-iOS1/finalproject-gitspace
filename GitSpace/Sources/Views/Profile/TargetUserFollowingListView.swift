@@ -12,45 +12,53 @@ struct TargetUserFollowerListView: View {
     @StateObject var followerViewModel = FollowerViewModel(service: GitHubService())
     let gitHubService: GitHubService
     let targetUserLogin: String
+    let followers: Int
     
-    init(service: GitHubService, targetUserLogin: String) {
+    init(service: GitHubService, targetUserLogin: String, followers: Int) {
         self.gitHubService = service
         self.targetUserLogin = targetUserLogin
+        self.followers = followers
     }
+    
+    @State var isLoading: Bool = true
     
     var body: some View {
         ScrollView {
-            VStack {
-                ForEach(followerViewModel.followers) { user in
-                    
-                    NavigationLink(destination: TargetUserProfileView(user: user)) {
-                        HStack(spacing: 20) {
-                            GithubProfileImage(urlStr: user.avatar_url, size: 50)
-                            
-                            VStack(alignment: .leading, spacing: 3) {
-                                /* 유저네임 */
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: user.name ?? user.login)
+            if !isLoading {
+                VStack {
+                    ForEach(followerViewModel.followers) { user in
+                        
+                        NavigationLink(destination: TargetUserProfileView(user: user)) {
+                            HStack(spacing: 20) {
+                                GithubProfileImage(urlStr: user.avatar_url, size: 50)
                                 
-                                /* 유저ID */
-                                GSText.CustomTextView(
-                                    style: .sectionTitle,
-                                    string: user.login)
-                            } // VStack
-                            .multilineTextAlignment(.leading)
-                            
-                            Spacer()
-                        } // HStack
+                                VStack(alignment: .leading, spacing: 3) {
+                                    /* 유저네임 */
+                                    GSText.CustomTextView(
+                                        style: .title3,
+                                        string: user.name ?? user.login)
+                                    
+                                    /* 유저ID */
+                                    GSText.CustomTextView(
+                                        style: .sectionTitle,
+                                        string: user.login)
+                                } // VStack
+                                .multilineTextAlignment(.leading)
+                                
+                                Spacer()
+                            } // HStack
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        
+                        Divider()
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    
-                    Divider()
-                }
-            } // VStack
+                } // VStack
+            } else {
+                FollowingSkeletonView()
+            }
         }
-        .navigationBarTitle(targetUserLogin, displayMode: .inline)
+        .navigationBarTitle("\(followers) followers", displayMode: .inline)
         .task {
             requestTargetUserFollowerList()
         }
@@ -63,12 +71,19 @@ struct TargetUserFollowerListView: View {
         followerViewModel.followers.removeAll()
         followerViewModel.temporaryFollowers.removeAll()
         
+        withAnimation(.easeInOut) {
+            isLoading = true
+        }
+        
         Task {
             let followerListResult = await followerViewModel.requestFollowers(user: targetUserLogin, perPage: 100, page: 1)
             
             switch followerListResult {
             case .success():
                 followerViewModel.followers = followerViewModel.temporaryFollowers
+                withAnimation(.easeInOut) {
+                    isLoading = false
+                }
             case .failure(let error):
                 print(error)
             }
@@ -81,45 +96,53 @@ struct TargetUserFollowingListView: View {
     @StateObject var followingViewModel = FollowingViewModel(service: GitHubService())
     let gitHubService: GitHubService
     let targetUserLogin: String
+    let following: Int
     
-    init(service: GitHubService, targetUserLogin: String) {
+    init(service: GitHubService, targetUserLogin: String, following: Int) {
         self.gitHubService = service
         self.targetUserLogin = targetUserLogin
+        self.following = following
     }
+    
+    @State var isLoading: Bool = true
     
     var body: some View {
         ScrollView {
-            VStack {
-                ForEach(followingViewModel.followings) { user in
-                    
-                    NavigationLink(destination: TargetUserProfileView(user: user)) {
-                        HStack(spacing: 20) {
-                            GithubProfileImage(urlStr: user.avatar_url, size: 50)
-                            
-                            VStack(alignment: .leading, spacing: 3) {
-                                /* 유저네임 */
-                                GSText.CustomTextView(
-                                    style: .title3,
-                                    string: user.name ?? user.login)
+            if !isLoading {
+                VStack {
+                    ForEach(followingViewModel.followings) { user in
+                        
+                        NavigationLink(destination: TargetUserProfileView(user: user)) {
+                            HStack(spacing: 20) {
+                                GithubProfileImage(urlStr: user.avatar_url, size: 50)
                                 
-                                /* 유저ID */
-                                GSText.CustomTextView(
-                                    style: .sectionTitle,
-                                    string: user.login)
-                            } // VStack
-                            .multilineTextAlignment(.leading)
-                            
-                            Spacer()
-                        } // HStack
+                                VStack(alignment: .leading, spacing: 3) {
+                                    /* 유저네임 */
+                                    GSText.CustomTextView(
+                                        style: .title3,
+                                        string: user.name ?? user.login)
+                                    
+                                    /* 유저ID */
+                                    GSText.CustomTextView(
+                                        style: .sectionTitle,
+                                        string: user.login)
+                                } // VStack
+                                .multilineTextAlignment(.leading)
+                                
+                                Spacer()
+                            } // HStack
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        
+                        Divider()
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    
-                    Divider()
-                }
-            } // VStack
+                } // VStack
+            } else {
+                FollowingSkeletonView()
+            }
         }
-        .navigationBarTitle(targetUserLogin, displayMode: .inline)
+        .navigationBarTitle("\(following) following", displayMode: .inline)
         .task {
             requestTargetUserFollowingList()
         }
@@ -132,12 +155,19 @@ struct TargetUserFollowingListView: View {
         followingViewModel.followings.removeAll()
         followingViewModel.temporaryFollowings.removeAll()
         
+        withAnimation(.easeInOut) {
+            isLoading = true
+        }
+        
         Task {
             let followingListResult = await followingViewModel.requestFollowings(user: targetUserLogin, perPage: 100, page: 1)
             
             switch followingListResult {
             case .success():
                 followingViewModel.followings = followingViewModel.temporaryFollowings
+                withAnimation(.easeInOut) {
+                    isLoading = false
+                }
             case .failure(let error):
                 print(error)
             }
@@ -147,6 +177,6 @@ struct TargetUserFollowingListView: View {
 
 struct TargetUserFollowingListView_Previews: PreviewProvider {
     static var previews: some View {
-        TargetUserFollowingListView(service: GitHubService(), targetUserLogin: "guguhanogu")
+        TargetUserFollowingListView(service: GitHubService(), targetUserLogin: "guguhanogu", following: 123)
     }
 }
