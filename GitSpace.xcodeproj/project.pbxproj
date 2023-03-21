@@ -83,6 +83,7 @@
 		348AB2B829ACE5C200F2D465 /* ContributorListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348AB2B729ACE5C200F2D465 /* ContributorListCell.swift */; };
 		34BF6A6629C8ABBE00D15DFE /* TargetUserFollowingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BF6A6529C8ABBE00D15DFE /* TargetUserFollowingListView.swift */; };
 		34BF6A6829C9F04700D15DFE /* FollowingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */; };
+		34BF6A6A29CA0A4600D15DFE /* FollowingSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BF6A6929CA0A4600D15DFE /* FollowingSkeletonView.swift */; };
 		34F44F2829B9E32500A5D5A1 /* ContributorListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */; };
 		680C199F29937CAD009AF5D5 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C199E29937CAD009AF5D5 /* SigninView.swift */; };
 		680C19A1299385A2009AF5D5 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680C19A0299385A2009AF5D5 /* InitialView.swift */; };
@@ -250,6 +251,7 @@
 		34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendKnockView.swift; sourceTree = "<group>"; };
 		34BF6A6529C8ABBE00D15DFE /* TargetUserFollowingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetUserFollowingListView.swift; sourceTree = "<group>"; };
 		34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingResponse.swift; sourceTree = "<group>"; };
+		34BF6A6929CA0A4600D15DFE /* FollowingSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingSkeletonView.swift; sourceTree = "<group>"; };
 		34F44F2729B9E32500A5D5A1 /* ContributorListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListSkeletonView.swift; sourceTree = "<group>"; };
 		680C199E29937CAD009AF5D5 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		680C19A0299385A2009AF5D5 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				22958CA729C7528400786357 /* CurrentUserProfileView.swift */,
 				7068B6C12976952B005D6B7B /* MainProfileView.swift */,
 				34BF6A6529C8ABBE00D15DFE /* TargetUserFollowingListView.swift */,
+				34BF6A6929CA0A4600D15DFE /* FollowingSkeletonView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1042,6 +1045,7 @@
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
 				68D76D4C298712EC00C1EA88 /* GitHubAuthManager.swift in Sources */,
+				34BF6A6A29CA0A4600D15DFE /* FollowingSkeletonView.swift in Sources */,
 				348540F1299D5E7700B738F9 /* BlockListGuideView.swift in Sources */,
 				687AE54E298FA1E800113ABF /* RepositoryViewModel.swift in Sources */,
 				22958CB029C7548100786357 /* TargetUserProfileViewModel.swift in Sources */,
