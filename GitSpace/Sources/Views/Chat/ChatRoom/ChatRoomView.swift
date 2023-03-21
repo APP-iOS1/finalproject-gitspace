@@ -148,7 +148,10 @@ struct ChatRoomView: View {
         // 채팅방에서 벗어날 때 수행되는 로직
         .onDisappear {
             Task {
-                await clearUnreadMessageCount()
+                let currentMessageIDs: [String] = messageStore.messages.map{$0.id}
+                if currentMessageIDs != preMessageIDs {
+                    await clearUnreadMessageCount()
+                }
                 messageStore.removeListener()
             }
         }
