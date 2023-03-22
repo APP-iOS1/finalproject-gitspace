@@ -181,7 +181,11 @@ struct StarredView: View {
                                                     }
                                                     */
                                                     Section {
-                                                        Button(role: .destructive, action: { print("Unstar") }) {
+                                                        Button(role: .destructive, action: {
+                                                            Task {
+                                                                await repositoryViewModel.requestUnstar(repository: repository)
+                                                            }
+                                                        }) {
                                                             Label("Unstar", systemImage: "star")
                                                         }
                                                     }
