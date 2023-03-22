@@ -10,7 +10,6 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class RepositoryViewModel: ObservableObject {
-//    @Published var tags: [Tag] = []
     @Published var repositories: [Repository]?
     @Published var filteredRepositories: [Repository]?
     private let database = Firestore.firestore()
