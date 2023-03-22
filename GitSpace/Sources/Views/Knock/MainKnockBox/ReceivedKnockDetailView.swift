@@ -63,18 +63,29 @@ struct ReceivedKnockDetailView: View {
                     .padding(.leading, 15)
                     
                     /// 3. 메세지 내용
-					Text("\(knock.knockMessage)")
-                        .font(.system(size: 15, weight: .regular))
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 30)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .background(
-                            RoundedRectangle(cornerRadius: 17)
-                                .fill(.white)
-                                .shadow(color: Color(.systemGray5), radius: 8, x: 0, y: 2)
-                            
-                        )
-                        .padding(.horizontal, 15)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("\(knock.knockMessage)")
+                                .font(.callout)
+                                .foregroundColor(Color.black)
+                        }
+                        .frame(maxWidth: UIScreen.main.bounds.width)
+                        .padding(.vertical, 36)
+                        .padding(.horizontal, 25)
+                    } // VStack
+                    .frame(width: UIScreen.main.bounds.width / 1.2)
+                    .padding(.horizontal, 20)
+                    .background {
+                        RoundedRectangle(cornerRadius: 17)
+                            .foregroundColor(.white)
+                            .shadow(
+                                color: Color(.systemGray6),
+                                radius: 10,
+                                x: 5,
+                                y: 5
+                            )
+                            .padding(.horizontal, 10)
+                    } // Knock Message Bubble
                 }
             } // ScrollView
             
@@ -126,7 +137,7 @@ struct ReceivedKnockDetailView: View {
                     } label: {
                         Text("Accept")
                             .font(.body)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.black)
                             .bold()
                             .padding(EdgeInsets(top: 0, leading: 130, bottom: 0, trailing: 130))
                     } // button: Accept
