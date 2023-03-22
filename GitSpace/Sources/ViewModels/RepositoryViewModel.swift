@@ -15,6 +15,12 @@ final class RepositoryViewModel: ObservableObject {
     private let database = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
     
+    private let service: GitHubService
+    
+    init(service: GitHubService) {
+        self.service = service
+    }
+    
     // MARK: - Request Starred Repositories
     /// 인증된 사용자가 Star로 지정한 Repository의 목록을 요청합니다.
     @MainActor
@@ -71,5 +77,10 @@ final class RepositoryViewModel: ObservableObject {
             })
             self.filteredRepositories = filteredRepositories!
         }
+    }
+    
+    @MainActor
+    func requestUnstar() async -> Void {
+        
     }
 }
