@@ -104,7 +104,6 @@ struct StarredView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .padding(.bottom, 10)
                 
                 /* repository list */
                 ScrollView {
@@ -172,17 +171,22 @@ struct StarredView: View {
                                                 Spacer()
                                                 
                                                 Menu {
+                                                    // FIXME: v 1.0.0 에서는 넣지 않을 기능
+                                                    /// 다음 버전에 출시 share을 넣을 예정
+                                                    /*
                                                     Section {
                                                         Button(action: { print("Share") }) {
                                                             Label("Share", systemImage: "square.and.arrow.up")
                                                         }
-                                                        Button(action: { print("Chat") }) {
-                                                            Label("Chat", systemImage: "message")
-                                                        }
                                                     }
-                                                    
+                                                    */
                                                     Section {
-                                                        Button(role: .destructive, action: { print("Unstar") }) {
+                                                        Button(role: .destructive, action: {
+                                                            Task {
+                                                                await repositoryViewModel.requestUnstar(repository: repository)
+                                                                repositoryViewModel.filteredRepositories?.remove(at: index)
+                                                            }
+                                                        }) {
                                                             Label("Unstar", systemImage: "star")
                                                         }
                                                     }
@@ -198,7 +202,7 @@ struct StarredView: View {
                                         .offset(x: -20, y: 20)
                                     } // ZStack
                                     .padding(.horizontal, 20)
-                                    .padding(.bottom, 15)
+                                    .padding(.top, 15)
                                 }
                             } // ForEach
                         } // if-else repo.isEmpty
