@@ -81,18 +81,12 @@ struct MainHomeView: View {
                     .ignoresSafeArea()
                     .task {
                         guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
-                        let activitiesResult = await service.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
-                        
-                        eventViewModel.events.removeAll()
-                        
-                        switch activitiesResult {
-                        case .success(let events):
-                            eventViewModel.events = events.filter { $0.type == "PublicEvent" || $0.type == "WatchEvent" || $0.type == "ForkEvent" || $0.type == "CreateEvent" }
-                        case .failure(let error):
-                            print("이벤트 불러오기 실패: \(error)")
+                        do {
+                            try await eventViewModel.requestAuthenticatedUserReceivedEvents(who: currentGitHubUser)
+                        } catch(let error) {
+                            print(error)
                         }
                         
-                        await eventViewModel.fetchEventRepositories()
                     }
             default:
                 Text("네트워크 에러입니다.")
