@@ -13,7 +13,7 @@ struct FollowingSkeletonView: View {
     
     var body: some View {
         VStack {
-            ForEach(0..<11) { _ in
+            ForEach(0..<10) { _ in
                 
                 HStack(spacing: 20) {
                     
