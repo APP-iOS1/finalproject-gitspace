@@ -80,7 +80,11 @@ final class RepositoryViewModel: ObservableObject {
     }
     
     @MainActor
-    func requestUnstar() async -> Void {
-        
+    func requestUnstar(repository: Repository) async -> Void {
+        do {
+            try await service.requestToUnstarRepository(owner: repository.owner.login, repositoryName: repository.name)
+        } catch(let error) {
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
+        }
     }
 }
