@@ -14,6 +14,7 @@ struct EachKnockCell: View {
     @Binding var isEditing: Bool
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isChecked: Bool = false
+    @State private var opacity: CGFloat = 0.4
     
     // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
     @State var userSelectedTab: String
@@ -33,10 +34,23 @@ struct EachKnockCell: View {
 						}
 				}
 				
-                GithubProfileImage(
-                    urlStr: targetUserInfo?.avatar_url ?? "",
-                    size: 50
-                )
+                if let targetUserInfo {
+                    GithubProfileImage(
+                        urlStr: targetUserInfo.avatar_url,
+                        size: 50
+                    )
+                } else {
+                    Image("ProfilePlaceholder")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .frame(width: 50)
+                        .modifier(BlinkingSkeletonModifier(
+                            opacity: opacity,
+                            shouldShow: true
+                        )
+                        )
+                }
 				
 				VStack {
 					HStack {
@@ -93,6 +107,11 @@ struct EachKnockCell: View {
 				.padding(.horizontal, 20)
 		}
         .task {
+            withAnimation(
+                .linear(duration: 0.5).repeatForever(autoreverses: true)
+            ) {
+                self.opacity = opacity == 0.4 ? 0.8 : 0.4
+            }
             // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
             if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
                 self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
