@@ -172,15 +172,15 @@ struct StarredView: View {
                                                 Spacer()
                                                 
                                                 Menu {
+                                                    // FIXME: v 1.0.0 에서는 넣지 않을 기능
+                                                    /// 다음 버전에 출시 share을 넣을 예정
+                                                    /*
                                                     Section {
                                                         Button(action: { print("Share") }) {
                                                             Label("Share", systemImage: "square.and.arrow.up")
                                                         }
-                                                        Button(action: { print("Chat") }) {
-                                                            Label("Chat", systemImage: "message")
-                                                        }
                                                     }
-                                                    
+                                                    */
                                                     Section {
                                                         Button(role: .destructive, action: { print("Unstar") }) {
                                                             Label("Unstar", systemImage: "star")
