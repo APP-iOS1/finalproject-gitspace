@@ -47,6 +47,8 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 		} label: {
 			label
 				.labelHierarchyModifier(style: style)
+            // 컬러스키마에 상관없이 검은 텍스트
+                .foregroundColor(.primary)
 		}
 		.buttonStyle(
 			ViewHighlightColorStyle(style: style)
