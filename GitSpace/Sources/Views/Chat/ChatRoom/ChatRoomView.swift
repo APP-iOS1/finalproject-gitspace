@@ -21,6 +21,7 @@ struct ChatRoomView: View {
 
     let chat: Chat
     let targetUserInfo: UserInfo
+    
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
@@ -30,6 +31,7 @@ struct ChatRoomView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
+    @State private var preMessageIDs: [String] = []
     
     
     var body: some View {
@@ -118,8 +120,14 @@ struct ChatRoomView: View {
             await messageStore.fetchMessages(chatID: chat.id, unreadMessageCount: unreadMessageCount)
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = messageStore.messages.count - unreadMessageCount
-            // 읽지 않은 메세지 갯수를 0으로 초기화
-            await clearUnreadMessageCount()
+            // 채팅방 입장 기준으로 메세지들의 ID를 저장 (disAppear 시 체크하는 용도로 사용)
+            preMessageIDs = messageStore.messages.map{$0.id}
+            
+            // 읽지 않은 메세지가 있으면
+            if unreadMessageCount > 0 {
+                // 읽지 않은 메세지 갯수를 0으로 초기화
+                await clearUnreadMessageCount()
+            }
         }
         // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
@@ -129,6 +137,7 @@ struct ChatRoomView: View {
                 }
             }
         }
+        // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
         .onChange(of: scenePhase) { currentPhase in
             // FIXME: inActive 혹은 backGround에 가는 것을 채팅방을 나가는것처럼 처리해줄지, 돌아올 때 채팅방에 입장한 것처럼 처리해줄지 고려 필요. By 태영
             if currentPhase == .inactive {
@@ -137,13 +146,15 @@ struct ChatRoomView: View {
                 }
             }
         }
+        // 채팅방에서 벗어날 때 수행되는 로직
         .onDisappear {
             Task {
-                await clearUnreadMessageCount()
+                let currentMessageIDs: [String] = messageStore.messages.map{$0.id}
+                if currentMessageIDs != preMessageIDs {
+                    await clearUnreadMessageCount()
+                }
                 messageStore.removeListener()
             }
-            
-//            tabBarRouter.navigateToChat = false
         }
     }
     
@@ -261,7 +272,7 @@ struct ChatRoomView: View {
                                          chatID: chat.id)
     }
     
-    // MARK: Method - 상대방이 안 읽은 메세지 갯수를 반환하는 함수
+    // MARK: Method - 내가 읽지않은 메세지 갯수를 반환하는 함수
     private func getUnreadCount() async -> Int {
         let dict = await chatStore.getUnreadMessageDictionary(chatID: chat.id)
         let unreadCount = dict?[Utility.loginUserID] ?? 0
@@ -340,9 +351,7 @@ struct ChatRoomView: View {
         // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
         case .enterOrQuitChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
-            if let uid = userStore.user?.id {
-                newDict[uid] = 0
-            }
+            newDict[Utility.loginUserID] = 0
             newChat.unreadMessageCount = newDict
         }
         return newChat
