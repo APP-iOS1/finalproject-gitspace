@@ -27,6 +27,8 @@ struct GitSpaceApp: App {
                 .environmentObject(TagViewModel())
                 .environmentObject(GitHubAuthManager())
                 .environmentObject(KnockViewManager())
+                .environmentObject(FollowingViewModel(service: GitHubService()))
+                .environmentObject(FollowerViewModel(service: GitHubService()))
                 .environmentObject(tabBarRouter)
 				.environmentObject(pushNotificationManager)
 				.onAppear {

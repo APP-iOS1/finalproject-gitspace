@@ -49,6 +49,12 @@ protocol GitHubServiceProtocol {
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
+    /// 특정 유저의 Following List를 요청하는 함수
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
+    
+    /// 특정 유저의 Follower List를 요청하는 함수
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
+    
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
     
@@ -188,9 +194,34 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 page number
      - returns: 요청 성공시 특정 유저가 star를 눌러둔 레포지토리 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.userStarRepositories(userName: userName, page: page), responseModel: [RepositoryResponse].self)
+    }
+    
+    /**
+     특정 유저의 Following List 정보를 요청합니다.
+     - Author: 한호
+     - parameters:
+        - userName: GitHub userName
+        - perPage: page 당 요청할 개수(default: 30, max: 100)
+        - page: 요청할 page number
+     - returns: 요청 성공시 특정 유저의 Following 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowingList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
+    }
+    
+    /**
+     특정 유저의 Follower List 정보를 요청합니다.
+     - Author: 한호
+     - parameters:
+        - userName: GitHub userName
+        - perPage: page 당 요청할 개수(default: 30, max: 100)
+        - page: 요청할 page numbe
+     - returns: 요청 성공시 특정 유저의 Follower 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowerList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
     }
     
     /**
@@ -240,10 +271,5 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
     func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [ContributorProfile].self)
     }
-    
-    
-    
-    
-    
     
 }

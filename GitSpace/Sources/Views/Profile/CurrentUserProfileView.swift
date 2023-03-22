@@ -119,7 +119,7 @@ struct CurrentUserProfileView: View {
                         .foregroundColor(.gsGray2)
 
                     NavigationLink {
-                        Text("This Page Will Shows Followers List.")
+                        TargetUserFollowerListView(service: gitHubService, targetUserLogin: gitHubAuthManager.authenticatedUser?.login ?? "", followers: gitHubAuthManager.authenticatedUser?.followers ?? 0)
                     } label: {
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: gitHubAuthManager.authenticatedUser?.followers ?? 0))
@@ -134,7 +134,7 @@ struct CurrentUserProfileView: View {
                         .padding(.trailing, -9)
 
                     NavigationLink {
-                        Text("This Page Will Shows Following List.")
+                        TargetUserFollowingListView(service: gitHubService, targetUserLogin: gitHubAuthManager.authenticatedUser?.login ?? "", following: gitHubAuthManager.authenticatedUser?.following ?? 0)
                     } label: {
                         HStack {
                             GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: gitHubAuthManager.authenticatedUser?.following ?? 0))
