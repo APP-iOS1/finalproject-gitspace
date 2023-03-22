@@ -173,10 +173,10 @@ struct TargetUserProfileView: View {
                                 }
                             } label: {
                                 viewModel.isFollowingUser ?
-                                GSText.CustomTextView(style: .title3, string: "✅ Following")
+                                GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
                                     .frame(maxWidth: .infinity)
                                 :
-                                    GSText.CustomTextView(style: .title3, string: "➕ Follow")
+                                    GSText.CustomTextView(style: .buttonTitle1, string: "➕ Follow")
                                     .frame(maxWidth: .infinity)
                             }
 
@@ -223,10 +223,10 @@ struct TargetUserProfileView: View {
                             }
                         } label: {
                             viewModel.isFollowingUser ?
-                            GSText.CustomTextView(style: .title3, string: "✅ Following")
+                            GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
                                 .frame(maxWidth: .infinity)
                             :
-                                GSText.CustomTextView(style: .title3, string: "➕ Follow")
+                                GSText.CustomTextView(style: .buttonTitle1, string: "➕ Follow")
                                 .frame(maxWidth: .infinity)
                         }
                             .padding(.vertical, 10)
