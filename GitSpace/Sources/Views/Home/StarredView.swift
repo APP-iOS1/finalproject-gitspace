@@ -104,7 +104,6 @@ struct StarredView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .padding(.bottom, 10)
                 
                 /* repository list */
                 ScrollView {
@@ -198,7 +197,7 @@ struct StarredView: View {
                                         .offset(x: -20, y: 20)
                                     } // ZStack
                                     .padding(.horizontal, 20)
-                                    .padding(.bottom, 15)
+                                    .padding(.top, 15)
                                 }
                             } // ForEach
                         } // if-else repo.isEmpty
