@@ -184,6 +184,7 @@ struct StarredView: View {
                                                         Button(role: .destructive, action: {
                                                             Task {
                                                                 await repositoryViewModel.requestUnstar(repository: repository)
+                                                                repositoryViewModel.filteredRepositories?.remove(at: index)
                                                             }
                                                         }) {
                                                             Label("Unstar", systemImage: "star")
