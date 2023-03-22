@@ -55,7 +55,7 @@ struct KnockHistoryView: View {
 			
 			VStack(alignment: .leading) {
 				HStack {
-					Text("**\(eachKnock.knockMessage)**")
+					Text("\(eachKnock.knockMessage)")
 						.font(.callout)
                         .foregroundColor(Color.black)
 				}
