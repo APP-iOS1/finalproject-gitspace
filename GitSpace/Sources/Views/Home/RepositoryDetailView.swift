@@ -181,8 +181,8 @@ struct RepositoryDetailViewTags: View {
                         // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 태그버튼이 주황색으로 표시됨
                         GSButton.CustomButtonView(
                             style: .tag(
-                                isSelected: true,
-                                isEditing: false)
+                                isSelectedInRepositoryView: true,
+                                isFilteredInHomeView: false)
                         ) {
                             
                         } label: {

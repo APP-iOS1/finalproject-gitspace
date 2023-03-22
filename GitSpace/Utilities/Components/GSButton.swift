@@ -100,8 +100,8 @@ struct Test2: View {
 			VStack {
 				GSButton.CustomButtonView(
 					style: .tag(
-						isSelected: isSelected,
-						isEditing: isEditing
+                        isSelectedInRepositoryView: isSelected,
+						isFilteredInHomeView: isEditing
 					)
 				) {
 					withAnimation {
