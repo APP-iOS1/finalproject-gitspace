@@ -9,25 +9,24 @@ import SwiftUI
 
 struct ActivityView: View {
     
-    let gitHubService = GitHubService()
-    
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @ObservedObject var eventViewModel: EventViewModel
-    
-//    init(service: GitHubService) {
-//        self.gitHubService = service
-//    }
     
     var body: some View {
         
             ScrollView {
-                
                 ForEach(eventViewModel.events) { event in
                     // event, gitHubUser, Repository 필요
                     // 인덱스로 접근하면 안되던뎅
-                    ActivityFeedView(service: gitHubService, event: event)
+                    ActivityFeedView(eventViewModel: eventViewModel, event: event)
                     Divider()
                 }
             } // ScrollView
+            .refreshable {
+                Task{
+                    guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
+                    try await eventViewModel.requestAuthenticatedUserReceivedEvents(who: currentGitHubUser)
+                }
+            }
     } // body
 }
