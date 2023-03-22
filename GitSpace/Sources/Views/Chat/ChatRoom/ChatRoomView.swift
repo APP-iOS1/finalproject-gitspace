@@ -21,6 +21,7 @@ struct ChatRoomView: View {
 
     let chat: Chat
     let targetUserInfo: UserInfo
+    
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
@@ -350,9 +351,7 @@ struct ChatRoomView: View {
         // 채팅방 입장 시, 내가 안 읽은 메세지 갯수를 0으로 초기화하는 케이스
         case .enterOrQuitChatRoom:
             var newDict: [String : Int] = chat.unreadMessageCount
-            if let uid = userStore.user?.id {
-                newDict[uid] = 0
-            }
+            newDict[Utility.loginUserID] = 0
             newChat.unreadMessageCount = newDict
         }
         return newChat
