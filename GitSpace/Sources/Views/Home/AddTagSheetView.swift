@@ -200,7 +200,7 @@ struct AddTagSheetView: View {
                                             tagViewModel.tags.remove(at: index)
                                         }
                                     } label: {
-                                        Label("태그 삭제하기", systemImage: "trash")
+                                        Label("delete tag", systemImage: "trash")
                                     }
                                 }
                                 .transition(.opacity.combined(with: .move(edge: .leading)))
