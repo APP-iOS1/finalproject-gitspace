@@ -12,10 +12,12 @@ struct ReadmeLoadingView: View {
         VStack {
             Image("GitSpace-Loading")
                 .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 250, height: 200)
 
             GSText.CustomTextView(style: .title4, string: "Loading README.md...")
         }
-        .frame(width: 150, height: 150)
+        .frame(width: 250, height: 200)
 
     }
 }
