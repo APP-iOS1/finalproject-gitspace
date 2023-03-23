@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - BUTTON COLOR SCHEME MODIFIER
-public struct GSButtonColorSchemeModifier: ViewModifier {
+public struct GSButonStyleModifiers: ViewModifier {
 	let style: GSButtonStyle
 	@Environment(\.colorScheme) var colorScheme
 	
@@ -41,6 +41,12 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
                             isSelectedInAddTagSheet: isSelectedInAddTagSheet
                         )
                     )
+                    .overlay {
+                        if isSelectedInAddTagSheet != nil {
+                            RoundedRectangle(cornerRadius: .infinity)
+                                .stroke(Color.black, lineWidth: 2)
+                        }
+                    }
 				
 			case .plainText,
 					.homeTab:
@@ -75,6 +81,12 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
                             isSelectedInAddTagSheet: isSelectedInAddTagSheet
                         )
                     )
+                    .overlay {
+                        if isSelectedInAddTagSheet != nil {
+                            RoundedRectangle(cornerRadius: .infinity)
+                                .stroke(Color.white, lineWidth: 2)
+                        }
+                    }
 				
 			case let .plainText(isDestructive):
 				content
@@ -127,28 +139,5 @@ public struct GSButtonColorSchemeModifier: ViewModifier {
         
         return .black
     }
-    // TODO: - 새로 메소드 구현해
-//	private func tertiaryLightForegroundColor(
-//        isSelectedInRepositoryView: Bool?,
-//        isFilteredInHomeView: Bool?
-//    ) -> Color {
-//		if let isSelectedInRepositoryView {
-//			if isSelectedInRepositoryView { return .gsGreenPrimary }
-//			else { return .primary }
-//		} else {
-//			return .primary
-//		}
-//	}
-//
-//	private func tertiaryDarkForegroundColor(
-//        isSelectedInRepositoryView: Bool?,
-//        isFilteredInHomeView: Bool?
-//    ) -> Color {
-//		if let isSelectedInRepositoryView {
-//			if isSelectedInRepositoryView { return .gsYellowPrimary }
-//			else { return .gsDarkGray }
-//		} else {
-//			return .black
-//		}
-//	}
+    
 }
