@@ -21,6 +21,7 @@ struct TargetUserProfileView: View {
     @State private var isShowingKnockSheet: Bool = false
     @State private var isGitSpaceUser = false
     @State private var isFailedToLoadReadme = false
+    @State private var isEmptyReadme = false
 
     let user: GithubUser
     let gitHubService = GitHubService()
@@ -249,6 +250,8 @@ struct TargetUserProfileView: View {
                 // MARK: - 유저의 README
                 if isFailedToLoadReadme {
                     FailToLoadReadmeView()
+                } else if isEmptyReadme {
+                    ReadmeEmptyView()
                 } else {
                     VStack {
                         HStack {
@@ -286,8 +289,15 @@ struct TargetUserProfileView: View {
             switch readMeRequestResult {
             case .success(let readmeString):
                 markdownString = readmeString
-            case .failure:
-                isFailedToLoadReadme = true
+            case .failure(let error):
+                switch error {
+                case .failToLoadREADME:
+                    isFailedToLoadReadme = true
+                case .unexpectedStatusCode:
+                    isEmptyReadme = true
+                default:
+                   break
+                }
             }
         }
 

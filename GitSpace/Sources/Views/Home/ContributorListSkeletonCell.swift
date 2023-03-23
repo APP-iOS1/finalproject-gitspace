@@ -17,7 +17,7 @@ struct ContributorListSkeletonCell: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(Circle())
-                .frame(width: 50, height: 50)
+                .frame(width: 40, height: 40)
                 .modifier(BlinkingSkeletonModifier(opacity: opacity, shouldShow: true))
         }
             .task {

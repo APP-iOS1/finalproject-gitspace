@@ -15,6 +15,7 @@ struct CurrentUserProfileView: View {
     @ObservedObject var viewModel = CurrentUserProfileViewModel(service: GitHubService())
     @State private var markdownString = ""
     @State private var isFailedToLoadReadme = false
+    @State private var isEmptyReadme = false
 
     let gitHubService = GitHubService()
 
@@ -151,6 +152,8 @@ struct CurrentUserProfileView: View {
 
                 if isFailedToLoadReadme {
                     FailToLoadReadmeView()
+                } else if isEmptyReadme {
+                    ReadmeEmptyView()
                 } else {
                     // MARK: - 유저의 README
                     VStack {
@@ -179,8 +182,15 @@ struct CurrentUserProfileView: View {
             switch result {
             case .success(let result):
                 markdownString = result
-            case .failure:
-                isFailedToLoadReadme = true
+            case .failure(let error):
+                switch error {
+                case .failToLoadREADME:
+                    isFailedToLoadReadme = true
+                case .unexpectedStatusCode:
+                    isEmptyReadme = true
+                default:
+                   break
+                }
             }
         }
     }
