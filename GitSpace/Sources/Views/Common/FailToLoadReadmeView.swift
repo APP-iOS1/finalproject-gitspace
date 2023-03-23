@@ -18,6 +18,22 @@ struct FailToLoadReadmeView: View {
     }
 }
 
+struct ReadmeEmptyView: View {
+    var body: some View {
+        VStack {
+            Image("GitSpace-ReadMe-Empty")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 250, height: 200)
+            
+            GSText.CustomTextView(style: .title3, string: "**README.md** does not exist.")
+        }
+        .frame(width: 250, height: 200)
+    }
+}
+
+
+
 struct FailToLoadReadmeView_Previews: PreviewProvider {
     static var previews: some View {
         FailToLoadReadmeView()
