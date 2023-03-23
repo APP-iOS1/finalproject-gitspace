@@ -40,17 +40,20 @@ public struct GSButton {
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
-			case let .tag(isSelected, isEdited):
+			case let .tag(isAppliedInView, isSelectedInAddTagSheet):
 				Button(action: action) {
 					label
 						.labelHierarchyModifier(
-							style: .tertiary(isSelected: isSelected)
+							style: .tertiary(
+                                isAppliedInView: isAppliedInView,
+                                isSelectedInAddTagSheet: isSelectedInAddTagSheet
+                            )
 						)
 				}
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - DONE
-			case .plainText(let isDestructive):
+			case let .plainText(isDestructive):
 				Button(action: action) {
 					label
 						.foregroundColor(isDestructive ? .gsRed : Color.primary)
@@ -58,7 +61,7 @@ public struct GSButton {
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - DONE
-			case .homeTab(let tabName, let tabSelection):
+			case let .homeTab(tabName, tabSelection):
 				Button(action: action) {
 					label
 						.overlay(alignment: .bottom) {
@@ -77,11 +80,12 @@ public struct GSButton {
 		init(
 			style: GSButtonStyle,
 			action: @escaping () -> Void,
-			@ViewBuilder label: () -> CustomLabelType) {
-				self.style = style
-				self.action = action
-				self.label = label()
-		}
+			@ViewBuilder label: () -> CustomLabelType
+        ) {
+            self.style = style
+            self.action = action
+            self.label = label()
+        }
 	}
 }
 
@@ -98,14 +102,15 @@ struct Test2: View {
 	var body: some View {
 		NavigationView {
 			VStack {
+                Text(isEditing.description)
+                
 				GSButton.CustomButtonView(
 					style: .tag(
-                        isSelectedInRepositoryView: isSelected,
-						isFilteredInHomeView: isEditing
+                        isAppliedInView: isSelected
 					)
 				) {
 					withAnimation {
-						isSelected.toggle()
+                        isEditing.toggle()
 					}
 				} label: {
 					Text("????")
