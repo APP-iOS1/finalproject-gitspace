@@ -78,8 +78,8 @@ struct StarredView: View {
                         ForEach(Array(selectedTagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    isSelectedInRepositoryView: true,
-                                    isFilteredInHomeView: false
+                                    isAppliedInView: true
+//                                    isSelectedInAddTagSheet: false
                                 )
                             ) {
                                 withAnimation {
