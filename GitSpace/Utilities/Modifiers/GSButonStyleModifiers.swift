@@ -84,7 +84,7 @@ public struct GSButonStyleModifiers: ViewModifier {
                     .overlay {
                         if isSelectedInAddTagSheet != nil {
                             RoundedRectangle(cornerRadius: .infinity)
-                                .stroke(Color.white, lineWidth: 2)
+                                .stroke(Color.gsGray3, lineWidth: 2)
                         }
                     }
 				
@@ -131,7 +131,7 @@ public struct GSButonStyleModifiers: ViewModifier {
             return .gsYellowPrimary
         } else if let isSelectedInAddTagSheet {
             if isSelectedInAddTagSheet {
-                return .white
+                return .gsGray3
             } else {
                 return .black
             }

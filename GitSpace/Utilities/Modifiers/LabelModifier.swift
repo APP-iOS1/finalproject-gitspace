@@ -51,14 +51,15 @@ struct GSLabelModifier: ViewModifier {
         isSelectedInAddTagSheet: Bool?
     ) -> Color {
         if isAppliedInView != nil {
-            switch colorScheme {
-            case .light:
-                return .black
-            case .dark:
-                return .white
-            default:
-                return .primary
-            }
+            return .black
+//            switch colorScheme {
+//            case .light:
+//                return .black
+//            case .dark:
+//                return .black
+//            default:
+//                return .primary
+//            }
         } else if let isSelectedInAddTagSheet {
             switch colorScheme {
             case .light:
@@ -69,7 +70,7 @@ struct GSLabelModifier: ViewModifier {
                 }
             case .dark:
                 if isSelectedInAddTagSheet {
-                    return .black
+                    return .white
                 } else if !isSelectedInAddTagSheet {
                     return .white
                 }
