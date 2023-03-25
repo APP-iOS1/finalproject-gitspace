@@ -19,6 +19,8 @@ enum GitHubAPIEndpoint {
     case authenticatedUserFollowsPerson(userName: String)
     case userInformation(userName: String)
     case userStarRepositories(userName: String, page: Int)
+    case userFollowingList(userName: String, perPage: Int, page: Int)
+    case userFollowerList(userName: String, perPage: Int, page: Int)
     case repositoryInformation(owner: String, repositoryName: String)
     case repositoryREADME(owner: String, repositoryName: String)
     case markdownToHTML(markdownString: String)
@@ -65,6 +67,11 @@ extension GitHubAPIEndpoint: Endpoint {
             return "/user/following/\(userName)"
         case .unfollowUser(let userName):
             return "/user/following/\(userName)"
+        case .userFollowingList(let userName, _, _ ):
+            return "/users/\(userName)/following"
+        case .userFollowerList(let userName, _, _ ):
+            return "/users/\(userName)/followers"
+            
         }
         
     }
@@ -103,6 +110,10 @@ extension GitHubAPIEndpoint: Endpoint {
             return .put
         case .unfollowUser:
             return .delete
+        case .userFollowingList:
+            return .get
+        case .userFollowerList:
+            return .get
         }
     }
 
@@ -142,7 +153,7 @@ extension GitHubAPIEndpoint: Endpoint {
         case .authenticatedUserRepositories(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
             
-        case .authenticatedUserReceivedEvents( _ , let page):
+        case .authenticatedUserReceivedEvents(_, let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
         
         // defualt는 한 페이지당 30명의 contributor이며, pagenation을 위해 page를 연관값으로 가짐
@@ -153,6 +164,14 @@ extension GitHubAPIEndpoint: Endpoint {
             return [URLQueryItem(name: "page", value: "\(page)")]
 
         case .authenticatedUserFollowers(let perPage, let page):
+            return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
+        
+        // default는 한 페이지당 30명의 Following User이며, pagenation을 위해 page를 연관값으로 가짐
+        case .userFollowingList(_, let perPage, let page):
+            return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
+        
+        // default는 한 페이지당 30명의 Follower이며, pagenation을 위해 page를 연관값으로 가짐
+        case .userFollowerList(_, let perPage, let page):
             return [URLQueryItem(name: "page", value: "\(page)"), URLQueryItem(name: "per_page", value: "\(perPage)")]
             
         default:

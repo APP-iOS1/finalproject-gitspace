@@ -44,9 +44,6 @@ final class ContributorViewModel: ObservableObject {
                     return .failure(error)
                 }
             }
-            withAnimation(.easeInOut) {
-                self.isLoading = false
-            }
             return .success(())
         case .failure(let error):
             // 컨트리뷰터 목록을 가져올 수 없다는 에러

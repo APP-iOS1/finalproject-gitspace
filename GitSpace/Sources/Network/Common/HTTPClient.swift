@@ -72,8 +72,7 @@ extension HTTPClient {
                 return .failure(.unexpectedStatusCode)
             }
 
-        } catch(let error) {
-            print(error.localizedDescription)
+        } catch {
             return .failure(.unknown)
         }
     }

@@ -15,6 +15,7 @@ struct RepositoryDetailView: View {
     @State private var selectedTagList: [Tag] = []
     @State private var markdownString: String = ""
     @State private var isFailedToLoadReadme = false
+    @State private var isEmptyReadme = false
     
     let gitHubService: GitHubService
     let repository: Repository
@@ -55,6 +56,8 @@ struct RepositoryDetailView: View {
             
             if isFailedToLoadReadme {
                 FailToLoadReadmeView()
+            } else if isEmptyReadme {
+                ReadmeEmptyView()
             } else {
                 VStack {
                     HStack {
@@ -74,19 +77,44 @@ struct RepositoryDetailView: View {
                 .padding(.horizontal, 20)
             }
         }
-        .task {
-            markdownString = await repositoryDetailViewModel.requestReadMe(repository: repository)
-            contributorViewModel.contributors.removeAll()
-            contributorViewModel.temporaryContributors.removeAll()
-            // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
-            // For-Loop (contributor pagination, infinite scroll)
-            let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
-            switch contributorListResult {
-            case .success():
-                contributorViewModel.contributors = contributorViewModel.temporaryContributors
-            case .failure(let error):
-                // contributor 목록을 가져오는데 실패했다는 에러
-                print(error)
+        .padding(.horizontal, 30)
+        .onViewDidLoad {
+            Task {
+                let readMeResult = await repositoryDetailViewModel.requestReadMe(repository: repository)
+                
+                switch readMeResult {
+                case .success(let result):
+                    markdownString = result
+                case .failure(let error):
+                    switch error {
+                    case .failToLoadREADME:
+                        isFailedToLoadReadme = true
+                    case .unexpectedStatusCode:
+                        isEmptyReadme = true
+                    default:
+                        break
+                    }
+                }
+                
+                withAnimation(.easeInOut) {
+                    contributorViewModel.isLoading = true
+                }
+                
+                contributorViewModel.contributors.removeAll()
+                contributorViewModel.temporaryContributors.removeAll()
+                // TODO: - 현재 컨트리뷰터 리퀘스트는 한 페이지당 30명을 불러옴, 컨트리뷰터가 30명을 넘는 레포지토리는 페이지네이션 필요, 뷰의 변화가 필요할지도.
+                // For-Loop (contributor pagination, infinite scroll)
+                let contributorListResult = await contributorViewModel.requestContributors(repository: repository, page: 1)
+                switch contributorListResult {
+                case .success():
+                    contributorViewModel.contributors = contributorViewModel.temporaryContributors
+                    withAnimation(.easeInOut) {
+                        contributorViewModel.isLoading = false
+                    }
+                case .failure(let error):
+                    // contributor 목록을 가져오는데 실패했다는 에러
+                    print(error)
+                }
             }
         }
         .navigationBarTitle(repository.name, displayMode: .inline)

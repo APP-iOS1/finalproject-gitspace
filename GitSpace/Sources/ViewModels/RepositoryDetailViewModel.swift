@@ -16,31 +16,31 @@ final class RepositoryDetailViewModel: ObservableObject {
     }
     
     @MainActor
-    func requestReadMe(repository: Repository) async -> String {
+    func requestReadMe(repository: Repository) async -> Result<String, GitHubAPIError> {
         let readMeResult = await service.requestRepositoryReadme(owner: repository.owner.login, repositoryName: repository.name)
         
         switch readMeResult {
             
         case .success(let response):
             guard let content = Data(base64Encoded: response.content, options: .ignoreUnknownCharacters) else {
-                return GitHubAPIError.failToLoadREADME.errorDescription
+                return .failure(GitHubAPIError.failToLoadREADME)
             }
             
             guard let decodeContent = String(data: content, encoding: .utf8) else {
-                return GitHubAPIError.failToLoadREADME.errorDescription
+                return .failure(GitHubAPIError.failToLoadREADME)
             }
             
             let htmlResult = await service.requestMarkdownToHTML(content: decodeContent)
             
             switch htmlResult {
             case .success(let result):
-                return result
+                return .success(result)
             case .failure(let error):
-                return error.errorDescription
+                return .failure(error)
             }
             
         case .failure(let error):
-            return error.errorDescription
+            return .failure(error)
         }
     }
     

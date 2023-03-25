@@ -181,7 +181,7 @@ struct SetMainView: View {
                     // MARK: Licenses
                     /// 라이센스
                     NavigationLink {
-                        
+                        SetLicensesView()
                     } label: {
                             Text("Licenses")
                     }
@@ -203,8 +203,8 @@ struct SetMainView: View {
     } // body
 }
 
-struct SetMainView_Previews: PreviewProvider {
-    static var previews: some View {
-        SetMainView()
-    }
-}
+//struct SetMainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SetMainView()
+//    }
+//}

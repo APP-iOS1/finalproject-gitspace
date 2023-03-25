@@ -10,11 +10,16 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class RepositoryViewModel: ObservableObject {
-//    @Published var tags: [Tag] = []
     @Published var repositories: [Repository]?
     @Published var filteredRepositories: [Repository]?
     private let database = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
+    
+    private let service: GitHubService
+    
+    init(service: GitHubService) {
+        self.service = service
+    }
     
     // MARK: - Request Starred Repositories
     /// 인증된 사용자가 Star로 지정한 Repository의 목록을 요청합니다.
@@ -71,6 +76,15 @@ final class RepositoryViewModel: ObservableObject {
                 return filteredRepositoriesList!.contains(repo.fullName)
             })
             self.filteredRepositories = filteredRepositories!
+        }
+    }
+    
+    @MainActor
+    func requestUnstar(repository: Repository) async -> Void {
+        do {
+            try await service.requestToUnstarRepository(owner: repository.owner.login, repositoryName: repository.name)
+        } catch(let error) {
+            print("Error-\(#file)-\(#function): \(error.localizedDescription)")
         }
     }
 }
