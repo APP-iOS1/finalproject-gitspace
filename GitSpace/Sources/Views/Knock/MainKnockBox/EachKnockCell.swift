@@ -85,13 +85,13 @@ struct EachKnockCell: View {
 						
 						if eachKnock.knockStatus == Constant.KNOCK_WAITING {
 							Text(eachKnock.knockStatus)
-								.foregroundColor(Color(.systemBlue))
+                                .foregroundColor(Color("GSPurple"))
 						} else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
 							Text(eachKnock.knockStatus)
-								.foregroundColor(Color(.systemGreen))
+								.foregroundColor(Color.accentColor)
 						} else {
 							Text("\(eachKnock.knockStatus)")
-								.foregroundColor(Color(.systemRed))
+								.foregroundColor(Color("GSRed"))
 						}
 					} // HStack
 					.font(.subheadline)

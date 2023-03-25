@@ -176,8 +176,8 @@ struct AddTagSheetView: View {
                                 items: Array( zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed())) ) { index, tag in
                                 GSButton.CustomButtonView(
                                     style: .tag(
-                                        isSelected: selectedTags.contains(tag),
-                                        isEditing: false
+//                                        isAppliedInView: selectedTags.contains(tag),
+                                        isSelectedInAddTagSheet: selectedTags.contains(tag)
                                     )
                                 ) {
                                     withAnimation {

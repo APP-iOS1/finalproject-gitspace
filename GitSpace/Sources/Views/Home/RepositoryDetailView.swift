@@ -31,10 +31,12 @@ struct RepositoryDetailView: View {
             
             // MARK: - 레포 디테일 정보 섹션
             RepositoryInfoCard(service: GitHubService(), repository: repository, contributorViewModel: contributorViewModel)
+                .padding(.horizontal, 20)
                 .padding(.bottom, 20)
             
             // MARK: - 레포에 부여된 태그 섹션
             RepositoryDetailViewTags(selectedTags: $selectedTagList, repository: repository)
+                .padding(.horizontal, 20)
             
             Spacer()
             
@@ -45,11 +47,12 @@ struct RepositoryDetailView: View {
                 GSText.CustomTextView(style: .buttonTitle1, string:"✊🏻  Knock Knock!")
             }
             .disabled(contributorViewModel.isLoading)
+            .padding(.top, 24)
             
             Divider()
                 .frame(height: 1)
                 .overlay(Color.gsGray3)
-                .padding(.vertical, 10)
+                .padding(.vertical, 24)
             
             if isFailedToLoadReadme {
                 FailToLoadReadmeView()
@@ -71,6 +74,7 @@ struct RepositoryDetailView: View {
                         }
                 }
                 .padding(.top, 15)
+                .padding(.horizontal, 20)
             }
         }
         .padding(.horizontal, 30)
@@ -131,45 +135,40 @@ struct RepositoryInfoCard: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            
-            // 레포 타이틀
-            GSText.CustomTextView(style: .title1, string: repository.name)
-            
-            // 레포 설명글
-            GSText.CustomTextView(style: .body1, string: repository.description ?? "This Repository has no description")
-            
-            GSText.CustomTextView(style: .body2, string: "⭐️ \(repository.stargazersCount) stars")
-            
-            Divider()
-            
-            // Contributors 섹션 타이틀
-            GSText.CustomTextView(style: .title3, string: "Contributors")
-            
-            // Contributors 유저 프로필들
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    if contributorViewModel.isLoading {
-                        ForEach(0..<10) { _ in
-                            ContributorListSkeletonCell()
-                        }
-                    } else {
-                        ForEach(contributorViewModel.contributors) { user in
-                            NavigationLink(destination: TargetUserProfileView(user: user)) {
-                                GithubProfileImage(urlStr: user.avatar_url, size: 40)
+        GSCanvas.CustomCanvasView(style: .primary) {
+            VStack(alignment: .leading, spacing: 10) {
+                
+                // 레포 타이틀
+                GSText.CustomTextView(style: .title1, string: repository.name)
+                
+                // 레포 설명글
+                GSText.CustomTextView(style: .body1, string: repository.description ?? "This Repository has no description")
+                
+                GSText.CustomTextView(style: .body2, string: "⭐️ \(repository.stargazersCount) stars")
+                
+                Divider()
+                
+                // Contributors 섹션 타이틀
+                GSText.CustomTextView(style: .title3, string: "Contributors")
+                
+                // Contributors 유저 프로필들
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        if contributorViewModel.isLoading {
+                            ForEach(0..<10) { _ in
+                                ContributorListSkeletonCell()
+                            }
+                        } else {
+                            ForEach(contributorViewModel.contributors) { user in
+                                NavigationLink(destination: TargetUserProfileView(user: user)) {
+                                    GithubProfileImage(urlStr: user.avatar_url, size: 40)
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.white)
-                .shadow(color: .gray, radius: 3, x: 1, y: 2)
-                .opacity(0.2)
-        )
     }
 }
 
@@ -208,8 +207,8 @@ struct RepositoryDetailViewTags: View {
                         // !!!: - 버튼 디자인시스템 변경 이전까지 다크모드에서 태그버튼이 주황색으로 표시됨
                         GSButton.CustomButtonView(
                             style: .tag(
-                                isSelected: true,
-                                isEditing: false)
+                                isSelectedInAddTagSheet: true
+                            )
                         ) {
                             
                         } label: {
@@ -217,8 +216,8 @@ struct RepositoryDetailViewTags: View {
                             // FIXME: - 태그버튼 사이즈 임시 축소, 추후 디자인 시스템에서 버튼 사이즈 통일 필요
                             Text(tag.tagName)
                                 .padding(-10)
-                            
                         }
+                        .padding(.horizontal, 5)
                     }
                 }
             }

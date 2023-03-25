@@ -71,11 +71,11 @@ struct MainKnockView: View {
                                     Image("GitSpace-Knock-Empty")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 300, height: 300)
+                                        .frame(width: 225, height: 225)
                                         .transition(knockViewManager.trailingTransition)
                                     
                                     GSText.CustomTextView(
-                                        style: .title1,
+                                        style: .description,
                                         string: "There are no Knocks!")
                                     .multilineTextAlignment(.center)
                                 }
@@ -152,11 +152,11 @@ struct MainKnockView: View {
                                     Image("GitSpace-Knock-Empty")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 300, height: 300)
+                                        .frame(width: 225, height: 225)
                                         .transition(knockViewManager.trailingTransition)
                                     
                                     GSText.CustomTextView(
-                                        style: .title1,
+                                        style: .description,
                                         string: "There are no Knocks!")
                                     .multilineTextAlignment(.center)
                                 }
