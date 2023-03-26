@@ -10,6 +10,6 @@ import SwiftUI
 extension Button {
 	/// - Important: ONLY USED IN DESIGN SYSTEM CODE
 	public func buttonColorSchemeModifier(style: GSButtonStyle) -> some View {
-		modifier(GSButonStyleModifiers(style: style))
+		modifier(GSButtonStyleModifiers(style: style))
 	}
 }
