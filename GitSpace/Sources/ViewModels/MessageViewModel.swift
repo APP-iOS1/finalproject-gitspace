@@ -79,7 +79,10 @@ extension MessageStore {
     
     @MainActor
     private func writeMessages(messages: [Message]) {
-        self.messages = messages
+        var remainMessages = messages
+        let unreadMessages: [Message] = remainMessages[10...]
+        self.messages = [unreadMessages]
+        writeRemainMessages(messages: remainMessages)
         isFetchMessagesDone = true
     }
     
