@@ -68,7 +68,7 @@ extension MessageStore {
                 .document(chatID)
                 .collection(const.COLLECTION_MESSAGE)
                 .order(by: const.FIELD_SENT_DATE)
-                .limit(toLast: 30 + unreadMessageCount)
+//                .limit(toLast: 30 + unreadMessageCount) 무한 스크롤이 아직 구현되지 않아서 주석 처리 By.태영 23-03-26
                 .getDocuments()
             return snapshot
         } catch {
