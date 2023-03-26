@@ -127,7 +127,7 @@
 		704D160F29992FF9009206BD /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704D160E29992FF9009206BD /* String+.swift */; };
 		70528FBE299C022800E29316 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70528FBD299C022800E29316 /* PushNotificationManager.swift */; };
 		7062E12D298CC50A00CCE946 /* DesignSystemStyleEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */; };
-		7062E12F298CC82D00CCE946 /* GSButonStyleModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* GSButonStyleModifiers.swift */; };
+		7062E12F298CC82D00CCE946 /* GSButtonStyleModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E12E298CC82D00CCE946 /* GSButtonStyleModifiers.swift */; };
 		7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E130298CCB1700CCE946 /* LabelModifier.swift */; };
 		7062E133298CD6A600CCE946 /* ViewHighlightColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */; };
 		7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */; };
@@ -295,7 +295,7 @@
 		704D160E29992FF9009206BD /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		70528FBD299C022800E29316 /* PushNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemStyleEnums.swift; sourceTree = "<group>"; };
-		7062E12E298CC82D00CCE946 /* GSButonStyleModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButonStyleModifiers.swift; sourceTree = "<group>"; };
+		7062E12E298CC82D00CCE946 /* GSButtonStyleModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSButtonStyleModifiers.swift; sourceTree = "<group>"; };
 		7062E130298CCB1700CCE946 /* LabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModifier.swift; sourceTree = "<group>"; };
 		7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHighlightColorStyle.swift; sourceTree = "<group>"; };
 		7062E134298CE63800CCE946 /* ShadowColorSchemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowColorSchemeModifier.swift; sourceTree = "<group>"; };
@@ -608,7 +608,7 @@
 			isa = PBXGroup;
 			children = (
 				6E000CAE29899F6C00446C0D /* ChatModifiers.swift */,
-				7062E12E298CC82D00CCE946 /* GSButonStyleModifiers.swift */,
+				7062E12E298CC82D00CCE946 /* GSButtonStyleModifiers.swift */,
 				EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */,
 				6E0F9590298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift */,
 				7062E130298CCB1700CCE946 /* LabelModifier.swift */,
@@ -1074,7 +1074,7 @@
 				0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
 				6E0F9591298CEE2D000FE529 /* GSTextFieldLayoutModifier.swift in Sources */,
-				7062E12F298CC82D00CCE946 /* GSButonStyleModifiers.swift in Sources */,
+				7062E12F298CC82D00CCE946 /* GSButtonStyleModifiers.swift in Sources */,
 				2204BD4F299B1BD200AA4725 /* ContributorProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1096,6 +1096,7 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1157,6 +1158,7 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1212,6 +1214,7 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1250,6 +1253,7 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
