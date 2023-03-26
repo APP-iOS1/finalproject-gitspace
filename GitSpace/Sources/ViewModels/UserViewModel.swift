@@ -121,20 +121,20 @@ final class UserStore: ObservableObject {
 		}
 	}
 	
-	/**
-	 User deviceToken을 서버에 업데이트 합니다.
-	 */
-	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
-		do {
-			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
-			try await document.updateData([
-				const.FIELD_DEVICE_TOKEN: deviceToken
-			])
-		} catch {
-			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
-		}
-	
-	}
+//	!!!: - DEPRECATED(23.03.26)
+//	 User deviceToken을 서버에 업데이트 합니다.
+//	 */
+//	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
+//		do {
+//			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
+//			try await document.updateData([
+//				const.FIELD_DEVICE_TOKEN: deviceToken
+//			])
+//		} catch {
+//			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
+//		}
+//
+//	}
     
     private func getUserDocuments() async -> QuerySnapshot? {
         do {
@@ -228,8 +228,46 @@ final class UserStore: ObservableObject {
         
     }
     
+    /**
+     UserInfo를 update 합니다.
+     열거형의 연관값으로 필요한 데이터를 아규먼트로 전달합니다.
+     - Author: Valselee
+     */
+    public func updateUserInfoOnFirestore(
+        userID: String,
+        with updateType: UpdateUserInfoType...
+    ) async -> Void {
+        do {
+            let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
+            for eachType in updateType {
+                switch eachType {
+                case let .deviceToken(token):
+                    try await document.setData([
+                        const.FIELD_DEVICE_TOKEN: token
+                    ], merge: true)
+                case let .knockPushNotificationAceeptance(isKnockPushAvailable):
+                    try await document.setData([
+                        const.FIELD_IS_KNOCK_PUSH_AVAILABLE: isKnockPushAvailable
+                    ], merge: true)
+                case let .chatPushNotificationAceeptance(isChatPushAvailable):
+                    try await document.setData([
+                        const.FIELD_IS_CHAT_PUSH_AVAILABLE: isChatPushAvailable
+                    ], merge: true)
+                }
+            }
+        } catch {
+            print("Error-\(#file)-\(#function): USERINFO Update Falied")
+        }
+    }
+    
     enum BlockCase {
         case block
         case unblock
+    }
+    
+    enum UpdateUserInfoType {
+        case deviceToken(token: String)
+        case knockPushNotificationAceeptance(isPushAvailable: Bool)
+        case chatPushNotificationAceeptance(isPushAvailable: Bool)
     }
 }
