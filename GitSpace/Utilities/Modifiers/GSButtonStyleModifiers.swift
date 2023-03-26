@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - BUTTON COLOR SCHEME MODIFIER
-public struct GSButonStyleModifiers: ViewModifier {
+public struct GSButtonStyleModifiers: ViewModifier {
 	let style: GSButtonStyle
 	@Environment(\.colorScheme) var colorScheme
 	
