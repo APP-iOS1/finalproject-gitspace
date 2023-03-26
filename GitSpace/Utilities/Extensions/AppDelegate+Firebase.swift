@@ -92,7 +92,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		// 포어그라운드일 때 && 현재 채팅 중일때 알람 보여주지 않기 -> 열거형으로 상태 정리 필요
 		// 우선 푸쉬쪽 정리 끝내고 해야할듯
 		let userInfo = notification.request.content.userInfo
-		print(#function, "+++ willPresent: FOREGROUND")
 		
 		do {
 			let pushNotificationData = try JSONSerialization.data(withJSONObject: userInfo)

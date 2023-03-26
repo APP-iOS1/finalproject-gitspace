@@ -55,7 +55,11 @@ extension PushNotificationManager: GSPushNotificationSendable {
 	) async -> Void {
 		guard let url else { return }
 		let messageBody = PushNotificationMessageBody(message)
-		let httpBody = makeNotificationData(pushNotificationBody: messageBody, to: userInfo)
+		let httpBody = makeNotificationData(
+            pushNotificationBody: messageBody,
+            to: userInfo
+        )
+        
 		let httpRequest = configureHTTPRequest(url: url)
 		
 		do {
@@ -77,6 +81,16 @@ extension PushNotificationManager: GSPushNotificationSendable {
 		pushNotificationBody: PushNotificationMessageBody,
 		to userInfo: UserInfo
 	) -> Data? {
+        if let knockPushAcceptance = userInfo.isKnockPushAvailable,
+           pushNotificationBody.navigateTo == "knock",
+           !knockPushAcceptance {
+            return nil
+        } else if let chatPushAcceptance = userInfo.isChatPushAvailable,
+                  pushNotificationBody.navigateTo == "chat",
+                  !chatPushAcceptance {
+            return nil
+        }
+        
 		/// HTTP Request의 body로 전달할 data를 딕셔너리로 선언한 후, JSON으로 변환합니다.
 		let json: [AnyHashable: Any] = [
 			/// 특정 기기에 알람을 보내기 위해 "to"를 사용합니다.
