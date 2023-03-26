@@ -77,7 +77,7 @@ struct RepositoryDetailView: View {
                 .padding(.horizontal, 20)
             }
         }
-        .padding(.horizontal, 30)
+//        .padding(.horizontal, 30)
         .onViewDidLoad {
             Task {
                 let readMeResult = await repositoryDetailViewModel.requestReadMe(repository: repository)
