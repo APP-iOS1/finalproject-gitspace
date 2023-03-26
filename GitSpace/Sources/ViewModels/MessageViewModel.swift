@@ -32,6 +32,19 @@ final class MessageStore: ObservableObject {
     }
 }
 
+extension Array {
+    func fromLast(count: Int) -> Self {
+        let start: Int = self.count - count
+        var array: Self = []
+        for i in self.enumerated() {
+            if i.offset >= start {
+                array.append(i.element)
+            }
+        }
+        return array
+    }
+}
+
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension
 extension MessageStore {
     
