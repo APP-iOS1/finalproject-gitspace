@@ -21,6 +21,8 @@ final class MessageStore: ObservableObject {
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
     @Published var isFetchMessagesDone: Bool = false
     
+    var remainMessages: [Message] = []
+    
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
