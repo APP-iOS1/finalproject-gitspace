@@ -99,8 +99,8 @@ extension MessageStore {
     }
     
     @MainActor
-    private func writeRemainMessages(messages: [Message]) {
-        self.messages = messages + self.messages
+    func writeRemainMessages() {
+        self.messages = remainMessages + self.messages
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수
