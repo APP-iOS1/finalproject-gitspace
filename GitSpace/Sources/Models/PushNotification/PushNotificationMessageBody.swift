@@ -56,10 +56,10 @@ enum PushNotificationMessageType {
 struct GSPushNotification: Codable {
     let aps: GSAps
     let googleCAE, googleCFid, gcmMessageID, googleCSenderID,
-        userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date: String
+        sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date: String
     
     enum CodingKeys: String, CodingKey {
-        case aps, userName, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date
+        case aps, sentDeviceToken, sentUserName, sentUserID, navigateTo, viewBuildID, date
         
         case googleCAE = "google.c.a.e"
         case googleCFid = "google.c.fid"

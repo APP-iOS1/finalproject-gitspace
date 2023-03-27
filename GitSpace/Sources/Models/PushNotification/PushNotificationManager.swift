@@ -12,6 +12,7 @@ final class PushNotificationManager: GSPushNotificationNavigatable, ObservableOb
     @Published var isNavigatedToChat: Bool = false
     @Published var isNavigatedToSentKnock: Bool = false
     @Published var isNavigatedToReceivedKnock: Bool = false
+    @Published var currentChatRoomID: String? = nil
     
     private(set) var currentUserDeviceToken: String?
     private(set) var viewBuildID: String? = nil
@@ -107,7 +108,6 @@ extension PushNotificationManager: GSPushNotificationSendable {
 			
 			/// 알람을 보내며 함께 전달할 데이터를 삽입합니다.
 			"data": [
-				"userName": "CurrentUserID",
 				"sentDeviceToken": currentUserDeviceToken ?? "보낸 이의 디바이스토큰",
 				"sentUserName": userInfo.githubLogin,
 				"sentUserID": userInfo.id,
