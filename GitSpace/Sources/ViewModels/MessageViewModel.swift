@@ -36,6 +36,9 @@ final class MessageStore: ObservableObject {
 
 extension Array {
     func fromLast(count: Int) -> Self {
+        guard self.count >= count else {
+            return []
+        }
         let start: Int = self.count - count
         var array: Self = []
         for i in self.enumerated() {
