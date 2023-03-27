@@ -64,22 +64,22 @@ struct ChatRoomView: View {
                 }
                 // MEMO : 채팅방 진입 시 수행해야하는 스크롤링이지만, proxy 값이 필요하기 때문에 task에서 unreadMessageIndex 변경 -> ScrollView Reader 내부 onChange에서 작업
                 .onChange(of: unreadMessageIndex) { state in
-                    DispatchQueue.main.async {
-                        Task {
-                            if await getUnreadCount() == 0 {
-                                proxy.scrollTo("bottom", anchor: .bottomTrailing)
-                            } else {
-                                proxy.scrollTo("Start", anchor: .top)
-                            }
-                        }
-                    }
+//                    DispatchQueue.main.async {
+//                        Task {
+//                            if await getUnreadCount() == 0 {
+//                                proxy.scrollTo("bottom", anchor: .bottomTrailing)
+//                            } else {
+//                                proxy.scrollTo("Start", anchor: .top)
+//                            }
+//                        }
+//                    }
                 }
                 // 메세지를 전송했을 때 or 받았을 때 스크롤을 최하단으로 이동
                 .onChange(of: messageStore.isMessageAdded) { state in
                     // 채팅방 진입 시 진행하는 첫 Request가 수행된 이후에만 반응하도록 하는 조건
-                    if messageStore.isFetchMessagesDone {
-                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
-                    }
+//                    if messageStore.isFetchMessagesDone {
+//                        proxy.scrollTo("bottom", anchor: .bottomTrailing)
+//                    }
                 }
             }
             
