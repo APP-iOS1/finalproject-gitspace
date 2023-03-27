@@ -85,9 +85,16 @@ extension MessageStore {
     @MainActor
     private func writeMessages(messages: [Message]) {
         var remainMessages = messages
-        let unreadMessages: [Message] = remainMessages[10...]
-        self.messages = [unreadMessages]
-        writeRemainMessages(messages: remainMessages)
+        let unreadMessages: [Message] = remainMessages.fromLast(count: 5)
+        remainMessages.removeLast(5)
+        unreadMessages.map{$0.textContent}.forEach { text in
+            print(text)
+        }
+        remainMessages.map{$0.textContent}.forEach { text in
+            print(text)
+        }
+        self.messages = remainMessages
+        self.remainMessages = unreadMessages
         isFetchMessagesDone = true
     }
     
