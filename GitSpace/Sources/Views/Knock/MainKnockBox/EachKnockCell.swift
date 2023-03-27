@@ -57,17 +57,20 @@ struct EachKnockCell: View {
                         if userSelectedTab == Constant.KNOCK_RECEIVED {
                             Text("from: **\(eachKnock.sentUserName)**")
                                 .font(.body)
+                                .id(eachKnock.sentUserName)
                         } else {
                             Text("to: **\(eachKnock.receivedUserName)**")
                                 .font(.body)
+                                .id(eachKnock.receivedUserName)
                         }
 						
 						Spacer()
 						
-                        Text("\(eachKnock.dateDiff)")
+                        Text("\(eachKnock.knockedDate.dateValue().timeAgoDisplay())")
 							.font(.subheadline)
 							.foregroundColor(Color(.systemGray))
 							.padding(.leading, -10)
+                            .id(eachKnock.knockedDate.dateValue().timeAgoDisplay())
 						
 						Image(systemName: "chevron.right")
 							.resizable()

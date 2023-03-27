@@ -187,8 +187,9 @@ struct MainKnockView: View {
                                             userSelectedTab: userSelectedTab
                                         )
                                         .foregroundColor(.primary)
+                                        .id($eachKnock.wrappedValue.id)
                                     }
-                                    .id($eachKnock.wrappedValue.id)
+//                                    .id($eachKnock.wrappedValue.id)
                                     .transition(knockViewManager.trailingTransition)
                                 }
                             }
