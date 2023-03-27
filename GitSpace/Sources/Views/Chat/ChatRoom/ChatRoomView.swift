@@ -26,8 +26,7 @@ struct ChatRoomView: View {
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var notificationManager: PushNotificationManager
-    @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
@@ -245,6 +244,23 @@ struct ChatRoomView: View {
                                      currentContent: tempContent)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
+        await sendPushNotification(with: newMessage)
+    }
+    
+    // MARK: Method - Push Notification을 보내는 메소드
+    private func sendPushNotification(with message: Message) async -> Void {
+        // 보낸사람의 ID를 할당하여 foreground에서 "이 채팅창에서만" 배너가 울리지 않도록 한다.
+        // currentChatTargetUserID는 AppDelegate에서 다시 nil로 초기화한다.
+        pushNotificationManager.currentChatTargetUserID = message.senderID
+        print("++++++ \(#function)", message.senderID, pushNotificationManager.currentChatTargetUserID)
+        await pushNotificationManager.sendNotification(
+            with: .chat(
+                title: "New Message has been Arrived",
+                body: contentField,
+                pushSentFrom: userStore.currentUser?.githubLogin ?? "",
+                chatID: message.id
+            ), to: targetUserInfo
+        )
     }
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수
