@@ -110,7 +110,14 @@ struct ChatRoomView: View {
             }
              */
         }
+        .onDisappear {
+            // 초기화 필요.
+            pushNotificationManager.currentChatRoomID = nil
+        }
         .task {
+            // 화면에 진입하는 시점에 채팅방 id를 매니저에게 전달한다.
+            pushNotificationManager.currentChatRoomID = chat.id
+            
             // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
             let unreadMessageCount: Int = await getUnreadCount()
             // 메세지 리스너 실행, 첫 Request가 이루어지기 전이기 때문에 .added에서 메세지를 추가하지 않음
@@ -249,16 +256,14 @@ struct ChatRoomView: View {
     
     // MARK: Method - Push Notification을 보내는 메소드
     private func sendPushNotification(with message: Message) async -> Void {
-        // 보낸사람의 ID를 할당하여 foreground에서 "이 채팅창에서만" 배너가 울리지 않도록 한다.
-        // currentChatTargetUserID는 AppDelegate에서 다시 nil로 초기화한다.
-        pushNotificationManager.currentChatTargetUserID = message.senderID
-        print("++++++ \(#function)", message.senderID, pushNotificationManager.currentChatTargetUserID)
+        print("++++ FUNCTION", chat.id, pushNotificationManager.currentChatRoomID)
+        
         await pushNotificationManager.sendNotification(
             with: .chat(
-                title: "New Message has been Arrived",
+                title: "New Message has been Arrived!",
                 body: contentField,
                 pushSentFrom: userStore.currentUser?.githubLogin ?? "",
-                chatID: message.id
+                chatID: chat.id
             ), to: targetUserInfo
         )
     }
