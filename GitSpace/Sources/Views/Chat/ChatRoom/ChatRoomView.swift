@@ -110,6 +110,14 @@ struct ChatRoomView: View {
                 }
             }
              */
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    messageStore.writeRemainMessages()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
         }
         .task {
             // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
