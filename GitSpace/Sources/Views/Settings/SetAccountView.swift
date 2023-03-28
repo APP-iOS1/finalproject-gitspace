@@ -29,18 +29,18 @@ struct SetAccountView: View {
             
             // MARK: Blocked Users
             /// 차단한 유저 리스트
-            Section {
-                NavigationLink {
-                    
-                } label: {
-                    HStack {
-                        Text("Blocked Users")
-                        Spacer()
-                        Text("\(0)")
-                            .foregroundColor(.gsLightGray2)
-                    }
-                }
-            } // Section
+//            Section {
+//                NavigationLink {
+//
+//                } label: {
+//                    HStack {
+//                        Text("Blocked Users")
+//                        Spacer()
+//                        Text("\(0)")
+//                            .foregroundColor(.gsLightGray2)
+//                    }
+//                }
+//            } // Section
             
             // MARK: Logout / Delete Account
             /// 로그아웃 / 계정 삭제
