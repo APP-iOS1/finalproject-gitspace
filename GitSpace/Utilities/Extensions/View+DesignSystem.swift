@@ -9,7 +9,7 @@ import SwiftUI
 
 extension View {	
 	public func navigationLinkStyleModifier(navigationStyle: GSButtonStyle) -> some View {
-		modifier(GSButonStyleModifiers(style: navigationStyle))
+		modifier(GSButtonStyleModifiers(style: navigationStyle))
 	}
 	
 	public func labelHierarchyModifier(style: Constant.LabelHierarchy) -> some View {

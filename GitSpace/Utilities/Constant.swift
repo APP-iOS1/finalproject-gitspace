@@ -21,6 +21,8 @@ public enum Constant {
 	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
 		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+        static let IS_KNOCK_PUSH_NOTIFICATION_TURNED_ON: String = "IS_KNOCK_PUSH_NOTIFICATION_TURNED_ON"
+        static let IS_CHAT_PUSH_NOTIFICATION_TURNED_ON: String = "IS_CHAT_PUSH_NOTIFICATION_TURNED_ON"
         static let CHATROOM_NOTIFICATION: String = "isChatRoomNotificationEnabled"
         static let USER_CHAT_BLOCK: String = "isUserChatBlocked"
 	}
@@ -46,6 +48,8 @@ public enum Constant {
         static let FIELD_GITHUB_ID: String = "githubID"
         static let FIELD_DEVICE_TOKEN: String = "deviceToken"
         static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        static let FIELD_IS_KNOCK_PUSH_AVAILABLE: String = "isKnockPushAvailable"
+        static let FIELD_IS_CHAT_PUSH_AVAILABLE: String = "isChatPushAvailable"
         
         static let COLLECTION_TAG: String = "Tag"
         static let FIELD_ID: String = "id"

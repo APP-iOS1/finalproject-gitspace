@@ -56,11 +56,12 @@ struct ContentView: View {
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
             if let uid = githubAuthManager.authentification.currentUser?.uid {
-				await userStore.updateUserDeviceToken(
-					userID: uid,
-					deviceToken: pushNotificationManager.currentUserDeviceToken
-					?? "PUSHNOTIFICATION NOT GRANTED"
-				)
+				await userStore.updateUserInfoOnFirestore(
+                    userID: uid,
+                    with: .deviceToken(
+                        token: pushNotificationManager.currentUserDeviceToken ?? "PUSHNOTIFICATION NOT GRANTED"
+                    )
+                )
                 
 				// userInfo 할당
                 Utility.loginUserID = uid

@@ -26,8 +26,7 @@ struct ChatRoomView: View {
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var messageStore: MessageStore
     @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var notificationManager: PushNotificationManager
-    @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
@@ -111,7 +110,14 @@ struct ChatRoomView: View {
             }
              */
         }
+        .onDisappear {
+            // 초기화 필요.
+            pushNotificationManager.currentChatRoomID = nil
+        }
         .task {
+            // 화면에 진입하는 시점에 채팅방 id를 매니저에게 전달한다.
+            pushNotificationManager.currentChatRoomID = chat.id
+            
             // 유저가 읽지 않은 메세지 갯수를 요청해서 할당
             let unreadMessageCount: Int = await getUnreadCount()
             // 메세지 리스너 실행, 첫 Request가 이루어지기 전이기 때문에 .added에서 메세지를 추가하지 않음
@@ -245,6 +251,21 @@ struct ChatRoomView: View {
                                      currentContent: tempContent)
         messageStore.addMessage(newMessage, chatID: chat.id)
         await chatStore.updateChat(newChat)
+        await sendPushNotification(with: newMessage)
+    }
+    
+    // MARK: Method - Push Notification을 보내는 메소드
+    private func sendPushNotification(with message: Message) async -> Void {
+        print("++++ FUNCTION", chat.id, pushNotificationManager.currentChatRoomID)
+        
+        await pushNotificationManager.sendNotification(
+            with: .chat(
+                title: "New Message has been Arrived!",
+                body: contentField,
+                pushSentFrom: userStore.currentUser?.githubLogin ?? "",
+                chatID: chat.id
+            ), to: targetUserInfo
+        )
     }
     
     // MARK: Method - Chat의 lastContent를 업데이트하는 함수

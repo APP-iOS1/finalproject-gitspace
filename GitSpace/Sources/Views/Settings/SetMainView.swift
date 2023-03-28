@@ -158,19 +158,19 @@ struct SetMainView: View {
                     
                     // MARK: Knock Controls
                     /// 노크 제어
-                    NavigationLink {
-                        SetKnockControlsView(showingKnockControls: .constant(false))
-                    } label: {
-                        HStack {
-                            Image(systemName: "hand.wave")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.gsGray2)
-                            
-                            Text("Knock Controls")
-                        }
-                    }
+//                    NavigationLink {
+//                        SetKnockControlsView(showingKnockControls: .constant(false))
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "hand.wave")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 20, height: 20)
+//                                .foregroundColor(.gsGray2)
+//
+//                            Text("Knock Controls")
+//                        }
+//                    }
                     
                 } header: {
                     Text("APP SETTINGS")

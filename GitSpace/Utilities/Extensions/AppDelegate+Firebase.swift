@@ -14,7 +14,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     
     @Published var isSentKnockView: Bool = false
     
-    @ObservedObject public var pushNotificationManager: PushNotificationManager = PushNotificationManager(currentUserDeviceToken: UserDefaults.standard.string(forKey: Constant.PushNotification.USER_DEVICE_TOKEN))
+    @ObservedObject public var pushNotificationManager: PushNotificationManager = PushNotificationManager(
+        currentUserDeviceToken: UserDefaults.standard.string(
+            forKey: Constant.PushNotification.USER_DEVICE_TOKEN)
+    )
 	
 	func application(_ application: UIApplication,
 					 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -92,19 +95,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		// 포어그라운드일 때 && 현재 채팅 중일때 알람 보여주지 않기 -> 열거형으로 상태 정리 필요
 		// 우선 푸쉬쪽 정리 끝내고 해야할듯
 		let userInfo = notification.request.content.userInfo
-		print(#function, "+++ willPresent: FOREGROUND")
 		
 		do {
 			let pushNotificationData = try JSONSerialization.data(withJSONObject: userInfo)
 			let pushNotificationInfo = try JSONDecoder().decode(GSPushNotification.self, from: pushNotificationData)
-			
+            
+            print("++++ OUT SCOPE", pushNotificationInfo.viewBuildID, pushNotificationManager.currentChatRoomID)
+            
 			// 탭 이동 + 뷰 그릴 때 id 전달
 			if pushNotificationInfo.navigateTo == "knock" {
 				UIApplication.shared.applicationIconBadgeNumber += pushNotificationInfo.aps.badge
-				completionHandler([.banner])
+                completionHandler([.banner, .sound])
 			} else if pushNotificationInfo.navigateTo == "chat" {
+                // 할당된 현재의 메세지 ID와 푸시로 들어온 값의 ID가 동일하다 == 현재 유저가 푸시가 온 화면에 있다.
+                if pushNotificationInfo.viewBuildID == pushNotificationManager.currentChatRoomID {
+                    print("++++ OUT SCOPE", pushNotificationInfo.viewBuildID, pushNotificationManager.currentChatRoomID)
+                    // 알람 비우기
+                    completionHandler([])
+                }
 				UIApplication.shared.applicationIconBadgeNumber += pushNotificationInfo.aps.badge
-				completionHandler([.banner])
+                completionHandler([.banner, .sound])
 			}
 		} catch {
 			print("Error-\(#file)-\(#function): \(error.localizedDescription)")

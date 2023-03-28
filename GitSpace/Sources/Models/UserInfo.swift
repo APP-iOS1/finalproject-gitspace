@@ -15,6 +15,8 @@ struct UserInfo : Identifiable, Codable {
     let createdDate: Date           // 유저 생성일시
     var deviceToken: String         // 유저 기기 토큰
     var blockedUserIDs: [String]    // 차단한 유저 ID 리스트
+    var isKnockPushAvailable: Bool? // Knock 푸시알람 승인여부
+    var isChatPushAvailable: Bool?  // chat 푸시알람 승인여부
     
     // MARK: -Github Properties
     let githubID: Int               // 유저 깃허브 ID값, 받을 때 정수형으로 와서 타입 통일

@@ -187,8 +187,9 @@ struct MainKnockView: View {
                                             userSelectedTab: userSelectedTab
                                         )
                                         .foregroundColor(.primary)
+                                        .id($eachKnock.wrappedValue.id)
                                     }
-                                    .id($eachKnock.wrappedValue.id)
+//                                    .id($eachKnock.wrappedValue.id)
                                     .transition(knockViewManager.trailingTransition)
                                 }
                             }
@@ -376,12 +377,14 @@ struct MainKnockView: View {
                 Text("They won't know you've seen it until you respond.")
                     .foregroundColor(Color(.systemGray))
                 
-                Button {
-                    isDisplayedKnockSettingView.toggle()
-                } label: {
-                    // 나에게 노크 할 수 있는 사람 설정하기
-                    Text("Decide who can Knock on You.")
-                }
+                // !!!: - Knock Sensitive Push Notification Setting
+                // 다음 버전에 구현
+//                Button {
+//                    isDisplayedKnockSettingView.toggle()
+//                } label: {
+//                    // 나에게 노크 할 수 있는 사람 설정하기
+//                    Text("Decide who can Knock on You.")
+//                }
             }
             .font(.caption2)
             .padding(.top, 8)
