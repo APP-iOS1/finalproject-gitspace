@@ -257,13 +257,13 @@ struct MainKnockView: View {
                 }
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(isEditing ? "Cancel" : "Edit") {
-                    withAnimation {
-                        isEditing.toggle()
-                    }
-                }
-            }
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(isEditing ? "Cancel" : "Edit") {
+//                    withAnimation {
+//                        isEditing.toggle()
+//                    }
+//                }
+//            }
             
             ToolbarItem(placement: .navigationBarLeading) {
                 if isSearching {
