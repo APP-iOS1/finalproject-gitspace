@@ -320,7 +320,7 @@ Despite the foregoing, if there is a legitimate reason, such as not being able t
                         .font(.headline)
                     Text(
 """
-**Article 1.** This policy is effective from **2023.04.03**.
+**Article 1.** This policy is effective from **2023.03.28.**.
 
 """).font(.footnote)
                     
