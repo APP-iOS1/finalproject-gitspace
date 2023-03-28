@@ -21,17 +21,25 @@ struct GSTextEditor {
     }
     
     // MARK: -View
-    struct CustomTextEditorView: View {
+    struct CustomTextEditorView : View {
         
         // MARK: -Properties
         // MARK: Stored Properties
+        let const = Constant.TextEditorConst.self
+        
+        // MARK: TextEditor 관련 프로퍼티
         let style: GSTextEditorStyle
         let text: Binding<String>
         let font: Font
         let lineSpace: CGFloat
-        let const = Constant.TextEditorConst.self
-        @State private var textEditorHeight: CGFloat = 0
         
+        // MARK: SendButton 관련 프로퍼티
+        let sendableImage: String
+        let unSendableImage: String
+        let action: () -> Void
+        
+        
+        @State private var textEditorHeight: CGFloat = 0
         @State private var stateTextWidth: CGFloat = 0
         
         // MARK: Computed Properties
@@ -73,6 +81,18 @@ struct GSTextEditor {
             return label.frame.width
         }
         
+        // 메세지 문자열이 비어있는지, 공백으로만 이루어져있는지를 체크해서 메시지 전송 가능 여부를 반환하는 연산 프로퍼티
+        private var isMessageSendable: Bool {
+            let messageText = text.wrappedValue
+            guard messageText.isEmpty == false else { return false }
+            let pattern: String = "^[ \n]*$"
+            if messageText.range(of: pattern,
+                                 options: .regularExpression) != nil {
+                return false
+            }
+            return true
+        }
+        
         // MARK: -Methods
         // MARK: Method - 시작 textEditor 높이를 세팅해주는 메서드
         private func setTextEditorStartHeight() {
@@ -83,16 +103,22 @@ struct GSTextEditor {
         // TextEditor (줄 갯수 * 폰트 높이) + (줄 갯수 * 자간) + 잘림 방지 여유 공간
         private func updateTextEditorCurrentHeight(textEditorWidth: CGFloat) {
             
-            let floatNewLineCounter = CGFloat(newLineCounter) // 개행문자 갯수
-            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth)) // 텍스트 길이에 의한 자동 줄바꿈 갯수
-            let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount // 총 라인 갯수
+            // 개행문자 갯수
+            let floatNewLineCounter = CGFloat(newLineCounter)
+            
+            // 텍스트 길이에 의한 자동 줄바꿈 갯수
+            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth))
+            
+            // 총 라인 갯수
+            let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount
             
             // 라인 갯수로 계산한 현재 Editor 높이
             let tempTextEditorHeight = (floatTotalLineCount * mainFontLineHeight)
             + floatTotalLineCount * lineSpace
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
             
-            let floatMaxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT) // 최대 줄 갯수
+            // 최대 줄 갯수
+            let floatMaxLineCount = CGFloat(const.TEXTEDITOR_MAX_LINE_COUNT)
             
             // 최대 줄 갯수 기준 Editor 높이
             let maxHeight = mainFontLineHeight * floatMaxLineCount
@@ -124,12 +150,18 @@ struct GSTextEditor {
             style: GSTextEditorStyle,
             text: Binding<String>,
             font: Font = .body,
-            lineSpace: CGFloat = 2
+            lineSpace: CGFloat = 2,
+            sendableImage: String,
+            unSendableImage: String,
+            action: @escaping () -> Void
         ) {
             self.style = style
             self.text = text
             self.font = font
             self.lineSpace = lineSpace
+            self.sendableImage = sendableImage
+            self.unSendableImage = unSendableImage
+            self.action = action
         }
         
         
@@ -137,36 +169,54 @@ struct GSTextEditor {
         var body: some View {
             switch style {
             case .message:
-                GeometryReader { proxy in
-                    TextEditor(text: text)
-                        .font(font)
-                        .lineSpacing(lineSpace)
-                        .frame(maxHeight: textEditorHeight)
-                        .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                        .padding(.bottom, -3)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                                .stroke()
-                                .foregroundColor(.gsGray2)
-                        }
-                        .onAppear {
-                            setTextEditorStartHeight()
-                        }
-                        .onChange(of: text.wrappedValue) { n in
-                            // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
-                            let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
-                            let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
-                            let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
-                            
-                            updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
-                        }
-                        .onChange(of: textWidth) { newValue in
-                            stateTextWidth = newValue
-                        }
+                HStack {
+                    GeometryReader { proxy in
+                        TextEditor(text: text)
+                            .font(font)
+                            .lineSpacing(lineSpace)
+                            .frame(maxHeight: textEditorHeight)
+                            .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
+                            .padding(.bottom, -3)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                                    .stroke()
+                                    .foregroundColor(.gsGray2)
+                            }
+                            .onAppear {
+                                setTextEditorStartHeight()
+                            }
+                            .onChange(of: text.wrappedValue) { n in
+                                // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
+                                let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+                                let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
+                                let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
+                                
+                                updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
+                            }
+                            .onChange(of: textWidth) { newValue in
+                                stateTextWidth = newValue
+                            }
+                    }
+                    .frame(maxHeight: textEditorHeight)
+                    
+                    Button {
+                        action()
+                    } label: {
+                        Image(systemName: isMessageSendable
+                              ? sendableImage
+                              : unSendableImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 22, height: 22)
+                            .foregroundColor(isMessageSendable
+                                             ? .primary
+                                             : .gsGray2)
+                    }
+                    .disabled(!isMessageSendable)
                 }
-                .frame(maxHeight: textEditorHeight)
             }
         }
     }
 }
+
 

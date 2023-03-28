@@ -9,12 +9,14 @@ import SwiftUI
 
 struct MainHomeView: View {
     
+    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @ObservedObject var eventViewModel = EventViewModel(gitHubService: GitHubService())
     @State private var selectedHomeTab = "Starred"
-    @ObservedObject var eventViewModel = EventViewModel()
+    
     private let starTab = "Starred"
     private let activityTab = "Activity"
-    let gitHubService = GitHubService()
+    private let service = GitHubService()
     
     var body: some View {
         VStack {
@@ -69,34 +71,29 @@ struct MainHomeView: View {
             /* Starred, Activity View */
             switch selectedHomeTab {
             case starTab:
-                StarredView(service: gitHubService)
+                StarredView()
                     .ignoresSafeArea()
+                    .task {
+                        await userStore.requestUsers()
+                    }
             case activityTab:
                 ActivityView(eventViewModel: eventViewModel)
                     .ignoresSafeArea()
+                    .task {
+                        guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
+                        do {
+                            try await eventViewModel.requestAuthenticatedUserReceivedEvents(who: currentGitHubUser)
+                        } catch(let error) {
+                            print(error)
+                        }
+                        
+                    }
             default:
                 Text("네트워크 에러입니다.")
             }
             
         }
-        .task {
-            
-            guard let currentGitHubUser = gitHubAuthManager.authenticatedUser?.login else { return }
-            
-            let activitiesResult = await gitHubService.requestAuthenticatedUserReceivedEvents(userName: currentGitHubUser, page: 1)
-            
-            eventViewModel.events.removeAll()
-            
-            switch activitiesResult {
-            case .success(let events):
-                eventViewModel.events = events.filter { $0.type == "PublicEvent" || $0.type == "WatchEvent" || $0.type == "ForkEvent" || $0.type == "CreateEvent" }
-            case .failure(let error):
-                print(error)
-            }
-            
-            await eventViewModel.fetchEventActors()
-            await eventViewModel.fetchEventRepositories()
-        }
+        
         // FIXME: - 추후 네비게이션 타이틀 지정 (작성자: 제균)
         .navigationTitle("")
         .toolbar {
@@ -106,14 +103,16 @@ struct MainHomeView: View {
                     .bold()
             }
             
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    NotificationView()
-                } label: {
-                    Image(systemName: "bell")
-                        .foregroundColor(.black)
-                }
-            }
+            //TODO: - 이후 push notication 기능이 완전히 구현되었을 때 다시 넣을 예정
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                NavigationLink {
+//                    NotificationView()
+//                } label: {
+//                    Image(systemName: "bell")
+//                        .foregroundColor(.primary)
+//                }
+//            }
+            
         }
     }
 }

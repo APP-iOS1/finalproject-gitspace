@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct KnockHistoryView: View {
-	@State var eachKnock: Knock
+	@Binding var eachKnock: Knock
 	@Binding var userSelectedTab: String
 	@EnvironmentObject var knockViewManager: KnockViewManager
 	@EnvironmentObject var tabBarRouter: GSTabBarRouter
-	
+    @EnvironmentObject var userInfoManager: UserStore
+    @State private var targetUserInfo: UserInfo? = nil
+    
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-//			TopperProfileView()
+            if let targetUserInfo {
+                TopperProfileView(targetUserInfo: targetUserInfo)
+            }
 			
 			Text(
 				userSelectedTab == Constant.KNOCK_RECEIVED
@@ -26,10 +30,10 @@ struct KnockHistoryView: View {
 				.font(.footnote)
 				.padding(.bottom, 4)
 			
-			Text(eachKnock.knockedDate.dateValue().formattedDateString())
-				.foregroundColor(.gray)
-				.font(.footnote)
-			
+            Text(eachKnock.knockedDate.dateValue().formattedDateString())
+                .foregroundColor(.gsLightGray2)
+                .font(.footnote)
+            
 			HStack {
 				Text("Knock Message")
 					.foregroundColor(.gsLightGray2)
@@ -37,12 +41,13 @@ struct KnockHistoryView: View {
 				
 				Spacer()
 				
-				Button {
-					print()
-				} label: {
-					Image(systemName: "pencil")
-						.foregroundColor(.gsLightGray2)
-				}
+                // !!!: - 언젠가는 메시지 수정이 가능하도록.
+//				Button {
+//					print()
+//				} label: {
+//					Image(systemName: "pencil")
+//						.foregroundColor(.gsLightGray2)
+//				}
 
 			}
 			.padding([.top, .horizontal], 20)
@@ -50,8 +55,9 @@ struct KnockHistoryView: View {
 			
 			VStack(alignment: .leading) {
 				HStack {
-					Text("**\(eachKnock.knockMessage)**")
+					Text("\(eachKnock.knockMessage)")
 						.font(.callout)
+                        .foregroundColor(Color.black)
 				}
 				.frame(maxWidth: UIScreen.main.bounds.width)
 				.padding(.vertical, 36)
@@ -112,9 +118,9 @@ struct KnockHistoryView: View {
 							: "Knock Message sent to **\(eachKnock.receivedUserName)**."
 						)
 						
-						Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-							.foregroundColor(.gsLightGray2)
-							.font(.footnote)
+                        Text(eachKnock.knockedDate.dateValue().formattedDateString())
+                            .foregroundColor(.gsLightGray2)
+                            .font(.footnote)
 					}
 					
 					Spacer()
@@ -122,7 +128,7 @@ struct KnockHistoryView: View {
 				.padding(.bottom, 16)
 				
 				switch eachKnock.knockStatus {
-				case "Waiting":
+                case Constant.KNOCK_WAITING:
 					HStack(alignment: .top, spacing: 32) {
 						Circle()
 							.frame(maxWidth: 16, maxHeight: 16)
@@ -132,49 +138,9 @@ struct KnockHistoryView: View {
 						VStack(alignment: .leading, spacing: 4) {
 							Text("Knock Message is Pending.")
 							
-							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-								.foregroundColor(.gsLightGray2)
-								.font(.footnote)
-						}
-					}
-					.padding(.bottom, 16)
-				case "Accepted":
-					HStack(alignment: .top, spacing: 32) {
-						Circle()
-							.frame(maxWidth: 16, maxHeight: 16)
-							.foregroundColor(.green)
-							.offset(y: 3)
-						
-						VStack(alignment: .leading, spacing: 4) {
-							Text(
-								userSelectedTab == Constant.KNOCK_RECEIVED
-								? "You has Checked **\(eachKnock.sentUserName)**'s Knock Message."
-								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
-							)
-							
-							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-								.foregroundColor(.gsLightGray2)
-								.font(.footnote)
-						}
-					}
-					.padding(.bottom, 16)
-				case "Declined":
-					HStack(alignment: .top, spacing: 32) {
-						Circle()
-							.frame(maxWidth: 16, maxHeight: 16)
-							.foregroundColor(.green)
-							.offset(y: 3)
-						
-						VStack(alignment: .leading, spacing: 4) {
-							Text(
-								userSelectedTab == Constant.KNOCK_RECEIVED
-								? "You has Checked **\(eachKnock.sentUserName)**'s Knock Message."
-								: "**\(eachKnock.receivedUserName)** has Checked your Knock Message."
-							)
-							
-							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-								.foregroundColor(.gsLightGray2)
-								.font(.footnote)
+                            Text(eachKnock.knockedDate.dateValue().formattedDateString())
+                                .foregroundColor(.gsLightGray2)
+                                .font(.footnote)
 						}
 					}
 					.padding(.bottom, 16)
@@ -184,9 +150,9 @@ struct KnockHistoryView: View {
 				Spacer()
 				
 				switch eachKnock.knockStatus {
-				case "Waiting":
+                case Constant.KNOCK_WAITING:
 					EmptyView()
-				case "Accepted":
+				case Constant.KNOCK_ACCEPTED:
 					HStack(alignment: .top, spacing: 32) {
 						Circle()
 							.frame(maxWidth: 16, maxHeight: 16)
@@ -198,13 +164,14 @@ struct KnockHistoryView: View {
 								? "You has Accepted **\(eachKnock.sentUserName)**'s Knock Message."
 								: "**\(eachKnock.receivedUserName)** has Accepted your Knock Message."
 							)
+                            .multilineTextAlignment(.leading)
 							
-							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-								.foregroundColor(.gsLightGray2)
-								.font(.footnote)
+                            Text(eachKnock.acceptedDate?.dateValue().formattedDateString() ?? "")
+                                .foregroundColor(.gsLightGray2)
+                                .font(.footnote)
 						}
 					}
-				case "Declined":
+                case Constant.KNOCK_DECLINED:
 					HStack(alignment: .top, spacing: 32) {
 						Circle()
 							.frame(maxWidth: 16, maxHeight: 16)
@@ -217,10 +184,11 @@ struct KnockHistoryView: View {
 								? "You has Declined **\(eachKnock.sentUserName)**'s Knock Message."
 								: "**\(eachKnock.receivedUserName)** has Declined your Knock Message."
 							)
+                            .multilineTextAlignment(.leading)
 							
-							Text("\(eachKnock.knockedDate.dateValue().formattedDateString())")
-								.foregroundColor(.gsLightGray2)
-								.font(.footnote)
+                            Text(eachKnock.declinedDate?.dateValue().formattedDateString() ?? "")
+                                .foregroundColor(.gsLightGray2)
+                                .font(.footnote)
 							
 							Divider()
 								.padding(.vertical, 8)
@@ -239,6 +207,14 @@ struct KnockHistoryView: View {
 			}
 			.padding(.horizontal, 20)
 		}
+        .task {
+            // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
+            if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
+            } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
+                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+            }
+        }
 		.toolbar {
 			ToolbarItem(placement: .principal) {
 				HStack {

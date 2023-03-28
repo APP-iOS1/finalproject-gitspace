@@ -19,11 +19,12 @@ struct AddTagSheetView: View {
     @EnvironmentObject var tagViewModel: TagViewModel
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
+    @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
     @StateObject private var keyboardHandler = KeyboardHandler()
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
-    let repositoryName: String?
+    let selectedRepository: Repository?
     
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
@@ -46,45 +47,94 @@ struct AddTagSheetView: View {
     func addNewTag() {
         if shouldBlankTag && shouldExistTag {
             Task {
-                await tagViewModel.registerTag(tagName: trimmedTagInput)
+                guard let newTag = await tagViewModel.registerTag(tagName: trimmedTagInput) else {
+                    print("Error-\(#file)-\(#function): Failed Add New Tag.")
+                    return
+                }
                 withAnimation {
-                    tagViewModel.tags.append( Tag(tagName: trimmedTagInput, repositories: []) )
+                    tagViewModel.tags.append( newTag )
                 }
                 tagInput = ""
             }
         }
     }
     
+    // MARK: Selection Tag Method
+    /// - Parameter tag: selected tag
+    /// - Description
+    /// 태그를 선택할 경우 발생하는 로직을 수행하는 메서드입니다.
+    /// 선택되지 않은 태그를 선택할 경우와 이미 선택된 태그를 선택할 경우로 분기처리된다.
     func selectTag(to tag: Tag) {
         if selectedTags.contains(tag) {
-            let selectedIndex: Int = selectedTags.firstIndex(of: tag)!
+            deselectedTags.append(tag)
+            guard let selectedIndex: Int = selectedTags.firstIndex(of: tag) else {
+                return
+            }
             selectedTags.remove(at: selectedIndex)
         } else {
             selectedTags.append(tag)
+            guard let deselectedIndex: Int = deselectedTags.firstIndex(of: tag) else {
+                return
+            }
+            deselectedTags.remove(at: deselectedIndex)
+        }
+    }
+    
+    // MARK: Register Selected Tags
+    /// - Description
+    /// 선택한 태그들을 실제로 등록합니다.
+    /// 이전 뷰가 StarredView이면 Selected Tags 기능에 등록하고, RepositoryDetailView이면 Repository에 적용합니다.
+    func registerSelectedTags() {
+        /*
+         모달을 내리기 전에
+         사용자가 선택한 태그들(selectedTags)를
+         preSelectedTag(Binding Property)에 추가한다.
+        */
+        preSelectedTags = selectedTags
+        switch beforeView {
+        case .repositoryDetailView:
+            Task {
+                guard let repository = selectedRepository else {
+                    print("Error-\(#file)-\(#function): Failed Optional unwrapping.")
+                    return
+                }
+                if !selectedTags.isEmpty {
+                    await tagViewModel.addRepositoryTag(preSelectedTags, to: repository.fullName)
+                }
+                if !deselectedTags.isEmpty {
+                    await tagViewModel.deleteRepositoryTag(deselectedTags, to: repository.fullName)
+                }
+            }
+        case .starredView:
+            if !selectedTags.isEmpty {
+                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
+            } else {
+                repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+            }
         }
     }
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack {
                     Spacer()
                         .frame(height: 30)
                     
                     // MARK: - 새 태그 추가 섹션
                     // 새 태그 추가 안내문
-                    Group {
-                        Text("Add if you want new tags 💬")
-                            .foregroundColor(Color(.systemGray))
-                            .font(.callout)
+                    VStack(alignment: .leading) {
+                        GSText.CustomTextView(
+                            style: .caption1,
+                            string: "Add if you want new tags 💬")
                         
                         HStack {
-                            TextField("tag name", text: $tagInput)
-                                .textFieldStyle(.roundedBorder)
-                                .onSubmit {
-                                    addNewTag()
-                                }
-                            
+                            GSTextField.CustomTextFieldView(
+                                style: .addTagField,
+                                text: $tagInput)
+                            .onSubmit {
+                                addNewTag()
+                            }
                             // 태그 추가 버튼
                             Button {
                                 // FIXME: Animation이 너무 못생겼음.
@@ -93,7 +143,7 @@ struct AddTagSheetView: View {
                             } label: {
                                 Image(systemName: "plus")
                                     .font(.title2)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                                     .padding(5)
                             }
                         }
@@ -101,8 +151,8 @@ struct AddTagSheetView: View {
                     }
                     
                     // MARK: - 태그 선택 섹션
-                    // 기존 태그 선택 안내문
-                    Group {
+                    /// 기존 태그 선택 안내문
+                    VStack(alignment: .leading) {
                         if tagViewModel.tags.isEmpty {
                             VStack(spacing: 10) {
                                 Image("GitSpace-Tag-Empty")
@@ -110,21 +160,24 @@ struct AddTagSheetView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 300, height: 300)
                                 
-                                Text("There is no tag!")
-                                    .font(.title)
-                                    .foregroundColor(.gsGray2)
-                                    .multilineTextAlignment(.center)
+                                GSText.CustomTextView(
+                                    style: .title1,
+                                    string: "There is no tags!")
+                                .multilineTextAlignment(.center)
                             }
                         } else {
-                            Text(beforeView == .starredView ? "Select tags from your tag list 🙌" : "Select tags from your repository tag list 🙌" )
-                                .foregroundColor(Color(.systemGray))
-                                .font(.callout)
-                            /* selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다. */
-                            FlowLayout(mode: .scrollable, items: Array(zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed()))) { index, tag in
+                            GSText.CustomTextView(
+                                style: .caption1,
+                                string: beforeView == .starredView ? "Select tags from your tag list 🙌" : "Select tags from your repository tag list 🙌")
+
+                            /// selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다.
+                            FlowLayout(
+                                mode: .scrollable,
+                                items: Array( zip(tagViewModel.tags.indices.reversed(), tagViewModel.tags.reversed())) ) { index, tag in
                                 GSButton.CustomButtonView(
                                     style: .tag(
-                                        isSelected: selectedTags.contains(tag),
-                                        isEditing: false
+//                                        isAppliedInView: selectedTags.contains(tag),
+                                        isSelectedInAddTagSheet: selectedTags.contains(tag)
                                     )
                                 ) {
                                     withAnimation {
@@ -133,17 +186,21 @@ struct AddTagSheetView: View {
                                 } label: {
                                     Text("\(tag.tagName)")
                                         .font(.callout)
+                                    // FIXME: GSText의 Text 색상
+                                    /// GSText에는 버튼이 선택되어 있는지에 따라 Text 색상이 바뀌게 하거나, 기존 Text 쓰거나 선택해야 한다.
+//                                    GSText.CustomTextView(
+//                                        style: .captionPrimary1,
+//                                        string: "\(tag.tagName)")
                                 }
                                 .tag("\(tag.tagName)")
                                 .contextMenu {
                                     Button {
-                                        print("삭제")
                                         Task {
                                             await tagViewModel.deleteTag(tag: tag)
                                             tagViewModel.tags.remove(at: index)
                                         }
                                     } label: {
-                                        Label("태그 삭제하기", systemImage: "trash")
+                                        Label("delete tag", systemImage: "trash")
                                     }
                                 }
                                 .transition(.opacity.combined(with: .move(edge: .leading)))
@@ -165,26 +222,7 @@ struct AddTagSheetView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            /*
-                             모달을 내리기 전에
-                             사용자가 선택한 태그들(selectedTags)를
-                             preSelectedTag에 추가한다.
-                             */
-                            preSelectedTags = selectedTags
-                            switch beforeView {
-                            case .repositoryDetailView:
-                                Task {
-                                    // FIXME: 실제 레포 이름 가져오기
-                                    guard let repositoryName = repositoryName else { return }
-                                    await tagViewModel.addRepositoryTag(preSelectedTags, repositoryFullname: repositoryName)
-                                }
-                            case .starredView:
-                                if !preSelectedTags.isEmpty {
-                                    repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
-                                } else {
-                                    repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
-                                }
-                            }
+                            registerSelectedTags()
                             dismiss()
                         } label: {
                             Text("Done")
@@ -205,12 +243,12 @@ struct AddTagSheetView: View {
     }
 }
 
-struct AddTagSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
-                .environmentObject(RepositoryViewModel())
-                .environmentObject(TagViewModel())
-        }
-    }
-}
+//struct AddTagSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            AddTagSheetView(preSelectedTags: .constant( [Tag(tagName: "MVVM", repositories: [])] ), selectedTags: [], beforeView: .starredView, repositoryName: "")
+//                .environmentObject(RepositoryViewModel())
+//                .environmentObject(TagViewModel())
+//        }
+//    }
+//}

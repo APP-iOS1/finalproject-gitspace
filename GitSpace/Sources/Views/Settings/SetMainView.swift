@@ -158,19 +158,19 @@ struct SetMainView: View {
                     
                     // MARK: Knock Controls
                     /// 노크 제어
-                    NavigationLink {
-                        SetKnockControlsView(showingKnockControls: .constant(false))
-                    } label: {
-                        HStack {
-                            Image(systemName: "hand.wave")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.gsGray2)
-                            
-                            Text("Knock Controls")
-                        }
-                    }
+//                    NavigationLink {
+//                        SetKnockControlsView(showingKnockControls: .constant(false))
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "hand.wave")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 20, height: 20)
+//                                .foregroundColor(.gsGray2)
+//
+//                            Text("Knock Controls")
+//                        }
+//                    }
                     
                 } header: {
                     Text("APP SETTINGS")
@@ -181,7 +181,7 @@ struct SetMainView: View {
                     // MARK: Licenses
                     /// 라이센스
                     NavigationLink {
-                        
+                        SetLicensesView()
                     } label: {
                             Text("Licenses")
                     }
@@ -189,9 +189,11 @@ struct SetMainView: View {
                     // MARK: Terms of Service
                     /// 이용약관
                     NavigationLink {
-                        TermsOfServiceView(urlToLoad: "https://industrious-expansion-4bf.notion.site/1fe25eb31ca541f8b82a97f87bce81c0")
+                        TermsOfServiceView()
+//                        TermsOfServiceView(urlToLoad: "https://industrious-expansion-4bf.notion.site/1fe25eb31ca541f8b82a97f87bce81c0")
+                        
                     } label: {
-                            Text("Terms of Service")
+                            Text("Terms of Service & Privacy Policy")
                     }
                     
                 } header: {
@@ -203,8 +205,8 @@ struct SetMainView: View {
     } // body
 }
 
-struct SetMainView_Previews: PreviewProvider {
-    static var previews: some View {
-        SetMainView()
-    }
-}
+//struct SetMainView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SetMainView()
+//    }
+//}

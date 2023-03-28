@@ -31,14 +31,13 @@ struct GSLabelModifier: ViewModifier {
 				.frame(minWidth: 80)
 				.frame(maxHeight: maxHeight)
 				
-		case let .tertiary(isSelected):
+		case let .tertiary(isAppliedInView, isSelectedInAddTagSheet):
 			content
 				.foregroundColor(
-					colorScheme == .light
-					? tertiaryLightForegroundColor(
-						isSelected: isSelected)
-					: tertiaryDarkForegroundColor(
-						isSelected: isSelected)
+                    tertiaryForegroundColorBuilder(
+                        isAppliedInView: isAppliedInView,
+                        isSelectedInAddTagSheet: isSelectedInAddTagSheet
+                    )
 				)
 				.padding(.horizontal, 12)
 				.padding(.vertical, 9)
@@ -47,21 +46,38 @@ struct GSLabelModifier: ViewModifier {
 		}
 	}
 	
-	private func tertiaryLightForegroundColor(isSelected: Bool?) -> Color {
-		if let isSelected {
-			if isSelected { return .black }
-			else { return .white }
-		} else {
-			return .black
-		}
-	}
-	
-	private func tertiaryDarkForegroundColor(isSelected: Bool?) -> Color {
-		if let isSelected {
-			if isSelected { return .black }
-			else { return .white }
-		} else {
-			return .black
-		}
-	}
+    private func tertiaryForegroundColorBuilder(
+        isAppliedInView: Bool?,
+        isSelectedInAddTagSheet: Bool?
+    ) -> Color {
+        if isAppliedInView != nil {
+            return .black
+//            switch colorScheme {
+//            case .light:
+//                return .black
+//            case .dark:
+//                return .black
+//            default:
+//                return .primary
+//            }
+        } else if let isSelectedInAddTagSheet {
+            switch colorScheme {
+            case .light:
+                if isSelectedInAddTagSheet {
+                    return .white
+                } else if !isSelectedInAddTagSheet {
+                    return .black
+                }
+            case .dark:
+                if isSelectedInAddTagSheet {
+                    return .white
+                } else if !isSelectedInAddTagSheet {
+                    return .white
+                }
+            @unknown default:
+                return .white
+            }
+        }
+        return .black
+    }
 }

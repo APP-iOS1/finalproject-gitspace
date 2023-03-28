@@ -15,6 +15,8 @@ struct UserInfo : Identifiable, Codable {
     let createdDate: Date           // 유저 생성일시
     var deviceToken: String         // 유저 기기 토큰
     var blockedUserIDs: [String]    // 차단한 유저 ID 리스트
+    var isKnockPushAvailable: Bool? // Knock 푸시알람 승인여부
+    var isChatPushAvailable: Bool?  // chat 푸시알람 승인여부
     
     // MARK: -Github Properties
     let githubID: Int               // 유저 깃허브 ID값, 받을 때 정수형으로 와서 타입 통일
@@ -31,7 +33,7 @@ struct UserInfo : Identifiable, Codable {
     let following: Int              // following
     
     // MARK: Date를 문자열로 반환하는 연산 프로퍼티
-    var stringDate: String {
+    var createdDateAsString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ko_kr")
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
@@ -40,7 +42,7 @@ struct UserInfo : Identifiable, Codable {
     }
 	
 	static func getFaliedUserInfo() -> Self {
-		let userinfo = UserInfo(id: "FALIED", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
+		let userinfo = UserInfo(id: "PJjxY5xHGZXXsMGqpyWExd50iDP2", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
 		return userinfo
 	}
 }

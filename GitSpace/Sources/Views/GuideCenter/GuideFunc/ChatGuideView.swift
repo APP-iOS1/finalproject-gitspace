@@ -12,8 +12,9 @@ struct ChatGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Chat with the contributor of the Starred Repo!")
+                        Text("Connect with contributors of your starred repositories 👥")
                             .font(.system(size: 22, weight: .light))
+                            .foregroundColor(.gsGray1)
                         
                         Spacer()
                     }
@@ -22,38 +23,14 @@ struct ChatGuideView: View {
                     
                     Text(
 """
-정중한 대화의 시작, 노크에 대한 모든 것을 하나의 목록으로 정리해 보았습니다. 궁금한 점이 생기거나 팁이 필요할 때 언제든지 자유롭게 참고하세요.
+Once the Knock message is approved, you are all set to start your conversations! \nIt is your chance to talk to worldwide developers with awesome projects on GitHub, build connections, as well as to be exposed within the community. You are free to ask questions, give suggestions, offer a job interview, and more just like on any other chatting app. \nPlease remember that we are all unfamiliar to each other, and that **we must respect one another in the community.** Please be reasonable, gentle, and considerate with your language.
 """)
                     .padding(.vertical)
                     
-                    Text("노크하기")
-                        .font(.title2)
-                        .bold()
                     
-                    Text(
-"""
-1. 대화 하고 싶은 상대를 선택합니다.
-2. 대화의 목적을 선택합니다.
-3. 노크 메세지를 작성합니다.
-4. 상대방이 당신의 노크를 승인하면 대화를 시작할 수 있어요!
-""")
-                    
-                    Text("노크 응답하기")
-                        .font(.title2)
-                        .bold()
-                        .padding(.top)
-                    
-                    Text(
-"""
-1. 응답할 노크를 선택합니다.
-2. 대화를 승인할 지, 거절할 지 아니면 차단할 지 선택합니다.
-3. 다음과 같이 의심스럽거나 부적절한 행동은 발견 즉시 신고해 주세요.
-    - 금전 요구
-    - 괴롭힘 또는 협박
-    - 스팸
-""")
                 } // VStack
                 .padding(.horizontal)
+                .lineSpacing(2.5)
             } // ScrollView
             .navigationBarTitle("Chat")
     } // body

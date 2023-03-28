@@ -8,23 +8,24 @@
 import SwiftUI
 
 struct ActivityFeedView: View {
-
-    let gitHubService: GitHubService
-    let event: Event
     
-    init(service: GitHubService, event: Event) {
-        self.gitHubService = service
-        self.event = event
-    }
+    @ObservedObject var eventViewModel: EventViewModel
+    @State private var user: GithubUser?
+    @State private var repository: Repository?
+    
+    let event: Event
 
     var body: some View {
-
-        // CreateEvent, ForkEvent, WatchEvent(star), PublicEvent 만을 보여줌
         
         HStack(spacing: 25) {
             // FIXME: - UserProfileView로 보내기 위해 GithubUser 필요
             NavigationLink {
-//                UserProfileView(service: git, user: <#T##GithubUser#>)
+                if let user {
+                    TargetUserProfileView(user: user)
+                } else {
+                    // TODO: - 유저 정보를 불러오지 못했다는 텅뷰
+                    Text("Cannot load user information")
+                }
             } label: {
                 if let url = URL(string: event.actor.avatarURL) {
                     AsyncImage(url: url) { image in
@@ -50,59 +51,50 @@ struct ActivityFeedView: View {
             }
                 .foregroundColor(.primary)
 
-            HStack {
-                VStack(alignment: .leading, spacing: 10) {
+            VStack {
+                HStack {
                     NavigationLink {
-//                        UserProfileView(service: <#T##GitHubService#>, user: <#T##GithubUser#>)
-//                        ProfileDetailView()
+                        if let user {
+                            TargetUserProfileView(user: user)
+                        } else {
+                            // TODO: - 유저 정보를 불러오지 못했다는 텅뷰
+                            Text("Cannot load user information")
+                        }
                     } label: {
                         GSText.CustomTextView(style: .title3, string: event.actor.login)
                     }
-
-                    NavigationLink {
-//                        RepositoryDetailView(service: gitHubService, repository: <#Repository#>)
-                    } label: {
-                        GSText.CustomTextView(style: .body1, string: "\(event.actor.login) \(makeFeedSentence(type: event.type, repository: event.repo.name))")
-                            .multilineTextAlignment(.leading)
-                    }
-                }
-                
-                Spacer()
-                
-                VStack {
-                    // FIXME: - 이벤트 종류에 따른 메뉴 분기처리하기
+                    
+                    Spacer()
+                    
                     Menu {
+//                        Button(role: .none) {
+//                            // action
+//                        } label: {
+//                            Text("Star")
+//                                .foregroundColor(.red)
+//                            Image(systemName: "star")
+//                                .renderingMode(.original)
+//                        }
                         
-                        // FIXME: - GSButton으로 수정필요, role을 연관값으로 가진 style이 아직 없어서 중단
-                        Button(role: .none) {
-                            // action
-                        } label: {
-                            Text("Chat")
-                            Image(systemName: "bubble.left")
-                                .renderingMode(.original)
-                        }
+//                        Divider()
+//
+//                        Button(role: .destructive) {
+//                            // action
+//                        } label: {
+//                            Text("Unstar")
+//                            Image(systemName: "star.slash")
+//                                .renderingMode(.original)
+//                        }
 
-                        Button(role: .none) {
-                            // action
-                        } label: {
-                            Text("Star")
-                                .foregroundColor(.red)
-                            Image(systemName: "star")
-                                .renderingMode(.original)
-                        }
-                        
-                        Divider()
-
+                        // !!!: - 경고: 정말 Unfollow 하시겠습니까?
                         Button(role: .destructive) {
-                            // action
-                        } label: {
-                            Text("Unstar")
-                            Image(systemName: "star.slash")
-                                .renderingMode(.original)
-                        }
-
-                        Button(role: .destructive) {
-
+                            Task {
+                                do {
+                                    try await eventViewModel.requestToUnfollowUser(who:event.actor.login)
+                                } catch(let error) {
+                                    print("unfollow 실패: \(error)")
+                                }
+                            }
                         } label: {
                             Text("Unfollow User")
                             Image(systemName: "person.badge.minus")
@@ -112,18 +104,52 @@ struct ActivityFeedView: View {
                         Image(systemName: "ellipsis")
                     }
                         .foregroundColor(.primary)
-
+                }
+                
+                Spacer()
+                
+                HStack(alignment: .bottom) {
+                    NavigationLink {
+                        if let repository {
+                            RepositoryDetailView(service: GitHubService(), repository: repository)
+                        } else {
+                            // TODO: - 레포 정보를 불러오지 못했다는 텅뷰
+                            Text("Cannot load repository information")
+                        }
+                    } label: {
+                        GSText.CustomTextView(style: .body1, string: "\(event.actor.login) \(makeFeedSentence(type: event.type, repository: event.repo.name))")
+                            .multilineTextAlignment(.leading)
+                    }
+                    
                     Spacer()
                     
                     GSText.CustomTextView(style: .caption2, string: "\(event.createdAt.stringToDate().timeAgoDisplay())")
-
                 }
             } // vstack
         } // hstack
+        .task {
+            let userResult = await eventViewModel.requestUserInformation(who: event.actor.login)
+            let repositoryResult = await eventViewModel.requestRepositoryInformation(repository: event.repo.name)
+            
+            switch userResult {
+            case .success(let user):
+                self.user = user
+            case .failure:
+                self.user = nil
+            }
+            
+            switch repositoryResult {
+            case .success(let repository):
+                self.repository = repository
+            case .failure:
+                self.repository = nil
+            }
+            
+        }
         .padding(.horizontal)
     } // body
     
-    func makeFeedSentence(type: String?, repository: String) -> String {
+    private func makeFeedSentence(type: String?, repository: String) -> String {
         switch type {
         case "PublicEvent":
             return "made **\(repository)** public"
@@ -141,6 +167,6 @@ struct ActivityFeedView: View {
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityFeedView(service: GitHubService(), event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
+        ActivityFeedView(eventViewModel: EventViewModel(gitHubService: GitHubService()), event: Event(id: "", type: "", actor: Actor(id: 0, login: "", displayLogin: "", gravatarID: "", url: "", avatarURL: ""), repo: Repo(id: 0, name: "", url: ""), public: true, createdAt: ""))
     }
 }

@@ -21,6 +21,8 @@ public enum Constant {
 	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
 		static let KNOCK_DECLINED_NOTIFICATION: String = "isDeclinedKnockNotificationEnabeld"
+        static let IS_KNOCK_PUSH_NOTIFICATION_TURNED_ON: String = "IS_KNOCK_PUSH_NOTIFICATION_TURNED_ON"
+        static let IS_CHAT_PUSH_NOTIFICATION_TURNED_ON: String = "IS_CHAT_PUSH_NOTIFICATION_TURNED_ON"
         static let CHATROOM_NOTIFICATION: String = "isChatRoomNotificationEnabled"
         static let USER_CHAT_BLOCK: String = "isUserChatBlocked"
 	}
@@ -28,7 +30,32 @@ public enum Constant {
 	enum PushNotification {
 		static let SERVER_KEY: String = Bundle.main.object(forInfoDictionaryKey: "SERVER_KEY") as? String ?? ""
 		static let PUSH_NOTIFICATION_ENDPOINT: String = Bundle.main.object(forInfoDictionaryKey: "PUSH_NOTIFICATION_ENDPOINT") as? String ?? ""
+        static let USER_DEVICE_TOKEN: String = "userDeviceToken"
 	}
+    
+    enum FirestorePathConst {
+        static let COLLECTION_CHAT: String = "Chat"
+        static let FIELD_JOINED_MEMBER_IDS: String = "joinedMemberIDs"
+        static let FIELD_LAST_CONTENT_DATE: String = "lastContentDate"
+        static let FIELD_LAST_CONTENT: String = "lastContent"
+        static let FIELD_UNREAD_MESSAGE_COUNT: String = "unreadMessageCount"
+        
+        static let COLLECTION_MESSAGE: String = "Message"
+        static let FIELD_SENT_DATE: String = "sentDate"
+        static let FIELD_TEXT_CONTENT: String = "textContent"
+        
+        static let COLLECTION_USER_INFO: String = "UserInfo"
+        static let FIELD_GITHUB_ID: String = "githubID"
+        static let FIELD_DEVICE_TOKEN: String = "deviceToken"
+        static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        static let FIELD_IS_KNOCK_PUSH_AVAILABLE: String = "isKnockPushAvailable"
+        static let FIELD_IS_CHAT_PUSH_AVAILABLE: String = "isChatPushAvailable"
+        
+        static let COLLECTION_TAG: String = "Tag"
+        static let FIELD_ID: String = "id"
+        static let FIELD_TAGNAME: String = "tagName"
+        static let FIELD_REPOSITORIES: String = "repositories"
+    }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
     enum GSTextConst {
@@ -77,30 +104,14 @@ public enum Constant {
         static let DESCRIPTION2_SIZE: CGFloat = 13
         static let DESCRIPTION2_FONT_WEIGHT: Font.Weight = .regular
         static let DESCRIPTION2_COLOR: Color = Color.gsGray2
+        
+        static let BUTTON_TITLE1_SIZE: CGFloat = 16
+        static let BUTTON_TITLE1_FONT_WEIGHT: Font.Weight = .semibold
+        static let BUTTON_TITLE1_COLOR: Color = Color.black
 
     }
-	/* EXAMPLE
-	 
-	 enum Example {
-		static let HORIZONTAL_PADDING: CGFloat = 24
-	 }
-	 
-	 enum Button {
-		 static let script = 24
-		 static let editButton = 40
-		 static let defaultButton = 48
-		 static let camperAuthButtonHeight = 48
-		 static let domainWidth = 120
-		 static let domainHeight = 60
-		 static let camera = 24
-		 static let blogLinkChangeWidth = 50
-		 static let blogLinkChangeHeight = 30
-	 }
-	 */
-
     
     enum TextFieldConst {
-        
         static let SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE: CGFloat = 8
         static let SEARCHBAR_INSET_HORIZONTAL: CGFloat = 14
         static let SEARCHBAR_INSET_VERTICAL: CGFloat = 12
@@ -112,12 +123,9 @@ public enum Constant {
         static let ADDTAG_INSET_VERTICAL: CGFloat = 10
         static let ADDTAG_CORNER_RADIUS: CGFloat = 10
         static let ADDTAG_FIELD_PLACEHOLDER: String = "Tag name"
-        
     }
     
     enum TextEditorConst {
-        
-        
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
@@ -128,6 +136,10 @@ public enum Constant {
 	public enum LabelHierarchy {
 		case primary
 		case secondary
-		case tertiary(isSelected: Bool? = nil)
+        // 전자의 연관값으로 흑백, 후자의 연관값으로 청노를 구분한다.
+        case tertiary(
+            isAppliedInView: Bool? = nil,
+            isSelectedInAddTagSheet: Bool? = nil
+        )
 	}
 }

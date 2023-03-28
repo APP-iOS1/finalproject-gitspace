@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct SetNotificationsView: View {
+    @State private var isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
+    @State private var isPushNotificationAlertDisplayed: Bool = false
     
-    @AppStorage("isOnChat") var isOnChat: Bool = true
-    @AppStorage("isOnKnock") var isOnKnock: Bool = true
+    @AppStorage(Constant.AppStorageConst.IS_CHAT_PUSH_NOTIFICATION_TURNED_ON) var isOnChat: Bool = true
+    @AppStorage(Constant.AppStorageConst.IS_KNOCK_PUSH_NOTIFICATION_TURNED_ON) var isOnKnock: Bool = true
+    @EnvironmentObject var userStore: UserStore
     
 //    @AppStorage("isWorkingHours") var isWorkingHours: Bool = false
 //    @AppStorage("WorkingHoursFrom") var workingHoursFrom: String = ""
@@ -63,6 +66,23 @@ struct SetNotificationsView: View {
 //                    }
 //                }
                 
+                Toggle(isOn: $isRegisteredForRemoteNotifications) {
+                    VStack(alignment: .leading) {
+                        Text("All Notifications")
+                            .font(.footnote)
+                            .foregroundColor(.gsLightGray2)
+                    }
+                }
+                .onChange(of: isRegisteredForRemoteNotifications) { newValue in
+                    if !newValue { // 알람 거부
+                        isOnChat = false
+                        isOnKnock = false
+                    } else if newValue { // 알람 승인
+                        isOnChat = true
+                        isOnKnock = true
+                    }
+                }
+                
                 Toggle(isOn: $isOnKnock) {
                     VStack(alignment: .leading) {
                         Text("New Knocks")
@@ -71,6 +91,7 @@ struct SetNotificationsView: View {
                             .foregroundColor(.gsLightGray2)
                     }
                 }
+                .disabled(isRegisteredForRemoteNotifications ? false : true)
                 
                 Toggle(isOn: $isOnChat) {
                     VStack(alignment: .leading) {
@@ -80,6 +101,8 @@ struct SetNotificationsView: View {
                             .foregroundColor(.gsLightGray2)
                     }
                 }
+                .disabled(isRegisteredForRemoteNotifications ? false : true)
+                
                 // MARK: - 보류
 //                Toggle(isOn: $isOnInAppVibes) {
 //                    Text("In-App Vibrations")
@@ -95,6 +118,14 @@ struct SetNotificationsView: View {
             
         } // List
         .navigationBarTitle("Notifications", displayMode: .inline)
+        .onDisappear {
+            Task {
+                await userStore.updateUserInfoOnFirestore(
+                    userID: userStore.currentUser?.id ?? "",
+                    with: .knockPushNotificationAceeptance(isPushAvailable: isOnKnock), .chatPushNotificationAceeptance(isPushAvailable: isOnChat)
+                )
+            }
+        }
     } // body
 }
 

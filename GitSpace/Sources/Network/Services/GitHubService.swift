@@ -22,25 +22,38 @@ protocol GitHubServiceProtocol {
     /// 인증된 사용자가 액세스 권한을 가진 repository들을 요청하는 함수
     func requestAuthenticatedUserRepositories(page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
     
+    /// 인증된 사용자가 팔로우하고 있는지의 여부를 확인하는 함수
+    func requestAuthenticatedUserFollowsPerson(userName: String) async throws
 
     /// 인증된 사용자의 follower 목록을 요청하는 함수
-    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError >
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowerResponse], GitHubAPIError>
 
     /// 인증된 사용자로 받은 이벤트를 요청하는 함수
     func requestAuthenticatedUserReceivedEvents(userName: String, page: Int) async -> Result<[Event],GitHubAPIError>
 
-    
     /// 인증된 사용자로 특정 레포지토리를 star할 때 사용하는 함수
-    func starRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
+    func requestToStarRepository(owner: String, repositoryName: String) async throws
     
     /// 인증된 사용자로 특정 레포지토리를 unstar할 때 사용하는 함수
-    func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError>
+    func requestToUnstarRepository(owner: String, repositoryName: String) async throws
+    
+    /// 특정 유저를 follow 할 때 사용하는 함수
+    func requestToFollowUser(userName: String) async throws
+    
+    // 특정 유저를 unfollow 할 때 사용하는 함수
+    func requestToUnfollowUser(userName: String) async throws
     
     /// 특정 유저의 정보를 요청하는 함수
     func requestUserInformation(userName: String) async -> Result<GithubUser, GitHubAPIError>
     
     /// 특정 유저의 starred repository들을 요청하는 함수
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError>
+    
+    /// 특정 유저의 Following List를 요청하는 함수
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
+    
+    /// 특정 유저의 Follower List를 요청하는 함수
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError>
     
     /// 특정 레포지토리의 정보를 요청하는 함수
     func requestRepositoryInformation(owner: String, repositoryName: String) async -> Result<Repository, GitHubAPIError>
@@ -59,11 +72,41 @@ protocol GitHubServiceProtocol {
 
 /// GitHubService 구현부
 struct GitHubService: HTTPClient, GitHubServiceProtocol {
-
     
+    /**
+     인증된 유저의 계정으로 특정 유저를 팔로우합니다.
+     - Author: 제균
+     - returns: 요청 성공시 성공했다는 string을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestToFollowUser(userName: String) async throws {
+        return try await sendRequest(endpoint: GitHubAPIEndpoint.followUser(userName: userName))
+    }
     
-    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowersResponse], GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserFollowers(perPage: 100, page: 1), responseModel: [FollowersResponse].self)
+    /**
+     인증된 유저의 계정으로 특정 유저를 언팔로우합니다.
+     - Author: 제균
+     - returns: 요청 성공시 성공했다는 string을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestToUnfollowUser(userName: String) async throws {
+        return try await sendRequest(endpoint: GitHubAPIEndpoint.unfollowUser(userName: userName))
+    }
+    
+    /**
+     인증된 유저가 특정 유저를 팔로우하는지 여부를 API에 요청합니다.
+     - Author: 제균
+     - returns: 요청 성공시 성공했다는 string을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestAuthenticatedUserFollowsPerson(userName: String) async throws {
+        return try await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserFollowsPerson(userName: userName))
+    }
+    
+    /**
+     인증된 유저의 팔로워 목록을 불러옵니다.
+     - Author: 제균
+     - returns: 요청 성공시 유저 정보 모델을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestAuthenticatedUserFollowers(perPage: Int, page: Int) async -> Result<[FollowerResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.authenticatedUserFollowers(perPage: 100, page: page), responseModel: [FollowerResponse].self)
     }
     
     /**
@@ -116,8 +159,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - repositoryName: star를 누를 대상 레포지토리의 이름
      - returns: 요청 성공시 성공했다는 string을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func starRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.starRepository(owner: owner, repositoryName: repositoryName))
+    func requestToStarRepository(owner: String, repositoryName: String) async throws {
+        return try await sendRequest(endpoint: GitHubAPIEndpoint.starRepository(owner: owner, repositoryName: repositoryName))
     }
     
     /**
@@ -128,8 +171,8 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - repositoryName: star를 해제할 대상 레포지토리의 이름
      - returns: 요청 성공시 성공했다는 string을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    func unstarRepository(owner: String, repositoryName: String) async -> Result<String, GitHubAPIError> {
-        return await sendRequest(endpoint: GitHubAPIEndpoint.unstarRepository(owner: owner, repositoryName: repositoryName))
+    func requestToUnstarRepository(owner: String, repositoryName: String) async throws {
+        return try await sendRequest(endpoint: GitHubAPIEndpoint.unstarRepository(owner: owner, repositoryName: repositoryName))
     }
     
     /**
@@ -151,9 +194,34 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
         - page: 요청할 page number
      - returns: 요청 성공시 특정 유저가 star를 눌러둔 레포지토리 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
      */
-    
     func requestUserStarRepositories(userName: String, page: Int) async -> Result<[RepositoryResponse], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.userStarRepositories(userName: userName, page: page), responseModel: [RepositoryResponse].self)
+    }
+    
+    /**
+     특정 유저의 Following List 정보를 요청합니다.
+     - Author: 한호
+     - parameters:
+        - userName: GitHub userName
+        - perPage: page 당 요청할 개수(default: 30, max: 100)
+        - page: 요청할 page number
+     - returns: 요청 성공시 특정 유저의 Following 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestUserFollowingList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowingList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
+    }
+    
+    /**
+     특정 유저의 Follower List 정보를 요청합니다.
+     - Author: 한호
+     - parameters:
+        - userName: GitHub userName
+        - perPage: page 당 요청할 개수(default: 30, max: 100)
+        - page: 요청할 page numbe
+     - returns: 요청 성공시 특정 유저의 Follower 목록을, 요청 실패시 GitHubAPIError를 가지는 Result 타입을 리턴합니다.
+     */
+    func requestUserFollowerList(userName: String, perPage: Int, page: Int) async -> Result<[FollowingResponse], GitHubAPIError> {
+        return await sendRequest(endpoint: GitHubAPIEndpoint.userFollowerList(userName: userName, perPage: perPage, page: page), responseModel: [FollowingResponse].self)
     }
     
     /**
@@ -203,10 +271,5 @@ struct GitHubService: HTTPClient, GitHubServiceProtocol {
     func requestRepositoryContributors(owner: String, repositoryName: String, page: Int) async -> Result<[ContributorProfile], GitHubAPIError> {
         return await sendRequest(endpoint: GitHubAPIEndpoint.repositoryContributors(owner: owner, repositoryName: repositoryName, page: page), responseModel: [ContributorProfile].self)
     }
-    
-    
-    
-    
-    
     
 }

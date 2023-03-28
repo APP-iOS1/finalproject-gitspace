@@ -9,11 +9,6 @@ import SwiftUI
 
 struct StarredView: View {
     
-    let gitHubService: GitHubService
-    
-    init(service: GitHubService) {
-        self.gitHubService = service
-    }
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @EnvironmentObject var tagViewModel: TagViewModel
@@ -50,8 +45,11 @@ struct StarredView: View {
             
             VStack {
                 /* searchbar (custom) */
-                GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
-                    .padding(.horizontal, 20)
+                // FIXME: v1.0.0 출시를 위해 잠시 주석 처리함.
+                /// 출시 기한을 맞추기 위해 부득이 검색창을 숨김처리합니다.
+                /// 이후 다음 버전에 검색 기능을 넣을 예정입니다.
+//                GSTextField.CustomTextFieldView(style: .searchBarField, text: $searchTag)
+//                    .padding(.horizontal, 20)
                 
                 /* Scroll Main Content */
                 
@@ -80,8 +78,8 @@ struct StarredView: View {
                         ForEach(Array(selectedTagList.enumerated()), id: \.offset) { index, tag in
                             GSButton.CustomButtonView(
                                 style: .tag(
-                                    isSelected: true,
-                                    isEditing: false
+                                    isAppliedInView: true
+//                                    isSelectedInAddTagSheet: false
                                 )
                             ) {
                                 withAnimation {
@@ -106,7 +104,6 @@ struct StarredView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .padding(.bottom, 10)
                 
                 /* repository list */
                 ScrollView {
@@ -118,10 +115,10 @@ struct StarredView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 300, height: 300)
                                 
-                                Text("There is no repository\nthat you starred!")
-                                    .font(.title3)
-                                    .foregroundColor(.gsGray1)
-                                    .multilineTextAlignment(.center)
+                                GSText.CustomTextView(
+                                    style: .title3,
+                                    string: "There is no repository\nthat you starred!")
+                                .multilineTextAlignment(.center)
                             }
                         } else {
                             ForEach(Array(zip(repositories.indices, repositories)), id:\.0) { index, repository in
@@ -131,7 +128,7 @@ struct StarredView: View {
                                             HStack {
                                                 NavigationLink {
                                                     /* Repository Detail View */
-                                                    RepositoryDetailView(service: gitHubService, repository: repository)
+                                                    RepositoryDetailView(service: GitHubService(), repository: repository)
                                                 } label: {
                                                     /* Repository Row */
                                                     VStack(alignment: .leading) {
@@ -174,17 +171,22 @@ struct StarredView: View {
                                                 Spacer()
                                                 
                                                 Menu {
+                                                    // FIXME: v 1.0.0 에서는 넣지 않을 기능
+                                                    /// 다음 버전에 출시 share을 넣을 예정
+                                                    /*
                                                     Section {
                                                         Button(action: { print("Share") }) {
                                                             Label("Share", systemImage: "square.and.arrow.up")
                                                         }
-                                                        Button(action: { print("Chat") }) {
-                                                            Label("Chat", systemImage: "message")
-                                                        }
                                                     }
-                                                    
+                                                    */
                                                     Section {
-                                                        Button(role: .destructive, action: { print("Unstar") }) {
+                                                        Button(role: .destructive, action: {
+                                                            Task {
+                                                                await repositoryViewModel.requestUnstar(repository: repository)
+                                                                repositoryViewModel.filteredRepositories?.remove(at: index)
+                                                            }
+                                                        }) {
                                                             Label("Unstar", systemImage: "star")
                                                         }
                                                     }
@@ -200,7 +202,7 @@ struct StarredView: View {
                                         .offset(x: -20, y: 20)
                                     } // ZStack
                                     .padding(.horizontal, 20)
-                                    .padding(.bottom, 15)
+                                    .padding(.top, 15)
                                 }
                             } // ForEach
                         } // if-else repo.isEmpty
@@ -232,7 +234,7 @@ struct StarredView: View {
             }
         }
         .sheet(isPresented: $isShowingSelectTagView) {
-            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView, repositoryName: nil)
+            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView, selectedRepository: nil)
         }
         .onTapGesture {
             self.endTextEditing()

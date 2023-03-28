@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
     let tabBarRouter: GSTabBarRouter
     
     // MARK: - 한호
@@ -29,21 +30,34 @@ struct InitialView: View {
     }
     
     var body: some View {
-        switch githubAuthManager.state {
-        case .signedIn:
-            ContentView(tabBarRouter: tabBarRouter)
-                .preferredColorScheme(selectedAppearance)
-				.environmentObject(UserStore(currentUserID: Auth.auth().currentUser?.uid ?? ""))
-        case .signedOut:
-            SigninView(githubAuthManager: githubAuthManager, tabBarRouter: tabBarRouter)
-                .preferredColorScheme(selectedAppearance)
+        VStack {
+            switch githubAuthManager.state {
+            case .signedIn:
+                ContentView(tabBarRouter: tabBarRouter)
+                    .preferredColorScheme(selectedAppearance)
+                    .environmentObject(UserStore(currentUserID: Auth.auth().currentUser?.uid ?? ""))
+            case .pending:
+                LoadingProgressView()
+                    .preferredColorScheme(selectedAppearance)
+            case .signedOut:
+                SigninView(githubAuthManager: githubAuthManager, tabBarRouter: tabBarRouter)
+                    .preferredColorScheme(selectedAppearance)
+            }
+        }
+        .onViewDidLoad {
+            if githubAuthManager.authentification.currentUser != nil && UserDefaults.standard.string(forKey: "AT") != nil {
+                Task {
+                    await githubAuthManager.reauthenticateUser()
+                    githubAuthManager.state = .signedIn
+                }
+            }
         }
     }
 }
 
-struct InitialView_Previews: PreviewProvider {
-    static let tabBarRouter = GSTabBarRouter()
-    static var previews: some View {
-        InitialView(tabBarRouter: tabBarRouter)
-    }
-}
+//struct InitialView_Previews: PreviewProvider {
+//    static let tabBarRouter = GSTabBarRouter()
+//    static var previews: some View {
+//        InitialView(tabBarRouter: tabBarRouter)
+//    }
+//}

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "emptyView-tag-light.png",
+      "filename" : "GitSpace-Readme-Empty.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "emptyView-tag-dark.png",
+      "filename" : "GitSpace-Readme-Empty-Dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "emptyView-tag-light@2x.png",
+      "filename" : "GitSpace-Readme-Empty@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "emptyView-tag-dark@2x.png",
+      "filename" : "GitSpace-Readme-Empty-Dark@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "emptyView-tag-light@3x.png",
+      "filename" : "GitSpace-Readme-Empty@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "emptyView-tag-dark@3x.png",
+      "filename" : "GitSpace-Readme-Empty-Dark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -21,7 +21,7 @@ struct MessageCell : View {
         case true:
             HStack(alignment: .bottom, spacing: 2) {
                 Spacer()
-                Text(message.stringDate)
+                Text(message.sentDateAsString)
                     .modifier(MessageTimeModifier())
                 Text(message.textContent)
                     .modifier(MessageModifier(isMine: self.isMine))
@@ -40,7 +40,7 @@ struct MessageCell : View {
                 // Profile Image 부분
                 VStack {
                     NavigationLink {
-                        ProfileDetailView()
+                        TargetUserProfileView(user: GithubUser(id: targetUserInfo.githubID, login: targetUserInfo.githubLogin, name: targetUserInfo.githubName, email: targetUserInfo.githubEmail, avatar_url: targetUserInfo.avatar_url, bio: targetUserInfo.bio, company: targetUserInfo.company, location: targetUserInfo.location, blog: targetUserInfo.blog, public_repos: targetUserInfo.public_repos, followers: targetUserInfo.followers, following: targetUserInfo.following))
                     } label: {
                         GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 35)
                     }
@@ -53,7 +53,7 @@ struct MessageCell : View {
                     HStack(alignment: .bottom, spacing: 2) {
                         Text(message.textContent)
                             .modifier(MessageModifier(isMine: self.isMine))
-                        Text(message.stringDate)
+                        Text(message.sentDateAsString)
                             .modifier(MessageTimeModifier())
                         Spacer()
                     }
