@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>144879966378-k2trt85438fm0qghi5a3uchbc27qsvcg.apps.googleusercontent.com</string>
+	<string>856592841917-a0uqb29mstng5oeqtj9cjkrhmdt95j5b.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.144879966378-k2trt85438fm0qghi5a3uchbc27qsvcg</string>
+	<string>com.googleusercontent.apps.856592841917-a0uqb29mstng5oeqtj9cjkrhmdt95j5b</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBXApCb_OjBVq99Ssb5n_RbWJRhl8D5PHs</string>
+	<string>AIzaSyCh4YcHMxZiHaiGwSJsbrzfi1KRRzYGAiA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>144879966378</string>
+	<string>856592841917</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.GitSpace.RBG</string>
 	<key>PROJECT_ID</key>
-	<string>gitspace-b2d4f</string>
+	<string>gitspace-release</string>
 	<key>STORAGE_BUCKET</key>
-	<string>gitspace-b2d4f.appspot.com</string>
+	<string>gitspace-release.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:144879966378:ios:5bd0f07094b11f399518d3</string>
+	<string>1:856592841917:ios:85dd2f0b111addbd0ecbd4</string>
 </dict>
 </plist>
