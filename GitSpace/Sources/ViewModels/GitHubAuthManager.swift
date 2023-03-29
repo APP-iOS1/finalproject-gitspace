@@ -138,50 +138,35 @@ final class GitHubAuthManager: ObservableObject {
     /// Firestore에 새로운 회원을 등록합니다.
     private func registerNewUser(_ githubUser: GithubUser) async {
         
-        if let firebaseAuthUID = authentification.currentUser?.uid {
-            // 현재 Auth 로그인 uid로 UserInfo에 접근
-            database
-                .collection(const.COLLECTION_USER_INFO)
-                .document(firebaseAuthUID)
-                .getDocument { result, error in
-                    // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
-                    guard let result, result.exists else {
-                        
-                        let newUser: UserInfo = .init(id: firebaseAuthUID,
-                                                      createdDate: Date.now,
-                                                      deviceToken: "",
-                                                      blockedUserIDs: [],
-                                                      githubID: githubUser.id,
-                                                      githubLogin: githubUser.login,
-                                                      githubName: githubUser.name,
-                                                      githubEmail: githubUser.email,
-                                                      avatar_url: githubUser.avatar_url,
-                                                      bio: githubUser.bio,
-                                                      company: githubUser.company,
-                                                      location: githubUser.location,
-                                                      blog: githubUser.blog,
-                                                      public_repos: githubUser.public_repos,
-                                                      followers: githubUser.followers,
-                                                      following: githubUser.following)
-                        
-                        self.addUser(newUser)
-                        return
-                    }
-                    // 기존 유저 정보와 깃허브 로그인 시 받은 정보의 필드가 불일치하면, 로그인 정보로 DB의 기존 유저 정보 업데이트
-                    do {
-                        let existUser: UserInfo = try result.data(as: UserInfo.self)
-                        let existGithubUser: GithubUser = self.getGithubUser(FBUser: existUser)
-                        if existGithubUser != githubUser {
-                            let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
-                            try self.database
-                                .collection(self.const.COLLECTION_USER_INFO)
-                                .document(existUser.id)
-                                .setData(from: updatedUserInfo)
-                        }
-                    } catch {
-                        print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
-                    }
+        guard let firebaseAuthUID = authentification.currentUser?.uid else {
+            print("Error-\(#file)-\(#function) : firebaseAuthUID를 가져올 수 없습니다.")
+            return
+        }
+        
+        // 현재 Auth 로그인 uid로 UserInfo에 접근
+        let document = await requestUserDocument(userID: firebaseAuthUID)
+        
+        if
+            let document,
+            document.exists {
+            // 로그인 이력이 있어서 이미 Firestore에 유저 정보가 존재하는 경우
+            do {
+                let existUser: UserInfo = try document.data(as: UserInfo.self)
+                let existGithubUser: GithubUser = self.getGithubUser(FBUser: existUser)
+                // Firestore에서 받아온 깃허브 정보와 이번 로그인 시도에서 받아온 깃허브 정보가 다를경우, 로그인 깃허브 정보로 Firestore 유저 정보를 업데이트
+                if existGithubUser != githubUser {
+                    let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
+                    try self.database
+                        .collection(self.const.COLLECTION_USER_INFO)
+                        .document(existUser.id)
+                        .setData(from: updatedUserInfo)
                 }
+            } catch {
+                print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            }
+        } else {
+            let newUser: UserInfo = self.getFirestoreUser(uid: firebaseAuthUID, githubUser: githubUser)
+            self.addUser(newUser)
         }
     }
     
