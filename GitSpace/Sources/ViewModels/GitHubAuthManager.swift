@@ -208,6 +208,25 @@ final class GitHubAuthManager: ObservableObject {
                      following: FBUser.following)
     }
     
+    private func getFirestoreUser(uid: String, githubUser: GithubUser) -> UserInfo {
+        return .init(id: uid,
+                     createdDate: .now,
+                     deviceToken: "",
+                     blockedUserIDs: [],
+                     githubID: githubUser.id,
+                     githubLogin: githubUser.login,
+                     githubName: githubUser.name,
+                     githubEmail: githubUser.email,
+                     avatar_url: githubUser.avatar_url,
+                     bio: githubUser.bio,
+                     company: githubUser.company,
+                     location: githubUser.location,
+                     blog: githubUser.blog,
+                     public_repos: githubUser.public_repos,
+                     followers: githubUser.followers,
+                     following: githubUser.following)
+    }
+    
     /**
      기존 Firestore UserInfo와 업데이트된 GithubUser를 통해서 업데이트된 Firestore UserInfo를 생성하는 메서드
      
