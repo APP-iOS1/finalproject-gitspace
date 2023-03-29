@@ -144,24 +144,27 @@ Please select a User to start chatting with.
                     .padding(.leading, 20)
                     
                     ForEach(contributorManager.contributors) { user in
-                        if gitSpaceUserList.contains(user.id) &&
-                            user.id == userInfoManager.currentUser!.githubID {
-                            ContributorListCell(targetUser: user)
-                                .padding(.horizontal, 20)
-                        } // if
                         
-                        if gitSpaceUserList.contains(user.id) {
-                            if user.id != userInfoManager.currentUser!.githubID {
-                                NavigationLink {
-                                    KnockCommunicationRouter(
-                                        targetGithubUser: user
-                                    )
-                                } label: {
-                                    ContributorGitSpaceUserListCell(targetUser: user)
-                                } // NavigationLink
-                                .padding(.horizontal, 20)
+                        if let githubID = userInfoManager.currentUser.githubID {
+                            if gitSpaceUserList.contains(user.id) &&
+                                user.id == githubID {
+                                ContributorListCell(targetUser: user)
+                                    .padding(.horizontal, 20)
                             } // if
-                        } // if
+                            
+                            if gitSpaceUserList.contains(user.id) {
+                                if user.id != githubID {
+                                    NavigationLink {
+                                        KnockCommunicationRouter(
+                                            targetGithubUser: user
+                                        )
+                                    } label: {
+                                        ContributorGitSpaceUserListCell(targetUser: user)
+                                    } // NavigationLink
+                                    .padding(.horizontal, 20)
+                                } // if
+                            } // if
+                        } // if let
                     } // ForEach
                 } // if
                 
