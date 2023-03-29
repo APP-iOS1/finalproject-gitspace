@@ -136,7 +136,7 @@ final class GitHubAuthManager: ObservableObject {
     // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    private func registerNewUser(_ githubUser: GithubUser) {
+    private func registerNewUser(_ githubUser: GithubUser) async {
         
         if let firebaseAuthUID = authentification.currentUser?.uid {
             // 현재 Auth 로그인 uid로 UserInfo에 접근
