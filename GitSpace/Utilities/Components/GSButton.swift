@@ -37,7 +37,11 @@ public struct GSButton {
 					label
 						.labelHierarchyModifier(style: .secondary)
 				}
-				.buttonColorSchemeModifier(style: style)
+                // TODO: Button과 NavigationLink가 같은 secondary 스타일을 줘도 이 부분 코드가 달라서 다른 모양이 나오는 것으로 확인. 우선은 Navi쪽의 속성자와 동일하게 맞춤. 쥬니에게 확인 필요.
+//				.buttonColorSchemeModifier(style: style)
+                .buttonStyle(
+                    ViewHighlightColorStyle(style: .secondary)
+                )
 				
 				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
 			case let .tag(isAppliedInView, isSelectedInAddTagSheet):
