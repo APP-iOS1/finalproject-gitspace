@@ -144,6 +144,8 @@ struct ReceivedKnockDetailView: View {
                     } // button: Accept
                     
                     HStack(spacing: 60) {
+                        
+                        /* 블록 기능 미구현으로 버튼 주석 처리
                         Button {
                             // TODO: - 언젠가 블록도 해야지? 지금 못할 거면 빼던가.
                         } label: {
@@ -153,6 +155,7 @@ struct ReceivedKnockDetailView: View {
                         } // Button: Block
                         
                         Divider()
+                        */
                         
                         Button {
                             Task {
