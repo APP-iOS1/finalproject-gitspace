@@ -109,6 +109,14 @@ struct ChatRoomView: View {
                 }
             }
              */
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    messageStore.writeRemainMessages()
+                } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.primary)
+                }
+            }
         }
         .onDisappear {
             // 초기화 필요.
@@ -127,6 +135,7 @@ struct ChatRoomView: View {
             // 유저가 읽지 않은 메세지의 시작 인덱스를 계산해서 할당
             unreadMessageIndex = messageStore.messages.count - unreadMessageCount
             // 채팅방 입장 기준으로 메세지들의 ID를 저장 (disAppear 시 체크하는 용도로 사용)
+            // FIXME: 무한 스크롤이 구현되면 메세지가 변동되지 않았어도, 입장 시점의 메시지와 마지막 시점의 메시지가 달라질 수 있으므로, 추가 request 시 preMessageIDs에 똑같이 추가해서 비교하는 로직이 필요함 By. 태영
             preMessageIDs = messageStore.messages.map{$0.id}
             
             // 읽지 않은 메세지가 있으면
