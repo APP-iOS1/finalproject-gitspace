@@ -77,10 +77,6 @@ final class GitHubAuthManager: ObservableObject {
                     guard let oauthCredential = authResult?.credential as? OAuthCredential else {
                         return
                     }
-                    // 아래 guard문을 삭제하지 않으면 로그인 시 무한 로딩에 걸림.
-//                    guard KeyChainManager.create(authCredential: credential) == true else { return }
-//                    print(KeyChainManager.read())
-                    
                     // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
                         return
