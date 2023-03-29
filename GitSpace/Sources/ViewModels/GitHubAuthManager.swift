@@ -92,25 +92,27 @@ final class GitHubAuthManager: ObservableObject {
                     githubRequest.addValue("Bearer \(at)", forHTTPHeaderField: "Authorization")
                     
                     let task = session.dataTask(with: githubRequest) { data, response, error in
-                        guard error == nil else {
-                            print("SignIn Task Error: ", error?.localizedDescription as Any)
-                            return
-                        }
-                        guard let userData = data else {
-                            print("SignIn Decoded Error: ", error?.localizedDescription as Any)
-                            return
-                        }
-                        
-                        self.authenticatedUser = DecodingManager.decodeData(userData, GithubUser.self)
-                        
-                        guard self.authenticatedUser != nil else {
-                            return
-                        }
-                        
-                        self.registerNewUser(self.authenticatedUser!)
-                        
-                        DispatchQueue.main.async {
-                            self.state = .signedIn
+                        Task {
+                            guard error == nil else {
+                                print("SignIn Task Error: ", error?.localizedDescription as Any)
+                                return
+                            }
+                            guard let userData = data else {
+                                print("SignIn Decoded Error: ", error?.localizedDescription as Any)
+                                return
+                            }
+                            
+                            self.authenticatedUser = DecodingManager.decodeData(userData, GithubUser.self)
+                            
+                            guard self.authenticatedUser != nil else {
+                                return
+                            }
+                            
+                            await self.registerNewUser(self.authenticatedUser!)
+                            
+                            DispatchQueue.main.async {
+                                self.state = .signedIn
+                            }
                         }
                     }
                     task.resume()
