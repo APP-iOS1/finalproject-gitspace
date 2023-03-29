@@ -121,6 +121,16 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
+    private func requestUserDocument(userID: String) async -> DocumentSnapshot? {
+        do {
+            let snapshot = try await database.collection(const.COLLECTION_USER_INFO).document(userID).getDocument()
+            return snapshot
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
     // existUser에서 가입일시를 받아서 새 user 만들기 + Github API 닉네임과 UserInfo 닉네임이 일치하지 않으면 업데이트
     // MARK: Method - Auth의 currentUser를 통해 UserInfo에 이미 존재하는 유저인지 여부를 반환하는 메서드
     // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
