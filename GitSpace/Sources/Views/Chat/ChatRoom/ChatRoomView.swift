@@ -109,14 +109,6 @@ struct ChatRoomView: View {
                 }
             }
              */
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    messageStore.writeRemainMessages()
-                } label: {
-                    Image(systemName: "gearshape")
-                        .foregroundColor(.primary)
-                }
-            }
         }
         .onDisappear {
             // 초기화 필요.
