@@ -192,19 +192,11 @@ struct TargetUserProfileView: View {
                             Spacer()
                                 .frame(width: 10)
 
-                            // 누르면 knock message를 쓸 수 있는 sheet를 띄우도록 state bool var toggle.
-                            GSButton.CustomButtonView(
-                                style: .secondary(isDisabled: false)
-                            ) {
-                                withAnimation {
-                                    isShowingKnockSheet.toggle()
-                                }
+                            GSNavigationLink(style: .secondary) {
+                                KnockCommunicationRouter(targetGithubUser: user)
                             } label: {
-                                GSText.CustomTextView(style: .title3, string: "Knock")
+                                GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
                                     .frame(maxWidth: .infinity)
-                            }
-                                .sheet(isPresented: $isShowingKnockSheet) {
-//                                    SendKnockView()
                             }
                         }
                             .padding(.vertical, 10)
