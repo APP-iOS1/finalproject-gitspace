@@ -95,3 +95,6 @@ iOSInjectionProject/
 # HIDE SECRETS
 */*.xcconfig
 *.xcconfig
+
+# PList
+*.plist
