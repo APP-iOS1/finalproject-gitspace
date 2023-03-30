@@ -347,9 +347,13 @@ final class GitHubAuthManager: ObservableObject {
         do {
             let (data, _) = try await session.data(for: githubRequest)
             self.authenticatedUser = DecodingManager.decodeData(data, GithubUser.self)
-            guard self.authenticatedUser != nil else {
+            
+            guard let githubUser = self.authenticatedUser else {
                 return
             }
+            
+            await registerNewUser(githubUser)
+            
             DispatchQueue.main.async {
                 self.state = .signedIn
             }
