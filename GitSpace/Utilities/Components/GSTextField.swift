@@ -43,11 +43,15 @@ struct GSTextField {
                 HStack(spacing: const.SEARCHBAR_SYMBOL_PLACEHOLDER_SPACE) {
                     Image(systemName: const.SEARCHBAR_FIELD_SYMBOL_NAME)
                     TextField(const.SEARCHBAR_FIELD_PLACEHOLDER, text: text)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                 }
                 .modifier(GSTextFieldLayoutModifier(style: style))
                 
             case .addTagField:
                 TextField(const.ADDTAG_FIELD_PLACEHOLDER, text: text)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                     .modifier(GSTextFieldLayoutModifier(style: style))
             }
         }
