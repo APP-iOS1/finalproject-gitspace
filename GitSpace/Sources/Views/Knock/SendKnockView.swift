@@ -280,42 +280,45 @@ Please write a message carefully.
                             
                             
                             // FIXME: 노크 전송 버튼 disabled 조건에 isKnockSent 추가 필요함! From. 영이 -> To. 노이
-                            GSTextEditor.CustomTextEditorView(style: .message,
-                                                              text: $knockMessage,
-                                                              sendableImage: "paperplane.fill",
-                                                              unSendableImage: "paperplane") {
-                                Task {
-                                    let newKnock = Knock(
-                                        date: .now,
-                                        knockMessage: knockMessage,
-                                        knockStatus: Constant.KNOCK_WAITING,
-                                        knockCategory: chatPurpose,
-                                        receivedUserName: targetUserInfo.githubLogin,
-                                        sentUserName: userStore.currentUser?.githubLogin ?? "",
-                                        receivedUserID: targetUserInfo.id,
-                                        sentUserID: userStore.currentUser?.id ?? ""
-                                    )
-                                    
-                                    // Assign New Knock On Model
-                                    knockViewManager.assignNewKnock(newKnock: newKnock)
-                                    
-                                    // TODO: 알람 보내기
-                                    // 새로운 노크가 생성될 때의 Push Notification 전달
-                                    await pushNotificationManager.sendNotification(
-                                        with: .knock(
-                                            title: "New Knock has been Arrived.",
-                                            body: knockMessage,
-                                            pushSentFrom: userStore.currentUser?.githubLogin ?? "",
-                                            knockPurpose: chatPurpose,
-                                            knockID: newKnock.id
-                                        ),
-                                        to: targetUserInfo
-                                    )
-                                    
-                                    await knockViewManager.createKnockOnFirestore(knock: newKnock)
-                                    
-                                    withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
-                                    knockMessage = ""
+                            if !isKnockSent {
+                                GSTextEditor.CustomTextEditorView(style: .message,
+                                                                  text: $knockMessage,
+                                                                  sendableImage: "paperplane.fill",
+                                                                  unSendableImage: "paperplane") {
+                                    Task {
+                                        let tempKnockMessage = knockMessage
+                                        knockMessage = ""
+                                        let newKnock = Knock(
+                                            date: .now,
+                                            knockMessage: tempKnockMessage,
+                                            knockStatus: Constant.KNOCK_WAITING,
+                                            knockCategory: chatPurpose,
+                                            receivedUserName: targetUserInfo.githubLogin,
+                                            sentUserName: userStore.currentUser?.githubLogin ?? "",
+                                            receivedUserID: targetUserInfo.id,
+                                            sentUserID: userStore.currentUser?.id ?? ""
+                                        )
+                                        
+                                        // Assign New Knock On Model
+                                        knockViewManager.assignNewKnock(newKnock: newKnock)
+                                        
+                                        // TODO: 알람 보내기
+                                        // 새로운 노크가 생성될 때의 Push Notification 전달
+                                        await pushNotificationManager.sendNotification(
+                                            with: .knock(
+                                                title: "New Knock has been Arrived.",
+                                                body: tempKnockMessage,
+                                                pushSentFrom: userStore.currentUser?.githubLogin ?? "",
+                                                knockPurpose: chatPurpose,
+                                                knockID: newKnock.id
+                                            ),
+                                            to: targetUserInfo
+                                        )
+                                        
+                                        await knockViewManager.createKnockOnFirestore(knock: newKnock)
+                                        
+                                        withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
+                                    }
                                 }
                             }
                         } // HStack
@@ -372,44 +375,47 @@ Please write a message carefully.
                             //                            }
                             
                             
-                            
-                            GSTextEditor.CustomTextEditorView(style: .message,
-                                                              text: $knockMessage,
-                                                              sendableImage: "paperplane.fill",
-                                                              unSendableImage: "paperplane") {
-                                Task {
-                                    let newKnock = Knock(
-                                        date: .now,
-                                        knockMessage: knockMessage,
-                                        knockStatus: Constant.KNOCK_WAITING,
-                                        knockCategory: chatPurpose,
-                                        receivedUserName: targetUserInfo.githubLogin,
-                                        sentUserName: userStore.currentUser?.githubLogin ?? "",
-                                        receivedUserID: targetUserInfo.id,
-                                        sentUserID: userStore.currentUser?.id ?? ""
-                                    )
-                                    
-                                    // Assign New Knock On Model
-                                    knockViewManager.assignNewKnock(newKnock: newKnock)
-                                    
-                                    // TODO: 알람 보내기
-                                    // 새로운 노크가 생성될 때의 Push Notification 전달
-                                    await pushNotificationManager.sendNotification(
-                                        with: .knock(
-                                            title: "New Knock has been Arrived.",
-                                            body: knockMessage,
-                                            pushSentFrom: userStore.currentUser?.githubLogin ?? "",
-                                            knockPurpose: chatPurpose,
-                                            knockID: newKnock.id
-                                        ),
-                                        to: targetUserInfo
-                                    )
-                                    
-                                    await knockViewManager.createKnockOnFirestore(knock: newKnock)
-                                    
-                                    withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
-                                    knockMessage = ""
-                                }
+                            if !isKnockSent {
+                                GSTextEditor.CustomTextEditorView(style: .message,
+                                                                  text: $knockMessage,
+                                                                  sendableImage: "paperplane.fill",
+                                                                  unSendableImage: "paperplane") {
+                                    Task {
+                                        let tempKnockMessage = knockMessage
+                                        knockMessage = ""
+                                        
+                                        let newKnock = Knock(
+                                            date: .now,
+                                            knockMessage: tempKnockMessage,
+                                            knockStatus: Constant.KNOCK_WAITING,
+                                            knockCategory: chatPurpose,
+                                            receivedUserName: targetUserInfo.githubLogin,
+                                            sentUserName: userStore.currentUser?.githubLogin ?? "",
+                                            receivedUserID: targetUserInfo.id,
+                                            sentUserID: userStore.currentUser?.id ?? ""
+                                        )
+                                        
+                                        // Assign New Knock On Model
+                                        knockViewManager.assignNewKnock(newKnock: newKnock)
+                                        
+                                        // TODO: 알람 보내기
+                                        // 새로운 노크가 생성될 때의 Push Notification 전달
+                                        await pushNotificationManager.sendNotification(
+                                            with: .knock(
+                                                title: "New Knock has been Arrived.",
+                                                body: tempKnockMessage,
+                                                pushSentFrom: userStore.currentUser?.githubLogin ?? "",
+                                                knockPurpose: chatPurpose,
+                                                knockID: newKnock.id
+                                            ),
+                                            to: targetUserInfo
+                                        )
+                                        
+                                        await knockViewManager.createKnockOnFirestore(knock: newKnock)
+                                        
+                                        withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
+                                    }
+                                } // GSTextEditor
                             }
                         } // HStack
                         .foregroundColor(.primary)

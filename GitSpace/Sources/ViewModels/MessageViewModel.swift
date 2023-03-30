@@ -21,6 +21,8 @@ final class MessageStore: ObservableObject {
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
     @Published var isFetchMessagesDone: Bool = false
     
+    var remainMessages: [Message] = []
+    
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
@@ -55,7 +57,7 @@ extension MessageStore {
                 .document(chatID)
                 .collection(const.COLLECTION_MESSAGE)
                 .order(by: const.FIELD_SENT_DATE)
-                .limit(toLast: 30 + unreadMessageCount)
+//                .limit(toLast: 30 + unreadMessageCount) 무한 스크롤이 아직 구현되지 않아서 주석 처리 By.태영 23-03-26
                 .getDocuments()
             return snapshot
         } catch {
@@ -68,6 +70,11 @@ extension MessageStore {
     private func writeMessages(messages: [Message]) {
         self.messages = messages
         isFetchMessagesDone = true
+    }
+    
+    @MainActor
+    func writeRemainMessages() {
+        self.messages = remainMessages + self.messages
     }
     
     // MARK: Method : 채팅 ID를 받아서 메세지들을 불러오는 함수

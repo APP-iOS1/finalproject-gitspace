@@ -320,7 +320,7 @@ Despite the foregoing, if there is a legitimate reason, such as not being able t
                         .font(.headline)
                     Text(
 """
-**Article 1.** This policy is effective from **2023.03.28.**.
+**Article 1.** This policy is effective from **2023.03.30.**
 
 """).font(.footnote)
                     
@@ -332,7 +332,7 @@ Despite the foregoing, if there is a legitimate reason, such as not being able t
             .padding(.horizontal, 20)
         } // ScollView
         .multilineTextAlignment(.leading)
-        .navigationBarTitle("Terms of Service & Privacy Policy")
+        .navigationBarTitle("Terms of Use & Privacy Policy")
     }
     
     

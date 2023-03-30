@@ -77,10 +77,6 @@ final class GitHubAuthManager: ObservableObject {
                     guard let oauthCredential = authResult?.credential as? OAuthCredential else {
                         return
                     }
-                    // 아래 guard문을 삭제하지 않으면 로그인 시 무한 로딩에 걸림.
-//                    guard KeyChainManager.create(authCredential: credential) == true else { return }
-//                    print(KeyChainManager.read())
-                    
                     // Github 사용자 데이터(name, email)을 가져오기 위해서 GitHub REST API request가 필요하다.
                     guard let githubAuthenticatedUserURL = URL(string: "https://api.github.com/user") else {
                         return
@@ -96,25 +92,27 @@ final class GitHubAuthManager: ObservableObject {
                     githubRequest.addValue("Bearer \(at)", forHTTPHeaderField: "Authorization")
                     
                     let task = session.dataTask(with: githubRequest) { data, response, error in
-                        guard error == nil else {
-                            print("SignIn Task Error: ", error?.localizedDescription as Any)
-                            return
-                        }
-                        guard let userData = data else {
-                            print("SignIn Decoded Error: ", error?.localizedDescription as Any)
-                            return
-                        }
-                        
-                        self.authenticatedUser = DecodingManager.decodeData(userData, GithubUser.self)
-                        
-                        guard self.authenticatedUser != nil else {
-                            return
-                        }
-                        
-                        self.registerNewUser(self.authenticatedUser!)
-                        
-                        DispatchQueue.main.async {
-                            self.state = .signedIn
+                        Task {
+                            guard error == nil else {
+                                print("SignIn Task Error: ", error?.localizedDescription as Any)
+                                return
+                            }
+                            guard let userData = data else {
+                                print("SignIn Decoded Error: ", error?.localizedDescription as Any)
+                                return
+                            }
+                            
+                            self.authenticatedUser = DecodingManager.decodeData(userData, GithubUser.self)
+                            
+                            guard self.authenticatedUser != nil else {
+                                return
+                            }
+                            
+                            await self.registerNewUser(self.authenticatedUser!)
+                            
+                            DispatchQueue.main.async {
+                                self.state = .signedIn
+                            }
                         }
                     }
                     task.resume()
@@ -123,57 +121,52 @@ final class GitHubAuthManager: ObservableObject {
         }
     }
     
+    private func requestUserDocument(userID: String) async -> DocumentSnapshot? {
+        do {
+            let snapshot = try await database.collection(const.COLLECTION_USER_INFO).document(userID).getDocument()
+            return snapshot
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
     // existUser에서 가입일시를 받아서 새 user 만들기 + Github API 닉네임과 UserInfo 닉네임이 일치하지 않으면 업데이트
     // MARK: Method - Auth의 currentUser를 통해 UserInfo에 이미 존재하는 유저인지 여부를 반환하는 메서드
     // Github Auth 로그인 수행 -> User DB에서 이미 존재하는지 체크 -> 가입날짜 유지 및 나머지 정보 최신으로 갱신
     // MARK: - Register New User at Firestore
     /// Firestore에 새로운 회원을 등록합니다.
-    private func registerNewUser(_ githubUser: GithubUser) {
+    private func registerNewUser(_ githubUser: GithubUser) async {
         
-        if let firebaseAuthUID = authentification.currentUser?.uid {
-            // 현재 Auth 로그인 uid로 UserInfo에 접근
-            database
-                .collection(const.COLLECTION_USER_INFO)
-                .document(firebaseAuthUID)
-                .getDocument { result, error in
-                    // 결과가 없거나, 유저가 존재하지 않으면 UserInfo에 새롭게 추가
-                    guard let result, result.exists else {
-                        
-                        let newUser: UserInfo = .init(id: firebaseAuthUID,
-                                                      createdDate: Date.now,
-                                                      deviceToken: "",
-                                                      blockedUserIDs: [],
-                                                      githubID: githubUser.id,
-                                                      githubLogin: githubUser.login,
-                                                      githubName: githubUser.name,
-                                                      githubEmail: githubUser.email,
-                                                      avatar_url: githubUser.avatar_url,
-                                                      bio: githubUser.bio,
-                                                      company: githubUser.company,
-                                                      location: githubUser.location,
-                                                      blog: githubUser.blog,
-                                                      public_repos: githubUser.public_repos,
-                                                      followers: githubUser.followers,
-                                                      following: githubUser.following)
-                        
-                        self.addUser(newUser)
-                        return
-                    }
-                    // 기존 유저 정보와 깃허브 로그인 시 받은 정보의 필드가 불일치하면, 로그인 정보로 DB의 기존 유저 정보 업데이트
-                    do {
-                        let existUser: UserInfo = try result.data(as: UserInfo.self)
-                        let existGithubUser: GithubUser = self.getGithubUser(FBUser: existUser)
-                        if existGithubUser != githubUser {
-                            let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
-                            try self.database
-                                .collection(self.const.COLLECTION_USER_INFO)
-                                .document(existUser.id)
-                                .setData(from: updatedUserInfo)
-                        }
-                    } catch {
-                        print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
-                    }
+        guard let firebaseAuthUID = authentification.currentUser?.uid else {
+            print("Error-\(#file)-\(#function) : firebaseAuthUID를 가져올 수 없습니다.")
+            return
+        }
+        
+        // 현재 Auth 로그인 uid로 UserInfo에 접근
+        let document = await requestUserDocument(userID: firebaseAuthUID)
+        
+        if
+            let document,
+            document.exists {
+            // 로그인 이력이 있어서 이미 Firestore에 유저 정보가 존재하는 경우
+            do {
+                let existUser: UserInfo = try document.data(as: UserInfo.self)
+                let existGithubUser: GithubUser = self.getGithubUser(FBUser: existUser)
+                // Firestore에서 받아온 깃허브 정보와 이번 로그인 시도에서 받아온 깃허브 정보가 다를경우, 로그인 깃허브 정보로 Firestore 유저 정보를 업데이트
+                if existGithubUser != githubUser {
+                    let updatedUserInfo: UserInfo = self.getFBUserWithUpdatedGithubUser(FBUser: existUser, githubUser: githubUser)
+                    try self.database
+                        .collection(self.const.COLLECTION_USER_INFO)
+                        .document(existUser.id)
+                        .setData(from: updatedUserInfo)
                 }
+            } catch {
+                print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+            }
+        } else {
+            let newUser: UserInfo = self.getFirestoreUser(uid: firebaseAuthUID, githubUser: githubUser)
+            self.addUser(newUser)
         }
     }
     
@@ -198,6 +191,25 @@ final class GitHubAuthManager: ObservableObject {
                      public_repos: FBUser.public_repos,
                      followers: FBUser.followers,
                      following: FBUser.following)
+    }
+    
+    private func getFirestoreUser(uid: String, githubUser: GithubUser) -> UserInfo {
+        return .init(id: uid,
+                     createdDate: .now,
+                     deviceToken: "",
+                     blockedUserIDs: [],
+                     githubID: githubUser.id,
+                     githubLogin: githubUser.login,
+                     githubName: githubUser.name,
+                     githubEmail: githubUser.email,
+                     avatar_url: githubUser.avatar_url,
+                     bio: githubUser.bio,
+                     company: githubUser.company,
+                     location: githubUser.location,
+                     blog: githubUser.blog,
+                     public_repos: githubUser.public_repos,
+                     followers: githubUser.followers,
+                     following: githubUser.following)
     }
     
     /**
@@ -259,7 +271,8 @@ final class GitHubAuthManager: ObservableObject {
         do {
             await deleteCurrentUser()
             try await authentification.currentUser?.delete()
-            state = .signedOut
+            UserDefaults.standard.removeObject(forKey: "AT")
+            signOut()
         } catch let deleteUserError as NSError {
             print(#function, "Error delete user: %@", deleteUserError)
         }
@@ -334,9 +347,13 @@ final class GitHubAuthManager: ObservableObject {
         do {
             let (data, _) = try await session.data(for: githubRequest)
             self.authenticatedUser = DecodingManager.decodeData(data, GithubUser.self)
-            guard self.authenticatedUser != nil else {
+            
+            guard let githubUser = self.authenticatedUser else {
                 return
             }
+            
+            await registerNewUser(githubUser)
+            
             DispatchQueue.main.async {
                 self.state = .signedIn
             }

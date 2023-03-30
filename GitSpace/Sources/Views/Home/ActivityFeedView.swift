@@ -103,7 +103,7 @@ struct ActivityFeedView: View {
                     } label: {
                         Image(systemName: "ellipsis")
                     }
-                        .foregroundColor(.primary)
+                    .foregroundColor(.primary)
                 }
                 
                 Spacer()

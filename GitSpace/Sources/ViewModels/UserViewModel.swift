@@ -242,17 +242,17 @@ final class UserStore: ObservableObject {
             for eachType in updateType {
                 switch eachType {
                 case let .deviceToken(token):
-                    try await document.setData([
+                    try await document.updateData([
                         const.FIELD_DEVICE_TOKEN: token
-                    ], merge: true)
+                    ])
                 case let .knockPushNotificationAceeptance(isKnockPushAvailable):
-                    try await document.setData([
+                    try await document.updateData([
                         const.FIELD_IS_KNOCK_PUSH_AVAILABLE: isKnockPushAvailable
-                    ], merge: true)
+                    ])
                 case let .chatPushNotificationAceeptance(isChatPushAvailable):
-                    try await document.setData([
+                    try await document.updateData([
                         const.FIELD_IS_CHAT_PUSH_AVAILABLE: isChatPushAvailable
-                    ], merge: true)
+                    ])
                 }
             }
         } catch {
