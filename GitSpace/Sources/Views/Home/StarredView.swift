@@ -164,6 +164,8 @@ struct StarredView: View {
                                                 }
                                             }
                                         }
+                                        .padding(.horizontal, 20)
+                                        .padding(.top, 15)
                                         
                                         VStack {
                                             /* Penpal, Menu button */
@@ -192,17 +194,15 @@ struct StarredView: View {
                                                     }
                                                 } label: {
                                                     Image(systemName: "ellipsis")
-                                                        .frame(height: 20)
+                                                        .frame(width: 40, height: 40)
                                                 }
                                                 .foregroundColor(colorScheme == .light ? .black : .white)
                                                 
                                             }
                                             Spacer()
                                         }
-                                        .offset(x: -20, y: 20)
+                                        .offset(x: -40, y: 30)
                                     } // ZStack
-                                    .padding(.horizontal, 20)
-                                    .padding(.top, 15)
                                 }
                             } // ForEach
                         } // if-else repo.isEmpty
