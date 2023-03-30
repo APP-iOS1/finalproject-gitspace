@@ -271,7 +271,8 @@ final class GitHubAuthManager: ObservableObject {
         do {
             await deleteCurrentUser()
             try await authentification.currentUser?.delete()
-            state = .signedOut
+            UserDefaults.standard.removeObject(forKey: "AT")
+            signOut()
         } catch let deleteUserError as NSError {
             print(#function, "Error delete user: %@", deleteUserError)
         }
