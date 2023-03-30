@@ -13,33 +13,49 @@ struct SigninView: View {
     @State var isSignedIn: Bool = false
     
     var body: some View {
-        ZStack{
+        NavigationView {
             VStack {
-                Spacer()
-                VStack {
-                    Image("GitSpace-Signin")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 200)
-                    GSText.CustomTextView(style: .title1, string: "Hello, GitSpacer!")
-                    GSText.CustomTextView(style: .body1, string: "Welcome to GitSpace.")
-                        .padding(5)
+                ZStack{
+                    VStack {
+                        Spacer()
+                        VStack {
+                            Image("GitSpace-Signin")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 200)
+                            GSText.CustomTextView(style: .title1, string: "Hello, GitSpacer!")
+                            GSText.CustomTextView(style: .body1, string: "Welcome to GitSpace.")
+                                .padding(5)
+                        }
+                        
+                        Spacer()
+                        
+                        GSButton.CustomButtonView(
+                            style: .primary(isDisabled: false)
+                        ) {
+                            githubAuthManager.signin()
+                            isSignedIn = true
+                            tabBarRouter.currentPage = .stars
+                        } label: {
+                            Text("**GitHub Signin**")
+                        }
+                        .padding(.bottom, 30)
+                        
+                    }
                 }
-                
-                Spacer()
-                
-                GSButton.CustomButtonView(
-                    style: .primary(isDisabled: false)
-                ) {
-                    githubAuthManager.signin()
-                    isSignedIn = true
-                    tabBarRouter.currentPage = .stars
-                } label: {
-                    Text("**GitHub Signin**")
+                HStack(alignment: .top) {
+                    NavigationLink {
+                        TermsOfServiceView()
+                    } label: {
+                        Text("By signin in you accept our ")
+                            .foregroundColor(.primary)
+                        +
+                        Text("Terms of Use and Privacy policy.")
+                    }
                 }
-                .padding(.bottom, 30)
-                
-            }
+                .font(.footnote)
+                .padding(20)
+            } // VStack
         }
     }
 }
