@@ -24,6 +24,7 @@ struct ContributorListView: View {
     
     @State var gitSpaceUserList: [Int] = []
     @State var isDevided: Bool = false
+    @State private var githubID: Int = 0
     
     func divideUser() async {
         
@@ -193,6 +194,14 @@ Please select a User to start chatting with.
         } // ScrollView
         .task {
             await divideUser()
+            if let githubID = userInfoManager.currentUser?.githubID {
+                self.githubID = githubID
+            } else {
+                let user: UserInfo? = await userInfoManager.requestUserInfoWithID(userID: Utility.loginUserID)
+                if let user {
+                    self.githubID = user.githubID
+                }
+            }
         }
         .refreshable {
             await divideUser()
