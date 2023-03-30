@@ -73,9 +73,7 @@ struct MainHomeView: View {
             case starTab:
                 StarredView()
                     .ignoresSafeArea()
-                    .task {
-                        await userStore.requestUsers()
-                    }
+                    
             case activityTab:
                 ActivityView(eventViewModel: eventViewModel)
                     .ignoresSafeArea()
