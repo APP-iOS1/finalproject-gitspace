@@ -35,7 +35,7 @@ struct MainKnockView: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
                 
-                TextField("Search", text: $searchText)
+                TextField("User Name", text: $searchText)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
             }
