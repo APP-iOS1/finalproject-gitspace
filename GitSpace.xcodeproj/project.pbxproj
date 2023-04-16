@@ -162,6 +162,9 @@
 		7E1474C729C0C62800D2E011 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7E1474C629C0C62800D2E011 /* FirebaseMessaging */; };
 		7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */; };
 		7E94D4EF29B2F517006A6B34 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */; };
+		7EB99A3D29EC2E8900863341 /* Blockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A3C29EC2E8900863341 /* Blockable.swift */; };
+		7EB99A3F29EC34E200863341 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A3E29EC34E200863341 /* Reportable.swift */; };
+		7EB99A4129EC410D00863341 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A4029EC410D00863341 /* Report.swift */; };
 		7EC80F4629B789C400D4D870 /* PushNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */; };
 		7EF6279529C2B4A200F0B6B0 /* KnockCommunicationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6279429C2B4A200F0B6B0 /* KnockCommunicationRouter.swift */; };
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
@@ -322,6 +325,9 @@
 		7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceivedKnockDetailView.swift; sourceTree = "<group>"; };
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
+		7EB99A3C29EC2E8900863341 /* Blockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blockable.swift; sourceTree = "<group>"; };
+		7EB99A3E29EC34E200863341 /* Reportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
+		7EB99A4029EC410D00863341 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		7EC80F4529B789C400D4D870 /* PushNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationProtocol.swift; sourceTree = "<group>"; };
 		7EF6279429C2B4A200F0B6B0 /* KnockCommunicationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockCommunicationRouter.swift; sourceTree = "<group>"; };
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
@@ -354,6 +360,7 @@
 		225A22C2299778A900786B35 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				7EB99A3B29EC2E0C00863341 /* Interface */,
 				225A22C3299778A900786B35 /* Common */,
 				225A22D829977C0000786B35 /* Endpoints */,
 				225A22C8299778A900786B35 /* APIModels */,
@@ -713,6 +720,7 @@
 				6E128D6429A3BDFF0004AEC8 /* ImageCacheManager.swift */,
 				6E0840162983906F00F51169 /* Message.swift */,
 				700A11D7299774A0008C94C7 /* Knock.swift */,
+				7EB99A4029EC410D00863341 /* Report.swift */,
 				6E0840142983902800F51169 /* Chat.swift */,
 				6E0840262983BB9A00F51169 /* UserInfo.swift */,
 				687AE54F298FA22500113ABF /* Repository.swift */,
@@ -810,6 +818,15 @@
 				70ABF2C4298C06AB0058467E /* GSNavigationLink.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		7EB99A3B29EC2E0C00863341 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				7EB99A3C29EC2E8900863341 /* Blockable.swift */,
+				7EB99A3E29EC34E200863341 /* Reportable.swift */,
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 		7EC80F4729B78EFE00D4D870 /* PushNotification */ = {
@@ -943,6 +960,8 @@
 				2201724029B9E122006C34D3 /* CurrentUserProfileViewModel.swift in Sources */,
 				0BDBDD3529B9E7F000F0D3FD /* LottieView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
+				7EB99A4129EC410D00863341 /* Report.swift in Sources */,
+				7EB99A3D29EC2E8900863341 /* Blockable.swift in Sources */,
 				22390DF329B84EBD00A0D49D /* RepositoryDetailViewModel.swift in Sources */,
 				700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */,
 				70DB32B02989FA40004E82AD /* Button+ColorScheme.swift in Sources */,
@@ -988,6 +1007,7 @@
 				70ABF2C7298C07F90058467E /* View+DesignSystem.swift in Sources */,
 				34277361299495C000818816 /* SetAccountView.swift in Sources */,
 				2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */,
+				7EB99A3F29EC34E200863341 /* Reportable.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
