@@ -55,6 +55,8 @@ public enum Constant {
         static let FIELD_ID: String = "id"
         static let FIELD_TAGNAME: String = "tagName"
         static let FIELD_REPOSITORIES: String = "repositories"
+        
+        static let COLELCTION_REPORT: String = "Report"
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
