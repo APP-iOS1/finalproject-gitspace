@@ -184,6 +184,9 @@ final class UserStore: ObservableObject {
         await writeUsers(users: users)
     }
     
+    /*
+     Blockable 프로토콜 및 확장 구현으로 미사용하게 되어 주석처리 By. 태영
+     
     private func getTargetUserIDIndex(targetUserID: String) -> Int? {
         guard let user else {
             return nil
@@ -227,6 +230,7 @@ final class UserStore: ObservableObject {
         }
         
     }
+     */
     
     /**
      UserInfo를 update 합니다.
