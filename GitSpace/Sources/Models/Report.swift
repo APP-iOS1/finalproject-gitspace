@@ -18,13 +18,13 @@ struct Report: Codable {
     var content: String?
     var type: String
     
-    enum ReportType: String {
+    enum ReportType: String, Codable {
         case user = "User"
         case chat = "Chat"
         case knock = "Knock"
     }
     
-    enum ReportReason: String {
+    enum ReportReason: String, Codable {
         case spamming = "Spamming"
         case offensive = "Verbal Abuse, Offensive Language"
         case sexual = "Sexual Description(Activity)"
