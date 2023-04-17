@@ -32,16 +32,21 @@ extension Reportable {
         let db = Firestore.firestore()
         
         // TODO: - 너무 많은 신고 로직
+        let reportableResult = try await checkReportable(by: currentUser, with: report)
         
-        do {
-            try db
-                .collection(Constant.FirestorePathConst.COLELCTION_REPORT)
-                .document(report.id)
-                .setData(from: report.self)
-            
-            return .success(())
-        } catch {
-            return .failure(.requestReportFailed)
+        switch reportableResult {
+        case .success(()):
+            do {
+                try db
+                    .collection(Constant.FirestorePathConst.COLLECTION_REPORT)
+                    .document(report.id)
+                    .setData(from: report.self)
+                return .success(())
+            } catch {
+                return .failure(.setReportFailed)
+            }
+        default:
+            return reportableResult
         }
     }
     
