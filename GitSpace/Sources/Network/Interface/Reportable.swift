@@ -51,6 +51,9 @@ extension Reportable {
 }
 
 enum ReportableError: Error {
-    case tooManyRequest
-    case requestReportFailed
+    case invalidDate // 날짜 정보가 잘못된 경우 (startDate를 옵셔널 바인딩 못한 경우)
+    case alreadyReported // 내가 상대방을 오늘 같은 사유로 신고한 이력이 있는 경우
+    case requestReportFailed // report 컬렉션 요청이 실패한 경우
+    case setReportFailed // report 컬렉션에 setData가 실패한 경우
+    case unKnownError
 }
