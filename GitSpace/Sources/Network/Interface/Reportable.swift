@@ -12,11 +12,16 @@ import FirebaseFirestoreSwift
 protocol Reportable {
     associatedtype ReportContent = String
     
-    // 신고하기만 구현
-    func reportTarget() async throws -> Result<Void, ReportableError>
+    /// 로그인 유저와 신고 객체를 받아서 Firestore Report 컬렉션에 문서를 추가하는 비동기 함수입니다.
+    func reportTarget(by currentUser: UserInfo,
+                      with report: Report
+    ) async throws -> Result<Void, ReportableError>
     
-    // report 내역 가져오기
-    func requestReportHistory() async throws -> Result<Void, ReportableError>
+    /// 신고 객체의 중복 여부를 통해 신고가 가능한지 여부를 체크해서 반환하는 비동기 함수입니다. reportTarget 내부에서 사용합니다.
+    func checkReportable(
+        by currentUser: UserInfo,
+        with report: Report
+    ) async throws -> Result<Void, ReportableError>
 }
 
 extension Reportable {
