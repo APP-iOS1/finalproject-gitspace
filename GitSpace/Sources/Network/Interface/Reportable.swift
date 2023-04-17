@@ -45,8 +45,38 @@ extension Reportable {
         }
     }
     
-    internal func checkIfTooManyReport() {
+    func checkReportable(
+        by currentUser: UserInfo,
+        with report: Report
+    ) async throws -> Result<Void, ReportableError> {
+        let db = Firestore.firestore()
+        let const = Constant.FirestorePathConst.self
+        let calendar = Calendar.current
+        let timestampAsDate = report.date.dateValue()
         
+        let year = calendar.component(.year, from: timestampAsDate)
+        let month = calendar.component(.month, from: timestampAsDate)
+        let day = calendar.component(.day, from: timestampAsDate)
+        
+        if let startDate = calendar.date(from: DateComponents(year: year, month: month, day: day)) {
+            do {
+                let snapshot = try await db
+                    .collection(const.COLLECTION_REPORT)
+                    .whereField(const.FIELD_REPORTER_ID, isEqualTo: currentUser.id)
+                    .whereField(const.FIELD_TARGET_USER_ID, isEqualTo: report.targetUserID)
+                    .whereField(const.FIELD_REASON, isEqualTo: report.reason)
+                    .whereField(const.FIELD_DATE, isGreaterThanOrEqualTo: startDate)
+                    .getDocuments()
+                // 조건에 해당하는 문서가 없는 경우 신고가 가능
+                return snapshot.isEmpty
+                ? .success(())
+                : .failure(.alreadyReported)
+            } catch {
+                return .failure(.requestReportFailed)
+            }
+        } else {
+            return .failure(.invalidDate)
+        }
     }
 }
 
