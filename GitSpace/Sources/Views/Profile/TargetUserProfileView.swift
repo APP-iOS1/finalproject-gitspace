@@ -292,6 +292,28 @@ struct TargetUserProfileView: View {
                 }
             }
         }
+            .toolbar {
+                Menu {
+                    Section {
+                        Button(role: .destructive, action: {
+                            /* Block 모달 뷰 appear */
+                            isBlockViewShowing.toggle()
+                        }) {
+                            Label("Block", systemImage: "nosign")
+                        }
+                        
+                        Button(role: .destructive, action: {
+                            /* Report 모달 뷰 appear */
+                            isReportViewShowing.toggle()
+                        }) {
+                            Label("Report", systemImage: "exclamationmark.bubble")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 40, height: 40)
+                }
+            }
 
     } //  body
 }
