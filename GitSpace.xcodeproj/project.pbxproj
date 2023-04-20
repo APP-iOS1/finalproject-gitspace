@@ -75,6 +75,7 @@
 		347146122992253600ED990C /* GuideBlockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146112992253600ED990C /* GuideBlockSection.swift */; };
 		347146142992254200ED990C /* BlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347146132992254200ED990C /* BlockGuideView.swift */; };
 		3476476229F160B400CCBD12 /* BlockedUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3476476129F160B400CCBD12 /* BlockedUsersListView.swift */; };
+		3476476429F16DB800CCBD12 /* BlockedUsersListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3476476329F16DB800CCBD12 /* BlockedUsersListCell.swift */; };
 		348540EF299D5DFE00B738F9 /* TagGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540EE299D5DFE00B738F9 /* TagGuideView.swift */; };
 		348540F1299D5E7700B738F9 /* BlockListGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F0299D5E7700B738F9 /* BlockListGuideView.swift */; };
 		348540F3299D5E9E00B738F9 /* AfterBlockGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348540F2299D5E9E00B738F9 /* AfterBlockGuideView.swift */; };
@@ -244,6 +245,7 @@
 		347146112992253600ED990C /* GuideBlockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideBlockSection.swift; sourceTree = "<group>"; };
 		347146132992254200ED990C /* BlockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockGuideView.swift; sourceTree = "<group>"; };
 		3476476129F160B400CCBD12 /* BlockedUsersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUsersListView.swift; sourceTree = "<group>"; };
+		3476476329F16DB800CCBD12 /* BlockedUsersListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUsersListCell.swift; sourceTree = "<group>"; };
 		348540EE299D5DFE00B738F9 /* TagGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagGuideView.swift; sourceTree = "<group>"; };
 		348540F0299D5E7700B738F9 /* BlockListGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListGuideView.swift; sourceTree = "<group>"; };
 		348540F2299D5E9E00B738F9 /* AfterBlockGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterBlockGuideView.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 			children = (
 				34277360299495C000818816 /* SetAccountView.swift */,
 				3476476129F160B400CCBD12 /* BlockedUsersListView.swift */,
+				3476476329F16DB800CCBD12 /* BlockedUsersListCell.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -959,6 +962,7 @@
 				708E70E92997E01F008BC975 /* SendKnockView.swift in Sources */,
 				2205F241299CCBF900B2643D /* FollowerViewModel.swift in Sources */,
 				6E0F9595298CF5F8000FE529 /* GSTextEditor.swift in Sources */,
+				3476476429F16DB800CCBD12 /* BlockedUsersListCell.swift in Sources */,
 				70DB32B22989FAB0004E82AD /* Message.swift in Sources */,
 				700A11D2299737F4008C94C7 /* AppDelegate+Firebase.swift in Sources */,
 				22E9ECF1299BA78400D5A9C6 /* UIScreen+.swift in Sources */,
