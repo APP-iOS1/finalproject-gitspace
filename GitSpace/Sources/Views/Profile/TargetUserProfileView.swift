@@ -22,6 +22,9 @@ struct TargetUserProfileView: View {
     @State private var isGitSpaceUser = false
     @State private var isFailedToLoadReadme = false
     @State private var isEmptyReadme = false
+    @State private var isBlockViewShowing = false
+    @State private var isReportViewShowing = false
+    @State private var isSuggestBlockViewShowing = false
 
     let user: GithubUser
     let gitHubService = GitHubService()
@@ -315,5 +318,14 @@ struct TargetUserProfileView: View {
                 }
             }
 
+            .sheet(isPresented: $isBlockViewShowing) {
+                BlockView()
+            }
+            .sheet(isPresented: $isReportViewShowing) {
+                ReportView(isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            }
+            .sheet(isPresented: $isSuggestBlockViewShowing) {
+                SuggestBlockView(isBlockViewShowing: $isBlockViewShowing)
+            }
     } //  body
 }
