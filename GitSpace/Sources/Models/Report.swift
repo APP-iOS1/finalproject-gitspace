@@ -24,7 +24,7 @@ struct Report: Codable {
         case knock = "Knock"
     }
     
-    enum ReportReason: String, Codable {
+    enum ReportReason: String, Codable, CaseIterable {
         case spamming = "Spamming"
         case offensive = "Verbal Abuse, Offensive Language"
         case sexual = "Sexual Description(Activity)"
