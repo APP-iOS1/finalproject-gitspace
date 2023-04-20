@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlockView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Binding var isBlockViewShowing: Bool
     
     var body: some View {
         VStack {
@@ -39,8 +39,7 @@ struct BlockView: View {
                 
                 HStack {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: false)) {
-                        print("no")
-                        dismiss()
+                        isBlockViewShowing.toggle()
                     } label: {
                         Text("No")
                     }
@@ -48,8 +47,7 @@ struct BlockView: View {
                     
                     GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
                         /* Block Method Call */
-                        print("yes")
-                        dismiss()
+                        isBlockViewShowing.toggle()
                     } label: {
                         Text("Yes")
                     }
@@ -61,6 +59,6 @@ struct BlockView: View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView()
+        BlockView(isBlockViewShowing: .constant(true))
     }
 }
