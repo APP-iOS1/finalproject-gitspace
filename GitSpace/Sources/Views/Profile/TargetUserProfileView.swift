@@ -317,15 +317,20 @@ struct TargetUserProfileView: View {
                         .frame(width: 40, height: 40)
                 }
             }
-
-            .sheet(isPresented: $isBlockViewShowing) {
-                BlockView()
+            .halfSheet(showSheet: $isBlockViewShowing) {
+                BlockView(isBlockViewShowing: $isBlockViewShowing)
+            } onEnd: {
+                /* 모달 닫히고 난 뒤 필요한 로직 호출 */
             }
-            .sheet(isPresented: $isReportViewShowing) {
-                ReportView(isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            .halfSheet(showSheet: $isReportViewShowing) {
+                ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            } onEnd: {
+                /* 모달 닫히고 난 뒤 필요한 로직 호출 */
             }
-            .sheet(isPresented: $isSuggestBlockViewShowing) {
-                SuggestBlockView(isBlockViewShowing: $isBlockViewShowing)
+            .halfSheet(showSheet: $isSuggestBlockViewShowing) {
+                SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            } onEnd: {
+                /* 모달 닫히고 난 뒤 필요한 로직 호출 */
             }
     } //  body
 }
