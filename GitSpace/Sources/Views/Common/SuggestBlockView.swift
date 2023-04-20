@@ -9,12 +9,13 @@ import SwiftUI
 
 struct SuggestBlockView: View {
     @Environment(\.dismiss) private var dismiss
-    
     @Binding var isBlockViewShowing: Bool
+    @Binding var isSuggestBlockViewShowing: Bool
     
     var body: some View {
         VStack {
             VStack {
+//                let _ = print("!!\(isSuggestBlockViewShowing) \(isBlockViewShowing)")
                 GSText.CustomTextView(style: .title1, string: "Report Submitted")
                 GSText.CustomTextView(style: .description, string: "Your report is submitted. ")
             }
@@ -27,17 +28,15 @@ struct SuggestBlockView: View {
             
             HStack {
                 GSButton.CustomButtonView(style: .plainText(isDestructive: false)) {
-                    print("no")
-                    dismiss()
+                    isSuggestBlockViewShowing.toggle()
                 } label: {
                     Text("No")
                 }
                 .padding([.leading, .trailing], 20)
                 
                 GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
-                    print("yes")
                     dismiss()
-                    isBlockViewShowing = true
+                    isBlockViewShowing.toggle()
                 } label: {
                     Text("Yes")
                 }
@@ -49,6 +48,6 @@ struct SuggestBlockView: View {
 
 struct SuggestBlockView_Previews: PreviewProvider {
     static var previews: some View {
-        SuggestBlockView(isBlockViewShowing: .constant(false))
+        SuggestBlockView(isBlockViewShowing: .constant(false), isSuggestBlockViewShowing: .constant(true))
     }
 }
