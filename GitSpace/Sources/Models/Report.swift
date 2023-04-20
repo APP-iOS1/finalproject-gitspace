@@ -31,4 +31,12 @@ struct Report: Codable {
         case cheating = "Cheating"
         case bullying = "Cyberbullying or Harassment"
     }
+    
+    enum ReportReasonDescription: String, CaseIterable {
+        case spamming = "Spamming Description"
+        case offensive = "Verbal Abuse, Offensive Language Description"
+        case sexual = "Sexual Description(Activity) Description"
+        case cheating = "Cheating Description"
+        case bullying = "Cyberbullying or Harassment Description"
+    }
 }
