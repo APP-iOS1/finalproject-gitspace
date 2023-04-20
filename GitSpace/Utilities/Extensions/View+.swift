@@ -48,4 +48,23 @@ extension View {
     func onViewDidLoad(perform action: (() -> Void)? = nil) -> some View {
         self.modifier(ViewDidLoadModifier(action: action))
     }
+    
+    // MARK: - Half Sheet을 사용하기 위한 Extension
+    /// Half Sheet를 사용할 수 있는 View의 Extension이다.
+    /// iOS 15의 SwiftUI에서는 Sheet의 크기를 조절하는 API가 없다.
+    /// 그러므로 HalfSheetManager를 background에 사용하여 half modal을 구현한다.
+    func halfSheet<SheetView: View>(
+        showSheet: Binding<Bool>,
+        @ViewBuilder sheetView: @escaping ()->SheetView,
+        onEnd: @escaping ()->()
+    ) -> some View {
+        return self
+            .background {
+                 HalfSheetManager(
+                    showSheet: showSheet,
+                    sheetView: sheetView(),
+                    onEnd: onEnd
+                 )
+            }
+    }
 }
