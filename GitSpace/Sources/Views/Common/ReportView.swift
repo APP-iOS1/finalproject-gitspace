@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReportView: View {
     @Environment(\.dismiss) private var dismiss
-    
+    @Binding var isReportViewShowing: Bool
     @Binding var isSuggestBlockViewShowing: Bool
     
     @State private var reportReason: String?
@@ -119,10 +119,11 @@ Gitspace operation team will check and help you.
                 style: .secondary(isDisabled: isReportReasonSelected)
             ) {
                 /* report method call */
-                print("Submit Report")
+                
                 /* report view dismiss -> suggest block view appear*/
                 dismiss()
-                isSuggestBlockViewShowing = true
+                isReportViewShowing.toggle()
+                isSuggestBlockViewShowing.toggle()
             } label: {
                 Text("Submit Report")
             }
@@ -134,6 +135,6 @@ Gitspace operation team will check and help you.
 
 struct ReportView_Previews: PreviewProvider {
     static var previews: some View {
-        ReportView(isSuggestBlockViewShowing: .constant(false))
+        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false))
     }
 }
