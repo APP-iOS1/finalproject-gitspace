@@ -8,10 +8,10 @@
 import SwiftUI
 import UIKit
 
-struct HalfSheetManager<SheetView: View>: UIViewControllerRepresentable {
-    @Binding var showSheet: Bool
-    var sheetView: SheetView
-    var onEnd: () -> ()
+struct HalfSheetManager<Content: View>: UIViewControllerRepresentable {
+    @Binding var isPresented: Bool
+    var onDismiss: (() -> ())?
+    var content: Content
     let controller = UIViewController()
 
     func makeCoordinator() -> Coordinator {
@@ -24,8 +24,8 @@ struct HalfSheetManager<SheetView: View>: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if showSheet {
-            let sheetController = CustomHostingController(rootView: sheetView)
+        if isPresented {
+            let sheetController = CustomHostingController(rootView: content)
             sheetController.presentationController?.delegate = context.coordinator
             uiViewController.present(sheetController, animated: true)
         } else {
@@ -43,8 +43,10 @@ struct HalfSheetManager<SheetView: View>: UIViewControllerRepresentable {
         }
 
         func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-            parent.showSheet = false
-            parent.onEnd()
+            parent.isPresented = false
+            if parent.onDismiss != nil {
+                parent.onDismiss!()
+            }
         }
     }
 }

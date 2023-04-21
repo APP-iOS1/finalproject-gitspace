@@ -15,7 +15,6 @@ struct SuggestBlockView: View {
     var body: some View {
         VStack {
             VStack {
-//                let _ = print("!!\(isSuggestBlockViewShowing) \(isBlockViewShowing)")
                 GSText.CustomTextView(style: .title1, string: "Report Submitted")
                 GSText.CustomTextView(style: .description, string: "Your report is submitted. ")
             }
