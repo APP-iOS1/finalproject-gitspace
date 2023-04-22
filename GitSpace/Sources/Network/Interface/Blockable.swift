@@ -16,9 +16,10 @@ import FirebaseFirestore
  */
 protocol Blockable {
     /**
-     blockTargetUser(with:) 메소드는 targetUser를 block하는 비동기 함수입니다.
+     blockTargetUser(in: , with: ) 메소드는 targetUser를 block하는 비동기 함수입니다.
      
      - Parameters:
+        - in currentUser: UserInfo 타입
         - with targetUser: UserInfo 타입
      - Returns: - Result<Void, BlockError>
      - throws: - BlockError enum > blockCreateFailed
@@ -29,9 +30,10 @@ protocol Blockable {
     ) async throws -> Result<Void, BlockError>
     
     /**
-     unblockTargetUser(with:) 메소드는 targetUser를 unblock 하는 비동기 함수입니다.
+     unblockTargetUser(in: , with: ) 메소드는 targetUser를 unblock 하는 비동기 함수입니다.
      
      - Parameters:
+        - in currentUser: UserInfo 타입
         - with targetUser: UserInfo 타입
      - Returns: - Result<Void, BlockError>
      - throws: - BlockError enum > unblockDeleteFailed
