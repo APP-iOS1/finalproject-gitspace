@@ -105,7 +105,7 @@ extension Blockable {
         by subjectUser: UserInfo,
         with objectUser: UserInfo
     ) -> Bool {
-        return subjectUser.blockedUserIDs.contains(objectUser.id) ? true : false
+        return subjectUser.blockedUserIDs.contains(objectUser.id)
     }
 }
 
