@@ -42,6 +42,21 @@ protocol Blockable {
         in currentUser: UserInfo,
         with targetUser: UserInfo
     ) async throws -> Result<Void, BlockError>
+        
+    /**
+     verifyBlocked(by: , with: ) 메소드는 subjectUser가 objectUser를 차단했는지 검증하는 함수입니다.
+     subjectUser가 이미 objectUser를 차단했다면 true를 반환하고,
+     차단을 하지 않았다면 false를 반환합니다.
+     
+     - Parameters:
+        - by subjectUser: UserInfo 타입, 차단을 한 주체
+        - with objectUser: UserInfo 타입, 차단을 당한 객체
+     - Returns: - Bool
+     */
+    func verifyBlocked(
+        by subjectUser: UserInfo,
+        with objectUser: UserInfo
+    ) -> Bool
 }
 
 extension Blockable {
