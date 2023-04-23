@@ -147,7 +147,7 @@ struct ChatRoomView: View {
         // 상대방 MessageCell ContextMenu에서 신고 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.reportedMessage?.id) { id in
             
-            // 다혜님이 작업한 신고 모달 프레젠트 로직 수행
+            // TODO: 다혜님의 PR에 포함된 신고 sheet present 로직 구현
             
         }
         // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
