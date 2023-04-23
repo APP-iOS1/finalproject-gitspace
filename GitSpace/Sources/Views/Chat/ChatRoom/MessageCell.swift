@@ -44,7 +44,6 @@ struct MessageCell : View {
                         }
                     }
             }
-            //.padding(.trailing, 10)
             
         case false:
             HStack {
