@@ -12,7 +12,9 @@ struct MessageCell : View {
     
     let message: Message
     let targetUserInfo: UserInfo
-    var isMine: Bool { return Utility.loginUserID == message.senderID }
+    var isMine: Bool {
+        Utility.loginUserID == message.senderID
+    }
     @EnvironmentObject var messageStore: MessageStore
     
     var body: some View {
