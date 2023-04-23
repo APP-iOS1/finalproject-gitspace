@@ -22,12 +22,19 @@ struct MessageCell : View {
         
         switch isMine {
         case true:
-            HStack(alignment: .bottom, spacing: 2) {
+            HStack (
+                alignment: .bottom,
+                spacing: 2
+            ) {
                 Spacer()
                 Text(message.sentDateAsString)
-                    .modifier(MessageTimeModifier())
+                    .modifier(
+                        MessageTimeModifier()
+                    )
                 Text(message.textContent)
-                    .modifier(MessageModifier(isMine: self.isMine))
+                    .modifier(
+                        MessageModifier(isMine: self.isMine)
+                    )
                     .contextMenu {
                         Button {
                             messageStore.deletedMessage = message
@@ -51,13 +58,26 @@ struct MessageCell : View {
                 }
                 
                 // UserName과 Message Bubble 부분
-                VStack (alignment: .leading, spacing: 6) {
-                    GSText.CustomTextView(style: .caption1, string: targetUserInfo.githubLogin)
-                    HStack(alignment: .bottom, spacing: 2) {
+                VStack (
+                    alignment: .leading,
+                    spacing: 6
+                ) {
+                    GSText.CustomTextView(
+                        style: .caption1,
+                        string: targetUserInfo.githubLogin
+                    )
+                    HStack (
+                        alignment: .bottom,
+                        spacing: 2
+                    ) {
                         Text(message.textContent)
-                            .modifier(MessageModifier(isMine: self.isMine))
+                            .modifier(
+                                MessageModifier(isMine: isMine)
+                            )
                         Text(message.sentDateAsString)
-                            .modifier(MessageTimeModifier())
+                            .modifier(
+                                MessageTimeModifier()
+                            )
                         Spacer()
                     }
                 }
@@ -89,30 +109,27 @@ struct ChatBubbleShape: Shape {
     let direction: Direction
     
     func path(in rect: CGRect) -> Path {
-        return (direction == .left) ? getLeftBubblePath(in: rect) : getRightBubblePath(in: rect)
-
+        return (direction == .left)
+        ? getLeftBubblePath(in: rect)
+        : getRightBubblePath(in: rect)
     }
     
     func getLeftBubblePath(in rect: CGRect) -> Path {
-        
-        let path = UIBezierPath(roundedRect: rect,
-                                byRoundingCorners: [.bottomRight, .bottomLeft, .topRight],
-                                cornerRadii: CGSize(width: 20, height: 20)
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: [.bottomRight, .bottomLeft, .topRight],
+            cornerRadii: CGSize(width: 20, height: 20)
         )
-        
         return Path(path.cgPath)
     }
     
     func getRightBubblePath(in rect: CGRect) -> Path {
-        
-        let path = UIBezierPath(roundedRect: rect,
-                                byRoundingCorners: [.bottomRight, .bottomLeft, .topLeft],
-                                cornerRadii: CGSize(width: 20, height: 20)
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: [.bottomRight, .bottomLeft, .topLeft],
+            cornerRadii: CGSize(width: 20, height: 20)
         )
-        
         return Path(path.cgPath)
-                                                    
-                                
     }
 }
 
