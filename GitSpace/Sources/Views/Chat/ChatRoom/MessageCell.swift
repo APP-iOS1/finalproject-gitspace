@@ -16,6 +16,7 @@ struct MessageCell : View {
         Utility.loginUserID == message.senderID
     }
     @EnvironmentObject var messageStore: MessageStore
+    @EnvironmentObject var githubAuthManager: GitHubAuthManager
     
     var body: some View {
         
