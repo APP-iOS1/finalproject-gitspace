@@ -406,7 +406,10 @@ struct ChatRoomView: View {
             // 2
             if isNotificationReceiveEnableDict == nil {
                 // 2-1
-                let _ = UserDefaults().set([:], forKey: chatRoomNotificationKey)
+                let _ = UserDefaults().set(
+                    [:],
+                    forKey: chatRoomNotificationKey
+                )
             }
             
             if let isNotificationReceiveEnableDict {
