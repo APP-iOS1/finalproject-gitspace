@@ -77,6 +77,14 @@ struct MessageCell : View {
                             .modifier(
                                 MessageModifier(isMine: isMine)
                             )
+                            .contextMenu {
+                                Button {
+                                    messageStore.reportedMessage = message
+                                } label: {
+                                    Text("Report")
+                                    Image(systemName: "light.beacon.max")
+                                }
+                            }
                         Text(message.sentDateAsString)
                             .modifier(
                                 MessageTimeModifier()
