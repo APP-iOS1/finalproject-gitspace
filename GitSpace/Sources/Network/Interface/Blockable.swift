@@ -122,6 +122,14 @@ extension Blockable {
     ) -> Bool {
         return subjectUser.blockedUserIDs.contains(objectUser.id)
     }
+    
+    func isBlockedEither(
+        by currentUser: UserInfo,
+        by targetUser: UserInfo
+    ) -> Bool {
+        return ( isBlocked(by: currentUser, with: targetUser) ||
+                 isBlocked(by: targetUser, with: currentUser) )
+    }
 }
 
 enum BlockError: Error {
