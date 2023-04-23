@@ -136,7 +136,7 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
             }
         }
-        // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
+        // 내 MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
