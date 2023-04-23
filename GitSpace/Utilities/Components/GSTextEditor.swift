@@ -32,6 +32,7 @@ struct GSTextEditor {
         let text: Binding<String>
         let font: Font
         let lineSpace: CGFloat
+        let isBlocked: Bool
         
         // MARK: SendButton 관련 프로퍼티
         let sendableImage: String
@@ -151,6 +152,7 @@ struct GSTextEditor {
             text: Binding<String>,
             font: Font = .body,
             lineSpace: CGFloat = 2,
+            isBlocked: Bool,
             sendableImage: String,
             unSendableImage: String,
             action: @escaping () -> Void
@@ -159,6 +161,7 @@ struct GSTextEditor {
             self.text = text
             self.font = font
             self.lineSpace = lineSpace
+            self.isBlocked = isBlocked
             self.sendableImage = sendableImage
             self.unSendableImage = unSendableImage
             self.action = action
