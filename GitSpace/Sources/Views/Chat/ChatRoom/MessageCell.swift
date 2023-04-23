@@ -36,10 +36,11 @@ struct MessageCell : View {
                         MessageModifier(isMine: self.isMine)
                     )
                     .contextMenu {
-                        Button {
-                            messageStore.deletedMessage = message
+                        Button(role: .destructive) {
+                            messageStore.deletedMessage = self.message
                         } label: {
                             Text("Delete")
+                            Image(systemName: "trash")
                         }
                     }
             }
