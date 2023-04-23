@@ -22,6 +22,9 @@ struct TargetUserProfileView: View {
     @State private var isGitSpaceUser = false
     @State private var isFailedToLoadReadme = false
     @State private var isEmptyReadme = false
+    @State private var isBlockViewShowing = false
+    @State private var isReportViewShowing = false
+    @State private var isSuggestBlockViewShowing = false
 
     let user: GithubUser
     let gitHubService = GitHubService()
@@ -292,6 +295,36 @@ struct TargetUserProfileView: View {
                 }
             }
         }
-
+            .toolbar {
+                Menu {
+                    Section {
+                        Button(role: .destructive, action: {
+                            /* Block 모달 뷰 appear */
+                            isBlockViewShowing.toggle()
+                        }) {
+                            Label("Block", systemImage: "nosign")
+                        }
+                        
+                        Button(role: .destructive, action: {
+                            /* Report 모달 뷰 appear */
+                            isReportViewShowing.toggle()
+                        }) {
+                            Label("Report", systemImage: "exclamationmark.bubble")
+                        }
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 40, height: 40)
+                }
+            }
+            .halfSheet(isPresented: $isBlockViewShowing) {
+                BlockView(isBlockViewShowing: $isBlockViewShowing)
+            }
+            .halfSheet(isPresented: $isReportViewShowing) {
+                ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            }
+            .halfSheet(isPresented: $isSuggestBlockViewShowing) {
+                SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            }
     } //  body
 }
