@@ -57,6 +57,21 @@ protocol Blockable {
         by subjectUser: UserInfo,
         with objectUser: UserInfo
     ) -> Bool
+    
+    /**
+     isBlockedEither(by: , by: ) 메소드는 currentUser와 targetUser 간의 차단 상태를 확인하는 함수입니다.
+     둘 중 하나라도 차단을 했다면 true를 반환하고,
+     둘 다 차단하지 않은 상태라면 false를 반환합니다.
+     
+     - Parameters:
+        - by currentUser: UserInfo 타입
+        - by targetUser: UserInfo 타입
+     - Returns: - Bool
+     */
+    func isBlockedEither(
+        by currentUser: UserInfo,
+        by targetUser: UserInfo
+    ) -> Bool
 }
 
 extension Blockable {
