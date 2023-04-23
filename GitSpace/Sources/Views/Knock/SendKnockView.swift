@@ -283,6 +283,7 @@ Please write a message carefully.
                             if !isKnockSent {
                                 GSTextEditor.CustomTextEditorView(style: .message,
                                                                   text: $knockMessage,
+                                                                  isBlocked: false,
                                                                   sendableImage: "paperplane.fill",
                                                                   unSendableImage: "paperplane") {
                                     Task {
@@ -378,6 +379,7 @@ Please write a message carefully.
                             if !isKnockSent {
                                 GSTextEditor.CustomTextEditorView(style: .message,
                                                                   text: $knockMessage,
+                                                                  isBlocked: false,
                                                                   sendableImage: "paperplane.fill",
                                                                   unSendableImage: "paperplane") {
                                     Task {
