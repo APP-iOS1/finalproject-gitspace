@@ -7,14 +7,46 @@
 
 import SwiftUI
 
+/**
+ EillipsisMenu를 그리는 ViewBuilder입니다.
+ Report와 Edit Menu가 Nested 되어 있습니다.
+ 수신인일 경우, Report 버튼을 띄우고
+ 발신인일 경우, Edit 버튼을 띄웁니다.
+ */
 struct KnockEllipsisMenu: View {
+    @EnvironmentObject var userStore: UserStore
+    @Binding var knock: Knock
+    @Binding var isReporting: Bool
+    @Binding var isEditingKnockMessage: Bool
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct KnockEllipsisMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        KnockEllipsisMenu()
+        Menu {
+            /// Report
+            if knock.receivedUserID == userStore.currentUser?.id {
+                Button(role: .destructive) {
+                    withAnimation {
+                        isReporting.toggle()
+                    }
+                } label: {
+                    Label("Report", systemImage: "nosign")
+                }
+            }
+            
+            Divider()
+            
+            /// Edit
+            if knock.sentUserID == userStore.currentUser?.id {
+                Button {
+                    withAnimation {
+                        isEditingKnockMessage.toggle()
+                    }
+                } label: {
+                    Label("Edit", systemImage: "ellipsis")
+                }
+            }
+        } label: {
+            Image(systemName: "ellipsis")
+        }
+        .tint(.gsLightGray2)
     }
 }
