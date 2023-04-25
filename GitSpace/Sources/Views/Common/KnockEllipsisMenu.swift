@@ -14,6 +14,7 @@ import SwiftUI
  발신인일 경우, Edit 버튼을 띄웁니다.
  */
 struct KnockEllipsisMenu: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var userStore: UserStore
     @Binding var knock: Knock
     @Binding var isReporting: Bool
@@ -41,12 +42,13 @@ struct KnockEllipsisMenu: View {
                         isEditingKnockMessage.toggle()
                     }
                 } label: {
-                    Label("Edit", systemImage: "ellipsis")
+                    Label("Edit", systemImage: "pencil")
                 }
             }
         } label: {
             Image(systemName: "ellipsis")
+                .frame(width: 40, height: 40)
         }
-        .tint(.gsLightGray2)
+        .tint(colorScheme == .light ? .gsLightGray2 : .white)
     }
 }
