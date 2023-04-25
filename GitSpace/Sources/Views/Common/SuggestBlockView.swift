@@ -37,6 +37,10 @@ struct SuggestBlockView: View {
                     isBlockViewShowing.toggle()
                 } label: {
                     Text("Yes")
+                        .foregroundColor(.white)
+                        .frame(width: 100, height: 50)
+                        .background(Color.gsRed)
+                        .cornerRadius(15)
                 }
             }
 
