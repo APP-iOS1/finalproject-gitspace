@@ -44,6 +44,7 @@ struct BlockedUsersListCell: View, Blockable {
                 }
             } // HStack
         }) // GSCanvas
+        .padding(.horizontal, 10)
     }
 }
 
