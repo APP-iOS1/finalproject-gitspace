@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct BlockedUsersListCell: View {
-    
-    let targetUser: GithubUser
+struct BlockedUsersListCell: View, Blockable {
     
     var body: some View {
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
