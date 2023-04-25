@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct BlockedUsersListView: View {
-    var body: some View {
+    
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @EnvironmentObject var userInfoManager: UserStore
     @State var isLoaded: Bool = false
     
     func convertUserInfo() async {
