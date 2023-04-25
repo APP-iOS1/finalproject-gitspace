@@ -47,12 +47,4 @@ struct Report: Codable {
         }
         
     }
-    
-//    enum ReportReasonDescription: String, CaseIterable {
-//        case spammingDescription = "Spamming Description"
-//        case offensiveDescription = "Verbal Abuse, Offensive Language Description"
-//        case sexualDescription = "Sexual Description(Activity) Description"
-//        case cheatingDescription = "Cheating Description"
-//        case bullyingDescription = "Cyberbullying or Harassment Description"
-//    }
 }
