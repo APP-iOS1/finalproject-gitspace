@@ -26,7 +26,6 @@ struct SetMainView: View {
         }
     }
     
-    
     var body: some View {
             List {
                 // MARK: - USER SETTINGS
@@ -201,7 +200,6 @@ struct SetMainView: View {
                 }
             } // List
             .navigationBarTitle("Settings", displayMode: .inline)
-        
     } // body
 }
 

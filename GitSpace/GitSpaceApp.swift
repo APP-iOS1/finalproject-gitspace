@@ -31,6 +31,7 @@ struct GitSpaceApp: App {
                 .environmentObject(FollowerViewModel(service: GitHubService()))
                 .environmentObject(tabBarRouter)
 				.environmentObject(pushNotificationManager)
+                .environmentObject(BlockedUsers())
 				.onAppear {
 					UIApplication.shared.applicationIconBadgeNumber = 0
 				}
