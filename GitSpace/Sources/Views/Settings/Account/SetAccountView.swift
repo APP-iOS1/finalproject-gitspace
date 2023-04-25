@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SetAccountView: View {
     
-    @EnvironmentObject var GitHubAuthManager: GitHubAuthManager
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @State private var showingLogoutAlert = false
     @State private var showingDeleteAccountAlert = false
     
@@ -20,7 +20,7 @@ struct SetAccountView: View {
                 HStack {
                     Text("Username")
                     Spacer()
-                    Text("\(GitHubAuthManager.authenticatedUser?.login ?? "")")
+                    Text("\(gitHubAuthManager.authenticatedUser?.login ?? "")")
                         .foregroundColor(.gsLightGray2)
                 }
             } header: {
@@ -65,20 +65,20 @@ struct SetAccountView: View {
         .navigationBarTitle("Account", displayMode: .inline)
         .alert("Logout", isPresented: $showingLogoutAlert) {
               Button("Logout", role: .destructive) {
-                  GitHubAuthManager.signOut()
+                  gitHubAuthManager.signOut()
               }
         } message: {
-            Text("Logout from ") + Text("@\(GitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account.")
+            Text("Logout from ") + Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account.")
         }
         .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
               Button("Delete", role: .destructive) {
                   Task {
-                      await GitHubAuthManager.deleteCurrentUser()
-                      await GitHubAuthManager.withdrawal()
+                      await gitHubAuthManager.deleteCurrentUser()
+                      await gitHubAuthManager.withdrawal()
                   }
               }
         } message: {
-            Text("@\(GitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account has been deleted.")
+            Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account has been deleted.")
         }
     }
 }
