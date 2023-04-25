@@ -178,34 +178,47 @@ struct GSTextEditor {
             case .message:
                 
                 if isBlocked {
-                    TextEditor(text: .constant(const.TEXTEDITOR_BLOCKED_LABEL))
-                        .font(font)
-                        .foregroundColor(.gsGray1)
-                        .lineSpacing(lineSpace)
-                        .frame(maxHeight: textEditorHeight)
-                        .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                        .padding(.bottom, -3)
-                        .disabled(true)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                                .stroke()
-                                .foregroundColor(.gsGray2)
-                                .background(Color.gsGray3.opacity(0.7))
-                                .cornerRadius(const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                        }
-                        .onAppear {
-                            setTextEditorStartHeight()
-                        }
-
+                    TextEditor(
+                        text: .constant(const.TEXTEDITOR_BLOCKED_LABEL)
+                    )
+                    .modifier(
+                        GSTextEditorLayoutModifier(
+                            font: font,
+                            color: .gsGray1,
+                            lineSpace: lineSpace,
+                            maxHeight: textEditorHeight,
+                            horizontalInset: const.TEXTEDITOR_INSET_HORIZONTAL,
+                            bottomInset: const.TEXTEDITOR_INSET_BOTTOM
+                        )
+                    )
+                    .disabled(true)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                            .stroke()
+                            .foregroundColor(.gsGray2)
+                            .background(
+                                Color.gsGray3.opacity(0.7)
+                            )
+                            .cornerRadius(const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                    }
+                    .onAppear {
+                        setTextEditorStartHeight()
+                    }
+                    
                 } else {
                     HStack {
                         GeometryReader { proxy in
                             TextEditor(text: text)
-                                .font(font)
-                                .lineSpacing(lineSpace)
-                                .frame(maxHeight: textEditorHeight)
-                                .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                                .padding(.bottom, -3)
+                                .modifier(
+                                    GSTextEditorLayoutModifier(
+                                        font: font,
+                                        color: .primary,
+                                        lineSpace: lineSpace,
+                                        maxHeight: textEditorHeight,
+                                        horizontalInset: const.TEXTEDITOR_INSET_HORIZONTAL,
+                                        bottomInset: const.TEXTEDITOR_INSET_BOTTOM
+                                    )
+                                )
                                 .overlay {
                                     RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
                                         .stroke()
