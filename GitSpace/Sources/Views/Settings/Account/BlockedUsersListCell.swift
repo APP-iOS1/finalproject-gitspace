@@ -46,6 +46,15 @@ struct BlockedUsersListCell: View, Blockable {
                 GSButton.CustomButtonView(
                     style: .secondary(isDisabled: true)
                 ) {
+                    Task {
+                        if let currentUser = userInfoManager.currentUser {
+                            let _ = try await unblockTargetUser(in: currentUser, with: userInfo)
+                            
+                            blockedUsers.blockedUserList.removeAll {
+                                $0 == (userInfo: userInfo, gitHubUser: gitHubUser)
+                            }
+                        }
+                    }
                 } label: {
                     Text("**Unblock**")
                 }
