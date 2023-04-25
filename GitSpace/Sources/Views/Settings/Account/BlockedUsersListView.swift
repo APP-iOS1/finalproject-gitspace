@@ -39,6 +39,15 @@ struct BlockedUsersListView: View {
     var body: some View {
         VStack {
             if isLoaded {
+                } else {
+                    VStack {
+                        Spacer()
+                        GSText.CustomTextView(
+                            style: .description2,
+                            string: "You haven't blocked anyone.")
+                        Spacer()
+                    }
+                }
             } else {
                 BlockedUsersListSkeletonView()
             }
