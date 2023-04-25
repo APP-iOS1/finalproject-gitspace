@@ -178,7 +178,7 @@ final class GitHubAuthManager: ObservableObject {
      
      - Returns: FBUser의 프로퍼티를 통해 생성한 GithubUser 인스턴스
      */
-    private func getGithubUser(FBUser: UserInfo) -> GithubUser {
+    func getGithubUser(FBUser: UserInfo) -> GithubUser {
         return .init(id: FBUser.githubID,
                      login: FBUser.githubLogin,
                      name: FBUser.githubName,

@@ -136,13 +136,19 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
             }
         }
-        // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
+        // 내 MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
             if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
                     await deleteContent(message: deletedMessage)
                 }
             }
+        }
+        // 상대방 MessageCell ContextMenu에서 신고 버튼을 탭하면 수행되는 로직
+        .onChange(of: messageStore.reportedMessage?.id) { id in
+            
+            // TODO: 다혜님의 PR에 포함된 신고 sheet present 로직 구현
+            
         }
         // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
         .onChange(of: scenePhase) { currentPhase in
@@ -406,7 +412,10 @@ struct ChatRoomView: View {
             // 2
             if isNotificationReceiveEnableDict == nil {
                 // 2-1
-                let _ = UserDefaults().set([:], forKey: chatRoomNotificationKey)
+                let _ = UserDefaults().set(
+                    [:],
+                    forKey: chatRoomNotificationKey
+                )
             }
             
             if let isNotificationReceiveEnableDict {
