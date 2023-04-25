@@ -9,6 +9,13 @@ import SwiftUI
 
 struct BlockedUsersListCell: View, Blockable {
     
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
+        
+    let userInfo: UserInfo
+    let gitHubUser: GithubUser
+        
     var body: some View {
         GSCanvas.CustomCanvasView.init(style: .primary, content: {
             HStack(spacing: 15) {
