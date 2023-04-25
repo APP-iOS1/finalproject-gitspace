@@ -9,13 +9,14 @@ import SwiftUI
 
 struct BlockedUsersListView: View {
     var body: some View {
+    @State var isLoaded: Bool = false
+    
     func convertUserInfo() async {
         
         withAnimation(.easeInOut) {
             isLoaded = false
         }
         
-        ScrollView {
         if let currentUser = await userInfoManager.requestUserInfoWithID(userID: userInfoManager.currentUser?.id ?? "") {
             
             for someUser in currentUser.blockedUserIDs {
@@ -34,6 +35,14 @@ struct BlockedUsersListView: View {
             isLoaded = true
         }
     }
+    
+    var body: some View {
+        VStack {
+            if isLoaded {
+            } else {
+                BlockedUsersListSkeletonView()
+            }
+        } //VStack
 }
 
 struct BlockedUsersListView_Previews: PreviewProvider {
