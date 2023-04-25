@@ -39,6 +39,18 @@ struct BlockedUsersListView: View {
     var body: some View {
         VStack {
             if isLoaded {
+                if !blockedUsers.blockedUserList.isEmpty {
+                    ScrollView {
+                        ForEach(blockedUsers.blockedUserList, id: \.userInfo.id) { blockedUser in
+                            BlockedUsersListCell(
+                                userInfo: blockedUser.userInfo,
+                                gitHubUser: blockedUser.gitHubUser
+                            )
+                        }
+                    } // ScrollView
+                    .refreshable {
+                        await convertUserInfo()
+                    }
                 } else {
                     VStack {
                         Spacer()
