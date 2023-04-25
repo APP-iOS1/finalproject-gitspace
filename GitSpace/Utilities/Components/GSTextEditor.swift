@@ -108,7 +108,9 @@ struct GSTextEditor {
             let floatNewLineCounter = CGFloat(newLineCounter)
             
             // 텍스트 길이에 의한 자동 줄바꿈 갯수
-            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth))
+            let floatAutoLineBreakCount = CGFloat(
+                autoLineBreakCount(textEditorWidth: textEditorWidth)
+            )
             
             // 총 라인 갯수
             let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount
@@ -127,7 +129,9 @@ struct GSTextEditor {
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
 
             // 계산한 Editor 높이가 최대 Editor 높이보다 크면 최대 Editor 높이로 고정
-            textEditorHeight = tempTextEditorHeight > maxHeight ? maxHeight : tempTextEditorHeight
+            textEditorHeight = tempTextEditorHeight > maxHeight
+            ? maxHeight
+            : tempTextEditorHeight
         }
         
         // MARK: Method - 개행 문자 기준으로 텍스트를 분리하고, 각 텍스트 길이가 Editor 길이를 초과하는지 계산하여 필요한 줄바꿈 수를 반환하는 메서드
@@ -238,6 +242,11 @@ struct GSTextEditor {
                             .foregroundColor(isMessageSendable
                                              ? .primary
                                              : .gsGray2)
+                            .foregroundColor(
+                                isMessageSendable
+                                ? .primary
+                                : .gsGray2
+                            )
                         }
                         .disabled(!isMessageSendable)
                     }
