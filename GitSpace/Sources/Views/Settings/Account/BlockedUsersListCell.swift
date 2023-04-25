@@ -36,13 +36,9 @@ struct BlockedUsersListCell: View, Blockable {
                 
                 Spacer()
                 
-                
                 GSButton.CustomButtonView(
-                    style: .tag(
-                        isAppliedInView: true
-                    )
+                    style: .secondary(isDisabled: true)
                 ) {
-                    
                 } label: {
                     Text("**Unblock**")
                 }
