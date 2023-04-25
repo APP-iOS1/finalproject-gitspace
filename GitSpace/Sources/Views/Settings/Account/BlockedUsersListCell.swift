@@ -65,8 +65,7 @@ struct BlockedUsersListCell: View, Blockable {
 }
 
 struct BlockedUsersListCell_Previews: PreviewProvider {
-    
     static var previews: some View {
-        BlockedUsersListCell(targetUser: GithubUser(id: 123, login: "guguhanogu", name: "HanHo Choi", email: "", avatar_url: "https://avatars.githubusercontent.com/u/64696968?v=4", bio: "", company: "", location: "", blog: "", public_repos: 123, followers: 123, following: 123))
+        BlockedUsersListCell(userInfo: UserInfo(id: "0kOWGBrrDeZXzgPIN4mXptYTj0l1", createdDate: Date(), deviceToken: "", blockedUserIDs: [""], githubID: 19788294, githubLogin: "jekyun-park", githubName: "jegyun", githubEmail: "", avatar_url: "https://avatars.githubusercontent.com/u/19788294?v=4", bio: "", company: "", location: "", blog: "", public_repos: 9, followers: 47, following: 50), gitHubUser: GithubUser(id: 19788294, login: "jekyun-park", name: "jegyun", email: "parkjekyun@gmail.com", avatar_url: "https://avatars.githubusercontent.com/u/19788294?v=4", bio: "", company: "Hanyang University, ERICA", location: "Suwon", blog: "https://jegyun97.tistory.com/", public_repos: 9, followers: 47, following: 50))
     }
 }
