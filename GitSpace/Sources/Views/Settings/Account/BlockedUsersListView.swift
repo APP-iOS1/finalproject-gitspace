@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BlockedUsersListView: View {
     
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     @State var isLoaded: Bool = false
     
     func convertUserInfo() async {
@@ -75,6 +77,8 @@ struct BlockedUsersListView: View {
     }
 }
 
+class BlockedUsers: ObservableObject {
+    @Published var blockedUserList: [(userInfo: UserInfo, gitHubUser: GithubUser)] = []
 }
 
 struct BlockedUsersListView_Previews: PreviewProvider {
