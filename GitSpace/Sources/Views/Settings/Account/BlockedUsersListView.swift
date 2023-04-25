@@ -66,6 +66,15 @@ struct BlockedUsersListView: View {
                 BlockedUsersListSkeletonView()
             }
         } //VStack
+        .navigationBarTitle("Blocked users", displayMode: .inline)
+        .onViewDidLoad {
+            Task {
+                await convertUserInfo()
+            }
+        }
+    }
+}
+
 }
 
 struct BlockedUsersListView_Previews: PreviewProvider {
