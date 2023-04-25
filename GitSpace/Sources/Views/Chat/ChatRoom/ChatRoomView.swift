@@ -207,9 +207,7 @@ struct ChatRoomView: View {
                     .frame(width: 28, height: 23)
             }
              */
-            
             contentTextEditor
-                
         }
         .padding(.bottom, 15)
         .padding(.vertical, -3)
@@ -219,17 +217,22 @@ struct ChatRoomView: View {
     
     // MARK: GSTextEditor - 메세지 입력 필드와 전송 버튼
     private var contentTextEditor: some View {
-        GSTextEditor.CustomTextEditorView(style: .message,
-                                          text: $contentField,
-                                          sendableImage: "paperplane.fill",
-                                          unSendableImage: "paperplane") {
+        GSTextEditor.CustomTextEditorView(
+            style: .message,
+            text: $contentField,
+            // TODO: isBlocked 아규먼트에 한호님의 verifyBlock 로직으로 차단 여부 검사하는 로직 연결
+            isBlocked: true,
+            sendableImage: "paperplane.fill",
+            unSendableImage: "paperplane"
+        ) {
             Task {
                 await addContent()
             }
         }
-                                          .textInputAutocapitalization(.never)
-                                          .disableAutocorrection(true)
+        .textInputAutocapitalization(.never)
+        .disableAutocorrection(true)
     }
+
     
     // MARK: -Methods
     // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수

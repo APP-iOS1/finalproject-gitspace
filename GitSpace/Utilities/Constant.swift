@@ -135,8 +135,12 @@ public enum Constant {
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
+        static let TEXTEDITOR_INSET_BOTTOM: CGFloat = -3
         static let TEXTEDITOR_STROKE_CORNER_RADIUS: CGFloat = 20
         static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
+        static let TEXTEDITOR_BLOCKED_LABEL: String = "Cannot chat with blocked user"
+        
+        static let TEXTEDITOR_SEND_BUTTON_SIZE: CGFloat = 22
     }
 
 	public enum LabelHierarchy {

@@ -32,6 +32,7 @@ struct GSTextEditor {
         let text: Binding<String>
         let font: Font
         let lineSpace: CGFloat
+        let isBlocked: Bool
         
         // MARK: SendButton 관련 프로퍼티
         let sendableImage: String
@@ -107,7 +108,9 @@ struct GSTextEditor {
             let floatNewLineCounter = CGFloat(newLineCounter)
             
             // 텍스트 길이에 의한 자동 줄바꿈 갯수
-            let floatAutoLineBreakCount = CGFloat(autoLineBreakCount(textEditorWidth: textEditorWidth))
+            let floatAutoLineBreakCount = CGFloat(
+                autoLineBreakCount(textEditorWidth: textEditorWidth)
+            )
             
             // 총 라인 갯수
             let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount
@@ -126,7 +129,9 @@ struct GSTextEditor {
             + const.TEXTEDITOR_FRAME_HEIGHT_FREESPACE
 
             // 계산한 Editor 높이가 최대 Editor 높이보다 크면 최대 Editor 높이로 고정
-            textEditorHeight = tempTextEditorHeight > maxHeight ? maxHeight : tempTextEditorHeight
+            textEditorHeight = tempTextEditorHeight > maxHeight
+            ? maxHeight
+            : tempTextEditorHeight
         }
         
         // MARK: Method - 개행 문자 기준으로 텍스트를 분리하고, 각 텍스트 길이가 Editor 길이를 초과하는지 계산하여 필요한 줄바꿈 수를 반환하는 메서드
@@ -151,6 +156,7 @@ struct GSTextEditor {
             text: Binding<String>,
             font: Font = .body,
             lineSpace: CGFloat = 2,
+            isBlocked: Bool,
             sendableImage: String,
             unSendableImage: String,
             action: @escaping () -> Void
@@ -159,6 +165,7 @@ struct GSTextEditor {
             self.text = text
             self.font = font
             self.lineSpace = lineSpace
+            self.isBlocked = isBlocked
             self.sendableImage = sendableImage
             self.unSendableImage = unSendableImage
             self.action = action
@@ -169,50 +176,93 @@ struct GSTextEditor {
         var body: some View {
             switch style {
             case .message:
-                HStack {
-                    GeometryReader { proxy in
-                        TextEditor(text: text)
-                            .font(font)
-                            .lineSpacing(lineSpace)
-                            .frame(maxHeight: textEditorHeight)
-                            .padding(.horizontal, const.TEXTEDITOR_INSET_HORIZONTAL)
-                            .padding(.bottom, -3)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
-                                    .stroke()
-                                    .foregroundColor(.gsGray2)
-                            }
-                            .onAppear {
-                                setTextEditorStartHeight()
-                            }
-                            .onChange(of: text.wrappedValue) { n in
-                                // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못해서 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
-                                let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
-                                let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
-                                let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
-                                
-                                updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
-                            }
-                            .onChange(of: textWidth) { newValue in
-                                stateTextWidth = newValue
-                            }
+                
+                if isBlocked {
+                    TextEditor(
+                        text: .constant(const.TEXTEDITOR_BLOCKED_LABEL)
+                    )
+                    .modifier(
+                        GSTextEditorLayoutModifier(
+                            font: font,
+                            color: .gsGray1,
+                            lineSpace: lineSpace,
+                            maxHeight: textEditorHeight,
+                            horizontalInset: const.TEXTEDITOR_INSET_HORIZONTAL,
+                            bottomInset: const.TEXTEDITOR_INSET_BOTTOM
+                        )
+                    )
+                    .disabled(true)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                            .stroke()
+                            .foregroundColor(.gsGray2)
+                            .background(
+                                Color.gsGray3.opacity(0.7)
+                            )
+                            .cornerRadius(const.TEXTEDITOR_STROKE_CORNER_RADIUS)
                     }
-                    .frame(maxHeight: textEditorHeight)
+                    .onAppear {
+                        setTextEditorStartHeight()
+                    }
                     
-                    Button {
-                        action()
-                    } label: {
-                        Image(systemName: isMessageSendable
-                              ? sendableImage
-                              : unSendableImage)
+                } else {
+                    HStack {
+                        GeometryReader { proxy in
+                            TextEditor(text: text)
+                                .modifier(
+                                    GSTextEditorLayoutModifier(
+                                        font: font,
+                                        color: .primary,
+                                        lineSpace: lineSpace,
+                                        maxHeight: textEditorHeight,
+                                        horizontalInset: const.TEXTEDITOR_INSET_HORIZONTAL,
+                                        bottomInset: const.TEXTEDITOR_INSET_BOTTOM
+                                    )
+                                )
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: const.TEXTEDITOR_STROKE_CORNER_RADIUS)
+                                        .stroke()
+                                        .foregroundColor(.gsGray2)
+                                }
+                                .onAppear {
+                                    setTextEditorStartHeight()
+                                }
+                                .onChange(of: text.wrappedValue) { n in
+                                    // FIXME: 현재 버퍼값으로는 텍스트 길이와 에디터 길이 사이의 공식을 정확하게 구하지 못함 -> 당장 작동은 하지만 정확한 값을 구해서 수정 필요 By. 태영
+                                    let textEditorWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+                                    let autoLineBreakCounter = autoLineBreakCount(textEditorWidth: textEditorWidth)
+                                    let multiTextEditorWidth = textEditorWidth - CGFloat(autoLineBreakCounter * 2)
+                                    
+                                    updateTextEditorCurrentHeight(textEditorWidth: multiTextEditorWidth)
+                                }
+                                .onChange(of: textWidth) { newValue in
+                                    stateTextWidth = newValue
+                                }
+                        }
+                        .frame(maxHeight: textEditorHeight)
+                        
+                        Button {
+                            action()
+                        } label: {
+                            Image(
+                                systemName: isMessageSendable
+                                ? sendableImage
+                                : unSendableImage
+                            )
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 22, height: 22)
-                            .foregroundColor(isMessageSendable
-                                             ? .primary
-                                             : .gsGray2)
+                            .frame(
+                                width: const.TEXTEDITOR_SEND_BUTTON_SIZE,
+                                height: const.TEXTEDITOR_SEND_BUTTON_SIZE
+                            )
+                            .foregroundColor(
+                                isMessageSendable
+                                ? .primary
+                                : .gsGray2
+                            )
+                        }
+                        .disabled(!isMessageSendable)
                     }
-                    .disabled(!isMessageSendable)
                 }
             }
         }

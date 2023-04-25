@@ -124,6 +124,7 @@
 		6E128D6729A498A50004AEC8 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E128D6629A498A50004AEC8 /* Image+.swift */; };
 		6E38C6042991EF380043A8BB /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6032991EF380043A8BB /* ChatListCell.swift */; };
 		6E38C6062991EF590043A8BB /* ChatListSkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */; };
+		6E54675F29F7F8E300F2C3C2 /* GSTextEditorLayoutModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E54675E29F7F8E300F2C3C2 /* GSTextEditorLayoutModifier.swift */; };
 		6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */; };
 		6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E70333D29890ADE00FFC018 /* ChatListSection.swift */; };
 		6E8C05C7297781BB002C9F45 /* ChatRoomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */; };
@@ -302,6 +303,7 @@
 		6E128D6629A498A50004AEC8 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		6E38C6032991EF380043A8BB /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		6E38C6052991EF590043A8BB /* ChatListSkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSkeletonCell.swift; sourceTree = "<group>"; };
+		6E54675E29F7F8E300F2C3C2 /* GSTextEditorLayoutModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTextEditorLayoutModifier.swift; sourceTree = "<group>"; };
 		6E70333B29890AD000FFC018 /* ChatUserRecommendationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserRecommendationSection.swift; sourceTree = "<group>"; };
 		6E70333D29890ADE00FFC018 /* ChatListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListSection.swift; sourceTree = "<group>"; };
 		6E8C05C6297781BB002C9F45 /* ChatRoomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomInfoView.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				22C5412A298CCAD200CC89EC /* TabBarBackgroundModifier.swift */,
 				7019EDBC2997EC7700135F26 /* PinnedViewHeaderModifier.swift */,
 				689A88B629ACED97006F177A /* ViewDidLoadModifier.swift */,
+				6E54675E29F7F8E300F2C3C2 /* GSTextEditorLayoutModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -989,6 +992,7 @@
 				7019EDBD2997EC7700135F26 /* PinnedViewHeaderModifier.swift in Sources */,
 				68C3CE6F29F7C3BC00C8D1FC /* HalfSheetManager.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
+				6E54675F29F7F8E300F2C3C2 /* GSTextEditorLayoutModifier.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
 				2201724029B9E122006C34D3 /* CurrentUserProfileViewModel.swift in Sources */,
