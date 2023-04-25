@@ -10,6 +10,7 @@ import SwiftUI
 struct SetAccountView: View {
     
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @EnvironmentObject var blockedUsers: BlockedUsers
     @State private var showingLogoutAlert = false
     @State private var showingDeleteAccountAlert = false
     
