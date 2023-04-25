@@ -94,6 +94,12 @@
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
 		6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */; };
 		689A88B729ACED97006F177A /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A88B629ACED97006F177A /* ViewDidLoadModifier.swift */; };
+		68C3CE6729F7C29800C8D1FC /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */; };
+		68C3CE6929F7C39900C8D1FC /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C3CE6829F7C39900C8D1FC /* BlockView.swift */; };
+		68C3CE6B29F7C39F00C8D1FC /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C3CE6A29F7C39F00C8D1FC /* ReportView.swift */; };
+		68C3CE6D29F7C3A400C8D1FC /* SuggestBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C3CE6C29F7C3A400C8D1FC /* SuggestBlockView.swift */; };
+		68C3CE6F29F7C3BC00C8D1FC /* HalfSheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C3CE6E29F7C3BC00C8D1FC /* HalfSheetManager.swift */; };
+		68C3CE7129F7C3C300C8D1FC /* CustomHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C3CE7029F7C3C300C8D1FC /* CustomHostingController.swift */; };
 		68D76D4C298712EC00C1EA88 /* GitHubAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GitHubAuthManager.swift */; };
 		68D76D57298713B900C1EA88 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		68E95FC72976D48C002E65AD /* StarredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E95FC62976D48C002E65AD /* StarredView.swift */; };
@@ -170,7 +176,6 @@
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 		EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */; };
 		EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF740B298D784C00FABEA3 /* GSCanvas.swift */; };
-		EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */; };
 		EFDBD95229C58D7B006FC628 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFDBD95129C58D7B006FC628 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -264,6 +269,12 @@
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCardView.swift; sourceTree = "<group>"; };
 		689A88B629ACED97006F177A /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
+		68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		68C3CE6829F7C39900C8D1FC /* BlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		68C3CE6A29F7C39F00C8D1FC /* ReportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		68C3CE6C29F7C3A400C8D1FC /* SuggestBlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestBlockView.swift; sourceTree = "<group>"; };
+		68C3CE6E29F7C3BC00C8D1FC /* HalfSheetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfSheetManager.swift; sourceTree = "<group>"; };
+		68C3CE7029F7C3C300C8D1FC /* CustomHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHostingController.swift; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GitHubAuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAuthManager.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
@@ -333,7 +344,6 @@
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
 		EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvasModifier.swift; sourceTree = "<group>"; };
 		EEEF740B298D784C00FABEA3 /* GSCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvas.swift; sourceTree = "<group>"; };
-		EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		EFDBD95129C58D7B006FC628 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = GitSpace/Resources/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -468,6 +478,8 @@
 		34582161298A49AD0058CA4C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				68C3CE6E29F7C3BC00C8D1FC /* HalfSheetManager.swift */,
+				68C3CE7029F7C3C300C8D1FC /* CustomHostingController.swift */,
 				6E08402229839BD200F51169 /* Utility.swift */,
 				7062E12C298CC50A00CCE946 /* DesignSystemStyleEnums.swift */,
 				7062E132298CD6A600CCE946 /* ViewHighlightColorStyle.swift */,
@@ -483,6 +495,9 @@
 		347146002990BBF500ED990C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				68C3CE6C29F7C3A400C8D1FC /* SuggestBlockView.swift */,
+				68C3CE6A29F7C39F00C8D1FC /* ReportView.swift */,
+				68C3CE6829F7C39900C8D1FC /* BlockView.swift */,
 				22958CAC29C752AF00786357 /* FailToLoadReadmeView.swift */,
 				22958CAB29C752AF00786357 /* ReadmeLoadingView.swift */,
 				347146012990BC5200ED990C /* TopperProfileView.swift */,
@@ -572,7 +587,7 @@
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */,
+				68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */,
 				EFDBD95129C58D7B006FC628 /* Assets.xcassets */,
 				700A11CD299735C1008C94C7 /* plist */,
 			);
@@ -926,7 +941,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */,
+				68C3CE6729F7C29800C8D1FC /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */,
 				0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */,
@@ -954,6 +969,7 @@
 				22C5412F298CE35300CC89EC /* GSTabBarIcon.swift in Sources */,
 				22E9ECF3299BB92100D5A9C6 /* Owner.swift in Sources */,
 				7019EDBD2997EC7700135F26 /* PinnedViewHeaderModifier.swift in Sources */,
+				68C3CE6F29F7C3BC00C8D1FC /* HalfSheetManager.swift in Sources */,
 				22C54129298CC36D00CC89EC /* GSTabBarBackGround.swift in Sources */,
 				EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */,
 				3427736B2994BA1F00818816 /* SetWorkingHoursView.swift in Sources */,
@@ -973,6 +989,7 @@
 				348540EF299D5DFE00B738F9 /* TagGuideView.swift in Sources */,
 				22C54132298CE38300CC89EC /* GSTabBarRouter.swift in Sources */,
 				225A22D5299778A900786B35 /* RepositoryResponse.swift in Sources */,
+				68C3CE6B29F7C39F00C8D1FC /* ReportView.swift in Sources */,
 				225A22D7299778A900786B35 /* GitHubService.swift in Sources */,
 				3471460A2992112000ED990C /* StarGuideView.swift in Sources */,
 				6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */,
@@ -1019,6 +1036,7 @@
 				7E1474BF29C0C59300D2E011 /* ReceivedKnockDetailView.swift in Sources */,
 				347146142992254200ED990C /* BlockGuideView.swift in Sources */,
 				22958CAD29C752B000786357 /* ReadmeLoadingView.swift in Sources */,
+				68C3CE6929F7C39900C8D1FC /* BlockView.swift in Sources */,
 				704D160F29992FF9009206BD /* String+.swift in Sources */,
 				6E128D6529A3BDFF0004AEC8 /* ImageCacheManager.swift in Sources */,
 				6E70333E29890ADE00FFC018 /* ChatListSection.swift in Sources */,
@@ -1057,6 +1075,7 @@
 				347146052991F02500ED990C /* GuideCenterView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */,
 				7062E131298CCB1700CCE946 /* LabelModifier.swift in Sources */,
+				68C3CE7129F7C3C300C8D1FC /* CustomHostingController.swift in Sources */,
 				347146122992253600ED990C /* GuideBlockSection.swift in Sources */,
 				6EC383A5298FE49000F209CF /* UIFont+.swift in Sources */,
 				34582163298A4A310058CA4C /* KeyboardHandler.swift in Sources */,
@@ -1086,6 +1105,7 @@
 				34582167298E0ABD0058CA4C /* KnockGuideView.swift in Sources */,
 				34F44F2829B9E32500A5D5A1 /* ContributorListSkeletonView.swift in Sources */,
 				22958CA829C7528800786357 /* CurrentUserProfileView.swift in Sources */,
+				68C3CE6D29F7C3A400C8D1FC /* SuggestBlockView.swift in Sources */,
 				6E08401F2983966200F51169 /* ChatRoomView.swift in Sources */,
 				0B9585932990BD1A00655427 /* BlinkingSkeletonModifier.swift in Sources */,
 				70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */,
@@ -1112,7 +1132,6 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1174,7 +1193,6 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1230,7 +1248,6 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1269,7 +1286,6 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
