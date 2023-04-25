@@ -30,6 +30,22 @@ struct Report: Codable {
         case sexual = "Sexual Description(Activity)"
         case cheating = "Cheating"
         case bullying = "Cyberbullying or Harassment"
+        
+        func getDescription() -> String {
+            switch self {
+            case .spamming:
+                return "Spamming Description"
+            case .offensive:
+                return "Verbal Abuse, Offensive Language Description"
+            case .sexual:
+                return "Sexual Description(Activity) Description"
+            case .cheating:
+                return "Cheating Description"
+            case .bullying:
+                return "Cyberbullying or Harassment Description"
+            }
+        }
+        
     }
     
 //    enum ReportReasonDescription: String, CaseIterable {
