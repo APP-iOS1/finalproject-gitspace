@@ -174,7 +174,7 @@ struct GSTextEditor {
             case .message:
                 
                 if isBlocked {
-                    TextEditor(text: .constant("Cannot chat with blocked user"))
+                    TextEditor(text: .constant(const.TEXTEDITOR_BLOCKED_LABEL))
                         .font(font)
                         .foregroundColor(.gsGray1)
                         .lineSpacing(lineSpace)
