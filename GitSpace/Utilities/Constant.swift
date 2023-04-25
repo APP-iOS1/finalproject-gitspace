@@ -137,6 +137,7 @@ public enum Constant {
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
         static let TEXTEDITOR_STROKE_CORNER_RADIUS: CGFloat = 20
         static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
+        static let TEXTEDITOR_BLOCKED_LABEL: String = "Cannot chat with blocked user"
     }
 
 	public enum LabelHierarchy {
