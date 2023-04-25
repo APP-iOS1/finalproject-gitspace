@@ -64,6 +64,7 @@ extension Blockable {
         }
     }
     
+    @discardableResult
     func unblockTargetUser(
         in currentUser: UserInfo,
         with targetUser: UserInfo
