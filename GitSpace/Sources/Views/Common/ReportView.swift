@@ -99,8 +99,7 @@ Gitspace operation team will check and help you.
                     if (isReportReasonSelected && reportReasonNumber == index) {
                         GSText.CustomTextView(
                             style: .caption1,
-                            string:
-                                "\(Report.ReportReasonDescription.allCases[index].rawValue)"
+                            string: reason.getDescription()
                         )
                         .padding(EdgeInsets(top: 0, leading: 18, bottom: 10, trailing: 50))
                         .transition(
