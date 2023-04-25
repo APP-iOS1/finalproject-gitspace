@@ -42,6 +42,11 @@ struct BlockView: View {
                         isBlockViewShowing.toggle()
                     } label: {
                         Text("No")
+                            .frame(width: 100, height: 50)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke()
+                            }
                     }
                     
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
