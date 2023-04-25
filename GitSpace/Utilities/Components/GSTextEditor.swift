@@ -251,10 +251,10 @@ struct GSTextEditor {
                             )
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 22, height: 22)
-                            .foregroundColor(isMessageSendable
-                                             ? .primary
-                                             : .gsGray2)
+                            .frame(
+                                width: const.TEXTEDITOR_SEND_BUTTON_SIZE,
+                                height: const.TEXTEDITOR_SEND_BUTTON_SIZE
+                            )
                             .foregroundColor(
                                 isMessageSendable
                                 ? .primary
