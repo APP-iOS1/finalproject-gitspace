@@ -94,6 +94,7 @@
 		687AE552298FA23700113ABF /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687AE551298FA23700113ABF /* Tag.swift */; };
 		6896A4F2298EB8BC00CEAFB5 /* RepositoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */; };
 		689A88B729ACED97006F177A /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A88B629ACED97006F177A /* ViewDidLoadModifier.swift */; };
+		68C3CE6729F7C29800C8D1FC /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */; };
 		68D76D4C298712EC00C1EA88 /* GitHubAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D76D4B298712EC00C1EA88 /* GitHubAuthManager.swift */; };
 		68D76D57298713B900C1EA88 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		68E95FC72976D48C002E65AD /* StarredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E95FC62976D48C002E65AD /* StarredView.swift */; };
@@ -170,7 +171,6 @@
 		EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CC79A2976F2160096A873 /* ContributorListView.swift */; };
 		EEEF740A298D783800FABEA3 /* GSCanvasModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */; };
 		EEEF740C298D784C00FABEA3 /* GSCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF740B298D784C00FABEA3 /* GSCanvas.swift */; };
-		EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */; };
 		EFDBD95229C58D7B006FC628 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFDBD95129C58D7B006FC628 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -264,6 +264,7 @@
 		687AE551298FA23700113ABF /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		6896A4F1298EB8BC00CEAFB5 /* RepositoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryCardView.swift; sourceTree = "<group>"; };
 		689A88B629ACED97006F177A /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
+		68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		68D76D4B298712EC00C1EA88 /* GitHubAuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubAuthManager.swift; sourceTree = "<group>"; };
 		68E95FC62976D48C002E65AD /* StarredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarredView.swift; sourceTree = "<group>"; };
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
@@ -333,7 +334,6 @@
 		EE0CC79A2976F2160096A873 /* ContributorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributorListView.swift; sourceTree = "<group>"; };
 		EEEF7409298D783800FABEA3 /* GSCanvasModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvasModifier.swift; sourceTree = "<group>"; };
 		EEEF740B298D784C00FABEA3 /* GSCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCanvas.swift; sourceTree = "<group>"; };
-		EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		EFDBD95129C58D7B006FC628 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = GitSpace/Resources/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -572,7 +572,7 @@
 		700A11CC29973584008C94C7 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */,
+				68C3CE6629F7C29800C8D1FC /* Secrets.xcconfig */,
 				EFDBD95129C58D7B006FC628 /* Assets.xcassets */,
 				700A11CD299735C1008C94C7 /* plist */,
 			);
@@ -926,7 +926,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF0D4F4B29C57DF600F85E78 /* Secrets.xcconfig in Resources */,
+				68C3CE6729F7C29800C8D1FC /* Secrets.xcconfig in Resources */,
 				7068B6AF29769449005D6B7B /* Preview Assets.xcassets in Resources */,
 				7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */,
 				0BDBDD3C29BA006900F0D3FD /* LoadingDotsDark.json in Resources */,
@@ -1112,7 +1112,6 @@
 /* Begin XCBuildConfiguration section */
 		7068B6B029769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1174,7 +1173,6 @@
 		};
 		7068B6B129769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1230,7 +1228,6 @@
 		};
 		7068B6B329769449005D6B7B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1269,7 +1266,6 @@
 		};
 		7068B6B429769449005D6B7B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0D4F4A29C57DF600F85E78 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
