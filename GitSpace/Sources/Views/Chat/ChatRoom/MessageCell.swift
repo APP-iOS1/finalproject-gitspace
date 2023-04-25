@@ -81,7 +81,7 @@ struct MessageCell : View {
                                     messageStore.reportedMessage = message
                                 } label: {
                                     Text("Report")
-                                    Image(systemName: "light.beacon.max")
+                                    Image(systemName: "exclamationmark.bubble")
                                 }
                             }
                         Text(message.sentDateAsString)
