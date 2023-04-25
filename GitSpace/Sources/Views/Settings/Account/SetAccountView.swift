@@ -37,7 +37,7 @@ struct SetAccountView: View {
                     HStack {
                         Text("Blocked users")
                         Spacer()
-                        Text("\(0)")
+                        Text("\(blockedUsers.blockedUserList.count)")
                             .foregroundColor(.gsLightGray2)
                     }
                 }
