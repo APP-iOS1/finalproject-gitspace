@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct UserInfo : Identifiable, Codable {
+struct UserInfo : Identifiable, Codable, Equatable {
     // MARK: -Firestore Properties
     let id: String                  // 유저 ID (Firebase Auth UID)
     let createdDate: Date           // 유저 생성일시
