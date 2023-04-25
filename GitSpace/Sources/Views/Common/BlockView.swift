@@ -37,15 +37,14 @@ struct BlockView: View {
                 )
                 .padding(10)
                 
-                HStack {
+                HStack(spacing: 30) {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: false)) {
                         isBlockViewShowing.toggle()
                     } label: {
                         Text("No")
                     }
-                    .padding([.leading, .trailing], 20)
                     
-                    GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+                    GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
                         isBlockViewShowing.toggle()
                     } label: {
