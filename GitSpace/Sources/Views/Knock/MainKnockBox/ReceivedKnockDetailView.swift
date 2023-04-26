@@ -63,7 +63,7 @@ struct ReceivedKnockDetailView: View {
                         
                         Spacer()
                         
-                        KnockEllipsisMenu(
+                        KnockMessageMenu(
                             knock: $knock,
                             isReporting: $isReporting,
                             isEditingKnockMessage: $isEditingKnockMessage
@@ -115,19 +115,7 @@ struct ReceivedKnockDetailView: View {
                         .foregroundColor(.gsGray2)
                         .padding(.top, -15)
                         .padding(.horizontal)
-                    
-                    GSButton.CustomButtonView(
-                        style: .plainText(isDestructive: true)
-                    ) {
-                        withAnimation {
-                            isReporting.toggle()
-                        }
-                    } label: {
-                        Text("Does this knock message displeased you?")
-                            .multilineTextAlignment(.center)
-                            .font(.caption)
-                    }
-                    .padding(.bottom)
+                        .padding(.bottom, 10)
                     
                     GSButton.CustomButtonView(
                         style: .secondary(isDisabled: false)

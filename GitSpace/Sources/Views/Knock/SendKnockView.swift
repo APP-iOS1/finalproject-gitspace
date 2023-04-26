@@ -24,7 +24,6 @@ struct SendKnockView: View {
     @Namespace var bottomID
     
     @StateObject private var keyboardHandler = KeyboardHandler()
-    @FocusState private var isFocused: TextEditorFocustState?
     @State private var chatPurpose: String = ""
     @State private var knockMessage: String = ""
     @State private var showKnockGuide: Bool = false
