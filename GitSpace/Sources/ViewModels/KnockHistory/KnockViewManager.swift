@@ -297,7 +297,7 @@ extension KnockViewManager {
     public func updateKnockOnFirestore(
         knock: Knock,
         knockStatus: String,
-        isEdited: Bool? = false,
+        isKnockMessageEdited: Bool? = false,
         newChatID: String? = nil,
         declineMessage: String? = nil
     ) async -> Void {
@@ -309,7 +309,8 @@ extension KnockViewManager {
             ])
             
             if
-                let isEdited, isEdited {
+                let isKnockMessageEdited,
+                isKnockMessageEdited {
                 try await document.updateData([
                     "knockMessage": knock.knockMessage
                 ])

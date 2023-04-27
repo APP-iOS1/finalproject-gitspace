@@ -102,7 +102,7 @@ struct KnockHistoryView: View {
                                 await knockViewManager.updateKnockOnFirestore(
                                     knock: eachKnock,
                                     knockStatus: eachKnock.knockStatus,
-                                    isEdited: isEditingKnockMessage
+                                    isKnockMessageEdited: isEditingKnockMessage
                                 )
                                 
                                 withAnimation {
