@@ -26,7 +26,6 @@ struct GuideBlockSection: View {
                 /* 캔버스 내부: */
                 
                 Group {
-                    
                     NavigationLink {
                         BlockGuideView()
                     } label: {
@@ -44,7 +43,7 @@ struct GuideBlockSection: View {
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "People aren't notified when you block them.")
+                                    string: "When someone offends you")
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -63,7 +62,7 @@ struct GuideBlockSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "See a list of people you've blocked")
+                                    string: "How to see a list of blocked users")
                             }
                             
                             Spacer()
