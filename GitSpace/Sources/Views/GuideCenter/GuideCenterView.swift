@@ -34,13 +34,11 @@ struct GuideCenterView: View {
                 .padding(.horizontal)
                 
                 GuideFuncSection()
-                
-                // - MARK: 1차 출시 이후 차단, 신고 기능 추가 예정
-//                GuideBlockSection()
-//                GuideReportSection()
+                GuideBlockSection()
+                GuideReportSection()
                 
             } // ScrollView
-            .navigationBarTitle("Guide Center"/*, displayMode: .inline*/)
+            .navigationBarTitle("Guide Center")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
