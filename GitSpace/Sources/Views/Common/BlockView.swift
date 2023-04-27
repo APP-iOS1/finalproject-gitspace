@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-struct BlockView: View {
+struct BlockView: View, Blockable {
+    
+    @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     @Binding var isBlockViewShowing: Bool
+    
+    let targetUser: UserInfo
     
     var body: some View {
         VStack {
@@ -47,6 +52,14 @@ struct BlockView: View {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
                         isBlockViewShowing.toggle()
+                        Task {
+                            if let currentUser = userInfoManager.currentUser {
+                                try await blockTargetUser(in: currentUser, with: targetUser)
+                            }
+                        }
+                        let targetGitHubUser =
+                        GithubUser(id: targetUser.githubID, login: targetUser.githubLogin, name: targetUser.githubName, email: targetUser.githubEmail, avatar_url: targetUser.avatar_url, bio: targetUser.bio, company: targetUser.company, location: targetUser.location, blog: targetUser.blog, public_repos: targetUser.public_repos, followers: targetUser.followers, following: targetUser.following)
+                        blockedUsers.blockedUserList.append((targetUser, targetGitHubUser))
                     } label: {
                         Text("Yes")
                     }
@@ -58,6 +71,7 @@ struct BlockView: View {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(isBlockViewShowing: .constant(true))
+        BlockView(isBlockViewShowing: .constant(true), targetUser: UserInfo(id: "", createdDate: Date.now, deviceToken: "", blockedUserIDs: ["1"], githubID: 0, githubLogin: "", githubName: "test", githubEmail: "test", avatar_url: "test", bio: nil, company: nil, location: nil, blog: nil, public_repos: 0, followers: 0, following: 0))
+            .environmentObject(BlockedUsers())
     }
 }
