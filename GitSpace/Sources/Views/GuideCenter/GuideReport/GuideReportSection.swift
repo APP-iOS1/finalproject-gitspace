@@ -88,7 +88,7 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "What Happens After I Report?")
+                                    string: "What happens after I report?")
                                         /// 신고 후엔 어떻게 되나요?
                             }
                             

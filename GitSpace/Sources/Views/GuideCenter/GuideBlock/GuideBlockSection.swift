@@ -80,7 +80,7 @@ struct GuideBlockSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "What Happens After I Block?")
+                                    string: "What happens after I block?")
                             }
                             
                             Spacer()
