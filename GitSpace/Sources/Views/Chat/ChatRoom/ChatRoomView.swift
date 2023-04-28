@@ -30,6 +30,9 @@ struct ChatRoomView: View, Blockable {
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     @State private var preMessageIDs: [String] = []
+    @State private var showingReportView: Bool = false
+    @State private var showingSuggestBlockView: Bool = false
+    @State private var showingBlockView: Bool = false
     
     
     var body: some View {
