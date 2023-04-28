@@ -19,9 +19,10 @@ struct ReceivedKnockDetailView: View {
 	@Binding var knock: Knock
 	@State private var isAccepted: Bool = false
     @State private var targetUser: UserInfo? = nil
+    @State private var isReporting: Bool = false
+    @State private var isEditingKnockMessage: Bool = false
 	
     var body: some View {
-        
         VStack {
             VStack {
                 Button {
@@ -57,12 +58,18 @@ struct ReceivedKnockDetailView: View {
                     HStack {
                         Text("Knock Message")
                             .font(.subheadline)
-                            .foregroundColor(.gsLightGray1)
+                            .foregroundColor(.gsLightGray2)
                             .bold()
                         
                         Spacer()
+                        
+                        KnockMessageMenu(
+                            knock: $knock,
+                            isReporting: $isReporting,
+                            isEditingKnockMessage: $isEditingKnockMessage
+                        )
                     }
-                    .padding(.leading, 15)
+                    .padding(.horizontal, 20)
                     
                     /// 3. 메세지 내용
                     VStack(alignment: .leading) {
@@ -107,15 +114,14 @@ struct ReceivedKnockDetailView: View {
                         .font(.caption)
                         .foregroundColor(.gsGray2)
                         .padding(.top, -15)
-                        .padding(.bottom)
                         .padding(.horizontal)
+                        .padding(.bottom, 10)
                     
                     GSButton.CustomButtonView(
                         style: .secondary(isDisabled: false)
                     ) {
                         Task {
                             // TODO: PUSH NOTIFICATION
-                            self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
                             if let targetUser {
                                 async let newChat = makeNewChat(with: targetUser)
                                 
@@ -144,19 +150,6 @@ struct ReceivedKnockDetailView: View {
                     } // button: Accept
                     
                     HStack(spacing: 60) {
-                        
-                        /* 블록 기능 미구현으로 버튼 주석 처리
-                        Button {
-                            // TODO: - 언젠가 블록도 해야지? 지금 못할 거면 빼던가.
-                        } label: {
-                            Text("Block")
-                                .bold()
-                                .foregroundColor(.red)
-                        } // Button: Block
-                        
-                        Divider()
-                        */
-                        
                         Button {
                             Task {
                                 // TODO: PUSH NOTIFICATION
@@ -197,6 +190,9 @@ struct ReceivedKnockDetailView: View {
                 Text("You Declined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
             }
         }
+        .task {
+            self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 if let targetUser {
@@ -210,6 +206,7 @@ struct ReceivedKnockDetailView: View {
                 }
             } // ToolbarItem
         } // toolbar
+        // TODO: - Connect HalfModal
     }
 	
     /**

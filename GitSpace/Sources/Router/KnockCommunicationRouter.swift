@@ -82,7 +82,6 @@ struct KnockCommunicationRouter: View {
                         if knockStatus == .accepted,
                            let toChatID {
                             self.chat = await chatViewManager.requestPushedChat(chatID: toChatID)
-                            print("CHAT ADDED?", toChatID, chat?.id)
                         }
                     }
                 case let .ableToSentNewKnock(KnockFlag):

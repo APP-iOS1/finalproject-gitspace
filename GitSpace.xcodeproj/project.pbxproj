@@ -172,6 +172,7 @@
 		7E1474C729C0C62800D2E011 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 7E1474C629C0C62800D2E011 /* FirebaseMessaging */; };
 		7E7D611F29B6E002005963F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */; };
 		7E94D4EF29B2F517006A6B34 /* MainKnockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */; };
+		7EB0B19629F616EF00D4CFEA /* KnockMessageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB0B19529F616EF00D4CFEA /* KnockMessageMenu.swift */; };
 		7EB99A3D29EC2E8900863341 /* Blockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A3C29EC2E8900863341 /* Blockable.swift */; };
 		7EB99A3F29EC34E200863341 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A3E29EC34E200863341 /* Reportable.swift */; };
 		7EB99A4129EC410D00863341 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB99A4029EC410D00863341 /* Report.swift */; };
@@ -344,6 +345,7 @@
 		7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceivedKnockDetailView.swift; sourceTree = "<group>"; };
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
+		7EB0B19529F616EF00D4CFEA /* KnockMessageMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnockMessageMenu.swift; sourceTree = "<group>"; };
 		7EB99A3C29EC2E8900863341 /* Blockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blockable.swift; sourceTree = "<group>"; };
 		7EB99A3E29EC34E200863341 /* Reportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
 		7EB99A4029EC410D00863341 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				22958CAC29C752AF00786357 /* FailToLoadReadmeView.swift */,
 				22958CAB29C752AF00786357 /* ReadmeLoadingView.swift */,
 				347146012990BC5200ED990C /* TopperProfileView.swift */,
+				7EB0B19529F616EF00D4CFEA /* KnockMessageMenu.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				348540F7299D5F8600B738F9 /* AfterReportGuideView.swift in Sources */,
 				225A22D3299778A900786B35 /* GithubUser.swift in Sources */,
 				22958CAE29C752B000786357 /* FailToLoadReadmeView.swift in Sources */,
+				7EB0B19629F616EF00D4CFEA /* KnockMessageMenu.swift in Sources */,
 				225A22D0299778A900786B35 /* GitHubAPIError.swift in Sources */,
 				70ABF2C5298C06AB0058467E /* GSNavigationLink.swift in Sources */,
 				70BB6CE2299B1DA7009948FC /* ContentView.swift in Sources */,
