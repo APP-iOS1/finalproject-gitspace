@@ -9,8 +9,8 @@ import SwiftUI
 
 struct BlockGuideView: View {
     
-    @State private var details1: Bool = true
-    @State private var details2: Bool = true
+    @State private var blockGuide: Bool = false
+    @State private var unblockGuide: Bool = false
     
     var body: some View {
             ScrollView {
@@ -40,7 +40,7 @@ To block someone on GitSpace:
 """)
                         
                         DisclosureGroup("**From someone's GitSpace profile:**",
-                            isExpanded: $details1) {
+                            isExpanded: $blockGuide) {
                             
                             VStack(alignment: .leading) {
                                 HStack(alignment: .top) {
@@ -73,9 +73,9 @@ To unblock someone on GitSpace:
 """)
                         
                         DisclosureGroup("**From your GitSpace settings:**",
-                            isExpanded: $details2) {
+                            isExpanded: $unblockGuide) {
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 HStack(alignment: .top) {
                                     Text("1.")
                                     Text("Tap **profile** in the bottom right to go to your profile")
