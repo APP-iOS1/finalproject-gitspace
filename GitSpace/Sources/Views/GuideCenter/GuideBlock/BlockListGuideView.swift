@@ -12,7 +12,7 @@ struct BlockListGuideView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("See a list of people you've blocked")
+                        Text("See a list of users you've blocked")
                             .font(.system(size: 22, weight: .light))
                         Spacer()
                     }
@@ -21,32 +21,38 @@ struct BlockListGuideView: View {
                     
                     Text(
 """
-GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이지로 이동했을 수 있습니다. 온라인 활동이 복잡해지면 불편하다는 점을 저희도 잘 알고 있습니다. GitSpace에서 다른 사람과 언쟁하거나 불쾌감을 주는 대화를 할 수 있습니다.
-
-이 페이지에 나와 있는 자료는 GitSpace에서 겪을 수 있는 갈등을 해결하는 데 도움이 될 수 있습니다. 이 해결책이 도움이 되기를 바랍니다.
-
-회원님이나 회원님의 지인이 위급한 상황에 있다면 즉시 현지 사법당국에 연락하시기 바랍니다.
+You can review who you've blocked on GitSpace in your settings.
 """)
-                    .padding(.vertical)
+                    .padding(.top)
                     
-                    Text("차단하기")
-                        .font(.title2)
-                        .bold()
-                    
-                    Text(
-"""
-1. 사용자를 차단합니다.
-""")
-                    
-                    Text("차단 해제하기")
+                    Text("To revie who you've blocked:")
                         .font(.title2)
                         .bold()
                         .padding(.top)
                     
+                    VStack(alignment: .leading, spacing: 5) {
+                        HStack(alignment: .top) {
+                            Text("1.")
+                            Text("Tap **profile** in the bottom right to go to your profile")
+                        }
+                        
+                        HStack(alignment: .top) {
+                            Text("2.")
+                            Text("Tap **gear icon** in the top right.")
+                        }
+                        
+                        HStack(alignment: .top) {
+                            Text("3.")
+                            Text("Tap **Account** at the top and tap **Blocked users**.")
+                        }
+                    }
+                    .padding(.top)
+                    
                     Text(
 """
-1. 사용자 차단을 해제합니다.
+From your blocked users list, you can also unblock someone by tapping **Unblock** to the right of their name.
 """)
+                    .padding(.top)
                     
                 } // VStack
                 .padding(.horizontal)
@@ -57,6 +63,8 @@ GitSpace에서 회원님이 부정적인 경험을 했기 때문에 이 페이�
 
 struct BlockListGuideView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockListGuideView()
+        NavigationView {
+            BlockListGuideView()
+        }
     }
 }
