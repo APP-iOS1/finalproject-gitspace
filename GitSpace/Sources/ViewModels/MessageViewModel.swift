@@ -19,6 +19,7 @@ final class MessageStore: ObservableObject {
     @Published var isMessageAdded: Bool = false
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
     @Published var reportedMessage: Message? // 메세지 셀 신고 시 onChange로 반응하는 대상 메세지
+    @Published var isReported: Bool = false // 신고 sheet를 토글하기 위해 ChatRoomView의 onChange에서 감지하는 상태값
     @Published var isFetchMessagesDone: Bool = false
     
     var remainMessages: [Message] = []
