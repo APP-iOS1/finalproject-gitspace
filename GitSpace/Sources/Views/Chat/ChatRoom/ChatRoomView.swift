@@ -37,8 +37,9 @@ struct ChatRoomView: View, Blockable {
     
     var body: some View {
         VStack {
-            // 채팅 메세지 스크롤 뷰
+            
             ScrollViewReader { proxy in
+                
                 ScrollView {
                     
                     TopperProfileView(targetUserInfo: targetUserInfo)
