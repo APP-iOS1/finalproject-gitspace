@@ -14,7 +14,8 @@ struct TargetUserProfileView: View {
 
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
-    @ObservedObject var viewModel = TargetUserProfileViewModel(gitHubService: GitHubService())
+    @EnvironmentObject var blockedUsers: BlockedUsers
+    @StateObject var viewModel = TargetUserProfileViewModel(gitHubService: GitHubService())
 
     @State private var markdownString = ""
     @State private var followButtonLable: String = "➕ Follow"
@@ -25,6 +26,8 @@ struct TargetUserProfileView: View {
     @State private var isBlockViewShowing = false
     @State private var isReportViewShowing = false
     @State private var isSuggestBlockViewShowing = false
+    @State private var targetUserInfo: UserInfo? = nil
+    @State private var isBlockedUser: Bool = false
 
     let user: GithubUser
     let gitHubService = GitHubService()
@@ -37,6 +40,17 @@ struct TargetUserProfileView: View {
 
         ScrollView(showsIndicators: false) {
 
+            if isBlockedUser {
+                VStack {
+                    GSText.CustomTextView(style: .title3, string: "This user is blocked user")
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(
+                    Color.gsRed
+                )
+            }
+            
             VStack(spacing: 8) {
 
                 VStack(alignment: .leading) {
@@ -266,8 +280,17 @@ struct TargetUserProfileView: View {
             }
                 .padding(.horizontal, 20)
         }
+        .onAppear {
+            if blockedUsers.blockedUserList.contains(where: {
+                $0.1 == user
+            }) {
+                isBlockedUser = true
+            } else {
+                isBlockedUser = false
+            }
+        }
             .task {
-
+            targetUserInfo = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
             isGitSpaceUser = userInfoManager.users.contains { $0.githubLogin == self.user.login }
 
             let readMeRequestResult = await viewModel.requestUserReadme(user: user.login)
@@ -318,7 +341,11 @@ struct TargetUserProfileView: View {
                 }
             }
             .halfSheet(isPresented: $isBlockViewShowing) {
-                BlockView(isBlockViewShowing: $isBlockViewShowing)
+                if let targetUserInfo {
+                    BlockView(isBlockViewShowing: $isBlockViewShowing, targetUser: targetUserInfo)
+                        .environmentObject(userInfoManager)
+                        .environmentObject(blockedUsers)
+                }
             }
             .halfSheet(isPresented: $isReportViewShowing) {
                 ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
