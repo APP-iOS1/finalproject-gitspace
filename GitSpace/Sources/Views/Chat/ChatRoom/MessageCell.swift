@@ -79,6 +79,7 @@ struct MessageCell : View {
                             .contextMenu {
                                 Button {
                                     messageStore.reportedMessage = message
+                                    messageStore.isReported.toggle()
                                 } label: {
                                     Text("Report")
                                     Image(systemName: "exclamationmark.bubble")
