@@ -25,7 +25,7 @@ You can review who you've blocked on GitSpace in your settings.
 """)
                     .padding(.top)
                     
-                    Text("To revie who you've blocked:")
+                    Text("To review who you've blocked:")
                         .font(.title2)
                         .bold()
                         .padding(.top)
