@@ -10,7 +10,7 @@ import SwiftUI
 
 
 // MARK: -View : 채팅방 뷰
-struct ChatRoomView: View {
+struct ChatRoomView: View, Blockable {
     
     enum MakeChatCase {
         case addContent
