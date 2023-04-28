@@ -112,6 +112,18 @@ struct ChatRoomView: View, Blockable {
             }
              */
         }
+        .halfSheet(isPresented: $showingReportView) {
+            ReportView(
+                isReportViewShowing: $showingReportView,
+                isSuggestBlockViewShowing: $showingSuggestBlockView
+            )
+        }
+        .halfSheet(isPresented: $showingSuggestBlockView) {
+            SuggestBlockView(
+                isBlockViewShowing: $showingBlockView,
+                isSuggestBlockViewShowing: $showingSuggestBlockView
+            )
+        }
         .onDisappear {
             // 초기화 필요.
             pushNotificationManager.currentChatRoomID = nil
