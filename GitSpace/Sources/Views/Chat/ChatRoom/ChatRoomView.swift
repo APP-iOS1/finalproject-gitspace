@@ -222,8 +222,10 @@ struct ChatRoomView: View, Blockable {
         GSTextEditor.CustomTextEditorView(
             style: .message,
             text: $contentField,
-            // TODO: isBlocked 아규먼트에 한호님의 verifyBlock 로직으로 차단 여부 검사하는 로직 연결
-            isBlocked: true,
+            isBlocked: isBlockedEither(
+                by: userStore.currentUser ?? .getFaliedUserInfo(),
+                by: targetUserInfo
+            ),
             sendableImage: "paperplane.fill",
             unSendableImage: "paperplane"
         ) {
