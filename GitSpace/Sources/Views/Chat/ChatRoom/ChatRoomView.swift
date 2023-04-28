@@ -23,11 +23,10 @@ struct ChatRoomView: View, Blockable {
     let targetUserInfo: UserInfo
     
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var chatStore: ChatStore
-    @EnvironmentObject var messageStore: MessageStore
-    @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var pushNotificationManager: PushNotificationManager
-    @StateObject private var keyboardHandler = KeyboardHandler()
+    @EnvironmentObject private var chatStore: ChatStore
+    @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var userStore: UserStore
+    @EnvironmentObject private var pushNotificationManager: PushNotificationManager
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     @State private var preMessageIDs: [String] = []
