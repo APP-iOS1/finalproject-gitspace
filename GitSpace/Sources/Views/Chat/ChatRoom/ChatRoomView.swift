@@ -10,7 +10,7 @@ import SwiftUI
 
 
 // MARK: -View : 채팅방 뷰
-struct ChatRoomView: View {
+struct ChatRoomView: View, Blockable {
     
     enum MakeChatCase {
         case addContent
@@ -23,20 +23,23 @@ struct ChatRoomView: View {
     let targetUserInfo: UserInfo
     
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var chatStore: ChatStore
-    @EnvironmentObject var messageStore: MessageStore
-    @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var pushNotificationManager: PushNotificationManager
-    @StateObject private var keyboardHandler = KeyboardHandler()
+    @EnvironmentObject private var chatStore: ChatStore
+    @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var userStore: UserStore
+    @EnvironmentObject private var pushNotificationManager: PushNotificationManager
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     @State private var preMessageIDs: [String] = []
+    @State private var showingReportView: Bool = false
+    @State private var showingSuggestBlockView: Bool = false
+    @State private var showingBlockView: Bool = false
     
     
     var body: some View {
         VStack {
-            // 채팅 메세지 스크롤 뷰
+            
             ScrollViewReader { proxy in
+                
                 ScrollView {
                     
                     TopperProfileView(targetUserInfo: targetUserInfo)
@@ -110,6 +113,18 @@ struct ChatRoomView: View {
             }
              */
         }
+        .halfSheet(isPresented: $showingReportView) {
+            ReportView(
+                isReportViewShowing: $showingReportView,
+                isSuggestBlockViewShowing: $showingSuggestBlockView
+            )
+        }
+        .halfSheet(isPresented: $showingSuggestBlockView) {
+            SuggestBlockView(
+                isBlockViewShowing: $showingBlockView,
+                isSuggestBlockViewShowing: $showingSuggestBlockView
+            )
+        }
         .onDisappear {
             // 초기화 필요.
             pushNotificationManager.currentChatRoomID = nil
@@ -145,10 +160,8 @@ struct ChatRoomView: View {
             }
         }
         // 상대방 MessageCell ContextMenu에서 신고 버튼을 탭하면 수행되는 로직
-        .onChange(of: messageStore.reportedMessage?.id) { id in
-            
-            // TODO: 다혜님의 PR에 포함된 신고 sheet present 로직 구현
-            
+        .onChange(of: messageStore.isReported) { state in
+            showingReportView = true
         }
         // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
         .onChange(of: scenePhase) { currentPhase in
@@ -220,8 +233,10 @@ struct ChatRoomView: View {
         GSTextEditor.CustomTextEditorView(
             style: .message,
             text: $contentField,
-            // TODO: isBlocked 아규먼트에 한호님의 verifyBlock 로직으로 차단 여부 검사하는 로직 연결
-            isBlocked: true,
+            isBlocked: isBlockedEither(
+                by: userStore.currentUser ?? .getFaliedUserInfo(),
+                by: targetUserInfo
+            ),
             sendableImage: "paperplane.fill",
             unSendableImage: "paperplane"
         ) {
