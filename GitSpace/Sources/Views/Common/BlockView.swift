@@ -65,9 +65,10 @@ struct BlockView: View, Blockable {
                                 try await blockTargetUser(in: currentUser, with: targetUser)
                             }
                         }
-                        let targetGitHubUser =
-                        GithubUser(id: targetUser.githubID, login: targetUser.githubLogin, name: targetUser.githubName, email: targetUser.githubEmail, avatar_url: targetUser.avatar_url, bio: targetUser.bio, company: targetUser.company, location: targetUser.location, blog: targetUser.blog, public_repos: targetUser.public_repos, followers: targetUser.followers, following: targetUser.following)
+                        
+                        let targetGitHubUser = assignGitHubUser(to: targetUser)
                         blockedUsers.blockedUserList.append((targetUser, targetGitHubUser))
+                        
                     } label: {
                         Text("Yes")
                             .foregroundColor(.white)
@@ -80,6 +81,24 @@ struct BlockView: View, Blockable {
             }
         }
     }
+    
+    private func assignGitHubUser(to targetUser: UserInfo) -> GithubUser {
+        GithubUser(
+            id: targetUser.githubID,
+            login: targetUser.githubLogin,
+            name: targetUser.githubName,
+            email: targetUser.githubEmail,
+            avatar_url: targetUser.avatar_url,
+            bio: targetUser.bio,
+            company: targetUser.company,
+            location: targetUser.location,
+            blog: targetUser.blog,
+            public_repos: targetUser.public_repos,
+            followers: targetUser.followers,
+            following: targetUser.following
+        )
+    }
+    
 }
 
 struct BlockView_Previews: PreviewProvider {
