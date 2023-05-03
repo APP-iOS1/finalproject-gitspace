@@ -26,7 +26,7 @@ struct GuideCenterView: View {
                     VStack(alignment: .leading) {
                         GSText.CustomTextView(
                             style: .title3,
-                            string: "The Essential Guidbook for GitSpacers 📖")
+                            string: "The Essential Guidebook for GitSpacers 📖")
                     }
                     
                     Spacer()
