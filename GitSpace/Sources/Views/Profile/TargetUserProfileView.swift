@@ -342,7 +342,7 @@ struct TargetUserProfileView: View {
             }
             .halfSheet(isPresented: $isBlockViewShowing) {
                 if let targetUserInfo {
-                    BlockView(isBlockViewShowing: $isBlockViewShowing, targetUser: targetUserInfo)
+                    BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
                         .environmentObject(userInfoManager)
                         .environmentObject(blockedUsers)
                 }
