@@ -12,6 +12,7 @@ struct BlockView: View, Blockable {
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
     @Binding var isBlockViewShowing: Bool
+    @Binding var isBlockedUser: Bool
     
     let targetUser: UserInfo
     
@@ -57,6 +58,8 @@ struct BlockView: View, Blockable {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
                         isBlockViewShowing.toggle()
+                        isBlockedUser.toggle()
+                        
                         Task {
                             if let currentUser = userInfoManager.currentUser {
                                 try await blockTargetUser(in: currentUser, with: targetUser)
@@ -81,7 +84,7 @@ struct BlockView: View, Blockable {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(isBlockViewShowing: .constant(true), targetUser: UserInfo(id: "", createdDate: Date.now, deviceToken: "", blockedUserIDs: ["1"], githubID: 0, githubLogin: "", githubName: "test", githubEmail: "test", avatar_url: "test", bio: nil, company: nil, location: nil, blog: nil, public_repos: 0, followers: 0, following: 0))
+        BlockView(isBlockViewShowing: .constant(true), isBlockedUser: .constant(false), targetUser: UserInfo(id: "", createdDate: Date.now, deviceToken: "", blockedUserIDs: ["1"], githubID: 0, githubLogin: "", githubName: "test", githubEmail: "test", avatar_url: "test", bio: nil, company: nil, location: nil, blog: nil, public_repos: 0, followers: 0, following: 0))
             .environmentObject(BlockedUsers())
     }
 }
