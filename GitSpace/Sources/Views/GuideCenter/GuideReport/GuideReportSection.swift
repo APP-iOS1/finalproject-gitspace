@@ -69,7 +69,7 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "How to Report Things")
+                                    string: "How to report someone")
                                         /// 신고하는 법
                             }
                             
