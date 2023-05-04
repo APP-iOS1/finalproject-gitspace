@@ -15,7 +15,7 @@ struct TargetUserProfileView: View {
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
-    @StateObject var viewModel = TargetUserProfileViewModel(gitHubService: GitHubService())
+    @StateObject var targetUserProfileViewModel = TargetUserProfileViewModel(gitHubService: GitHubService())
 
     @State private var markdownString = ""
     @State private var followButtonLable: String = "➕ Follow"
@@ -180,25 +180,25 @@ struct TargetUserProfileView: View {
                                 style: .secondary(isDisabled: false)
                             ) {
                                 Task {
-                                    if viewModel.isFollowingUser {
+                                    if targetUserProfileViewModel.isFollowingUser {
                                         // TODO: - 경고: 정말 unfollow 하시겠습니까?
                                         do {
-                                            try await viewModel.requestToUnfollowUser(who: user.login)
-                                            viewModel.isFollowingUser = false
+                                            try await targetUserProfileViewModel.requestToUnfollowUser(who: user.login)
+                                            targetUserProfileViewModel.isFollowingUser = false
                                         } catch(let error) {
                                             print(error)
                                         }
                                     } else {
                                         do {
-                                            try await viewModel.requestToFollowUser(who: user.login)
-                                            viewModel.isFollowingUser = true
+                                            try await targetUserProfileViewModel.requestToFollowUser(who: user.login)
+                                            targetUserProfileViewModel.isFollowingUser = true
                                         } catch(let error) {
                                             print(error)
                                         }
                                     }
                                 }
                             } label: {
-                                viewModel.isFollowingUser ?
+                                targetUserProfileViewModel.isFollowingUser ?
                                 GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
                                     .frame(maxWidth: .infinity)
                                 :
@@ -222,25 +222,25 @@ struct TargetUserProfileView: View {
                             style: .secondary(isDisabled: false)
                         ) {
                             Task {
-                                if viewModel.isFollowingUser {
+                                if targetUserProfileViewModel.isFollowingUser {
                                     // TODO: - 경고: 정말 unfollow 하시겠습니까?
                                     do {
-                                        try await viewModel.requestToUnfollowUser(who: user.login)
-                                        viewModel.isFollowingUser = false
+                                        try await targetUserProfileViewModel.requestToUnfollowUser(who: user.login)
+                                        targetUserProfileViewModel.isFollowingUser = false
                                     } catch(let error) {
                                         print(error)
                                     }
                                 } else {
                                     do {
-                                        try await viewModel.requestToFollowUser(who: user.login)
-                                        viewModel.isFollowingUser = true
+                                        try await targetUserProfileViewModel.requestToFollowUser(who: user.login)
+                                        targetUserProfileViewModel.isFollowingUser = true
                                     } catch(let error) {
                                         print(error)
                                     }
                                 }
                             }
                         } label: {
-                            viewModel.isFollowingUser ?
+                            targetUserProfileViewModel.isFollowingUser ?
                             GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
                                 .frame(maxWidth: .infinity)
                             :
@@ -293,15 +293,15 @@ struct TargetUserProfileView: View {
             targetUserInfo = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
             isGitSpaceUser = userInfoManager.users.contains { $0.githubLogin == self.user.login }
 
-            let readMeRequestResult = await viewModel.requestUserReadme(user: user.login)
-            let isFollowingTargetUser = await viewModel.checkAuthenticatedUserIsFollowing(who: user.login)
+            let readMeRequestResult = await targetUserProfileViewModel.requestUserReadme(user: user.login)
+            let isFollowingTargetUser = await targetUserProfileViewModel.checkAuthenticatedUserIsFollowing(who: user.login)
 
             if isFollowingTargetUser {
                 followButtonLable = "✅ Following"
-                viewModel.isFollowingUser = true
+                targetUserProfileViewModel.isFollowingUser = true
             } else {
                 followButtonLable = "➕ Follow"
-                viewModel.isFollowingUser = false
+                targetUserProfileViewModel.isFollowingUser = false
             }
 
             switch readMeRequestResult {
@@ -342,7 +342,7 @@ struct TargetUserProfileView: View {
             }
             .halfSheet(isPresented: $isBlockViewShowing) {
                 if let targetUserInfo {
-                    BlockView(isBlockViewShowing: $isBlockViewShowing, targetUser: targetUserInfo)
+                    BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
                         .environmentObject(userInfoManager)
                         .environmentObject(blockedUsers)
                 }
