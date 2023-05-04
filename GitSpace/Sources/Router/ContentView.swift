@@ -111,6 +111,27 @@ struct ContentView: View {
 //        .padding(.bottom, 20)
     }
     
+    /**
+     currentUser의 BlockedUserList를 가져옵니다.
+     가져온 유저 목록은 blockedUsers의 blockedUserList에 저장됩니다.
+     - blockedUsers.blockedUserList: [(userInfo, gitHubUser)]
+     - Author: 한호
+     */
+    private func retrieveBlockedUserList() async {
+        if let currentUser = await userStore.requestUserInfoWithID(userID: userStore.currentUser?.id ?? "") {
+            
+            for someUser in currentUser.blockedUserIDs {
+                if let userInfo = await UserStore.requestAndReturnUser(userID: someUser) {
+                    let gitHubUser = githubAuthManager.getGithubUser(FBUser: userInfo)
+                    let blockedUser: (userInfo: UserInfo, gitHubUser: GithubUser) = (userInfo, gitHubUser)
+                    
+                    if !blockedUsers.blockedUserList.contains(where: { $0.userInfo.id == userInfo.id }) {
+                        blockedUsers.blockedUserList.append(blockedUser)
+                    }
+                }
+            }
+        }
+    }
 }
 //
 //struct ContentView_Previews: PreviewProvider {
