@@ -83,10 +83,13 @@ final class UserStore: ObservableObject {
             print(#file, #function, "USERID:", userID)
 			let userInfo = try await doc.getDocument(as: UserInfo.self)
 			return userInfo
-		} catch {
-			dump("\(#file), \(#function) - DEBUG \(error.localizedDescription)")
-			return nil
-		}
+        } catch is FirestoreErrorCode { // Firestore Error 일 경우
+            dump("\(#file), \(#function) - DEBUG: FIRESTORE ERROR")
+            return UserInfo.getFaliedUserInfo()
+        } catch { // 내부 인코딩-디코딩 Error일 경우
+            dump("\(#file), \(#function) - DEBUG: \(error.localizedDescription)")
+            return UserInfo.getFaliedUserInfo()
+        }
 	}
 	
 	/**
