@@ -292,7 +292,7 @@ struct TargetUserProfileView: View {
         .task {
             targetUserInfo = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
             isGitSpaceUser = userInfoManager.users.contains { $0.githubLogin == self.user.login }
-
+            
             let readMeRequestResult = await targetUserProfileViewModel.requestUserReadme(user: user.login)
             let isFollowingTargetUser = await targetUserProfileViewModel.checkAuthenticatedUserIsFollowing(who: user.login)
             
@@ -317,6 +317,19 @@ struct TargetUserProfileView: View {
                     break
                 }
             }
+        }
+        .halfSheet(isPresented: $isBlockViewShowing) {
+            if let targetUserInfo {
+                BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
+                    .environmentObject(userInfoManager)
+                    .environmentObject(blockedUsers)
+            }
+        }
+        .halfSheet(isPresented: $isReportViewShowing) {
+            ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+        }
+        .halfSheet(isPresented: $isSuggestBlockViewShowing) {
+            SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
         }
         .toolbar {
             if (isGitSpaceUser && userInfoManager.currentUser?.githubID != user.id) {
@@ -343,25 +356,7 @@ struct TargetUserProfileView: View {
                         .frame(width: 40, height: 40)
                 }
             }
-            .halfSheet(isPresented: $isBlockViewShowing) {
-                if let targetUserInfo {
-                    BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
-                        .environmentObject(userInfoManager)
-                        .environmentObject(blockedUsers)
-                }
-            }
-            .halfSheet(isPresented: $isReportViewShowing) {
-                ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
-            }
-            .halfSheet(isPresented: $isSuggestBlockViewShowing) {
-                SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
-            }
-        }
-        .halfSheet(isPresented: $isReportViewShowing) {
-            ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
-        }
-        .halfSheet(isPresented: $isSuggestBlockViewShowing) {
-            SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
-        }
-    } //  body
+            
+        } //  body
+    }
 }

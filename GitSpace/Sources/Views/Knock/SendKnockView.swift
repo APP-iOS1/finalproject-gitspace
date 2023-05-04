@@ -279,12 +279,17 @@ Please write a message carefully.
                             
                             
                             // FIXME: 노크 전송 버튼 disabled 조건에 isKnockSent 추가 필요함! From. 영이 -> To. 노이
-                            if !isKnockSent {
-                                GSTextEditor.CustomTextEditorView(style: .message,
-                                                                  text: $knockMessage,
-                                                                  isBlocked: false,
-                                                                  sendableImage: "paperplane.fill",
-                                                                  unSendableImage: "paperplane") {
+                            if
+                                let currentUser = userStore.currentUser,
+                                let targetUserInfo,
+                                !isKnockSent {
+                                GSTextEditor.CustomTextEditorView(
+                                    style: .message,
+                                    text: $knockMessage,
+                                    isBlocked: false,
+                                    sendableImage: "paperplane.fill",
+                                    unSendableImage: "paperplane"
+                                ) {
                                     Task {
                                         let tempKnockMessage = knockMessage
                                         knockMessage = ""
@@ -375,12 +380,17 @@ Please write a message carefully.
                             //                            }
                             
                             
-                            if !isKnockSent {
-                                GSTextEditor.CustomTextEditorView(style: .message,
-                                                                  text: $knockMessage,
-                                                                  isBlocked: false,
-                                                                  sendableImage: "paperplane.fill",
-                                                                  unSendableImage: "paperplane") {
+                            if
+                                let currentUser = userStore.currentUser,
+                                let targetUserInfo,
+                               !isKnockSent {
+                                GSTextEditor.CustomTextEditorView(
+                                    style: .message,
+                                    text: $knockMessage,
+                                    isBlocked: false,
+                                    sendableImage: "paperplane.fill",
+                                    unSendableImage: "paperplane"
+                                ) {
                                     Task {
                                         let tempKnockMessage = knockMessage
                                         knockMessage = ""
@@ -478,6 +488,9 @@ Please write a message carefully.
     
     // TODO: - Push Notification, Make new Knock Implement
 }
+
+// MARK: - BLOCKABLE
+extension SendKnockView: Blockable { }
 
 //struct SendKnockView_Previews: PreviewProvider {
 //    static var previews: some View {

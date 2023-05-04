@@ -20,6 +20,7 @@ struct ReceivedKnockDetailView: View {
     @State private var isAccepted: Bool = false
     @State private var targetUser: UserInfo? = nil
     @State private var isReporting: Bool = false
+    @State private var isBlockOtherUser: Bool = false
     @State private var isEditingKnockMessage: Bool = false
     
     var body: some View {
@@ -205,6 +206,12 @@ struct ReceivedKnockDetailView: View {
             } else if knock.knockStatus == Constant.KNOCK_DECLINED {
                 Text("You Declined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
             }
+        }
+        .sheet(isPresented: $isReporting) {
+            ReportView(
+                isReportViewShowing: $isReporting,
+                isSuggestBlockViewShowing: $isBlockOtherUser
+            )
         }
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)

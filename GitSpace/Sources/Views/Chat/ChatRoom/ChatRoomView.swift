@@ -33,7 +33,7 @@ struct ChatRoomView: View, Blockable {
     @State private var showingReportView: Bool = false
     @State private var showingSuggestBlockView: Bool = false
     @State private var showingBlockView: Bool = false
-    
+    @State private var isBlockedUser: Bool = false
     
     var body: some View {
         VStack {
@@ -128,6 +128,7 @@ struct ChatRoomView: View, Blockable {
         .halfSheet(isPresented: $showingBlockView) {
             BlockView(
                 isBlockViewShowing: $showingBlockView,
+                isBlockedUser: $isBlockedUser,
                 targetUser: targetUserInfo
             )
         }

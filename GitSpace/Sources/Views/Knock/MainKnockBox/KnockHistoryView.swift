@@ -17,6 +17,7 @@ struct KnockHistoryView: View {
     
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isReporting: Bool = false
+    @State private var isBlocking: Bool = false
     
     @State private var editedKnockMessage: String = ""
     @State private var isEditingKnockMessage: Bool = false
@@ -298,6 +299,12 @@ struct KnockHistoryView: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
+        }
+        .halfSheet(isPresented: $isReporting) {
+            ReportView(
+                isReportViewShowing: $isReporting,
+                isSuggestBlockViewShowing: $isBlocking
+            )
         }
         .onTapGesture {
             self.endTextEditing()
