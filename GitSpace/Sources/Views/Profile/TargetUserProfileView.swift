@@ -322,11 +322,13 @@ struct TargetUserProfileView: View {
             if (isGitSpaceUser && userInfoManager.currentUser?.githubID != user.id) {
                 Menu {
                     Section {
-                        Button(role: .destructive, action: {
-                            /* Block 모달 뷰 appear */
-                            isBlockViewShowing.toggle()
-                        }) {
-                            Label("Block", systemImage: "nosign")
+                        if !blockedUsers.blockedUserList.contains(where: { $0.gitHubUser == user }) {
+                            Button(role: .destructive, action: {
+                                /* Block 모달 뷰 appear */
+                                isBlockViewShowing.toggle()
+                            }) {
+                                Label("Block", systemImage: "nosign")
+                            }
                         }
                         
                         Button(role: .destructive, action: {
