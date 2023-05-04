@@ -20,6 +20,7 @@ struct ContentView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
 	@EnvironmentObject var pushNotificationManager: PushNotificationManager
 	@EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     var body: some View {
         /**
