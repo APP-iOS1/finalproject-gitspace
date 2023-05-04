@@ -247,7 +247,7 @@ extension KnockViewManager {
 			}
 	}
 	
-	private func removeSnapshot() {
+	func removeSnapshot() {
 		if let listener {
 			listener.remove()
 		}
