@@ -247,7 +247,7 @@ extension KnockViewManager {
 			}
 	}
 	
-	private func removeSnapshot() {
+	func removeSnapshot() {
 		if let listener {
 			listener.remove()
 		}
@@ -394,7 +394,7 @@ extension KnockViewManager {
     }
     
     @MainActor
-    private func removeKnockList() {
+    func removeKnockList() {
         receivedKnockList.removeAll()
         sentKnockList.removeAll()
     }

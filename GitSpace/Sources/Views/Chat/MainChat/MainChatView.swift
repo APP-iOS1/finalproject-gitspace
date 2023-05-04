@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainChatView: View {
     
-    let gitHubService = GitHubService()
+    private let gitHubService = GitHubService()
     
     @EnvironmentObject var chatStore : ChatStore
     //@StateObject var followerViewModel = FollowerViewModel()

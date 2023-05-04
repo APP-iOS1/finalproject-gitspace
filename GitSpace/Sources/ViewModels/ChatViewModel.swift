@@ -46,7 +46,6 @@ final class ChatStore: ObservableObject {
     private var listener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
-	
     var targetUserInfoDict: [String: UserInfo]
     
 	@Published var newChat: Chat
@@ -179,6 +178,11 @@ extension ChatStore {
     private func writeChats(chats: [Chat]) {
         self.chats = chats
         self.isDoneFetch = true
+    }
+    
+    @MainActor
+    func removeChatList() {
+        chats.removeAll()
     }
     
     func fetchChats() async {
