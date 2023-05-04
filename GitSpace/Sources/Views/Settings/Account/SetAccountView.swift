@@ -40,19 +40,21 @@ struct SetAccountView: View {
                     HStack {
                         Text("Blocked users")
                         Spacer()
-                        Text("\(blockedUsers.blockedUserList.count)")
-                            .foregroundColor(.gsLightGray2)
+                        if !blockedUsers.blockedUserList.isEmpty {
+                            Text("\(blockedUsers.blockedUserList.count)")
+                                .foregroundColor(.gsLightGray2)
+                        }
                     }
                 }
             } // Section
             
-            // MARK: Logout / Delete Account
+            // MARK: Sign out / Delete Account
             /// 로그아웃 / 계정 삭제
             Section {
                 Button(role: .cancel) {
                     showingLogoutAlert.toggle()
                 } label: {
-                    Text("Logout")
+                    Text("Sign out")
                 }
                 
                 Button(role: .destructive) {
@@ -67,12 +69,12 @@ struct SetAccountView: View {
             
         } // List
         .navigationBarTitle("Account", displayMode: .inline)
-        .alert("Logout", isPresented: $showingLogoutAlert) {
-              Button("Logout", role: .destructive) {
+        .alert("Sign out", isPresented: $showingLogoutAlert) {
+              Button("Sign out", role: .destructive) {
                   gitHubAuthManager.signOut()
               }
         } message: {
-            Text("Logout from ") + Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account.")
+            Text("Sign out from ") + Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account.")
         }
         .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
               Button("Delete", role: .destructive) {
@@ -83,7 +85,7 @@ struct SetAccountView: View {
                   }
               }
         } message: {
-            Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account would be deleted.")
+            Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account will be deleted.\nAre you sure?")
         }
     }
     
