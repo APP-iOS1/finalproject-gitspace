@@ -50,6 +50,7 @@ struct SetAppearanceView: View {
             Button {
                 appearancePrint(item: item)
                 systemAppearance = item.rawValue
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             } label: {
                 HStack {
                     Text("\(item.appearance)")
