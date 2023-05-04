@@ -13,9 +13,47 @@ struct BlockedUsersListView: View {
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
-    @State var isLoaded: Bool = false
+    @State var isLoaded: Bool = true
     
-    func convertUserInfo() async {
+    var body: some View {
+        VStack {
+            if isLoaded {
+                if !blockedUsers.blockedUserList.isEmpty {
+                    ScrollView {
+                        ForEach(blockedUsers.blockedUserList, id: \.userInfo.id) { blockedUser in
+                            BlockedUsersListCell(
+                                userInfo: blockedUser.userInfo,
+                                gitHubUser: blockedUser.gitHubUser
+                            )
+                        }
+                    } // ScrollView
+                    .refreshable {
+                        await retrieveBlockedUserList()
+                    }
+                } else {
+                    VStack {
+                        Spacer()
+                        GSText.CustomTextView(
+                            style: .description2,
+                            string: "You haven't blocked anyone.")
+                        Spacer()
+                    }
+                }
+            } else {
+                BlockedUsersListSkeletonView()
+            }
+        } //VStack
+        .navigationBarTitle("Blocked users", displayMode: .inline)
+    }
+    
+    /**
+     currentUser의 BlockedUserList를 가져옵니다.
+     가져온 유저 목록은 blockedUsers의 blockedUserList에 저장됩니다.
+     isLoaded가 false일 동안 스켈레톤 뷰가 노출됩니다.
+     - blockedUsers.blockedUserList: [(userInfo, gitHubUser)]
+     - Author: 한호
+     */
+    private func retrieveBlockedUserList() async {
         
         withAnimation(.easeInOut) {
             isLoaded = false
@@ -39,46 +77,6 @@ struct BlockedUsersListView: View {
             isLoaded = true
         }
     }
-    
-    var body: some View {
-        VStack {
-            if isLoaded {
-                if !blockedUsers.blockedUserList.isEmpty {
-                    ScrollView {
-                        ForEach(blockedUsers.blockedUserList, id: \.userInfo.id) { blockedUser in
-                            BlockedUsersListCell(
-                                userInfo: blockedUser.userInfo,
-                                gitHubUser: blockedUser.gitHubUser
-                            )
-                        }
-                    } // ScrollView
-                    .refreshable {
-                        await convertUserInfo()
-                    }
-                } else {
-                    VStack {
-                        Spacer()
-                        GSText.CustomTextView(
-                            style: .description2,
-                            string: "You haven't blocked anyone.")
-                        Spacer()
-                    }
-                }
-            } else {
-                BlockedUsersListSkeletonView()
-            }
-        } //VStack
-        .navigationBarTitle("Blocked users", displayMode: .inline)
-        .onViewDidLoad {
-            Task {
-                await convertUserInfo()
-            }
-        }
-    }
-}
-
-class BlockedUsers: ObservableObject {
-    @Published var blockedUserList: [(userInfo: UserInfo, gitHubUser: GithubUser)] = []
 }
 
 struct BlockedUsersListView_Previews: PreviewProvider {

@@ -41,10 +41,12 @@ struct GuideReportSection: View {
                                 GSText.CustomTextView(
                                     style: .title3,
                                     string: "What to Report")
+                                        /// 신고에 대한 모든 것
 
                                 GSText.CustomTextView(
                                     style: .caption1,
-                                    string: "When you should report\nand when you shouldn't.")
+                                    string: "When you should report\nand when you shouldn't")
+                                        /// 신고해야 할 때와 하지 말아야 할 때
                                 .multilineTextAlignment(.leading)
                             }
 
@@ -67,7 +69,8 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "How to Report Someone")
+                                    string: "How to report someone")
+                                        /// 신고하는 법
                             }
                             
                             Spacer()
@@ -85,7 +88,8 @@ struct GuideReportSection: View {
                             VStack(alignment: .leading) {
                                 GSText.CustomTextView(
                                     style: .title3,
-                                    string: "What Happens After I Report?")
+                                    string: "What happens after I report?")
+                                        /// 신고 후엔 어떻게 되나요?
                             }
                             
                             Spacer()
