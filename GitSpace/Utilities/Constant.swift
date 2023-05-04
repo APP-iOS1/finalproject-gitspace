@@ -17,6 +17,10 @@ public enum Constant {
 	static let KNOCK_RECEIVED: String = "Received"
 	static let KNOCK_SENT: String = "Sent"
     
+    enum Assets {
+        static let PROFILE_PLACEHOLDER: String = "ProfilePlaceholder"
+    }
+    
 	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
 	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"

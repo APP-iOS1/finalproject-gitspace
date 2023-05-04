@@ -13,6 +13,7 @@ struct KnockHistoryView: View {
     @EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
     @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var chatStore: ChatStore
     
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isReporting: Bool = false
@@ -20,6 +21,7 @@ struct KnockHistoryView: View {
     @State private var editedKnockMessage: String = ""
     @State private var isEditingKnockMessage: Bool = false
     @State private var isUpdatingKnockMessage: Bool = false
+    @State private var activatedChat: Chat?
     @FocusState private var isTextEditorFocused: Bool
     
     // MARK: - body
@@ -160,18 +162,24 @@ struct KnockHistoryView: View {
                         .padding(.horizontal, 10)
                 } // Knock Message Bubble
             }
+
             if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
-                // TODO: - CHAT LIST 연결
-                GSButton.CustomButtonView(
-                    style: .secondary(
-                        isDisabled: false
-                    )) {
-                        print()
+                if
+                    let activatedChat,
+                    let targetUserInfo {
+                    GSNavigationLink(
+                        style: .secondary
+                    ) {
+                        ChatRoomView(
+                            chat: activatedChat,
+                            targetUserInfo: targetUserInfo
+                        )
                     } label: {
-                        Text("Move To Chat List")
+                        Text("Go Chat")
                             .bold()
                     }
                     .padding(.top, 8)
+                }
             }
             
             Divider()
@@ -297,6 +305,8 @@ struct KnockHistoryView: View {
         .task {
             if eachKnock.knockStatus == Constant.KNOCK_WAITING {
                 assignKnockMessageIntoEditState()
+            } else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
+                await assignChatWithChatID()
             }
             
             // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
@@ -321,5 +331,12 @@ struct KnockHistoryView: View {
     
     private func assignKnockMessageIntoEditState() {
         editedKnockMessage = eachKnock.knockMessage
+    }
+    
+    private func assignChatWithChatID() async {
+        if
+            let chatID = eachKnock.chatID {
+            self.activatedChat = await chatStore.requestPushedChat(chatID: chatID)
+        }
     }
 }

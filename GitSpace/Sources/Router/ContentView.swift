@@ -52,7 +52,7 @@ struct ContentView: View {
                     .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
             }
-            
+            .navigationViewStyle(.stack)
         }
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
