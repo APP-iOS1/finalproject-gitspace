@@ -39,6 +39,7 @@ struct SuggestBlockView: View {
                 
                 GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                     dismiss()
+                    isSuggestBlockViewShowing.toggle()
                     isBlockViewShowing.toggle()
                 } label: {
                     Text("Yes")
