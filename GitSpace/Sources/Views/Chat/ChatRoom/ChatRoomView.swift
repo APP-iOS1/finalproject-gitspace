@@ -125,6 +125,12 @@ struct ChatRoomView: View, Blockable {
                 isSuggestBlockViewShowing: $showingSuggestBlockView
             )
         }
+        .halfSheet(isPresented: $showingBlockView) {
+            BlockView(
+                isBlockViewShowing: $showingBlockView,
+                targetUser: targetUserInfo
+            )
+        }
         .onDisappear {
             // 초기화 필요.
             pushNotificationManager.currentChatRoomID = nil
@@ -153,7 +159,9 @@ struct ChatRoomView: View, Blockable {
         }
         // 내 MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
-            if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
+            if
+                let id,
+                let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
                     await deleteContent(message: deletedMessage)
                 }
