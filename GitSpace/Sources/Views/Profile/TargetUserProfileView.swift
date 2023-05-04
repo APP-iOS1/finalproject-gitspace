@@ -255,7 +255,7 @@ struct TargetUserProfileView: View {
                     .frame(height: 1)
                     .overlay(Color.gsGray3)
                     .padding(.vertical, 10)
-
+                
                 // MARK: - 유저의 README
                 if isFailedToLoadReadme {
                     FailToLoadReadmeView()
@@ -288,11 +288,11 @@ struct TargetUserProfileView: View {
             } else {
                 isBlockedUser = false
             }
+            isGitSpaceUser = userInfoManager.users.contains { $0.githubID == user.id }
         }
             .task {
             targetUserInfo = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
-            isGitSpaceUser = userInfoManager.users.contains { $0.githubLogin == self.user.login }
-
+            
             let readMeRequestResult = await viewModel.requestUserReadme(user: user.login)
             let isFollowingTargetUser = await viewModel.checkAuthenticatedUserIsFollowing(who: user.login)
 
