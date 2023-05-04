@@ -34,15 +34,15 @@ struct Report: Codable {
         func getDescription() -> String {
             switch self {
             case .spamming:
-                return "Spamming Description"
+                return "Sending unsolicited messages in bulk by chat and knock."
             case .offensive:
-                return "Verbal Abuse, Offensive Language Description"
+                return "Including, but not limited to language that is unlawful, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, sexually explicit, or otherwise objectionable."
             case .sexual:
-                return "Sexual Description(Activity) Description"
+                return "Sending offensive sexual content to other users."
             case .cheating:
-                return "Cheating Description"
+                return "Using unapproved third party programs or cheating the other users with false information."
             case .bullying:
-                return "Cyberbullying or Harassment Description"
+                return "Intentionally bullying other users."
             }
         }
         
