@@ -44,9 +44,7 @@ struct BlockedUsersListView: View {
             }
         } //VStack
         .navigationBarTitle("Blocked users", displayMode: .inline)
-        .onViewDidLoad {
-            Task {
-                await convertUserInfo()
+    }
     
     /**
      currentUser의 BlockedUserList를 가져옵니다.
