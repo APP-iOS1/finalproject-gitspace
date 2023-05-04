@@ -21,7 +21,7 @@ struct AfterReportGuideView: View {
                     
                     Text(
 """
-You've done your part by letting us know something is up — now it's our turn. Here's what to expect after you report someone on GitSpace:
+ You've done your part by letting us know something is up — now it's our turn. Here's what to expect after you report someone on GitSpace:
 """)
                     .padding(.top)
                     
@@ -40,9 +40,9 @@ You've done your part by letting us know something is up — now it's our turn. 
                     
                     Text(
 """
-Because of privacy guidelines, we may not always be able to share the details of a report with you, but we want you to know that every report will be taken seriously and handled with care.
+ Because of privacy guidelines, we may not always be able to share the details of a report with you, but we want you to know that every report will be taken seriously and handled with care.
 
-Sharing your experience isn't always easy, and we appreciate it when you do.
+ Sharing your experience isn't always easy, and we appreciate it when you do.
 """)
                     .padding(.top)
                 } // VStack

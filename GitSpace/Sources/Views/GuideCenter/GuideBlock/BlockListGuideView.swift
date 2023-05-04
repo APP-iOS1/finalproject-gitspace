@@ -21,7 +21,7 @@ struct BlockListGuideView: View {
                     
                     Text(
 """
-You can review who you've blocked on GitSpace in your settings.
+ You can review who you've blocked on GitSpace in your settings.
 """)
                     .padding(.top)
                     
@@ -50,7 +50,7 @@ You can review who you've blocked on GitSpace in your settings.
                     
                     Text(
 """
-From your blocked users list, you can also unblock someone by tapping **Unblock** to the right of their name.
+ From your blocked users list, you can also unblock someone by tapping **Unblock** to the right of their name.
 """)
                     .padding(.top)
                     

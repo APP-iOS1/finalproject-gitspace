@@ -30,14 +30,14 @@ struct ReportGuideView: View {
                         .bold()
                     
                     Text("To report someone on GitSpace:")
-                        .padding(.top, 10)
+                        .padding(.top, 5)
                 }
                 
                 Group {
                     DisclosureGroup("**From someone's GitSpace profile:**",
                                     isExpanded: $reportGuide1) {
                         
-                        VStack(alignment: .leading, spacing: 5) {
+                        VStack(alignment: .leading, spacing: 10) {
                             HStack(alignment: .top) {
                                 Text("1.")
                                 Text("Tap their username of profile picture from their repository or contributor list or chatting room to go to their profile.")
@@ -53,6 +53,7 @@ struct ReportGuideView: View {
                                 Text("Tap the reason for your report.")
                             }
                         }
+                        .padding(.top, 5)
                     }
                 }
                                
@@ -60,7 +61,7 @@ struct ReportGuideView: View {
                     DisclosureGroup("**From a chat with another user:**",
                                     isExpanded: $reportGuide2) {
                         
-                        VStack(alignment: .leading, spacing: 5) {
+                        VStack(alignment: .leading, spacing: 10) {
                             HStack(alignment: .top) {
                                 Text("1.")
                                 Text("Tap **chats** in the bottom to go to your chat list.")
@@ -82,6 +83,7 @@ struct ReportGuideView: View {
                                 Text("Tap the reason for your report.")
                             }
                         }
+                        .padding(.top, 5)
                     }
                 }
             } // VStack

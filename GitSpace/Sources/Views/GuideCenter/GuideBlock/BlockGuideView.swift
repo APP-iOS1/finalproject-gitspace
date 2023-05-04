@@ -38,11 +38,12 @@ There are multiple ways to block someone on GitSpace.
 """
 To block someone on GitSpace:
 """)
+                        .padding(.top, -5)
                         
                         DisclosureGroup("**From someone's GitSpace profile:**",
                             isExpanded: $blockGuide) {
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .top) {
                                     Text("1.")
                                     Text("Tap their username of profile picture from their repository or contributor list or chatting room to go to their profile.")
@@ -58,6 +59,7 @@ To block someone on GitSpace:
                                     Text("Tap **Yes** to confirm.")
                                 }
                             }
+                            .padding(.top, 5)
                         }
                     }
                     
@@ -71,11 +73,12 @@ To block someone on GitSpace:
 """
 To unblock someone on GitSpace:
 """)
+                        .padding(.top, -5)
                         
                         DisclosureGroup("**From your GitSpace settings:**",
                             isExpanded: $unblockGuide) {
                             
-                            VStack(alignment: .leading, spacing: 5) {
+                            VStack(alignment: .leading, spacing: 10) {
                                 HStack(alignment: .top) {
                                     Text("1.")
                                     Text("Tap **profile** in the bottom right to go to your profile")
@@ -96,6 +99,7 @@ To unblock someone on GitSpace:
                                     Text("Tap the **Unblock** button located on the right side of the profile of the user you want to unblock.")
                                 }
                             }
+                            .padding(.top, 5)
                         }
                     }
                 } // VStack
