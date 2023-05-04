@@ -88,6 +88,8 @@ struct SetAccountView: View {
     }
     
     private func reset() {
+        chatViewModel.removeListener()
+        knockViewManager.removeSnapshot()
         chatViewModel.removeChatList()
         knockViewManager.removeKnockList()
     }
