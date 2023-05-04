@@ -77,10 +77,6 @@ struct BlockedUsersListView: View {
     }
 }
 
-class BlockedUsers: ObservableObject {
-    @Published var blockedUserList: [(userInfo: UserInfo, gitHubUser: GithubUser)] = []
-}
-
 struct BlockedUsersListView_Previews: PreviewProvider {
     static var previews: some View {
         BlockedUsersListView()
