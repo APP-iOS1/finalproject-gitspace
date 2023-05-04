@@ -92,6 +92,7 @@ struct SetAccountView: View {
         knockViewManager.removeSnapshot()
         chatViewModel.removeChatList()
         knockViewManager.removeKnockList()
+        chatViewModel.isDoneFetch = false
     }
 }
 
