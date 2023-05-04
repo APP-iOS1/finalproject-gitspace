@@ -47,6 +47,14 @@ struct BlockedUsersListView: View {
         .onViewDidLoad {
             Task {
                 await convertUserInfo()
+    
+    /**
+     currentUser의 BlockedUserList를 가져옵니다.
+     가져온 유저 목록은 blockedUsers의 blockedUserList에 저장됩니다.
+     isLoaded가 false일 동안 스켈레톤 뷰가 노출됩니다.
+     - blockedUsers.blockedUserList: [(userInfo, gitHubUser)]
+     - Author: 한호
+     */
     private func retrieveBlockedUserList() async {
         
         withAnimation(.easeInOut) {
