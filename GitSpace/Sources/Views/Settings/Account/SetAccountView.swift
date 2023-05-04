@@ -83,7 +83,7 @@ struct SetAccountView: View {
                   }
               }
         } message: {
-            Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account has been deleted.")
+            Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account would be deleted.")
         }
     }
     
