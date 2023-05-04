@@ -394,7 +394,7 @@ extension KnockViewManager {
     }
     
     @MainActor
-    private func removeKnockList() {
+    func removeKnockList() {
         receivedKnockList.removeAll()
         sentKnockList.removeAll()
     }
