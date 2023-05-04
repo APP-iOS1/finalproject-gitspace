@@ -15,6 +15,7 @@ struct EachKnockCell: View {
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isChecked: Bool = false
     @State private var opacity: CGFloat = 0.4
+    @State private var asyncFetchedUserInfo: UserInfo?
     
     // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
     @State var userSelectedTab: String
@@ -34,25 +35,32 @@ struct EachKnockCell: View {
                         }
                 }
                 
-                if
-                    let targetUserInfo,
-                    targetUserInfo.avatar_url != "ProfilePlaceholder" {
-                    GithubProfileImage(
-                        urlStr: targetUserInfo.avatar_url,
-                        size: 50
-                    )
-                } else if
-                    let targetUserInfo,
-                    targetUserInfo.avatar_url == "ProfilePlaceholder" {
-                    DefaultProfileImage(size: 50)
-                } else {
-                    DefaultProfileImage(size: 50)
-                        .modifier(
-                            BlinkingSkeletonModifier(
-                                opacity: opacity,
-                                shouldShow: true
-                            )
+                ZStack {
+                    //ZStack에서 애니메이션 처리를 할 때 zIndex 지정해주지 않으면 애니메이션 에러가 발생할 수 있음.
+                    Color.white
+                        .zIndex(0)
+                        .clipShape(Circle())
+                    
+                    //아래 있는 코드의 뷰가 더 상위에 떠야하므로 zIndex 1
+                    Circle()
+                        .fill(.gray)
+                        .opacity(opacity)
+                        .zIndex(1)
+                }
+                .frame(width: 50)
+                .overlay {
+                    if
+                        let targetUserInfo,
+                        targetUserInfo.id != "FAILED" {
+                        GithubProfileImage(
+                            urlStr: targetUserInfo.avatar_url,
+                            size: 50
                         )
+                    } else if
+                        let targetUserInfo,
+                        targetUserInfo.id == "FAILED" {
+                        DefaultProfileImage(size: 50)
+                    }
                 }
                 
                 VStack {
@@ -60,11 +68,9 @@ struct EachKnockCell: View {
                         if userSelectedTab == Constant.KNOCK_RECEIVED {
                             Text("from: **\(eachKnock.sentUserName)**")
                                 .font(.body)
-                                .id(eachKnock.sentUserName)
                         } else {
                             Text("to: **\(eachKnock.receivedUserName)**")
                                 .font(.body)
-                                .id(eachKnock.receivedUserName)
                         }
                         
                         Spacer()
@@ -73,7 +79,6 @@ struct EachKnockCell: View {
                             .font(.subheadline)
                             .foregroundColor(Color(.systemGray))
                             .padding(.leading, -10)
-                            .id(eachKnock.knockedDate.dateValue().timeAgoDisplay())
                         
                         Image(systemName: "chevron.right")
                             .resizable()
@@ -82,6 +87,7 @@ struct EachKnockCell: View {
                             .foregroundColor(Color(.systemGray))
                         
                     } // HStack
+                    .id(eachKnock.id)
                     
                     HStack {
                         Text(eachKnock.knockMessage)
@@ -102,6 +108,7 @@ struct EachKnockCell: View {
                     } // HStack
                     .font(.subheadline)
                     .foregroundColor(Color(.systemGray))
+                    .id(eachKnock.id)
                     
                 } // VStack
                 .id(eachKnock.id)
@@ -115,15 +122,39 @@ struct EachKnockCell: View {
         }
         .task {
             withAnimation(
-                .linear(duration: 0.5).repeatForever(autoreverses: true)
+                targetUserInfo != nil
+                ? .linear
+                : .linear(duration: 0.5).repeatForever(autoreverses: true)
             ) {
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4
             }
-            // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
-            if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
-                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
-            } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
-                self.targetUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+            
+            await requestUserInfoWithID()
+            assignUserInfoWithAnimation()
+        }
+    }
+    
+    /**
+     UserInfo를 request 합니다.
+     request의 결과를 asyncFetchedUserInfo에 임시 보관합니다.
+     */
+    private func requestUserInfoWithID() async -> Void {
+        // 노크 수신자 == 현재 유저일 경우, 노크 발신자의 정보를 타겟유저로 할당
+        if eachKnock.receivedUserID == userInfoManager.currentUser?.id {
+            self.asyncFetchedUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.sentUserID)
+        } else if eachKnock.receivedUserID != userInfoManager.currentUser?.id {
+            self.asyncFetchedUserInfo = await userInfoManager.requestUserInfoWithID(userID: eachKnock.receivedUserID)
+        }
+    }
+    
+    /**
+     asyncFetchedUserInfo를 애니메이션과 함께 targetUserInfo에 할당합니다.
+     */
+    private func assignUserInfoWithAnimation() {
+        if
+            let asyncFetchedUserInfo {
+            withAnimation {
+                self.targetUserInfo = asyncFetchedUserInfo
             }
         }
     }
