@@ -13,9 +13,41 @@ struct BlockedUsersListView: View {
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
-    @State var isLoaded: Bool = false
+    @State var isLoaded: Bool = true
     
-    func convertUserInfo() async {
+    var body: some View {
+        VStack {
+            if isLoaded {
+                if !blockedUsers.blockedUserList.isEmpty {
+                    ScrollView {
+                        ForEach(blockedUsers.blockedUserList, id: \.userInfo.id) { blockedUser in
+                            BlockedUsersListCell(
+                                userInfo: blockedUser.userInfo,
+                                gitHubUser: blockedUser.gitHubUser
+                            )
+                        }
+                    } // ScrollView
+                    .refreshable {
+                        await retrieveBlockedUserList()
+                    }
+                } else {
+                    VStack {
+                        Spacer()
+                        GSText.CustomTextView(
+                            style: .description2,
+                            string: "You haven't blocked anyone.")
+                        Spacer()
+                    }
+                }
+            } else {
+                BlockedUsersListSkeletonView()
+            }
+        } //VStack
+        .navigationBarTitle("Blocked users", displayMode: .inline)
+        .onViewDidLoad {
+            Task {
+                await convertUserInfo()
+    private func retrieveBlockedUserList() async {
         
         withAnimation(.easeInOut) {
             isLoaded = false
@@ -37,42 +69,6 @@ struct BlockedUsersListView: View {
         
         withAnimation(.easeInOut) {
             isLoaded = true
-        }
-    }
-    
-    var body: some View {
-        VStack {
-            if isLoaded {
-                if !blockedUsers.blockedUserList.isEmpty {
-                    ScrollView {
-                        ForEach(blockedUsers.blockedUserList, id: \.userInfo.id) { blockedUser in
-                            BlockedUsersListCell(
-                                userInfo: blockedUser.userInfo,
-                                gitHubUser: blockedUser.gitHubUser
-                            )
-                        }
-                    } // ScrollView
-                    .refreshable {
-                        await convertUserInfo()
-                    }
-                } else {
-                    VStack {
-                        Spacer()
-                        GSText.CustomTextView(
-                            style: .description2,
-                            string: "You haven't blocked anyone.")
-                        Spacer()
-                    }
-                }
-            } else {
-                BlockedUsersListSkeletonView()
-            }
-        } //VStack
-        .navigationBarTitle("Blocked users", displayMode: .inline)
-        .onViewDidLoad {
-            Task {
-                await convertUserInfo()
-            }
         }
     }
 }
