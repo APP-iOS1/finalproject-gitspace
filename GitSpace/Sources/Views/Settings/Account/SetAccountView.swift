@@ -14,6 +14,9 @@ struct SetAccountView: View {
     @State private var showingLogoutAlert = false
     @State private var showingDeleteAccountAlert = false
     
+    @EnvironmentObject private var chatViewModel: ChatStore
+    @EnvironmentObject private var knockViewManager: KnockViewManager
+    
     var body: some View {
         List {
             // MARK: - APP MANAGEMENT
@@ -76,11 +79,17 @@ struct SetAccountView: View {
                   Task {
                       await gitHubAuthManager.deleteCurrentUser()
                       await gitHubAuthManager.withdrawal()
+                      reset()
                   }
               }
         } message: {
             Text("@\(gitHubAuthManager.authenticatedUser?.login ?? "") ").bold() + Text("account has been deleted.")
         }
+    }
+    
+    private func reset() {
+        chatViewModel.removeChatList()
+        knockViewManager.removeKnockList()
     }
 }
 
