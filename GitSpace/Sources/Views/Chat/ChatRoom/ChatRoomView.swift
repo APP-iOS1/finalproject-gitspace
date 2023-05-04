@@ -125,6 +125,12 @@ struct ChatRoomView: View, Blockable {
                 isSuggestBlockViewShowing: $showingSuggestBlockView
             )
         }
+        .halfSheet(isPresented: $showingBlockView) {
+            BlockView(
+                isBlockViewShowing: $showingBlockView,
+                targetUser: targetUserInfo
+            )
+        }
         .onDisappear {
             // 초기화 필요.
             pushNotificationManager.currentChatRoomID = nil
