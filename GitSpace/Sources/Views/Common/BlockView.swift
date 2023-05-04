@@ -44,7 +44,7 @@ struct BlockView: View, Blockable {
                 
                 HStack(spacing: 30) {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: false)) {
-                        isBlockViewShowing.toggle()
+                        isBlockViewShowing = false
                     } label: {
                         Text("No")
                             .frame(width: 100, height: 50)
@@ -56,7 +56,7 @@ struct BlockView: View, Blockable {
                     
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
-                        isBlockViewShowing.toggle()
+                        isBlockViewShowing = false
                         Task {
                             if let currentUser = userInfoManager.currentUser {
                                 try await blockTargetUser(in: currentUser, with: targetUser)

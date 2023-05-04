@@ -121,8 +121,8 @@ Gitspace operation team will check and help you.
                 
                 /* report view dismiss -> suggest block view appear*/
                 dismiss()
-                isReportViewShowing.toggle()
-                isSuggestBlockViewShowing.toggle()
+                isReportViewShowing = false
+                isSuggestBlockViewShowing = true
             } label: {
                 Text("Submit Report")
             }

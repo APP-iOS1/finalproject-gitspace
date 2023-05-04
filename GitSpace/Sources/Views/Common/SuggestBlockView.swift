@@ -27,7 +27,7 @@ struct SuggestBlockView: View {
             
             HStack (spacing: 30) {
                 GSButton.CustomButtonView(style: .plainText(isDestructive: false)) {
-                    isSuggestBlockViewShowing.toggle()
+                    isSuggestBlockViewShowing = false
                 } label: {
                     Text("No")
                         .frame(width: 100, height: 50)
@@ -39,8 +39,8 @@ struct SuggestBlockView: View {
                 
                 GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                     dismiss()
-                    isSuggestBlockViewShowing.toggle()
-                    isBlockViewShowing.toggle()
+                    isSuggestBlockViewShowing = false
+                    isBlockViewShowing = true
                 } label: {
                     Text("Yes")
                         .foregroundColor(.white)
