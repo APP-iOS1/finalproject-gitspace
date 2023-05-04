@@ -10,7 +10,7 @@ import SwiftUI
 struct EachKnockCell: View {
     @EnvironmentObject var knockViewManager: KnockViewManager
     @EnvironmentObject var userInfoManager: UserStore
-	@Binding var eachKnock: Knock
+    @Binding var eachKnock: Knock
     @Binding var isEditing: Bool
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isChecked: Bool = false
@@ -18,42 +18,45 @@ struct EachKnockCell: View {
     
     // MARK: Binding하면 상위 state에 의해 이름 잔상 애니메이션이 남는다.
     @State var userSelectedTab: String
-	
-	// MARK: - body
+    
+    // MARK: - body
     var body: some View {
-		VStack {
-			HStack(alignment: .center) {
-				if isEditing {
-					Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-						.resizable()
-						.aspectRatio(contentMode: .fit)
-						.frame(width: 30, height: 30)
-						.foregroundColor(isChecked ? Color(UIColor.systemBlue) : Color.secondary)
-						.onTapGesture {
-							self.isChecked.toggle()
-						}
-				}
-				
-                if let targetUserInfo {
+        VStack {
+            HStack(alignment: .center) {
+                if isEditing {
+                    Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(isChecked ? Color(UIColor.systemBlue) : Color.secondary)
+                        .onTapGesture {
+                            self.isChecked.toggle()
+                        }
+                }
+                
+                if
+                    let targetUserInfo,
+                    targetUserInfo.avatar_url != "ProfilePlaceholder" {
                     GithubProfileImage(
                         urlStr: targetUserInfo.avatar_url,
                         size: 50
                     )
+                } else if
+                    let targetUserInfo,
+                    targetUserInfo.avatar_url == "ProfilePlaceholder" {
+                    DefaultProfileImage(size: 50)
                 } else {
-                    Image("ProfilePlaceholder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(width: 50)
-                        .modifier(BlinkingSkeletonModifier(
-                            opacity: opacity,
-                            shouldShow: true
-                        )
+                    DefaultProfileImage(size: 50)
+                        .modifier(
+                            BlinkingSkeletonModifier(
+                                opacity: opacity,
+                                shouldShow: true
+                            )
                         )
                 }
-				
-				VStack {
-					HStack {
+                
+                VStack {
+                    HStack {
                         if userSelectedTab == Constant.KNOCK_RECEIVED {
                             Text("from: **\(eachKnock.sentUserName)**")
                                 .font(.body)
@@ -63,52 +66,53 @@ struct EachKnockCell: View {
                                 .font(.body)
                                 .id(eachKnock.receivedUserName)
                         }
-						
-						Spacer()
-						
+                        
+                        Spacer()
+                        
                         Text("\(eachKnock.knockedDate.dateValue().timeAgoDisplay())")
-							.font(.subheadline)
-							.foregroundColor(Color(.systemGray))
-							.padding(.leading, -10)
+                            .font(.subheadline)
+                            .foregroundColor(Color(.systemGray))
+                            .padding(.leading, -10)
                             .id(eachKnock.knockedDate.dateValue().timeAgoDisplay())
-						
-						Image(systemName: "chevron.right")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.frame(width: 10, height: 10)
-							.foregroundColor(Color(.systemGray))
-						
-					} // HStack
-					
-					HStack {
-						Text(eachKnock.knockMessage)
-							.lineLimit(1)
-						
-						Spacer()
-						
-						if eachKnock.knockStatus == Constant.KNOCK_WAITING {
-							Text(eachKnock.knockStatus)
+                        
+                        Image(systemName: "chevron.right")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 10, height: 10)
+                            .foregroundColor(Color(.systemGray))
+                        
+                    } // HStack
+                    
+                    HStack {
+                        Text(eachKnock.knockMessage)
+                            .lineLimit(1)
+                        
+                        Spacer()
+                        
+                        if eachKnock.knockStatus == Constant.KNOCK_WAITING {
+                            Text(eachKnock.knockStatus)
                                 .foregroundColor(Color("GSPurple"))
-						} else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
-							Text(eachKnock.knockStatus)
-								.foregroundColor(Color.accentColor)
-						} else {
-							Text("\(eachKnock.knockStatus)")
-								.foregroundColor(Color("GSRed"))
-						}
-					} // HStack
-					.font(.subheadline)
-					.foregroundColor(Color(.systemGray))
-					
-				} // VStack
-				
-			} // HStack
-			.padding(.vertical, 5)
-			.padding(.horizontal)
-			
-			Divider()
-				.padding(.horizontal, 20)
-		}
+                        } else if eachKnock.knockStatus == Constant.KNOCK_ACCEPTED {
+                            Text(eachKnock.knockStatus)
+                                .foregroundColor(Color.accentColor)
+                        } else {
+                            Text("\(eachKnock.knockStatus)")
+                                .foregroundColor(Color("GSRed"))
+                        }
+                    } // HStack
+                    .font(.subheadline)
+                    .foregroundColor(Color(.systemGray))
+                    
+                } // VStack
+                .id(eachKnock.id)
+                
+            } // HStack
+            .padding(.vertical, 5)
+            .padding(.horizontal)
+            
+            Divider()
+                .padding(.horizontal, 20)
+        }
         .task {
             withAnimation(
                 .linear(duration: 0.5).repeatForever(autoreverses: true)
