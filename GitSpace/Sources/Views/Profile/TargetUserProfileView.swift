@@ -208,7 +208,7 @@ struct TargetUserProfileView: View {
                             Spacer()
                                 .frame(width: 10)
                             
-                            GSNavigationLink(style: .secondary) {
+                            GSNavigationLink(style: .secondary()) {
                                 KnockCommunicationRouter(targetGithubUser: user)
                             } label: {
                                 GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
