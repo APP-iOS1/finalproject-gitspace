@@ -149,7 +149,7 @@ public enum Constant {
 
 	public enum LabelHierarchy {
 		case primary
-		case secondary
+        case secondary(isDisabled: Bool = false)
         // 전자의 연관값으로 흑백, 후자의 연관값으로 청노를 구분한다.
         case tertiary(
             isAppliedInView: Bool? = nil,
