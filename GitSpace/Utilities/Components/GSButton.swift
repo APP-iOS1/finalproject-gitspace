@@ -32,16 +32,16 @@ public struct GSButton {
 				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - DONE
-			case .secondary:
+			case let .secondary(isDisabled):
 				Button(action: action) {
 					label
-						.labelHierarchyModifier(style: .secondary)
+						.labelHierarchyModifier(
+                            style: .secondary(
+                                isDisabled: isDisabled
+                            )
+                        )
 				}
-                // TODO: Button과 NavigationLink가 같은 secondary 스타일을 줘도 이 부분 코드가 달라서 다른 모양이 나오는 것으로 확인. 우선은 Navi쪽의 속성자와 동일하게 맞춤. 쥬니에게 확인 필요.
-//				.buttonColorSchemeModifier(style: style)
-                .buttonStyle(
-                    ViewHighlightColorStyle(style: .secondary)
-                )
+				.buttonColorSchemeModifier(style: style)
 				
 				// MARK: - TODO : 태그 액션과 상태 기획 정리되면 추가
 			case let .tag(isAppliedInView, isSelectedInAddTagSheet):
@@ -108,20 +108,50 @@ struct Test2: View {
 			VStack {
                 Text(isEditing.description)
                 
-				GSButton.CustomButtonView(
-					style: .tag(
-                        isAppliedInView: isSelected
-					)
-				) {
-					withAnimation {
-                        isEditing.toggle()
-					}
-				} label: {
-					Text("????")
-						.font(.callout)
-						.bold()
-				}
-				.tag("HI")
+                Button {
+                    isDisabled.toggle()
+                } label: {
+                    Text("\(isDisabled.description)")
+                }
+
+                
+                GSNavigationLink(style: .secondary()) {
+                    Text("?")
+                } label: {
+                    Text("?")
+                }
+                
+                GSButton.CustomButtonView(
+                    style: .secondary(isDisabled: isDisabled)
+                ) {
+                    print("??")
+                } label: {
+                    Text("HI")
+                }
+                
+                NavigationLink {
+                    Text("?")
+                } label: {
+                    Text("?")
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .frame(minWidth: 80)
+//                        .frame(maxHeight: maxHeight)
+                }
+                .buttonBorderShape(.capsule)
+                .buttonStyle(.borderedProminent)
+
+                Button {
+                    print()
+                } label: {
+                    Text("?")
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .frame(minWidth: 80)
+//                        .frame(maxHeight: maxHeight)
+                }
+                .buttonBorderShape(.capsule)
+                .buttonStyle(.borderedProminent)
 			}	
 		}
 	}
