@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: DEPRECATE
 struct ViewHighlightColorStyle: ButtonStyle {
 	let style: Constant.LabelHierarchy
 	@Environment(\.colorScheme) var colorScheme
