@@ -8,4 +8,5 @@ import Foundation
 
 final class BlockedUsers: ObservableObject {
     
+    @Published var blockedUserList: [(userInfo: UserInfo, gitHubUser: GithubUser)] = []
 }
