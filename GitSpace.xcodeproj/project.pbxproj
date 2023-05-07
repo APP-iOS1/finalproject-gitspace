@@ -451,6 +451,14 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
+		340C1C7E2A07F80D00C2FA1E /* SendKnock */ = {
+			isa = PBXGroup;
+			children = (
+				34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */,
+			);
+			path = SendKnock;
+			sourceTree = "<group>";
+		};
 		342773502993DF0300818816 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,7 +648,7 @@
 			isa = PBXGroup;
 			children = (
 				7EFEF57B29B46D5100595F62 /* MainKnockBox */,
-				34BC357D2988EA4D000DCBC7 /* SendKnockView.swift */,
+				340C1C7E2A07F80D00C2FA1E /* SendKnock */,
 			);
 			path = Knock;
 			sourceTree = "<group>";
