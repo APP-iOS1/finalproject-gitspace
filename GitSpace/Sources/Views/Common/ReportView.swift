@@ -11,6 +11,7 @@ struct ReportView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var isReportViewShowing: Bool
     @Binding var isSuggestBlockViewShowing: Bool
+    @Binding var isBlocked: Bool
     
     @State private var reportReason: String?
     @State private var reportReasonNumber: Int?
@@ -122,7 +123,9 @@ Gitspace operation team will check and help you.
                 /* report view dismiss -> suggest block view appear*/
                 dismiss()
                 isReportViewShowing = false
-                isSuggestBlockViewShowing = true
+                if !isBlocked {
+                    isSuggestBlockViewShowing = true
+                }
             } label: {
                 Text("Submit Report")
             }
@@ -134,6 +137,6 @@ Gitspace operation team will check and help you.
 
 struct ReportView_Previews: PreviewProvider {
     static var previews: some View {
-        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false))
+        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false), isBlocked: .constant(false))
     }
 }
