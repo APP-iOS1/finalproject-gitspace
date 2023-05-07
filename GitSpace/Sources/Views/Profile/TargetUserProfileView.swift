@@ -320,16 +320,26 @@ struct TargetUserProfileView: View {
         }
         .halfSheet(isPresented: $isBlockViewShowing) {
             if let targetUserInfo {
-                BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
-                    .environmentObject(userInfoManager)
-                    .environmentObject(blockedUsers)
+                BlockView(
+                    isBlockViewShowing: $isBlockViewShowing,
+                    isBlockedUser: $isBlockedUser,
+                    targetUser: targetUserInfo
+                )
+                .environmentObject(userInfoManager)
+                .environmentObject(blockedUsers)
             }
         }
         .halfSheet(isPresented: $isReportViewShowing) {
-            ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            ReportView(
+                isReportViewShowing: $isReportViewShowing,
+                isSuggestBlockViewShowing: $isSuggestBlockViewShowing
+            )
         }
         .halfSheet(isPresented: $isSuggestBlockViewShowing) {
-            SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            SuggestBlockView(
+                isBlockViewShowing: $isBlockViewShowing,
+                isSuggestBlockViewShowing: $isSuggestBlockViewShowing
+            )
         }
         .toolbar {
             if (isGitSpaceUser && userInfoManager.currentUser?.githubID != user.id) {
