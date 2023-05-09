@@ -128,11 +128,13 @@ Gitspace operation team will check and help you.
             ) {
                 /* report method call */
                 
-                /* report view dismiss -> suggest block view appear*/
+                /* report view dismiss -> suggest block view appear */
                 dismiss()
                 isReportViewShowing = false
                 if !isBlocked {
-                    isSuggestBlockViewShowing = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { /// animation이 끝나는데 시간이 걸리기 때문에, true로 바꾸는 코드를 조금 늦춘다. 그렇지 않으면 모달이 띄워지는데 충돌이 일어난다.
+                        isSuggestBlockViewShowing = true
+                    }
                 }
             } label: {
                 Text("Submit Report")
