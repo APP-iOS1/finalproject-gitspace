@@ -308,8 +308,6 @@ struct KnockHistoryView: View {
                     isSuggestBlockViewShowing: $isBlocking,
                     targetUser: targetUser
                 )
-                .environmentObject(userInfoManager)
-                .environmentObject(blockedUsers)
             }
         }
         .onTapGesture {

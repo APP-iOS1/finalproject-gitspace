@@ -336,8 +336,6 @@ struct TargetUserProfileView: View {
                     isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
                     targetUser: targetUser
                 )
-                .environmentObject(userInfoManager)
-                .environmentObject(blockedUsers)
             }
         }
         .halfSheet(isPresented: $isSuggestBlockViewShowing) {

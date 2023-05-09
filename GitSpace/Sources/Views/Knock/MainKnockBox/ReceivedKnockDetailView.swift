@@ -215,8 +215,6 @@ struct ReceivedKnockDetailView: View {
                     isSuggestBlockViewShowing: $isBlockOtherUser,
                     targetUser: targetUser
                 )
-                .environmentObject(userStore)
-                .environmentObject(blockedUsers)
             }
         }
         .task {
