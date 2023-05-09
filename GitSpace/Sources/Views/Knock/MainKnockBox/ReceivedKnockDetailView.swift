@@ -209,10 +209,15 @@ struct ReceivedKnockDetailView: View {
             }
         }
         .sheet(isPresented: $isReporting) {
-            ReportView(
-                isReportViewShowing: $isReporting,
-                isSuggestBlockViewShowing: $isBlockOtherUser
-            )
+            if let targetUser {
+                ReportView(
+                    isReportViewShowing: $isReporting,
+                    isSuggestBlockViewShowing: $isBlockOtherUser,
+                    targetUser: targetUser
+                )
+                .environmentObject(userStore)
+                .environmentObject(blockedUsers)
+            }
         }
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
