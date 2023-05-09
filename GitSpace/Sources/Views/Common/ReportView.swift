@@ -18,6 +18,8 @@ struct ReportView: View {
     @State private var reportReason: String?
     @State private var reportReasonNumber: Int?
     
+    var targetUser: UserInfo
+    
     var isReportReasonSelected: Bool {
         guard reportReasonNumber != nil else {
             return false
