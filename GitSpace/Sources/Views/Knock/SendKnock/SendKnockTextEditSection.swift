@@ -54,7 +54,10 @@ struct SendKnockTextEditSection: View {
                     GSTextEditor.CustomTextEditorView(
                         style: .message,
                         text: $knockMessage,
-                        isBlocked: false,
+                        isBlocked: isBlockedEither(
+                            by: userStore.currentUser ?? .getFaliedUserInfo(),
+                            by: targetUserInfo
+                        ),
                         sendableImage: "paperplane.fill",
                         unSendableImage: "paperplane"
                     ) {
@@ -93,6 +96,8 @@ struct SendKnockTextEditSection: View {
                             withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
                         }
                     }
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                 }
                 .foregroundColor(.primary)
                 .padding(.horizontal)
