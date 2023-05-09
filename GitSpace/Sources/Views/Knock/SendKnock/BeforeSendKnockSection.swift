@@ -13,9 +13,8 @@ struct BeforeSendKnockSection: View {
     @Binding var showKnockGuide: Bool
     
     var body: some View {
-        VStack(alignment: .center, spacing: 10) {
-            
-            if let targetGithubUser {
+        if let targetGithubUser {
+            VStack(alignment: .center, spacing: 10) {
                 HStack(spacing: 5) {
                     GSText.CustomTextView(
                         style: .body1,
@@ -24,28 +23,30 @@ struct BeforeSendKnockSection: View {
                         style: .title3,
                         string: "\(targetGithubUser.login)!")
                 }
-            }
-            
-            HStack(spacing: 5) {
-                Text("Would you like to")
-                Button {
-                    showKnockGuide.toggle()
-                } label: {
-                    Text("Knock")
-                        .bold()
+                
+                HStack(spacing: 5) {
+                    Text("Would you like to")
+                    Button {
+                        showKnockGuide.toggle()
+                    } label: {
+                        Text("Knock")
+                            .bold()
+                    }
+                    Text("?")
+                        .padding(.leading, -4)
                 }
-                Text("?")
-                    .padding(.leading, -4)
-            }
-            
-            GSText.CustomTextView(
-                style: .caption1,
-                string:
+                .padding(.top, -8)
+                
+                GSText.CustomTextView(
+                    style: .caption1,
+                    string:
 """
 Please select the purpose of the chat so that the other person can understand your intention.
 """)
+            }
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 20)
         }
-        .multilineTextAlignment(.center)
     }
 }
 
