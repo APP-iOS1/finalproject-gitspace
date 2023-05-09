@@ -14,7 +14,6 @@ struct ReportView: View {
     
     @Binding var isReportViewShowing: Bool
     @Binding var isSuggestBlockViewShowing: Bool
-    @Binding var isBlocked: Bool
     
     @State private var reportReason: String?
     @State private var reportReasonNumber: Int?
@@ -24,6 +23,10 @@ struct ReportView: View {
             return false
         }
         return true
+    }
+    
+    var isBlocked: Bool {
+        blockedUsers.blockedUserList.contains(where: { $0.userInfo.id == targetUser.id })
     }
         
     var body: some View {
