@@ -329,11 +329,16 @@ struct TargetUserProfileView: View {
                 .environmentObject(blockedUsers)
             }
         }
-        .halfSheet(isPresented: $isReportViewShowing) {
-            ReportView(
-                isReportViewShowing: $isReportViewShowing,
-                isSuggestBlockViewShowing: $isSuggestBlockViewShowing
-            )
+        .sheet(isPresented: $isReportViewShowing) {
+            if let targetUser = targetUserInfo {
+                ReportView(
+                    isReportViewShowing: $isReportViewShowing,
+                    isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
+                    targetUser: targetUser
+                )
+                .environmentObject(userInfoManager)
+                .environmentObject(blockedUsers)
+            }
         }
         .halfSheet(isPresented: $isSuggestBlockViewShowing) {
             SuggestBlockView(
