@@ -301,11 +301,16 @@ struct KnockHistoryView: View {
             }
             .padding(.horizontal, 20)
         }
-        .halfSheet(isPresented: $isReporting) {
-            ReportView(
-                isReportViewShowing: $isReporting,
-                isSuggestBlockViewShowing: $isBlocking
-            )
+        .sheet(isPresented: $isReporting) {
+            if let targetUser = targetUserInfo {
+                ReportView(
+                    isReportViewShowing: $isReporting,
+                    isSuggestBlockViewShowing: $isBlocking,
+                    targetUser: targetUser
+                )
+                .environmentObject(userInfoManager)
+                .environmentObject(blockedUsers)
+            }
         }
         .onTapGesture {
             self.endTextEditing()
