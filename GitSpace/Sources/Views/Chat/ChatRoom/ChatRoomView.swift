@@ -114,11 +114,14 @@ struct ChatRoomView: View, Blockable {
             }
              */
         }
-        .halfSheet(isPresented: $showingReportView) {
+        .sheet(isPresented: $showingReportView) {
             ReportView(
                 isReportViewShowing: $showingReportView,
-                isSuggestBlockViewShowing: $showingSuggestBlockView
+                isSuggestBlockViewShowing: $showingSuggestBlockView,
+                targetUser: targetUserInfo
             )
+            .environmentObject(userStore)
+            .environmentObject(blockedUsers)
         }
         .halfSheet(isPresented: $showingSuggestBlockView) {
             SuggestBlockView(
