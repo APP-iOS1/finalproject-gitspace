@@ -40,9 +40,7 @@ struct SendKnock: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         HStack {}.id(topID)
-                        
                         VStack(alignment: .center, spacing: 10) {
-                            
                             TopperProfileView(
                                 targetUserInfo: targetUserInfo
                             )
@@ -51,51 +49,56 @@ struct SendKnock: View {
                                 .padding(.vertical, 10)
                                 .padding(.horizontal, 5)
                             
-                            BeforeSendKnockSection(
-                                targetGithubUser: targetGithubUser,
-                                showKnockGuide: $showKnockGuide
-                            )
-                            
-                            // MARK: - 채팅 목적 버튼
-                            HStack(spacing: 30) {
-                                GSButton.CustomButtonView(style: .secondary(
-                                    isDisabled: false)) {
-                                        withAnimation(.easeInOut.speed(1.5)) {
-                                            chatPurpose = "Offer"
-                                            proxy.scrollTo(bottomID)
-                                        }
-                                    } label: {
-                                        Text("🚀 Offer")
-                                            .font(.subheadline)
-                                            .foregroundColor(.black)
-                                            .bold()
-                                            .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-                                    }
-                                
-                                GSButton.CustomButtonView(style: .secondary(
-                                    isDisabled: false)) {
-                                        withAnimation(.easeInOut.speed(1.5)) {
-                                            chatPurpose = "Question"
-                                            proxy.scrollTo(bottomID)
-                                        }
-                                    } label: {
-                                        Text("💡 Question")
-                                            .font(.subheadline)
-                                            .foregroundColor(.black)
-                                            .bold()
-                                        
-                                    }
-                            }
-                            
                             if !isKnockSent {
-                                if !chatPurpose.isEmpty {
+                                BeforeSendKnockSection(
+                                    targetGithubUser: targetGithubUser,
+                                    showKnockGuide: $showKnockGuide
+                                )
+                                
+                                HStack(spacing: 30) {
+                                    GSButton.CustomButtonView(style: .secondary(
+                                        isDisabled: false)) {
+                                            withAnimation(.easeInOut.speed(1.5)) {
+                                                chatPurpose = "Offer"
+                                                proxy.scrollTo(bottomID)
+                                            }
+                                        } label: {
+                                            Text("🚀 Offer")
+                                                .font(.subheadline)
+                                                .foregroundColor(.black)
+                                                .bold()
+                                                .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
+                                        }
                                     
-                                    EditingKnockSection(targetGithubUser: targetGithubUser)
+                                    GSButton.CustomButtonView(style: .secondary(
+                                        isDisabled: false)) {
+                                            withAnimation(.easeInOut.speed(1.5)) {
+                                                chatPurpose = "Question"
+                                                proxy.scrollTo(bottomID)
+                                            }
+                                        } label: {
+                                            Text("💡 Question")
+                                                .font(.subheadline)
+                                                .foregroundColor(.black)
+                                                .bold()
+                                        }
+                                }
+                                .padding(.top, 10)
+                                
+                                if !chatPurpose.isEmpty {
+                                    EditingKnockSection(
+                                        targetGithubUser: targetGithubUser
+                                    )
                                         .padding(.top, 80)
                                 }
-                            } else {
-                                AfterSendKnockSection()
                             }
+                            
+                            if isKnockSent {
+                                AfterSendKnockSection(
+                                    targetGithubUser: targetGithubUser
+                                )
+                            }
+                            
                         }
                         
                         HStack {
@@ -113,75 +116,16 @@ struct SendKnock: View {
                 }
             }
             
-            VStack {
-                
-                if isKnockSent == false,
-                   !chatPurpose.isEmpty {
-                    
-                    HStack(spacing: 10) {
-                        
-                        SendKnockTextEditSection(
-                            isKnockSent: $isKnockSent,
-                            chatPurpose: $chatPurpose,
-                            targetGithubUser: targetGithubUser,
-                            targetUserInfo: targetUserInfo
-                        )
-                        
-                        // FIXME: 노크 전송 버튼 disabled 조건에 isKnockSent 추가 필요함! From. 영이 -> To. 노이
-//                        if
-//                            let currentUser = userStore.currentUser,
-//                            let targetUserInfo,
-//                            !isKnockSent {
-//                            GSTextEditor.CustomTextEditorView(
-//                                style: .message,
-//                                text: $knockMessage,
-//                                isBlocked: false,
-//                                sendableImage: "paperplane.fill",
-//                                unSendableImage: "paperplane"
-//                            ) {
-//                                Task {
-//                                    let tempKnockMessage = knockMessage
-//                                    knockMessage = ""
-//                                    let newKnock = Knock(
-//                                        date: .now,
-//                                        knockMessage: tempKnockMessage,
-//                                        knockStatus: Constant.KNOCK_WAITING,
-//                                        knockCategory: chatPurpose,
-//                                        receivedUserName: targetUserInfo.githubLogin,
-//                                        sentUserName: currentUser.githubLogin,
-//                                        receivedUserID: targetUserInfo.id,
-//                                        sentUserID: currentUser.id
-//                                    )
-//
-//                                    // Assign New Knock On Model
-//                                    knockViewManager.assignNewKnock(newKnock: newKnock)
-//
-//                                    // TODO: 알람 보내기
-//                                    // 새로운 노크가 생성될 때의 Push Notification 전달
-//                                    await pushNotificationManager.sendNotification(
-//                                        with: .knock(
-//                                            title: "New Knock has been Arrived.",
-//                                            body: tempKnockMessage,
-//                                            pushSentFrom: currentUser.githubLogin,
-//                                            knockPurpose: chatPurpose,
-//                                            knockID: newKnock.id
-//                                        ),
-//                                        to: targetUserInfo
-//                                    )
-//
-//                                    await knockViewManager.createKnockOnFirestore(knock: newKnock)
-//
-//                                    withAnimation(.easeInOut.speed(1.5)) { isKnockSent = true }
-//                                }
-//                            }
-                        }
-                    }
-//                    .foregroundColor(.primary)
-//                    .padding(.horizontal)
-//                    .padding(.bottom)
-                }
+            if !isKnockSent,
+               !chatPurpose.isEmpty {
+                SendKnockTextEditSection(
+                    isKnockSent: $isKnockSent,
+                    chatPurpose: $chatPurpose,
+                    targetGithubUser: targetGithubUser,
+                    targetUserInfo: targetUserInfo
+                )
             }
-//        }
+        }
         .task {
             self.targetUserInfo = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser?.id ?? 0)
         }
