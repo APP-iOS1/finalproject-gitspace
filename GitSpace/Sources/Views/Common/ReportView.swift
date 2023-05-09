@@ -145,8 +145,10 @@ Gitspace operation team will check and help you.
     }
 }
 
-struct ReportView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false), isBlocked: .constant(false))
-    }
-}
+extension ReportView: Blockable { }
+
+//struct ReportView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false))
+//    }
+//}
