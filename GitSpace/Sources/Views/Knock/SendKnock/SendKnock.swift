@@ -146,15 +146,15 @@ struct SendKnock: View {
                                 .frame(width: 30)
                         } placeholder: {
                             ProgressView()
-                        } // AsyncImage
+                        }
                         
                         Text("\(targetGithubUser?.login ?? "NONO")")
                             .bold()
-                    } // HStack
+                    }
                     .foregroundColor(.primary)
-                } // NavigationLink
-            } // ToolbarItemGroup
-        } // toolbar
+                }
+            }
+        }
         .sheet(isPresented: $showKnockGuide) {
             NavigationView {
                 KnockGuideView()

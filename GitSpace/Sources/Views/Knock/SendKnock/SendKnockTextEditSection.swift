@@ -47,7 +47,7 @@ struct SendKnockTextEditSection: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.gsLightGray1)
                     }
-                } // HStack
+                }
                 .padding(.horizontal)
                 
                 HStack(spacing: 10) {
@@ -101,7 +101,7 @@ struct SendKnockTextEditSection: View {
                 }
                 .foregroundColor(.primary)
                 .padding(.horizontal)
-                .padding(.bottom)
+                .padding(.bottom, 5)
             }
             .task {
                 self.targetUserInfo = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser?.id ?? 0)

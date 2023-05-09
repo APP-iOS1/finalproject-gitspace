@@ -34,7 +34,7 @@ However, the message can be edited before the receiver reads it.
 """)
             
             .multilineTextAlignment(.center)
-            .padding(.vertical, 15)
+            .padding(10)
             
             Divider()
                 .padding(.vertical, 15)
@@ -57,7 +57,6 @@ However, the message can be edited before the receiver reads it.
             }
             .padding(.leading, 20)
             
-            
             GSCanvas.CustomCanvasView.init(
                 style: .primary,
                 content: {
@@ -71,7 +70,7 @@ Thank you!
 """)
                 })
             .padding(.horizontal, 20)
-            .padding(.vertical, 10)
+            .padding(.vertical, 5)
         }
     }
 }
