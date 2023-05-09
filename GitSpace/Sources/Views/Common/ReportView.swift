@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ReportView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
+    
     @Binding var isReportViewShowing: Bool
     @Binding var isSuggestBlockViewShowing: Bool
     @Binding var isBlocked: Bool
