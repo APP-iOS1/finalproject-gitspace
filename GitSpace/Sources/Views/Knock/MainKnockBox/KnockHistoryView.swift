@@ -14,6 +14,7 @@ struct KnockHistoryView: View {
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isReporting: Bool = false

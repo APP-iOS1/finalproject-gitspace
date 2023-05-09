@@ -15,6 +15,7 @@ struct ReceivedKnockDetailView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     @Binding var knock: Knock
     @State private var isAccepted: Bool = false
