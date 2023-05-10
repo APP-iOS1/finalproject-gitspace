@@ -67,4 +67,32 @@ extension View {
                  )
             }
     }
+    
+    func reportCombineSheet(
+        reportViewIsPresented: Binding<Bool>,
+        suggestViewIsPresented: Binding<Bool>,
+        blockViewIsPresented: Binding<Bool>,
+        isBlockedUser: Binding<Bool>,
+        targetUserInfo: UserInfo
+    ) -> some View {
+        self
+            .sheet(isPresented: reportViewIsPresented) {
+                ReportView(
+                    isReportViewShowing: reportViewIsPresented,
+                    isSuggestBlockViewShowing: suggestViewIsPresented
+                )
+            }
+            .sheet(isPresented: suggestViewIsPresented) {
+                SuggestBlockView(
+                    isBlockViewShowing: blockViewIsPresented,
+                    isSuggestBlockViewShowing: suggestViewIsPresented
+                )
+            }
+            .sheet(isPresented: blockViewIsPresented) {
+                BlockView(
+                    isBlockViewShowing: blockViewIsPresented,
+                    isBlockedUser: isBlockedUser,
+                    targetUser: targetUserInfo)
+            }
+    }
 }
