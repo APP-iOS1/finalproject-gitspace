@@ -67,8 +67,16 @@ struct BlockView: View, Blockable {
                         }
                         
                         let targetGitHubUser = assignGitHubUser(to: targetUser)
-                        blockedUsers.blockedUserList.append((targetUser, targetGitHubUser))
-                        
+
+                        if !blockedUsers.blockedUserList
+                            .contains(
+                                where: {
+                                    $0.0 == targetUser &&
+                                    $0.1 == targetGitHubUser
+                                }) {
+                            blockedUsers.blockedUserList
+                                .append((targetUser, targetGitHubUser))
+                        }
                     } label: {
                         Text("Yes")
                             .foregroundColor(.white)
