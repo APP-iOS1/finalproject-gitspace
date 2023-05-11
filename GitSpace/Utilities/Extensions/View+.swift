@@ -68,7 +68,7 @@ extension View {
             }
     }
     
-    func reportCombineSheet(
+    func reportBlockProcessSheet(
         reportViewIsPresented: Binding<Bool>,
         suggestViewIsPresented: Binding<Bool>,
         blockViewIsPresented: Binding<Bool>,
