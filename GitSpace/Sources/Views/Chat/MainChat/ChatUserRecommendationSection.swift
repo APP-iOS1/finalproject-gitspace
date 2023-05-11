@@ -93,7 +93,7 @@ struct ChatUserRecommendationSection: View {
                             .frame(height: 20)
 
                         // MARK: - NewKnockView로 이동하는 챗 버튼
-                        GSNavigationLink(style: .secondary) {
+                        GSNavigationLink(style: .secondary()) {
 //                            SendKnockView()
 							Text("SENDKNOCKVIEW")
                         } label: {

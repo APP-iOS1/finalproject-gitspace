@@ -208,7 +208,7 @@ struct TargetUserProfileView: View {
                             Spacer()
                                 .frame(width: 10)
                             
-                            GSNavigationLink(style: .secondary) {
+                            GSNavigationLink(style: .secondary()) {
                                 KnockCommunicationRouter(targetGithubUser: user)
                             } label: {
                                 GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
@@ -320,16 +320,29 @@ struct TargetUserProfileView: View {
         }
         .halfSheet(isPresented: $isBlockViewShowing) {
             if let targetUserInfo {
-                BlockView(isBlockViewShowing: $isBlockViewShowing, isBlockedUser: $isBlockedUser, targetUser: targetUserInfo)
-                    .environmentObject(userInfoManager)
-                    .environmentObject(blockedUsers)
+                BlockView(
+                    isBlockViewShowing: $isBlockViewShowing,
+                    isBlockedUser: $isBlockedUser,
+                    targetUser: targetUserInfo
+                )
+                .environmentObject(userInfoManager)
+                .environmentObject(blockedUsers)
             }
         }
-        .halfSheet(isPresented: $isReportViewShowing) {
-            ReportView(isReportViewShowing: $isReportViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+        .sheet(isPresented: $isReportViewShowing) {
+            if let targetUser = targetUserInfo {
+                ReportView(
+                    isReportViewShowing: $isReportViewShowing,
+                    isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
+                    targetUser: targetUser
+                )
+            }
         }
         .halfSheet(isPresented: $isSuggestBlockViewShowing) {
-            SuggestBlockView(isBlockViewShowing: $isBlockViewShowing, isSuggestBlockViewShowing: $isSuggestBlockViewShowing)
+            SuggestBlockView(
+                isBlockViewShowing: $isBlockViewShowing,
+                isSuggestBlockViewShowing: $isSuggestBlockViewShowing
+            )
         }
         .toolbar {
             if (isGitSpaceUser && userInfoManager.currentUser?.githubID != user.id) {
@@ -338,7 +351,7 @@ struct TargetUserProfileView: View {
                         if !blockedUsers.blockedUserList.contains(where: { $0.gitHubUser == user }) {
                             Button(role: .destructive, action: {
                                 /* Block 모달 뷰 appear */
-                                isBlockViewShowing.toggle()
+                                isBlockViewShowing = true
                             }) {
                                 Label("Block", systemImage: "nosign")
                             }
@@ -346,7 +359,7 @@ struct TargetUserProfileView: View {
                         
                         Button(role: .destructive, action: {
                             /* Report 모달 뷰 appear */
-                            isReportViewShowing.toggle()
+                            isReportViewShowing = true
                         }) {
                             Label("Report", systemImage: "exclamationmark.bubble")
                         }

@@ -17,16 +17,16 @@ struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @EnvironmentObject var tagViewModel: TagViewModel
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
-    @StateObject private var keyboardHandler = KeyboardHandler()
+    
+    let selectedRepository: Repository?
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
-    let selectedRepository: Repository?
-    
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var trimmedTagInput: String {
         tagInput.trimmingCharacters(in: .whitespaces)
@@ -36,9 +36,9 @@ struct AddTagSheetView: View {
         trimmedTagInput != ""
     }
     
+    /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
+    /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
     var shouldExistTag: Bool {
-        /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
-        /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
         return tagViewModel.tags.filter { tag in
             tag.tagName == trimmedTagInput
         }.isEmpty
@@ -65,15 +65,15 @@ struct AddTagSheetView: View {
     /// 태그를 선택할 경우 발생하는 로직을 수행하는 메서드입니다.
     /// 선택되지 않은 태그를 선택할 경우와 이미 선택된 태그를 선택할 경우로 분기처리된다.
     func selectTag(to tag: Tag) {
-        if selectedTags.contains(tag) {
+        if selectedTags.contains(where: { $0.id == tag.id }) {
             deselectedTags.append(tag)
-            guard let selectedIndex: Int = selectedTags.firstIndex(of: tag) else {
+            guard let selectedIndex: Int = selectedTags.firstIndex(where: { $0.id == tag.id }) else {
                 return
             }
             selectedTags.remove(at: selectedIndex)
         } else {
             selectedTags.append(tag)
-            guard let deselectedIndex: Int = deselectedTags.firstIndex(of: tag) else {
+            guard let deselectedIndex: Int = deselectedTags.firstIndex(where: { $0.id == tag.id }) else {
                 return
             }
             deselectedTags.remove(at: deselectedIndex)
@@ -106,10 +106,10 @@ struct AddTagSheetView: View {
                 }
             }
         case .starredView:
-            if !selectedTags.isEmpty {
-                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
-            } else {
+            if selectedTags.isEmpty {
                 repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+            } else {
+                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
             }
         }
     }
@@ -135,7 +135,7 @@ struct AddTagSheetView: View {
                             .onSubmit {
                                 addNewTag()
                             }
-                            // 태그 추가 버튼
+                            
                             Button {
                                 // FIXME: Animation이 너무 못생겼음.
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
@@ -168,7 +168,10 @@ struct AddTagSheetView: View {
                         } else {
                             GSText.CustomTextView(
                                 style: .caption1,
-                                string: beforeView == .starredView ? "Select tags from your tag list 🙌" : "Select tags from your repository tag list 🙌")
+                                string: beforeView == .starredView
+                                ? "Select tags from your tag list 🙌"
+                                : "Select tags from your repository tag list 🙌"
+                            )
 
                             /// selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다.
                             FlowLayout(
@@ -177,7 +180,7 @@ struct AddTagSheetView: View {
                                 GSButton.CustomButtonView(
                                     style: .tag(
 //                                        isAppliedInView: selectedTags.contains(tag),
-                                        isSelectedInAddTagSheet: selectedTags.contains(tag)
+                                        isSelectedInAddTagSheet: selectedTags.contains{ $0.id == tag.id }
                                     )
                                 ) {
                                     withAnimation {

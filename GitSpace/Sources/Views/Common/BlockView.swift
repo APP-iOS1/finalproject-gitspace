@@ -58,7 +58,7 @@ struct BlockView: View, Blockable {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
                         isBlockViewShowing = false
-                        isBlockedUser.toggle()
+                        isBlockedUser = true
                         
                         Task {
                             if let currentUser = userInfoManager.currentUser {
@@ -67,8 +67,16 @@ struct BlockView: View, Blockable {
                         }
                         
                         let targetGitHubUser = assignGitHubUser(to: targetUser)
-                        blockedUsers.blockedUserList.append((targetUser, targetGitHubUser))
-                        
+
+                        if !blockedUsers.blockedUserList
+                            .contains(
+                                where: {
+                                    $0.userInfo == targetUser &&
+                                    $0.gitHubUser == targetGitHubUser
+                                }) {
+                            blockedUsers.blockedUserList
+                                .append((targetUser, targetGitHubUser))
+                        }
                     } label: {
                         Text("Yes")
                             .foregroundColor(.white)
