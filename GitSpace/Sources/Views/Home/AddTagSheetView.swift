@@ -17,11 +17,12 @@ struct AddTagSheetView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var repositoryViewModel: RepositoryViewModel
     @EnvironmentObject var tagViewModel: TagViewModel
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @Binding var preSelectedTags: [Tag]
     @State var selectedTags: [Tag]
     @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
-    @StateObject private var keyboardHandler = KeyboardHandler()
+    
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
     let selectedRepository: Repository?
