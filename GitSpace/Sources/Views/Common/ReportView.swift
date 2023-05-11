@@ -28,7 +28,9 @@ struct ReportView: View {
     }
     
     var isBlocked: Bool {
-        blockedUsers.blockedUserList.contains(where: { $0.userInfo.id == targetUser.id })
+        blockedUsers.blockedUserList.contains{
+            $0.userInfo.id == targetUser.id
+        }
     }
         
     var body: some View {
