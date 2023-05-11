@@ -15,6 +15,7 @@ struct ReceivedKnockDetailView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var chatStore: ChatStore
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     @Binding var knock: Knock
     @State private var isAccepted: Bool = false
@@ -208,10 +209,13 @@ struct ReceivedKnockDetailView: View {
             }
         }
         .sheet(isPresented: $isReporting) {
-            ReportView(
-                isReportViewShowing: $isReporting,
-                isSuggestBlockViewShowing: $isBlockOtherUser
-            )
+            if let targetUser {
+                ReportView(
+                    isReportViewShowing: $isReporting,
+                    isSuggestBlockViewShowing: $isBlockOtherUser,
+                    targetUser: targetUser
+                )
+            }
         }
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)

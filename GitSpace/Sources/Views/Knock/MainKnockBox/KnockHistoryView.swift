@@ -14,6 +14,7 @@ struct KnockHistoryView: View {
     @EnvironmentObject var tabBarRouter: GSTabBarRouter
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isReporting: Bool = false
@@ -300,11 +301,14 @@ struct KnockHistoryView: View {
             }
             .padding(.horizontal, 20)
         }
-        .halfSheet(isPresented: $isReporting) {
-            ReportView(
-                isReportViewShowing: $isReporting,
-                isSuggestBlockViewShowing: $isBlocking
-            )
+        .sheet(isPresented: $isReporting) {
+            if let targetUser = targetUserInfo {
+                ReportView(
+                    isReportViewShowing: $isReporting,
+                    isSuggestBlockViewShowing: $isBlocking,
+                    targetUser: targetUser
+                )
+            }
         }
         .onTapGesture {
             self.endTextEditing()

@@ -231,7 +231,6 @@ struct RepositoryDetailViewTags: View {
         .onAppear {
             Task {
                 selectedTags = await tagViewModel.requestRepositoryTags(repositoryName: repository.fullName) ?? []
-                let _ = print("++++", selectedTags)
             }
         }
     }

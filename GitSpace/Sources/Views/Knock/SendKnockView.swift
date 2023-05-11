@@ -281,7 +281,7 @@ Please write a message carefully.
                             // FIXME: 노크 전송 버튼 disabled 조건에 isKnockSent 추가 필요함! From. 영이 -> To. 노이
                             if
                                 let currentUser = userStore.currentUser,
-                                let targetUserInfo,
+//                                let targetUserInfo,
                                 !isKnockSent {
                                 GSTextEditor.CustomTextEditorView(
                                     style: .message,
@@ -382,7 +382,7 @@ Please write a message carefully.
                             
                             if
                                 let currentUser = userStore.currentUser,
-                                let targetUserInfo,
+//                                let targetUserInfo,
                                !isKnockSent {
                                 GSTextEditor.CustomTextEditorView(
                                     style: .message,
