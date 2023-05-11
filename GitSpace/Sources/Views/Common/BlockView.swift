@@ -71,8 +71,8 @@ struct BlockView: View, Blockable {
                         if !blockedUsers.blockedUserList
                             .contains(
                                 where: {
-                                    $0.0 == targetUser &&
-                                    $0.1 == targetGitHubUser
+                                    $0.userInfo == targetUser &&
+                                    $0.gitHubUser == targetGitHubUser
                                 }) {
                             blockedUsers.blockedUserList
                                 .append((targetUser, targetGitHubUser))
