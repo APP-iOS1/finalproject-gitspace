@@ -23,11 +23,10 @@ struct AddTagSheetView: View {
     @State var deselectedTags: [Tag] = []
     @State private var tagInput: String = ""
     
+    let selectedRepository: Repository?
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     /// 어떤 뷰에서 AddTagSheetView를 호출했는지 확인합니다.
     var beforeView: BeforeView
-    let selectedRepository: Repository?
-    
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var trimmedTagInput: String {
         tagInput.trimmingCharacters(in: .whitespaces)
