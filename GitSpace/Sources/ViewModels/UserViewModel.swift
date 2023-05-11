@@ -29,12 +29,12 @@ final class UserStore: ObservableObject {
 		currentUserID: String
 	) {
         self.users = users
-		Task {
-			let currentUser = await self.requestUserInfoWithID(userID: currentUserID)
-			if let currentUser {
-				await assignCurrentUser(with: currentUser)
-			}
-		}
+//		Task {
+//			let currentUser = await self.requestUserInfoWithID(userID: currentUserID)
+//			if let currentUser {
+//				await assignCurrentUser(with: currentUser)
+//			}
+//		}
     }
     
     private func getUserDocument(userID: String) async -> DocumentSnapshot? {
@@ -151,6 +151,7 @@ final class UserStore: ObservableObject {
     
     @MainActor
     private func writeUser(user: UserInfo) {
+        self.currentUser = user
         self.user = user
     }
     

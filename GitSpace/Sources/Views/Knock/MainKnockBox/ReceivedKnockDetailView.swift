@@ -219,6 +219,8 @@ struct ReceivedKnockDetailView: View {
         }
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
+            
+            print(">>>>>>>>>>>", targetUser?.id, knock.sentUserID)
         }
         .toolbar {
             ToolbarItem(placement: .principal) {

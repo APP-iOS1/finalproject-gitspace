@@ -126,7 +126,7 @@ Gitspace operation team will check and help you.
             
             /* Submit Report */
             GSButton.CustomButtonView(
-                style: .secondary(isDisabled: isReportReasonSelected)
+                style: .secondary(isDisabled: !isReportReasonSelected)
             ) {
                 /* report method call */
                 
@@ -142,7 +142,6 @@ Gitspace operation team will check and help you.
                 Text("Submit Report")
             }
             .padding()
-            .disabled(!isReportReasonSelected) /// GSButton의 isDisabled이 작동하지 않아서 따로 수정자 붙임.
         }
     }
 }

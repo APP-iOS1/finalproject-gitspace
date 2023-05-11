@@ -106,6 +106,7 @@ struct CurrentUserProfileView: View {
                         if let blogURL = URL(string: blog) {
                             Link(destination: blogURL) {
                                 GSText.CustomTextView(style: .captionPrimary1, string: blog)
+                                    .multilineTextAlignment(.leading)
                             }
                         }
                     }
