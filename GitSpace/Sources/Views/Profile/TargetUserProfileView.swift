@@ -351,7 +351,7 @@ struct TargetUserProfileView: View {
                         if !blockedUsers.blockedUserList.contains(where: { $0.gitHubUser == user }) {
                             Button(role: .destructive, action: {
                                 /* Block 모달 뷰 appear */
-                                isBlockViewShowing.toggle()
+                                isBlockViewShowing = true
                             }) {
                                 Label("Block", systemImage: "nosign")
                             }
@@ -359,7 +359,7 @@ struct TargetUserProfileView: View {
                         
                         Button(role: .destructive, action: {
                             /* Report 모달 뷰 appear */
-                            isReportViewShowing.toggle()
+                            isReportViewShowing = true
                         }) {
                             Label("Report", systemImage: "exclamationmark.bubble")
                         }
