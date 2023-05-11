@@ -234,7 +234,12 @@ struct StarredView: View {
             }
         }
         .sheet(isPresented: $isShowingSelectTagView) {
-            AddTagSheetView(preSelectedTags: $selectedTagList, selectedTags: selectedTagList, beforeView: .starredView, selectedRepository: nil)
+            AddTagSheetView(
+                preSelectedTags: $selectedTagList,
+                selectedTags: selectedTagList,
+                selectedRepository: nil,
+                beforeView: .starredView
+            )
         }
         .onTapGesture {
             self.endTextEditing()

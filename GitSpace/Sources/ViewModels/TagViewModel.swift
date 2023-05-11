@@ -22,11 +22,11 @@ final class TagViewModel: ObservableObject {
     @MainActor
     func requestTags() async -> Void {
         do {
+            self.tags.removeAll()
             let snapshot = try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection(const.COLLECTION_TAG)
                 .getDocuments()
-            self.tags.removeAll()
             for document in snapshot.documents {
                 let id = document[const.FIELD_ID] as? String ?? ""
                 let tagName = document[const.FIELD_TAGNAME] as? String ?? ""

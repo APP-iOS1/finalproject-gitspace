@@ -77,7 +77,6 @@ struct RepositoryDetailView: View {
                 .padding(.horizontal, 20)
             }
         }
-//        .padding(.horizontal, 30)
         .onViewDidLoad {
             Task {
                 let readMeResult = await repositoryDetailViewModel.requestReadMe(repository: repository)
@@ -226,7 +225,12 @@ struct RepositoryDetailViewTags: View {
         // FIXME: selectedTag의 값
         /// 실제로는 각 레포가 가지고 있는 태그가 들어와야 한다!
         .fullScreenCover(isPresented: $isTagSheetShowed) {
-            AddTagSheetView(preSelectedTags: $selectedTags, selectedTags: selectedTags, beforeView: .repositoryDetailView, selectedRepository: repository)
+            AddTagSheetView(
+                preSelectedTags: $selectedTags,
+                selectedTags: selectedTags,
+                selectedRepository: repository,
+                beforeView: .repositoryDetailView
+            )
         }
         .onAppear {
             Task {
