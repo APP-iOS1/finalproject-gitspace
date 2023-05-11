@@ -137,7 +137,3 @@ enum BlockError: Error {
     case blockCreateFailed
     case unblockDeleteFailed
 }
-
-class BlockedUsers: ObservableObject {
-    @Published var blockedUserList: [(userInfo: UserInfo, gitHubUser: GithubUser)] = []
-}

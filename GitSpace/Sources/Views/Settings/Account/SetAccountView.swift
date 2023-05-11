@@ -71,6 +71,7 @@ struct SetAccountView: View {
         .navigationBarTitle("Account", displayMode: .inline)
         .alert("Sign out", isPresented: $showingLogoutAlert) {
               Button("Sign out", role: .destructive) {
+                  blockedUsers.blockedUserList.removeAll()
                   gitHubAuthManager.signOut()
               }
         } message: {
@@ -79,6 +80,7 @@ struct SetAccountView: View {
         .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
               Button("Delete", role: .destructive) {
                   Task {
+                      blockedUsers.blockedUserList.removeAll()
                       await gitHubAuthManager.deleteCurrentUser()
                       await gitHubAuthManager.withdrawal()
                       reset()
