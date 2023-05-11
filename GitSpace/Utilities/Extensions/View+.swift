@@ -79,7 +79,8 @@ extension View {
             .sheet(isPresented: reportViewIsPresented) {
                 ReportView(
                     isReportViewShowing: reportViewIsPresented,
-                    isSuggestBlockViewShowing: suggestViewIsPresented
+                    isSuggestBlockViewShowing: suggestViewIsPresented,
+                    targetUser: targetUserInfo
                 )
             }
             .sheet(isPresented: suggestViewIsPresented) {

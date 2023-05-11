@@ -63,6 +63,6 @@ struct AfterSendKnockSection: View {
 
 struct AfterSendKnockSection_Previews: PreviewProvider {
     static var previews: some View {
-        SendKnock()
+        SendKnockView()
     }
 }

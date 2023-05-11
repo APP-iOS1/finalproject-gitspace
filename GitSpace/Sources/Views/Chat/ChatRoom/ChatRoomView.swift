@@ -114,7 +114,7 @@ struct ChatRoomView: View, Blockable {
             }
              */
         }
-        .reportCombineSheet(
+        .reportBlockProcessSheet(
             reportViewIsPresented: $showingReportView,
             suggestViewIsPresented: $showingSuggestBlockView,
             blockViewIsPresented: $showingBlockView,
