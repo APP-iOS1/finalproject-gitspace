@@ -106,10 +106,10 @@ struct AddTagSheetView: View {
                 }
             }
         case .starredView:
-            if !selectedTags.isEmpty {
-                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
-            } else {
+            if selectedTags.isEmpty {
                 repositoryViewModel.filteredRepositories = repositoryViewModel.repositories
+            } else {
+                repositoryViewModel.filterRepository(selectedTagList: preSelectedTags)
             }
         }
     }
@@ -135,7 +135,7 @@ struct AddTagSheetView: View {
                             .onSubmit {
                                 addNewTag()
                             }
-                            // 태그 추가 버튼
+                            
                             Button {
                                 // FIXME: Animation이 너무 못생겼음.
                                 /// 앞에서 추가되면 자연스럽게 밀리는 애니메이션으로 수정하기.
@@ -168,7 +168,10 @@ struct AddTagSheetView: View {
                         } else {
                             GSText.CustomTextView(
                                 style: .caption1,
-                                string: beforeView == .starredView ? "Select tags from your tag list 🙌" : "Select tags from your repository tag list 🙌")
+                                string: beforeView == .starredView
+                                ? "Select tags from your tag list 🙌"
+                                : "Select tags from your repository tag list 🙌"
+                            )
 
                             /// selectedTag에 있는 태그만 미리 선택된 채로 있어야 한다.
                             FlowLayout(
