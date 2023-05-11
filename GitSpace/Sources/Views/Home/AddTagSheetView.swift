@@ -67,13 +67,13 @@ struct AddTagSheetView: View {
     func selectTag(to tag: Tag) {
         if selectedTags.contains(where: { $0.id == tag.id }) {
             deselectedTags.append(tag)
-            guard let selectedIndex: Int = selectedTags.firstIndex(of: tag) else {
+            guard let selectedIndex: Int = selectedTags.firstIndex(where: { $0.id == tag.id }) else {
                 return
             }
             selectedTags.remove(at: selectedIndex)
         } else {
             selectedTags.append(tag)
-            guard let deselectedIndex: Int = deselectedTags.firstIndex(of: tag) else {
+            guard let deselectedIndex: Int = deselectedTags.firstIndex(where: { $0.id == tag.id }) else {
                 return
             }
             deselectedTags.remove(at: deselectedIndex)
