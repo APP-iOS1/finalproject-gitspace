@@ -58,7 +58,7 @@ struct BlockView: View, Blockable {
                     GSButton.CustomButtonView(style: .plainText(isDestructive: true)) {
                         /* Block Method Call */
                         isBlockViewShowing = false
-                        isBlockedUser.toggle()
+                        isBlockedUser = true
                         
                         Task {
                             if let currentUser = userInfoManager.currentUser {

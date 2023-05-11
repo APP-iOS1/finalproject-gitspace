@@ -20,7 +20,11 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
 		case .primary:
 			navigationLinkBuilder(style: style)
 				.shadowColorSchemeModifier()
-			
+        
+        case let .secondary(_):
+            navigationLinkBuilder(style: style)
+                .shadowColorSchemeModifier()
+            
 		default:
 			navigationLinkBuilder(style: style)
 		}
@@ -50,33 +54,51 @@ struct GSNavigationLink<Destination: View, Label: View>: View {
             // 컬러스키마에 상관없이 검은 텍스트
                 .foregroundColor(.primary)
 		}
-		.buttonStyle(
-			ViewHighlightColorStyle(style: style)
-		)
+        .tint(colorSchemeBackgroundColor())
+		.buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
 	}
+    
+    private func colorSchemeBackgroundColor() -> Color {
+        switch colorScheme {
+        case .light:
+            return Color.gsGreenPrimary
+        case .dark:
+            return Color.gsYellowPrimary
+        @unknown default:
+            return Color.clear
+        }
+    }
 }
 
 struct GSNavigationPreview: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			VStack {
-				GSNavigationLink(style: .tertiary()) {
+//				GSNavigationLink(style: .tertiary()) {
+//					Text("?")
+//				} label: {
+//					Text("Hi")
+//				}
+//
+				GSNavigationLink(style: .secondary()) {
 					Text("?")
 				} label: {
 					Text("Hi")
 				}
+                
+                GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+                    print()
+                } label: {
+                    Text("Hi")
+                }
+
 				
-				GSNavigationLink(style: .secondary) {
-					Text("?")
-				} label: {
-					Text("Hi")
-				}
-				
-				GSNavigationLink(style: .primary) {
-					Text("?")
-				} label: {
-					Text("Hi")
-				}
+//				GSNavigationLink(style: .primary) {
+//					Text("?")
+//				} label: {
+//					Text("Hi")
+//				}
 			}
 		}
 	}

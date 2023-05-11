@@ -27,6 +27,7 @@ struct ChatRoomView: View, Blockable {
     @EnvironmentObject private var messageStore: MessageStore
     @EnvironmentObject private var userStore: UserStore
     @EnvironmentObject private var pushNotificationManager: PushNotificationManager
+    @EnvironmentObject var blockedUsers: BlockedUsers
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     @State private var preMessageIDs: [String] = []
@@ -124,7 +125,8 @@ struct ChatRoomView: View, Blockable {
         .halfSheet(isPresented: $showingReportView) {
             ReportView(
                 isReportViewShowing: $showingReportView,
-                isSuggestBlockViewShowing: $showingSuggestBlockView
+                isSuggestBlockViewShowing: $showingSuggestBlockView,
+                targetUser: targetUserInfo
             )
         }
         .halfSheet(isPresented: $showingSuggestBlockView) {

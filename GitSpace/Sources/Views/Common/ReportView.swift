@@ -9,17 +9,28 @@ import SwiftUI
 
 struct ReportView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var userInfoManager: UserStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
+    
     @Binding var isReportViewShowing: Bool
     @Binding var isSuggestBlockViewShowing: Bool
     
     @State private var reportReason: String?
     @State private var reportReasonNumber: Int?
     
+    var targetUser: UserInfo
+    
     var isReportReasonSelected: Bool {
         guard reportReasonNumber != nil else {
             return false
         }
         return true
+    }
+    
+    var isBlocked: Bool {
+        blockedUsers.blockedUserList.contains{
+            $0.userInfo.id == targetUser.id
+        }
     }
         
     var body: some View {
@@ -119,10 +130,14 @@ Gitspace operation team will check and help you.
             ) {
                 /* report method call */
                 
-                /* report view dismiss -> suggest block view appear*/
+                /* report view dismiss -> suggest block view appear */
                 dismiss()
                 isReportViewShowing = false
-                isSuggestBlockViewShowing = true
+                if !isBlocked {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { /// animation이 끝나는데 시간이 걸리기 때문에, true로 바꾸는 코드를 조금 늦춘다. 그렇지 않으면 모달이 띄워지는데 충돌이 일어난다.
+                        isSuggestBlockViewShowing = true
+                    }
+                }
             } label: {
                 Text("Submit Report")
             }
@@ -132,8 +147,10 @@ Gitspace operation team will check and help you.
     }
 }
 
-struct ReportView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false))
-    }
-}
+extension ReportView: Blockable { }
+
+//struct ReportView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ReportView(isReportViewShowing: .constant(true), isSuggestBlockViewShowing: .constant(false))
+//    }
+//}
