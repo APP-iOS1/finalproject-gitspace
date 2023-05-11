@@ -36,9 +36,9 @@ struct AddTagSheetView: View {
         trimmedTagInput != ""
     }
     
+    /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
+    /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
     var shouldExistTag: Bool {
-        /// tagList에 이미 존재하는 이름의 태그가 있다면 필터에서 걸리게 된다.
-        /// 그러므로 배열에 값이 존재하므로, isEmpty값이 true가 되고 Tag가 존재함을 알 수 있다.
         return tagViewModel.tags.filter { tag in
             tag.tagName == trimmedTagInput
         }.isEmpty
