@@ -31,7 +31,8 @@ struct ReadmeEmptyView: View {
             
             GSText.CustomTextView(style: .title3, string: "**README.md** does not exist.")
         }
-        .frame(width: 250, height: 200)
+        .frame(maxWidth: .infinity, alignment: .center)
+        //.frame(height: 200)
     }
 }
 

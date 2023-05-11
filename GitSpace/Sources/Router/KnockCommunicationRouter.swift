@@ -26,7 +26,7 @@ struct KnockCommunicationRouter: View {
             if isFetchDone {
                 if isKnockSendable {
                     // MARK: - Success
-                    SendKnockView(sendKnockToGitHubUser: targetGithubUser)
+                    SendKnockView(targetGithubUser: targetGithubUser)
                 } else if let knockStateFilter {
                     switch knockStateFilter {
                     case .waiting: // !!!: If CurrentUser Received, go to ReceivedKnockDetailView

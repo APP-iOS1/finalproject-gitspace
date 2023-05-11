@@ -44,7 +44,7 @@ struct BlockedUsersListCell: View, Blockable {
                 Spacer()
                 
                 GSButton.CustomButtonView(
-                    style: .secondary(isDisabled: true)
+                    style: .secondary(isDisabled: false)
                 ) {
                     Task {
                         if let currentUser = userInfoManager.currentUser {

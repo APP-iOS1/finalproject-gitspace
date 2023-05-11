@@ -49,14 +49,14 @@ struct ChatRoomView: View, Blockable {
                         .padding(.vertical, 20)
                      
                     Spacer()
-                        .frame(height: 50)
+                        .frame(height: 10)
                     
                     ChatDetailKnockSection(chat: chat)
                         .padding(.bottom, 20)
                     
                     messageCells
                         .padding(.top, 10)
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 10)
                     
                     Text("")
                         .id("bottom")
@@ -114,7 +114,7 @@ struct ChatRoomView: View, Blockable {
             }
              */
         }
-        .reportCombineSheet(
+        .reportBlockProcessSheet(
             reportViewIsPresented: $showingReportView,
             suggestViewIsPresented: $showingSuggestBlockView,
             blockViewIsPresented: $showingBlockView,
