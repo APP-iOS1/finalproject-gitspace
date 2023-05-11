@@ -22,14 +22,22 @@ public struct GSButtonStyleModifiers: ViewModifier {
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
-					.tint(isDisabled ? .gsLightGray1 : .gsGreenPrimary)
+					.tint(isDisabled ? .gsGray1 : .gsGreenPrimary)
 					.shadowColorSchemeModifier()
 				
-			case .secondary(let isDisabled):
+			case let .secondary(isDisabled):
 				content
 					.buttonBorderShape(.capsule)
 					.buttonStyle(.borderedProminent)
-					.tint(isDisabled ? .gsLightGray1 : .gsGreenPrimary)
+                    .tint(isDisabled ? .gsGray1 : .gsGreenPrimary)
+                    .overlay {
+                        // Custom Disable 구현을 위해 .disabled() 대신 Capsule을 overlay 합니다.
+                        // why: .disabled() 는 systemGray를 자동으로 적용하는 이슈가 있음.
+                        if isDisabled {
+                            Capsule()
+                                .fill(.white.opacity(0.0001))
+                        }
+                    }
 					
 			case let .tag(isAppliedInView, isSelectedInAddTagSheet):
 				content
@@ -65,11 +73,19 @@ public struct GSButtonStyleModifiers: ViewModifier {
 					.tint(.gsYellowPrimary)
 					.shadowColorSchemeModifier()
 				
-			case .secondary:
-				content
-					.buttonBorderShape(.capsule)
-					.buttonStyle(.borderedProminent)
-					.tint(.gsYellowPrimary)
+            case let .secondary(isDisabled):
+                content
+                    .buttonBorderShape(.capsule)
+                    .buttonStyle(.borderedProminent)
+                    .tint(isDisabled ? .gsGray1 : .gsYellowPrimary)
+                    .overlay {
+                        // Custom Disable 구현을 위해 .disabled() 대신 Capsule을 overlay 합니다.
+                        // why: .disabled() 는 systemGray를 자동으로 적용하는 이슈가 있음.
+                        if isDisabled {
+                            Capsule()
+                                .fill(.white.opacity(0.0001))
+                        }
+                    }
 				
             case let .tag(isAppliedInView, isSelectedInAddTagSheet):
 				content

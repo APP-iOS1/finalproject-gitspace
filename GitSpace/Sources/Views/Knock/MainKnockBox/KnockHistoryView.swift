@@ -169,7 +169,7 @@ struct KnockHistoryView: View {
                     let activatedChat,
                     let targetUserInfo {
                     GSNavigationLink(
-                        style: .secondary
+                        style: .secondary()
                     ) {
                         ChatRoomView(
                             chat: activatedChat,

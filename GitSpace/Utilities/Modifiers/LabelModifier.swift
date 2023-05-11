@@ -23,9 +23,9 @@ struct GSLabelModifier: ViewModifier {
 				.frame(minWidth: 150)
 				.frame(maxHeight: maxHeight)
 				
-		case .secondary:
+		case let .secondary(isDisabled):
 			content
-				.foregroundColor(colorScheme == .light ? .black : .black)
+				.foregroundColor(disabledLabelColorBuilder(isDisabled))
 				.padding(.horizontal, 20)
 				.padding(.vertical, 10)
 				.frame(minWidth: 80)
@@ -45,6 +45,14 @@ struct GSLabelModifier: ViewModifier {
 				.frame(maxHeight: maxHeight)
 		}
 	}
+    
+    private func disabledLabelColorBuilder(_ isDisabled: Bool) -> Color {
+        if colorScheme == .light && isDisabled { return .white }
+        else if colorScheme == .light && !isDisabled { return .black }
+        else if colorScheme == .dark && isDisabled { return . white }
+        else if colorScheme == .dark && !isDisabled { return .black }
+        return .black
+    }
 	
     private func tertiaryForegroundColorBuilder(
         isAppliedInView: Bool?,
