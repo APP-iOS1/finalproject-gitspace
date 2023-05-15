@@ -112,6 +112,14 @@ struct GSTextEditor {
                 autoLineBreakCount(textEditorWidth: textEditorWidth)
             )
             
+        // MARK: text가 가질 수 있는 최대 길이를 세팅해주는 메서드
+        private func setMaxTextWidth(proxy: GeometryProxy) {
+            maxTextWidth = proxy.size.width - (const.TEXTEDITOR_INSET_HORIZONTAL * 2 + 10)
+        }
+        
+        // MARK: line count를 통해 textEditor 현재 높이를 계산해서 업데이트하는 메서드
+        private func updateTextEditorCurrentHeight() {
+
             // 총 라인 갯수
             let floatTotalLineCount = floatNewLineCounter + floatAutoLineBreakCount
             
