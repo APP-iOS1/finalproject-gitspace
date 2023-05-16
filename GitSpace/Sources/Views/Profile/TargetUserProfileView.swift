@@ -216,11 +216,22 @@ struct TargetUserProfileView: View {
                             Spacer()
                                 .frame(width: 10)
                             
-                            GSNavigationLink(style: .secondary()) {
-                                KnockCommunicationRouter(targetGithubUser: user)
-                            } label: {
-                                GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
-                                    .frame(maxWidth: .infinity)
+                            if isFromTopperProfileView {
+                                GSButton.CustomButtonView(
+                                    style: .secondary(isDisabled: false)
+                                ) {
+                                    dismiss()
+                                } label: {
+                                    GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
+                                        .frame(maxWidth: .infinity)
+                                }
+                            } else {
+                                GSNavigationLink(style: .secondary()) {
+                                    KnockCommunicationRouter(targetGithubUser: user)
+                                } label: {
+                                    GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
+                                        .frame(maxWidth: .infinity)
+                                }
                             }
                         }
                         .padding(.vertical, 10)
