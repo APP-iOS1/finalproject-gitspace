@@ -29,11 +29,17 @@ struct TargetUserProfileView: View {
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isBlockedUser: Bool = false
     
+    var isFromTopperProfileView: Bool = false
     let user: GithubUser
     let gitHubService = GitHubService()
     
     init(user: GithubUser) {
         self.user = user
+    }
+    
+    init(user: GithubUser, isFromTopperProfileView: Bool) {
+        self.user = user
+        self.isFromTopperProfileView = isFromTopperProfileView
     }
     
     var body: some View {
