@@ -190,16 +190,17 @@ Please select a User to start chatting with.
             } else {
                 ContributorListSkeletonView()
             } // else
-            
         } // ScrollView
-        .task {
-            await divideUser()
-            if let githubID = userInfoManager.currentUser?.githubID {
-                self.githubID = githubID
-            } else {
-                let user: UserInfo? = await userInfoManager.requestUserInfoWithID(userID: Utility.loginUserID)
-                if let user {
-                    self.githubID = user.githubID
+        .onViewDidLoad {
+            Task {
+                await divideUser()
+                if let githubID = userInfoManager.currentUser?.githubID {
+                    self.githubID = githubID
+                } else {
+                    let user: UserInfo? = await userInfoManager.requestUserInfoWithID(userID: Utility.loginUserID)
+                    if let user {
+                        self.githubID = user.githubID
+                    }
                 }
             }
         }
