@@ -12,6 +12,7 @@ import RichText
 
 struct TargetUserProfileView: View {
     
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
