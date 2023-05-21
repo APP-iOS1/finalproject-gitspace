@@ -5,8 +5,8 @@
 //  Created by 박제균 on 2023/02/14.
 //
 
-import SwiftUI
 import RichText
+import SwiftUI
 
 // MARK: - gitHubUser 필요
 
@@ -331,11 +331,11 @@ struct TargetUserProfileView: View {
             }
         }
         .sheet(isPresented: $isReportViewShowing) {
-            if let targetUser = targetUserInfo {
+            if let targetUserInfo {
                 ReportView(
                     isReportViewShowing: $isReportViewShowing,
                     isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
-                    targetUser: targetUser
+                    targetUser: targetUserInfo
                 )
             }
         }
