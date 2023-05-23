@@ -25,16 +25,9 @@ final class UserStore: ObservableObject {
     @Published var users: [UserInfo]
     
     init(
-		users: [UserInfo] = [],
-		currentUserID: String
+		users: [UserInfo] = []
 	) {
         self.users = users
-//		Task {
-//			let currentUser = await self.requestUserInfoWithID(userID: currentUserID)
-//			if let currentUser {
-//				await assignCurrentUser(with: currentUser)
-//			}
-//		}
     }
     
     private func getUserDocument(userID: String) async -> DocumentSnapshot? {

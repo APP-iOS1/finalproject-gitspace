@@ -11,7 +11,6 @@ import FirebaseAuth
 struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
     @EnvironmentObject var pushNotificationManager: PushNotificationManager
-    @StateObject var userStore = UserStore(currentUserID: Auth.auth().currentUser?.uid ?? "")
     let tabBarRouter: GSTabBarRouter
     
     // MARK: - 한호
@@ -36,7 +35,6 @@ struct InitialView: View {
             case .signedIn:
                 ContentView(tabBarRouter: tabBarRouter)
                     .preferredColorScheme(selectedAppearance)
-                    .environmentObject(userStore)
             case .pending:
                 LoadingProgressView()
                     .preferredColorScheme(selectedAppearance)
