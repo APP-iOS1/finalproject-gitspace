@@ -65,34 +65,32 @@ struct KnockCommunicationRouter: View {
                 LoadingProgressView()
             }
         }
-        .onViewDidLoad {
-            Task {
-                if let targetUserInfo = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser.id) {
-                    self.targetUserInfo = targetUserInfo
-                    let result = await knockViewManager.checkIfKnockHasBeenSent(
-                        currentUser: userStore.currentUser ?? .getFaliedUserInfo(),
-                        targetUser: targetUserInfo
-                    )
-                    
-                    switch result {
-                    case let .knockHasBeenSent(knockStatus, withKnock, toChatID):
-                        if let withKnock {
-                            self.knock = withKnock
-                            self.knockStateFilter = knockStatus
-                            
-                            if knockStatus == .accepted,
-                               let toChatID {
-                                self.chat = await chatViewManager.requestPushedChat(chatID: toChatID)
-                            }
-                        }
-                    case let .ableToSentNewKnock(KnockFlag):
-                        // true일 때만 할당하도록 하여 불필요한 뷰 렌더링 최소화
-                        if KnockFlag {
-                            self.isKnockSendable = KnockFlag
+        .task {
+            if let targetUserInfo = await userStore.requestUserInfoWithGitHubID(githubID: targetGithubUser.id) {
+                self.targetUserInfo = targetUserInfo
+                let result = await knockViewManager.checkIfKnockHasBeenSent(
+                    currentUser: userStore.currentUser ?? .getFaliedUserInfo(),
+                    targetUser: targetUserInfo
+                )
+                
+                switch result {
+                case let .knockHasBeenSent(knockStatus, withKnock, toChatID):
+                    if let withKnock {
+                        self.knock = withKnock
+                        self.knockStateFilter = knockStatus
+                        
+                        if knockStatus == .accepted,
+                           let toChatID {
+                            self.chat = await chatViewManager.requestPushedChat(chatID: toChatID)
                         }
                     }
-                    self.isFetchDone.toggle()
+                case let .ableToSentNewKnock(KnockFlag):
+                    // true일 때만 할당하도록 하여 불필요한 뷰 렌더링 최소화
+                    if KnockFlag {
+                        self.isKnockSendable = KnockFlag
+                    }
                 }
+                self.isFetchDone = true
             }
         }
     }
