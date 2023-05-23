@@ -70,6 +70,7 @@ extension View {
     
     func reportBlockProcessSheet(
         reportViewIsPresented: Binding<Bool>,
+        reportType: Report.ReportType,
         suggestViewIsPresented: Binding<Bool>,
         blockViewIsPresented: Binding<Bool>,
         isBlockedUser: Binding<Bool>,
@@ -80,6 +81,7 @@ extension View {
                 ReportView(
                     isReportViewShowing: reportViewIsPresented,
                     isSuggestBlockViewShowing: suggestViewIsPresented,
+                    reportType: reportType,
                     targetUser: targetUserInfo
                 )
             }

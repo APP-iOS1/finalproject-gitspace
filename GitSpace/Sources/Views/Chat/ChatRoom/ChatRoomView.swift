@@ -116,6 +116,7 @@ struct ChatRoomView: View, Blockable {
         }
         .reportBlockProcessSheet(
             reportViewIsPresented: $showingReportView,
+            reportType: .chat,
             suggestViewIsPresented: $showingSuggestBlockView,
             blockViewIsPresented: $showingBlockView,
             isBlockedUser: $isBlockedUser,

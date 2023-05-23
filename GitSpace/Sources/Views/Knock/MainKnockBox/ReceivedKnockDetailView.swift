@@ -213,6 +213,7 @@ struct ReceivedKnockDetailView: View {
                 ReportView(
                     isReportViewShowing: $isReporting,
                     isSuggestBlockViewShowing: $isBlockOtherUser,
+                    reportType: .knock,
                     targetUser: targetUser
                 )
             }

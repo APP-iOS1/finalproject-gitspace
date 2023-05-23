@@ -306,6 +306,7 @@ struct KnockHistoryView: View {
                 ReportView(
                     isReportViewShowing: $isReporting,
                     isSuggestBlockViewShowing: $isBlocking,
+                    reportType: .knock,
                     targetUser: targetUser
                 )
             }
