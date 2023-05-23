@@ -144,8 +144,8 @@ extension Blockable {
         by currentUser: UserInfo,
         by targetUser: UserInfo
     ) -> Bool {
-        return ( isBlocked(by: currentUser, with: targetUser) ||
-                 isBlocked(by: targetUser, with: currentUser) )
+        return  currentUser.blockedUserIDs.contains(targetUser.id) ||
+                currentUser.blockedByUserIDs.contains(targetUser.id)
     }
 }
 
