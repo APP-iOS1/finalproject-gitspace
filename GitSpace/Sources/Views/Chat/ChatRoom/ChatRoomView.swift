@@ -444,7 +444,7 @@ struct ChatRoomView: View, Blockable {
         /// 4. user의 차단 유저 리스트에 채팅 대화 상대방 ID가 있는지 여부 검사
         /// 5. 1~4에서 받아온 정보를 통해서 채팅방 상세 설정 뷰로 이동
         // 1
-        if let user = userStore.user {
+        if let user = userStore.currentUser {
             let chatRoomNotificationKey = Constant.AppStorageConst.CHATROOM_NOTIFICATION
             let isNotificationReceiveEnableDict = UserDefaults().dictionary(forKey: chatRoomNotificationKey)
             // 2
