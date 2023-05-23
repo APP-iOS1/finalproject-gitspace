@@ -21,7 +21,6 @@ final class UserStore: ObservableObject {
      */
     @Published var opponentUser: UserInfo?
 	@Published var currentUser: UserInfo?
-    @Published var user: UserInfo?
     @Published var users: [UserInfo]
     
     init(
@@ -40,19 +39,57 @@ final class UserStore: ObservableObject {
         }
     }
     
+    private func getUserDocuments() async -> QuerySnapshot? {
+        do {
+            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).getDocuments()
+            return snapshot
+        } catch {
+            print("Get User Document Error : \(error)")
+        }
+        return nil
+    }
+    
     func requestUser(userID: String) async {
         let document = await getUserDocument(userID: userID)
         
         if let document {
             do {
                 let user: UserInfo = try document.data(as: UserInfo.self)
-                await writeUser(user: user)
+                await writeUser(with: user)
             } catch {
                 print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
             }
-		} else {
-			return
-		}
+        } else {
+            return
+        }
+    }
+    
+    func requestUsers() async {
+        
+        let snapshot = await getUserDocuments()
+        var users: [UserInfo] = []
+        
+        if let snapshot {
+            for document in snapshot.documents {
+                do {
+                    let user: UserInfo = try document.data(as: UserInfo.self)
+                    users.append(user)
+                } catch {
+                    print("Request Users Error : \(error.localizedDescription)")
+                }
+            }
+        }
+        await writeUsers(with: users)
+    }
+    
+    @MainActor
+    private func writeUser(with user: UserInfo) {
+        self.currentUser = user
+    }
+    
+    @MainActor
+    private func writeUsers(with users: [UserInfo]) {
+        self.users = users
     }
     
     static func requestAndReturnUser(userID: String) async -> UserInfo? {
@@ -116,118 +153,11 @@ final class UserStore: ObservableObject {
 			return nil
 		}
 	}
-	
-//	!!!: - DEPRECATED(23.03.26)
-//	 User deviceToken을 서버에 업데이트 합니다.
-//	 */
-//	public func updateUserDeviceToken(userID: String, deviceToken: String) async {
-//		do {
-//			let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
-//			try await document.updateData([
-//				const.FIELD_DEVICE_TOKEN: deviceToken
-//			])
-//		} catch {
-//			print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
-//		}
-//
-//	}
-    
-    private func getUserDocuments() async -> QuerySnapshot? {
-        do {
-            let snapshot = try await db.collection(const.COLLECTION_USER_INFO).getDocuments()
-            return snapshot
-        } catch {
-            print("Get User Document Error : \(error)")
-        }
-        return nil
-    }
-    
-    @MainActor
-    private func writeUser(user: UserInfo) {
-        self.currentUser = user
-        self.user = user
-    }
-    
-    @MainActor
-    private func writeUsers(users: [UserInfo]) {
-        self.users = users
-    }
-	
-	@MainActor
-	private func assignCurrentUser(with userInfo: UserInfo) {
-		self.currentUser = userInfo
-	}
     
     @MainActor
     private func assignOpponentUser(with userInfo: UserInfo) {
         self.opponentUser = userInfo
     }
-    
-    func requestUsers() async {
-        
-        let snapshot = await getUserDocuments()
-        var users: [UserInfo] = []
-        
-        if let snapshot {
-            for document in snapshot.documents {
-                do {
-                    let user: UserInfo = try document.data(as: UserInfo.self)
-                    users.append(user)
-                } catch {
-                    print("Request Users Error : \(error.localizedDescription)")
-                }
-            }
-        }
-        await writeUsers(users: users)
-    }
-    
-    /*
-     Blockable 프로토콜 및 확장 구현으로 미사용하게 되어 주석처리 By. 태영
-     
-    private func getTargetUserIDIndex(targetUserID: String) -> Int? {
-        guard let user else {
-            return nil
-        }
-        return user.blockedUserIDs.firstIndex(of: targetUserID)
-    }
-    
-    func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
-        guard var user else {
-            print("로그인 유저 정보가 nil입니다.")
-            return
-        }
-        var newBlockedUserIDs = user.blockedUserIDs
-        let index = getTargetUserIDIndex(targetUserID: targetUserID)
-        
-        switch blockCase {
-        
-        case .block:
-            guard index == nil else {
-                print("block 대상 ID가 이미 리스트에 존재합니다.")
-                return
-            }
-            newBlockedUserIDs.append(targetUserID)
-        
-        case .unblock:
-            guard let index else {
-                print("unblock 대상 ID가 리스트에 존재하지 않습니다.")
-                return
-            }
-            newBlockedUserIDs.remove(at: index)
-        }
-        
-        do {
-            user.blockedUserIDs = newBlockedUserIDs
-            try await db
-                .collection(const.COLLECTION_USER_INFO)
-                .document(user.id)
-                .updateData([const.FIELD_BLOCKED_USER_IDS : newBlockedUserIDs])
-        } catch {
-            print("Block/Unblock User Update Error : \(error.localizedDescription)")
-        }
-        
-    }
-     */
     
     /**
      UserInfo를 update 합니다.
@@ -271,4 +201,67 @@ final class UserStore: ObservableObject {
         case knockPushNotificationAceeptance(isPushAvailable: Bool)
         case chatPushNotificationAceeptance(isPushAvailable: Bool)
     }
+    
+    /*
+     Blockable 프로토콜 및 확장 구현으로 미사용하게 되어 주석처리 By. 태영
+     
+    private func getTargetUserIDIndex(targetUserID: String) -> Int? {
+        guard let currentUser else {
+            return nil
+        }
+        return currentUser.blockedUserIDs.firstIndex(of: targetUserID)
+    }
+    
+    func updateIsTartgetUserBlocked(blockCase: BlockCase, targetUserID: String) async {
+        guard var currentUser else {
+            print("로그인 유저 정보가 nil입니다.")
+            return
+        }
+        var newBlockedUserIDs = currentUser.blockedUserIDs
+        let index = getTargetUserIDIndex(targetUserID: targetUserID)
+        
+        switch blockCase {
+        
+        case .block:
+            guard index == nil else {
+                print("block 대상 ID가 이미 리스트에 존재합니다.")
+                return
+            }
+            newBlockedUserIDs.append(targetUserID)
+        
+        case .unblock:
+            guard let index else {
+                print("unblock 대상 ID가 리스트에 존재하지 않습니다.")
+                return
+            }
+            newBlockedUserIDs.remove(at: index)
+        }
+        
+        do {
+            currentUser.blockedUserIDs = newBlockedUserIDs
+            try await db
+                .collection(const.COLLECTION_USER_INFO)
+                .document(currentUser.id)
+                .updateData([const.FIELD_BLOCKED_USER_IDS : newBlockedUserIDs])
+        } catch {
+            print("Block/Unblock User Update Error : \(error.localizedDescription)")
+        }
+        
+    }
+     */
+    
+    //    !!!: - DEPRECATED(23.03.26)
+    //     User deviceToken을 서버에 업데이트 합니다.
+    //     */
+    //    public func updateUserDeviceToken(userID: String, deviceToken: String) async {
+    //        do {
+    //            let document = db.collection(const.COLLECTION_USER_INFO).document(userID)
+    //            try await document.updateData([
+    //                const.FIELD_DEVICE_TOKEN: deviceToken
+    //            ])
+    //        } catch {
+    //            print("Error-\(#file)-\(#function): USERINFO DEVICETOKEN Update Falied")
+    //        }
+    //
+    //    }
 }
