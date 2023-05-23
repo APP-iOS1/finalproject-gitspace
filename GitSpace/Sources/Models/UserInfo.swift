@@ -15,6 +15,7 @@ struct UserInfo : Identifiable, Codable, Equatable {
     let createdDate: Date           // 유저 생성일시
     var deviceToken: String         // 유저 기기 토큰
     var blockedUserIDs: [String]    // 차단한 유저 ID 리스트
+    var blockedByUserIDs: [String]  // 유저를 차단한 상대 유저 ID 리스트
     var isKnockPushAvailable: Bool? // Knock 푸시알람 승인여부
     var isChatPushAvailable: Bool?  // chat 푸시알람 승인여부
     
