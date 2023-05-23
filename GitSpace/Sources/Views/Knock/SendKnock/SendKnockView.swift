@@ -175,7 +175,7 @@ struct SendKnockView: View {
 
 struct SendKnockView_Previews: PreviewProvider {
     
-    @State private var targetUserInfo: UserInfo? = UserInfo(id: "rtlnrC8I8LaLtqHPhETxfuG0JjE3", createdDate: Date.now, deviceToken: "1234", blockedUserIDs: [], githubID: 64696968, githubLogin: "guguhanogu", githubName: "hanho", githubEmail: "", avatar_url: "https://avatars.githubusercontent.com/u/64696968?v=4", bio: " iOS Developer- LikeLion iOS AppSchool 1기", company: "", location: "Korea, South", blog: "", public_repos: 7, followers: 33, following: 36)
+    @State private var targetUserInfo: UserInfo? = UserInfo(id: "rtlnrC8I8LaLtqHPhETxfuG0JjE3", createdDate: Date.now, deviceToken: "1234", blockedUserIDs: [], blockedByUserIDs: [], githubID: 64696968, githubLogin: "guguhanogu", githubName: "hanho", githubEmail: "", avatar_url: "https://avatars.githubusercontent.com/u/64696968?v=4", bio: " iOS Developer- LikeLion iOS AppSchool 1기", company: "", location: "Korea, South", blog: "", public_repos: 7, followers: 33, following: 36)
     
     static var previews: some View {
         SendKnockView()

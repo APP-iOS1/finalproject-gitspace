@@ -5,8 +5,6 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
-// TODO: Chat팀과 혀이 유저 모델링 논의 필요
-
 import Foundation
 
 struct UserInfo : Identifiable, Codable, Equatable {
@@ -43,7 +41,23 @@ struct UserInfo : Identifiable, Codable, Equatable {
     }
 	
 	static func getFaliedUserInfo() -> Self {
-		let userinfo = UserInfo(id: "FAILED", createdDate: .now, deviceToken: "FAILED", blockedUserIDs: ["FAILED"], githubID: 0, githubLogin: "FAILED", githubName: "FAILED", githubEmail: "FAILED", avatar_url: "ProfilePlaceholder", bio: "FAILED", company: "FAILED", location: "FAILED", blog: "FAILED", public_repos: 0, followers: 0, following: 0)
+		let userinfo = UserInfo(id: "FAILED",
+                                createdDate: .now,
+                                deviceToken: "FAILED",
+                                blockedUserIDs: ["FAILED"],
+                                blockedByUserIDs: ["FAILED"],
+                                githubID: 0,
+                                githubLogin: "FAILED",
+                                githubName: "FAILED",
+                                githubEmail: "FAILED",
+                                avatar_url: "ProfilePlaceholder",
+                                bio: "FAILED",
+                                company: "FAILED",
+                                location: "FAILED",
+                                blog: "FAILED",
+                                public_repos: 0,
+                                followers: 0,
+                                following: 0)
 		return userinfo
 	}
 }
