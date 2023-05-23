@@ -23,13 +23,13 @@ struct ContributorListView: View {
     }
     
     @State var gitSpaceUserList: [Int] = []
-    @State var isDevided: Bool = false
+    @State var isDivided: Bool = false
     @State private var githubID: Int = 0
     
     func divideUser() async {
         
         withAnimation(.easeInOut) {
-            isDevided = false
+            isDivided = false
         }
         
         gitSpaceUserList.removeAll()
@@ -41,7 +41,7 @@ struct ContributorListView: View {
         }
         
         withAnimation(.easeInOut) {
-            isDevided = true
+            isDivided = true
         }
     }
     
@@ -49,7 +49,7 @@ struct ContributorListView: View {
     var body: some View {
         
         ScrollView {
-            if isDevided == true {
+            if isDivided == true {
                 // MARK: - 상황별 마스코트 이미지
                 /* 노트 시나리오의 시각적 힌트 제공 */
                 HStack {
@@ -65,7 +65,7 @@ struct ContributorListView: View {
                 } // HStack
                 
                 HStack {
-                    if gitSpaceUserList.isEmpty && isDevided == true {
+                    if gitSpaceUserList.isEmpty && isDivided == true {
                         // MARK: - 저장소의 기여자들 중 GitSpace User가 없을 경우
                         GSText.CustomTextView(
                             style: .title2,
@@ -190,16 +190,17 @@ Please select a User to start chatting with.
             } else {
                 ContributorListSkeletonView()
             } // else
-            
         } // ScrollView
-        .task {
-            await divideUser()
-            if let githubID = userInfoManager.currentUser?.githubID {
-                self.githubID = githubID
-            } else {
-                let user: UserInfo? = await userInfoManager.requestUserInfoWithID(userID: Utility.loginUserID)
-                if let user {
-                    self.githubID = user.githubID
+        .onViewDidLoad {
+            Task {
+                await divideUser()
+                if let githubID = userInfoManager.currentUser?.githubID {
+                    self.githubID = githubID
+                } else {
+                    let user: UserInfo? = await userInfoManager.requestUserInfoWithID(userID: Utility.loginUserID)
+                    if let user {
+                        self.githubID = user.githubID
+                    }
                 }
             }
         }

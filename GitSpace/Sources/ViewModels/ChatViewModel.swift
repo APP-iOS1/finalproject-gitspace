@@ -57,7 +57,6 @@ final class ChatStore: ObservableObject {
         chats = []
         isDoneFetch = false
         newChat = Chat.emptyChat()
-		targetUserInfoDict = [:]
     }
     
 }
