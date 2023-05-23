@@ -14,6 +14,7 @@ final class UserStore: ObservableObject {
     private static let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
     private static let const = Constant.FirestorePathConst.self
+    private var listener: ListenerRegistration?
     
     /**
      노크 혹은 채팅의 Push Notification을 수신할 사용자의 정보
@@ -277,5 +278,29 @@ final class UserStore: ObservableObject {
         case deviceToken(token: String)
         case knockPushNotificationAceeptance(isPushAvailable: Bool)
         case chatPushNotificationAceeptance(isPushAvailable: Bool)
+    }
+}
+
+// MARK: - Listener
+extension UserStore {
+    func addListener() {
+        listener = db
+            .collection(const.COLLECTION_USER_INFO)
+            .document(Utility.loginUserID)
+            .addSnapshotListener { snapshot, error in
+                guard let snapshot else { return }
+                
+                do {
+                    Task {
+                        let updatedUserInfo: UserInfo = try snapshot.data(as: UserInfo.self)
+                        await self.writeUser(user: updatedUserInfo)
+                    }
+                }
+            }
+    }
+    
+    func removeListener() {
+        guard let listener else { return }
+        listener.remove()
     }
 }
