@@ -22,6 +22,7 @@ struct GitSpaceApp: App {
 
             InitialView(tabBarRouter: tabBarRouter)
                 .environmentObject(ChatStore())
+                .environmentObject(UserStore())
                 .environmentObject(MessageStore())
                 .environmentObject(RepositoryViewModel(service: GitHubService()))
                 .environmentObject(TagViewModel())
