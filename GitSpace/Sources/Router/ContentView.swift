@@ -68,7 +68,6 @@ struct ContentView: View {
                 Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
                 await userStore.requestUsers()
-                
                 await retrieveBlockedUserList()
             
             } else {
