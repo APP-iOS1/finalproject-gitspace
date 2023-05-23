@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct TopperProfileView: View {
-	@EnvironmentObject var userStore: UserStore
-	@State private var user: UserInfo? = nil
-//	@State var userID: String
-	
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @State private var user: UserInfo? = nil
     let targetUserInfo: UserInfo
     
     var body: some View {
