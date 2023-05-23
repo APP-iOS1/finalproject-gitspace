@@ -143,7 +143,7 @@ public enum Constant {
         static let TEXTEDITOR_INSET_BOTTOM: CGFloat = -3
         static let TEXTEDITOR_STROKE_CORNER_RADIUS: CGFloat = 20
         static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
-        static let TEXTEDITOR_BLOCKED_LABEL: String = "Cannot chat with blocked user"
+        static let TEXTEDITOR_BLOCKED_LABEL: String = "Cannot chat with blocked state user."
         
         static let TEXTEDITOR_SEND_BUTTON_SIZE: CGFloat = 22
     }
