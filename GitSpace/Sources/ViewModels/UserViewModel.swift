@@ -279,7 +279,7 @@ extension UserStore {
                 do {
                     Task {
                         let updatedUserInfo: UserInfo = try snapshot.data(as: UserInfo.self)
-                        await self.writeUser(user: updatedUserInfo)
+                        await self.writeUser(with: updatedUserInfo)
                     }
                 }
             }
