@@ -26,7 +26,6 @@ struct TopperProfileView: View {
             Text(targetUserInfo.githubLogin)
                 .bold()
                 .font(.title3)
-                .foregroundColor(Color(.black))
             
             // MARK: - User Info
             /// user의 레포 수, 팔로워 수,

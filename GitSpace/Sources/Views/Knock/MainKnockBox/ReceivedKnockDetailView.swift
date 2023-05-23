@@ -220,8 +220,6 @@ struct ReceivedKnockDetailView: View {
         }
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
-            
-            print(">>>>>>>>>>>", targetUser?.id, knock.sentUserID)
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -232,7 +230,6 @@ struct ReceivedKnockDetailView: View {
                         Text("\(knock.sentUserName)")
                             .bold()
                     } // HStack
-                    .foregroundColor(.black)
                 }
             } // ToolbarItem
         } // toolbar
