@@ -12,7 +12,7 @@ import SwiftUI
 
 struct TargetUserProfileView: View {
     
-    @Environment(\.dismiss) private var dismiss
+//    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
     @EnvironmentObject var userInfoManager: UserStore
     @EnvironmentObject var blockedUsers: BlockedUsers
@@ -273,19 +273,19 @@ struct TargetUserProfileView: View {
                             Spacer()
                                 .frame(width: 10)
                             
-                            if isFromTopperProfileView {
-                                GSButton.CustomButtonView(
-                                    style: .secondary(isDisabled: false)
-                                ) {
-                                    dismiss()
-                                } label: {
-                                    GSText.CustomTextView(
-                                        style: .buttonTitle1,
-                                        string: "Knock"
-                                    )
-                                    .frame(maxWidth: .infinity)
-                                }
-                            } else {
+//                            if isFromTopperProfileView {
+//                                GSButton.CustomButtonView(
+//                                    style: .secondary(isDisabled: false)
+//                                ) {
+//                                    dismiss()
+//                                } label: {
+//                                    GSText.CustomTextView(
+//                                        style: .buttonTitle1,
+//                                        string: "Knock"
+//                                    )
+//                                    .frame(maxWidth: .infinity)
+//                                }
+//                            } else {
                                 GSNavigationLink(style: .secondary()) {
                                     KnockCommunicationRouter(targetGithubUser: user)
                                 } label: {
@@ -294,7 +294,7 @@ struct TargetUserProfileView: View {
                                         string: "Knock")
                                     .frame(maxWidth: .infinity)
                                 }
-                            }
+//                            }
                         }
                         .padding(.vertical, 10)
                     } else {
@@ -422,6 +422,7 @@ struct TargetUserProfileView: View {
                 ReportView(
                     isReportViewShowing: $isReportViewShowing,
                     isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
+                    reportType: .user,
                     targetUser: targetUserInfo
                 )
             }
