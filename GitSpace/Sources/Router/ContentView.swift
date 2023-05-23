@@ -67,7 +67,6 @@ struct ContentView: View {
 				// userInfo 할당
                 Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
-                await userStore.requestUsers()
                 await retrieveBlockedUserList()
                 userStore.addListener()
             } else {
