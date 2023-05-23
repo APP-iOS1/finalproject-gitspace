@@ -5,16 +5,15 @@
 //  Created by 원태영 on 2023/01/27.
 //
 
-// TODO: Chat팀과 혀이 유저 모델링 논의 필요
-
 import Foundation
 
-struct UserInfo : Identifiable, Codable {
+struct UserInfo : Identifiable, Codable, Equatable {
     // MARK: -Firestore Properties
     let id: String                  // 유저 ID (Firebase Auth UID)
     let createdDate: Date           // 유저 생성일시
     var deviceToken: String         // 유저 기기 토큰
     var blockedUserIDs: [String]    // 차단한 유저 ID 리스트
+    var blockedByUserIDs: [String]  // 유저를 차단한 상대 유저 ID 리스트
     var isKnockPushAvailable: Bool? // Knock 푸시알람 승인여부
     var isChatPushAvailable: Bool?  // chat 푸시알람 승인여부
     
@@ -42,7 +41,23 @@ struct UserInfo : Identifiable, Codable {
     }
 	
 	static func getFaliedUserInfo() -> Self {
-		let userinfo = UserInfo(id: "PJjxY5xHGZXXsMGqpyWExd50iDP2", createdDate: .now, deviceToken: "FALIED", blockedUserIDs: ["FALIED"], githubID: 0, githubLogin: "FALIED", githubName: "FALIED", githubEmail: "FALIED", avatar_url: "FALIED", bio: "FALIED", company: "FALIED", location: "FALIED", blog: "FALIED", public_repos: 0, followers: 0, following: 0)
+		let userinfo = UserInfo(id: "FAILED",
+                                createdDate: .now,
+                                deviceToken: "FAILED",
+                                blockedUserIDs: ["FAILED"],
+                                blockedByUserIDs: ["FAILED"],
+                                githubID: 0,
+                                githubLogin: "FAILED",
+                                githubName: "FAILED",
+                                githubEmail: "FAILED",
+                                avatar_url: "ProfilePlaceholder",
+                                bio: "FAILED",
+                                company: "FAILED",
+                                location: "FAILED",
+                                blog: "FAILED",
+                                public_repos: 0,
+                                followers: 0,
+                                following: 0)
 		return userinfo
 	}
 }

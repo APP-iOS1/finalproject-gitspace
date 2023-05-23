@@ -9,19 +9,30 @@ import SwiftUI
 
 struct ChatDetailKnockSection: View {
     
+    @Environment(\.colorScheme) var colorScheme
     let chat: Chat
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             GSText.CustomTextView(style: .sectionTitle, string: chat.knockContentDateAsString)
-                .padding(.bottom, 30)
+                .padding(.bottom, 10)
             
             HStack {
-                GSText.CustomTextView(style: .caption2, string: "**KnockMessage**")
-                    .padding(.leading, 20)
-                    
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 3, height: 15)
+                    .foregroundColor(
+                        colorScheme == .light
+                        ? .gsGreenPrimary
+                        : .gsYellowPrimary
+                    )
+                Text("Knock Message")
+                    .font(.footnote)
+                    .foregroundColor(.gsLightGray1)
+                    .bold()
+                
                 Spacer()
             }
+            .padding(.leading, 20)
             
             GSCanvas.CustomCanvasView(style: .primary) {
                 HStack {

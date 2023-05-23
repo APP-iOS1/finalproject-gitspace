@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct TopperProfileView: View {
-	@EnvironmentObject var userStore: UserStore
-	@State private var user: UserInfo? = nil
-//	@State var userID: String
-	
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var gitHubAuthManager: GitHubAuthManager
+    @State private var user: UserInfo? = nil
     let targetUserInfo: UserInfo
     
     var body: some View {
@@ -27,7 +26,6 @@ struct TopperProfileView: View {
             Text(targetUserInfo.githubLogin)
                 .bold()
                 .font(.title3)
-                .foregroundColor(Color(.black))
             
             // MARK: - User Info
             /// user의 레포 수, 팔로워 수,
@@ -40,8 +38,12 @@ struct TopperProfileView: View {
             .foregroundColor(.gsLightGray2)
             
             // MARK: - 프로필 이동 버튼
-            GSNavigationLink(style: .secondary) {
-                TargetUserProfileView(user: GithubUser(id: targetUserInfo.githubID, login: targetUserInfo.githubLogin, name: targetUserInfo.githubName, email: targetUserInfo.githubEmail, avatar_url: targetUserInfo.avatar_url, bio: targetUserInfo.bio, company: targetUserInfo.company, location: targetUserInfo.location, blog: targetUserInfo.blog, public_repos: targetUserInfo.public_repos, followers: targetUserInfo.followers, following: targetUserInfo.following))
+            GSNavigationLink(style: .secondary()) {
+                TargetUserProfileView(
+                    user: gitHubAuthManager
+                        .getGithubUser(FBUser: targetUserInfo),
+                    isFromTopperProfileView: true
+                )
             } label: {
                 Text("View Profile")
                     .font(.footnote)

@@ -178,7 +178,7 @@ final class GitHubAuthManager: ObservableObject {
      
      - Returns: FBUser의 프로퍼티를 통해 생성한 GithubUser 인스턴스
      */
-    private func getGithubUser(FBUser: UserInfo) -> GithubUser {
+    func getGithubUser(FBUser: UserInfo) -> GithubUser {
         return .init(id: FBUser.githubID,
                      login: FBUser.githubLogin,
                      name: FBUser.githubName,
@@ -193,11 +193,15 @@ final class GitHubAuthManager: ObservableObject {
                      following: FBUser.following)
     }
     
-    private func getFirestoreUser(uid: String, githubUser: GithubUser) -> UserInfo {
+    private func getFirestoreUser(
+        uid: String,
+        githubUser: GithubUser
+    ) -> UserInfo {
         return .init(id: uid,
                      createdDate: .now,
                      deviceToken: "",
                      blockedUserIDs: [],
+                     blockedByUserIDs: [],
                      githubID: githubUser.id,
                      githubLogin: githubUser.login,
                      githubName: githubUser.name,
@@ -226,6 +230,7 @@ final class GitHubAuthManager: ObservableObject {
                      createdDate: FBUser.createdDate,
                      deviceToken: FBUser.deviceToken,
                      blockedUserIDs: FBUser.blockedUserIDs,
+                     blockedByUserIDs: FBUser.blockedByUserIDs,
                      githubID: githubUser.id,
                      githubLogin: githubUser.login,
                      githubName: githubUser.name,

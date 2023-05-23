@@ -10,7 +10,7 @@ import SwiftUI
 
 
 // MARK: -View : 채팅방 뷰
-struct ChatRoomView: View {
+struct ChatRoomView: View, Blockable {
     
     enum MakeChatCase {
         case addContent
@@ -23,20 +23,24 @@ struct ChatRoomView: View {
     let targetUserInfo: UserInfo
     
     @Environment(\.scenePhase) var scenePhase
-    @EnvironmentObject var chatStore: ChatStore
-    @EnvironmentObject var messageStore: MessageStore
-    @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var pushNotificationManager: PushNotificationManager
-    @StateObject private var keyboardHandler = KeyboardHandler()
+    @EnvironmentObject private var chatStore: ChatStore
+    @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var userStore: UserStore
+    @EnvironmentObject private var pushNotificationManager: PushNotificationManager
+    @EnvironmentObject var blockedUsers: BlockedUsers
     @State private var contentField: String = ""
     @State private var unreadMessageIndex: Int?
     @State private var preMessageIDs: [String] = []
-    
+    @State private var showingReportView: Bool = false
+    @State private var showingSuggestBlockView: Bool = false
+    @State private var showingBlockView: Bool = false
+    @State private var isBlockedUser: Bool = false
     
     var body: some View {
         VStack {
-            // 채팅 메세지 스크롤 뷰
+            
             ScrollViewReader { proxy in
+                
                 ScrollView {
                     
                     TopperProfileView(targetUserInfo: targetUserInfo)
@@ -45,14 +49,14 @@ struct ChatRoomView: View {
                         .padding(.vertical, 20)
                      
                     Spacer()
-                        .frame(height: 50)
+                        .frame(height: 10)
                     
                     ChatDetailKnockSection(chat: chat)
                         .padding(.bottom, 20)
                     
                     messageCells
                         .padding(.top, 10)
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 10)
                     
                     Text("")
                         .id("bottom")
@@ -110,6 +114,14 @@ struct ChatRoomView: View {
             }
              */
         }
+        .reportBlockProcessSheet(
+            reportViewIsPresented: $showingReportView,
+            reportType: .chat,
+            suggestViewIsPresented: $showingSuggestBlockView,
+            blockViewIsPresented: $showingBlockView,
+            isBlockedUser: $isBlockedUser,
+            targetUserInfo: targetUserInfo
+        )
         .onDisappear {
             // 초기화 필요.
             pushNotificationManager.currentChatRoomID = nil
@@ -136,13 +148,19 @@ struct ChatRoomView: View {
                 await clearUnreadMessageCount()
             }
         }
-        // MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
+        // 내 MessageCell ContextMenu에서 삭제 버튼을 탭하면 수행되는 로직
         .onChange(of: messageStore.deletedMessage?.id) { id in
-            if let id, let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
+            if
+                let id,
+                let deletedMessage = messageStore.messages.first(where: {$0.id == id}) {
                 Task {
                     await deleteContent(message: deletedMessage)
                 }
             }
+        }
+        // 상대방 MessageCell ContextMenu에서 신고 버튼을 탭하면 수행되는 로직
+        .onChange(of: messageStore.isReported) { state in
+            showingReportView = true
         }
         // 유저가 앱 화면에서 벗어났을 때 수행되는 로직
         .onChange(of: scenePhase) { currentPhase in
@@ -201,9 +219,7 @@ struct ChatRoomView: View {
                     .frame(width: 28, height: 23)
             }
              */
-            
             contentTextEditor
-                
         }
         .padding(.bottom, 15)
         .padding(.vertical, -3)
@@ -213,17 +229,24 @@ struct ChatRoomView: View {
     
     // MARK: GSTextEditor - 메세지 입력 필드와 전송 버튼
     private var contentTextEditor: some View {
-        GSTextEditor.CustomTextEditorView(style: .message,
-                                          text: $contentField,
-                                          sendableImage: "paperplane.fill",
-                                          unSendableImage: "paperplane") {
+        GSTextEditor.CustomTextEditorView(
+            style: .message,
+            text: $contentField,
+            isBlocked: isBlockedEither(
+                by: userStore.currentUser ?? .getFaliedUserInfo(),
+                by: targetUserInfo
+            ),
+            sendableImage: "paperplane.fill",
+            unSendableImage: "paperplane"
+        ) {
             Task {
                 await addContent()
             }
         }
-                                          .textInputAutocapitalization(.never)
-                                          .disableAutocorrection(true)
+        .textInputAutocapitalization(.never)
+        .disableAutocorrection(true)
     }
+
     
     // MARK: -Methods
     // MARK: Method - 유저가 읽지 않은 메세지 갯수를 0으로 초기화하고 DB에 업데이트하는 함수
@@ -400,13 +423,16 @@ struct ChatRoomView: View {
         /// 4. user의 차단 유저 리스트에 채팅 대화 상대방 ID가 있는지 여부 검사
         /// 5. 1~4에서 받아온 정보를 통해서 채팅방 상세 설정 뷰로 이동
         // 1
-        if let user = userStore.user {
+        if let user = userStore.currentUser {
             let chatRoomNotificationKey = Constant.AppStorageConst.CHATROOM_NOTIFICATION
             let isNotificationReceiveEnableDict = UserDefaults().dictionary(forKey: chatRoomNotificationKey)
             // 2
             if isNotificationReceiveEnableDict == nil {
                 // 2-1
-                let _ = UserDefaults().set([:], forKey: chatRoomNotificationKey)
+                let _ = UserDefaults().set(
+                    [:],
+                    forKey: chatRoomNotificationKey
+                )
             }
             
             if let isNotificationReceiveEnableDict {

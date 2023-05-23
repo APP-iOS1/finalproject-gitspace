@@ -15,10 +15,11 @@ import FirebaseFirestore
 
 final class MessageStore: ObservableObject {
     
-    
-    @Published var messages: [Message]
-    @Published var isMessageAdded: Bool
+    @Published var messages: [Message] = []
+    @Published var isMessageAdded: Bool = false
     @Published var deletedMessage: Message? // 메세지 셀 삭제 시 onChange로 반응하는 대상 메세지
+    @Published var isReported: Bool = false // 신고 sheet를 토글하기 위해 ChatRoomView의 onChange에서 감지하는 상태값
+    @Published var reportedMessage: Message? // 메세지 셀 신고 대상이 되는 메세지 객체
     @Published var isFetchMessagesDone: Bool = false
     
     var remainMessages: [Message] = []
@@ -28,10 +29,6 @@ final class MessageStore: ObservableObject {
     private let const = Constant.FirestorePathConst.self
     var currentChat: Chat? // 채팅방 입장 시, 현재 입장한 Chat 인스턴스를 할당받음. MessageStore 내부에서 Chat DB에 접근하기 위한 변수
     
-    init() {
-        messages = []
-        isMessageAdded = false
-    }
 }
 
 // MARK: -Extension : Message CRUD 관련 함수를 모아둔 Extension

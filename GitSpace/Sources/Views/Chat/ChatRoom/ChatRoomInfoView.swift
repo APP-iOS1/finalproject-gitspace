@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatRoomInfoView: View {
+struct ChatRoomInfoView: View, Blockable{
     
     let chat: Chat
     let targetUserInfo: UserInfo
@@ -76,7 +76,9 @@ struct ChatRoomInfoView: View {
             Button("Block", role: .destructive) {
                 isBlocked.toggle()
                 Task {
-                    await userStore.updateIsTartgetUserBlocked(blockCase:.block, targetUserID: chat.targetUserID)
+                    if let currentUser = userStore.currentUser {
+                        let _ = try await blockTargetUser(in: currentUser, with: targetUserInfo)
+                    }
                 }
             }
         } message: {
@@ -89,7 +91,9 @@ struct ChatRoomInfoView: View {
                    role: .destructive) {
                 isBlocked.toggle()
                 Task {
-                    await userStore.updateIsTartgetUserBlocked(blockCase:.unblock, targetUserID: chat.targetUserID)
+                    if let currentUser = userStore.currentUser {
+                        let _ = try await unblockTargetUser(in: currentUser, with: targetUserInfo)
+                    }
                 }
             }
         } message: {

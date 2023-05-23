@@ -50,6 +50,7 @@ struct ChatListCell: View {
             .frame(height: 90, alignment: .leading)
             Divider()
         }
+        .id(chat.id)
         .task {
             withAnimation(.linear(duration: 1.0).repeatForever(autoreverses: true)) {
                 self.opacity = opacity == 0.4 ? 0.8 : 0.4

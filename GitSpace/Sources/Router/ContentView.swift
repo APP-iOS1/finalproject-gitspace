@@ -20,6 +20,7 @@ struct ContentView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
 	@EnvironmentObject var pushNotificationManager: PushNotificationManager
 	@EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var blockedUsers: BlockedUsers
     
     var body: some View {
         /**
@@ -51,7 +52,7 @@ struct ContentView: View {
                     .ignoresSafeArea(.keyboard, edges: .bottom)
                 }
             }
-            
+            .navigationViewStyle(.stack)
         }
         .task {
             // Authentication의 로그인 유저 uid를 받아와서 userStore의 유저 객체를 할당
@@ -66,11 +67,14 @@ struct ContentView: View {
 				// userInfo 할당
                 Utility.loginUserID = uid
                 await userStore.requestUser(userID: uid)
-                await userStore.requestUsers()
-            
+                await retrieveBlockedUserList()
+                userStore.addListener()
             } else {
                 print("Error-ContentView-requestUser : Authentication의 uid가 존재하지 않습니다.")
             }
+        }
+        .onDisappear {
+            userStore.removeListener()
         }
     }
     
@@ -110,6 +114,27 @@ struct ContentView: View {
 //        .padding(.bottom, 20)
     }
     
+    /**
+     currentUser의 BlockedUserList를 가져옵니다.
+     가져온 유저 목록은 blockedUsers의 blockedUserList에 저장됩니다.
+     - blockedUsers.blockedUserList: [(userInfo, gitHubUser)]
+     - Author: 한호
+     */
+    private func retrieveBlockedUserList() async {
+        if let currentUser = await userStore.requestUserInfoWithID(userID: userStore.currentUser?.id ?? "") {
+            
+            for someUser in currentUser.blockedUserIDs {
+                if let userInfo = await UserStore.requestAndReturnUser(userID: someUser) {
+                    let gitHubUser = githubAuthManager.getGithubUser(FBUser: userInfo)
+                    let blockedUser: (userInfo: UserInfo, gitHubUser: GithubUser) = (userInfo, gitHubUser)
+                    
+                    if !blockedUsers.blockedUserList.contains(where: { $0.userInfo.id == userInfo.id }) {
+                        blockedUsers.blockedUserList.append(blockedUser)
+                    }
+                }
+            }
+        }
+    }
 }
 //
 //struct ContentView_Previews: PreviewProvider {

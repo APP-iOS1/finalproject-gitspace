@@ -247,7 +247,7 @@ extension KnockViewManager {
 			}
 	}
 	
-	private func removeSnapshot() {
+	func removeSnapshot() {
 		if let listener {
 			listener.remove()
 		}
@@ -292,10 +292,12 @@ extension KnockViewManager {
     
     /**
      knockStatus를 업데이트하고, Status가 업데이트 된 시간도 함께 set 합니다.
+     knockMessage는 수정되어도 수정 일자를 업데이트 하지 않습니다.
      */
     public func updateKnockOnFirestore(
         knock: Knock,
         knockStatus: String,
+        isKnockMessageEdited: Bool? = false,
         newChatID: String? = nil,
         declineMessage: String? = nil
     ) async -> Void {
@@ -306,17 +308,27 @@ extension KnockViewManager {
                 "knockStatus": knockStatus
             ])
             
+            if
+                let isKnockMessageEdited,
+                isKnockMessageEdited {
+                try await document.updateData([
+                    "knockMessage": knock.knockMessage
+                ])
+            }
+            
             switch knockStatus {
             case Constant.KNOCK_ACCEPTED:
                 try await document.setData([
                     "acceptedDate": Timestamp(date: .now),
                     "chatID": newChatID ?? "CHAT ID IS NIL"
                 ], merge: true)
+                
             case Constant.KNOCK_DECLINED:
                 try await document.setData([
                     "declinedDate": Timestamp(date: .now),
                     "declineMessage": declineMessage ?? "\(knock.receivedUserName) decided not to give you a decline message."
                 ], merge: true)
+                
             default:
                 break
             }
@@ -382,7 +394,7 @@ extension KnockViewManager {
     }
     
     @MainActor
-    private func removeKnockList() {
+    func removeKnockList() {
         receivedKnockList.removeAll()
         sentKnockList.removeAll()
     }
@@ -416,6 +428,7 @@ extension KnockViewManager {
     }
 }
 
+/** Knock Communication History Check Logic */
 extension KnockViewManager {
     /**
      노크가 보내진 적이 있는지 체크하는 메소드입니다.

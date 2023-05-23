@@ -22,6 +22,7 @@ struct GitSpaceApp: App {
 
             InitialView(tabBarRouter: tabBarRouter)
                 .environmentObject(ChatStore())
+                .environmentObject(UserStore())
                 .environmentObject(MessageStore())
                 .environmentObject(RepositoryViewModel(service: GitHubService()))
                 .environmentObject(TagViewModel())
@@ -31,6 +32,7 @@ struct GitSpaceApp: App {
                 .environmentObject(FollowerViewModel(service: GitHubService()))
                 .environmentObject(tabBarRouter)
 				.environmentObject(pushNotificationManager)
+                .environmentObject(BlockedUsers())
 				.onAppear {
 					UIApplication.shared.applicationIconBadgeNumber = 0
 				}

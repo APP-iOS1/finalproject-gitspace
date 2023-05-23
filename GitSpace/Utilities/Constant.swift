@@ -17,6 +17,10 @@ public enum Constant {
 	static let KNOCK_RECEIVED: String = "Received"
 	static let KNOCK_SENT: String = "Sent"
     
+    enum Assets {
+        static let PROFILE_PLACEHOLDER: String = "ProfilePlaceholder"
+    }
+    
 	/// AppStorage에 유저 설정을 저장할 때의 키값을 보관하는 상수 입니다.
 	enum AppStorageConst {
 		static let KNOCK_ALL_NOTIFICATION: String = "isAllKnockNotificationEnabled"
@@ -48,6 +52,7 @@ public enum Constant {
         static let FIELD_GITHUB_ID: String = "githubID"
         static let FIELD_DEVICE_TOKEN: String = "deviceToken"
         static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        static let FIELD_BLOCKED_BY_USER_IDS: String = "blockedByUserIDs"
         static let FIELD_IS_KNOCK_PUSH_AVAILABLE: String = "isKnockPushAvailable"
         static let FIELD_IS_CHAT_PUSH_AVAILABLE: String = "isChatPushAvailable"
         
@@ -55,6 +60,12 @@ public enum Constant {
         static let FIELD_ID: String = "id"
         static let FIELD_TAGNAME: String = "tagName"
         static let FIELD_REPOSITORIES: String = "repositories"
+        
+        static let COLLECTION_REPORT: String = "Report"
+        static let FIELD_REPORTER_ID: String = "reporterID"
+        static let FIELD_TARGET_USER_ID: String = "targetUserID"
+        static let FIELD_DATE: String = "date"
+        static let FIELD_REASON: String = "reason"
     }
 	
     //MARK: - Text DesignSystem에 들어갈 속성값들
@@ -129,13 +140,17 @@ public enum Constant {
         static let TEXTEDITOR_DEFAULT_LINE_COUNT: Int = 1
         static let TEXTEDITOR_MAX_LINE_COUNT: Int = 5
         static let TEXTEDITOR_INSET_HORIZONTAL: CGFloat = 10
+        static let TEXTEDITOR_INSET_BOTTOM: CGFloat = -3
         static let TEXTEDITOR_STROKE_CORNER_RADIUS: CGFloat = 20
         static let TEXTEDITOR_FRAME_HEIGHT_FREESPACE: CGFloat = 20
+        static let TEXTEDITOR_BLOCKED_LABEL: String = "Cannot chat with blocked state user."
+        
+        static let TEXTEDITOR_SEND_BUTTON_SIZE: CGFloat = 22
     }
 
 	public enum LabelHierarchy {
 		case primary
-		case secondary
+        case secondary(isDisabled: Bool = false)
         // 전자의 연관값으로 흑백, 후자의 연관값으로 청노를 구분한다.
         case tertiary(
             isAppliedInView: Bool? = nil,

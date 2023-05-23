@@ -63,6 +63,7 @@ struct GSTabBarIcon: View {
             .foregroundColor(colorScheme == .light ? .gsGreenPrimary : .gsYellowPrimary)
             .onTapGesture {
                 tabBarRouter.currentPage = page
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
             }
         }
 

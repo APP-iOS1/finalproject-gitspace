@@ -44,7 +44,7 @@ extension Color {
 	}
 	
 	static var gsRed: Self {
-		.init(hex: "#FF611E")
+		Color("GSRed")
 	}
 	
 	/// Disabled Button Color in Lightmode and Darkmode

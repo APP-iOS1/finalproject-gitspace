@@ -10,35 +10,59 @@ import SwiftUI
 struct ReceivedKnockDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
-	@EnvironmentObject var knockViewManager: KnockViewManager
-	@EnvironmentObject var pushNotificationManager: PushNotificationManager
-	@EnvironmentObject var userStore: UserStore
-	@EnvironmentObject var chatStore: ChatStore
-	@EnvironmentObject var tabBarRouter: GSTabBarRouter
-	
-	@Binding var knock: Knock
-	@State private var isAccepted: Bool = false
+    @EnvironmentObject var knockViewManager: KnockViewManager
+    @EnvironmentObject var pushNotificationManager: PushNotificationManager
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var chatStore: ChatStore
+    @EnvironmentObject var tabBarRouter: GSTabBarRouter
+    @EnvironmentObject var blockedUsers: BlockedUsers
+    
+    @Binding var knock: Knock
+    @State private var isAccepted: Bool = false
     @State private var targetUser: UserInfo? = nil
-	
+    @State private var isReporting: Bool = false
+    @State private var isBlockOtherUser: Bool = false
+    @State private var isEditingKnockMessage: Bool = false
+    @State private var isBlockedUser: Bool = false
+    @State private var isBlocking: Bool = false
+
+    
     var body: some View {
-        
         VStack {
-            VStack {
-                Button {
-                    
-                } label: {
-                    
-                }
-            } // VStack
+            if
+                let targetUser,
+                targetUser.id == "FAILED" {
+                GSText.CustomTextView(
+                    style: .title3,
+                    string: "The user has withdrawn."
+                )
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background {
+                        Color.gsRed
+                    }
+            }
             
             ScrollView {
                 // MARK: - 상단 프로필 정보 뷰
-                if let targetUser {
+                if
+                    let targetUser,
+                    targetUser.id != "FAILED" {
                     TopperProfileView(targetUserInfo: targetUser)
                     
                     Divider()
                         .padding(.vertical, 20)
                         .padding(.horizontal, 5)
+                } else {
+                    Text("\(knock.sentUserName)")
+                        .bold()
+                        .font(.title3)
+                        .foregroundColor(.primary)
+                    
+                    Text("The user has withdrawn.")
+                        .font(.footnote)
+                        .foregroundColor(.gsLightGray2)
+                        .padding(.bottom, 8)
                 }
                 
                  
@@ -49,7 +73,7 @@ struct ReceivedKnockDetailView: View {
                 
                 VStack(spacing: 10) {
                     /// 1. 전송 시간
-					Text("\(knock.knockedDate.dateValue().formattedDateString())")
+                    Text("\(knock.knockedDate.dateValue().formattedDateString())")
                         .font(.footnote)
                         .foregroundColor(.gsLightGray2)
                     
@@ -57,12 +81,18 @@ struct ReceivedKnockDetailView: View {
                     HStack {
                         Text("Knock Message")
                             .font(.subheadline)
-                            .foregroundColor(.gsLightGray1)
+                            .foregroundColor(.gsLightGray2)
                             .bold()
                         
                         Spacer()
+                        
+                        KnockMessageMenu(
+                            knock: $knock,
+                            isReporting: $isReporting,
+                            isEditingKnockMessage: $isEditingKnockMessage
+                        )
                     }
-                    .padding(.leading, 15)
+                    .padding(.horizontal, 20)
                     
                     /// 3. 메세지 내용
                     VStack(alignment: .leading) {
@@ -91,7 +121,9 @@ struct ReceivedKnockDetailView: View {
                 }
             } // ScrollView
             
-            if knock.knockStatus == Constant.KNOCK_WAITING {
+            if let targetUser,
+               knock.knockStatus == Constant.KNOCK_WAITING,
+               targetUser.id != "FAILED" {
                 VStack(spacing: 10) {
                     
                     Divider()
@@ -107,33 +139,30 @@ struct ReceivedKnockDetailView: View {
                         .font(.caption)
                         .foregroundColor(.gsGray2)
                         .padding(.top, -15)
-                        .padding(.bottom)
                         .padding(.horizontal)
+                        .padding(.bottom, 10)
                     
                     GSButton.CustomButtonView(
                         style: .secondary(isDisabled: false)
                     ) {
                         Task {
                             // TODO: PUSH NOTIFICATION
-                            self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                            if let targetUser {
-                                async let newChat = makeNewChat(with: targetUser)
-                                
-                                await chatStore.addChat(await newChat)
-                                
-                                await knockViewManager.updateKnockOnFirestore(
-                                    knock: knock,
-                                    knockStatus: Constant.KNOCK_ACCEPTED,
-                                    newChatID: await newChat.id
-                                )
-                                
-                                await self.sendPushNotification(
-                                    pushNotificationTitle: "Your Knock has been Accepted!",
-                                    to: targetUser
-                                )
-
-                                tabBarRouter.currentPage = .chats
-                            }
+                            async let newChat = makeNewChat(with: targetUser)
+                            
+                            await chatStore.addChat(await newChat)
+                            
+                            await knockViewManager.updateKnockOnFirestore(
+                                knock: knock,
+                                knockStatus: Constant.KNOCK_ACCEPTED,
+                                newChatID: await newChat.id
+                            )
+                            
+                            await self.sendPushNotification(
+                                pushNotificationTitle: "Your Knock has been Accepted!",
+                                to: targetUser
+                            )
+                            
+                            tabBarRouter.currentPage = .chats
                         }
                     } label: {
                         Text("Accept")
@@ -144,39 +173,24 @@ struct ReceivedKnockDetailView: View {
                     } // button: Accept
                     
                     HStack(spacing: 60) {
-                        
-                        /* 블록 기능 미구현으로 버튼 주석 처리
-                        Button {
-                            // TODO: - 언젠가 블록도 해야지? 지금 못할 거면 빼던가.
-                        } label: {
-                            Text("Block")
-                                .bold()
-                                .foregroundColor(.red)
-                        } // Button: Block
-                        
-                        Divider()
-                        */
-                        
                         Button {
                             Task {
                                 // TODO: PUSH NOTIFICATION
                                 self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
-                                if let targetUser {
-                                    
-                                    // TODO: Update Knock decline Message.
-                                    // TODO: Decline 메시지를 작성할 뷰 구현
-                                    await knockViewManager.updateKnockOnFirestore(
-                                        knock: knock,
-                                        knockStatus: Constant.KNOCK_DECLINED,
-                                        declineMessage: ""
-                                    )
-                                    
-                                    // TODO: - decline Message를 Push에 보낼거?
-                                    await self.sendPushNotification(
-                                        pushNotificationTitle: "Your Knock has been declined",
-                                        to: targetUser
-                                    )
-                                }
+                                
+                                // TODO: Update Knock decline Message.
+                                // TODO: Decline 메시지를 작성할 뷰 구현
+                                await knockViewManager.updateKnockOnFirestore(
+                                    knock: knock,
+                                    knockStatus: Constant.KNOCK_DECLINED,
+                                    declineMessage: ""
+                                )
+                                
+                                // TODO: - decline Message를 Push에 보낼거?
+                                await self.sendPushNotification(
+                                    pushNotificationTitle: "Your Knock has been declined",
+                                    to: targetUser
+                                )
                             }
                         } label: {
                             Text("Decline")
@@ -197,6 +211,17 @@ struct ReceivedKnockDetailView: View {
                 Text("You Declined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
             }
         }
+        .reportBlockProcessSheet(
+            reportViewIsPresented: $isReporting,
+            reportType: .knock,
+            suggestViewIsPresented: $isBlockOtherUser,
+            blockViewIsPresented: $isBlocking,
+            isBlockedUser: $isBlockedUser,
+            targetUserInfo: targetUser ?? .getFaliedUserInfo()
+        )
+        .task {
+            self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 if let targetUser {
@@ -206,12 +231,12 @@ struct ReceivedKnockDetailView: View {
                         Text("\(knock.sentUserName)")
                             .bold()
                     } // HStack
-                    .foregroundColor(.black)
                 }
             } // ToolbarItem
         } // toolbar
+        // TODO: - Connect HalfModal
     }
-	
+    
     /**
      푸쉬 알람을 보내는 메소드.
      최초 Knock가 보내지는 SendKnockView를 제외한 곳에서는 노크를 수신한 사람의 응답을 알람으로 발신한다.

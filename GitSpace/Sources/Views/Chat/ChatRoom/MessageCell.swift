@@ -12,35 +12,47 @@ struct MessageCell : View {
     
     let message: Message
     let targetUserInfo: UserInfo
-    var isMine: Bool { return Utility.loginUserID == message.senderID }
+    var isMine: Bool {
+        Utility.loginUserID == message.senderID
+    }
     @EnvironmentObject var messageStore: MessageStore
+    @EnvironmentObject var githubAuthManager: GitHubAuthManager
     
     var body: some View {
         
         switch isMine {
         case true:
-            HStack(alignment: .bottom, spacing: 2) {
+            HStack (
+                alignment: .bottom,
+                spacing: 2
+            ) {
                 Spacer()
                 Text(message.sentDateAsString)
-                    .modifier(MessageTimeModifier())
+                    .modifier(
+                        MessageTimeModifier()
+                    )
                 Text(message.textContent)
-                    .modifier(MessageModifier(isMine: self.isMine))
+                    .modifier(
+                        MessageModifier(isMine: self.isMine)
+                    )
                     .contextMenu {
-                        Button {
-                            messageStore.deletedMessage = message
+                        Button(role: .destructive) {
+                            messageStore.deletedMessage = self.message
                         } label: {
                             Text("Delete")
+                            Image(systemName: "trash")
                         }
                     }
             }
-            //.padding(.trailing, 10)
             
         case false:
             HStack {
                 // Profile Image 부분
                 VStack {
                     NavigationLink {
-                        TargetUserProfileView(user: GithubUser(id: targetUserInfo.githubID, login: targetUserInfo.githubLogin, name: targetUserInfo.githubName, email: targetUserInfo.githubEmail, avatar_url: targetUserInfo.avatar_url, bio: targetUserInfo.bio, company: targetUserInfo.company, location: targetUserInfo.location, blog: targetUserInfo.blog, public_repos: targetUserInfo.public_repos, followers: targetUserInfo.followers, following: targetUserInfo.following))
+                        TargetUserProfileView (
+                            user: githubAuthManager.getGithubUser(FBUser: targetUserInfo)
+                        )
                     } label: {
                         GithubProfileImage(urlStr: targetUserInfo.avatar_url, size: 35)
                     }
@@ -48,13 +60,35 @@ struct MessageCell : View {
                 }
                 
                 // UserName과 Message Bubble 부분
-                VStack (alignment: .leading, spacing: 6) {
-                    GSText.CustomTextView(style: .caption1, string: targetUserInfo.githubLogin)
-                    HStack(alignment: .bottom, spacing: 2) {
+                VStack (
+                    alignment: .leading,
+                    spacing: 6
+                ) {
+                    GSText.CustomTextView(
+                        style: .caption1,
+                        string: targetUserInfo.githubLogin
+                    )
+                    HStack (
+                        alignment: .bottom,
+                        spacing: 2
+                    ) {
                         Text(message.textContent)
-                            .modifier(MessageModifier(isMine: self.isMine))
+                            .modifier(
+                                MessageModifier(isMine: isMine)
+                            )
+                            .contextMenu {
+                                Button {
+                                    messageStore.reportedMessage = message
+                                    messageStore.isReported.toggle()
+                                } label: {
+                                    Text("Report")
+                                    Image(systemName: "exclamationmark.bubble")
+                                }
+                            }
                         Text(message.sentDateAsString)
-                            .modifier(MessageTimeModifier())
+                            .modifier(
+                                MessageTimeModifier()
+                            )
                         Spacer()
                     }
                 }
@@ -86,30 +120,27 @@ struct ChatBubbleShape: Shape {
     let direction: Direction
     
     func path(in rect: CGRect) -> Path {
-        return (direction == .left) ? getLeftBubblePath(in: rect) : getRightBubblePath(in: rect)
-
+        return (direction == .left)
+        ? getLeftBubblePath(in: rect)
+        : getRightBubblePath(in: rect)
     }
     
     func getLeftBubblePath(in rect: CGRect) -> Path {
-        
-        let path = UIBezierPath(roundedRect: rect,
-                                byRoundingCorners: [.bottomRight, .bottomLeft, .topRight],
-                                cornerRadii: CGSize(width: 20, height: 20)
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: [.bottomRight, .bottomLeft, .topRight],
+            cornerRadii: CGSize(width: 20, height: 20)
         )
-        
         return Path(path.cgPath)
     }
     
     func getRightBubblePath(in rect: CGRect) -> Path {
-        
-        let path = UIBezierPath(roundedRect: rect,
-                                byRoundingCorners: [.bottomRight, .bottomLeft, .topLeft],
-                                cornerRadii: CGSize(width: 20, height: 20)
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: [.bottomRight, .bottomLeft, .topLeft],
+            cornerRadii: CGSize(width: 20, height: 20)
         )
-        
         return Path(path.cgPath)
-                                                    
-                                
     }
 }
 

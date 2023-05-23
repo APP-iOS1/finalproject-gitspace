@@ -35,7 +35,6 @@ struct InitialView: View {
             case .signedIn:
                 ContentView(tabBarRouter: tabBarRouter)
                     .preferredColorScheme(selectedAppearance)
-                    .environmentObject(UserStore(currentUserID: Auth.auth().currentUser?.uid ?? ""))
             case .pending:
                 LoadingProgressView()
                     .preferredColorScheme(selectedAppearance)
