@@ -48,7 +48,10 @@ struct TargetUserProfileView: View {
             
             if isBlockedUser {
                 VStack {
-                    GSText.CustomTextView(style: .title3, string: "This user is blocked user")
+                    GSText.CustomTextView(
+                        style: .title3,
+                        string: "This user is blocked user"
+                    )
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
@@ -62,17 +65,29 @@ struct TargetUserProfileView: View {
                 VStack(alignment: .leading) {
                     // MARK: -사람 이미지와 이름, 닉네임 등을 위한 stack.
                     HStack(spacing: 10) {
-                        GithubProfileImage(urlStr: user.avatar_url, size: 60)
+                        GithubProfileImage(
+                            urlStr: user.avatar_url,
+                            size: 60
+                        )
                         VStack(alignment: .leading) {
                             // 유저가 설정한 이름이 존재하는 경우
                             if let name = user.name {
-                                GSText.CustomTextView(style: .title2, string: name)
+                                GSText.CustomTextView(
+                                    style: .title2,
+                                    string: name
+                                )
                                 Spacer()
                                     .frame(height: 8)
                                 // 유저의 깃허브 아이디
-                                GSText.CustomTextView(style: .description, string: user.login)
+                                GSText.CustomTextView(
+                                    style: .description,
+                                    string: user.login
+                                )
                             } else { // 유저가 설정한 이름이 존재하지 않는 경우, 유저의 깃허브 아이디만 보여준다.
-                                GSText.CustomTextView(style: .title2, string: user.login)
+                                GSText.CustomTextView(
+                                    style: .title2,
+                                    string: user.login
+                                )
                             }
                         }
                         Spacer()
@@ -82,7 +97,10 @@ struct TargetUserProfileView: View {
                     if let bio = user.bio {
                         // MARK: - bio
                         HStack() {
-                            GSText.CustomTextView(style: .body1, string: bio)
+                            GSText.CustomTextView(
+                                style: .body1,
+                                string: bio
+                            )
                             Spacer()
                         }
                         .padding(15)
@@ -105,7 +123,10 @@ struct TargetUserProfileView: View {
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(.gsGray2)
                             
-                            GSText.CustomTextView(style: .captionPrimary1, string: company)
+                            GSText.CustomTextView(
+                                style: .captionPrimary1,
+                                string: company
+                            )
                         }
                     }
                     
@@ -118,7 +139,10 @@ struct TargetUserProfileView: View {
                                 .frame(width: 15, height: 15)
                                 .foregroundColor(.gsGray2)
                             
-                            GSText.CustomTextView(style: .captionPrimary1, string: location)
+                            GSText.CustomTextView(
+                                style: .captionPrimary1,
+                                string: location
+                            )
                         }
                     }
                     
@@ -133,8 +157,11 @@ struct TargetUserProfileView: View {
                             
                             if let blogURL = URL(string: blogURLString) {
                                 Link(destination: blogURL) {
-                                    GSText.CustomTextView(style: .captionPrimary1, string: blogURLString)
-                                        .multilineTextAlignment(.leading)
+                                    GSText.CustomTextView(
+                                        style: .captionPrimary1,
+                                        string: blogURLString
+                                    )
+                                    .multilineTextAlignment(.leading)
                                 }
                             }
                         }
@@ -149,12 +176,24 @@ struct TargetUserProfileView: View {
                             .foregroundColor(.gsGray2)
                         
                         NavigationLink {
-                            TargetUserFollowerListView(service: gitHubService, targetUserLogin: user.login, followers: user.followers)
+                            TargetUserFollowerListView(
+                                service: gitHubService,
+                                targetUserLogin: user.login,
+                                followers: user.followers
+                            )
                         } label: {
                             HStack {
-                                GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.followers))
-                                GSText.CustomTextView(style: .sectionTitle, string: "followers")
-                                    .padding(.leading, -2)
+                                GSText.CustomTextView(
+                                    style: .title4,
+                                    string: handleCountUnit(
+                                        countInfo: user.followers
+                                    )
+                                )
+                                GSText.CustomTextView(
+                                    style: .sectionTitle,
+                                    string: "followers"
+                                )
+                                .padding(.leading, -2)
                             }
                         } // NavigationLink
                         
@@ -164,12 +203,24 @@ struct TargetUserProfileView: View {
                             .padding(.trailing, -9)
                         
                         NavigationLink {
-                            TargetUserFollowingListView(service: gitHubService, targetUserLogin: user.login, following: user.following)
+                            TargetUserFollowingListView(
+                                service: gitHubService,
+                                targetUserLogin: user.login,
+                                following: user.following
+                            )
                         } label: {
                             HStack {
-                                GSText.CustomTextView(style: .title4, string: handleCountUnit(countInfo: user.following))
-                                GSText.CustomTextView(style: .sectionTitle, string: "following")
-                                    .padding(.leading, -2)
+                                GSText.CustomTextView(
+                                    style: .title4,
+                                    string: handleCountUnit(
+                                        countInfo: user.following
+                                    )
+                                )
+                                GSText.CustomTextView(
+                                    style: .sectionTitle,
+                                    string: "following"
+                                )
+                                .padding(.leading, -2)
                             }
                         } // NavigationLink
                     }
@@ -206,11 +257,17 @@ struct TargetUserProfileView: View {
                                 }
                             } label: {
                                 targetUserProfileViewModel.isFollowingUser ?
-                                GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
-                                    .frame(maxWidth: .infinity)
+                                GSText.CustomTextView(
+                                    style: .buttonTitle1,
+                                    string: "✅ Following"
+                                )
+                                .frame(maxWidth: .infinity)
                                 :
-                                GSText.CustomTextView(style: .buttonTitle1, string: "➕ Follow")
-                                    .frame(maxWidth: .infinity)
+                                GSText.CustomTextView(
+                                    style: .buttonTitle1,
+                                    string: "➕ Follow"
+                                )
+                                .frame(maxWidth: .infinity)
                             }
                             
                             Spacer()
@@ -222,15 +279,20 @@ struct TargetUserProfileView: View {
                                 ) {
                                     dismiss()
                                 } label: {
-                                    GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
-                                        .frame(maxWidth: .infinity)
+                                    GSText.CustomTextView(
+                                        style: .buttonTitle1,
+                                        string: "Knock"
+                                    )
+                                    .frame(maxWidth: .infinity)
                                 }
                             } else {
                                 GSNavigationLink(style: .secondary()) {
                                     KnockCommunicationRouter(targetGithubUser: user)
                                 } label: {
-                                    GSText.CustomTextView(style: .buttonTitle1, string: "Knock")
-                                        .frame(maxWidth: .infinity)
+                                    GSText.CustomTextView(
+                                        style: .buttonTitle1,
+                                        string: "Knock")
+                                    .frame(maxWidth: .infinity)
                                 }
                             }
                         }
@@ -259,11 +321,17 @@ struct TargetUserProfileView: View {
                             }
                         } label: {
                             targetUserProfileViewModel.isFollowingUser ?
-                            GSText.CustomTextView(style: .buttonTitle1, string: "✅ Following")
-                                .frame(maxWidth: .infinity)
+                            GSText.CustomTextView(
+                                style: .buttonTitle1,
+                                string: "✅ Following"
+                            )
+                            .frame(maxWidth: .infinity)
                             :
-                            GSText.CustomTextView(style: .buttonTitle1, string: "➕ Follow")
-                                .frame(maxWidth: .infinity)
+                            GSText.CustomTextView(
+                                style: .buttonTitle1,
+                                string: "➕ Follow"
+                            )
+                            .frame(maxWidth: .infinity)
                         }
                         .padding(.vertical, 10)
                     }
@@ -282,7 +350,10 @@ struct TargetUserProfileView: View {
                 } else {
                     VStack {
                         HStack {
-                            GSText.CustomTextView(style: .caption2, string: "README.md")
+                            GSText.CustomTextView(
+                                style: .caption2,
+                                string: "README.md"
+                            )
                             Spacer()
                         }
                         
@@ -388,7 +459,6 @@ struct TargetUserProfileView: View {
                         .frame(width: 40, height: 40)
                 }
             }
-            
         } //  body
     }
 }
