@@ -111,7 +111,7 @@ struct BlockView: View, Blockable {
 
 struct BlockView_Previews: PreviewProvider {
     static var previews: some View {
-        BlockView(isBlockViewShowing: .constant(true), isBlockedUser: .constant(false), targetUser: UserInfo(id: "", createdDate: Date.now, deviceToken: "", blockedUserIDs: ["1"], githubID: 0, githubLogin: "", githubName: "test", githubEmail: "test", avatar_url: "test", bio: nil, company: nil, location: nil, blog: nil, public_repos: 0, followers: 0, following: 0))
+        BlockView(isBlockViewShowing: .constant(true), isBlockedUser: .constant(false), targetUser: UserInfo(id: "", createdDate: Date.now, deviceToken: "", blockedUserIDs: ["1"], blockedByUserIDs: ["2"], githubID: 0, githubLogin: "", githubName: "test", githubEmail: "test", avatar_url: "test", bio: nil, company: nil, location: nil, blog: nil, public_repos: 0, followers: 0, following: 0))
             .environmentObject(BlockedUsers())
     }
 }
