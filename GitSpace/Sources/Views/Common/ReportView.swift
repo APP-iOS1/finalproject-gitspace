@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct ReportView: View {
     @Environment(\.dismiss) private var dismiss
@@ -18,6 +19,7 @@ struct ReportView: View {
     @State private var reportReason: String?
     @State private var reportReasonNumber: Int?
     
+    var reportType: Report.ReportType
     var targetUser: UserInfo
     
     var isReportReasonSelected: Bool {
@@ -129,13 +131,26 @@ Gitspace operation team will check and help you.
                 style: .secondary(isDisabled: !isReportReasonSelected)
             ) {
                 /* report method call */
-                
-                /* report view dismiss -> suggest block view appear */
-                dismiss()
-                isReportViewShowing = false
-                if !isBlocked {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { /// animation이 끝나는데 시간이 걸리기 때문에, true로 바꾸는 코드를 조금 늦춘다. 그렇지 않으면 모달이 띄워지는데 충돌이 일어난다.
-                        isSuggestBlockViewShowing = true
+                if
+                    let reportReasonNumber,
+                    let reporter = userInfoManager.currentUser {
+                    Task {
+                        let report: Report = Report.init(
+                            reason: Report.ReportReason.allCases[reportReasonNumber].rawValue,
+                            reporterID: reporter.id,
+                            targetUserID: targetUser.id,
+                            date: Timestamp(date: Date.now),
+                            type: reportType.rawValue
+                        )
+                        try await reportTarget(by: reporter, with: report)
+                        /* report view dismiss -> suggest block view appear */
+                        dismiss()
+                        isReportViewShowing = false
+                        if !isBlocked {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { /// animation이 끝나는데 시간이 걸리기 때문에, true로 바꾸는 코드를 조금 늦춘다. 그렇지 않으면 모달이 띄워지는데 충돌이 일어난다.
+                                isSuggestBlockViewShowing = true
+                            }
+                        }
                     }
                 }
             } label: {
@@ -146,7 +161,7 @@ Gitspace operation team will check and help you.
     }
 }
 
-extension ReportView: Blockable { }
+extension ReportView: Blockable, Reportable { }
 
 //struct ReportView_Previews: PreviewProvider {
 //    static var previews: some View {
