@@ -23,6 +23,9 @@ struct ReceivedKnockDetailView: View {
     @State private var isReporting: Bool = false
     @State private var isBlockOtherUser: Bool = false
     @State private var isEditingKnockMessage: Bool = false
+    @State private var isBlockedUser: Bool = false
+    @State private var isBlocking: Bool = false
+
     
     var body: some View {
         VStack {
@@ -208,16 +211,14 @@ struct ReceivedKnockDetailView: View {
                 Text("You Declined \(knock.sentUserName)'s knock at \(knock.declinedDate?.dateValue() ?? knock.knockedDate.dateValue())")
             }
         }
-        .sheet(isPresented: $isReporting) {
-            if let targetUser {
-                ReportView(
-                    isReportViewShowing: $isReporting,
-                    isSuggestBlockViewShowing: $isBlockOtherUser,
-                    reportType: .knock,
-                    targetUser: targetUser
-                )
-            }
-        }
+        .reportBlockProcessSheet(
+            reportViewIsPresented: $isReporting,
+            reportType: .knock,
+            suggestViewIsPresented: $isBlockOtherUser,
+            blockViewIsPresented: $isBlocking,
+            isBlockedUser: $isBlockedUser,
+            targetUserInfo: targetUser ?? .getFaliedUserInfo()
+        )
         .task {
             self.targetUser = await userStore.requestUserInfoWithID(userID: knock.sentUserID)
         }

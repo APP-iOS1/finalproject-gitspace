@@ -18,7 +18,9 @@ struct KnockHistoryView: View {
     
     @State private var targetUserInfo: UserInfo? = nil
     @State private var isReporting: Bool = false
+    @State private var isSuggestBlocking: Bool = false
     @State private var isBlocking: Bool = false
+    @State private var isBlockedUser: Bool = false
     
     @State private var editedKnockMessage: String = ""
     @State private var isEditingKnockMessage: Bool = false
@@ -301,16 +303,14 @@ struct KnockHistoryView: View {
             }
             .padding(.horizontal, 20)
         }
-        .sheet(isPresented: $isReporting) {
-            if let targetUser = targetUserInfo {
-                ReportView(
-                    isReportViewShowing: $isReporting,
-                    isSuggestBlockViewShowing: $isBlocking,
-                    reportType: .knock,
-                    targetUser: targetUser
-                )
-            }
-        }
+        .reportBlockProcessSheet(
+            reportViewIsPresented: $isReporting,
+            reportType: .knock,
+            suggestViewIsPresented: $isSuggestBlocking,
+            blockViewIsPresented: $isBlocking,
+            isBlockedUser: $isBlockedUser,
+            targetUserInfo: targetUserInfo ?? .getFaliedUserInfo()
+        )
         .onTapGesture {
             self.endTextEditing()
         }
