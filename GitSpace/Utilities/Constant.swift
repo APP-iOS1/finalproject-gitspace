@@ -52,6 +52,7 @@ public enum Constant {
         static let FIELD_GITHUB_ID: String = "githubID"
         static let FIELD_DEVICE_TOKEN: String = "deviceToken"
         static let FIELD_BLOCKED_USER_IDS: String = "blockedUserIDs"
+        static let FIELD_BLOCKED_BY_USER_IDS: String = "blockedByUserIDs"
         static let FIELD_IS_KNOCK_PUSH_AVAILABLE: String = "isKnockPushAvailable"
         static let FIELD_IS_CHAT_PUSH_AVAILABLE: String = "isChatPushAvailable"
         
