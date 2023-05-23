@@ -90,6 +90,14 @@ extension Blockable {
                         FieldValue.arrayUnion([targetUser.id])
                 ])
             
+            try await db
+                .collection(Constant.FirestorePathConst.COLLECTION_USER_INFO)
+                .document(targetUser.id)
+                .updateData([
+                    Constant.FirestorePathConst.FIELD_BLOCKED_BY_USER_IDS:
+                        FieldValue.arrayUnion([currentUser.id])
+                ])
+            
             return .success(())
         } catch {
             return .failure(.blockCreateFailed)
@@ -103,6 +111,14 @@ extension Blockable {
     ) async throws -> Result<Void, BlockError> {
         let db = Firestore.firestore()
         do {
+            try await db
+                .collection(Constant.FirestorePathConst.COLLECTION_USER_INFO)
+                .document(targetUser.id)
+                .updateData([
+                    Constant.FirestorePathConst.FIELD_BLOCKED_BY_USER_IDS:
+                        FieldValue.arrayRemove([currentUser.id])
+                ])
+            
             try await db
                 .collection(Constant.FirestorePathConst.COLLECTION_USER_INFO)
                 .document(currentUser.id)
