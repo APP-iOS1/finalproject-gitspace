@@ -5,8 +5,8 @@
 //  Created by 박제균 on 2023/02/14.
 //
 
-import SwiftUI
 import RichText
+import SwiftUI
 
 // MARK: - gitHubUser 필요
 
@@ -288,12 +288,10 @@ struct TargetUserProfileView: View {
             } else {
                 isBlockedUser = false
             }
-            isGitSpaceUser = userInfoManager.users.contains { $0.githubID == user.id }
         }
         .task {
             targetUserInfo = await userInfoManager.requestUserInfoWithGitHubID(githubID: user.id)
-            isGitSpaceUser = userInfoManager.users.contains { $0.githubLogin == self.user.login }
-            
+            targetUserInfo == nil ? (isGitSpaceUser = false) : (isGitSpaceUser = true)
             let readMeRequestResult = await targetUserProfileViewModel.requestUserReadme(user: user.login)
             let isFollowingTargetUser = await targetUserProfileViewModel.checkAuthenticatedUserIsFollowing(who: user.login)
             
@@ -331,11 +329,11 @@ struct TargetUserProfileView: View {
             }
         }
         .sheet(isPresented: $isReportViewShowing) {
-            if let targetUser = targetUserInfo {
+            if let targetUserInfo {
                 ReportView(
                     isReportViewShowing: $isReportViewShowing,
                     isSuggestBlockViewShowing: $isSuggestBlockViewShowing,
-                    targetUser: targetUser
+                    targetUser: targetUserInfo
                 )
             }
         }
