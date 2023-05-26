@@ -1,4 +1,7 @@
 # [🌌 GitSpace](https://gitspace.tistory.com/)
+> 1.0.0 버전 배포 완료
+
+<a href="https://apps.apple.com/kr/app/gitspace/id6446034470" target="_blank"><img src="https://github.com/APPSCHOOL1-REPO/finalproject-gitspace/assets/50159740/e72ab909-9d0d-4e8e-a3e6-d6bcf776702d" width=200></a>
 
 ---
 
@@ -11,6 +14,8 @@
 ## ✨ 앱 소개(ADS)
 
 - 사용자가 스타한 레포지토리를 관리하고 그 레포지토리의 기여자와 자유롭게 네트워킹하고 소통할 수 있는 앱입니다.
+
+
 
 ---
 
