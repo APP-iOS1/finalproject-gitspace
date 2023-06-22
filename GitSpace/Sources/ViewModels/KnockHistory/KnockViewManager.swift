@@ -192,11 +192,21 @@ extension KnockViewManager {
 		searchText: String,
 		userSelectedTab: String
 	) -> Bool {
-		if isSearching, userSelectedTab == Constant.KNOCK_RECEIVED { // 검색중 + 내 수신함
-																	 // 현재 내가 선택한 필터 옵션과 같아야 하고, 내 수신함에는 보낸 사람의 정보를 가져야 한다.
-			return knock.knockStatus == equalsToKnockStatus && knock.sentUserName.contains(searchText, isCaseInsensitive: true)
+		if isSearching,
+           userSelectedTab == Constant.KNOCK_RECEIVED {
+            // 검색중 + 내 수신함
+            // 현재 내가 선택한 필터 옵션과 같아야 하고, 내 수신함에는 보낸 사람의 정보를 가져야 한다.
+			return knock.knockStatus == equalsToKnockStatus &&
+            knock.sentUserName.contains(
+                searchText,
+                isCaseInsensitive: true
+            )
 		} else if isSearching, userSelectedTab == Constant.KNOCK_SENT { // 검색중 + 내 발신함
-			return knock.knockStatus == equalsToKnockStatus && knock.receivedUserName.contains(searchText, isCaseInsensitive: true)
+			return knock.knockStatus == equalsToKnockStatus &&
+            knock.receivedUserName.contains(
+                searchText,
+                isCaseInsensitive: true
+            )
 		} else if userSelectedTab == Constant.KNOCK_RECEIVED {
 			return knock.knockStatus == equalsToKnockStatus
 		} else if userSelectedTab == Constant.KNOCK_SENT {
@@ -205,7 +215,10 @@ extension KnockViewManager {
 		return false
 	}
     
-    public func sortedByDateValue(lhs: Knock, rhs: Knock) -> Bool {
+    public func sortedByDateValue(
+        lhs: Knock,
+        rhs: Knock
+    ) -> Bool {
         lhs.knockedDate.dateValue() > rhs.knockedDate.dateValue()
     }
 }
@@ -225,16 +238,34 @@ extension KnockViewManager {
                 snapshot.documentChanges.forEach { docDiff in
                     switch docDiff.type {
                     case .added:
-                        if let newKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
-                            self.appendKnockElementInTempList(newKnock: newKnock, currentUser: currentUser)
+                        if let newKnock = self.decodeKnockElementForListener(
+                            with: docDiff,
+                            currentUser: currentUser
+                        ) {
+                            self.appendKnockElementInTempList(
+                                newKnock: newKnock,
+                                currentUser: currentUser
+                            )
                         }
                     case .modified:
-                        if let diffKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
-                            self.updateTempKnockList(diffKnock: diffKnock, currentUser: currentUser)
+                        if let diffKnock = self.decodeKnockElementForListener(
+                            with: docDiff,
+                            currentUser: currentUser
+                        ) {
+                            self.updateTempKnockList(
+                                diffKnock: diffKnock,
+                                currentUser: currentUser
+                            )
                         }
                     case .removed:
-                        if let removedKnock = self.decodeKnockElementForListener(with: docDiff, currentUser: currentUser) {
-                            self.removeKnocksInTempKnockList(removedKnock: removedKnock, currentUser: currentUser)
+                        if let removedKnock = self.decodeKnockElementForListener(
+                            with: docDiff,
+                            currentUser: currentUser
+                        ) {
+                            self.removeKnocksInTempKnockList(
+                                removedKnock: removedKnock,
+                                currentUser: currentUser
+                            )
                         }
                     }
                 }
@@ -268,6 +299,7 @@ extension KnockViewManager {
 	
 	/**
      1. 만들어진 노크를 DB에 등록합니다.
+     - Important: User Created Contents는 모두 Base String으로 콘솔에 저장됩니다.
      */
 	public func createKnockOnFirestore(knock: Knock) async -> Void {
 		let document = firebaseDatabase.document("\(knock.id)")
@@ -276,10 +308,10 @@ extension KnockViewManager {
 			try await document.setData([
 				"id": knock.id,
 				"knockedDate": knock.knockedDate,
-				"declineMessage": knock.declineMessage ?? "",
+                "declineMessage": knock.declineMessage?.asBase64 ?? "",
 				"knockCategory": knock.knockCategory,
 				"knockStatus": Constant.KNOCK_WAITING,
-				"knockMessage": knock.knockMessage,
+                "knockMessage": knock.knockMessage.asBase64 ?? "암호화",
 				"receivedUserName": knock.receivedUserName,
 				"sentUserName": knock.sentUserName,
 				"sentUserID": knock.sentUserID,
@@ -312,7 +344,8 @@ extension KnockViewManager {
                 let isKnockMessageEdited,
                 isKnockMessageEdited {
                 try await document.updateData([
-                    "knockMessage": knock.knockMessage
+                    // !!!: base String으로 콘솔 저장
+                    "knockMessage": knock.knockMessage.asBase64 ?? ""
                 ])
             }
             
@@ -326,7 +359,8 @@ extension KnockViewManager {
             case Constant.KNOCK_DECLINED:
                 try await document.setData([
                     "declinedDate": Timestamp(date: .now),
-                    "declineMessage": declineMessage ?? "\(knock.receivedUserName) decided not to give you a decline message."
+                    // !!!: base String으로 콘솔 저장
+                    "declineMessage": declineMessage?.asBase64 ?? "\(knock.receivedUserName) decided not to give you a decline message."
                 ], merge: true)
                 
             default:
