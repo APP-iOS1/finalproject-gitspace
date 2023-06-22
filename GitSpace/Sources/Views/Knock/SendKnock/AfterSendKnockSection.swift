@@ -44,19 +44,22 @@ struct AfterSendKnockSection: View {
             }
             .padding(.leading, 20)
             
-            GSCanvas.CustomCanvasView.init(
+            GSCanvas.CustomCanvasView(
                 style: .primary,
                 content: {
                     HStack {
                         Spacer()
                         GSText.CustomTextView(
                             style: .captionPrimary1,
-                            string: "\(knockViewManager.newKnock?.knockMessage ?? "")")
+                            string: "\(knockViewManager.newKnock?.knockMessage.decodedBase64String ?? "")")
                         Spacer()
                     }
                 })
             .padding(.horizontal, 20)
             .padding(.vertical, 5)
+            .onAppear {
+                print("DECODED?", knockViewManager.newKnock?.knockMessage.decodedBase64String)
+            }
         }
     }
 }

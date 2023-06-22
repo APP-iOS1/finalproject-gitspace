@@ -39,7 +39,7 @@ struct SendKnockView: View {
             if let targetUserInfo {
                 ScrollViewReader { proxy in
                     ScrollView {
-                        HStack {}.id(topID)
+                        HStack { }.id(topID)
                         VStack(alignment: .center, spacing: 10) {
                             TopperProfileView(
                                 targetUserInfo: targetUserInfo
@@ -101,8 +101,7 @@ struct SendKnockView: View {
                             
                         }
                         
-                        HStack {
-                        }
+                        HStack { }
                         .id(bottomID)
                         .frame(height: isKnockSent ? 5 : 280)
                     }
