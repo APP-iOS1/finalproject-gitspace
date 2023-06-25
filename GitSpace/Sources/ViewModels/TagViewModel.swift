@@ -101,7 +101,7 @@ final class TagViewModel: ObservableObject {
                 .getDocuments()
             for document in snapshot.documents {
                 let id = document.data()[const.FIELD_ID] as? String ?? ""
-                let name = document.data()[const.FIELD_TAGNAME] as? String ?? ""
+                let tagName = document.data()[const.FIELD_TAGNAME] as? String ?? ""
                 let repositories = document.data()[const.FIELD_REPOSITORIES] as? [String] ?? []
                 tagNameList.append(Tag(id: id, tagName: name, repositories: repositories))
             }
