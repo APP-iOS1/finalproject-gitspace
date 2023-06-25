@@ -43,6 +43,7 @@ final class TagViewModel: ObservableObject {
     func registerTag(tagName: String) async -> Tag? {
         do {
             let tid = UUID().uuidString
+            guard let encodeTagName = tagName.asBase64 else { return nil }
             try await database.collection(const.COLLECTION_USER_INFO)
                 .document(Auth.auth().currentUser?.uid ?? "")
                 .collection(const.COLLECTION_TAG)
