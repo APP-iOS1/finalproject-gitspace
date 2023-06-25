@@ -73,7 +73,6 @@ final class TagViewModel: ObservableObject {
         }
     }
     
-    // FIXME: 수정 시나리오 완성 후 메서드 구현
     /*
     // MARK: Update Custom Tag
     /// 특정 사용자 태그를 수정합니다.
@@ -125,7 +124,6 @@ final class TagViewModel: ObservableObject {
         }
     }
     
-    // FIXME: 정말 필요한 함수인지 확인하기
     /*
     // MARK: Update Repository Tag
     /// 선택된 레포지토리의 태그를 수정합니다.
