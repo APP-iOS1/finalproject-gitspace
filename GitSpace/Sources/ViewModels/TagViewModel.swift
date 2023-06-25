@@ -103,7 +103,12 @@ final class TagViewModel: ObservableObject {
                 let id = document.data()[const.FIELD_ID] as? String ?? ""
                 let tagName = document.data()[const.FIELD_TAGNAME] as? String ?? ""
                 let repositories = document.data()[const.FIELD_REPOSITORIES] as? [String] ?? []
-                tagNameList.append(Tag(id: id, tagName: tagName, repositories: repositories))
+                /// 이미 사용 중인 사용자들의 Tag 데이터는 약식 암호화가 적용되지 않아서 임시로 분기 처리함.
+                if let decodedTagName = tagName.decodedBase64String {
+                    tagNameList.append(Tag(id: id, tagName: decodedTagName, repositories: repositories))
+                } else {
+                    tagNameList.append(Tag(id: id, tagName: tagName, repositories: repositories))
+                }
             }
             return tagNameList
         } catch {
