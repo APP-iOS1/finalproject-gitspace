@@ -56,7 +56,7 @@ final class TagViewModel: ObservableObject {
                 .setData([
                     const.FIELD_ID: tid,
                     const.FIELD_TAGNAME: encodeTagName,
-                    const.FIELD_REPOSITORIES: []
+                    const.FIELD_REPOSITORIES: Array<String>()
                 ])
             return Tag(id: tid, tagName: tagName, repositories: [])
         } catch {
