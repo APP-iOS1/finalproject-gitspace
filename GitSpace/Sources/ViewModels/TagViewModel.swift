@@ -50,7 +50,7 @@ final class TagViewModel: ObservableObject {
                 .document(tid)
                 .setData([
                     const.FIELD_ID: tid,
-                    const.FIELD_TAGNAME: tagName,
+                    const.FIELD_TAGNAME: encodeTagName,
                     const.FIELD_REPOSITORIES: []
                 ])
             return Tag(id: tid, tagName: tagName, repositories: [])
