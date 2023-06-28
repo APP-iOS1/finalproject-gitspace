@@ -37,9 +37,9 @@ struct ChatDetailKnockSection: View {
             
             GSCanvas.CustomCanvasView(style: .primary) {
                 HStack {
-                    Spacer()
-                    GSText.CustomTextView(style: .body1, string: chat.knockContent)
-                    Spacer()
+                    GSText.CustomTextView(style: .body1,
+                                          string: chat.knockContent)
+                    .frame(maxWidth: .infinity)
                 }
             }
             .padding(.horizontal, 20)
