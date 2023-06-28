@@ -14,7 +14,8 @@ struct ChatDetailKnockSection: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            GSText.CustomTextView(style: .sectionTitle, string: chat.knockContentDateAsString)
+            GSText.CustomTextView(style: .sectionTitle,
+                                  string: chat.knockContentDateAsString)
                 .padding(.bottom, 10)
             
             HStack {
