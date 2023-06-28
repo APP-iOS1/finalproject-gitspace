@@ -42,10 +42,6 @@ struct ChatDetailKnockSection: View {
                 }
             }
             .padding(.horizontal, 20)
-            
-//            Text(chat.knockContent)
-//                .modifier(KnockMessageModifier())
-           
         }
     }
 }
