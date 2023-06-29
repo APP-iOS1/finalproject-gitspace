@@ -79,7 +79,6 @@ struct StarredView: View {
                             GSButton.CustomButtonView(
                                 style: .tag(
                                     isAppliedInView: true
-//                                    isSelectedInAddTagSheet: false
                                 )
                             ) {
                                 withAnimation {
