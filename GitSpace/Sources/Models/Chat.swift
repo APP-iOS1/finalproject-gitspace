@@ -16,7 +16,7 @@ struct Chat: Identifiable, Codable {
     let joinedMemberIDs: [String] // 채팅방에 참여한 유저 ID 리스트
     var lastContent: String // 마지막 메세지 내용
     var lastContentDate: Date // 마지막 메세지 날짜
-    let knockContent: String // 노크 메세지 내용
+    var knockContent: String // 노크 메세지 내용
     let knockContentDate: Date // 노크 메세지 날짜
     var unreadMessageCount: [String : Int] // 읽지 않은 메시지 갯수 (userID : 읽지 않은 메시지 갯수)
     
@@ -74,5 +74,19 @@ struct Chat: Identifiable, Codable {
             knockContentDate: .now,
             unreadMessageCount: [:]
         )
+    }
+    
+    static func encodedChat(with chat: Chat) -> Chat {
+        var encodedChat: Chat = chat
+        encodedChat.knockContent = chat.knockContent.asBase64 ?? ""
+        encodedChat.lastContent = chat.lastContent.asBase64 ?? ""
+        return encodedChat
+    }
+    
+    static func decodedChat(with chat: Chat) -> Chat {
+        var decodedChat: Chat = chat
+        decodedChat.knockContent = chat.knockContent.decodedBase64String ?? ""
+        decodedChat.lastContent = chat.lastContent.decodedBase64String ?? ""
+        return decodedChat
     }
 }
