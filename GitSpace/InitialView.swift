@@ -61,8 +61,20 @@ struct InitialView: View {
             }
         )
         .onViewDidLoad {
-            if githubAuthManager.authentification.currentUser != nil && UserDefaults.standard.string(forKey: "AT") != nil {
-                Task {
+            Task {
+                let newVersionCheckResult = await AppStoreUpdateChecker.isNewVersionAvailable()
+                
+                switch newVersionCheckResult {
+                case .success(let isNewVersionAvailable):
+                    showingForceUpdateAlert = isNewVersionAvailable
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                
+                if githubAuthManager.authentification.currentUser != nil
+                    && UserDefaults.standard.string(forKey: "AT") != nil
+                    && showingForceUpdateAlert == false {
                     await githubAuthManager.reauthenticateUser()
                     githubAuthManager.state = .signedIn
                 }
