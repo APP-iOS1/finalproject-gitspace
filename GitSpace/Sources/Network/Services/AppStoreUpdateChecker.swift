@@ -7,6 +7,18 @@
 
 import Foundation
 
+enum AppStoreUpdateCheckerError: Error {
+    case invalidInfoDictionary
+    case invalidBundleID
+    case invalidCurrentVersionNumber
+    case invalidItunesURL
+    case invalidResponse
+    case failToDecoding
+    case unexpectedStatusCode
+    case unknown
+    case emptyResponse
+}
+
 final class AppStoreUpdateChecker {
     
     
