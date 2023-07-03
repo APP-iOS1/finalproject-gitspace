@@ -48,8 +48,8 @@ final class AppStoreUpdateChecker {
         }
         
         /// 클라이언트에서 제공하는 앱 버전은 마지막 숫자가 0이면 스킵하여 제공함
-        /// API에서 제공받은 버전과 비교하기 위해 스킵된 경우 동일한 형식으로 맞추기 위해 .0을 뒤에 추가
         /// ex) 1.0.0 -> 1.0
+        /// API에서 제공받은 버전과 비교하기 위해 스킵된 경우 동일한 형식으로 맞추기 위해 .0을 뒤에 추가
         if currentVersionNumber.components(separatedBy: ".").count <= 2 {
             currentVersionNumber += ".0"
         }
