@@ -54,10 +54,10 @@ struct InitialView: View {
                         exit(0)
                     }
                 } label: {
-                    Text("OK")
+                    Text("Update")
                 }
             }, message: {
-                Text("The latest version has been released. Please update it.")
+                Text("There is a new version available. Please update your app.")
             }
         )
         .onViewDidLoad {
