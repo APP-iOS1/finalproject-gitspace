@@ -128,6 +128,24 @@ final class EncryptionUpdateViewModel {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
+    func readKnockDocuments() async {
+        do {
+            print("[알림] 모든 Knock를 출력합니다.")
+            
+            let snapshot = try await db
+                .collection("Knock")
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                guard let knock = document.data()["knockMessage"] as? String else { return }
+                print(knock)
+            }
+            
+            print("[알림] 모든 Knock를 출력했습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
+    }
 
   }
 
