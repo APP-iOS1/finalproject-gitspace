@@ -128,6 +128,31 @@ final class EncryptionUpdateViewModel {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
+    
+    func applyTagEncryption() async {
+        do {
+            print("[알림] 모든 Tag를 암호화합니다.")
+            
+            let snapshot = try await db
+                .collection(const.COLLECTION_USER_INFO)
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                let tags = try await document.reference.collection(const.COLLECTION_TAG).getDocuments()
+                
+                for tag in tags.documents {
+                    guard let tagName = tag.data()["tagName"] as? String else { return }
+                    print("\(tagName)")
+                    try await tag.reference.updateData(["tagName": tagName.asBase64 ?? ""])
+                }
+            }
+            
+            print("[알림] 모든 Tag의 암호화가 완료되었습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
+    }
+    
     func readKnockDocuments() async {
         do {
             print("[알림] 모든 Knock를 출력합니다.")
