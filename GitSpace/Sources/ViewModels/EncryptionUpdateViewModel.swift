@@ -171,6 +171,25 @@ final class EncryptionUpdateViewModel {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
+    
+    func applyKnockEncryption() async {
+        do {
+            print("[알림] 모든 Knock를 암호화 합니다.")
 
-  }
+            let snapshot = try await db
+                .collection("Knock")
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                guard let knock = document.data()["knockMessage"] as? String else { return }
+                
+                try await document.reference.updateData(["knockMessage": knock.asBase64 ?? ""])
+            }
+            
+            print("[알림] 모든 Knock를 암호화 했습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
+    }
+}
 
