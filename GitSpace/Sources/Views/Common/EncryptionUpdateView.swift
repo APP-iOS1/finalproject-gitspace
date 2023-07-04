@@ -133,6 +133,24 @@ struct EncryptionUpdateView: View {
             
             Button("Cancel", role: .cancel) { }
         }
+        
+        GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+            isShowingReadKnockAlert = true
+        } label: {
+            GSText.CustomTextView(
+                style: .buttonTitle1,
+                string: "read knock"
+            )
+        }
+        .alert("Knock 컬렉션 Document들의 knockMessage를 콘솔에 보여줍니다", isPresented: $isShowingReadKnockAlert) {
+            Button("OK", role: .destructive) {
+                Task {
+                    await viewModel.readKnockDocuments()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
     }
 
 }
