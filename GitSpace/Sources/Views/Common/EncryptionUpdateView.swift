@@ -96,6 +96,24 @@ struct EncryptionUpdateView: View {
           Button("Cancel", role: .cancel) { }
       }
 
+        
+        GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+            isShowingReadTagAlert = true
+        } label: {
+            GSText.CustomTextView(
+                style: .buttonTitle1,
+                string: "read tag"
+            )
+        }
+        .alert("UserInfo/Tag 컬렉션 Document들의 tagName을 콘솔에 보여줍니다", isPresented: $isShowingReadTagAlert) {
+            Button("OK", role: .destructive) {
+                Task {
+                    await viewModel.readTagDocuments()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
     }
 
 }
