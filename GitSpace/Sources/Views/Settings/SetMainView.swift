@@ -198,6 +198,17 @@ struct SetMainView: View {
                 } header: {
                     Text("LEGAL")
                 }
+
+                Section {
+                    NavigationLink {
+                        EncryptionUpdateView(viewModel: .init())
+                    } label: {
+                        Text("Firebase Data Encryption Update")
+                    }
+                } header: {
+                    Text("Update")
+                }
+
             } // List
             .navigationBarTitle("Settings", displayMode: .inline)
     } // body
