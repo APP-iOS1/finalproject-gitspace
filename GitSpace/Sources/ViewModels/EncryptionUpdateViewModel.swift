@@ -36,51 +36,47 @@ final class EncryptionUpdateViewModel {
     }
     
     func applyChatContentEncryption() async {
-
-      do {
-          let snapshot = try await db
-              .collection(const.COLLECTION_CHAT)
-              .getDocuments()
-
-          for document in snapshot.documents {
-              guard let knockContent = document.data()["knockContent"] as? String else { return }
-              guard let lastContent = document.data()["lastContent"] as? String else { return }
-
-              try await document.reference.updateData(["knockContent": knockContent.asBase64 ?? ""])
-              try await document.reference.updateData(["lastContent": lastContent.asBase64 ?? ""])
-          }
-      } catch {
-          print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
-      }
-
+        do {
             print("[알림] 모든 ChatContent를 암호화합니다.")
             
+            let snapshot = try await db
+                .collection(const.COLLECTION_CHAT)
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                guard let knockContent = document.data()["knockContent"] as? String else { return }
+                guard let lastContent = document.data()["lastContent"] as? String else { return }
+                
+                try await document.reference.updateData(["knockContent": knockContent.asBase64 ?? ""])
+                try await document.reference.updateData(["lastContent": lastContent.asBase64 ?? ""])
+            }
             
             print("[알림] 모든 ChatContent의 암호화가 완료되었습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
     }
     
     func applyDecryption() async {
-
-      do {
-          let snapshot = try await db
-              .collection(const.COLLECTION_CHAT)
-              .getDocuments()
-
-          for document in snapshot.documents {
-              guard let knockContent = document.data()["knockContent"] as? String else { return }
-              guard let lastContent = document.data()["lastContent"] as? String else { return }
-
-            try await document.reference.updateData(["knockContent": knockContent.decodedBase64String ?? ""])
-              try await document.reference.updateData(["lastContent": lastContent.decodedBase64String ?? ""])
-          }
-      } catch {
-          print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
-      }
-
+        do {
             print("[알림] 모든 ChatContent를 복호화합니다.")
             
+            let snapshot = try await db
+                .collection(const.COLLECTION_CHAT)
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                guard let knockContent = document.data()["knockContent"] as? String else { return }
+                guard let lastContent = document.data()["lastContent"] as? String else { return }
+                
+                try await document.reference.updateData(["knockContent": knockContent.decodedBase64String ?? ""])
+                try await document.reference.updateData(["lastContent": lastContent.decodedBase64String ?? ""])
+            }
             
             print("[알림] 모든 ChatContent의 복호화가 완료되었습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
         
     }
     
