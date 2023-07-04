@@ -114,6 +114,25 @@ struct EncryptionUpdateView: View {
             
             Button("Cancel", role: .cancel) { }
         }
+        
+        GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+            isShowingEncryptTagAlert = true
+        } label: {
+            GSText.CustomTextView(
+                style: .buttonTitle1,
+                string: "update(encrypt) tag"
+            )
+            .background(Color.gsRed)
+        }
+        .alert("모든 Tag의 tagName을 base64 인코딩하시겠습니까?", isPresented: $isShowingEncryptTagAlert) {
+            Button("Encode now", role: .destructive) {
+                Task {
+                    await viewModel.applyTagEncryption()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
     }
 
 }
