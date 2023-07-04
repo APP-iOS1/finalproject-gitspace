@@ -106,6 +106,24 @@ final class EncryptionUpdateViewModel {
                     try await message.reference.updateData(["textContent": textContent.asBase64 ?? ""])
                 }
             }
+    func readTagDocuments() async {
+        do {
+            print("[알림] 모든 Tag를 출력합니다.")
+            
+            let snapshot = try await db
+                .collection(const.COLLECTION_USER_INFO)
+                .getDocuments()
+            
+            for document in snapshot.documents {
+                let tags = try await document.reference.collection(const.COLLECTION_TAG).getDocuments()
+                
+                for tag in tags.documents {
+                    guard let tagName = tag.data()["tagName"] as? String else { return }
+                    print(tagName)
+                }
+            }
+            
+            print("[알림] 모든 Tag를 출력했습니다.")
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
