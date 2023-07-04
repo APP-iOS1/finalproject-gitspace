@@ -151,6 +151,24 @@ struct EncryptionUpdateView: View {
             
             Button("Cancel", role: .cancel) { }
         }
+        
+        GSButton.CustomButtonView(style: .secondary(isDisabled: false)) {
+            isShowingEncryptKnockAlert = true
+        } label: {
+            GSText.CustomTextView(
+                style: .buttonTitle1,
+                string: "update(encrypt) knock"
+            )
+            .background(Color.gsRed)
+        }
+        .alert("모든 Knock의 knockMessage을 base64 인코딩하시겠습니까?", isPresented: $isShowingEncryptKnockAlert) {
+            Button("Encode now", role: .destructive) {
+                Task {
+                    await viewModel.applyKnockEncryption()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) { }
+        }
     }
-
 }
