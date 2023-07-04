@@ -10,29 +10,31 @@ import FirebaseFirestoreSwift
 import Foundation
 
 final class EncryptionUpdateViewModel {
-
+    
     private let db = Firestore.firestore()
     private let const = Constant.FirestorePathConst.self
-
+    
     func readChatDocuments() async {
         do {
+            print("[알림] 모든 ChatContent를 출력합니다.")
+            
             let snapshot = try await db
                 .collection(const.COLLECTION_CHAT)
                 .getDocuments()
-
+            
             for document in snapshot.documents {
                 guard let knockContent = document.data()["knockContent"] as? String else { return }
                 guard let lastConetent = document.data()["lastContent"] as? String else { return }
                 print(knockContent)
                 print(lastConetent)
             }
-
+            
+            print("[알림] 모든 ChatContent를 출력했습니다.")
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
-
     }
-
+    
     func applyChatContentEncryption() async {
 
       do {
@@ -51,8 +53,12 @@ final class EncryptionUpdateViewModel {
           print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
       }
 
+            print("[알림] 모든 ChatContent를 암호화합니다.")
+            
+            
+            print("[알림] 모든 ChatContent의 암호화가 완료되었습니다.")
     }
-
+    
     func applyDecryption() async {
 
       do {
@@ -71,41 +77,59 @@ final class EncryptionUpdateViewModel {
           print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
       }
 
+            print("[알림] 모든 ChatContent를 복호화합니다.")
+            
+            
+            print("[알림] 모든 ChatContent의 복호화가 완료되었습니다.")
+        
     }
-
+    
     func readMessageDocuments() async {
         do {
+            print("[알림] 모든 MessageContent를 출력합니다.")
+            
             let snapshot = try await db
                 .collection(const.COLLECTION_CHAT)
                 .getDocuments()
-
+            
             for document in snapshot.documents {
                 let messages = try await document.reference.collection(const.COLLECTION_MESSAGE).getDocuments()
-
+                
                 for message in messages.documents {
                     guard let textContent = message.data()["textContent"] as? String else { return }
                     print(textContent)
                 }
             }
+            
+            print("[알림] 모든 MessageContent를 출력했습니다.")
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
-
+    
     func applyMessageContentEncryption() async {
         do {
+            print("[알림] 모든 MessageContent를 암호화합니다.")
+            
             let snapshot = try await db
                 .collection(const.COLLECTION_CHAT)
                 .getDocuments()
-
+            
             for document in snapshot.documents {
                 let messages = try await document.reference.collection(const.COLLECTION_MESSAGE).getDocuments()
-
+                
                 for message in messages.documents {
                     guard let textContent = message.data()["textContent"] as? String else { return }
                     try await message.reference.updateData(["textContent": textContent.asBase64 ?? ""])
                 }
             }
+            
+            print("[알림] 모든 MessageContent의 암호화가 완료되었습니다.")
+        } catch {
+            print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
+        }
+    }
+    
     func readTagDocuments() async {
         do {
             print("[알림] 모든 Tag를 출력합니다.")
