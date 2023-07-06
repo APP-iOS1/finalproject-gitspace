@@ -17,6 +17,7 @@ enum AppStoreUpdateCheckerError: Error {
     case unexpectedStatusCode
     case unknown
     case emptyResponse
+    case invalidVersionFormat
 }
 
 final class AppStoreUpdateChecker {
