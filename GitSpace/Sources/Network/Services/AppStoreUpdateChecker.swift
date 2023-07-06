@@ -22,6 +22,54 @@ enum AppStoreUpdateCheckerError: Error {
 
 final class AppStoreUpdateChecker {
     
+    private static func compareVersion(
+        client: String,
+        store: String
+    ) -> Result<Bool, AppStoreUpdateCheckerError> {
+        // 3개의 숫자 사이가 .으로 연결되어있는지 검사하는 정규식 패턴 ex. 1.2.3 / 123.456.789
+        let pattern: String = #"^\d+\.\d+\.\d+$"#
+        
+        // 두 버전 값이 패턴에 일치하는지, 문자열로 된 숫자가 Int로 변환이 되는지 검사
+        guard
+            client.isValidPattern(pattern: pattern),
+            store.isValidPattern(pattern: pattern)
+        else {
+            return .failure(.invalidVersionFormat)
+        }
+        
+        var clientVersionArr: [Int?] = client.components(separatedBy: ".").map{Int($0)}
+        var storeVersionArr: [Int?] = store.components(separatedBy: ".").map{Int($0)}
+        
+        
+        var isNewVersionAvailable: Bool = false
+        let minCount = min(
+            clientVersionArr.count,
+            storeVersionArr.count
+        )
+        
+        /// Major -> Minor -> Patch 순서로 비교
+        /// client가 store보다 높은 숫자가 있으면 최신 버전으로 확정하고 클로저 종료
+        /// store가 client보다 높은 숫자가 있으면 업데이트 가능으로 확정하고 클로저 종료
+        (1...minCount).forEach { _ in
+            guard
+                let clientNum: Int = clientVersionArr.removeFirst(),
+                let storeNum: Int = storeVersionArr.removeFirst()
+            else {
+                return
+            }
+            
+            if clientNum > storeNum {
+                isNewVersionAvailable = false
+                return
+            } else if clientNum < storeNum {
+                isNewVersionAvailable = false
+                return
+            }
+        }
+        
+        return .success(isNewVersionAvailable)
+    }
+    
     /**
      클라이언트 앱 버전과 App Store의 릴리즈 앱 버전을 비교해서 업데이트 가능 여부를 반환하는 함수입니다.
      
