@@ -78,6 +78,7 @@ final class AppStoreUpdateChecker {
                 return .failure(.failToDecoding)
             }
             
+            // decoded된 AppInfo 객체는 Lookup API 특성상 results 배열이 비어있는 경우(0), 정보가 정상적으로 담긴 경우(1)가 존재합니다.
             guard let latestVersionNumber = decodedResponse.results.first?.version else {
                 return .failure(.emptyResponse)
             }
