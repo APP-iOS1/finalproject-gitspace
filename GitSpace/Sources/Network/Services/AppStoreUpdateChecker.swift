@@ -22,6 +22,19 @@ enum AppStoreUpdateCheckerError: Error {
 
 final class AppStoreUpdateChecker {
     
+    /**
+     클라이언트 앱 버전과 App Store의 릴리즈 앱 버전 문자열을 비교하여 클라이언트가 더 하위버전인지 여부를 반환하는 함수입니다.
+     
+     - Author: 태영
+     
+     - Since: 2023.07.07
+     
+     - Parameters:
+     - parameter client: 클라이언트 앱의 버전입니다.
+     - parameter store: 배포되어있는 앱의 버전입니다.
+     
+     - Returns: 클라이언트 버전이 배포 버전보다 더 낮은지 여부를 반환합니다. true인 경우 클라이언트 버전이 더 낮은 상태이며, 버전 업데이트가 가능함을 의미합니다.
+     */
     private static func compareVersion(
         client: String,
         store: String
