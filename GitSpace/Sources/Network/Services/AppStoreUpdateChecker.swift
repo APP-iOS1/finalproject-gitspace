@@ -144,7 +144,18 @@ final class AppStoreUpdateChecker {
                 return .failure(.emptyResponse)
             }
             
-            return .success(currentVersionNumber != latestVersionNumber)
+            let compareVersionResult = compareVersion(
+                client: currentVersionNumber,
+                store: latestVersionNumber
+            )
+            
+            switch compareVersionResult {
+            case .success(let isAvailableNewVersion):
+                return .success(isAvailableNewVersion)
+            
+            case .failure(let error):
+                return .failure(error)
+            }
 
         } catch {
             return .failure(.unknown)
