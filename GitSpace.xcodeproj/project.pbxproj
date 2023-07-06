@@ -172,6 +172,7 @@
 		70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SetMainView.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
+		7E1456072A565DE5008C4247 /* View+TextEditorBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */; };
 		7E1474BC29C0C56E00D2E011 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D4E298713B900C1EA88 /* FirebaseAuth */; };
 		7E1474BD29C0C56E00D2E011 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */; };
 		7E1474BF29C0C59300D2E011 /* ReceivedKnockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */; };
@@ -360,6 +361,7 @@
 		70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationMessageBody.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
+		7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+TextEditorBackgroundColor.swift"; sourceTree = "<group>"; };
 		7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceivedKnockDetailView.swift; sourceTree = "<group>"; };
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
@@ -854,9 +856,10 @@
 			children = (
 				700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */,
 				7095265E297F8F4D00F97E27 /* View+.swift */,
-				6E128D6629A498A50004AEC8 /* Image+.swift */,
+				7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */,
 				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
 				22C5412C298CD22500CC89EC /* View+cornerRadius.swift */,
+				6E128D6629A498A50004AEC8 /* Image+.swift */,
 				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
 				704D160E29992FF9009206BD /* String+.swift */,
 				706BDE462988FBE000284F0F /* Date+DateDiff.swift */,
@@ -1091,6 +1094,7 @@
 				2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */,
 				7EB99A3F29EC34E200863341 /* Reportable.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
+				7E1456072A565DE5008C4247 /* View+TextEditorBackgroundColor.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
 				22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */,
