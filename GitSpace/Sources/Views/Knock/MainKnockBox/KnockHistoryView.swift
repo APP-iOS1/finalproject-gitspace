@@ -75,6 +75,7 @@ struct KnockHistoryView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .foregroundColor(.black)
+                        .textEditorBackgroundClear()
                         .frame(
                             maxWidth: UIScreen.main.bounds.width / 1.2,
                             minHeight: 100
