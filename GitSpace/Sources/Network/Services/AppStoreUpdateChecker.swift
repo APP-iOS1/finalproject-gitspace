@@ -55,6 +55,7 @@ final class AppStoreUpdateChecker {
         
         
         var isNewVersionAvailable: Bool = false
+        var isContainsNil: Bool = false
         let minCount = min(
             clientVersionArr.count,
             storeVersionArr.count
@@ -63,21 +64,26 @@ final class AppStoreUpdateChecker {
         /// Major -> Minor -> Patch 순서로 비교
         /// client가 store보다 높은 숫자가 있으면 최신 버전으로 확정하고 클로저 종료
         /// store가 client보다 높은 숫자가 있으면 업데이트 가능으로 확정하고 클로저 종료
-        (1...minCount).forEach { _ in
+        for _ in 1...minCount {
             guard
                 let clientNum: Int = clientVersionArr.removeFirst(),
                 let storeNum: Int = storeVersionArr.removeFirst()
             else {
-                return
+                isContainsNil = true
+                break
             }
             
             if clientNum > storeNum {
                 isNewVersionAvailable = false
-                return
+                break
             } else if clientNum < storeNum {
-                isNewVersionAvailable = false
-                return
+                isNewVersionAvailable = true
+                break
             }
+        }
+        
+        guard isContainsNil == false else {
+            return .failure(.invalidVersionFormat)
         }
         
         return .success(isNewVersionAvailable)
