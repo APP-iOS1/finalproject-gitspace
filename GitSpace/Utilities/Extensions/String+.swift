@@ -26,4 +26,8 @@ extension String {
         guard let date = dateFormatter.date(from: self) else { return Date() }
         return date
     }
+    
+    public func isValidPattern(pattern: String) -> Bool {
+        return self.range(of: pattern, options: .regularExpression) != nil
+    }
 }
