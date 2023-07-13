@@ -74,7 +74,7 @@ struct KnockHistoryView: View {
                     TextEditor(text: $editedKnockMessage)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
-                        .foregroundColor(.primary)
+                        .textEditorBackgroundClear()
                         .frame(
                             maxWidth: UIScreen.main.bounds.width / 1.2,
                             minHeight: 100

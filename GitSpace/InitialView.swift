@@ -12,6 +12,7 @@ struct InitialView: View {
     @EnvironmentObject var githubAuthManager: GitHubAuthManager
     @EnvironmentObject var pushNotificationManager: PushNotificationManager
     let tabBarRouter: GSTabBarRouter
+    @State private var showingForceUpdateAlert: Bool = false
     
     // MARK: - 한호
     @AppStorage("systemAppearance") private var systemAppearance: Int = AppearanceType.allCases.first!.rawValue
@@ -43,9 +44,37 @@ struct InitialView: View {
                     .preferredColorScheme(selectedAppearance)
             }
         }
+        .alert(
+            "Notice: App Update",
+            isPresented: $showingForceUpdateAlert,
+            actions: {
+                Button {
+                    UIApplication.shared.open(URL(string: "https://apps.apple.com/kr/app/gitspace/id6446034470")!)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(0)
+                    }
+                } label: {
+                    Text("Update")
+                }
+            }, message: {
+                Text("There is a new version available. Please update your app.")
+            }
+        )
         .onViewDidLoad {
-            if githubAuthManager.authentification.currentUser != nil && UserDefaults.standard.string(forKey: "AT") != nil {
-                Task {
+            Task {
+                let newVersionCheckResult = await AppStoreUpdateChecker.isNewVersionAvailable()
+                
+                switch newVersionCheckResult {
+                case .success(let isNewVersionAvailable):
+                    showingForceUpdateAlert = isNewVersionAvailable
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                
+                if githubAuthManager.authentification.currentUser != nil
+                    && UserDefaults.standard.string(forKey: "AT") != nil
+                    && showingForceUpdateAlert == false {
                     await githubAuthManager.reauthenticateUser()
                     githubAuthManager.state = .signedIn
                 }

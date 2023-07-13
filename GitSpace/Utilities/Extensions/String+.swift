@@ -38,5 +38,9 @@ extension String {
         let data: Data? = Data(base64Encoded: self)
         guard let data else { return nil }
         return String(data: data, encoding: .utf8)
+      
+    public func isValidPattern(pattern: String) -> Bool {
+        return self.range(of: pattern, options: .regularExpression) != nil
+
     }
 }

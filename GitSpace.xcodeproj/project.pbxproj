@@ -115,6 +115,8 @@
 		6E000CAF29899F6C00446C0D /* ChatModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CAE29899F6C00446C0D /* ChatModifiers.swift */; };
 		6E000CB32989A2F700446C0D /* ChatRoomKnockSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */; };
 		6E000CB7298A67E800446C0D /* GithubProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E000CB6298A67E800446C0D /* GithubProfileImage.swift */; };
+		6E03AFD02A52704E0076DC02 /* AppStoreUpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03AFCF2A52704E0076DC02 /* AppStoreUpdateChecker.swift */; };
+		6E03AFD22A5278500076DC02 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E03AFD12A5278500076DC02 /* AppInfo.swift */; };
 		6E0840152983902800F51169 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840142983902800F51169 /* Chat.swift */; };
 		6E0840192983948300F51169 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0840182983948300F51169 /* ChatViewModel.swift */; };
 		6E08401B298394DF00F51169 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E08401A298394DF00F51169 /* MessageViewModel.swift */; };
@@ -170,6 +172,7 @@
 		70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5E35D2977AD5600F3673C /* SetMainView.swift */; };
 		70F4BD0F2977D37D005528A1 /* AddTagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */; };
 		70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F4BD102977D408005528A1 /* RepositoryDetailView.swift */; };
+		7E1456072A565DE5008C4247 /* View+TextEditorBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */; };
 		7E1474BC29C0C56E00D2E011 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 68D76D4E298713B900C1EA88 /* FirebaseAuth */; };
 		7E1474BD29C0C56E00D2E011 /* SwiftUIFlowLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 688772D12990BBF900B3A0CD /* SwiftUIFlowLayout */; };
 		7E1474BF29C0C59300D2E011 /* ReceivedKnockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */; };
@@ -300,6 +303,8 @@
 		6E000CAE29899F6C00446C0D /* ChatModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModifiers.swift; sourceTree = "<group>"; };
 		6E000CB22989A2F700446C0D /* ChatRoomKnockSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomKnockSection.swift; sourceTree = "<group>"; };
 		6E000CB6298A67E800446C0D /* GithubProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubProfileImage.swift; sourceTree = "<group>"; };
+		6E03AFCF2A52704E0076DC02 /* AppStoreUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreUpdateChecker.swift; sourceTree = "<group>"; };
+		6E03AFD12A5278500076DC02 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		6E0840142983902800F51169 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		6E0840162983906F00F51169 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		6E0840182983948300F51169 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -356,6 +361,7 @@
 		70D8DFDC29A4B3C70014AD5A /* PushNotificationMessageBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationMessageBody.swift; sourceTree = "<group>"; };
 		70F4BD0E2977D37D005528A1 /* AddTagSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTagSheetView.swift; sourceTree = "<group>"; };
 		70F4BD102977D408005528A1 /* RepositoryDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryDetailView.swift; sourceTree = "<group>"; };
+		7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+TextEditorBackgroundColor.swift"; sourceTree = "<group>"; };
 		7E1474BE29C0C59300D2E011 /* ReceivedKnockDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceivedKnockDetailView.swift; sourceTree = "<group>"; };
 		7E7D611E29B6E002005963F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E94D4EE29B2F517006A6B34 /* MainKnockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainKnockView.swift; sourceTree = "<group>"; };
@@ -425,6 +431,7 @@
 				2205F23E299CC04400B2643D /* FollowerResponse.swift */,
 				34BF6A6729C9F04700D15DFE /* FollowingResponse.swift */,
 				2205F23C299C9F1400B2643D /* Event.swift */,
+				6E03AFD12A5278500076DC02 /* AppInfo.swift */,
 			);
 			path = APIModels;
 			sourceTree = "<group>";
@@ -433,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				225A22CE299778A900786B35 /* GitHubService.swift */,
+				6E03AFCF2A52704E0076DC02 /* AppStoreUpdateChecker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -848,9 +856,10 @@
 			children = (
 				700A11D1299737F4008C94C7 /* AppDelegate+Firebase.swift */,
 				7095265E297F8F4D00F97E27 /* View+.swift */,
-				6E128D6629A498A50004AEC8 /* Image+.swift */,
+				7E1456062A565DE5008C4247 /* View+TextEditorBackgroundColor.swift */,
 				70ABF2C6298C07F90058467E /* View+DesignSystem.swift */,
 				22C5412C298CD22500CC89EC /* View+cornerRadius.swift */,
+				6E128D6629A498A50004AEC8 /* Image+.swift */,
 				7095265C297F8CEC00F97E27 /* Button+ColorScheme.swift */,
 				704D160E29992FF9009206BD /* String+.swift */,
 				706BDE462988FBE000284F0F /* Date+DateDiff.swift */,
@@ -1031,6 +1040,7 @@
 				0BDBDD3529B9E7F000F0D3FD /* LottieView.swift in Sources */,
 				70DB32B42989FAB0004E82AD /* SetMainView.swift in Sources */,
 				7EB99A4129EC410D00863341 /* Report.swift in Sources */,
+				6E03AFD02A52704E0076DC02 /* AppStoreUpdateChecker.swift in Sources */,
 				7EB99A3D29EC2E8900863341 /* Blockable.swift in Sources */,
 				22390DF329B84EBD00A0D49D /* RepositoryDetailViewModel.swift in Sources */,
 				700A11D6299771B5008C94C7 /* KnockViewManager.swift in Sources */,
@@ -1084,6 +1094,7 @@
 				2205F243299D1B0B00B2643D /* EventViewModel.swift in Sources */,
 				7EB99A3F29EC34E200863341 /* Reportable.swift in Sources */,
 				70F4BD112977D408005528A1 /* RepositoryDetailView.swift in Sources */,
+				7E1456072A565DE5008C4247 /* View+TextEditorBackgroundColor.swift in Sources */,
 				7062E135298CE63800CCE946 /* ShadowColorSchemeModifier.swift in Sources */,
 				3471460D2992211300ED990C /* GuideReportSection.swift in Sources */,
 				22B1F2AA299235520010FD15 /* KnockNotificationCell.swift in Sources */,
@@ -1134,6 +1145,7 @@
 				6E0840212983979B00F51169 /* MessageCell.swift in Sources */,
 				6E000CB32989A2F700446C0D /* ChatRoomKnockSection.swift in Sources */,
 				EE0CC79B2976F2160096A873 /* ContributorListView.swift in Sources */,
+				6E03AFD22A5278500076DC02 /* AppInfo.swift in Sources */,
 				7068B6C22976952B005D6B7B /* MainProfileView.swift in Sources */,
 				347146052991F02500ED990C /* GuideCenterView.swift in Sources */,
 				6E70333C29890AD000FFC018 /* ChatUserRecommendationSection.swift in Sources */,
@@ -1338,7 +1350,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace.RBG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1377,7 +1389,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.GitSpace.RBG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
