@@ -270,8 +270,8 @@ struct ReceivedKnockDetailView: View {
             ],
             lastContent: "",
             lastContentDate: .now,
-            // !!!: baseString
-            knockContent: knock.knockMessage,
+            // !!!: Decoded
+            knockContent: knock.knockMessage.decodedBase64String ?? "",
             knockContentDate: knock.knockedDate.dateValue(),
             unreadMessageCount: [
                 userStore.currentUser?.id ?? "": 0,
@@ -287,8 +287,8 @@ struct ReceivedKnockDetailView: View {
             joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
             lastContent: "",
             lastContentDate: .now,
-            // !!!: baseString
-            knockContent: knock.knockMessage,
+            // !!!: Decoded
+            knockContent: knock.knockMessage.decodedBase64String ?? "",
             knockContentDate: knock.knockedDate.dateValue(),
             unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0]
         )
