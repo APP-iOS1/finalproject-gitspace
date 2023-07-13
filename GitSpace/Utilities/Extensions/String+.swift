@@ -27,7 +27,20 @@ extension String {
         return date
     }
     
+    /// Base64 인코딩
+    public var asBase64: String? {
+        let utf8Data = self.data(using: .utf8)
+        return utf8Data?.base64EncodedString()
+    }
+    
+    /// Base64 디코딩
+    public var decodedBase64String: String? {
+        let data: Data? = Data(base64Encoded: self)
+        guard let data else { return nil }
+        return String(data: data, encoding: .utf8)
+      
     public func isValidPattern(pattern: String) -> Bool {
         return self.range(of: pattern, options: .regularExpression) != nil
+
     }
 }

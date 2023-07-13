@@ -75,7 +75,8 @@ extension ChatStore {
     private func decodeNewChat(change: QueryDocumentSnapshot) -> Chat? {
         do {
             let newChat = try change.data(as: Chat.self)
-            return newChat
+            let decodedNewChat: Chat = .decodedChat(with: newChat)
+            return decodedNewChat
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
@@ -122,7 +123,8 @@ extension ChatStore {
     func addListener() {
         listener = db
             .collection(const.COLLECTION_CHAT)
-            .whereField(const.FIELD_JOINED_MEMBER_IDS, arrayContains: Utility.loginUserID)
+            .whereField(const.FIELD_JOINED_MEMBER_IDS,
+                        arrayContains: Utility.loginUserID)
             .addSnapshotListener { snapshot, error in
                 
                 guard let snapshot else { return }
@@ -194,7 +196,8 @@ extension ChatStore {
                 do {
                     let chat: Chat = try document.data(as: Chat.self)
                     if let targetUserInfo = await UserStore.requestAndReturnUser(userID: chat.targetUserID) {
-                        newChats.append(chat)
+                        let decodedChat: Chat = .decodedChat(with: chat)
+                        newChats.append(decodedChat)
                         targetUserInfoDict[chat.id] = targetUserInfo
                     }
                 } catch {
@@ -212,10 +215,11 @@ extension ChatStore {
 		do {
 			let pushedChat = try await doc.getDocument(as: Chat.self)
             // FIXME: Chat의 targetUserName을 사용하지 않기 위해 UserStore의 UserInfo 요청 메서드 구현. 해당 메서드로 로직 대체 By. 태영
-
+            let decodedPushedChat: Chat = .decodedChat(with: pushedChat)
+            
             if let targetUserInfo = await UserStore.requestAndReturnUser(userID: pushedChat.targetUserID) {
                 targetUserInfoDict[pushedChat.id] = targetUserInfo
-                return pushedChat
+                return decodedPushedChat
             }
             return nil
 		} catch {
@@ -226,22 +230,24 @@ extension ChatStore {
     
     // MARK: -Chat CRUD
     func addChat(_ chat: Chat) async {
+        let encodedChat: Chat = .encodedChat(with: chat)
         do {
             try db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
-                .setData(from: chat.self)
+                .setData(from: encodedChat.self)
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
     func updateChat(_ chat: Chat) async {
+        let encodedChat: Chat = .encodedChat(with: chat)
         do {
             try await db.collection(const.COLLECTION_CHAT)
                 .document(chat.id)
-                .updateData([const.FIELD_LAST_CONTENT_DATE : chat.lastContentDate,
-                             const.FIELD_LAST_CONTENT : chat.lastContent,
-                             const.FIELD_UNREAD_MESSAGE_COUNT : chat.unreadMessageCount])
+                .updateData([const.FIELD_LAST_CONTENT_DATE : encodedChat.lastContentDate,
+                             const.FIELD_LAST_CONTENT : encodedChat.lastContent,
+                             const.FIELD_UNREAD_MESSAGE_COUNT : encodedChat.unreadMessageCount])
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }

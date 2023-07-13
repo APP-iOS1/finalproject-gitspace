@@ -84,7 +84,8 @@ extension MessageStore {
             for document in snapshot.documents {
                 do {
                     let message: Message = try document.data(as: Message.self)
-                    newMessages.append(message)
+                    let decodedMessage: Message = .decodedMessage(with: message)
+                    newMessages.append(decodedMessage)
                 } catch {
                     print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
                 }
@@ -95,19 +96,21 @@ extension MessageStore {
     
     // MARK: - Message CRUD
     func addMessage(_ message: Message, chatID: String) {
+        let encodedMessage: Message = .encodedMessage(with: message)
         do {
             try db
                 .collection(const.COLLECTION_CHAT)
                 .document(chatID)
                 .collection(const.COLLECTION_MESSAGE)
                 .document(message.id)
-                .setData(from: message.self)
+                .setData(from: encodedMessage.self)
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
     }
     
     func updateMessage(_ message: Message, chatID: String) async {
+        let encodedMessage: Message = .encodedMessage(with: message)
         do {
             try await db
                 .collection(const.COLLECTION_CHAT)
@@ -115,8 +118,8 @@ extension MessageStore {
                 .collection(const.COLLECTION_MESSAGE)
                 .document(message.id)
                 .updateData(
-                    [const.FIELD_TEXT_CONTENT : message.textContent,
-                     const.FIELD_SENT_DATE : message.sentDate])
+                    [const.FIELD_TEXT_CONTENT : encodedMessage.textContent,
+                     const.FIELD_SENT_DATE : encodedMessage.sentDate])
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }
@@ -143,7 +146,8 @@ extension MessageStore {
     func fetchNewMessage(change : QueryDocumentSnapshot) -> Message? {
         do {
             let newMessage = try change.data(as: Message.self)
-            return newMessage
+            let decodedNewMessage: Message = .decodedMessage(with: newMessage)
+            return decodedNewMessage
         } catch {
             print("Error-\(#file)-\(#function) : \(error.localizedDescription)")
         }

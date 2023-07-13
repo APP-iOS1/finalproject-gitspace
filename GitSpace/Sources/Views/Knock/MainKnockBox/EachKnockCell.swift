@@ -90,7 +90,8 @@ struct EachKnockCell: View {
                     .id(eachKnock.id)
                     
                     HStack {
-                        Text(eachKnock.knockMessage)
+                        // !!!: base String을 decode
+                        Text(eachKnock.knockMessage.decodedBase64String ?? "복호화")
                             .lineLimit(1)
                         
                         Spacer()
