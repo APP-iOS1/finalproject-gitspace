@@ -97,6 +97,7 @@ struct ReceivedKnockDetailView: View {
                     /// 3. 메세지 내용
                     VStack(alignment: .leading) {
                         HStack {
+                            // !!!: base String decode
                             Text("\(knock.knockMessage)")
                                 .font(.callout)
                                 .foregroundColor(Color.black)
@@ -269,7 +270,8 @@ struct ReceivedKnockDetailView: View {
             ],
             lastContent: "",
             lastContentDate: .now,
-            knockContent: knock.knockMessage,
+            // !!!: Decoded
+            knockContent: knock.knockMessage.decodedBase64String ?? "",
             knockContentDate: knock.knockedDate.dateValue(),
             unreadMessageCount: [
                 userStore.currentUser?.id ?? "": 0,
@@ -278,15 +280,18 @@ struct ReceivedKnockDetailView: View {
         )
     }
     
-    private func makeNewChat() -> Chat {
-        return Chat.init(id: UUID().uuidString,
-                         createdDate: .now,
-                         joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
-                         lastContent: "",
-                         lastContentDate: .now,
-                         knockContent: knock.knockMessage,
-                         knockContentDate: knock.knockedDate.dateValue(),
-                         unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0])
+    private func makeNewChat() -> Chat  {
+        return Chat.init(
+            id: UUID().uuidString,
+            createdDate: .now,
+            joinedMemberIDs: [knock.sentUserID, knock.receivedUserID],
+            lastContent: "",
+            lastContentDate: .now,
+            // !!!: Decoded
+            knockContent: knock.knockMessage.decodedBase64String ?? "",
+            knockContentDate: knock.knockedDate.dateValue(),
+            unreadMessageCount: [knock.sentUserID : 0, knock.receivedUserID : 0]
+        )
     }
 }
 //

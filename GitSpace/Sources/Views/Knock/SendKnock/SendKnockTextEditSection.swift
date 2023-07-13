@@ -78,7 +78,6 @@ struct SendKnockTextEditSection: View {
                             // Assign New Knock On Model
                             knockViewManager.assignNewKnock(newKnock: newKnock)
                             
-                            // TODO: 알람 보내기
                             // 새로운 노크가 생성될 때의 Push Notification 전달
                             await pushNotificationManager.sendNotification(
                                 with: .knock(

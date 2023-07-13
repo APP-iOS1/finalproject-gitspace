@@ -74,7 +74,7 @@ struct KnockHistoryView: View {
                     TextEditor(text: $editedKnockMessage)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .frame(
                             maxWidth: UIScreen.main.bounds.width / 1.2,
                             minHeight: 100
@@ -92,7 +92,7 @@ struct KnockHistoryView: View {
                             withAnimation {
                                 endTextEditing()
                                 isEditingKnockMessage.toggle()
-                                editedKnockMessage = eachKnock.knockMessage
+                                editedKnockMessage = eachKnock.knockMessage.decodedBase64String ?? "복호화"
                             }
                         } label: {
                             Text("Cancel")
@@ -144,7 +144,7 @@ struct KnockHistoryView: View {
             } else {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("\(eachKnock.knockMessage)")
+                        Text("\(eachKnock.knockMessage.decodedBase64String ?? "복호화")")
                             .font(.callout)
                             .foregroundColor(Color.black)
                     }
@@ -342,7 +342,7 @@ struct KnockHistoryView: View {
     }
     
     private func assignKnockMessageIntoEditState() {
-        editedKnockMessage = eachKnock.knockMessage
+        editedKnockMessage = eachKnock.knockMessage.decodedBase64String ?? "복호화"
     }
     
     private func assignChatWithChatID() async {
